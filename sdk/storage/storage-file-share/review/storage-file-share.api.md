@@ -26,6 +26,7 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
@@ -636,6 +637,8 @@ export interface FileDownloadHeaders {
 
 // @public
 export interface FileDownloadOptionalParams extends coreHttp.OperationOptions {
+    allowTrailingDot?: boolean;
+    fileRequestIntent?: ShareTokenIntent;
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
@@ -1090,6 +1093,8 @@ export interface FileUploadRangeFromURLHeaders {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
+    allowSourceTrailingDot?: boolean;
+    allowTrailingDot?: boolean;
     copySourceAuthorization?: string;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1186,6 +1191,12 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
+
+// @public
+export enum KnownShareTokenIntent {
+    // (undocumented)
+    Backup = "backup"
+}
 
 // @public
 export interface LeaseAccessConditions {
@@ -1310,7 +1321,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential?: Credential_2, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1326,6 +1337,7 @@ export class Pipeline {
 // @public
 export interface PipelineOptions {
     httpClient?: IHttpClient;
+    shareTokenIntent?: ShareTokenIntent;
 }
 
 // @public
@@ -1479,8 +1491,8 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
         directoryClient: ShareDirectoryClient;
@@ -1513,6 +1525,16 @@ export class ShareClient extends StorageClient {
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
     withSnapshot(snapshot: string): ShareClient;
 }
+
+// @public (undocumented)
+export interface ShareClientConfig {
+    allowSourceTrailingDot?: boolean;
+    allowTrailingDot?: boolean;
+    fileRequestIntent?: ShareTokenIntent;
+}
+
+// @public (undocumented)
+export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;
 
 // @public
 export interface ShareCreateHeaders {
@@ -1624,8 +1646,8 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
         fileClient: ShareFileClient;
@@ -1671,8 +1693,8 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -1970,14 +1992,14 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
         shareClient: ShareClient;
     }>;
     deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    static fromConnectionString(connectionString: string, options?: ShareClientOptions): ShareServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
@@ -2079,6 +2101,9 @@ export interface ShareSmbSettings {
 export interface ShareStats {
     shareUsageBytes: number;
 }
+
+// @public
+export type ShareTokenIntent = string;
 
 // @public
 export interface SignedIdentifier {

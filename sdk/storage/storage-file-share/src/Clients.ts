@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
+import {
+  HttpRequestBody,
+  HttpResponse,
+  isNode,
+  isTokenCredential,
+  TokenCredential,
+  TransferProgressEvent,
+} from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -106,6 +113,8 @@ import {
   toShareProtocols,
   HttpAuthorization,
   fileChangeTimeToString,
+  ShareClientOptions,
+  ShareClientConfig,
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -125,6 +134,8 @@ import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { ListFilesIncludeType } from "./generated/src";
+
+export { ShareClientOptions, ShareClientConfig } from "./models";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -534,6 +545,8 @@ export class ShareClient extends StorageClient {
 
   private _name: string;
 
+  private shareClientConfig?: ShareClientConfig;
+
   /**
    * The name of the share
    */
@@ -565,9 +578,13 @@ export class ShareClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+  constructor(
+    url: string,
+    credential?: Credential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+    options?: ShareClientOptions
+  );
   /**
    * Creates an instance of ShareClient.
    *
@@ -578,13 +595,13 @@ export class ShareClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    credentialOrPipelineOrShareName?: Credential | TokenCredential | Pipeline | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: ShareClientOptions
   ) {
     let pipeline: Pipeline;
     let url: string;
@@ -592,7 +609,10 @@ export class ShareClient extends StorageClient {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrShareName;
-    } else if (credentialOrPipelineOrShareName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrShareName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrShareName)
+    ) {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
@@ -635,6 +655,7 @@ export class ShareClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = getShareNameAndPathFromUrl(this.url).shareName;
+    this.shareClientConfig = options;
     this.context = new Share(this.storageClientContext);
   }
 
@@ -652,7 +673,8 @@ export class ShareClient extends StorageClient {
         URLConstants.Parameters.SHARE_SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      this.pipeline,
+      this.shareClientConfig
     );
   }
 
@@ -734,7 +756,8 @@ export class ShareClient extends StorageClient {
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
       appendToURLPath(this.url, EscapePath(directoryName)),
-      this.pipeline
+      this.pipeline,
+      this.shareClientConfig
     );
   }
 
@@ -1309,6 +1332,7 @@ export class ShareClient extends StorageClient {
         },
         {
           abortSignal: options.abortSignal,
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -1339,6 +1363,7 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.getPermission(filePermissionKey, {
         abortSignal: options.abortSignal,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -1671,6 +1696,8 @@ export class ShareDirectoryClient extends StorageClient {
   private _path: string;
   private _name: string;
 
+  private shareClientConfig?: ShareClientConfig;
+
   /**
    * The share name corresponding to this directory client
    */
@@ -1709,7 +1736,7 @@ export class ShareDirectoryClient extends StorageClient {
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
   /**
    * Creates an instance of DirectoryClient.
    *
@@ -1724,16 +1751,19 @@ export class ShareDirectoryClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
-    options: StoragePipelineOptions = {}
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
+    options: ShareClientOptions = {}
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
@@ -1746,6 +1776,7 @@ export class ShareDirectoryClient extends StorageClient {
       shareName: this._shareName,
       path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
+    this.shareClientConfig = options;
     this.context = new Directory(this.storageClientContext);
   }
 
@@ -1779,6 +1810,7 @@ export class ShareDirectoryClient extends StorageClient {
           fileChangeOn: fileChangeTimeToString(options.changeTime),
           fileCreatedOn: fileCreationTimeToString(options.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -1858,6 +1890,7 @@ export class ShareDirectoryClient extends StorageClient {
           fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
           fileCreatedOn: fileCreationTimeToString(properties.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -1889,7 +1922,8 @@ export class ShareDirectoryClient extends StorageClient {
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
       appendToURLPath(this.url, EscapePath(subDirectoryName)),
-      this.pipeline
+      this.pipeline,
+      this.shareClientConfig
     );
   }
 
@@ -2048,7 +2082,11 @@ export class ShareDirectoryClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): ShareFileClient {
-    return new ShareFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
+    return new ShareFileClient(
+      appendToURLPath(this.url, EscapePath(fileName)),
+      this.pipeline,
+      this.shareClientConfig
+    );
   }
 
   /**
@@ -2105,6 +2143,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       return await this.context.getProperties({
         abortSignal: options.abortSignal,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -2131,6 +2170,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       return await this.context.delete({
         abortSignal: options.abortSignal,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -2203,6 +2243,7 @@ export class ShareDirectoryClient extends StorageClient {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -2443,6 +2484,7 @@ export class ShareDirectoryClient extends StorageClient {
       const response = await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
@@ -2634,6 +2676,7 @@ export class ShareDirectoryClient extends StorageClient {
       const response = await this.context.listHandles({
         marker,
         ...options,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
@@ -2688,6 +2731,7 @@ export class ShareDirectoryClient extends StorageClient {
         marker,
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...this.shareClientConfig,
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -2773,6 +2817,7 @@ export class ShareDirectoryClient extends StorageClient {
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...this.shareClientConfig,
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -2829,7 +2874,11 @@ export class ShareDirectoryClient extends StorageClient {
       throw new RangeError("Destination path should not contain more than one query string");
     }
 
-    const destDirectory = new ShareDirectoryClient(destinationUrl, this.pipeline);
+    const destDirectory = new ShareDirectoryClient(
+      destinationUrl,
+      this.pipeline,
+      this.shareClientConfig
+    );
 
     try {
       const response = await destDirectory.context.rename(this.url, {
@@ -2844,6 +2893,7 @@ export class ShareDirectoryClient extends StorageClient {
               destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
             }
           : undefined,
+        ...this.shareClientConfig,
       });
 
       return {
@@ -3629,6 +3679,8 @@ export class ShareFileClient extends StorageClient {
   private _path: string;
   private _name: string;
 
+  private shareClientConfig?: ShareClientConfig;
+
   /**
    * The share name corresponding to this file client
    */
@@ -3661,13 +3713,13 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential,
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
   /**
    * Creates an instance of ShareFileClient.
    *
@@ -3682,18 +3734,21 @@ export class ShareFileClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: ShareClientOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
@@ -3706,6 +3761,8 @@ export class ShareFileClient extends StorageClient {
       shareName: this._shareName,
       path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
+
+    this.shareClientConfig = options;
     this.context = new File(this.storageClientContext);
   }
 
@@ -3723,7 +3780,8 @@ export class ShareFileClient extends StorageClient {
         URLConstants.Parameters.SHARE_SNAPSHOT,
         shareSnapshot.length === 0 ? undefined : shareSnapshot
       ),
-      this.pipeline
+      this.pipeline,
+      this.shareClientConfig
     );
   }
 
@@ -3774,6 +3832,7 @@ export class ShareFileClient extends StorageClient {
           fileCreatedOn: fileCreationTimeToString(options.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           leaseAccessConditions: options.leaseAccessConditions,
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -3870,6 +3929,7 @@ export class ShareFileClient extends StorageClient {
         rangeGetContentMD5: options.rangeGetContentMD5,
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...this.shareClientConfig,
       });
 
       // Return browser response immediately
@@ -3993,6 +4053,7 @@ export class ShareFileClient extends StorageClient {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4035,6 +4096,7 @@ export class ShareFileClient extends StorageClient {
           fileChangeOn: fileChangeTimeToString(properties.changeTime),
           fileCreatedOn: fileCreationTimeToString(properties.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -4072,6 +4134,7 @@ export class ShareFileClient extends StorageClient {
       return await this.context.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4169,6 +4232,7 @@ export class ShareFileClient extends StorageClient {
           fileCreatedOn: fileCreationTimeToString(options.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           fileChangeOn: fileChangeTimeToString(options.changeTime),
+          ...this.shareClientConfig,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -4215,6 +4279,7 @@ export class ShareFileClient extends StorageClient {
         fileChangeOn: fileChangeTimeToString(options.changeTime),
         fileCreatedOn: fileCreationTimeToString(options.creationTime),
         fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4249,6 +4314,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         metadata,
         leaseAccessConditions: options.leaseAccessConditions,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4323,6 +4389,7 @@ export class ShareFileClient extends StorageClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
           fileLastWrittenMode: options.fileLastWrittenMode,
+          ...this.shareClientConfig,
         }
       );
     } catch (e: any) {
@@ -4373,6 +4440,7 @@ export class ShareFileClient extends StorageClient {
           sourceModifiedAccessConditions: options.sourceConditions,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           fileLastWrittenMode: options.fileLastWrittenMode,
+          ...this.shareClientConfig,
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
@@ -4415,6 +4483,7 @@ export class ShareFileClient extends StorageClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
           fileLastWrittenMode: options.fileLastWrittenMode,
+          ...this.shareClientConfig,
         }
       );
     } catch (e: any) {
@@ -4442,6 +4511,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         range: options.range ? rangeToString(options.range) : undefined,
         leaseAccessConditions: options.leaseAccessConditions,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
@@ -4481,6 +4551,7 @@ export class ShareFileClient extends StorageClient {
         prevsharesnapshot: prevShareSnapshot,
         ...options,
         range: options.range ? rangeToString(options.range) : undefined,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4519,6 +4590,7 @@ export class ShareFileClient extends StorageClient {
         filePermission: options.filePermission,
         filePermissionKey: options.filePermissionKey,
         copyFileSmbInfo: options.copyFileSmbInfo,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -4549,6 +4621,7 @@ export class ShareFileClient extends StorageClient {
       return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
@@ -5111,6 +5184,7 @@ export class ShareFileClient extends StorageClient {
         marker,
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...this.shareClientConfig,
       });
 
       // TODO: Protocol layer issue that when handle list is in returned XML
@@ -5245,6 +5319,7 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = await this.context.forceCloseHandles("*", {
         abortSignal: options.abortSignal,
         marker,
+        ...this.shareClientConfig,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
@@ -5329,6 +5404,7 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...this.shareClientConfig,
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -5425,7 +5501,7 @@ export class ShareFileClient extends StorageClient {
       throw new RangeError("Destination path should not contain more than one query string");
     }
 
-    const destFile = new ShareFileClient(destinationUrl, this.pipeline);
+    const destFile = new ShareFileClient(destinationUrl, this.pipeline, this.shareClientConfig);
 
     try {
       const response = await destFile.context.rename(this.url, {
@@ -5445,6 +5521,7 @@ export class ShareFileClient extends StorageClient {
               fileContentType: options.contentType,
             }
           : undefined,
+        ...this.shareClientConfig,
       });
 
       return {

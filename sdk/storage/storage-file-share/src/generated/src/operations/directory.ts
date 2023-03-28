@@ -227,6 +227,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -255,7 +257,12 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.restype2
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -273,7 +280,12 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.restype2],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -298,6 +310,8 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -329,7 +343,9 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -362,6 +378,8 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.includeExtendedInfo
   ],
   isXML: true,
@@ -391,6 +409,8 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.recursive
   ],
   isXML: true,
@@ -418,6 +438,8 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.recursive,
     Parameters.handleId
   ],
@@ -446,6 +468,8 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -456,7 +480,8 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
-    Parameters.fileChangeTime
+    Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer

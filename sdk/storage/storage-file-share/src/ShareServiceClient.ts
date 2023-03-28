@@ -14,7 +14,7 @@ import {
   SharePropertiesInternal,
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClientInternal } from "./ShareClientInternal";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
@@ -24,10 +24,10 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode, HttpResponse } from "@azure/core-http";
+import { isNode, HttpResponse, isTokenCredential, TokenCredential } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
-import { ShareProtocols, toShareProtocols } from "./models";
+import { ShareClientConfig, ShareClientOptions, ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
@@ -227,6 +227,8 @@ export class ShareServiceClient extends StorageClient {
    */
   private serviceContext: Service;
 
+  private shareClientConfig?: ShareClientConfig;
+
   /**
    *
    * Creates an instance of ShareServiceClient from connection string.
@@ -244,7 +246,7 @@ export class ShareServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: ShareClientOptions
   ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -254,13 +256,17 @@ export class ShareServiceClient extends StorageClient {
           extractedCreds.accountKey
         );
         const pipeline = newPipeline(sharedKeyCredential, options);
-        return new ShareServiceClient(extractedCreds.url, pipeline);
+        return new ShareServiceClient(extractedCreds.url, pipeline, options);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new ShareServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new ShareServiceClient(
+        extractedCreds.url + "?" + extractedCreds.accountSas,
+        pipeline,
+        options
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string"
@@ -274,13 +280,17 @@ export class ShareServiceClient extends StorageClient {
    * @param url - A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+  constructor(
+    url: string,
+    credential?: Credential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+    options?: ShareClientOptions
+  );
   /**
    * Creates an instance of ShareServiceClient.
    *
@@ -289,19 +299,24 @@ export class ShareServiceClient extends StorageClient {
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param fileRequestIntent - Optional. File request intent.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: ShareClientOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
@@ -309,6 +324,7 @@ export class ShareServiceClient extends StorageClient {
     }
 
     super(url, pipeline);
+    this.shareClientConfig = options;
     this.serviceContext = new Service(this.storageClientContext);
   }
 
@@ -327,7 +343,11 @@ export class ShareServiceClient extends StorageClient {
    * ```
    */
   public getShareClient(shareName: string): ShareClient {
-    return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
+    return new ShareClient(
+      appendToURLPath(this.url, shareName),
+      this.pipeline,
+      this.shareClientConfig
+    );
   }
 
   /**

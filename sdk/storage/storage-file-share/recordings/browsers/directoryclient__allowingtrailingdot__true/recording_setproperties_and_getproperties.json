@@ -1,0 +1,120 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167746463086409225",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB1869AA8525F2\"",
+    "last-modified": "Mon, 27 Feb 2023 02:23:51 GMT",
+    "x-ms-client-request-id": "f1ea8589-638a-443f-bbcf-bf29244dcba3",
+    "x-ms-request-id": "e51cc98d-601a-0004-4c52-4a0ec4000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167746463086409225/dir167746463135702616.",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB1869AAD49384\"",
+    "last-modified": "Mon, 27 Feb 2023 02:23:51 GMT",
+    "x-ms-client-request-id": "2938a332-6a4f-497b-b4a2-3c863bd5af7c",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-creation-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "13895902193744473398*5510371786133343095",
+    "x-ms-request-id": "e51cc990-601a-0004-4e52-4a0ec4000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167746463086409225/dir167746463135702616.",
+   "query": {
+    "comp": "properties",
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB1869AB22569C\"",
+    "last-modified": "Mon, 27 Feb 2023 02:23:52 GMT",
+    "x-ms-client-request-id": "5ef8e751-b1d2-4cce-bbe1-aaa6190fcb9c",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T02:23:52.4844188Z",
+    "x-ms-file-creation-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "13895902193744473398*5510371786133343095",
+    "x-ms-request-id": "e51cc992-601a-0004-5052-4a0ec4000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167746463086409225/dir167746463135702616.",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB1869AB22569C\"",
+    "last-modified": "Mon, 27 Feb 2023 02:23:52 GMT",
+    "x-ms-client-request-id": "fb853939-b11c-4615-a28e-d0a719b1963d",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T02:23:52.4844188Z",
+    "x-ms-file-creation-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T02:23:51.9747972Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "13895902193744473398*5510371786133343095",
+    "x-ms-request-id": "e51cc994-601a-0004-5252-4a0ec4000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167746463086409225",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "fc2e2134-c264-44cd-9c62-df1c2cd5ecb9",
+    "x-ms-request-id": "e51cc999-601a-0004-5452-4a0ec4000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167746463086409225",
+   "dir": "dir167746463135702616"
+  },
+  "newDate": {}
+ },
+ "hash": "34296ba0c440ec6a372fbc2de37a02df"
+}

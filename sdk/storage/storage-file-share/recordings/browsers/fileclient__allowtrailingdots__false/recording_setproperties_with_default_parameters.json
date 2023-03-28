@@ -1,0 +1,145 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A5576F6ED\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:42 GMT",
+    "x-ms-client-request-id": "039b092b-f2a0-4f94-b0c4-b63702d7630c",
+    "x-ms-request-id": "063f2e88-601a-0002-0573-4ae805000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615/dir167747866189605810....",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A55C556AD\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:42 GMT",
+    "x-ms-client-request-id": "9dd840a2-21ed-4f49-a39c-d88b58b230e0",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T06:17:42.6606765Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:42.6606765Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:42.6606765Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "13895902193744473398*5510371786133343095",
+    "x-ms-request-id": "063f2e8b-601a-0002-0773-4ae805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615/dir167747866189605810..../file167747866240506669....",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A5612B3C4\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:43 GMT",
+    "x-ms-client-request-id": "400a2fd2-e268-473b-a31a-fc895978349c",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "12560293872808033297*5510371786133343095",
+    "x-ms-request-id": "063f2e8d-601a-0002-0973-4ae805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615/dir167747866189605810..../file167747866240506669....",
+   "query": {
+    "comp": "properties"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A5660AD18\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:43 GMT",
+    "x-ms-client-request-id": "aee7d7cb-c893-449d-87c9-efe1198631ee",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T06:17:43.6786968Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "12560293872808033297*5510371786133343095",
+    "x-ms-request-id": "063f2e8f-601a-0002-0b73-4ae805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615/dir167747866189605810..../file167747866240506669....",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "11",
+    "etag": "\"0x8DB188A5660AD18\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:43 GMT",
+    "x-ms-client-request-id": "550872cc-35f6-4d85-afb4-87a2d4f3ad6f",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T06:17:43.6786968Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:43.1676868Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "12560293872808033297*5510371786133343095",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-request-id": "063f2e91-601a-0002-0d73-4ae805000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-type": "File",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747866139607615",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "8689b44a-3547-4884-a1d7-35b919074bbd",
+    "x-ms-request-id": "063f2e93-601a-0002-0f73-4ae805000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167747866139607615",
+   "dir": "dir167747866189605810",
+   "file": "file167747866240506669"
+  },
+  "newDate": {}
+ },
+ "hash": "afd3ec0fb96b33a225a8184bcc19c819"
+}
