@@ -35,12 +35,12 @@ export function formatCommand(commandName: string): string {
  * If anything fails, an error is thrown.
  * @internal
  */
-async function runCommands(commands: string[][]): Promise<string[]> {
+async function runCommands(commands: string[][],timeout?:number): Promise<string[]> {
   const results: string[] = [];
 
   for (const command of commands) {
     const [file, ...parameters] = command;
-    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8", timeout: <> })) as string;
+    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8", timeout: timeout })) as string;
     results.push(result);
   }
 
@@ -95,6 +95,7 @@ if (isWindows) {
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
+  private timeout? :number;
 
   /**
    * Creates an instance of the {@link AzurePowerShellCredential}.
@@ -112,6 +113,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
+    this.timeout = options?.processTimeout;
   }
 
   /**
@@ -120,12 +122,13 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   private async getAzurePowerShellAccessToken(
     resource: string,
-    tenantId?: string
+    tenantId?: string,
+    timeout?: number
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
       try {
-        await runCommands([[powerShellCommand, "/?"]]);
+        await runCommands([[powerShellCommand, "/?"]], timeout);
       } catch (e: any) {
         // Remove this credential from the original stack so that we don't try it again.
         commandStack.shift();
@@ -184,7 +187,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       const resource = getScopeResource(scope);
 
       try {
-        const response = await this.getAzurePowerShellAccessToken(resource, tenantId);
+        const response = await this.getAzurePowerShellAccessToken(resource, tenantId,this.timeout);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,

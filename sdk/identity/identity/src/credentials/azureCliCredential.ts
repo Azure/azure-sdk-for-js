@@ -46,10 +46,6 @@ export const cliCredentialInternals = {
     if (tenantId) {
       tenantSection = ["--tenant", tenantId];
     }
-    let timeoutSection: string[] = [];
-    if(timeout){
-      timeoutSection = ["--timeout", timeout.toString()];
-    }
     return new Promise((resolve, reject) => {
       try {
         child_process.execFile(
@@ -61,10 +57,9 @@ export const cliCredentialInternals = {
             "json",
             "--resource",
             resource,
-            ...tenantSection,
-            ...timeoutSection
+            ...tenantSection
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout: timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
@@ -87,6 +82,7 @@ const logger = credentialLogger("AzureCliCredential");
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
+  private timeout? :number;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -101,6 +97,7 @@ export class AzureCliCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
+    this.timeout = options?.processTimeout;
   }
 
   /**
@@ -128,7 +125,7 @@ export class AzureCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
-        const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId,options.requestOptions?.timeout);
+        const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId,this.timeout);
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =

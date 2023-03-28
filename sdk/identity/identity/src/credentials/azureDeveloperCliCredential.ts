@@ -40,7 +40,8 @@ export const developerCliCredentialInternals = {
    */
   async getAzdAccessToken(
     scopes: string[],
-    tenantId?: string
+    tenantId?: string,
+    timeout?: number
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -61,7 +62,7 @@ export const developerCliCredentialInternals = {
             ),
             ...tenantSection,
           ],
-          { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true },
+          { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true, timeout: timeout },
           (error, stdout, stderr) => {
             resolve({ stdout, stderr, error });
           }
@@ -84,6 +85,7 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
 export class AzureDeveloperCliCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
+  private timeout?: number;
 
   /**
    * Creates an instance of the {@link AzureDeveloperCliCredential}.
@@ -98,6 +100,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
+    this.timeout = options?.processTimeout;
   }
 
   /**
@@ -128,7 +131,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
-        const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId);
+        const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId,this.timeout);
         const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
