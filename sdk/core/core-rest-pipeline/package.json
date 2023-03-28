@@ -11,7 +11,8 @@
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js",
+    "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",
@@ -93,8 +94,7 @@
     "form-data": "^4.0.0",
     "tslib": "^2.2.0",
     "http-proxy-agent": "^5.0.0",
-    "https-proxy-agent": "^5.0.0",
-    "uuid": "^8.3.0"
+    "https-proxy-agent": "^5.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
