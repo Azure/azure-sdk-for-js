@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoringSettingsGetOptionalParams,
   MonitoringSettingsGetResponse,
@@ -45,8 +45,8 @@ export interface MonitoringSettings {
     monitoringSettingResource: MonitoringSettingResource,
     options?: MonitoringSettingsUpdatePutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringSettingsUpdatePutResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringSettingsUpdatePutResponse>,
       MonitoringSettingsUpdatePutResponse
     >
   >;
@@ -78,8 +78,8 @@ export interface MonitoringSettings {
     monitoringSettingResource: MonitoringSettingResource,
     options?: MonitoringSettingsUpdatePatchOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringSettingsUpdatePatchResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringSettingsUpdatePatchResponse>,
       MonitoringSettingsUpdatePatchResponse
     >
   >;

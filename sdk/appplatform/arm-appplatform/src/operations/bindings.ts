@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BindingResource,
   BindingsListNextOptionalParams,
@@ -177,8 +181,8 @@ export class BindingsImpl implements Bindings {
     bindingResource: BindingResource,
     options?: BindingsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsCreateOrUpdateResponse>,
       BindingsCreateOrUpdateResponse
     >
   > {
@@ -188,7 +192,7 @@ export class BindingsImpl implements Bindings {
     ): Promise<BindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,9 +225,9 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -231,10 +235,13 @@ export class BindingsImpl implements Bindings {
         bindingResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BindingsCreateOrUpdateResponse,
+      OperationState<BindingsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -285,14 +292,14 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     options?: BindingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -325,13 +332,13 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, appName, bindingName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, appName, bindingName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -382,8 +389,8 @@ export class BindingsImpl implements Bindings {
     bindingResource: BindingResource,
     options?: BindingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsUpdateResponse>,
       BindingsUpdateResponse
     >
   > {
@@ -393,7 +400,7 @@ export class BindingsImpl implements Bindings {
     ): Promise<BindingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -426,9 +433,9 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -436,10 +443,13 @@ export class BindingsImpl implements Bindings {
         bindingResource,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BindingsUpdateResponse,
+      OperationState<BindingsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
