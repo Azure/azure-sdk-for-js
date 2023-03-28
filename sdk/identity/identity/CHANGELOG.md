@@ -5,7 +5,7 @@
 ### Features Added
 
 - Enabled proactive token refresh for Managed Identity.
-- Added configurable process timeout for dev-time credentials.
+- Added configurable process timeout for dev-time credentials - `AzureCLI Credential`, `AzurePowershell Credential` and `AzureDeveloperCLI Credential`.
 
 ### Breaking Changes
 
