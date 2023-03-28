@@ -62,7 +62,11 @@ export const developerCliCredentialInternals = {
             ),
             ...tenantSection,
           ],
-          { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true, timeout: timeout },
+          {
+            cwd: developerCliCredentialInternals.getSafeWorkingDir(),
+            shell: true,
+            timeout: timeout,
+          },
           (error, stdout, stderr) => {
             resolve({ stdout, stderr, error });
           }
@@ -131,7 +135,11 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
-        const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId,this.timeout);
+        const obj = await developerCliCredentialInternals.getAzdAccessToken(
+          scopeList,
+          tenantId,
+          this.timeout
+        );
         const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||

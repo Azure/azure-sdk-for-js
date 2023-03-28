@@ -57,7 +57,7 @@ export const cliCredentialInternals = {
             "json",
             "--resource",
             resource,
-            ...tenantSection
+            ...tenantSection,
           ],
           { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout: timeout },
           (error, stdout, stderr) => {
@@ -82,7 +82,7 @@ const logger = credentialLogger("AzureCliCredential");
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private timeout? :number;
+  private timeout?: number;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -125,7 +125,11 @@ export class AzureCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
-        const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId,this.timeout);
+        const obj = await cliCredentialInternals.getAzureCliAccessToken(
+          resource,
+          tenantId,
+          this.timeout
+        );
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =

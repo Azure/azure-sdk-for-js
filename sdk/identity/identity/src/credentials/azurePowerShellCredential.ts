@@ -35,12 +35,15 @@ export function formatCommand(commandName: string): string {
  * If anything fails, an error is thrown.
  * @internal
  */
-async function runCommands(commands: string[][],timeout?:number): Promise<string[]> {
+async function runCommands(commands: string[][], timeout?: number): Promise<string[]> {
   const results: string[] = [];
 
   for (const command of commands) {
     const [file, ...parameters] = command;
-    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8", timeout: timeout })) as string;
+    const result = (await processUtils.execFile(file, parameters, {
+      encoding: "utf8",
+      timeout: timeout,
+    })) as string;
     results.push(result);
   }
 
@@ -95,7 +98,7 @@ if (isWindows) {
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private timeout? :number;
+  private timeout?: number;
 
   /**
    * Creates an instance of the {@link AzurePowerShellCredential}.
@@ -187,7 +190,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       const resource = getScopeResource(scope);
 
       try {
-        const response = await this.getAzurePowerShellAccessToken(resource, tenantId,this.timeout);
+        const response = await this.getAzurePowerShellAccessToken(resource, tenantId, this.timeout);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,
