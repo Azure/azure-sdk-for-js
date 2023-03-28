@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
  *
  * @summary Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-11-15-preview/examples/CosmosDBSqlRoleDefinitionGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-01-preview/examples/CosmosDBSqlRoleDefinitionGet.json
  */
 async function cosmosDbSqlRoleDefinitionGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";

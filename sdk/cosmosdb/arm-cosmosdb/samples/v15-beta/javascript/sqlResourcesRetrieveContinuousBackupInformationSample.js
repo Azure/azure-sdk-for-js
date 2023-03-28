@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves continuous backup information for a container resource.
  *
  * @summary Retrieves continuous backup information for a container resource.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-11-15-preview/examples/CosmosDBSqlContainerBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-01-preview/examples/CosmosDBSqlContainerBackupInformation.json
  */
 async function cosmosDbSqlContainerBackupInformation() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

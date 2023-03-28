@@ -29,6 +29,7 @@ export * from "./locations";
 export * from "./dataTransferJobs";
 export * from "./cassandraClusters";
 export * from "./cassandraDataCenters";
+export * from "./mongoClusters";
 export * from "./notebookWorkspaces";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";

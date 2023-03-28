@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-11-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cosmosdb/15.4.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "feb9319f-a42f-49a9-8237-2788eb6774f3"
+        "User-Agent": "azsdk-js-arm-cosmosdb/15.4.0-beta.2 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "692bcc85-87a3-473e-abe7-cfc0a099df3c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,18 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 17 Mar 2023 06:40:31 GMT",
+        "Date": "Tue, 28 Mar 2023 02:06:46 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7e9dc6a0-4ac7-4530-8fba-ebd2a59019ea",
+        "x-ms-correlation-request-id": "52d29340-a497-4acc-9530-34aa3b09df44",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11866",
-        "x-ms-request-id": "7e9dc6a0-4ac7-4530-8fba-ebd2a59019ea",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230317T064031Z:7e9dc6a0-4ac7-4530-8fba-ebd2a59019ea"
+        "x-ms-ratelimit-remaining-subscription-reads": "11879",
+        "x-ms-request-id": "52d29340-a497-4acc-9530-34aa3b09df44",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230328T020646Z:52d29340-a497-4acc-9530-34aa3b09df44"
       },
       "ResponseBody": {
         "value": [
@@ -40,7 +40,7 @@
             "kind": "GlobalDocumentDB",
             "tags": {},
             "systemData": {
-              "createdAt": "2023-03-17T06:36:48.4179206Z"
+              "createdAt": "2023-03-28T02:03:28.9894254Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
@@ -59,7 +59,7 @@
               "analyticalStorageConfiguration": {
                 "schemaType": "WellDefined"
               },
-              "instanceId": "9fd40e1d-18ad-4d31-811a-352983d9eeea",
+              "instanceId": "9b66b966-24a8-4f45-a59c-e51c5fe4d471",
               "databaseAccountOfferType": "Standard",
               "enableMaterializedViews": false,
               "defaultIdentity": "FirstPartyIdentity",
@@ -170,16 +170,16 @@
               },
               "keysMetadata": {
                 "primaryMasterKey": {
-                  "generationTime": "2023-03-17T06:36:48.4179206Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "secondaryMasterKey": {
-                  "generationTime": "2023-03-17T06:36:48.4179206Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "primaryReadonlyMasterKey": {
-                  "generationTime": "2023-03-17T06:36:48.4179206Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "secondaryReadonlyMasterKey": {
-                  "generationTime": "2023-03-17T06:36:48.4179206Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 }
               }
             },

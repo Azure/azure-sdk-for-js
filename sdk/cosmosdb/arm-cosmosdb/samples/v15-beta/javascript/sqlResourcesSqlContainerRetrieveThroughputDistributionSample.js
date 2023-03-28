@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieve throughput distribution for an Azure Cosmos DB SQL container
  *
  * @summary Retrieve throughput distribution for an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-11-15-preview/examples/CosmosDBSqlContainerRetrieveThroughputDistribution.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-01-preview/examples/CosmosDBSqlContainerRetrieveThroughputDistribution.json
  */
 async function cosmosDbSqlContainerRetrieveThroughputDistribution() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
