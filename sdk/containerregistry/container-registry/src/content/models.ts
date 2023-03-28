@@ -120,7 +120,7 @@ export interface OciImageManifest {
 }
 
 /** Additional information provided through arbitrary metadata */
-export interface OciAnnotations {
+export interface OciAnnotations extends Record<string, unknown> {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
   createdOn?: Date;
   /** Contact details of the people or organization responsible for the image. */
@@ -145,8 +145,6 @@ export interface OciAnnotations {
   title?: string;
   /** Human-readable description of the software packaged in the image */
   description?: string;
-  /** Additional properties */
-  [additionalProperties: string]: unknown;
 }
 
 /**
