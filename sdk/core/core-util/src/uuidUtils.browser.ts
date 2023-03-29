@@ -11,7 +11,6 @@ export declare const globalThis: {
   crypto: Crypto;
 };
 
-
 // NOTE: This could be undefined if not used in a secure context
 const uuidFunction =
   typeof globalThis?.crypto?.randomUUID === "function"
