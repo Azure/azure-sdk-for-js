@@ -23,13 +23,14 @@ export interface CreateAbortablePromiseOptions {
 }
 
 // @public
-export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
+export function delay(timeInMs: number, options?: DelayOptions_2): Promise<void>;
 
 // @public
-export interface DelayOptions {
+interface DelayOptions_2 {
     abortErrorMsg?: string;
     abortSignal?: AbortSignalLike;
 }
+export { DelayOptions_2 as DelayOptions }
 
 // @public
 export function getErrorMessage(e: unknown): string;

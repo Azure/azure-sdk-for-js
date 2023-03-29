@@ -16,7 +16,7 @@ describe("createAbortablePromise", function () {
   const createPromise = ({
     abortSignal,
     abortErrorMsg,
-  }: { abortSignal?: AbortSignalLike; abortErrorMsg?: string } = {}) =>
+  }: { abortSignal?: AbortSignalLike; abortErrorMsg?: string } = {}): Promise<unknown> =>
     createAbortablePromise(
       (resolve) => {
         token = setTimeout(resolve, delayTime);

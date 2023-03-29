@@ -27,7 +27,7 @@ export interface DelayOptions {
  * @returns Promise that is resolved after timeInMs
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
-  let token: ReturnType<typeof setTimeout>;
+  let token: NodeJS.Timeout | number | undefined;
   const { abortSignal, abortErrorMsg } = options ?? {};
   return createAbortablePromise(
     (resolve) => {
