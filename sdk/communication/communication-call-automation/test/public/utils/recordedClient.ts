@@ -45,14 +45,16 @@ if (isNode) {
 
 const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=redacted",
+  DISPATCHER_ENDPOINT: "https://incomingcalldispatcher.azurewebsites.net",
+  SERVICEBUS_STRING:
+    "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
 };
 
 const fakeToken = generateToken();
 const dispatcherEndpoint: string =
-  assertEnvironmentVariable("DISPATCHER_ENDPOINT") ?? "https://REDACTED.azurewebsites.net";
+  env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"];
 const serviceBusConnectionString: string =
-  assertEnvironmentVariable("SERVICEBUS_STRING") ??
-  "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED";
+  env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
