@@ -64,7 +64,8 @@ describe("Call Automation Main Client Live Tests", function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_and_hang_up";
-    loadPersistedEvents(testName);
+    await loadPersistedEvents(testName);
+    console.log("now we have " + events.size + " events");
 
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
@@ -91,7 +92,8 @@ describe("Call Automation Main Client Live Tests", function () {
 
   it("Reject call", async function () {
     testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "reject_call";
-    loadPersistedEvents(testName);
+    await loadPersistedEvents(testName);
+    console.log("now we have " + events.size + " events");
 
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);

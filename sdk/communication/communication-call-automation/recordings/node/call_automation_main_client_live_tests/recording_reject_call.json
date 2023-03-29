@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/calling/callConnections?api-version=2023-01-15-preview/calling/callConnections?api-version=2023-01-15-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "757",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-call-automation/1.0.0-beta.1 azsdk-js-azure-communication-call-automation/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "aa3cd5f4-b789-4bcb-947e-ef05f2af9f2f",
+        "x-ms-content-sha256": "n8lYcY4Crs4zikf0\u002BYBcRJM99JBWbshXjkH63uJ\u002Bvws=",
+        "x-ms-date": "Tue, 28 Mar 2023 22:19:53 GMT"
+      },
+      "RequestBody": {
+        "targets": [
+          {
+            "rawId": "8:acs:2da6d49f-ce64-4b46-9007-8ec96a808ca5_00000017-ca2d-682f-290c-113a0d0023b8",
+            "kind": "communicationUser",
+            "communicationUser": {
+              "id": "8:acs:2da6d49f-ce64-4b46-9007-8ec96a808ca5_00000017-ca2d-682f-290c-113a0d0023b8"
+            }
+          }
+        ],
+        "sourceIdentity": {
+          "rawId": "8:acs:816df1ca-971b-44d7-b8b1-8fba90748500_00000017-ca2d-3eb1-290c-113a0d0023b4",
+          "kind": "communicationUser",
+          "communicationUser": {
+            "id": "8:acs:816df1ca-971b-44d7-b8b1-8fba90748500_00000017-ca2d-3eb1-290c-113a0d0023b4"
+          }
+        },
+        "callbackUri": "https://incomingcalldispatcher.azurewebsites.net/api/servicebuscallback/events?q=8acs816df1ca-971b-44d7-b8b1-8fba90748500_00000017-ca2d-3eb1-290c-113a0d0023b48acs2da6d49f-ce64-4b46-9007-8ec96a808ca5_00000017-ca2d-682f-290c-113a0d0023b8",
+        "customContext": {}
+      },
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Content-Length": "66",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 28 Mar 2023 22:19:56 GMT",
+        "X-Azure-Ref": "0DWgjZAAAAABBgy/uPna5RrB6cy5vwNSZWU1RMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "aa3cd5f4-b789-4bcb-947e-ef05f2af9f2f"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "401",
+          "message": "HMAC-SHA256 validation failed"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -10,12 +10,11 @@ import {
   env,
   assertEnvironmentVariable,
   isRecordMode,
-  isPlaybackMode,
-  relativeRecordingsPath,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "@azure/communication-identity";
 import {
   CommunicationUserIdentifier,
   CommunicationIdentifier,
@@ -102,18 +101,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserIdentifier> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}) as CommunicationIdentityClientOptions
   );
   return identityClient.createUser();
-}
-
-export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
-  if (testUser) {
-    const identityClient = new CommunicationIdentityClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
-    );
-    await identityClient.deleteUser(testUser);
-  }
 }
 
 export function createCallAutomationClient(
@@ -246,25 +236,27 @@ export async function waitForEvent(
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
     fs.writeFile(
-      relativeRecordingsPath() + `${testName}.txt`,
+      `recordings\\${testName}.txt`,
       eventsToPersist.join("\n"),
       (err) => {
         if (err) throw err;
         console.log("Data written to file");
       }
     );
+    // Clear the array for next test to use
+    while (eventsToPersist.length > 0) {
+      eventsToPersist.pop();
+    }
   }
 }
 
-export function loadPersistedEvents(testName: string): void {
+export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
-    const data = fs.readFileSync(relativeRecordingsPath() + `${testName}.txt`, "utf-8");
+    const data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
     const eventStrings = data.split("\n");
 
-    console.log(eventStrings);
     eventStrings.forEach(async (eventString) => {
       const event: any = JSON.parse(eventString);
-      console.log(event);
       await eventBodyHandler(event);
     });
   }

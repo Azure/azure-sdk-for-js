@@ -32,9 +32,12 @@ describe("CallConnection Live Tests", function () {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this.currentTest);
-    testUser = await createTestUser(recorder);
-    testUser2 = await createTestUser(recorder);
-    callAutomationClient = createCallAutomationClient(recorder, testUser);
+    callAutomationClient = createCallAutomationClient(recorder, { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca45-47a5-6763-563a0d0033f7" });
+    //testUser = await createTestUser(recorder);
+    //testUser2 = await createTestUser(recorder);
+    // For skipping using the identity client and test the call automation client
+    testUser = { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca45-47a5-6763-563a0d0033f7" };
+    testUser2 = { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca47-68d5-570c-113a0d0022aa" };
   });
 
   afterEach(async function (this: Context) {
@@ -63,7 +66,9 @@ describe("CallConnection Live Tests", function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "list_all_participants";
-    loadPersistedEvents(testName);
+    await loadPersistedEvents(testName);
+    console.log("now we have " + events.size + " events");
+
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
@@ -88,7 +93,9 @@ describe("CallConnection Live Tests", function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "add_participant_and_get_call_props";
-    loadPersistedEvents(testName);
+    await loadPersistedEvents(testName);
+    console.log("now we have " + events.size + " events");
+
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
@@ -131,7 +138,9 @@ describe("CallConnection Live Tests", function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "remove_a_participant";
-    loadPersistedEvents(testName);
+    await loadPersistedEvents(testName);
+    console.log("now we have " + events.size + " events");
+
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
