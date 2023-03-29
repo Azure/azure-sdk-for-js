@@ -9,31 +9,29 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "3b6ce087-d1f7-485f-bcae-ea285496f2b1",
+        "x-ms-client-request-id": "50353886-ea53-41fd-a867-6b176fd23bcd",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:12 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:20 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "20",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:16 GMT",
-        "MS-CV": "dhHNID5dAU2lkwrpKt2F\u002Bg.0",
+        "Date": "Wed, 29 Mar 2023 22:58:20 GMT",
+        "MS-CV": "5Q3pvNMsaU\u002Bix5XT9zW2Rg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055515Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srbh",
+        "X-Azure-Ref": "0jMIkZAAAAAAMEDcQ6xhxR5USziddOKu4TUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "990ms"
+        "X-Processing-Time": "742ms"
       },
       "ResponseBody": {
         "programBriefs": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -41,33 +39,32 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "3fa43df7-5e24-4c74-a6fb-71cf6de4b233",
+        "x-ms-client-request-id": "aee19c38-3236-4126-9125-fbf28106935c",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:14 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:20 GMT"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Wed, 29 Mar 2023 05:55:17 GMT",
-        "MS-CV": "wHg4OPBh3EinL7t7\u002Bx1HxA.0",
+        "Date": "Wed, 29 Mar 2023 22:58:21 GMT",
+        "MS-CV": "ZCofNlwjWkKQ1BdbJhKMZw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230329T055517Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srfp",
+        "X-Azure-Ref": "0jcIkZAAAAAAs6SvP3lM3Rbdg4h9xN\u002BopTUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "606ms"
+        "X-Processing-Time": "538ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|45783c70-cdf6-11ed-b358-716660678052\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|33146420-ce85-11ed-8160-3d5487e8d0d1\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,33 +72,32 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6bcd8d86-d0de-43b8-ae3b-fa41531ce248",
+        "x-ms-client-request-id": "c02a85ba-bda6-4306-a4c6-002e5c49a935",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:14 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:20 GMT"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Wed, 29 Mar 2023 05:55:17 GMT",
-        "MS-CV": "Pf7D/Hr9q0auxqIoXZtO7w.0",
+        "Date": "Wed, 29 Mar 2023 22:58:22 GMT",
+        "MS-CV": "ISsVkbBjD0Kyxk3Y8KXsWg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230329T055517Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012bfp",
+        "X-Azure-Ref": "0jcIkZAAAAAAS78FRvkyFQbuy9Cg67G/ETUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "729ms"
+        "X-Processing-Time": "1351ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|45783c71-cdf6-11ed-b358-716660678052\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|33146421-ce85-11ed-8160-3d5487e8d0d1\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -111,12 +107,12 @@
         "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "9e2f5352-6fb0-4dc2-936c-9f67af6bf3ef",
-        "x-ms-content-sha256": "9zfiPa5dare51GmvrmNwvAt91RCbK04eSP1I51\u002BrNP4=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:14 GMT"
+        "x-ms-client-request-id": "9cdf53c0-baf4-4847-9109-d296de8f9ded",
+        "x-ms-content-sha256": "BdSmeIGZvvp0QfPssHHko0JMHst7xrscM5nYdjWsMzU=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:21 GMT"
       },
       "RequestBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -209,19 +205,18 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "2245",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:18 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052",
-        "MS-CV": "tJFCAoRC4E63pLmNweVANg.0",
+        "Date": "Wed, 29 Mar 2023 22:58:22 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1",
+        "MS-CV": "\u002BYSoM0Wc4EuDM3U8MwXgfg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055517Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srhz",
+        "X-Azure-Ref": "0jcIkZAAAAADFVPuNzB9BTa5IfflZSE/sTUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "991ms"
+        "X-Processing-Time": "1014ms"
       },
       "ResponseBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
         "status": "draft",
         "costs": [
           {
@@ -235,7 +230,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
+        "statusUpdatedDate": "2023-03-29T22:58:22\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -327,7 +322,139 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6d574629-f8bf-4b81-af17-b46f248e3352",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:22 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2245",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 29 Mar 2023 22:58:22 GMT",
+        "MS-CV": "SgUX7BRWYEukNwG99kIbsQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0j8IkZAAAAABcC0y6fNxURr5NlNtmw6Q2TUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "561ms"
+      },
+      "ResponseBody": {
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2023-03-29T22:58:22\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -337,12 +464,12 @@
         "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0f7a734e-226c-4521-bc9f-5f43a6b192bb",
-        "x-ms-content-sha256": "REXkuWmdVHnevTCpBy5\u002BJTFIikiJ8p\u002Bfqa18KYFUfws=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:15 GMT"
+        "x-ms-client-request-id": "89f56f2b-1772-4382-868d-6a2ceacd07ab",
+        "x-ms-content-sha256": "7Cv5qjWlIxYn6gWX1yi1mtmOQBPCyE1jvyv1ELhhPJw=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:22 GMT"
       },
       "RequestBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -435,19 +562,18 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "2245",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:19 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052",
-        "MS-CV": "A2PuPi3NQUWX/dg\u002BWIXWcw.0",
+        "Date": "Wed, 29 Mar 2023 22:58:23 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1",
+        "MS-CV": "dLRNcCFa80Ofhi3N5/8duQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055518Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012bmv",
+        "X-Azure-Ref": "0j8IkZAAAAACS5DxSMLygTZMz/nV9ZT\u002BZTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1311ms"
+        "X-Processing-Time": "1110ms"
       },
       "ResponseBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
         "status": "draft",
         "costs": [
           {
@@ -461,7 +587,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
+        "statusUpdatedDate": "2023-03-29T22:58:23\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -553,275 +679,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "bf62cb91-efce-4f33-9512-75ff981c3d9f",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:16 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Content-Length": "2245",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:19 GMT",
-        "MS-CV": "XrrN48AcekeRMxueKjt9Lw.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055518Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srpg",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "936ms"
-      },
-      "ResponseBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
-        "status": "draft",
-        "costs": [
-          {
-            "amount": 650.0,
-            "currencyCode": "USD",
-            "billingFrequency": "once"
-          },
-          {
-            "amount": 1000.0,
-            "currencyCode": "USD",
-            "billingFrequency": "monthly"
-          }
-        ],
-        "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
-        "programDetails": {
-          "isVanity": false,
-          "numberType": "shortCode",
-          "isPoliticalCampaign": false,
-          "name": "Contoso Loyalty Program",
-          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
-          "callToActionTypes": [
-            "sms",
-            "website"
-          ],
-          "callToActionUrl": "https://contoso.com/sign-up",
-          "termsOfServiceUrl": "https://contoso.com/terms",
-          "privacyPolicyUrl": "https://contoso.com/privacy"
-        },
-        "companyInformation": {
-          "name": "Contoso",
-          "url": "https://contoso.com",
-          "address": "1 Contoso Way Redmond, WA 98052",
-          "contactInformation": {
-            "name": "Alex",
-            "phone": "\u002B14255551234",
-            "email": "alex@contoso.com"
-          },
-          "customerCareInformation": {
-            "tollFreeNumber": "\u002B18005551234",
-            "email": "customercare@contoso.com"
-          }
-        },
-        "messageDetails": {
-          "supportedProtocol": "sms",
-          "recurrence": "subscription",
-          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInAnswerFromUser": "JOIN",
-          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-          "directionality": "twoWay",
-          "useCases": [
-            {
-              "contentType": "marketingAndPromotion",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "fromUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "loyaltyProgram",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "sweepstakesOrContest",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "trafficDetails": {
-          "totalMonthlyVolume": 10000,
-          "monthlyAverageMessagesFromUser": 1,
-          "monthlyAverageMessagesToUser": 3,
-          "isSpiky": true,
-          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
-          "estimatedRampUpTimeInDays": 0
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "35ac67a4-2763-4869-ad78-1b76f89cadc2",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:16 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Content-Length": "2245",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:20 GMT",
-        "MS-CV": "3mixOQqWpEWBG/\u002BCzffMGQ.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055519Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012bup",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "729ms"
-      },
-      "ResponseBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
-        "status": "draft",
-        "costs": [
-          {
-            "amount": 650.0,
-            "currencyCode": "USD",
-            "billingFrequency": "once"
-          },
-          {
-            "amount": 1000.0,
-            "currencyCode": "USD",
-            "billingFrequency": "monthly"
-          }
-        ],
-        "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
-        "programDetails": {
-          "isVanity": false,
-          "numberType": "shortCode",
-          "isPoliticalCampaign": false,
-          "name": "Contoso Loyalty Program",
-          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
-          "callToActionTypes": [
-            "sms",
-            "website"
-          ],
-          "callToActionUrl": "https://contoso.com/sign-up",
-          "termsOfServiceUrl": "https://contoso.com/terms",
-          "privacyPolicyUrl": "https://contoso.com/privacy"
-        },
-        "companyInformation": {
-          "name": "Contoso",
-          "url": "https://contoso.com",
-          "address": "1 Contoso Way Redmond, WA 98052",
-          "contactInformation": {
-            "name": "Alex",
-            "phone": "\u002B14255551234",
-            "email": "alex@contoso.com"
-          },
-          "customerCareInformation": {
-            "tollFreeNumber": "\u002B18005551234",
-            "email": "customercare@contoso.com"
-          }
-        },
-        "messageDetails": {
-          "supportedProtocol": "sms",
-          "recurrence": "subscription",
-          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInAnswerFromUser": "JOIN",
-          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-          "directionality": "twoWay",
-          "useCases": [
-            {
-              "contentType": "marketingAndPromotion",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "fromUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "loyaltyProgram",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "sweepstakesOrContest",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "trafficDetails": {
-          "totalMonthlyVolume": 10000,
-          "monthlyAverageMessagesFromUser": 1,
-          "monthlyAverageMessagesToUser": 3,
-          "isSpiky": true,
-          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
-          "estimatedRampUpTimeInDays": 0
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -831,12 +689,12 @@
         "Content-Length": "224",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4512f6d8-2fc5-4498-9583-35c21ca83f72",
-        "x-ms-content-sha256": "rR0AE/lkkmWeCHAfqW/FbsJ5v5CtEKYmNgQQGR07jr0=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:17 GMT"
+        "x-ms-client-request-id": "f8a04826-c433-48c7-ba5c-02d93f8b9a85",
+        "x-ms-content-sha256": "0/al6arEVdYwSZfnkbijhasZJuPyWWV2qi5Msi/6Mpw=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:23 GMT"
       },
       "RequestBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
         "programDetails": {
           "callToActionUrl": "https://endpoint/updated-sign-up",
           "termsOfServiceUrl": "https://endpoint/updated-terms",
@@ -845,20 +703,18 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "2260",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:21 GMT",
-        "MS-CV": "LYrc2zrLREmzQ4cR9wfASA.0",
+        "Date": "Wed, 29 Mar 2023 22:58:23 GMT",
+        "MS-CV": "bpbLr26QDk\u002BR4S7Lmbks8w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055520Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srt7",
+        "X-Azure-Ref": "0j8IkZAAAAADVW7hfbw5FR4k/WcfO8Ec3TUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1015ms"
+        "X-Processing-Time": "679ms"
       },
       "ResponseBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
         "status": "draft",
         "costs": [
           {
@@ -872,7 +728,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
+        "statusUpdatedDate": "2023-03-29T22:58:22\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -964,7 +820,271 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5ef00fd0-f2b8-4992-93e5-4b72e5d835dc",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:23 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2245",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 29 Mar 2023 22:58:24 GMT",
+        "MS-CV": "FRsSMg/LeEqagO9ev5rMRw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0kMIkZAAAAAAZOfR7jvGARZAB8m9nvTGhTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "517ms"
+      },
+      "ResponseBody": {
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2023-03-29T22:58:23\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "eede818c-6a35-431f-be1e-a2a5b958b091",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:24 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2260",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 29 Mar 2023 22:58:24 GMT",
+        "MS-CV": "6imkHkTfHkGbHUZgsgVEkw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0kMIkZAAAAAAE0jvy0w6XTaW3udayBgXKTUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "571ms"
+      },
+      "ResponseBody": {
+        "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2023-03-29T22:58:22\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://endpoint/updated-sign-up",
+          "termsOfServiceUrl": "https://endpoint/updated-terms",
+          "privacyPolicyUrl": "https://endpoint/updated-privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -974,12 +1094,12 @@
         "Content-Length": "224",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1debc0a3-741f-4370-8d5b-c9448ea6fcc9",
-        "x-ms-content-sha256": "7\u002B09vVKteTsVN2\u002BNVN\u002BSHYUOSfqEnS3idR24xL0YNSc=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:17 GMT"
+        "x-ms-client-request-id": "679d2a93-d166-47d5-8488-2969c4078ab1",
+        "x-ms-content-sha256": "YHKHZKEN8a78\u002BYNIY91JHjQ7oHeuvIxO052MIOht9po=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:24 GMT"
       },
       "RequestBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
         "programDetails": {
           "callToActionUrl": "https://endpoint/updated-sign-up",
           "termsOfServiceUrl": "https://endpoint/updated-terms",
@@ -988,20 +1108,18 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "2260",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:21 GMT",
-        "MS-CV": "S/ihvSVQg0eGx/Fn7/uE8w.0",
+        "Date": "Wed, 29 Mar 2023 22:58:25 GMT",
+        "MS-CV": "XtqM7YK7g0qsmxCb77hxLA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055520Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012bz2",
+        "X-Azure-Ref": "0kMIkZAAAAAAcP5VtKE\u002BORIylG\u002B9ReRG3TUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "804ms"
+        "X-Processing-Time": "623ms"
       },
       "ResponseBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
         "status": "draft",
         "costs": [
           {
@@ -1015,7 +1133,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
+        "statusUpdatedDate": "2023-03-29T22:58:23\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -1107,7 +1225,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1115,27 +1233,25 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "56f8dab6-cc7d-45b8-8c8b-3e1bf5d841b1",
+        "x-ms-client-request-id": "801f9003-5526-40da-851a-d817c17afbe7",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:18 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:25 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Length": "2260",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:22 GMT",
-        "MS-CV": "Z3PMDNjqcUSimoFCgom1BQ.0",
+        "Date": "Wed, 29 Mar 2023 22:58:25 GMT",
+        "MS-CV": "TPGiWN0e4ECIVEXysAaSYg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055521Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000srwz",
+        "X-Azure-Ref": "0kcIkZAAAAADVc0SDK7goRa6zoP60e9GgTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1427ms"
+        "X-Processing-Time": "746ms"
       },
       "ResponseBody": {
-        "id": "45783c70-cdf6-11ed-b358-716660678052",
+        "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
         "status": "draft",
         "costs": [
           {
@@ -1149,7 +1265,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
+        "statusUpdatedDate": "2023-03-29T22:58:23\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -1241,7 +1357,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1249,163 +1365,27 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "bdaef590-1411-45db-befd-69afded8c07e",
+        "x-ms-client-request-id": "b29aeb65-113b-4276-9113-44848945c2fb",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:18 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:25 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Content-Length": "2260",
+        "Content-Length": "2368",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:22 GMT",
-        "MS-CV": "HwPIU0PbqEeQaAHYOZG29g.0",
+        "Date": "Wed, 29 Mar 2023 22:58:26 GMT",
+        "MS-CV": "k46by64m7EKNLkyLMdX7jQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055521Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012c3f",
+        "X-Azure-Ref": "0ksIkZAAAAACbGs0tJyizSZlAy7FpCsjuTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1167ms"
-      },
-      "ResponseBody": {
-        "id": "45783c71-cdf6-11ed-b358-716660678052",
-        "status": "draft",
-        "costs": [
-          {
-            "amount": 650.0,
-            "currencyCode": "USD",
-            "billingFrequency": "once"
-          },
-          {
-            "amount": 1000.0,
-            "currencyCode": "USD",
-            "billingFrequency": "monthly"
-          }
-        ],
-        "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
-        "programDetails": {
-          "isVanity": false,
-          "numberType": "shortCode",
-          "isPoliticalCampaign": false,
-          "name": "Contoso Loyalty Program",
-          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
-          "callToActionTypes": [
-            "sms",
-            "website"
-          ],
-          "callToActionUrl": "https://endpoint/updated-sign-up",
-          "termsOfServiceUrl": "https://endpoint/updated-terms",
-          "privacyPolicyUrl": "https://endpoint/updated-privacy"
-        },
-        "companyInformation": {
-          "name": "Contoso",
-          "url": "https://contoso.com",
-          "address": "1 Contoso Way Redmond, WA 98052",
-          "contactInformation": {
-            "name": "Alex",
-            "phone": "\u002B14255551234",
-            "email": "alex@contoso.com"
-          },
-          "customerCareInformation": {
-            "tollFreeNumber": "\u002B18005551234",
-            "email": "customercare@contoso.com"
-          }
-        },
-        "messageDetails": {
-          "supportedProtocol": "sms",
-          "recurrence": "subscription",
-          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInAnswerFromUser": "JOIN",
-          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-          "directionality": "twoWay",
-          "useCases": [
-            {
-              "contentType": "marketingAndPromotion",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "fromUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "loyaltyProgram",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "contentType": "sweepstakesOrContest",
-              "examples": [
-                {
-                  "messages": [
-                    {
-                      "direction": "toUser",
-                      "text": "txtMessage"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "trafficDetails": {
-          "totalMonthlyVolume": 10000,
-          "monthlyAverageMessagesFromUser": 1,
-          "monthlyAverageMessagesToUser": 3,
-          "isSpiky": true,
-          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
-          "estimatedRampUpTimeInDays": 0
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=100\u0026api-version=2022-09-06",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "e1063766-053c-4256-aded-1725bbf4699d",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:19 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Content-Length": "4541",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:23 GMT",
-        "MS-CV": "0BhWgjCga069Dq3DrJmz0w.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055522Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000ss1q",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1065ms"
+        "X-Processing-Time": "691ms"
       },
       "ResponseBody": {
         "programBriefs": [
           {
-            "id": "45783c70-cdf6-11ed-b358-716660678052",
+            "id": "33146420-ce85-11ed-8160-3d5487e8d0d1",
             "status": "draft",
             "costs": [
               {
@@ -1419,112 +1399,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "name": "Contoso Loyalty Program",
-              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
-              "callToActionTypes": [
-                "sms",
-                "website"
-              ],
-              "callToActionUrl": "https://endpoint/updated-sign-up",
-              "termsOfServiceUrl": "https://endpoint/updated-terms",
-              "privacyPolicyUrl": "https://endpoint/updated-privacy"
-            },
-            "companyInformation": {
-              "name": "Contoso",
-              "url": "https://contoso.com",
-              "address": "1 Contoso Way Redmond, WA 98052",
-              "contactInformation": {
-                "name": "Alex",
-                "phone": "\u002B14255551234",
-                "email": "alex@contoso.com"
-              },
-              "customerCareInformation": {
-                "tollFreeNumber": "\u002B18005551234",
-                "email": "customercare@contoso.com"
-              }
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-              "optInAnswerFromUser": "JOIN",
-              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "marketingAndPromotion",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "fromUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "contentType": "loyaltyProgram",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "contentType": "sweepstakesOrContest",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "totalMonthlyVolume": 10000,
-              "monthlyAverageMessagesFromUser": 1,
-              "monthlyAverageMessagesToUser": 3,
-              "isSpiky": true,
-              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
-              "estimatedRampUpTimeInDays": 0
-            }
-          },
-          {
-            "id": "45783c71-cdf6-11ed-b358-716660678052",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
+            "statusUpdatedDate": "2023-03-29T22:58:22\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1614,11 +1489,12 @@
               "estimatedRampUpTimeInDays": 0
             }
           }
-        ]
+        ],
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=1\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=1\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1626,29 +1502,27 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "f0af3b2c-d2d2-4c77-ba21-ab6f9d0d79d7",
+        "x-ms-client-request-id": "fa983c1b-99e9-4344-bf4c-1014bbb73dcc",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:21 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:26 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Content-Length": "4541",
+        "Content-Length": "2368",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 29 Mar 2023 05:55:24 GMT",
-        "MS-CV": "5fCkGMPt1EOKEeoZxi\u002BFGw.0",
+        "Date": "Wed, 29 Mar 2023 22:58:27 GMT",
+        "MS-CV": "cAvpfODVvk\u002B\u002Bl/vhUwklSg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055523Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000ss5c",
+        "X-Azure-Ref": "0k8IkZAAAAADjfg3SWj58TrCi6W5CEZfwTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "948ms"
+        "X-Processing-Time": "723ms"
       },
       "ResponseBody": {
         "programBriefs": [
           {
-            "id": "45783c70-cdf6-11ed-b358-716660678052",
+            "id": "33146421-ce85-11ed-8160-3d5487e8d0d1",
             "status": "draft",
             "costs": [
               {
@@ -1662,112 +1536,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-03-29T05:55:18\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "name": "Contoso Loyalty Program",
-              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
-              "callToActionTypes": [
-                "sms",
-                "website"
-              ],
-              "callToActionUrl": "https://endpoint/updated-sign-up",
-              "termsOfServiceUrl": "https://endpoint/updated-terms",
-              "privacyPolicyUrl": "https://endpoint/updated-privacy"
-            },
-            "companyInformation": {
-              "name": "Contoso",
-              "url": "https://contoso.com",
-              "address": "1 Contoso Way Redmond, WA 98052",
-              "contactInformation": {
-                "name": "Alex",
-                "phone": "\u002B14255551234",
-                "email": "alex@contoso.com"
-              },
-              "customerCareInformation": {
-                "tollFreeNumber": "\u002B18005551234",
-                "email": "customercare@contoso.com"
-              }
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-              "optInAnswerFromUser": "JOIN",
-              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "marketingAndPromotion",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "fromUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "contentType": "loyaltyProgram",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "contentType": "sweepstakesOrContest",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "txtMessage"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "totalMonthlyVolume": 10000,
-              "monthlyAverageMessagesFromUser": 1,
-              "monthlyAverageMessagesToUser": 3,
-              "isSpiky": true,
-              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
-              "estimatedRampUpTimeInDays": 0
-            }
-          },
-          {
-            "id": "45783c71-cdf6-11ed-b358-716660678052",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-03-29T05:55:19\u002B00:00",
+            "statusUpdatedDate": "2023-03-29T22:58:23\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1857,11 +1626,42 @@
               "estimatedRampUpTimeInDays": 0
             }
           }
-        ]
+        ],
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=2\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=2\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "984d50af-8862-435c-8cb7-59a6bd48d3f1",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:27 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "20",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 29 Mar 2023 22:58:28 GMT",
+        "MS-CV": "EFInY9nQOEW01EygdtqRaQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0k8IkZAAAAADUzLJaJ3udQZd15q\u002BCjsLCTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "629ms"
+      },
+      "ResponseBody": {
+        "programBriefs": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1869,26 +1669,25 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c8dd9a88-5e4b-475a-8970-cbac1cadca2c",
+        "x-ms-client-request-id": "b4bb9130-7dcb-43ac-8def-4009d87b277d",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:22 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:28 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Date": "Wed, 29 Mar 2023 05:55:25 GMT",
-        "MS-CV": "k7Ji/PtI0Eekd7G7H/OXVA.0",
+        "Date": "Wed, 29 Mar 2023 22:58:28 GMT",
+        "MS-CV": "DkKfkIbwwUGK2FIOwvUIDA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055525Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000ss91",
+        "X-Azure-Ref": "0lMIkZAAAAAADc7UKQLH6ToWC9NnmX7lrTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "183ms"
+        "X-Processing-Time": "220ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1896,26 +1695,25 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "8de818db-4e52-48f1-b7f6-12a0ce57a638",
+        "x-ms-client-request-id": "a85ede5f-8363-4443-bad9-16c57856828d",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:22 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:28 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
-        "Date": "Wed, 29 Mar 2023 05:55:25 GMT",
-        "MS-CV": "HW2sBGjo90e4BG48rihh7g.0",
+        "Date": "Wed, 29 Mar 2023 22:58:28 GMT",
+        "MS-CV": "7uQjMbcumEK1sgVKbCJmMQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230329T055525Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012cnp",
+        "X-Azure-Ref": "0lMIkZAAAAADPYj4lQJ6WSJSbPEDKPYiHTUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "282ms"
+        "X-Processing-Time": "228ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c71-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146420-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1923,33 +1721,32 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "cf5b39d7-6e4c-42ba-8ffd-1e25167327ce",
+        "x-ms-client-request-id": "d3f7f762-98a1-49b1-a9cf-6d47a86b59a6",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:22 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:28 GMT"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Wed, 29 Mar 2023 05:55:26 GMT",
-        "MS-CV": "k7sunyQMREamjF0nLwdfmQ.0",
+        "Date": "Wed, 29 Mar 2023 22:58:28 GMT",
+        "MS-CV": "Hi4C587AJEi7tLuqKTBtIA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230329T055525Z-mgm2eqrf1h5cf4zwbt81hd870s00000000w0000000012cqe",
+        "X-Azure-Ref": "0lMIkZAAAAADcmZrudtb8RrNgLRyN/AgrTUVYMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1108ms"
+        "X-Processing-Time": "461ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|45783c71-cdf6-11ed-b358-716660678052\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|33146420-ce85-11ed-8160-3d5487e8d0d1\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/45783c70-cdf6-11ed-b358-716660678052?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/33146421-ce85-11ed-8160-3d5487e8d0d1?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1957,34 +1754,33 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d841fc39-9e41-4481-aba2-044182a1e424",
+        "x-ms-client-request-id": "299c9fea-495e-4a3d-964e-c4c010f71520",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 29 Mar 2023 05:55:22 GMT"
+        "x-ms-date": "Wed, 29 Mar 2023 22:58:28 GMT"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Wed, 29 Mar 2023 05:55:26 GMT",
-        "MS-CV": "Jv9e36sSwkqe7u1hCUjeJQ.0",
+        "Date": "Wed, 29 Mar 2023 22:58:29 GMT",
+        "MS-CV": "y/FRKAnFM0Oy\u002By\u002BqkDKatA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230329T055525Z-e4nbqn882t09p2h9y4ysn2yh7c00000000f000000000ssa0",
+        "X-Azure-Ref": "0lMIkZAAAAAB0xrbcgh70SaNrmYfboCCeTUVYMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1154ms"
+        "X-Processing-Time": "530ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|45783c70-cdf6-11ed-b358-716660678052\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|33146421-ce85-11ed-8160-3d5487e8d0d1\u0027"
         }
       }
     }
   ],
   "Variables": {
-    "test-brief-1": "45783c70-cdf6-11ed-b358-716660678052",
-    "test-brief-2": "45783c71-cdf6-11ed-b358-716660678052"
+    "test-brief-1": "33146420-ce85-11ed-8160-3d5487e8d0d1",
+    "test-brief-2": "33146421-ce85-11ed-8160-3d5487e8d0d1"
   }
 }
