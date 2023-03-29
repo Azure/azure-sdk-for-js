@@ -59,52 +59,31 @@ export class WorkloadIdentityCredential implements TokenCredential {
   constructor(
     options: WorkloadIdentityDefaultCredentialOptions | WorkloadIdentityCredentialOptions
   ) {
-    const workloadIdentityCredentialOptions = options as WorkloadIdentityCredentialOptions;
+    // Logging environment variables for error details
+    const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
+    logger.info(`Found the following environment variables: ${assignedEnv}`);
 
+    const workloadIdentityCredentialOptions = options as WorkloadIdentityCredentialOptions;
+    const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
+    const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
+    this.federatedTokenFilePath = workloadIdentityCredentialOptions.federatedTokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
     if (
-      workloadIdentityCredentialOptions?.clientId &&
-      workloadIdentityCredentialOptions?.tenantId &&
-      workloadIdentityCredentialOptions?.federatedTokenFilePath
+      clientId &&
+      tenantId &&
+      this.federatedTokenFilePath
     ) {
-      const tenantId = workloadIdentityCredentialOptions.tenantId;
-      if (tenantId) {
-        checkTenantId(logger, tenantId);
-      }
-      this.federatedTokenFilePath = workloadIdentityCredentialOptions.federatedTokenFilePath;
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`
       );
       this.client = new ClientAssertionCredential(
         tenantId,
-        workloadIdentityCredentialOptions.clientId,
+        clientId,
         this.readFileContents.bind(this),
         options
       );
-    } else {
-      // Keep track of any missing environment variables for error details
-      const assigned = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
-      logger.info(`Found the following environment variables: ${assigned}`);
-
-      const tenantId = process.env.AZURE_TENANT_ID,
-        clientId = process.env.AZURE_CLIENT_ID,
-        federatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
-
-      this.federatedTokenFilePath = federatedTokenFilePath;
-      if (tenantId) {
-        checkTenantId(logger, tenantId);
-      }
-
-      if (tenantId && clientId && federatedTokenFilePath) {
-        logger.info(
-          `Invoking ClientAssertionCredential with the following environment variables tenant ID: ${tenantId}, clientId: ${clientId} and federatedTokenFilePath: [REDACTED]`
-        );
-        this.client = new ClientAssertionCredential(
-          tenantId,
-          clientId,
-          this.readFileContents.bind(this),
-          options as WorkloadIdentityDefaultCredentialOptions
-        );
-      }
     }
   }
 
