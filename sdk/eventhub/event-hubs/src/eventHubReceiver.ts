@@ -13,7 +13,7 @@ import {
 } from "@azure/core-amqp";
 import {
   EventContext,
-  Receiver,
+  Receiver as Link,
   ReceiverOptions as RheaReceiverOptions,
   Source,
   types,
@@ -95,6 +95,12 @@ interface ConnectOptions {
   timeoutInMs: number;
 }
 
+interface ReceiverState {
+  link?: Link;
+  authLoop?: TimerLoop;
+  isConnecting: boolean;
+}
+
 /** @internal */
 export function createReceiver(
   ctx: ConnectionContext,
@@ -106,80 +112,12 @@ export function createReceiver(
   const address = ctx.config.getReceiverAddress(partitionId, consumerGroup);
   const name = getRandomName(address);
   const audience = ctx.config.getReceiverAudience(partitionId, consumerGroup);
-  const ownerLevel = options.ownerLevel;
   const logPrefix = createLogPrefix(ctx.connectionId, "Receiver", name);
   const logger = createSimpleLogger(azureLogger, logPrefix);
   const queue: ReceivedEventData[] = [];
-
-  let receiver: Receiver | undefined = undefined;
-  let authLoop: TimerLoop | undefined = undefined;
-  let isConnecting = false;
-
-  async function onClose(context: EventContext): Promise<void> {
-    const rheaReceiver = receiver || context.receiver;
-    logger.verbose(
-      `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
-        ?.isItselfClosed()
-        .toString()}' Value for isConnecting on the session is: '${isConnecting}'`
-    );
-    if (rheaReceiver && !isConnecting) {
-      return rheaReceiver.close().catch((err) => {
-        logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
-      });
-    }
-  }
-
-  async function onSessionClose(context: EventContext): Promise<void> {
-    const rheaReceiver = receiver || context.receiver;
-    logger.verbose(
-      `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
-        ?.isSessionItselfClosed()
-        .toString()}' Value for isConnecting on the session is: '${isConnecting}'`
-    );
-    if (rheaReceiver && !isConnecting) {
-      return rheaReceiver.close().catch((err) => {
-        logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
-      });
-    }
-  }
-
-  async function createLink(obj: PartitionReceiver, abortSignal?: AbortSignalLike): Promise<void> {
-    const rheaOptions: RheaReceiverOptions & { source: Source } = {
-      name,
-      autoaccept: true,
-      source: {
-        address,
-      },
-      credit_window: 0,
-      onClose,
-      onSessionClose,
-      onError: (context) => onError(context, obj, receiver, logger),
-      onMessage: (context) => onMessage(context, obj, queue, options),
-      onSessionError: (context) => onSessionError(context, obj, logger),
-    };
-    if (typeof ownerLevel === "number") {
-      rheaOptions.properties = {
-        [Constants.attachEpoch]: types.wrap_long(ownerLevel),
-      };
-    }
-    if (options.trackLastEnqueuedEventProperties) {
-      rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
-    }
-    const filterClause = getEventPositionFilter(
-      obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition
-    );
-    rheaOptions.source.filter = {
-      "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
-    };
-    logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
-    receiver = await ctx.connection.createReceiver({
-      ...rheaOptions,
-      abortSignal,
-    });
-    isConnecting = false;
-    logger.verbose("is created successfully");
-    ctx.receivers[name] = obj;
-  }
+  const state: ReceiverState = {
+    isConnecting: false,
+  };
 
   const obj: WritableReceiver = {
     _onError: undefined,
@@ -190,8 +128,8 @@ export function createReceiver(
       clearHandlers(obj);
       delete ctx.receivers[name];
       logger.verbose("deleted the receiver from the client cache");
-      authLoop?.stop();
-      return receiver
+      state.authLoop?.stop();
+      return state.link
         ?.close()
         .catch((err) => {
           logger.warning(`an error occurred while closing: ${err?.name}: ${err?.message}`);
@@ -201,8 +139,8 @@ export function createReceiver(
         .finally(() => {
           obj.isClosed = true;
           logger.verbose("is closed");
-          receiver = undefined;
-          authLoop = undefined;
+          state.link = undefined;
+          state.authLoop = undefined;
         });
     },
     abort: () => {
@@ -211,20 +149,32 @@ export function createReceiver(
       return obj.close();
     },
     isOpen: () => {
-      const isOpen = !!receiver?.isOpen();
+      const isOpen = !!state.link?.isOpen();
       logger.verbose(`is open? -> ${isOpen}`);
       return isOpen;
     },
     async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
-      if (isConnecting || obj.isOpen()) {
+      if (state.isConnecting || obj.isOpen()) {
         return;
       }
-      isConnecting = true;
+      state.isConnecting = true;
       logger.verbose("is trying to connect");
       try {
         await ctx.readyToOpenLink({ abortSignal });
-        authLoop = await withAuth(
-          () => createLink(obj, abortSignal),
+        state.authLoop = await withAuth(
+          () =>
+            createLink(
+              ctx,
+              name,
+              address,
+              obj,
+              state,
+              queue,
+              eventPosition,
+              logger,
+              options,
+              abortSignal
+            ),
           ctx,
           audience,
           timeoutInMs,
@@ -234,7 +184,7 @@ export function createReceiver(
           }
         );
       } catch (err) {
-        isConnecting = false;
+        state.isConnecting = false;
         const error = translate(err);
         logger.error(
           `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
@@ -273,7 +223,7 @@ export function createReceiver(
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
                 })
                 .then(() => {
-                  if (addCredits(receiver, eventsToRetrieveCount) > 0) {
+                  if (addCredits(state.link, eventsToRetrieveCount) > 0) {
                     return logger.verbose(
                       `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
                     );
@@ -458,7 +408,7 @@ function setEventProps(eventProps: LastEnqueuedEventProperties, data: EventDataI
   eventProps.retrievedOn = data.retrievalTime;
 }
 
-function addCredits(receiver: Receiver | undefined, eventsToRetrieveCount: number): number {
+function addCredits(receiver: Link | undefined, eventsToRetrieveCount: number): number {
   const creditsToAdd = eventsToRetrieveCount - (receiver?.credit ?? 0);
   if (creditsToAdd > 0) {
     receiver?.addCredit(creditsToAdd);
@@ -491,7 +441,7 @@ function onMessage(
 function onError(
   context: EventContext,
   obj: PartitionReceiver,
-  receiver: Receiver | undefined,
+  receiver: Link | undefined,
   logger: SimpleLogger
 ): void {
   const rheaReceiver = receiver || context.receiver;
@@ -512,4 +462,90 @@ function onSessionError(context: EventContext, obj: PartitionReceiver, logger: S
     logErrorStackTrace(error);
     obj._onError(error);
   }
+}
+
+async function onClose(
+  context: EventContext,
+  state: ReceiverState,
+  logger: SimpleLogger
+): Promise<void> {
+  const rheaReceiver = state.link || context.receiver;
+  logger.verbose(
+    `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
+      ?.isItselfClosed()
+      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`
+  );
+  if (rheaReceiver && !state.isConnecting) {
+    return rheaReceiver.close().catch((err) => {
+      logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
+    });
+  }
+}
+
+async function onSessionClose(
+  context: EventContext,
+  state: ReceiverState,
+  logger: SimpleLogger
+): Promise<void> {
+  const rheaReceiver = state.link || context.receiver;
+  logger.verbose(
+    `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
+      ?.isSessionItselfClosed()
+      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`
+  );
+  if (rheaReceiver && !state.isConnecting) {
+    return rheaReceiver.close().catch((err) => {
+      logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
+    });
+  }
+}
+
+async function createLink(
+  ctx: ConnectionContext,
+  name: string,
+  address: string,
+  obj: PartitionReceiver,
+  state: ReceiverState,
+  queue: ReceivedEventData[],
+  eventPosition: EventPosition,
+  logger: SimpleLogger,
+  options: EventHubConsumerOptions,
+  abortSignal?: AbortSignalLike
+): Promise<void> {
+  const rheaOptions: RheaReceiverOptions & { source: Source } = {
+    name,
+    autoaccept: true,
+    source: {
+      address,
+    },
+    credit_window: 0,
+    onClose: (context) => onClose(context, state, logger),
+    onSessionClose: (context) => onSessionClose(context, state, logger),
+    onError: (context) => onError(context, obj, state.link, logger),
+    onMessage: (context) => onMessage(context, obj, queue, options),
+    onSessionError: (context) => onSessionError(context, obj, logger),
+  };
+  const ownerLevel = options.ownerLevel;
+  if (typeof ownerLevel === "number") {
+    rheaOptions.properties = {
+      [Constants.attachEpoch]: types.wrap_long(ownerLevel),
+    };
+  }
+  if (options.trackLastEnqueuedEventProperties) {
+    rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+  }
+  const filterClause = getEventPositionFilter(
+    obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition
+  );
+  rheaOptions.source.filter = {
+    "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
+  };
+  logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
+  state.link = await ctx.connection.createReceiver({
+    ...rheaOptions,
+    abortSignal,
+  });
+  state.isConnecting = false;
+  logger.verbose("is created successfully");
+  ctx.receivers[name] = obj;
 }
