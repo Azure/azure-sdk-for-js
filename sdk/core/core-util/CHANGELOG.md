@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `randomUUID` to `uuidUtils` to generate a random UUID.
+- Add `randomUUID` to generate a random UUID.
 
 ## 1.2.0 (2023-03-02)
 
