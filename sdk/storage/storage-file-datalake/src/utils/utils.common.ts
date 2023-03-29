@@ -582,6 +582,8 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   );
 }
 
+const BugTimeBeginningInMS = 13322188800000;
+
 /**
  * This is to convert a Windows File Time ticks to a Date object.
  */
@@ -595,7 +597,15 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   // since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
   // Date accepts a value that represents miliseconds from 12:00 A.M. January 1, 1970
   // Here should correct the year number after converting.
-  const date = new Date(timeNumberInternal / 10000);
+  const timeNumerInMs = timeNumberInternal / 10000;
+  const date = new Date(timeNumerInMs);
+
+  // When initializing date from a miliseconds number the day after 2023-03-01 is still 2023-03-01.
+  // For example, 13322188799999 is 2023-03-01T23:59:59.999Z, while 13322188800000 is 2023-03-01T00:00:00.000Z
+  // Here is to work around the bug.
+  if (timeNumerInMs >= BugTimeBeginningInMS) {
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
   date.setUTCFullYear(date.getUTCFullYear() - 369);
   return date;
 }
