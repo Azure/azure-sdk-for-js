@@ -137,6 +137,30 @@ export function createFcmLegacyInstallation(
 }
 
 /**
+ * Represents a Xiaomi based installation.
+ */
+export interface XiaomiInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
+  platform: "xiaomi";
+}
+
+/**
+ * Creates a Xiaomi based installation.
+ * @param installation - A partial installation used to create the Xiaomi installation.
+ * @returns The newly created Xiaomi installation.
+ */
+export function createXiaomiInstallation(
+  installation: DeviceTokenInstallation
+): XiaomiInstallation {
+  return {
+    ...installation,
+    platform: "xiaomi",
+  };
+}
+
+/**
  * Represents a Windows Notification Services (WNS) based installation.
  */
 export interface WindowsInstallation extends DeviceTokenInstallation {
@@ -223,6 +247,7 @@ export type Installation =
   | BaiduInstallation
   | BrowserInstallation
   | FcmLegacyInstallation
+  | XiaomiInstallation
   | WindowsInstallation;
 
 /**

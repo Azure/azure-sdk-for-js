@@ -18,7 +18,7 @@ import {
 /** Interface representing a RecoverableDatabases. */
 export interface RecoverableDatabases {
   /**
-   * Gets a list of recoverable databases
+   * Gets a list of recoverable databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -30,11 +30,11 @@ export interface RecoverableDatabases {
     options?: RecoverableDatabasesListByServerOptionalParams
   ): PagedAsyncIterableIterator<RecoverableDatabase>;
   /**
-   * Gets a recoverable database, which is a resource representing a database's geo backup
+   * Gets a recoverable database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database
+   * @param databaseName The name of the database.
    * @param options The options parameters.
    */
   get(

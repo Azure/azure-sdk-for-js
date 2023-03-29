@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ValidateOperationRequestUnion,
   ValidateOperationTriggerOptionalParams
@@ -28,7 +28,7 @@ export interface ValidateOperation {
     resourceGroupName: string,
     parameters: ValidateOperationRequestUnion,
     options?: ValidateOperationTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Validate operation for specified backed up item in the form of an asynchronous operation. Returns
    * tracking headers which can be tracked using GetValidateOperationResult API.

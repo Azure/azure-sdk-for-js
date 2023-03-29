@@ -620,7 +620,6 @@ const getRepositoriesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n, Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -637,13 +636,6 @@ const getTagsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [
-    Parameters.last,
-    Parameters.n,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.digest
-  ],
   urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -660,12 +652,6 @@ const getManifestsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [
-    Parameters.last,
-    Parameters.n,
-    Parameters.apiVersion,
-    Parameters.orderby
-  ],
   urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExchangeRequest,
   ExchangePostOptionalParams,
@@ -25,7 +25,7 @@ export interface Exchange {
     body: ExchangeRequest,
     options?: ExchangePostOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ExchangePostResponse>, ExchangePostResponse>
+    SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>
   >;
   /**
    * Returns one or more `Reservations` in exchange for one or more `Reservation` purchases.

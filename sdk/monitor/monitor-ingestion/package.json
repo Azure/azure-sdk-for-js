@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure Monitor Ingestion library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -121,10 +121,8 @@
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",

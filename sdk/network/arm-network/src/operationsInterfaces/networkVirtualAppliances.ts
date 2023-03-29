@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkVirtualAppliance,
   NetworkVirtualAppliancesListByResourceGroupOptionalParams,
@@ -51,7 +51,7 @@ export interface NetworkVirtualAppliances {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     options?: NetworkVirtualAppliancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Network Virtual Appliance.
    * @param resourceGroupName The name of the resource group.
@@ -100,8 +100,8 @@ export interface NetworkVirtualAppliances {
     parameters: NetworkVirtualAppliance,
     options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkVirtualAppliancesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesCreateOrUpdateResponse>,
       NetworkVirtualAppliancesCreateOrUpdateResponse
     >
   >;

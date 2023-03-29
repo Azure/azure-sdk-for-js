@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -122,7 +122,6 @@
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^2.1.2",
     "karma-json-preprocessor": "^0.3.3",

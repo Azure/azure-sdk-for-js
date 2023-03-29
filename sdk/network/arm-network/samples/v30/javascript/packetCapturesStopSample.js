@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Stops a specified packet capture session.
  *
  * @summary Stops a specified packet capture session.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherPacketCaptureStop.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherPacketCaptureStop.json
  */
 async function stopPacketCapture() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const packetCaptureName = "pc1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function stopPacketCapture() {
   console.log(result);
 }
 
-stopPacketCapture().catch(console.error);
+async function main() {
+  stopPacketCapture();
+}
+
+main().catch(console.error);

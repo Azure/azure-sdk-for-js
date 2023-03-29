@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SipTrunk } from "./models";
-import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
+import { TrunkUpdate as RestSipTrunk } from "./generated/src/siprouting/models";
 
 /**
  * @internal

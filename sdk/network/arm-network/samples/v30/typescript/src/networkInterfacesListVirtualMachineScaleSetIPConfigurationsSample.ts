@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the specified network interface ip configuration in a virtual machine scale set.
  *
  * @summary Get the specified network interface ip configuration in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VmssNetworkInterfaceIpConfigList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VmssNetworkInterfaceIpConfigList.json
  */
 async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualMachineScaleSetName = "vmss1";
   const virtualmachineIndex = "2";
   const networkInterfaceName = "nic1";
@@ -37,6 +40,8 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   console.log(resArray);
 }
 
-listVirtualMachineScaleSetNetworkInterfaceIPConfigurations().catch(
-  console.error
-);
+async function main() {
+  listVirtualMachineScaleSetNetworkInterfaceIPConfigurations();
+}
+
+main().catch(console.error);

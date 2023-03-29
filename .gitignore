@@ -104,6 +104,7 @@ TestResults/*
 **/*Bundle.js
 **/*Bundle.js.map
 **/package-lock.json
+**/yarn.lock
 npm-debug.log.*
 azure_error
 checkstyle-result.xml
@@ -171,3 +172,5 @@ code-model-*
 
 # CPU profiles
 *.cpuprofile
+# Temp typespec files
+TempTypeSpecFiles/

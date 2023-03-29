@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LedgerDigestUploads,
   LedgerDigestUploadsListByDatabaseNextOptionalParams,
@@ -184,8 +188,8 @@ export class LedgerDigestUploadsOperationsImpl
     parameters: LedgerDigestUploads,
     options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
       LedgerDigestUploadsCreateOrUpdateResponse
     >
   > {
@@ -195,7 +199,7 @@ export class LedgerDigestUploadsOperationsImpl
     ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,9 +232,9 @@ export class LedgerDigestUploadsOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -238,10 +242,13 @@ export class LedgerDigestUploadsOperationsImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerDigestUploadsCreateOrUpdateResponse,
+      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -314,8 +321,8 @@ export class LedgerDigestUploadsOperationsImpl
     ledgerDigestUploads: LedgerDigestUploadsName,
     options?: LedgerDigestUploadsDisableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsDisableResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsDisableResponse>,
       LedgerDigestUploadsDisableResponse
     >
   > {
@@ -325,7 +332,7 @@ export class LedgerDigestUploadsOperationsImpl
     ): Promise<LedgerDigestUploadsDisableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -358,19 +365,22 @@ export class LedgerDigestUploadsOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
         ledgerDigestUploads,
         options
       },
-      disableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: disableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerDigestUploadsDisableResponse,
+      OperationState<LedgerDigestUploadsDisableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -439,7 +449,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -470,8 +480,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters78,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters64,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -480,7 +490,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.ledgerDigestUploads
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -494,7 +504,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -524,7 +534,7 @@ const disableOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

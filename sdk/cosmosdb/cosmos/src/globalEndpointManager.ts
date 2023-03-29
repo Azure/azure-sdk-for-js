@@ -211,7 +211,11 @@ export class GlobalEndpointManager {
    * @param unavailableLocations - list of unavailable locations
    * @param allLocations - list of all locations
    */
-  private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
+  private updateLocation(
+    now: number,
+    unavailableLocations: Location[],
+    allLocations: Location[]
+  ): void {
     for (const location of unavailableLocations) {
       const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
       if (

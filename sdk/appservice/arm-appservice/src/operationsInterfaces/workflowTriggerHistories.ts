@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkflowTriggerHistory,
   WorkflowTriggerHistoriesListOptionalParams,
@@ -69,7 +69,7 @@ export interface WorkflowTriggerHistories {
     triggerName: string,
     historyName: string,
     options?: WorkflowTriggerHistoriesResubmitOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resubmits a workflow run based on the trigger history.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

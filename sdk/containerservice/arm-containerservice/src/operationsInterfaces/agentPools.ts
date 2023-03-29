@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AgentPool,
   AgentPoolsListOptionalParams,
@@ -43,7 +43,7 @@ export interface AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
+   * completes before cancellation can take place, a 409 error code is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -55,15 +55,15 @@ export interface AgentPools {
     agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsAbortLatestOperationResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsAbortLatestOperationResponse>,
       AgentPoolsAbortLatestOperationResponse
     >
   >;
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
+   * completes before cancellation can take place, a 409 error code is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -103,8 +103,8 @@ export interface AgentPools {
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsCreateOrUpdateResponse>,
       AgentPoolsCreateOrUpdateResponse
     >
   >;
@@ -136,8 +136,8 @@ export interface AgentPools {
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
       AgentPoolsDeleteResponse
     >
   >;
@@ -194,7 +194,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image

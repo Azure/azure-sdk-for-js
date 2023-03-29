@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeletedServer,
   DeletedServersListOptionalParams,
@@ -59,8 +59,8 @@ export interface DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeletedServersRecoverResponse>,
+    SimplePollerLike<
+      OperationState<DeletedServersRecoverResponse>,
       DeletedServersRecoverResponse
     >
   >;

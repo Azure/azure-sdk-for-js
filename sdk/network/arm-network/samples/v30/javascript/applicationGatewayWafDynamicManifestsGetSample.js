@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the regional application gateway waf manifest.
  *
  * @summary Gets the regional application gateway waf manifest.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/GetApplicationGatewayWafDynamicManifests.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/GetApplicationGatewayWafDynamicManifests.json
  */
 async function getsWafManifests() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -29,4 +30,8 @@ async function getsWafManifests() {
   console.log(resArray);
 }
 
-getsWafManifests().catch(console.error);
+async function main() {
+  getsWafManifests();
+}
+
+main().catch(console.error);

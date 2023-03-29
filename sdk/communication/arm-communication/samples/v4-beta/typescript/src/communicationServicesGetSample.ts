@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Get the CommunicationService and its properties.
  *
  * @summary Get the CommunicationService and its properties.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/communicationServices/get.json
  */
 async function getResource() {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
   const resourceGroupName =
     process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
