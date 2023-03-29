@@ -5,7 +5,6 @@
  * Generated Universally Unique Identifier
  *
  * @returns RFC4122 v4 UUID.
- * @internal
  */
 export function generateUUID(): string {
   let uuid = "";

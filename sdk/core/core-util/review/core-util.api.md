@@ -23,14 +23,13 @@ export interface CreateAbortablePromiseOptions {
 }
 
 // @public
-export function delay(timeInMs: number, options?: DelayOptions_2): Promise<void>;
+export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
-interface DelayOptions_2 {
+export interface DelayOptions {
     abortErrorMsg?: string;
     abortSignal?: AbortSignalLike;
 }
-export { DelayOptions_2 as DelayOptions }
 
 // @public
 export function getErrorMessage(e: unknown): string;
@@ -56,9 +55,7 @@ export function isObjectWithProperties<Thing, PropertyName extends string>(thing
 // @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
-// Warning: (ae-internal-missing-underscore) The name "randomUUID" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function randomUUID(): string;
 
 // @public
