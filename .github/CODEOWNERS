@@ -71,7 +71,7 @@
 /sdk/communication/communication-alpha-ids/ @danielav7
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
+/sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -98,7 +98,7 @@
 /sdk/communication/communication-short-codes/ @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
+/sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
