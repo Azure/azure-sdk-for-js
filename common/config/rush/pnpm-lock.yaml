@@ -3934,7 +3934,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230327
+      typescript: 5.1.0-dev.20230329
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8781,8 +8781,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230327:
-    resolution: {integrity: sha512-tzeS6vmUF8qC4zFdvos88Oer1oNVrg0CVlIaxfI//pDrq8rur4nIUTLRWRlEMCeLQporHhD+z9sESoSr5GL+lw==}
+  /typescript/5.1.0-dev.20230329:
+    resolution: {integrity: sha512-X8tsIMYvdc0uI4lkvJ6cUblH2ut06J4fkDDuIi5oDlpugnPGxB0iHm7i3nQPgSic7XGxUpp5SzUXD7G4PmhGJQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -15600,7 +15600,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-BCxCcEVIqXSsumZ5b/0E4S4wAsI6WI7EsbY8tNQX/yEMYeMOKchffplek8nBnjjMXJh93itkE3Im9HTTAd4HBQ==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-X0puN6tV8fVh9ITrq6DVxJtqW56oTbIdNzluHKL5G5AgsRV9RpdiB6b9WU3Gc6m6/Dl4v+73zUe94Ca9+pcg4A==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -15610,6 +15610,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.41
+      '@types/node-fetch': 2.6.2
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7

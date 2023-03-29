@@ -10,11 +10,14 @@ import {
   env,
   assertEnvironmentVariable,
   isRecordMode,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
-import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "@azure/communication-identity";
+import {
+  CommunicationIdentityClient,
+  CommunicationIdentityClientOptions,
+} from "@azure/communication-identity";
 import {
   CommunicationUserIdentifier,
   CommunicationIdentifier,
@@ -129,7 +132,6 @@ async function eventBodyHandler(body: any): Promise<void> {
   } else {
     const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
     const event: CallAutomationEvent = await eventParser.parse(body);
-    console.log(event.kind);
     if (event.callConnectionId) {
       if (events.has(event.callConnectionId)) {
         events.get(event.callConnectionId)?.set(event.kind, event);
@@ -222,7 +224,6 @@ export async function waitForEvent(
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
-    console.log("Waiting for " + eventName);
     const eventGroup = events.get(callConnectionId);
     if (eventGroup && eventGroup.has(eventName)) {
       return eventGroup.get(eventName);
@@ -235,14 +236,9 @@ export async function waitForEvent(
 
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
-    fs.writeFile(
-      `recordings\\${testName}.txt`,
-      eventsToPersist.join("\n"),
-      (err) => {
-        if (err) throw err;
-        console.log("Data written to file");
-      }
-    );
+    fs.writeFile(`recordings\\${testName}.txt`, eventsToPersist.join("\n"), (err) => {
+      if (err) throw err;
+    });
     // Clear the array for next test to use
     while (eventsToPersist.length > 0) {
       eventsToPersist.pop();

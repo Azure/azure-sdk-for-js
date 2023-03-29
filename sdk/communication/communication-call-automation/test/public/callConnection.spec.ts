@@ -32,12 +32,9 @@ describe("CallConnection Live Tests", function () {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this.currentTest);
-    callAutomationClient = createCallAutomationClient(recorder, { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca45-47a5-6763-563a0d0033f7" });
-    //testUser = await createTestUser(recorder);
-    //testUser2 = await createTestUser(recorder);
-    // For skipping using the identity client and test the call automation client
-    testUser = { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca45-47a5-6763-563a0d0033f7" };
-    testUser2 = { communicationUserId: "8:acs:1bdaa2b9-9507-4542-bb64-a7b22c00a8d4_00000017-ca47-68d5-570c-113a0d0022aa" };
+    testUser = await createTestUser(recorder);
+    testUser2 = await createTestUser(recorder);
+    callAutomationClient = createCallAutomationClient(recorder, testUser);
   });
 
   afterEach(async function (this: Context) {
@@ -45,14 +42,12 @@ describe("CallConnection Live Tests", function () {
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-        console.log("Call terminated");
       } catch (e) {
-        console.log("Call is already terminated");
+        console.log("Call is terminated");
       }
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
-      console.log("Service bus receiver closed");
     });
     events.forEach((callConnectionEvents) => {
       callConnectionEvents.clear();
@@ -60,6 +55,7 @@ describe("CallConnection Live Tests", function () {
     events.clear();
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
+    await recorder.stop();
   });
 
   it("List all participants", async function () {
@@ -67,7 +63,6 @@ describe("CallConnection Live Tests", function () {
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "list_all_participants";
     await loadPersistedEvents(testName);
-    console.log("now we have " + events.size + " events");
 
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
@@ -94,13 +89,12 @@ describe("CallConnection Live Tests", function () {
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
-    console.log("now we have " + events.size + " events");
 
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
@@ -108,7 +102,7 @@ describe("CallConnection Live Tests", function () {
     if (incomingCallContext) {
       await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
@@ -119,27 +113,26 @@ describe("CallConnection Live Tests", function () {
     const addResult = await callConnection.addParticipant(participantInvite);
     assert.isDefined(addResult);
 
-    const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 8000);
+    const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
     if (anotherIncomingCallContext) {
       await callAutomationClient.answerCall(anotherIncomingCallContext, callBackUrl2);
     }
     const participantAddedEvent = await waitForEvent(
       "AddParticipantSucceeded",
       callConnectionId,
-      8000
+      10000
     );
     assert.isDefined(participantAddedEvent);
 
     const callProperties = await callConnection.getCallConnectionProperties();
     assert.isDefined(callProperties);
-  }).timeout(60000);
+  }).timeout(90000);
 
   it("Remove a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "remove_a_participant";
     await loadPersistedEvents(testName);
-    console.log("now we have " + events.size + " events");
 
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
