@@ -48,9 +48,13 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 const fakeToken = generateToken();
+const dispatcherEndpoint: string =
+  assertEnvironmentVariable("DISPATCHER_ENDPOINT") ?? "https://REDACTED.azurewebsites.net";
+const serviceBusConnectionString: string =
+  assertEnvironmentVariable("SERVICEBUS_STRING") ??
+  "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED";
 
-export const dispatcherCallback: string =
-  assertEnvironmentVariable("DISPATCHER_ENDPOINT") + "/api/servicebuscallback/events";
+export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
   ServiceBusReceiver
@@ -78,7 +82,7 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
 }
 
 function createServiceBusClient(): ServiceBusClient {
-  return new ServiceBusClient(assertEnvironmentVariable("SERVICEBUS_STRING"));
+  return new ServiceBusClient(serviceBusConnectionString);
 }
 
 export const recorderOptions: RecorderStartOptions = {
@@ -155,8 +159,7 @@ export async function serviceBusWithNewCall(
   if (!isPlaybackMode()) {
     // subscribe to event dispatcher
     const dispatcherUrl: string =
-      assertEnvironmentVariable("DISPATCHER_ENDPOINT") +
-      `/api/servicebuscallback/subscribe?q=${uniqueId}`;
+      dispatcherEndpoint + `/api/servicebuscallback/subscribe?q=${uniqueId}`;
 
     try {
       await fetch(dispatcherUrl, {
