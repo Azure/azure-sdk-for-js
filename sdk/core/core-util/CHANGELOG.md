@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added `randomUUID` to `uuidUtils` to generate a random UUID.
 
 ## 1.2.0 (2023-03-02)
 

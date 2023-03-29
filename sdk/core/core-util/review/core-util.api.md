@@ -56,6 +56,11 @@ export function isObjectWithProperties<Thing, PropertyName extends string>(thing
 // @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
+// Warning: (ae-internal-missing-underscore) The name "randomUUID" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function randomUUID(): string;
+
 // @public
 export type UnknownObject = {
     [s: string]: unknown;
