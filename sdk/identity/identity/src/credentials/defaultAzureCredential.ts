@@ -18,6 +18,7 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
 import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
+import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -74,6 +75,43 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         clientId: managedIdentityClientId,
       };
       super(managedIdentityClientOptions);
+    } else {
+      super(options);
+    }
+  }
+}
+/**
+ * A shim around ManagedIdentityCredential that adapts it to accept
+ * `DefaultAzureCredentialOptions`.
+ *
+ * @internal
+ */
+export class DefaultWorkloadIdentityCredential extends WorkloadIdentityCredential {
+  // Constructor overload with just client id options
+  constructor(options?: DefaultAzureCredentialClientIdOptions);
+  // Constructor overload with just the other default options
+  // Last constructor overload with Union of all options not required since the above two constructor overloads have optional properties
+  constructor(options?: DefaultAzureCredentialOptions) {
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      process.env.AZURE_CLIENT_ID;
+
+    const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
+    if (workloadFile && workloadIdentityClientId) {
+      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+        ...options,
+        tenantId,
+        clientId: workloadIdentityClientId,
+        federatedTokenFilePath: workloadFile
+      };
+      super(workloadIdentityCredentialOptions);
+    } else if(tenantId){
+      const workloadIdentityClientTenantOptions: WorkloadIdentityCredentialOptions = {
+        ...options,
+        tenantId,
+      };
+      super(workloadIdentityClientTenantOptions);
     } else {
       super(options);
     }
