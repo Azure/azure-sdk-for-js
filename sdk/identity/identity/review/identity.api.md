@@ -390,9 +390,9 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
 // @public
 export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
-    clientId: string;
-    federatedTokenFilePath: string;
-    tenantId: string;
+    clientId?: string;
+    federatedTokenFilePath?: string;
+    tenantId?: string;
 }
 
 // @public
