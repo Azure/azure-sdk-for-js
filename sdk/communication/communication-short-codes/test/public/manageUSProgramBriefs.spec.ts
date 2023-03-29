@@ -107,30 +107,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       assert.isFalse(errorDuringCreate, "Errors were found while creating test program briefs");
 
       // retrieve program briefs and verify they were created succesfully
-      let usPBIterator = client.listUSProgramBriefs().byPage({ maxPageSize: 1 });
-
-      // Passing marker as an argument
-      const response = await usPBIterator.next();
-      if (!response.done) {
-        for (const programBrief of response.value as USProgramBrief[]) {
-          if (idsArray.includes(programBrief.id)) {
-            testBriefMap[programBrief.id].found = true;
-            assertEditableFieldsAreEqual(
-              programBrief,
-              testBriefMap[programBrief.id].brief,
-              "list all program briefs"
-            );
-          }
-        }
-      }
-      // Gets next marker
-      const marker = response.value.continuationToken;
-      // Passing next marker as continuationToken
-      usPBIterator = client.listUSProgramBriefs().byPage({
-        continuationToken: marker,
-        maxPageSize: 2,
-      });
-      // loop over each page
+      const usPBIterator = client.listUSProgramBriefs({ top: 1 }).byPage();
       for await (const page of usPBIterator) {
         // loop over each phone number in the page
         for (const programBrief of page) {
