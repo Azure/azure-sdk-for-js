@@ -59,7 +59,7 @@ export const cliCredentialInternals = {
             resource,
             ...tenantSection,
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout: timeout },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           }

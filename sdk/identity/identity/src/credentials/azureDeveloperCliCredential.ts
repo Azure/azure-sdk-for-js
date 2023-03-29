@@ -65,7 +65,7 @@ export const developerCliCredentialInternals = {
           {
             cwd: developerCliCredentialInternals.getSafeWorkingDir(),
             shell: true,
-            timeout: timeout,
+            timeout,
           },
           (error, stdout, stderr) => {
             resolve({ stdout, stderr, error });
