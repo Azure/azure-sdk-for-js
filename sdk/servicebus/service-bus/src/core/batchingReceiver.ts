@@ -329,11 +329,12 @@ export class BatchingReceiverLite {
   private async drainReceiverIfNeeded(
     receiver: MinimalReceiver,
     loggingPrefix: string,
-    abortSignal?: AbortSignal,
+    abortSignal?: AbortSignal
   ): Promise<void> {
     // Drain any pending credits.
     if (receiver.isOpen() && receiver.credit > 0) {
       let drainTimedout: boolean = false;
+      let drainTimer: ReturnType<typeof setTimeout>;
       const drainPromise = new Promise<void>((resolve) => {
         function drainListener() {
           logger.verbose(`${loggingPrefix} Receiver has been drained.`);
@@ -350,7 +351,7 @@ export class BatchingReceiverLite {
           resolve();
         }
 
-        const drainTimer = setTimeout(() => {
+        drainTimer = setTimeout(() => {
           drainTimedout = true;
           removeListeners();
           resolve();
