@@ -42,7 +42,7 @@ async function runCommands(commands: string[][], timeout?: number): Promise<stri
     const [file, ...parameters] = command;
     const result = (await processUtils.execFile(file, parameters, {
       encoding: "utf8",
-      timeout: timeout,
+      timeout,
     })) as string;
     results.push(result);
   }
