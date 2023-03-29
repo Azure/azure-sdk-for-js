@@ -15,8 +15,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "@azure/core-util";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { receiveDrainTimeoutInMs } from "../util/constants";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
@@ -342,10 +341,10 @@ export class BatchingReceiverLite {
     const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
     let totalWaitTimer: NodeJS.Timer | undefined;
-    let drainPromiseResolver: (value: unknown) => void;
-    const drainPromise = new Promise((resolve) => (drainPromiseResolver = resolve));
-    const drainTimeoutAborter = new AbortController();
-
+    let drainPromiseResolver: () => void;
+    let drainTimer: NodeJS.Timer | undefined;
+    let drainTimedout: boolean = false;
+    let drainPromise = new Promise<void>((resolve) => (drainPromiseResolver = resolve));
     // eslint-disable-next-line prefer-const
     let cleanupBeforeResolveOrReject: () => void;
 
@@ -395,7 +394,10 @@ export class BatchingReceiverLite {
         logger.verbose(
           `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
         );
-        drainTimeoutAborter.abort(); // unblock from waiting for draining
+        if (drainTimer) {
+          logger.verbose(`${loggingPrefix} clearing drain timer in close handler.`);
+          clearTimeout(drainTimer);
+        }
         return resolveAfterPendingMessageCallbacks(brokeredMessages);
       }
 
@@ -418,25 +420,22 @@ export class BatchingReceiverLite {
 
       // Drain any pending credits.
       if (receiver.isOpen() && receiver.credit > 0) {
-        logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
-        receiver.drainCredit();
-
-        const drainTimeout = delay(this._drainTimeoutInMs, {
-          abortSignal: drainTimeoutAborter.signal,
-        }).then(() => {
-          throw "don't care";
+        drainPromise = new Promise<void>((resolve) => {
+          drainPromiseResolver = resolve;
+          drainTimer = setTimeout(() => {
+            drainTimedout = true;
+            resolve();
+          }, this._drainTimeoutInMs);
         });
-
-        try {
-          logger.verbose(`${loggingPrefix} Waiting for event_drained event, or timeout...`);
-          await Promise.race([drainPromise, drainTimeout]);
-        } catch (e) {
-          if ((e as Error)?.name !== "AbortError") {
-            logger.warning(`${loggingPrefix} Time out when draining credits.`);
-            // Close the receiver link since we have not received the receiver drain event
-            // to prevent out-of-sync state between local and remote
-            await receiver.close();
-          }
+        receiver.drainCredit();
+        logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
+        logger.verbose(`${loggingPrefix} Waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`);
+        await drainPromise;
+        if (drainTimedout) {
+          logger.warning(`${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits.`);
+          // Close the receiver link since we have not received the receiver drain event
+          // to prevent out-of-sync state between local and remote
+          await receiver.close();
         }
 
         // Turn off draining.
@@ -511,11 +510,14 @@ export class BatchingReceiverLite {
     // Action to be performed on the "receiver_drained" event.
     const onReceiveDrain: OnAmqpEvent = () => {
       receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+      if (drainTimer) {
+        logger.verbose(`${loggingPrefix} clearing drain timer.`);
+        clearTimeout(drainTimer);
+      }
       receiver.drain = false;
 
       logger.verbose(`${loggingPrefix} Drained.`);
-
-      drainPromiseResolver(undefined);
+      drainPromiseResolver();
     };
 
     cleanupBeforeResolveOrReject = (): void => {
