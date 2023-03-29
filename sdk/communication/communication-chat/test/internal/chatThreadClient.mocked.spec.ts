@@ -12,8 +12,7 @@ import {
   ChatThreadClient,
   SendMessageOptions,
   SendMessageRequest,
-  UpdateMessageOptions,
-  BasedOnThreadCreationDateRetentionPolicy,
+  UpdateMessageOptions
 } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
@@ -84,25 +83,6 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body as string), { topic: topic });
-  });
-
-  it("makes successful update thread retention policy", async function () {
-    const mockHttpClient = generateHttpClient(204);
-    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
-
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const retentionPolicy = { policyType: "basedOnThreadCreationDate", daysAfterCreation: 90 };
-
-    await chatThreadClient.updateRetentionPolicy(
-      retentionPolicy as BasedOnThreadCreationDateRetentionPolicy
-    );
-
-    sinon.assert.calledOnce(spy);
-    const request = spy.getCall(0).args[0];
-    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
-    assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: retentionPolicy });
   });
 
   it("makes successful send message request", async function () {

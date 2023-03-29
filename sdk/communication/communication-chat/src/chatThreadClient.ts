@@ -21,7 +21,6 @@ import {
   ChatParticipant,
   ChatThreadProperties,
   ListPageSettings,
-  RetentionPolicy,
   SendChatMessageResult,
 } from "./models/models";
 import {
@@ -45,7 +44,6 @@ import {
   SendReadReceiptOptions,
   SendTypingNotificationOptions,
   UpdateMessageOptions,
-  UpdateRetentionPolicyOptions,
   UpdateTopicOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
@@ -124,28 +122,6 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           { topic: topic },
-          updatedOptions
-        );
-      }
-    );
-  }
-
-  /**
-   * Updates a thread's topic.
-   * @param topic - The topic needs to be updated to.
-   * @param options - Operation options.
-   */
-  public updateRetentionPolicy(
-    retentionPolicy?: RetentionPolicy,
-    options: UpdateRetentionPolicyOptions = {}
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "ChatThreadClient-UpdateRetentionPolicy",
-      options,
-      async (updatedOptions) => {
-        await this.client.chatThread.updateChatThreadProperties(
-          this.threadId,
-          { retentionPolicy: retentionPolicy },
           updatedOptions
         );
       }

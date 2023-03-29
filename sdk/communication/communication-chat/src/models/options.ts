@@ -33,11 +33,6 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
 export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
- * Options to update a chat thread's retention policy.
- */
-export interface UpdateRetentionPolicyOptions extends OperationOptions {}
-
-/**
  * Options to get chat threads.
  */
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
@@ -77,7 +72,7 @@ export interface CreateChatThreadOptions extends OperationOptions {
   participants?: ChatParticipant[];
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   idempotencyToken?: string;
-  /** Data retention policy for auto deletion. */
+  /** Data retention policy for auto deletion. It's not updatable after creation. */
   retentionPolicy?: RetentionPolicy;
 }
 

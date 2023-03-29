@@ -77,7 +77,7 @@ describe("[Mocked] ChatClient", async function () {
     };
 
     const sendOptions: CreateChatThreadOptions = {
-      retentionPolicy: { policyType: "basedOnThreadCreationDate", daysAfterCreation: 90 },
+      retentionPolicy: { policyType: "threadCreationDate", daysAfterCreation: 90 },
     };
 
     const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);

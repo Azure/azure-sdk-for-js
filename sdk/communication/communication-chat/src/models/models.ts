@@ -12,15 +12,15 @@ export {
 } from "../generated/src/models";
 
 /** Thread retention policy based on thread creation date. */
-export interface BasedOnThreadCreationDateRetentionPolicy {
+export interface ThreadCreationDateRetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  policyType: "basedOnThreadCreationDate";
+  policyType: "threadCreationDate";
   /** Indicates how many days after the thread creation the thread will be deleted. Only 90 is accepted for now. */
   daysAfterCreation: number;
 }
 
 /** Data retention policy for auto deletion. */
-export declare type RetentionPolicy = BasedOnThreadCreationDateRetentionPolicy;
+export declare type RetentionPolicy = ThreadCreationDateRetentionPolicy;
 
 /** Chat thread. */
 export interface ChatThreadProperties {

@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 export type RetentionPolicyUnion =
   | RetentionPolicy
-  | BasedOnThreadCreationDateRetentionPolicy;
+  | ThreadCreationDateRetentionPolicy;
 
 /** A paged collection of chat message read receipts. */
 export interface ChatMessageReadReceiptsCollection {
@@ -165,6 +165,8 @@ export interface ChatMessageContent {
   topic?: string;
   /** Chat message content for messages of types participantAdded or participantRemoved. */
   participants?: ChatParticipant[];
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiatorCommunicationIdentifier?: CommunicationIdentifierModel;
 }
@@ -177,6 +179,22 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+}
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: AttachmentType;
+  /** The type of content of the attachment, if available */
+  contentType?: string;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
 
 /** Request payload for updating a chat message. */
@@ -219,14 +237,14 @@ export interface CreateChatThreadRequest {
   topic: string;
   /** Participants to be added to the chat thread. */
   participants?: ChatParticipant[];
-  /** Data retention policy for auto deletion. */
+  /** Data retention policy for auto deletion. It's not updatable after creation. */
   retentionPolicy?: RetentionPolicyUnion;
 }
 
-/** Data retention policy for auto deletion. */
+/** Data retention policy for auto deletion. It's not updatable after creation. */
 export interface RetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  policyType: "basedOnThreadCreationDate";
+  policyType: "threadCreationDate";
 }
 
 /** Result of the create chat thread operation. */
@@ -252,7 +270,7 @@ export interface ChatThreadProperties {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
-  /** Data retention policy for auto deletion. */
+  /** Data retention policy for auto deletion. It's not updatable after creation. */
   retentionPolicy?: RetentionPolicyUnion;
 }
 
@@ -280,7 +298,7 @@ export interface ChatThreadItem {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastMessageReceivedOn?: Date;
-  /** Data retention policy for auto deletion. */
+  /** Data retention policy for auto deletion. It's not updatable after creation. */
   retentionPolicy?: RetentionPolicyUnion;
 }
 
@@ -288,8 +306,6 @@ export interface ChatThreadItem {
 export interface UpdateChatThreadRequest {
   /** Chat thread topic. */
   topic?: string;
-  /** Data retention policy for auto deletion. */
-  retentionPolicy?: RetentionPolicyUnion;
 }
 
 /** Request payload for typing notifications. */
@@ -299,10 +315,9 @@ export interface SendTypingNotificationRequest {
 }
 
 /** Thread retention policy based on thread creation date. */
-export interface BasedOnThreadCreationDateRetentionPolicy
-  extends RetentionPolicy {
+export interface ThreadCreationDateRetentionPolicy extends RetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  policyType: "basedOnThreadCreationDate";
+  policyType: "threadCreationDate";
   /** Indicates how many days after the thread creation the thread will be deleted. Only 90 is accepted for now. */
   daysAfterCreation: number;
 }
@@ -328,10 +343,25 @@ export enum KnownCommunicationCloudEnvironmentModel {
  */
 export type CommunicationCloudEnvironmentModel = string;
 
+/** Known values of {@link AttachmentType} that the service accepts. */
+export enum KnownAttachmentType {
+  /** TeamsInlineImage */
+  TeamsInlineImage = "teamsInlineImage"
+}
+
+/**
+ * Defines values for AttachmentType. \
+ * {@link KnownAttachmentType} can be used interchangeably with AttachmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **teamsInlineImage**
+ */
+export type AttachmentType = string;
+
 /** Known values of {@link PolicyType} that the service accepts. */
 export enum KnownPolicyType {
   /** Thread retention policy based on thread creation date. */
-  BasedOnThreadCreationDate = "basedOnThreadCreationDate"
+  ThreadCreationDate = "threadCreationDate"
 }
 
 /**
@@ -339,7 +369,7 @@ export enum KnownPolicyType {
  * {@link KnownPolicyType} can be used interchangeably with PolicyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **basedOnThreadCreationDate**: Thread retention policy based on thread creation date.
+ * **threadCreationDate**: Thread retention policy based on thread creation date.
  */
 export type PolicyType = string;
 /** Defines values for ChatMessageType. */
