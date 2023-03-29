@@ -148,7 +148,7 @@ export class DefaultAzurePowershellCredential extends AzurePowerShellCredential 
 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
-  WorkloadIdentityCredential,
+  DefaultWorkloadIdentityCredential,
   DefaultManagedIdentityCredential,
   DefaultAzureDeveloperCliCredential,
   DefaultAzureCliCredential,
