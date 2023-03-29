@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { RoomJoinPolicy, RoomParticipant } from "./models";
+import { RoomParticipant } from "../generated/src/models";
 
 /**
  * Options to create rooms client.
@@ -17,8 +17,6 @@ export interface CreateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** The room join policy for the room. */
-  roomJoinPolicy?: RoomJoinPolicy;
   /** Collection of participants invited to the room. */
   participants?: RoomParticipant[];
 }
@@ -31,10 +29,6 @@ export interface UpdateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** The room join policy for the room. */
-  roomJoinPolicy?: RoomJoinPolicy;
-  /** Collection of participants invited to the room. */
-  participants?: RoomParticipant[];
 }
 
 /**
@@ -53,14 +47,9 @@ export type DeleteRoomOptions = OperationOptions;
 export type GetParticipantsOptions = OperationOptions;
 
 /**
- * Options to add participants to a room.
- */
-export type AddParticipantsOptions = OperationOptions;
-
-/**
  * Options to update the participants of a room.
  */
-export type UpdateParticipantsOptions = OperationOptions;
+export type UpsertParticipantsOptions = OperationOptions;
 
 /**
  * Options to remove participants from a room.

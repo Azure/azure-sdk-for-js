@@ -4,7 +4,6 @@
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  CommunicationUserIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
@@ -12,24 +11,21 @@ import {
 
 import { logger } from "./logger";
 import { tracingClient } from "./tracing";
-import { RoomsApiClient } from "./generated/src";
+import { ParticipantsUpdateResponse, RoomParticipant, RoomsRestClient } from "./generated/src";
 import {
-  mapCommunicationIdentifierToRoomParticipantRestModel,
-  mapToRoomParticipantRestModel,
-  mapToRoomParticipantSdkModel,
-  mapToRoomSdkModel,
+  mapRoomParticipantToRawId,
+  mapRoomParticipantToRawIdForRemoval,
 } from "./models/mappers";
-import { Room, RoomParticipant } from "./models/models";
+import { Room } from "./models/models";
 import {
-  AddParticipantsOptions,
   CreateRoomOptions,
   DeleteRoomOptions,
   GetParticipantsOptions,
   GetRoomOptions,
   RemoveParticipantsOptions,
   RoomsClientOptions,
-  UpdateParticipantsOptions,
   UpdateRoomOptions,
+  UpsertParticipantsOptions,
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
 
@@ -45,7 +41,7 @@ const isRoomsClientOptions = (options: any): options is RoomsClientOptions =>
  * The Rooms service client.
  */
 export class RoomsClient {
-  private readonly client: RoomsApiClient;
+  private readonly client: RoomsRestClient;
 
   /**
    * Initializes a new instance of the RoomsClient class.
@@ -87,7 +83,7 @@ export class RoomsClient {
       },
     };
 
-    this.client = new RoomsApiClient(url, { endpoint: url, ...internalPipelineOptions });
+    this.client = new RoomsRestClient(url, { endpoint: url, ...internalPipelineOptions });
 
     const authPolicy = createCommunicationAuthPolicy(credential);
 
@@ -103,21 +99,15 @@ export class RoomsClient {
   public async createRoom(options: CreateRoomOptions = {}): Promise<Room> {
     const repeatabilityRequestId = generateUuid();
     const repeatabilityFirstSent = new Date();
-    return tracingClient.withSpan("RoomsClient-CreateRoom", options, async (updatedOptions) => {
-      const result = await this.client.rooms.createRoom(
+    return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
+      return await this.client.rooms.create(
         {
           ...options,
-          participants: options.participants?.map((participant) =>
-            mapToRoomParticipantRestModel(participant)
-          ),
-        },
-        {
-          ...updatedOptions,
           repeatabilityFirstSent: repeatabilityFirstSent,
           repeatabilityRequestID: repeatabilityRequestId,
+          participants: mapRoomParticipantToRawId(options.participants),
         }
       );
-      return mapToRoomSdkModel(result);
     });
   }
 
@@ -129,17 +119,8 @@ export class RoomsClient {
    * @returns a RoomModel object with the values of the created room.
    */
   public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<Room> {
-    return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async (updatedOptions) => {
-      const result = await this.client.rooms.updateRoom(roomId, {
-        patchRoomRequest: {
-          ...options,
-          participants: options.participants?.map((participant) =>
-            mapToRoomParticipantRestModel(participant)
-          ),
-        },
-        ...updatedOptions,
-      });
-      return mapToRoomSdkModel(result);
+    return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async () => {
+      return await this.client.rooms.update(roomId, options);
     });
   }
 
@@ -151,7 +132,7 @@ export class RoomsClient {
    */
   public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<Room> {
     return tracingClient.withSpan("RoomsClient-GetRoom", options, async (updatedOptions) => {
-      return mapToRoomSdkModel(await this.client.rooms.getRoom(roomId, updatedOptions));
+      return await this.client.rooms.get(roomId, updatedOptions);
     });
   }
 
@@ -162,7 +143,7 @@ export class RoomsClient {
    */
   public async deleteRoom(roomId: string, options: DeleteRoomOptions = {}): Promise<void> {
     return tracingClient.withSpan("RoomsClient-DeleteRoom", options, async (updatedOptions) => {
-      await this.client.rooms.deleteRoom(roomId, updatedOptions);
+      await this.client.rooms.delete(roomId, updatedOptions);
     });
   }
 
@@ -175,70 +156,39 @@ export class RoomsClient {
   public async getParticipants(
     roomId: string,
     options: GetParticipantsOptions = {}
-  ): Promise<RoomParticipant[]> {
+  ): Promise<AsyncIterableIterator<RoomParticipant>> {
     return tracingClient.withSpan(
       "RoomsClient-GetParticipants",
       options,
       async (updatedOptions) => {
-        const result = await this.client.rooms.getParticipants(roomId, updatedOptions);
-        return result.participants.map((participant) => mapToRoomParticipantSdkModel(participant));
+        return await this.client.participants.list(roomId, updatedOptions);
       }
     );
   }
 
   /**
-   * Adds Participants to a room asynchronously
+   * Updates the Participants in a Room asynchronously. 
+   * Participant is added to room if they did not exist and updated if already in room.
    * @param roomId - ID of the room.
-   * @param request - Request for adding participants to a room.
+   * @param participants - List of participants to upsert.
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
-  public async addParticipants(
+  public async upsertParticipants(
     roomId: string,
     participants: RoomParticipant[],
-    options: AddParticipantsOptions = {}
-  ): Promise<void> {
+    options: UpsertParticipantsOptions = {}
+  ): Promise<ParticipantsUpdateResponse> {
     return tracingClient.withSpan(
-      "RoomsClient-AddParticipants",
+      "RoomsClient-UpsertParticipants",
       options,
       async (updatedOptions) => {
-        await this.client.rooms.addParticipants(
+        return await this.client.participants.update(
           roomId,
           {
-            participants: participants.map((participant) =>
-              mapToRoomParticipantRestModel(participant)
-            ),
-          },
-          updatedOptions
-        );
-      }
-    );
-  }
-
-  /**
-   * Updates the Participants in a Room asynchronously.
-   * @param roomId - ID of the room.
-   * @param request - Request for updating participants in a room.
-   * @param options - Operational options.
-   * @returns a list of all the participants in the room.
-   */
-  public async updateParticipants(
-    roomId: string,
-    participants: RoomParticipant[],
-    options: UpdateParticipantsOptions = {}
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "RoomsClient-UpdateParticipants",
-      options,
-      async (updatedOptions) => {
-        await this.client.rooms.updateParticipants(
-          roomId,
-          {
-            participants: participants.map((participant) =>
-              mapToRoomParticipantRestModel(participant)
-            ),
-          },
-          updatedOptions
+            ...updatedOptions,
+            participants: mapRoomParticipantToRawId(participants)
+          }
         );
       }
     );
@@ -247,27 +197,25 @@ export class RoomsClient {
   /**
    * Removes Participants from a Room asynchronously.
    * @param roomId - ID of the room.
-   * @param request - Request for deleting participants in a room.
+   * @param participants - List of participants to remove from room.
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
   public async removeParticipants(
     roomId: string,
-    participants: CommunicationUserIdentifier[],
+    participants: RoomParticipant[],
     options: RemoveParticipantsOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan(
       "RoomsClient-RemoveParticipants",
       options,
       async (updatedOptions) => {
-        await this.client.rooms.removeParticipants(
+        await this.client.participants.update(
           roomId,
           {
-            participants: participants!.map((participant) =>
-              mapCommunicationIdentifierToRoomParticipantRestModel(participant)
-            ),
-          },
-          updatedOptions
+            ...updatedOptions,
+            participants: mapRoomParticipantToRawIdForRemoval(participants)
+          }
         );
       }
     );
