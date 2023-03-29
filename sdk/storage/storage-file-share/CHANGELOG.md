@@ -1,18 +1,12 @@
 # Release History
 
-## 12.13.1 (Unreleased)
+## 12.14.0-beta.1 (2023-03-29)
 
 ### Features Added
 
 - Added support for service version 2022-11-02.
 - Added support OAuth.
 - Added support for Trailing Dot.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.13.0 (2023-02-23)
 
