@@ -81,25 +81,28 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
 }
 
 export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
-  constructor(options?: DefaultAzureCredentialOptions){
+  constructor(options?: DefaultAzureCredentialOptions) {
     super({
-     processTimeout: options?.developerCredentialTimeOut ,
-      ...options});
+      processTimeout: options?.developerCredentialTimeOut,
+      ...options,
+    });
   }
 }
-export class DefaultAzureCliCredential extends AzureCliCredential{
-  constructor(options?: DefaultAzureCredentialOptions){
+export class DefaultAzureCliCredential extends AzureCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
     super({
-     processTimeout: options?.developerCredentialTimeOut ,
-      ...options});
+      processTimeout: options?.developerCredentialTimeOut,
+      ...options,
+    });
   }
 }
 
 export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
-  constructor(options?: DefaultAzureCredentialOptions){
+  constructor(options?: DefaultAzureCredentialOptions) {
     super({
-     processTimeout: options?.developerCredentialTimeOut ,
-      ...options});
+      processTimeout: options?.developerCredentialTimeOut,
+      ...options,
+    });
   }
 }
 
