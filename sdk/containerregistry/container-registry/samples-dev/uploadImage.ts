@@ -29,6 +29,7 @@ async function main() {
   const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const manifest: OciImageManifest = {
+    schemaVersion: 2,
     configuration: {
       digest: configDigest,
       sizeInBytes: configSize,
