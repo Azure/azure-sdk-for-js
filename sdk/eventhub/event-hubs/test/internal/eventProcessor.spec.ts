@@ -37,7 +37,7 @@ import { delay } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition";
 import { loggerForTest } from "../public/utils/logHelpers";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { v4 } from "uuid";
+import { getRandomName } from "../../src/util/utils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -702,7 +702,7 @@ testWithServiceTypes((serviceVersion) => {
 
       // work around initial state issue by filling partitions with at least one message
       for (let i = 1; i < 100; i++) {
-        const filer = { body: "b", messageId: v4() };
+        const filer = { body: "b", messageId: getRandomName() };
         await producerClient.sendBatch([filer]);
       }
 

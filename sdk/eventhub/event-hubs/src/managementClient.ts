@@ -36,9 +36,9 @@ import { ConnectionContext } from "./connectionContext";
 import { OperationOptions } from "./util/operationOptions";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { v4 as uuid } from "uuid";
 import { TimerLoop } from "./util/timerLoop";
 import { withAuth } from "./withAuth";
+import { getRandomName } from "./util/utils";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -106,7 +106,7 @@ export interface ManagementClientOptions {
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient {
-  readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
+  readonly managementLock: string = getRandomName(Constants.managementRequestKey);
   /**
    * The name/path of the entity (hub name) for which the management
    * request needs to be made.
@@ -115,7 +115,7 @@ export class ManagementClient {
   /**
    * The reply to Guid for the management client.
    */
-  private readonly replyTo: string = uuid();
+  private readonly replyTo: string = getRandomName();
   /**
    * $management sender, receiver on the same session.
    */
@@ -198,7 +198,7 @@ export class ManagementClient {
 
           const request: Message = {
             body: Buffer.from(JSON.stringify([])),
-            message_id: uuid(),
+            message_id: getRandomName(),
             reply_to: this.replyTo,
             application_properties: {
               operation: Constants.readOperation,
@@ -257,7 +257,7 @@ export class ManagementClient {
           const securityToken = await this.getSecurityToken();
           const request: Message = {
             body: Buffer.from(JSON.stringify([])),
-            message_id: uuid(),
+            message_id: getRandomName(),
             reply_to: this.replyTo,
             application_properties: {
               operation: Constants.readOperation,
