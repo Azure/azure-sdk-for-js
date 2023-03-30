@@ -50,7 +50,7 @@ describe("Job Operations Test", () => {
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for Job Testing.
-              Response Body: ${poolPostResult.body.error.message}`)
+              Response Body: ${poolPostResult.body.message}`)
       }
     }
 
@@ -66,7 +66,7 @@ describe("Job Operations Test", () => {
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
         fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.error.details}`);
+            Respose Body: ${poolDeleteResponse.body.message}`);
       }
     }
   })
@@ -94,7 +94,7 @@ describe("Job Operations Test", () => {
     const jobAddResult = await batchClient.path("/jobs").post(jobAddParam);
     if (isUnexpected(jobAddResult)) {
       fail(`Received unexpected status code from creating job: ${jobAddResult.status}
-            Response Body: ${jobAddResult.body.error.code}`)
+            Response Body: ${jobAddResult.body.message}`)
     }
 
 
@@ -144,7 +144,7 @@ describe("Job Operations Test", () => {
 
     if (isUnexpected(jobGetResult)) {
       fail(`Received unexpected status code from getting job reference: ${jobGetResult.status}
-              Response Body: ${jobGetResult.body.error.code}`);
+              Response Body: ${jobGetResult.body.message}`);
     }
 
     assert.equal(jobGetResult.body.id, jobId);
@@ -158,7 +158,7 @@ describe("Job Operations Test", () => {
 
     if (isUnexpected(listJobsResult)) {
       fail(`Received unexpected status code from listing jobs: ${listJobsResult.status}
-              Response Body: ${listJobsResult.body.error.code}`);
+              Response Body: ${listJobsResult.body.message}`);
     }
 
     assert.isAtLeast(listJobsResult.body.value?.length!, 1);
@@ -197,7 +197,7 @@ describe("Job Operations Test", () => {
     const getJobStatsResult = await batchClient.path("/lifetimejobstats").get();
     if (isUnexpected(getJobStatsResult)) {
       fail(`Received unexpected status code from getting job lifetime stats: ${getJobStatsResult.status}
-            Response Body: ${getJobStatsResult.body.error.code}`)
+            Response Body: ${getJobStatsResult.body.message}`)
     }
 
     assert.isDefined(getJobStatsResult.body.userCPUTime);

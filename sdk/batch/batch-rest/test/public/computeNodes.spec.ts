@@ -52,7 +52,7 @@ describe("Compute node operations", async () => {
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for Job Testing.
-              Response Body: ${poolPostResult.body.error.message}`)
+              Response Body: ${poolPostResult.body.message}`)
       }
     }
 
@@ -68,7 +68,7 @@ describe("Compute node operations", async () => {
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
         fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.error.details}`);
+            Respose Body: ${poolDeleteResponse.body.message}`);
       }
     }
   })
@@ -91,7 +91,7 @@ describe("Compute node operations", async () => {
       listNodesResult = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
       if (isUnexpected(listNodesResult)) {
         fail(`Received unexpected status code from getting pool: ${listNodesResult.status}
-              Response Body: ${listNodesResult.body.error.message}`)
+              Response Body: ${listNodesResult.body.message}`)
       }
 
       ;
@@ -118,7 +118,7 @@ describe("Compute node operations", async () => {
     const getNodeResult = await batchClient.path("/pools/{poolId}/nodes/{nodeId}", recorder.variable("BASIC_POOL", BASIC_POOL), computeNodes[0]).get();
     if (isUnexpected(getNodeResult)) {
       fail(`Received unexpected status code from getting compute node: ${getNodeResult.status}
-              Response Body: ${getNodeResult.body.error.message}`)
+              Response Body: ${getNodeResult.body.message}`)
     }
 
     assert.equal(getNodeResult.status, "200");
@@ -156,7 +156,7 @@ describe("Compute node operations", async () => {
     const getRDPFileResult = await batchClient.path("/pools/{poolId}/nodes/{nodeId}/rdp", recorder.variable("BASIC_POOL", BASIC_POOL), computeNodes[0]).get();
     if (isUnexpected(getRDPFileResult)) {
       fail(`Received unexpected status code from getting compute node RDP file: ${getRDPFileResult.status}
-              Response Body: ${getRDPFileResult.body.error.message}`)
+              Response Body: ${getRDPFileResult.body.message}`)
     }
 
     assert.isDefined(getRDPFileResult.body);
@@ -202,7 +202,7 @@ describe("Compute node operations", async () => {
     const uploadLogResult = await batchClient.path("/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs", recorder.variable("BASIC_POOL", BASIC_POOL), computeNodes[2]).post(uploadLogBody);
     if (isUnexpected(uploadLogResult)) {
       fail(`Received unexpected status code from uploading log to compute node: ${uploadLogResult.status}
-            Response Body: ${uploadLogResult.body.error.message}`)
+            Response Body: ${uploadLogResult.body.message}`)
     }
 
 

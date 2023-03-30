@@ -54,7 +54,7 @@ describe("Autoscale operations", async () => {
         if (isUnexpected(poolPostResult)) {
           fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
                 Unable to provision resource needed for Job Testing.
-                Response Body: ${poolPostResult.body.error.message}`)
+                Response Body: ${poolPostResult.body.message}`)
         }
 
         let poolResizing = true;
@@ -63,7 +63,7 @@ describe("Autoscale operations", async () => {
         if (isUnexpected(getPoolResult)) {
           fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
                 Unable to provision resource needed for Job Testing.
-                Response Body: ${getPoolResult.body.error.message}`)
+                Response Body: ${getPoolResult.body.message}`)
         }
         if (getPoolResult.body.allocationState === "steady") {
           break;
@@ -85,7 +85,7 @@ describe("Autoscale operations", async () => {
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
         fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.error.details}`);
+            Respose Body: ${poolDeleteResponse.body.message}`);
       }
     }
   })
@@ -124,7 +124,7 @@ describe("Autoscale operations", async () => {
     
     if(isUnexpected(evaluateAutoScaleResult)) {
       fail(`Received unexpected status code from evaluating pool autoscale: ${evaluateAutoScaleResult.status}
-                Response Body: ${evaluateAutoScaleResult.body.error.message}`)
+                Response Body: ${evaluateAutoScaleResult.body.message}`)
     }
 
     assert.isUndefined(evaluateAutoScaleResult.body.error);
@@ -147,7 +147,7 @@ describe("Autoscale operations", async () => {
 
     if(isUnexpected(evaluateAutoScaleResult)) {
       fail(`Received unexpected status code from evaluating pool autoscale: ${evaluateAutoScaleResult.status}
-                Response Body: ${evaluateAutoScaleResult.body.error.message}`)
+                Response Body: ${evaluateAutoScaleResult.body.message}`)
     }
 
     assert.isDefined(evaluateAutoScaleResult.body.error);

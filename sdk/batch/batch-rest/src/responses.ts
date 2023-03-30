@@ -5,6 +5,7 @@ import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   ApplicationListResultOutput,
+  BatchErrorOutput,
   ApplicationOutput,
   PoolUsageMetricsListOutput,
   PoolStatisticsOutput,
@@ -53,15 +54,9 @@ export interface ApplicationsList200Response extends HttpResponse {
   headers: RawHttpHeaders & ApplicationsList200Headers;
 }
 
-export interface ApplicationsListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ApplicationsListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ApplicationsListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 /** The request has succeeded. */
@@ -116,16 +111,10 @@ export interface PoolGetAllLifetimeStatistics200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolGetAllLifetimeStatistics200Headers;
 }
 
-export interface PoolGetAllLifetimeStatisticsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolGetAllLifetimeStatisticsDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolGetAllLifetimeStatisticsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolAdd201Headers {
@@ -147,15 +136,9 @@ export interface PoolAdd201Response extends HttpResponse {
   headers: RawHttpHeaders & PoolAdd201Headers;
 }
 
-export interface PoolAddDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolAddDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolAddDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolList200Headers {
@@ -176,15 +159,9 @@ export interface PoolList200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolList200Headers;
 }
 
-export interface PoolListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolDelete202Headers {
@@ -200,15 +177,9 @@ export interface PoolDelete202Response extends HttpResponse {
   headers: RawHttpHeaders & PoolDelete202Headers;
 }
 
-export interface PoolDeleteDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolDeleteDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolDeleteDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolExists200Headers {
@@ -233,15 +204,9 @@ export interface PoolExists404Response extends HttpResponse {
   status: "404";
 }
 
-export interface PoolExistsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolExistsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolExistsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolGet200Headers {
@@ -262,15 +227,9 @@ export interface PoolGet200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolGet200Headers;
 }
 
-export interface PoolGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolPatch200Headers {
@@ -292,15 +251,9 @@ export interface PoolPatch200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolPatch200Headers;
 }
 
-export interface PoolPatchDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolPatchDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolPatchDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolDisableAutoScale200Headers {
@@ -322,15 +275,9 @@ export interface PoolDisableAutoScale200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolDisableAutoScale200Headers;
 }
 
-export interface PoolDisableAutoScaleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolDisableAutoScaleDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolDisableAutoScaleDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolEnableAutoScale200Headers {
@@ -352,15 +299,9 @@ export interface PoolEnableAutoScale200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolEnableAutoScale200Headers;
 }
 
-export interface PoolEnableAutoScaleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolEnableAutoScaleDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolEnableAutoScaleDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolEvaluateAutoScale200Headers {
@@ -383,15 +324,9 @@ export interface PoolEvaluateAutoScale200Response extends HttpResponse {
   headers: RawHttpHeaders & PoolEvaluateAutoScale200Headers;
 }
 
-export interface PoolEvaluateAutoScaleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolEvaluateAutoScaleDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolEvaluateAutoScaleDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolResize202Headers {
@@ -413,15 +348,9 @@ export interface PoolResize202Response extends HttpResponse {
   headers: RawHttpHeaders & PoolResize202Headers;
 }
 
-export interface PoolResizeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolResizeDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolResizeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolStopResize202Headers {
@@ -443,15 +372,9 @@ export interface PoolStopResize202Response extends HttpResponse {
   headers: RawHttpHeaders & PoolStopResize202Headers;
 }
 
-export interface PoolStopResizeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolStopResizeDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolStopResizeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolUpdateProperties204Headers {
@@ -473,15 +396,9 @@ export interface PoolUpdateProperties204Response extends HttpResponse {
   headers: RawHttpHeaders & PoolUpdateProperties204Headers;
 }
 
-export interface PoolUpdatePropertiesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolUpdatePropertiesDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolUpdatePropertiesDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolRemoveNodes202Headers {
@@ -503,15 +420,9 @@ export interface PoolRemoveNodes202Response extends HttpResponse {
   headers: RawHttpHeaders & PoolRemoveNodes202Headers;
 }
 
-export interface PoolRemoveNodesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface PoolRemoveNodesDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolRemoveNodesDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface AccountListSupportedImages200Headers {
@@ -532,16 +443,10 @@ export interface AccountListSupportedImages200Response extends HttpResponse {
   headers: RawHttpHeaders & AccountListSupportedImages200Headers;
 }
 
-export interface AccountListSupportedImagesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface AccountListSupportedImagesDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & AccountListSupportedImagesDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface AccountListPoolNodeCounts200Headers {
@@ -558,15 +463,9 @@ export interface AccountListPoolNodeCounts200Response extends HttpResponse {
   headers: RawHttpHeaders & AccountListPoolNodeCounts200Headers;
 }
 
-export interface AccountListPoolNodeCountsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface AccountListPoolNodeCountsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & AccountListPoolNodeCountsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobGetAllLifetimeStatistics200Headers {
@@ -587,16 +486,10 @@ export interface JobGetAllLifetimeStatistics200Response extends HttpResponse {
   headers: RawHttpHeaders & JobGetAllLifetimeStatistics200Headers;
 }
 
-export interface JobGetAllLifetimeStatisticsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobGetAllLifetimeStatisticsDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobGetAllLifetimeStatisticsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobDelete202Headers {
@@ -612,15 +505,9 @@ export interface JobDelete202Response extends HttpResponse {
   headers: RawHttpHeaders & JobDelete202Headers;
 }
 
-export interface JobDeleteDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobDeleteDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobDeleteDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobGet200Headers {
@@ -641,15 +528,9 @@ export interface JobGet200Response extends HttpResponse {
   headers: RawHttpHeaders & JobGet200Headers;
 }
 
-export interface JobGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobPatch200Headers {
@@ -671,15 +552,9 @@ export interface JobPatch200Response extends HttpResponse {
   headers: RawHttpHeaders & JobPatch200Headers;
 }
 
-export interface JobPatchDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobPatchDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobPatchDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobUpdate200Headers {
@@ -701,15 +576,9 @@ export interface JobUpdate200Response extends HttpResponse {
   headers: RawHttpHeaders & JobUpdate200Headers;
 }
 
-export interface JobUpdateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobUpdateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobUpdateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobDisable202Headers {
@@ -731,15 +600,9 @@ export interface JobDisable202Response extends HttpResponse {
   headers: RawHttpHeaders & JobDisable202Headers;
 }
 
-export interface JobDisableDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobDisableDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobDisableDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobEnable202Headers {
@@ -761,15 +624,9 @@ export interface JobEnable202Response extends HttpResponse {
   headers: RawHttpHeaders & JobEnable202Headers;
 }
 
-export interface JobEnableDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobEnableDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobEnableDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobTerminate202Headers {
@@ -791,15 +648,9 @@ export interface JobTerminate202Response extends HttpResponse {
   headers: RawHttpHeaders & JobTerminate202Headers;
 }
 
-export interface JobTerminateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobTerminateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobTerminateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobAdd201Headers {
@@ -821,15 +672,9 @@ export interface JobAdd201Response extends HttpResponse {
   headers: RawHttpHeaders & JobAdd201Headers;
 }
 
-export interface JobAddDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobAddDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobAddDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobList200Headers {
@@ -850,15 +695,9 @@ export interface JobList200Response extends HttpResponse {
   headers: RawHttpHeaders & JobList200Headers;
 }
 
-export interface JobListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobListFromJobSchedule200Headers {
@@ -879,15 +718,9 @@ export interface JobListFromJobSchedule200Response extends HttpResponse {
   headers: RawHttpHeaders & JobListFromJobSchedule200Headers;
 }
 
-export interface JobListFromJobScheduleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobListFromJobScheduleDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobListFromJobScheduleDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobListPreparationAndReleaseTaskStatus200Headers {
@@ -909,17 +742,10 @@ export interface JobListPreparationAndReleaseTaskStatus200Response
   headers: RawHttpHeaders & JobListPreparationAndReleaseTaskStatus200Headers;
 }
 
-export interface JobListPreparationAndReleaseTaskStatusDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobListPreparationAndReleaseTaskStatusDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    JobListPreparationAndReleaseTaskStatusDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobGetTaskCounts200Headers {
@@ -936,15 +762,9 @@ export interface JobGetTaskCounts200Response extends HttpResponse {
   headers: RawHttpHeaders & JobGetTaskCounts200Headers;
 }
 
-export interface JobGetTaskCountsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobGetTaskCountsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobGetTaskCountsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface CertificatesAdd201Headers {
@@ -956,6 +776,8 @@ export interface CertificatesAdd201Headers {
   etag?: string;
   /** The time at which the resource was last modified. */
   "last-modified"?: string;
+  /** The OData ID of the resource to which the request applied. */
+  dataserviceid: string;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
@@ -964,15 +786,9 @@ export interface CertificatesAdd201Response extends HttpResponse {
   headers: RawHttpHeaders & CertificatesAdd201Headers;
 }
 
-export interface CertificatesAddDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface CertificatesAddDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & CertificatesAddDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface CertificatesList200Headers {
@@ -993,15 +809,9 @@ export interface CertificatesList200Response extends HttpResponse {
   headers: RawHttpHeaders & CertificatesList200Headers;
 }
 
-export interface CertificatesListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface CertificatesListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & CertificatesListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface CertificatesCancelDeletion204Headers {
@@ -1023,16 +833,10 @@ export interface CertificatesCancelDeletion204Response extends HttpResponse {
   headers: RawHttpHeaders & CertificatesCancelDeletion204Headers;
 }
 
-export interface CertificatesCancelDeletionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface CertificatesCancelDeletionDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & CertificatesCancelDeletionDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface CertificatesDelete202Headers {
@@ -1052,15 +856,9 @@ export interface CertificatesDelete202Response extends HttpResponse {
   headers: RawHttpHeaders & CertificatesDelete202Headers;
 }
 
-export interface CertificatesDeleteDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface CertificatesDeleteDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & CertificatesDeleteDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface CertificatesGet200Headers {
@@ -1081,15 +879,9 @@ export interface CertificatesGet200Response extends HttpResponse {
   headers: RawHttpHeaders & CertificatesGet200Headers;
 }
 
-export interface CertificatesGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface CertificatesGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & CertificatesGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileDeleteFromTask200Headers {
@@ -1105,15 +897,9 @@ export interface FileDeleteFromTask200Response extends HttpResponse {
   headers: RawHttpHeaders & FileDeleteFromTask200Headers;
 }
 
-export interface FileDeleteFromTaskDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileDeleteFromTaskDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileDeleteFromTaskDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileGetFromTask200Headers {
@@ -1145,15 +931,9 @@ export interface FileGetFromTask200Response extends HttpResponse {
   headers: RawHttpHeaders & FileGetFromTask200Headers;
 }
 
-export interface FileGetFromTaskDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileGetFromTaskDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileGetFromTaskDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileGetPropertiesFromTask200Headers {
@@ -1183,15 +963,9 @@ export interface FileGetPropertiesFromTask200Response extends HttpResponse {
   headers: RawHttpHeaders & FileGetPropertiesFromTask200Headers;
 }
 
-export interface FileGetPropertiesFromTaskDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileGetPropertiesFromTaskDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileGetPropertiesFromTaskDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileDeleteFromComputeNode200Headers {
@@ -1207,15 +981,9 @@ export interface FileDeleteFromComputeNode200Response extends HttpResponse {
   headers: RawHttpHeaders & FileDeleteFromComputeNode200Headers;
 }
 
-export interface FileDeleteFromComputeNodeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileDeleteFromComputeNodeDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileDeleteFromComputeNodeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileGetFromComputeNode200Headers {
@@ -1247,15 +1015,9 @@ export interface FileGetFromComputeNode200Response extends HttpResponse {
   headers: RawHttpHeaders & FileGetFromComputeNode200Headers;
 }
 
-export interface FileGetFromComputeNodeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileGetFromComputeNodeDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileGetFromComputeNodeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileGetPropertiesFromComputeNode200Headers {
@@ -1286,16 +1048,10 @@ export interface FileGetPropertiesFromComputeNode200Response
   headers: RawHttpHeaders & FileGetPropertiesFromComputeNode200Headers;
 }
 
-export interface FileGetPropertiesFromComputeNodeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileGetPropertiesFromComputeNodeDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileGetPropertiesFromComputeNodeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileListFromTask200Headers {
@@ -1316,15 +1072,9 @@ export interface FileListFromTask200Response extends HttpResponse {
   headers: RawHttpHeaders & FileListFromTask200Headers;
 }
 
-export interface FileListFromTaskDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileListFromTaskDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileListFromTaskDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface FileListFromComputeNode200Headers {
@@ -1345,15 +1095,9 @@ export interface FileListFromComputeNode200Response extends HttpResponse {
   headers: RawHttpHeaders & FileListFromComputeNode200Headers;
 }
 
-export interface FileListFromComputeNodeDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface FileListFromComputeNodeDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & FileListFromComputeNodeDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleExists200Headers {
@@ -1378,15 +1122,9 @@ export interface JobScheduleExists404Response extends HttpResponse {
   status: "404";
 }
 
-export interface JobScheduleExistsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleExistsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleExistsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleDelete202Headers {
@@ -1402,15 +1140,9 @@ export interface JobScheduleDelete202Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleDelete202Headers;
 }
 
-export interface JobScheduleDeleteDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleDeleteDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleDeleteDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleGet200Headers {
@@ -1431,15 +1163,9 @@ export interface JobScheduleGet200Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleGet200Headers;
 }
 
-export interface JobScheduleGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobSchedulePatch200Headers {
@@ -1461,15 +1187,9 @@ export interface JobSchedulePatch200Response extends HttpResponse {
   headers: RawHttpHeaders & JobSchedulePatch200Headers;
 }
 
-export interface JobSchedulePatchDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobSchedulePatchDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobSchedulePatchDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleUpdate200Headers {
@@ -1491,15 +1211,9 @@ export interface JobScheduleUpdate200Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleUpdate200Headers;
 }
 
-export interface JobScheduleUpdateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleUpdateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleUpdateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleDisable204Headers {
@@ -1521,15 +1235,9 @@ export interface JobScheduleDisable204Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleDisable204Headers;
 }
 
-export interface JobScheduleDisableDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleDisableDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleDisableDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleEnable204Headers {
@@ -1551,15 +1259,9 @@ export interface JobScheduleEnable204Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleEnable204Headers;
 }
 
-export interface JobScheduleEnableDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleEnableDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleEnableDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleTerminate202Headers {
@@ -1581,15 +1283,9 @@ export interface JobScheduleTerminate202Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleTerminate202Headers;
 }
 
-export interface JobScheduleTerminateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleTerminateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleTerminateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleAdd201Headers {
@@ -1611,15 +1307,9 @@ export interface JobScheduleAdd201Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleAdd201Headers;
 }
 
-export interface JobScheduleAddDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleAddDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleAddDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface JobScheduleList200Headers {
@@ -1640,15 +1330,9 @@ export interface JobScheduleList200Response extends HttpResponse {
   headers: RawHttpHeaders & JobScheduleList200Headers;
 }
 
-export interface JobScheduleListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface JobScheduleListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & JobScheduleListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskAdd201Headers {
@@ -1670,15 +1354,9 @@ export interface TaskAdd201Response extends HttpResponse {
   headers: RawHttpHeaders & TaskAdd201Headers;
 }
 
-export interface TaskAddDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskAddDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskAddDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskList200Headers {
@@ -1699,15 +1377,9 @@ export interface TaskList200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskList200Headers;
 }
 
-export interface TaskListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskAddCollection200Headers {
@@ -1724,15 +1396,9 @@ export interface TaskAddCollection200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskAddCollection200Headers;
 }
 
-export interface TaskAddCollectionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskAddCollectionDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskAddCollectionDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskDelete200Headers {
@@ -1748,15 +1414,9 @@ export interface TaskDelete200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskDelete200Headers;
 }
 
-export interface TaskDeleteDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskDeleteDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskDeleteDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskGet200Headers {
@@ -1779,15 +1439,9 @@ export interface TaskGet200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskGet200Headers;
 }
 
-export interface TaskGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskUpdate200Headers {
@@ -1809,15 +1463,9 @@ export interface TaskUpdate200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskUpdate200Headers;
 }
 
-export interface TaskUpdateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskUpdateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskUpdateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskListSubtasks200Headers {
@@ -1838,15 +1486,9 @@ export interface TaskListSubtasks200Response extends HttpResponse {
   headers: RawHttpHeaders & TaskListSubtasks200Headers;
 }
 
-export interface TaskListSubtasksDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskListSubtasksDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskListSubtasksDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskTerminate204Headers {
@@ -1868,15 +1510,9 @@ export interface TaskTerminate204Response extends HttpResponse {
   headers: RawHttpHeaders & TaskTerminate204Headers;
 }
 
-export interface TaskTerminateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskTerminateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskTerminateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface TaskReactivate204Headers {
@@ -1898,15 +1534,9 @@ export interface TaskReactivate204Response extends HttpResponse {
   headers: RawHttpHeaders & TaskReactivate204Headers;
 }
 
-export interface TaskReactivateDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface TaskReactivateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TaskReactivateDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesAddUser201Headers {
@@ -1928,15 +1558,9 @@ export interface ComputeNodesAddUser201Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesAddUser201Headers;
 }
 
-export interface ComputeNodesAddUserDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesAddUserDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesAddUserDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesDeleteUser200Headers {
@@ -1952,15 +1576,9 @@ export interface ComputeNodesDeleteUser200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesDeleteUser200Headers;
 }
 
-export interface ComputeNodesDeleteUserDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesDeleteUserDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesDeleteUserDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesUpdateUser200Headers {
@@ -1982,15 +1600,9 @@ export interface ComputeNodesUpdateUser200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesUpdateUser200Headers;
 }
 
-export interface ComputeNodesUpdateUserDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesUpdateUserDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesUpdateUserDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesGet200Headers {
@@ -2011,15 +1623,9 @@ export interface ComputeNodesGet200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesGet200Headers;
 }
 
-export interface ComputeNodesGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesReboot202Headers {
@@ -2041,15 +1647,9 @@ export interface ComputeNodesReboot202Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesReboot202Headers;
 }
 
-export interface ComputeNodesRebootDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesRebootDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesRebootDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesReimage202Headers {
@@ -2071,15 +1671,9 @@ export interface ComputeNodesReimage202Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesReimage202Headers;
 }
 
-export interface ComputeNodesReimageDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesReimageDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesReimageDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesDisableScheduling200Headers {
@@ -2101,16 +1695,10 @@ export interface ComputeNodesDisableScheduling200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesDisableScheduling200Headers;
 }
 
-export interface ComputeNodesDisableSchedulingDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesDisableSchedulingDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesDisableSchedulingDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesEnableScheduling200Headers {
@@ -2132,16 +1720,10 @@ export interface ComputeNodesEnableScheduling200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesEnableScheduling200Headers;
 }
 
-export interface ComputeNodesEnableSchedulingDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesEnableSchedulingDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesEnableSchedulingDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesGetRemoteLoginSettings200Headers {
@@ -2163,16 +1745,10 @@ export interface ComputeNodesGetRemoteLoginSettings200Response
   headers: RawHttpHeaders & ComputeNodesGetRemoteLoginSettings200Headers;
 }
 
-export interface ComputeNodesGetRemoteLoginSettingsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesGetRemoteLoginSettingsDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesGetRemoteLoginSettingsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesGetRemoteDesktop200Headers {
@@ -2194,16 +1770,10 @@ export interface ComputeNodesGetRemoteDesktop200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesGetRemoteDesktop200Headers;
 }
 
-export interface ComputeNodesGetRemoteDesktopDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesGetRemoteDesktopDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesGetRemoteDesktopDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesUploadBatchServiceLogs200Headers {
@@ -2221,16 +1791,10 @@ export interface ComputeNodesUploadBatchServiceLogs200Response
   headers: RawHttpHeaders & ComputeNodesUploadBatchServiceLogs200Headers;
 }
 
-export interface ComputeNodesUploadBatchServiceLogsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesUploadBatchServiceLogsDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesUploadBatchServiceLogsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodesList200Headers {
@@ -2251,15 +1815,9 @@ export interface ComputeNodesList200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodesList200Headers;
 }
 
-export interface ComputeNodesListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodesListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodesListDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodeExtensionsGet200Headers {
@@ -2280,15 +1838,9 @@ export interface ComputeNodeExtensionsGet200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodeExtensionsGet200Headers;
 }
 
-export interface ComputeNodeExtensionsGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodeExtensionsGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodeExtensionsGetDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface ComputeNodeExtensionsList200Headers {
@@ -2309,13 +1861,7 @@ export interface ComputeNodeExtensionsList200Response extends HttpResponse {
   headers: RawHttpHeaders & ComputeNodeExtensionsList200Headers;
 }
 
-export interface ComputeNodeExtensionsListDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ComputeNodeExtensionsListDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ComputeNodeExtensionsListDefaultHeaders;
+  body: BatchErrorOutput;
 }

@@ -52,7 +52,7 @@ describe("Job Schedule Operations Test", () => {
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for job schedule Testing.
-              Response Body: ${poolPostResult.body.error.message}`)
+              Response Body: ${poolPostResult.body.message}`)
       }
     }
   })
@@ -68,7 +68,7 @@ describe("Job Schedule Operations Test", () => {
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", poolId).delete();
       if (isUnexpected(poolDeleteResponse)) {
         fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.error.details}`);
+            Respose Body: ${poolDeleteResponse.body.message}`);
       }
     }
   })
@@ -100,7 +100,7 @@ describe("Job Schedule Operations Test", () => {
 
       if (isUnexpected(postScheduleResult)) {
         fail(`Received unexpected status code from creating job schedule: ${postScheduleResult.status}
-            Response Body: ${postScheduleResult.body.error.code}`)
+            Response Body: ${postScheduleResult.body.message}`)
       }
     });
 
@@ -108,7 +108,7 @@ describe("Job Schedule Operations Test", () => {
       const jobScheduleListResult = await batchClient.path("/jobschedules").get();
       if (isUnexpected(jobScheduleListResult)) {
         fail(`Received unexpected status code from listing job schedules: ${jobScheduleListResult.status}
-            Response Body: ${jobScheduleListResult.body.error.code}`)
+            Response Body: ${jobScheduleListResult.body.message}`)
       }
       
       assert.isAtLeast(jobScheduleListResult.body.value?.length!, 1);
@@ -118,7 +118,7 @@ describe("Job Schedule Operations Test", () => {
       let jobListResult = await batchClient.path("/jobschedules/{jobScheduleId}/jobs", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).get();
       if (isUnexpected(jobListResult)) {
         fail(`Received unexpected status code from listing jobs under job schedule: ${jobListResult.status}
-            Response Body: ${jobListResult.body.error.code}`)
+            Response Body: ${jobListResult.body.message}`)
       }
 
       assert.equal(jobListResult.body.value?.length!, 1);
@@ -135,7 +135,7 @@ describe("Job Schedule Operations Test", () => {
 
       if (isUnexpected(getJobScheduleResult)) {
         fail(`Received unexpected status code from getting job schedule reference: ${getJobScheduleResult.status}
-            Response Body: ${getJobScheduleResult.body.error.code}`)
+            Response Body: ${getJobScheduleResult.body.message}`)
       }
 
       assert.equal(getJobScheduleResult.body.id, jobScheduleId);

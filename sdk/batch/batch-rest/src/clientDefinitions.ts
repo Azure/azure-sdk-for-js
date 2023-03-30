@@ -1001,7 +1001,7 @@ export interface ComputeNodesGet {
 export interface ComputeNodesReboot {
   /** You can restart a Compute Node only if it is in an idle or running state. */
   post(
-    options?: ComputeNodesRebootParameters
+    options: ComputeNodesRebootParameters
   ): StreamableMethod<
     ComputeNodesReboot202Response | ComputeNodesRebootDefaultResponse
   >;
@@ -1014,7 +1014,7 @@ export interface ComputeNodesReimage {
    * cloud service configuration property.
    */
   post(
-    options?: ComputeNodesReimageParameters
+    options: ComputeNodesReimageParameters
   ): StreamableMethod<
     ComputeNodesReimage202Response | ComputeNodesReimageDefaultResponse
   >;

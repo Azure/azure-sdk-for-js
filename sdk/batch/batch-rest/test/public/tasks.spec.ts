@@ -53,7 +53,7 @@ describe("Task Operations Test", () => {
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${poolPostResult.body.error.message}`)
+              Response Body: ${poolPostResult.body.message}`)
       }
 
       const jobAddParam: JobAddParameters = {
@@ -68,7 +68,7 @@ describe("Task Operations Test", () => {
       if (isUnexpected(jobAddResult)) {
         fail(`Received unexpected status code from creating job: ${jobAddResult.status}
             Unable to provision resources needed for Task Testing.
-            Response Body: ${jobAddResult.body.error.code}`)
+            Response Body: ${jobAddResult.body.message}`)
       }
 
     }
@@ -86,12 +86,12 @@ describe("Task Operations Test", () => {
 
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
-        failedDeletedResources.push({ id: BASIC_POOL, error: poolDeleteResponse.body.error.details });
+        failedDeletedResources.push({ id: BASIC_POOL, error: poolDeleteResponse.body.message });
       }
 
       const JobDelete202Response = await batchClient.path("/jobs/{jobId}", JOB_NAME).delete();
       if (isUnexpected(JobDelete202Response)) {
-        failedDeletedResources.push({ id: JOB_NAME, error: JobDelete202Response.body.error.details });
+        failedDeletedResources.push({ id: JOB_NAME, error: JobDelete202Response.body.message });
       }
 
       if (failedDeletedResources.length > 0) {
@@ -127,7 +127,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskSettings.id).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     assert.equal(getTaskResult.body.containerSettings?.imageName, taskSettings.containerSettings.imageName);
@@ -183,7 +183,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     assert.equal(getTaskResult.body.exitConditions!.default!.jobAction, "terminate");
@@ -194,7 +194,7 @@ describe("Task Operations Test", () => {
 
     const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete();
     if (isUnexpected(deleteJobResult)) {
-      fail(`Failed to delete ${jobId}. Error Response: ${deleteJobResult.body.error.details}`)
+      fail(`Failed to delete ${jobId}. Error Response: ${deleteJobResult.body.message}`)
     }
 
   });
@@ -255,7 +255,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     const batchTaskOutput = getTaskResult.body;
@@ -286,7 +286,7 @@ describe("Task Operations Test", () => {
     const listTasksResult = await batchClient.path("/jobs/{jobId}/tasks", recorder.variable("JOB_NAME", JOB_NAME)).get();
     if (isUnexpected(listTasksResult)) {
       fail(`Received unexpected status code from listing tasks: ${listTasksResult.status}
-            Response Body: ${listTasksResult.body.error.code}`)
+            Response Body: ${listTasksResult.body.message}`)
     }
 
     const paginateResponse = paginate(batchClient, listTasksResult);
@@ -304,7 +304,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), taskId).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     assert.equal(getTaskResult.body.id, taskId);
@@ -332,7 +332,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     assert.isDefined(getTaskResult.body.applicationPackageReferences);
@@ -360,7 +360,7 @@ describe("Task Operations Test", () => {
     const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!).get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.error.code}`)
+            Response Body: ${getTaskResult.body.message}`)
     }
 
     const taskOutput = getTaskResult.body;
@@ -395,7 +395,7 @@ describe("Task Operations Test", () => {
       if (isUnexpected(getTaskResult)) {
         fail(`Received unexpected status code from getting task: ${getTaskResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${getTaskResult.body.error.message}`)
+              Response Body: ${getTaskResult.body.message}`)
       }
       if (getTaskResult.body.executionInfo !== undefined && getTaskResult.body.executionInfo.result != undefined) {
         break;
@@ -417,7 +417,7 @@ describe("Task Operations Test", () => {
     if (isUnexpected(getTaskCountsResult)) {
       fail(`Received unexpected status code from getting task counts: ${getTaskCountsResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${getTaskCountsResult.body.error.message}`)
+              Response Body: ${getTaskCountsResult.body.message}`)
     }
 
     assert.isDefined(getTaskCountsResult.body.taskCounts.active);

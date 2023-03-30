@@ -21,28 +21,13 @@ export interface ApplicationOutput {
   versions: string[];
 }
 
-/** The parameters for a widget status request */
-export interface BatchClientRequestHeadersOutput {}
-
-/** The parameters for a widget status request */
-export interface BatchApplicationListHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
-
-/** Common header parms for Job related File operartions */
-export interface BatchJobFileClientRequestHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
-
-/** Common header parms for Pool related File operartions */
-export interface BatchPoolFileClientRequestHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
-
 /** An error response received from the Azure Batch service. */
 export interface BatchErrorOutput {
   /**
    * An identifier for the error. Codes are invariant and are intended to be
    * consumed programmatically.
    */
-  code?: string;
+  code: string;
   /** An error message received in an Azure Batch error response. */
   message?: ErrorMessageOutput;
   /** A collection of key-value pairs containing additional details about the error. */
@@ -64,6 +49,21 @@ export interface BatchErrorDetailOutput {
   /** The additional information included with the error response. */
   value?: string;
 }
+
+/** The parameters for a widget status request */
+export interface BatchClientRequestHeadersOutput {}
+
+/** The parameters for a widget status request */
+export interface BatchApplicationListHeadersOutput
+  extends BatchClientRequestHeadersOutput {}
+
+/** Common header parms for Job related File operartions */
+export interface BatchJobFileClientRequestHeadersOutput
+  extends BatchClientRequestHeadersOutput {}
+
+/** Common header parms for Pool related File operartions */
+export interface BatchPoolFileClientRequestHeadersOutput
+  extends BatchClientRequestHeadersOutput {}
 
 /** Usage metrics for a Pool across an aggregation interval. */
 export interface PoolUsageMetricsOutput {
@@ -3451,7 +3451,7 @@ export interface TaskAddResultOutput {
   /**
    * The status of the add Task request.
    *
-   * Possible values: success, clienterror, servererror
+   * Possible values: Success, clienterror, servererror
    */
   status: string;
   /** The ID of the Task for which this is the result. */
