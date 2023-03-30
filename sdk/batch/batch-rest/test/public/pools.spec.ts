@@ -127,7 +127,7 @@ describe("Pool Operations Test", () => {
     const getResult = await batchClient.path("/pools/{poolId}", poolId).get();
     if (isUnexpected(getResult)) {
       fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.error.message}`)
+              Response Body: ${getResult.body.message}`)
     }
 
     assert.equal(getResult.body.id, poolId);
@@ -150,7 +150,7 @@ describe("Pool Operations Test", () => {
         getResult = await batchClient.path("/pools/{poolId}", poolId).get();
         if (isUnexpected(getResult)) {
           fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.error.message}`)
+              Response Body: ${getResult.body.message}`)
         }
         metadata = getResult.body.metadata![0];
         if (getResult.body.allocationState === "steady") {
@@ -202,7 +202,7 @@ describe("Pool Operations Test", () => {
     const getResult = await batchClient.path("/pools/{poolId}", poolId).get();
     if (isUnexpected(getResult)) {
       fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.error.message}`)
+              Response Body: ${getResult.body.message}`)
     }
 
     let metadata = getResult.body.metadata!;
@@ -223,7 +223,7 @@ describe("Pool Operations Test", () => {
     const getResult = await batchClient.path("/pools/{poolId}", poolId).get(getOptions);
     if (isUnexpected(getResult)) {
       fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.error.message}`)
+              Response Body: ${getResult.body.message}`)
     }
 
     assert.equal(getResult.body.id, poolId);
@@ -233,72 +233,73 @@ describe("Pool Operations Test", () => {
   });
 
   it("should list pools without filters", async () => {
-      const listPoolResult = await batchClient.path("/pools").get();
-      assert.equal(listPoolResult.status, "200");
+    const listPoolResult = await batchClient.path("/pools").get();
+    assert.equal(listPoolResult.status, "200");
 
-      if(isUnexpected(listPoolResult)) {
-        fail(`Received unexpected status code from listing pools: ${listPoolResult.status}
-              Response Body: ${listPoolResult.body.error.message}`)
-      }
+    if (isUnexpected(listPoolResult)) {
+      fail(`Received unexpected status code from listing pools: ${listPoolResult.status}
+              Response Body: ${listPoolResult.body.message}`)
+    }
 
-      assert.isAtLeast(listPoolResult.body.value?.length!, 2);
-    });
+    assert.isAtLeast(listPoolResult.body.value?.length!, 2);
+  });
 
-    it("should list a maximum number of pools", async () => {
-      const listOptions = { queryParameters: { maxResults: 2 } };
-      const listPoolResult = await batchClient.path("/pools").get(listOptions);
+  it("should list a maximum number of pools", async () => {
+    const listOptions = { queryParameters: { maxResults: 2 } };
+    const listPoolResult = await batchClient.path("/pools").get(listOptions);
 
-      if(isUnexpected(listPoolResult)) {
-        fail(`Received unexpected status code from listing pools: ${listPoolResult.status}
-              Response Body: ${listPoolResult.body.error.message}`)
-      }
+    if (isUnexpected(listPoolResult)) {
+      fail(`Received unexpected status code from listing pools: ${listPoolResult.status}
+              Response Body: ${listPoolResult.body.message}`)
+    }
 
-      assert.isAtLeast(listPoolResult.body.value?.length!, listOptions.queryParameters.maxResults);
+    assert.isAtLeast(listPoolResult.body.value?.length!, listOptions.queryParameters.maxResults);
 
-    });
+  });
 
-    it("should fail to list pools with invalid max", async () => {
+  it("should fail to list pools with invalid max", async () => {
 
-      const listOptions = { queryParameters: { maxResults: -5 } };
-      const listPoolResult = await batchClient.path("/pools").get(listOptions);
+    const listOptions = { queryParameters: { maxResults: -5 } };
+    const listPoolResult = await batchClient.path("/pools").get(listOptions);
 
-      if(!isUnexpected(listPoolResult)) {
-        fail(`Received successful list pool result when expected an error reply`)
-      }
+    if (!isUnexpected(listPoolResult)) {
+      fail(`Received successful list pool result when expected an error reply`)
+    }
 
-      //TODO Once Error Responses are fixed, modify assertion below
-      //assert.isDefined(listPoolResult.body.error);
-      //TODO Remove console statement
-      //console.log(listPoolResult.body.error);
-      //assert.equal(listPoolResult.body.error.message, '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'))
-    });
+    //TODO Once Error Responses are fixed, modify assertion below
+    //assert.isDefined(listPoolResult.body.error);
+    //TODO Remove console statement
+    //console.log(listPoolResult.body.error);
+    //assert.equal(listPoolResult.body.message, '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'))
+  });
 
-    it("should list pools according to filter", async () => {
-      const poolId = recorder.variable("BASIC_POOL", BASIC_POOL)
-      const queryParams = { 
-            $filter: `startswith(id,'${poolId}')`,
-            $select: "id,state",
-            $expand: "stats"};
+  it("should list pools according to filter", async () => {
+    const poolId = recorder.variable("BASIC_POOL", BASIC_POOL)
+    const queryParams = {
+      $filter: `startswith(id,'${poolId}')`,
+      $select: "id,state",
+      $expand: "stats"
+    };
 
-      const listOptions: PoolListParameters = {queryParameters: queryParams};
+    const listOptions: PoolListParameters = { queryParameters: queryParams };
 
-      const listPoolsResult = await batchClient.path("/pools").get(listOptions);
-      if (isUnexpected(listPoolsResult)) {
-        fail(`Received unexpected status code from listing pools: ${listPoolsResult.status}
-              Response Body: ${listPoolsResult.body.error.message}`)
-      }
+    const listPoolsResult = await batchClient.path("/pools").get(listOptions);
+    if (isUnexpected(listPoolsResult)) {
+      fail(`Received unexpected status code from listing pools: ${listPoolsResult.status}
+              Response Body: ${listPoolsResult.body.message}`)
+    }
 
-      assert.lengthOf(listPoolsResult.body.value!, 1);
-      assert.equal(listPoolsResult.body.value![0].id, poolId);
-      assert.equal(listPoolsResult.body.value![0].state, "active");
-      assert.isUndefined(listPoolsResult.body.value![0].allocationState);
-      assert.isUndefined(listPoolsResult.body.value![0].vmSize);
-    });
+    assert.lengthOf(listPoolsResult.body.value!, 1);
+    assert.equal(listPoolsResult.body.value![0].id, poolId);
+    assert.equal(listPoolsResult.body.value![0].state, "active");
+    assert.isUndefined(listPoolsResult.body.value![0].allocationState);
+    assert.isUndefined(listPoolsResult.body.value![0].vmSize);
+  });
 
-    it("should check that pool exists successfully", async () => {
-      const poolExistsResult = await batchClient.path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL)).head();
-      assert.equal(poolExistsResult.status, "200");
-    });
+  it("should check that pool exists successfully", async () => {
+    const poolExistsResult = await batchClient.path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL)).head();
+    assert.equal(poolExistsResult.status, "200");
+  });
 
   it("should add a pool with a Data Disk", async () => {
     const poolParams: PoolAddParameters = {
@@ -332,7 +333,7 @@ describe("Pool Operations Test", () => {
     const getResult = await batchClient.path("/pools/{poolId}", poolParams.body.id!).get();
     if (isUnexpected(getResult)) {
       fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.error.message}`)
+              Response Body: ${getResult.body.message}`)
     }
 
     assert.equal(getResult.body.virtualMachineConfiguration!.dataDisks![0].lun, 1);
@@ -393,7 +394,7 @@ describe("Pool Operations Test", () => {
 
       if (isUnexpected(listResult)) {
         fail(`Received unexpected status code from list compute nodes: ${listResult.status}
-              Response Body: ${listResult.body.error.message}`)
+              Response Body: ${listResult.body.message}`)
       }
 
       let paginateResponse = paginate(batchClient, listResult);
@@ -427,7 +428,7 @@ describe("Pool Operations Test", () => {
       let listNodeCountResult = await batchClient.path("/nodecounts").get();
       if (isUnexpected(listNodeCountResult)) {
         fail(`Received unexpected status code from list compute nodes: ${listNodeCountResult.status}
-              Response Body: ${listNodeCountResult.body.error.message}`)
+              Response Body: ${listNodeCountResult.body.message}`)
       }
 
       let paginateResponse = paginate(batchClient, listNodeCountResult);
@@ -498,75 +499,75 @@ describe("Pool Operations Test", () => {
   //   });
 
   it("should create a second pool successfully", async () => {
-      const poolAddParams: PoolAddParameters = {
-        body: {
-          id: recorder.variable("TEST_POOL3", TEST_POOL3),
+    const poolAddParams: PoolAddParameters = {
+      body: {
+        id: recorder.variable("TEST_POOL3", TEST_POOL3),
         vmSize: VMSIZE_SMALL,
         cloudServiceConfiguration: { osFamily: "4" }
-        },
-        contentType: "application/json; odata=minimalmetadata"
-        
-      };
+      },
+      contentType: "application/json; odata=minimalmetadata"
 
-      const addPoolResult = await batchClient.path("/pools").post(poolAddParams);
-      assert.equal(addPoolResult.status, "201");
-    });
+    };
 
-    it("should start pool resizing successfully", async () => {
-      const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-      let poolResizing = true;
-      let getPoolResult;
-      while (poolResizing) {
-        getPoolResult = await batchClient.path("/pools/{poolId}", poolId).get();
-        if(isUnexpected(getPoolResult)) {
-          fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
-            Response Body: ${getPoolResult.body.error.message}`)
-        }
-        if (getPoolResult.body.allocationState === "steady") {
-          break;
-        }
-        else {
-          await wait(POLLING_INTERVAL * 2);
-        }
+    const addPoolResult = await batchClient.path("/pools").post(poolAddParams);
+    assert.equal(addPoolResult.status, "201");
+  });
+
+  it("should start pool resizing successfully", async () => {
+    const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
+    let poolResizing = true;
+    let getPoolResult;
+    while (poolResizing) {
+      getPoolResult = await batchClient.path("/pools/{poolId}", poolId).get();
+      if (isUnexpected(getPoolResult)) {
+        fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
+            Response Body: ${getPoolResult.body.message}`)
       }
-
-      const options: BatchPoolResizeParameters = { targetDedicatedNodes: 3, targetLowPriorityNodes: 2 };
-      const poolResizeParams: PoolResizeParameters = {
-        body: options,
-        contentType: "application/json; odata=minimalmetadata"
-      };
-
-      const poolResizeResult = await batchClient.path("/pools/{poolId}/resize", poolId).post(poolResizeParams);
-      assert.equal(poolResizeResult.status, "202");
-    });
-
-    it("should stop pool resizing successfully", async () => {
-      const stopPoolResizeResult = await batchClient.path("/pools/{poolId}/stopresize", recorder.variable("TEST_POOL3", TEST_POOL3)).post({contentType: "application/json; odata=minimalmetadata"});
-      assert.equal(stopPoolResizeResult.status, "202");
-    });
-
-    it("should get pool lifetime statistics", async () => {
-      const getPoolLifeTimeStatsResult = await batchClient.path("/lifetimepoolstats").get();
-      if(isUnexpected(getPoolLifeTimeStatsResult)) {
-        fail(`Received unexpected status code from getting life time pool stats: ${getPoolLifeTimeStatsResult.status}
-            Response Body: ${getPoolLifeTimeStatsResult.body.error.message}`)
+      if (getPoolResult.body.allocationState === "steady") {
+        break;
       }
+      else {
+        await wait(POLLING_INTERVAL * 2);
+      }
+    }
 
-      assert.equal(getPoolLifeTimeStatsResult.status, "200");
+    const options: BatchPoolResizeParameters = { targetDedicatedNodes: 3, targetLowPriorityNodes: 2 };
+    const poolResizeParams: PoolResizeParameters = {
+      body: options,
+      contentType: "application/json; odata=minimalmetadata"
+    };
 
-      assert.isDefined(getPoolLifeTimeStatsResult.body.usageStats);
-      assert.isDefined(getPoolLifeTimeStatsResult.body.resourceStats);
-    });
+    const poolResizeResult = await batchClient.path("/pools/{poolId}/resize", poolId).post(poolResizeParams);
+    assert.equal(poolResizeResult.status, "202");
+  });
 
-    it("should list pools usage metrics", async () => {
-      const listPoolUsageResult = await batchClient.path("/poolusagemetrics").get();
-      if(isUnexpected(listPoolUsageResult)) {
-        fail(`Received unexpected status code from getting pool usage metrics: ${listPoolUsageResult.status}
+  it("should stop pool resizing successfully", async () => {
+    const stopPoolResizeResult = await batchClient.path("/pools/{poolId}/stopresize", recorder.variable("TEST_POOL3", TEST_POOL3)).post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(stopPoolResizeResult.status, "202");
+  });
+
+  it("should get pool lifetime statistics", async () => {
+    const getPoolLifeTimeStatsResult = await batchClient.path("/lifetimepoolstats").get();
+    if (isUnexpected(getPoolLifeTimeStatsResult)) {
+      fail(`Received unexpected status code from getting life time pool stats: ${getPoolLifeTimeStatsResult.status}
+            Response Body: ${getPoolLifeTimeStatsResult.body.message}`)
+    }
+
+    assert.equal(getPoolLifeTimeStatsResult.status, "200");
+
+    assert.isDefined(getPoolLifeTimeStatsResult.body.usageStats);
+    assert.isDefined(getPoolLifeTimeStatsResult.body.resourceStats);
+  });
+
+  it("should list pools usage metrics", async () => {
+    const listPoolUsageResult = await batchClient.path("/poolusagemetrics").get();
+    if (isUnexpected(listPoolUsageResult)) {
+      fail(`Received unexpected status code from getting pool usage metrics: ${listPoolUsageResult.status}
             Response Body: ${listPoolUsageResult.body.error.message}`)
-      }
+    }
 
-      assert.isAtLeast(listPoolUsageResult.body.value.length, 0);   //No pool activity during this test
-    });
+    assert.isAtLeast(listPoolUsageResult.body.value.length, 0);   //No pool activity during this test
+  });
 
   it("should delete a pool successfully", async function () {
     const deleteResult = await batchClient.path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL)).delete();

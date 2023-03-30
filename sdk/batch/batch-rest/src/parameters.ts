@@ -141,8 +141,13 @@ export interface PoolAddHeaderParam {
   headers?: RawHttpHeadersInput & PoolAddHeaders;
 }
 
+export interface PoolAddMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolAddParameters = PoolAddQueryParam &
   PoolAddHeaderParam &
+  PoolAddMediaTypesParam &
   PoolAddBodyParam &
   RequestParameters;
 
@@ -441,8 +446,13 @@ export interface PoolPatchHeaderParam {
   headers?: RawHttpHeadersInput & PoolPatchHeaders;
 }
 
+export interface PoolPatchMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolPatchParameters = PoolPatchQueryParam &
   PoolPatchHeaderParam &
+  PoolPatchMediaTypesParam &
   PoolPatchBodyParam &
   RequestParameters;
 
@@ -543,8 +553,13 @@ export interface PoolEnableAutoScaleHeaderParam {
   headers?: RawHttpHeadersInput & PoolEnableAutoScaleHeaders;
 }
 
+export interface PoolEnableAutoScaleMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolEnableAutoScaleParameters = PoolEnableAutoScaleQueryParam &
   PoolEnableAutoScaleHeaderParam &
+  PoolEnableAutoScaleMediaTypesParam &
   PoolEnableAutoScaleBodyParam &
   RequestParameters;
 
@@ -585,8 +600,13 @@ export interface PoolEvaluateAutoScaleHeaderParam {
   headers?: RawHttpHeadersInput & PoolEvaluateAutoScaleHeaders;
 }
 
+export interface PoolEvaluateAutoScaleMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolEvaluateAutoScaleParameters = PoolEvaluateAutoScaleQueryParam &
   PoolEvaluateAutoScaleHeaderParam &
+  PoolEvaluateAutoScaleMediaTypesParam &
   PoolEvaluateAutoScaleBodyParam &
   RequestParameters;
 
@@ -651,8 +671,13 @@ export interface PoolResizeHeaderParam {
   headers?: RawHttpHeadersInput & PoolResizeHeaders;
 }
 
+export interface PoolResizeMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolResizeParameters = PoolResizeQueryParam &
   PoolResizeHeaderParam &
+  PoolResizeMediaTypesParam &
   PoolResizeBodyParam &
   RequestParameters;
 
@@ -753,8 +778,13 @@ export interface PoolUpdatePropertiesHeaderParam {
   headers?: RawHttpHeadersInput & PoolUpdatePropertiesHeaders;
 }
 
+export interface PoolUpdatePropertiesMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolUpdatePropertiesParameters = PoolUpdatePropertiesQueryParam &
   PoolUpdatePropertiesHeaderParam &
+  PoolUpdatePropertiesMediaTypesParam &
   PoolUpdatePropertiesBodyParam &
   RequestParameters;
 
@@ -819,8 +849,13 @@ export interface PoolRemoveNodesHeaderParam {
   headers?: RawHttpHeadersInput & PoolRemoveNodesHeaders;
 }
 
+export interface PoolRemoveNodesMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type PoolRemoveNodesParameters = PoolRemoveNodesQueryParam &
   PoolRemoveNodesHeaderParam &
+  PoolRemoveNodesMediaTypesParam &
   PoolRemoveNodesBodyParam &
   RequestParameters;
 
@@ -1140,8 +1175,13 @@ export interface JobPatchHeaderParam {
   headers?: RawHttpHeadersInput & JobPatchHeaders;
 }
 
+export interface JobPatchMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobPatchParameters = JobPatchQueryParam &
   JobPatchHeaderParam &
+  JobPatchMediaTypesParam &
   JobPatchBodyParam &
   RequestParameters;
 
@@ -1206,8 +1246,13 @@ export interface JobUpdateHeaderParam {
   headers?: RawHttpHeadersInput & JobUpdateHeaders;
 }
 
+export interface JobUpdateMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobUpdateParameters = JobUpdateQueryParam &
   JobUpdateHeaderParam &
+  JobUpdateMediaTypesParam &
   JobUpdateBodyParam &
   RequestParameters;
 
@@ -1272,8 +1317,13 @@ export interface JobDisableHeaderParam {
   headers?: RawHttpHeadersInput & JobDisableHeaders;
 }
 
+export interface JobDisableMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobDisableParameters = JobDisableQueryParam &
   JobDisableHeaderParam &
+  JobDisableMediaTypesParam &
   JobDisableBodyParam &
   RequestParameters;
 
@@ -1440,8 +1490,13 @@ export interface JobAddHeaderParam {
   headers?: RawHttpHeadersInput & JobAddHeaders;
 }
 
+export interface JobAddMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobAddParameters = JobAddQueryParam &
   JobAddHeaderParam &
+  JobAddMediaTypesParam &
   JobAddBodyParam &
   RequestParameters;
 
@@ -1668,8 +1723,13 @@ export interface CertificatesAddHeaderParam {
   headers?: RawHttpHeadersInput & CertificatesAddHeaders;
 }
 
+export interface CertificatesAddMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type CertificatesAddParameters = CertificatesAddQueryParam &
   CertificatesAddHeaderParam &
+  CertificatesAddMediaTypesParam &
   CertificatesAddBodyParam &
   RequestParameters;
 
@@ -2469,8 +2529,13 @@ export interface JobSchedulePatchHeaderParam {
   headers?: RawHttpHeadersInput & JobSchedulePatchHeaders;
 }
 
+export interface JobSchedulePatchMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobSchedulePatchParameters = JobSchedulePatchQueryParam &
   JobSchedulePatchHeaderParam &
+  JobSchedulePatchMediaTypesParam &
   JobSchedulePatchBodyParam &
   RequestParameters;
 
@@ -2535,8 +2600,13 @@ export interface JobScheduleUpdateHeaderParam {
   headers?: RawHttpHeadersInput & JobScheduleUpdateHeaders;
 }
 
+export interface JobScheduleUpdateMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobScheduleUpdateParameters = JobScheduleUpdateQueryParam &
   JobScheduleUpdateHeaderParam &
+  JobScheduleUpdateMediaTypesParam &
   JobScheduleUpdateBodyParam &
   RequestParameters;
 
@@ -2757,8 +2827,13 @@ export interface JobScheduleAddHeaderParam {
   headers?: RawHttpHeadersInput & JobScheduleAddHeaders;
 }
 
+export interface JobScheduleAddMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type JobScheduleAddParameters = JobScheduleAddQueryParam &
   JobScheduleAddHeaderParam &
+  JobScheduleAddMediaTypesParam &
   JobScheduleAddBodyParam &
   RequestParameters;
 
@@ -2849,8 +2924,13 @@ export interface TaskAddHeaderParam {
   headers?: RawHttpHeadersInput & TaskAddHeaders;
 }
 
+export interface TaskAddMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type TaskAddParameters = TaskAddQueryParam &
   TaskAddHeaderParam &
+  TaskAddMediaTypesParam &
   TaskAddBodyParam &
   RequestParameters;
 
@@ -2941,8 +3021,13 @@ export interface TaskAddCollectionHeaderParam {
   headers?: RawHttpHeadersInput & TaskAddCollectionHeaders;
 }
 
+export interface TaskAddCollectionMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type TaskAddCollectionParameters = TaskAddCollectionQueryParam &
   TaskAddCollectionHeaderParam &
+  TaskAddCollectionMediaTypesParam &
   TaskAddCollectionBodyParam &
   RequestParameters;
 
@@ -3131,8 +3216,13 @@ export interface TaskUpdateHeaderParam {
   headers?: RawHttpHeadersInput & TaskUpdateHeaders;
 }
 
+export interface TaskUpdateMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type TaskUpdateParameters = TaskUpdateQueryParam &
   TaskUpdateHeaderParam &
+  TaskUpdateMediaTypesParam &
   TaskUpdateBodyParam &
   RequestParameters;
 
@@ -3331,8 +3421,13 @@ export interface ComputeNodesAddUserHeaderParam {
   headers?: RawHttpHeadersInput & ComputeNodesAddUserHeaders;
 }
 
+export interface ComputeNodesAddUserMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type ComputeNodesAddUserParameters = ComputeNodesAddUserQueryParam &
   ComputeNodesAddUserHeaderParam &
+  ComputeNodesAddUserMediaTypesParam &
   ComputeNodesAddUserBodyParam &
   RequestParameters;
 
@@ -3410,9 +3505,14 @@ export interface ComputeNodesUpdateUserHeaderParam {
   headers?: RawHttpHeadersInput & ComputeNodesUpdateUserHeaders;
 }
 
+export interface ComputeNodesUpdateUserMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type ComputeNodesUpdateUserParameters =
   ComputeNodesUpdateUserQueryParam &
     ComputeNodesUpdateUserHeaderParam &
+    ComputeNodesUpdateUserMediaTypesParam &
     ComputeNodesUpdateUserBodyParam &
     RequestParameters;
 
@@ -3491,8 +3591,13 @@ export interface ComputeNodesRebootHeaderParam {
   headers?: RawHttpHeadersInput & ComputeNodesRebootHeaders;
 }
 
+export interface ComputeNodesRebootMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type ComputeNodesRebootParameters = ComputeNodesRebootQueryParam &
   ComputeNodesRebootHeaderParam &
+  ComputeNodesRebootMediaTypesParam &
   ComputeNodesRebootBodyParam &
   RequestParameters;
 
@@ -3533,8 +3638,13 @@ export interface ComputeNodesReimageHeaderParam {
   headers?: RawHttpHeadersInput & ComputeNodesReimageHeaders;
 }
 
+export interface ComputeNodesReimageMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type ComputeNodesReimageParameters = ComputeNodesReimageQueryParam &
   ComputeNodesReimageHeaderParam &
+  ComputeNodesReimageMediaTypesParam &
   ComputeNodesReimageBodyParam &
   RequestParameters;
 
@@ -3729,9 +3839,14 @@ export interface ComputeNodesUploadBatchServiceLogsHeaderParam {
   headers?: RawHttpHeadersInput & ComputeNodesUploadBatchServiceLogsHeaders;
 }
 
+export interface ComputeNodesUploadBatchServiceLogsMediaTypesParam {
+  contentType: "application/json; odata=minimalmetadata";
+}
+
 export type ComputeNodesUploadBatchServiceLogsParameters =
   ComputeNodesUploadBatchServiceLogsQueryParam &
     ComputeNodesUploadBatchServiceLogsHeaderParam &
+    ComputeNodesUploadBatchServiceLogsMediaTypesParam &
     ComputeNodesUploadBatchServiceLogsBodyParam &
     RequestParameters;
 
