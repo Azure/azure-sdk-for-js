@@ -3,7 +3,7 @@
 
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { createReceiver, PartitionReceiver } from "../../src/eventHubReceiver";
+import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";

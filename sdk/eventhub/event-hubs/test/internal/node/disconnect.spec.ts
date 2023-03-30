@@ -3,7 +3,7 @@
 
 import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EventHubConsumerClient, latestEventPosition } from "../../../src";
-import { createReceiver, WritableReceiver } from "../../../src/eventHubReceiver";
+import { createReceiver, WritableReceiver } from "../../../src/partitionReceiver";
 import { EventHubSender } from "../../../src/eventHubSender";
 import { MessagingError } from "@azure/core-amqp";
 import chai from "chai";

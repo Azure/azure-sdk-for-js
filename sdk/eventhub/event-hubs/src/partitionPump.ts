@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { AbortController } from "@azure/abort-controller";
 import { CloseReason } from "./models/public";
 import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { createReceiver, PartitionReceiver } from "./eventHubReceiver";
+import { createReceiver, PartitionReceiver } from "./partitionReceiver";
 import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { PartitionProcessor } from "./partitionProcessor";

@@ -9,7 +9,7 @@ import {
   EventPosition,
   MessagingError,
 } from "../../src";
-import { createReceiver } from "../../src/eventHubReceiver";
+import { createReceiver } from "../../src/partitionReceiver";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";

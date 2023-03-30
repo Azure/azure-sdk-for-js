@@ -4,7 +4,7 @@
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
-import { checkOnInterval } from "../../src/eventHubReceiver";
+import { checkOnInterval } from "../../src/partitionReceiver";
 
 describe("checkOnInterval", function () {
   it("should resolve when the check function returns true", async function () {

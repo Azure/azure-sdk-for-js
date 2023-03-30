@@ -25,10 +25,10 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { EventHubClientOptions } from "./models/public";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { PartitionReceiver } from "./eventHubReceiver";
+import { PartitionReceiver } from "./partitionReceiver";
 import { EventHubSender } from "./eventHubSender";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { isCredential } from "./util/typeGuards";

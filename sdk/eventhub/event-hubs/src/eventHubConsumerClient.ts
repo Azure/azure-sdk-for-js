@@ -25,7 +25,7 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { PartitionGate } from "./impl/partitionGate";
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { isCredential } from "./util/typeGuards";
-import { logger } from "./log";
+import { logger } from "./logger";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
 

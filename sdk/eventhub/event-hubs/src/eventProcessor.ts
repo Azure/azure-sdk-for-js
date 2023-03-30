@@ -5,7 +5,7 @@ import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-contr
 import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
 import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition";
 import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { CloseReason } from "./models/public";
 import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";

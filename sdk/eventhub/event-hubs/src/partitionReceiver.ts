@@ -27,7 +27,7 @@ import {
   logObj,
   logger as azureLogger,
   SimpleLogger,
-} from "./log";
+} from "./logger";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./models/private";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
