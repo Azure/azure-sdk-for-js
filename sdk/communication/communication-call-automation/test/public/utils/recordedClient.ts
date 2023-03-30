@@ -255,13 +255,13 @@ export function persistEvents(testName: string): void {
 export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
     let data: string = "";
+    console.log("path is: " + relativeRecordingsPath());
     try {
       data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
     } catch (e) {
       console.log("original path doesn't work");
-      data = fs.readFileSync(relativeRecordingsPath() + `${testName}.txt`, "utf-8");
+      data = fs.readFileSync(`recordings/${testName}.txt`, "utf-8");
     }
-    console.log("path is: " + relativeRecordingsPath() + `${testName}.txt`);
     const eventStrings = data.split("\n");
 
     eventStrings.forEach(async (eventString) => {
