@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -11,14 +11,12 @@
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js",
-    "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
-    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js",
-    "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.native.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
   "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {

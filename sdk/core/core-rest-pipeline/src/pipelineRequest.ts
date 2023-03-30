@@ -12,7 +12,7 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { randomUUID } from "./util/uuidUtils";
+import { randomUUID } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
