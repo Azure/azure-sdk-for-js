@@ -11,14 +11,12 @@
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js",
-    "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
-    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js",
-    "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.native.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
   "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
@@ -90,7 +88,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-tracing": "^1.0.1",
-    "@azure/core-util": "^1.0.0",
+    "@azure/core-util": "^1.3.0",
     "@azure/logger": "^1.0.0",
     "form-data": "^4.0.0",
     "tslib": "^2.2.0",
