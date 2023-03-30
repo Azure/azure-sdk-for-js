@@ -17,7 +17,7 @@ import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participant' | 'resultInformation'> {
+export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "AddParticipantFailed";
@@ -39,7 +39,7 @@ export interface AddParticipantResult {
 }
 
 // @public
-export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceeded, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participant' | 'resultInformation'> {
+export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "AddParticipantSucceeded";
@@ -90,7 +90,7 @@ export class CallAutomationEventParser {
 }
 
 // @public
-export interface CallConnected extends Omit<RestCallConnected, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallConnected";
@@ -129,7 +129,7 @@ export interface CallConnectionProperties {
 export type CallConnectionStateModel = string;
 
 // @public
-export interface CallDisconnected extends Omit<RestCallDisconnected, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallDisconnected";
@@ -228,7 +228,7 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
@@ -237,7 +237,7 @@ export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, 'ca
 }
 
 // @public
-export interface CallTransferFailed extends Omit<RestCallTransferFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferFailed";
@@ -365,7 +365,7 @@ export type MediaStreamingContentType = string;
 export type MediaStreamingTransportType = string;
 
 // @public
-export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participants'> {
+export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, "callConnectionId" | "serverCallId" | "correlationId" | "participants"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ParticipantsUpdated";
@@ -377,7 +377,7 @@ export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, 'call
 export type PauseRecordingOptions = OperationOptions;
 
 // @public
-export interface PlayCanceled extends Omit<RestPlayCanceled, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface PlayCanceled extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayCanceled";
@@ -385,7 +385,7 @@ export interface PlayCanceled extends Omit<RestPlayCanceled, 'callConnectionId' 
 }
 
 // @public
-export interface PlayCompleted extends Omit<RestPlayCompleted, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface PlayCompleted extends Omit<RestPlayCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayCompleted";
@@ -394,7 +394,7 @@ export interface PlayCompleted extends Omit<RestPlayCompleted, 'callConnectionId
 }
 
 // @public
-export interface PlayFailed extends Omit<RestPlayFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayFailed";
@@ -417,7 +417,7 @@ export interface PlaySource {
 }
 
 // @public
-export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecognizeCanceled";
@@ -425,7 +425,7 @@ export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, 'callConn
 }
 
 // @public
-export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecognizeCompleted";
@@ -434,7 +434,7 @@ export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, 'callCo
 }
 
 // @public
-export interface RecognizeFailed extends Omit<RestRecognizeFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface RecognizeFailed extends Omit<RestRecognizeFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecognizeFailed";
@@ -475,7 +475,7 @@ export enum RecordingFormat {
 }
 
 // @public
-export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecordingStateChanged";
@@ -662,7 +662,7 @@ export interface RestResultInformation {
 }
 
 // @public (undocumented)
-export interface ResultInformation extends Omit<RestResultInformation, 'code' | 'subCode' | 'message'> {
+export interface ResultInformation extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
     code: number;
     message: string;
     subCode: number;
