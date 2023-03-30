@@ -1,0 +1,12 @@
+{
+  "name": "batch-typespec",
+  "author": "Microsoft Corporation",
+  "description": "TypeSpec project for emitting batch RLC SDK",
+  "license": "MIT",
+  "dependencies": {
+    "@azure-tools/typespec-ts": "latest",
+    "@typespec/openapi": "latest",
+    "@azure-tools/typespec-autorest": "latest"
+  },
+  "private": true
+}

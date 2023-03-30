@@ -1,8 +1,8 @@
 emit:
-  - "@azure-tools/cadl-typescript"
+  - "@azure-tools/typespec-ts"
 options:
-  "@azure-tools/cadl-typescript":
-    azureSdkForJs: true
+  "@azure-tools/typespec-ts":
+    azureSdkForJs: false
     generateMetadata: false
     generateTest: false
     "emitter-output-dir": "{project-root}/../batch-rest/"

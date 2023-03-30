@@ -1,19 +1,22 @@
-import "@cadl-lang/rest";
-import "@cadl-lang/versioning";
-import "@azure-tools/cadl-azure-core";
-import "@azure-tools/cadl-autorest";
-import "@cadl-lang/openapi";
-import "./models.cadl";
-import "@azure-tools/cadl-dpg";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@typespec/http";
+import "@azure-tools/typespec-azure-core";
+import "@typespec/rest";
+import "@azure-tools/typespec-autorest";
+import "@typespec/openapi";
+import "@azure-tools/typespec-client-generator-core";
+import "./models.tsp";
 
-using Cadl.Reflection;
-using Cadl.Http;
-using Cadl.Rest;
-using Autorest;
-using Cadl.Versioning;
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.Core;
+using Azure.Core.Traits;
+using Autorest;
 using OpenAPI;
-using Azure.DPG;
+using Azure.ClientGenerator.Core;
 
 namespace BatchService;
 
@@ -1198,7 +1201,7 @@ format is bytes=startRange-endRange.
       },
     BatchResponseHeaders &
       FileResponse & {
-        @header("content-type") contentType: "application/octet-stream";
+        
 
         @body
         @doc("A response containing the file content.")
@@ -2239,7 +2242,7 @@ Protocol file.
       nodeId: string;
     },
     BatchResponseHeaders & {
-      @header("content-type") contentType: "application/octet-stream";
+      
 
       @body
       @doc("A response containing the file content.")
