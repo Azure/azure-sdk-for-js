@@ -326,57 +326,57 @@ export class BatchingReceiverLite {
     }
   }
 
-  private async drainReceiverIfNeeded(
+  private async tryDrainReceiver(
     receiver: MinimalReceiver,
     loggingPrefix: string,
     abortSignal?: AbortSignalLike
   ): Promise<void> {
-    // Drain any pending credits.
-    if (receiver.isOpen() && receiver.credit > 0) {
-      let drainTimedout: boolean = false;
-      let drainTimer: ReturnType<typeof setTimeout>;
-      const drainPromise = new Promise<void>((resolve) => {
-        function drainListener() {
-          logger.verbose(`${loggingPrefix} Receiver has been drained.`);
-          clearTimeout(drainTimer);
-          resolve();
-        }
-        function removeListeners() {
-          abortSignal?.removeEventListener("abort", onAbort);
-          receiver.removeListener(ReceiverEvents.receiverDrained, drainListener);
-        }
-        function onAbort() {
-          removeListeners();
-          clearTimeout(drainTimer);
-          resolve();
-        }
-
-        drainTimer = setTimeout(() => {
-          drainTimedout = true;
-          removeListeners();
-          resolve();
-        }, this._drainTimeoutInMs);
-        receiver.once(ReceiverEvents.receiverDrained, drainListener);
-        abortSignal?.addEventListener("abort", onAbort);
-      });
-
-      receiver.drainCredit();
-      logger.verbose(
-        `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`
-      );
-      await drainPromise;
-      if (drainTimedout) {
-        logger.warning(
-          `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`
-        );
-        // Close the receiver link since we have not received the receiver drain event
-        // to prevent out-of-sync state between local and remote
-        await receiver.close();
+    if (!receiver.isOpen() || receiver.credit <= 0) {
+      return;
+    }
+    let drainTimedout: boolean = false;
+    let drainTimer: ReturnType<typeof setTimeout>;
+    const drainPromise = new Promise<void>((resolve) => {
+      function drainListener() {
+        logger.verbose(`${loggingPrefix} Receiver has been drained.`);
+        clearTimeout(drainTimer);
+        resolve();
+      }
+      function removeListeners() {
+        abortSignal?.removeEventListener("abort", onAbort);
+        receiver.removeListener(ReceiverEvents.receiverDrained, drainListener);
+      }
+      function onAbort() {
+        removeListeners();
+        clearTimeout(drainTimer);
+        resolve();
       }
 
-      // Turn off draining.
-      receiver.drain = false;
+      drainTimer = setTimeout(() => {
+        drainTimedout = true;
+        removeListeners();
+        resolve();
+      }, this._drainTimeoutInMs);
+      receiver.once(ReceiverEvents.receiverDrained, drainListener);
+      abortSignal?.addEventListener("abort", onAbort);
+    });
+
+    receiver.drainCredit();
+    logger.verbose(
+      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`
+    );
+    await drainPromise;
+    if (drainTimedout) {
+      logger.warning(
+        `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`
+      );
+      // Close the receiver link since we have not received the receiver drain event
+      // to prevent out-of-sync state between local and remote
+      await receiver.close();
     }
+
+    // Turn off draining.
+    receiver.drain = false;
   }
 
   private _receiveMessagesImpl(
@@ -463,7 +463,7 @@ export class BatchingReceiverLite {
         return;
       }
 
-      await this.drainReceiverIfNeeded(receiver, loggingPrefix, args.abortSignal);
+      await this.tryDrainReceiver(receiver, loggingPrefix, args.abortSignal);
       logger.verbose(
         `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
       );

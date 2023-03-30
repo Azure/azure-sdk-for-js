@@ -305,6 +305,12 @@ describe("Message session unit tests", () => {
           remainingRegisteredListeners.delete(evt.toString());
           emitter.removeListener(evt, handler);
         },
+        once(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+          emitter.once(evt, handler);
+          if (evt === ReceiverEvents.message) {
+            --credit;
+          }
+        },
         session: {
           on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
             emitter.on(evt, handler);
@@ -322,6 +328,15 @@ describe("Message session unit tests", () => {
             remainingRegisteredListeners.delete(evt.toString());
             emitter.removeListener(evt, handler);
           },
+          once(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            emitter.once(evt, handler);
+
+            if (evt === SessionEvents.sessionClose) {
+              // this also happens to be the final thing the Promise does
+              // as part of it's initialization.
+              resolvePromiseIsReady();
+            }
+          }
         },
         isOpen: () => true,
         addCredit: (_credit: number) => {
