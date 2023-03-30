@@ -163,7 +163,7 @@ export function createReceiver(
         await ctx.readyToOpenLink({ abortSignal });
         state.authLoop = await withAuth(
           () =>
-            createLink(
+            setupLink(
               ctx,
               name,
               address,
@@ -336,13 +336,13 @@ export function waitForEvents(
   maxWaitTimeInMs: number,
   readIntervalWaitTimeInMs: number,
   queue: unknown[],
-  options?: {
+  options: {
     abortSignal?: AbortSignalLike;
     cleanupBeforeAbort?: () => void;
     receivedAfterWait?: () => void;
     receivedAlready?: () => void;
     receivedNone?: () => void;
-  }
+  } = {}
 ): Promise<void> {
   const {
     abortSignal: clientAbortSignal,
@@ -350,7 +350,7 @@ export function waitForEvents(
     receivedNone,
     receivedAfterWait,
     receivedAlready,
-  } = options ?? {};
+  } = options;
   const aborter = new AbortController();
   const { signal: abortSignal } = new AbortController([
     aborter.signal,
@@ -500,8 +500,7 @@ async function onSessionClose(
   }
 }
 
-async function createLink(
-  ctx: ConnectionContext,
+function createRheaOptions(
   name: string,
   address: string,
   obj: PartitionReceiver,
@@ -509,9 +508,8 @@ async function createLink(
   queue: ReceivedEventData[],
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: EventHubConsumerOptions,
-  abortSignal?: AbortSignalLike
-): Promise<void> {
+  options: EventHubConsumerOptions
+): RheaReceiverOptions {
   const rheaOptions: RheaReceiverOptions & { source: Source } = {
     name,
     autoaccept: true,
@@ -540,6 +538,31 @@ async function createLink(
   rheaOptions.source.filter = {
     "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
   };
+  return rheaOptions;
+}
+
+async function setupLink(
+  ctx: ConnectionContext,
+  name: string,
+  address: string,
+  obj: PartitionReceiver,
+  state: ReceiverState,
+  queue: ReceivedEventData[],
+  eventPosition: EventPosition,
+  logger: SimpleLogger,
+  options: EventHubConsumerOptions,
+  abortSignal?: AbortSignalLike
+): Promise<void> {
+  const rheaOptions = createRheaOptions(
+    name,
+    address,
+    obj,
+    state,
+    queue,
+    eventPosition,
+    logger,
+    options
+  );
   logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
   state.link = await ctx.connection.createReceiver({
     ...rheaOptions,
