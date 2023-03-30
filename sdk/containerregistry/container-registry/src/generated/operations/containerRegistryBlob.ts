@@ -296,6 +296,7 @@ const deleteBlobOperationSpec: coreClient.OperationSpec = {
       },
       headersMapper: Mappers.ContainerRegistryBlobDeleteBlobHeaders
     },
+    404: {},
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],

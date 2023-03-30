@@ -273,5 +273,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       assert.equal(sizeInBytes, bufferSize);
       await client.deleteBlob(digest);
     });
+
+    it("deleteBlob should succeed when trying to delete a nonexistent blob", async function () {
+      // Digest is just the shasum of the string "i dont exist"
+      const digest = "sha256:b76ba664a289336a4af5d4e262d691dbc2940576dca60a71dfe1b6f73b44658a";
+      await client.deleteBlob(digest);
+    });
   });
 });

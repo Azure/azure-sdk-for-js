@@ -234,3 +234,15 @@ directive:
     transform: >
       $.properties.config["x-ms-client-name"] = "configuration";
 ```
+
+# Make `deleteBlob` succeed on 404
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      $.responses["404"] = {
+        "description": "The blob to be deleted does not exist"
+      };
+```
