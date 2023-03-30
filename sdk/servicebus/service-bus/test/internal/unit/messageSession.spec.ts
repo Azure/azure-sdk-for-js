@@ -336,7 +336,7 @@ describe("Message session unit tests", () => {
               // as part of it's initialization.
               resolvePromiseIsReady();
             }
-          }
+          },
         },
         isOpen: () => true,
         addCredit: (_credit: number) => {
