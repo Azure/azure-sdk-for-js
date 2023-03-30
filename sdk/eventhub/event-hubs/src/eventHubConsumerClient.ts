@@ -26,8 +26,8 @@ import { PartitionGate } from "./impl/partitionGate";
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { isCredential } from "./util/typeGuards";
 import { logger } from "./logger";
-import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
+import { getRandomName } from "./util/utils";
 
 const defaultConsumerClientOptions: Required<
   Pick<FullEventProcessorOptions, "maxWaitTimeInSeconds" | "maxBatchSize">
@@ -63,7 +63,7 @@ export class EventHubConsumerClient {
    */
   private _clientOptions: EventHubConsumerClientOptions;
   private _partitionGate = new PartitionGate();
-  private _id = uuid();
+  private _id = getRandomName();
 
   /**
    * The Subscriptions that were spawned by calling `subscribe()`.
