@@ -88,7 +88,7 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
-    processTimeout?: number;
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -100,7 +100,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 
 // @public
 export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
-    processTimeout?: number;
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -189,7 +189,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-    developerCredentialTimeOut?: number;
+    developerCredentialTimeOutInMs?: number;
     tenantId?: string;
 }
 

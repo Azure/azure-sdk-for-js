@@ -14,5 +14,5 @@ export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCreden
   /**
    * Timeout configurable for making token requests, provided in milliseconds
    */
-  processTimeout?: number;
+  processTimeoutInMs?: number;
 }

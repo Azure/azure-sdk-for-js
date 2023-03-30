@@ -225,7 +225,7 @@ az login --scope https://test.windows.net/.default`;
   it("gets the timeout passed correctly", async function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
-    const credential = new AzureCliCredential({ processTimeout: 50 });
+    const credential = new AzureCliCredential({ processTimeoutInMs: 50 });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azArgs, [

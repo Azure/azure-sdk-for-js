@@ -116,7 +116,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
-    this.timeout = options?.processTimeout;
+    this.timeout = options?.processTimeoutInMs;
   }
 
   /**

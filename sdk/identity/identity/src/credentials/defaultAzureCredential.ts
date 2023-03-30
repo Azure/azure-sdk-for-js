@@ -26,9 +26,9 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
  * {@link DefaultAzureCredentialOptions}.
  */
 interface DefaultCredentialConstructor {
-  new (options?: DefaultAzureCredentialOptions): TokenCredential;
-  new (options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
-  new (options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
+  new(options?: DefaultAzureCredentialOptions): TokenCredential;
+  new(options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
+  new(options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
 }
 
 /**
@@ -83,7 +83,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
 export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeout: options?.developerCredentialTimeOut,
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
       ...options,
     });
   }
@@ -91,7 +91,7 @@ export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredent
 export class DefaultAzureCliCredential extends AzureCliCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeout: options?.developerCredentialTimeOut,
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
       ...options,
     });
   }
@@ -100,7 +100,7 @@ export class DefaultAzureCliCredential extends AzureCliCredential {
 export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeout: options?.developerCredentialTimeOut,
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
       ...options,
     });
   }

@@ -14,5 +14,5 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
   /**
    * Timeout configurable for making token requests, provided in milliseconds
    */
-  processTimeout?: number;
+  processTimeoutInMs?: number;
 }
