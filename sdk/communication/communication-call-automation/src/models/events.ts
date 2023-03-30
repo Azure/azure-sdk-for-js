@@ -18,7 +18,7 @@ import {
   RecognizeCompleted as RestRecognizeCompleted,
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
-  ResultInformation as RestResultInformation
+  ResultInformation as RestResultInformation,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -58,7 +58,8 @@ export {
   RestResultInformation,
 };
 
-export interface ResultInformation extends Omit<RestResultInformation, 'code' | 'subCode' | 'message'> {
+export interface ResultInformation
+  extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
   /** The error code. */
   code: number;
   /** The sub code of error. */
@@ -68,7 +69,11 @@ export interface ResultInformation extends Omit<RestResultInformation, 'code' | 
 }
 
 /** The participant successfully added event. */
-export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceeded, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participant' | 'resultInformation'> {
+export interface AddParticipantSucceeded
+  extends Omit<
+    RestAddParticipantSucceeded,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -84,7 +89,11 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 }
 
 /** The failed to add participant event. */
-export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participant' | 'resultInformation'> {
+export interface AddParticipantFailed
+  extends Omit<
+    RestAddParticipantFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -100,7 +109,8 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, 'ca
 }
 
 /** Event when call was established. */
-export interface CallConnected extends Omit<RestCallConnected, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface CallConnected
+  extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -112,7 +122,8 @@ export interface CallConnected extends Omit<RestCallConnected, 'callConnectionId
 }
 
 /** Event when all participants left and call was terminated. */
-export interface CallDisconnected extends Omit<RestCallDisconnected, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface CallDisconnected
+  extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -124,7 +135,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, 'callConnec
 }
 
 /** Event when transfer request was successful. */
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface CallTransferAccepted
+  extends Omit<
+    RestCallTransferAccepted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -138,7 +153,11 @@ export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, 'ca
 }
 
 /** Event when transfer request was failed. */
-export interface CallTransferFailed extends Omit<RestCallTransferFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface CallTransferFailed
+  extends Omit<
+    RestCallTransferFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -152,7 +171,11 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, 'callCo
 }
 
 /** Event when there was an update to participant(s). */
-export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'participants'> {
+export interface ParticipantsUpdated
+  extends Omit<
+    RestParticipantsUpdated,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participants"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -166,7 +189,8 @@ export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, 'call
 }
 
 /** Event when Recording state has been changed. */
-export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface RecordingStateChanged
+  extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -178,7 +202,11 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, '
 }
 
 /** Event when Media play was successfully completed. */
-export interface PlayCompleted extends Omit<RestPlayCompleted, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface PlayCompleted
+  extends Omit<
+    RestPlayCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -192,7 +220,11 @@ export interface PlayCompleted extends Omit<RestPlayCompleted, 'callConnectionId
 }
 
 /** Event when Media play was failed. */
-export interface PlayFailed extends Omit<RestPlayFailed, 'callConnectionId' | 'serverCallId' | 'correlationId' | 'resultInformation'> {
+export interface PlayFailed
+  extends Omit<
+    RestPlayFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -206,7 +238,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, 'callConnectionId' | 's
 }
 
 /** Event when Media play was canceled by Cancel operation. */
-export interface PlayCanceled extends Omit<RestPlayCanceled, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface PlayCanceled
+  extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -218,7 +251,11 @@ export interface PlayCanceled extends Omit<RestPlayCanceled, 'callConnectionId' 
 }
 
 /** Event when Media recognize was successfully completed. */
-export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, 'callConnectionId' | 'serverCallId' | 'correlationId'| 'resultInformation'> {
+export interface RecognizeCompleted
+  extends Omit<
+    RestRecognizeCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -232,7 +269,11 @@ export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, 'callCo
 }
 
 /** Event when Media recognize was failed. */
-export interface RecognizeFailed extends Omit<RestRecognizeFailed, 'callConnectionId' | 'serverCallId' | 'correlationId'| 'resultInformation'> {
+export interface RecognizeFailed
+  extends Omit<
+    RestRecognizeFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -246,7 +287,8 @@ export interface RecognizeFailed extends Omit<RestRecognizeFailed, 'callConnecti
 }
 
 /** Event when Media recognize was canceled by Cancel operation. */
-export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, 'callConnectionId' | 'serverCallId' | 'correlationId'> {
+export interface RecognizeCanceled
+  extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */

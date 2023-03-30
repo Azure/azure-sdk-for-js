@@ -59,11 +59,14 @@ export class CallRecording {
       startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
     }
 
-    const response = (await this.callRecordingImpl.startRecording(startCallRecordingRequest, options))
+    const response = await this.callRecordingImpl.startRecording(
+      startCallRecordingRequest,
+      options
+    );
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
-      recordingState: response.recordingState!
+      recordingState: response.recordingState!,
     };
 
     return result;
@@ -78,15 +81,14 @@ export class CallRecording {
     recordingId: string,
     options: GetRecordingPropertiesOptions = {}
   ): Promise<RecordingStateResult> {
-    const response = (await this.callRecordingImpl.getRecordingProperties(recordingId, options))
+    const response = await this.callRecordingImpl.getRecordingProperties(recordingId, options);
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
-      recordingState: response.recordingState!
+      recordingState: response.recordingState!,
     };
 
     return result;
-
   }
 
   /**
