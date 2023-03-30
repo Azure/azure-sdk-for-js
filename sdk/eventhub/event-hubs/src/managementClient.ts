@@ -28,7 +28,7 @@ import {
   createSimpleLogger,
   logger,
   SimpleLogger,
-} from "./log";
+} from "./logger";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";

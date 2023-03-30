@@ -58,7 +58,7 @@ function createLogFunction(
 ): (arg: any, ...args: any[]) => void {
   return (arg: any, ...args: any[]) =>
     azureLogger[level](
-      ...(typeof arg === "string" ? [`${prefix}  ${arg}`] : [prefix, arg]),
+      ...(typeof arg === "string" ? [`${prefix}: ${arg}`] : [prefix, arg]),
       ...args
     );
 }
