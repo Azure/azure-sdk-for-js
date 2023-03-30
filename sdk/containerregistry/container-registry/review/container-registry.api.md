@@ -281,7 +281,7 @@ export interface OciDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config: OciDescriptor;
+    configuration: OciDescriptor;
     layers: OciDescriptor[];
     schemaVersion?: number;
 }

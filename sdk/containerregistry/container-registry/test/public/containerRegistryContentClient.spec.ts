@@ -64,7 +64,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     const manifest: OciImageManifest = {
       schemaVersion: 2,
-      config: {
+      configuration: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
         sizeInBytes: 171,

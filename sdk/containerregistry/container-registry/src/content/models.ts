@@ -112,7 +112,7 @@ export interface OciImageManifest {
   /** Schema version */
   schemaVersion?: number;
   /** V2 image config descriptor */
-  config: OciDescriptor;
+  configuration: OciDescriptor;
   /** List of V2 image layer information */
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */

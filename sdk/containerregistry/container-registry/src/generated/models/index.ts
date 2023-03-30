@@ -507,7 +507,7 @@ export interface Platform {
 /** Returns the requested OCI Manifest file */
 export interface OCIManifest {
   /** V2 image config descriptor */
-  config: Descriptor;
+  configuration: Descriptor;
   /** List of V2 image layer information */
   layers: Descriptor[];
   /** Additional information provided through arbitrary metadata. */

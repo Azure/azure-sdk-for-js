@@ -225,3 +225,13 @@ directive:
       delete $["securityDefinitions"];
       delete $["security"];
 ```
+
+# Rename `config` to `configuration` in OciManifest
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.OCIManifest
+    transform: >
+      $.properties.config["x-ms-client-name"] = "configuration";
+```
