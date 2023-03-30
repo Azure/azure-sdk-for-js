@@ -3,11 +3,11 @@
 
 import { generateUUID } from "./uuidUtils.native";
 
-export interface Crypto {
+interface Crypto {
   randomUUID(): string;
 }
 
-export declare const globalThis: {
+declare const globalThis: {
   crypto: Crypto;
 };
 
