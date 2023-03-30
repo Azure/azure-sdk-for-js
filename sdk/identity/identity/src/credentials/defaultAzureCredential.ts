@@ -26,9 +26,9 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
  * {@link DefaultAzureCredentialOptions}.
  */
 interface DefaultCredentialConstructor {
-  new(options?: DefaultAzureCredentialOptions): TokenCredential;
-  new(options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
-  new(options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
+  new (options?: DefaultAzureCredentialOptions): TokenCredential;
+  new (options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
+  new (options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
 }
 
 /**
