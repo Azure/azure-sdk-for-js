@@ -106,7 +106,7 @@ export interface ManagementClientOptions {
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient {
-  readonly managementLock: string = `${Constants.managementRequestKey}-${getRandomName()}`;
+  readonly managementLock: string = getRandomName(Constants.managementRequestKey);
   /**
    * The name/path of the entity (hub name) for which the management
    * request needs to be made.
