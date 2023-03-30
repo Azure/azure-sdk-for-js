@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -34,7 +34,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
             "type": "Microsoft.CognitiveServices/accounts/deployments",
             "name": "test",
             "properties": {
@@ -63,7 +63,7 @@
             "etag": "\u00228026f20f-0922-4ce8-b58c-064d3f7588f8\u0022"
           },
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
             "type": "Microsoft.CognitiveServices/accounts/deployments",
             "name": "text-davince-model",
             "properties": {
@@ -95,7 +95,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -125,7 +125,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -158,7 +158,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
             "type": "Microsoft.CognitiveServices/accounts/deployments",
             "name": "test",
             "properties": {

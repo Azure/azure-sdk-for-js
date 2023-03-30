@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -37,7 +37,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
             "name": "sdk-test-openai",
             "type": "Microsoft.CognitiveServices/accounts",
             "etag": "\u002208006ae3-0000-0d00-0000-642554180000\u0022",
@@ -151,7 +151,7 @@
             }
           },
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/test-by-mary",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/test-by-mary",
             "name": "test-by-mary",
             "type": "Microsoft.CognitiveServices/accounts",
             "etag": "\u00223600f937-0000-0500-0000-642545d50000\u0022",
@@ -262,7 +262,7 @@
             }
           },
           {
-            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/openai-shared",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/openai-shared",
             "name": "openai-shared",
             "type": "Microsoft.CognitiveServices/accounts",
             "etag": "\u00224600f689-0000-0100-0000-6413ef480000\u0022",

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -44,7 +44,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T091920Z:bd67d903-2c2b-425f-ad57-bcd24135bf66"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
         "type": "Microsoft.CognitiveServices/accounts/deployments",
         "name": "text-davince-model",
         "properties": {

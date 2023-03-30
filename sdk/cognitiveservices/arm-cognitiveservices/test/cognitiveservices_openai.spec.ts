@@ -45,8 +45,7 @@ describe("CognitiveServices OpenAI test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    // subscriptionId = env.SUBSCRIPTION_ID || '';
-    subscriptionId = "faa080af-c1d8-40ad-9cce-e1a450ca5b57";
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new CognitiveServicesManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));

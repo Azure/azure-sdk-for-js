@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -25,7 +25,7 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "azure-asyncoperation": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+        "azure-asyncoperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
         "Cache-Control": "no-cache",
         "Content-Length": "1934",
         "Content-Type": "application/json; charset=utf-8",
@@ -43,7 +43,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T070018Z:64487e54-cea7-42f0-b080-bddcf9ea92c1"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
         "name": "sdk-test-openai",
         "type": "Microsoft.CognitiveServices/accounts",
         "etag": "\u00220800b298-0000-0d00-0000-642533810000\u0022",
@@ -158,7 +158,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -190,14 +190,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071910Z:e4e2db60-a90a-462d-a257-55e53b19ff07"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -229,14 +229,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071913Z:899087a7-da1c-4407-af28-a069b0c98df3"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -268,14 +268,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071915Z:ad4d0243-5438-445b-846a-6cf70dc4554f"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -307,14 +307,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071917Z:fde135fc-4d9c-414f-8ea0-fa0451edcc00"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -346,14 +346,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071919Z:5ef37e80-8949-4b1a-8896-8de12bc536f7"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -385,14 +385,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071922Z:e80ae589-c1b5-4626-9e97-512fbb09ea4a"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -424,14 +424,14 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071924Z:174d8fe7-f17c-4b48-9e32-469ce0f1bf6e"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Creating",
         "startTime": "2023-03-30T07:00:17Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -463,7 +463,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T081428Z:f09b01e8-8006-4e94-9c10-030bcc09e99c"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
         "status": "Succeeded",
         "startTime": "2023-03-30T07:00:17Z",
@@ -471,7 +471,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -504,7 +504,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T081429Z:14816ff5-4bfe-45cc-96bf-bbb0aa48de23"
       },
       "ResponseBody": {
-        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
         "name": "sdk-test-openai",
         "type": "Microsoft.CognitiveServices/accounts",
         "etag": "\u0022080088bf-0000-0d00-0000-642544e40000\u0022",
