@@ -16,7 +16,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): AzureDevCenterClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2022-11-11-preview";
+  options.apiVersion = options.apiVersion ?? "2023-04-01";
   options = {
     ...options,
     credentials: {
