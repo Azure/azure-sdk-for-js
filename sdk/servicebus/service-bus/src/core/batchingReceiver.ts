@@ -329,7 +329,7 @@ export class BatchingReceiverLite {
   private async drainReceiverIfNeeded(
     receiver: MinimalReceiver,
     loggingPrefix: string,
-    abortSignal?: AbortSignal
+    abortSignal?: AbortSignalLike
   ): Promise<void> {
     // Drain any pending credits.
     if (receiver.isOpen() && receiver.credit > 0) {
@@ -463,7 +463,7 @@ export class BatchingReceiverLite {
         return;
       }
 
-      await this.drainReceiverIfNeeded(receiver, loggingPrefix);
+      await this.drainReceiverIfNeeded(receiver, loggingPrefix, args.abortSignal);
       logger.verbose(
         `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
       );
