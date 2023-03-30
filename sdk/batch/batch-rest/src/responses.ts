@@ -1010,8 +1010,7 @@ export interface FileGetFromComputeNode200Headers {
 /** The request has succeeded. */
 export interface FileGetFromComputeNode200Response extends HttpResponse {
   status: "200";
-  /** Value may contain any sequence of octets */
-  body: Uint8Array;
+  body: string;
   headers: RawHttpHeaders & FileGetFromComputeNode200Headers;
 }
 
@@ -1765,8 +1764,7 @@ export interface ComputeNodesGetRemoteDesktop200Headers {
 /** The request has succeeded. */
 export interface ComputeNodesGetRemoteDesktop200Response extends HttpResponse {
   status: "200";
-  /** Value may contain any sequence of octets */
-  body: Uint8Array;
+  body: string;
   headers: RawHttpHeaders & ComputeNodesGetRemoteDesktop200Headers;
 }
 

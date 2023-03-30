@@ -1,9 +1,9 @@
-import "@cadl-lang/rest";
-import "@cadl-lang/versioning";
-import "./routes.cadl";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "./routes.tsp";
 
-using Cadl.Http;
-using Cadl.Versioning;
+using TypeSpec.Http;
+using TypeSpec.Versioning;
 
 @service({
   title: "BatchServiceClient",
