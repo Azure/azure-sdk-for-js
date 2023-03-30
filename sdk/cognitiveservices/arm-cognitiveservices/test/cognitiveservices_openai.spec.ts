@@ -73,10 +73,9 @@ describe("CognitiveServices OpenAI test", () => {
     assert.equal(res.name, accountName);
   });
 
-  it("should deploy a chat-davinci model in that account", async function () {
+  it("should deploy a davinci model in that account", async function () {
     const deployment: Deployment = {
       properties: {
-
         model: { name: "text-davinci-003", version: "1", format: "OpenAI", },
         scaleSettings: { scaleType: "Standard" }
       }
@@ -104,7 +103,7 @@ describe("CognitiveServices OpenAI test", () => {
     assert.isTrue(resArray.length >= 1);
   });
 
-  it("should delete a deployment", async function () {
+  it("should list deployments and delete a deployment", async function () {
     const deploymentNames = new Set();
     for await (let item of client.deployments.list(resourceGroup, accountName)) {
       deploymentNames.add(item.name);
@@ -118,7 +117,7 @@ describe("CognitiveServices OpenAI test", () => {
     assert.isFalse(deploymentNames.has(deploymentName));
   });
 
-  it("should delete account", async function () {
+  it("should delete an account", async function () {
     await client.accounts.beginDeleteAndWait(resourceGroup, accountName);
     const accountNames = new Set();
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
