@@ -57,6 +57,8 @@ export { ClientAssertionCredentialOptions } from "./credentials/clientAssertionC
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
+export { AzureDeveloperCliCredential } from "./credentials/azureDeveloperCliCredential";
+export { AzureDeveloperCliCredentialOptions } from "./credentials/azureDeveloperCliCredentialOptions"
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
   InteractiveBrowserCredentialNodeOptions,

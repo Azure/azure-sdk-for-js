@@ -93,6 +93,18 @@ export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOpt
 }
 
 // @public
+export class AzureDeveloperCliCredential implements TokenCredential {
+    constructor(options?: AzureDeveloperCliCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
+    tenantId?: string;
+}
+
+// @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
