@@ -42,8 +42,6 @@ describe("RoomsClient", function () {
       const createRoomResult = await client.createRoom(options);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult?.id);
-      assert.isEmpty(createRoomResult.participants);
-      assert.equal(createRoomResult.joinPolicy, "InviteOnly");
       roomId = createRoomResult?.id;
     });
 
@@ -53,7 +51,6 @@ describe("RoomsClient", function () {
       const options: CreateRoomOptions = {
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
         validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
-        roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
             id: testUser,
@@ -65,8 +62,6 @@ describe("RoomsClient", function () {
       const createRoomResult = await client.createRoom(options);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult.id);
-      assert.equal(createRoomResult.joinPolicy, "CommunicationServiceUsers");
-      assert.equal(createRoomResult.participants?.length, 1);
       roomId = createRoomResult.id;
     });
 
@@ -95,13 +90,6 @@ describe("RoomsClient", function () {
             new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
           )
         ),
-        roomJoinPolicy: "CommunicationServiceUsers",
-        participants: [
-          {
-            id: testUser,
-            role: "Presenter",
-          },
-        ],
       };
 
       await client.updateRoom(roomId, options);
@@ -113,7 +101,6 @@ describe("RoomsClient", function () {
       const createRoom = await client.createRoom({
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
         validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
-        roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
             id: testUser,
@@ -136,17 +123,6 @@ describe("RoomsClient", function () {
             new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
           )
         ),
-        roomJoinPolicy: "InviteOnly",
-        participants: [
-          {
-            id: testUser,
-            role: "Attendee",
-          },
-          {
-            id: testUser2,
-            role: "Attendee",
-          },
-        ],
       };
 
       await client.updateRoom(roomId, options);
@@ -158,35 +134,6 @@ describe("RoomsClient", function () {
 
       await client.deleteRoom(roomId);
       roomId = "";
-    });
-
-    it("unable to update roomJoinPolicy for a room in past", async function () {
-      testUser = (await createTestUser(recorder)).user;
-      testUser2 = (await createTestUser(recorder)).user;
-      const createRoom = await client.createRoom({
-        validFrom: new Date(
-          recorder.variable(
-            "validFromPast",
-            new Date(validFrom.getTime() - 5 * 60 * 1000).toString()
-          )
-        ),
-        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
-        roomJoinPolicy: "CommunicationServiceUsers",
-      });
-      roomId = createRoom.id;
-
-      const options: UpdateRoomOptions = {
-        roomJoinPolicy: "InviteOnly",
-      };
-      client
-        .updateRoom(roomId, options)
-        .then((result) => {
-          assert.isUndefined(result);
-          return;
-        })
-        .catch((error) => {
-          assert.equal(error.statusCode, 400);
-        });
     });
   });
 
@@ -217,18 +164,17 @@ describe("RoomsClient", function () {
 
       const createRoomResult = await client.createRoom({});
       assert.isDefined(createRoomResult);
-      assert.isEmpty(createRoomResult.participants);
       roomId = createRoomResult.id;
 
-      await client.addParticipants(roomId, participants);
+      await client.upsertParticipants(roomId, participants);
       const addParticipantsResult = await client.getParticipants(roomId);
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult);
-      assert.equal(
-        getIdentifierRawId(addParticipantsResult[0].id),
-        getIdentifierRawId(participants[0].id)
-      );
-      assert.equal(addParticipantsResult[0].role, participants[0].role);
+      for await (const participant of addParticipantsResult) {
+        assert.equal(participant.rawId, getIdentifierRawId(participants[0].id));
+        assert.equal(participant.role, participants[0].role);
+        break;
+      }
     });
 
     it("successfully removes a participant from the room", async function () {
@@ -250,13 +196,16 @@ describe("RoomsClient", function () {
 
       const createRoomResult = await client.createRoom(request);
       assert.isDefined(createRoomResult);
-      assert.isNotEmpty(createRoomResult.participants);
 
       roomId = createRoomResult.id;
 
       const participants = [testUser, testUser2];
       await client.removeParticipants(roomId, participants);
-      assert.isEmpty((await client.getRoom(roomId)).participants);
+      let count = 0;
+      for await (const participant of participants) {
+        if (participant) count++;
+      }
+      assert.isTrue(count === 0);
     });
 
     it("successfully updates a participant", async function () {
@@ -272,7 +221,6 @@ describe("RoomsClient", function () {
 
       const createRoomResult = await client.createRoom(request);
       assert.isDefined(createRoomResult);
-      assert.isNotEmpty(createRoomResult.participants);
       roomId = createRoomResult.id;
 
       const participants: RoomParticipant[] = [
@@ -281,16 +229,13 @@ describe("RoomsClient", function () {
           role: "Presenter",
         },
       ];
-      await client.updateParticipants(roomId, participants);
-      const testResultingRoom = await client.getRoom(roomId);
-      assert.isNotEmpty(testResultingRoom.participants);
-      assert.isDefined(testResultingRoom);
-      if (testResultingRoom.participants != null) {
-        assert.equal(
-          getIdentifierRawId(testResultingRoom.participants[0].id),
-          getIdentifierRawId(participants[0].id)
-        );
-        assert.equal(testResultingRoom.participants[0].role, participants[0].role);
+      await client.upsertParticipants(roomId, participants);
+      const allParticipants = await client.getParticipants(roomId);
+      assert.isDefined(allParticipants);
+      for await (const participant of allParticipants) {
+        assert.equal(participant.rawId, getIdentifierRawId(participants[0].id));
+        assert.equal(participant.role, participants[0].role);
+        break;
       }
     });
   });

@@ -46,7 +46,8 @@ export const ParticipantProperties: coreClient.CompositeMapper = {
       role: {
         serializedName: "role",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Presenter", "Attendee", "Consumer"]
         }
       }
     }
@@ -249,7 +250,8 @@ export const RoomParticipant: coreClient.CompositeMapper = {
         serializedName: "role",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Presenter", "Attendee", "Consumer"]
         }
       }
     }

@@ -7,10 +7,10 @@
 
 import { RoomsClient, RoomParticipant, CreateRoomOptions } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { getIdentifierRawId } from "@azure/communication-common";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 dotenv.config();
 
 export async function main() {
@@ -54,10 +54,10 @@ export async function main() {
   ];
 
   // add user2 to the room with the request payload
-  await roomsClient.addParticipants(roomId, addParticipantsList);
-  const addParticipants = await roomsClient.getParticipants(roomId);
+  await roomsClient.upsertParticipants(roomId, addParticipantsList);
+  const addedParticipants = await roomsClient.getParticipants(roomId);
   console.log(`Added Participants`);
-  printParticipants(addParticipants);
+  printParticipants(addedParticipants);
 
   // request payload to update user1 with a new role
   const updateParticipantsList: RoomParticipant[] = [
@@ -68,7 +68,7 @@ export async function main() {
   ];
 
   // update user1 with the request payload
-  await roomsClient.updateParticipants(roomId, updateParticipantsList);
+  await roomsClient.upsertParticipants(roomId, updateParticipantsList);
   console.log(`Updated Participants`);
   printParticipants(await roomsClient.getParticipants(roomId));
 
@@ -89,12 +89,11 @@ export async function main() {
  * Outputs the participants within a Participantsn to console.
  * @param pc - The Participants being printed to console.
  */
-function printParticipants(participants: RoomParticipant[]): void {
-  console.log(`Number of Participants: ${participants.length}`);
-  for (const participant of participants) {
-    const id = getIdentifierRawId(participant.id);
+async function printParticipants(participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>): Promise<void> {
+  for await (const participant of participants) {
+    const rawId = participant.rawId;
     const role = participant.role;
-    console.log(`${id} - ${role}`);
+    console.log(`${rawId} - ${role}`);
   }
 }
 main().catch((error) => {

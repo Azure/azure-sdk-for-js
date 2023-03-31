@@ -29,3 +29,13 @@ typescript:
   generate-metadata: false
   azure-arm: false
 ```
+
+### Set Role Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.Role"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```

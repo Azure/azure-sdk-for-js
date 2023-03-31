@@ -4,6 +4,7 @@
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
+  CommunicationIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
@@ -11,12 +12,12 @@ import {
 
 import { logger } from "./logger";
 import { tracingClient } from "./tracing";
-import { ParticipantsUpdateResponse, RoomParticipant, RoomsRestClient } from "./generated/src";
-import {
-  mapRoomParticipantToRawId,
-  mapRoomParticipantToRawIdForRemoval,
-} from "./models/mappers";
-import { Room } from "./models/models";
+import { 
+  ParticipantsUpdateResponse, 
+  RoomsRestClient
+} from "./generated/src";
+import { mapCommunicationIdentifierForRemoval, mapRoomParticipantToRawId } from "./models/mappers";
+import { Room, RoomParticipant } from "./models/models";
 import {
   CreateRoomOptions,
   DeleteRoomOptions,
@@ -28,6 +29,7 @@ import {
   UpsertParticipantsOptions,
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * @internal
@@ -100,14 +102,12 @@ export class RoomsClient {
     const repeatabilityRequestId = generateUuid();
     const repeatabilityFirstSent = new Date();
     return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
-      return await this.client.rooms.create(
-        {
-          ...options,
-          repeatabilityFirstSent: repeatabilityFirstSent,
-          repeatabilityRequestID: repeatabilityRequestId,
-          participants: mapRoomParticipantToRawId(options.participants),
-        }
-      );
+      return await this.client.rooms.create({
+        ...options,
+        repeatabilityFirstSent: repeatabilityFirstSent,
+        repeatabilityRequestID: repeatabilityRequestId,
+        participants: mapRoomParticipantToRawId(options.participants),
+      });
     });
   }
 
@@ -156,7 +156,7 @@ export class RoomsClient {
   public async getParticipants(
     roomId: string,
     options: GetParticipantsOptions = {}
-  ): Promise<AsyncIterableIterator<RoomParticipant>> {
+  ): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>> {
     return tracingClient.withSpan(
       "RoomsClient-GetParticipants",
       options,
@@ -167,7 +167,7 @@ export class RoomsClient {
   }
 
   /**
-   * Updates the Participants in a Room asynchronously. 
+   * Updates the Participants in a Room asynchronously.
    * Participant is added to room if they did not exist and updated if already in room.
    * @param roomId - ID of the room.
    * @param participants - List of participants to upsert.
@@ -183,13 +183,10 @@ export class RoomsClient {
       "RoomsClient-UpsertParticipants",
       options,
       async (updatedOptions) => {
-        return await this.client.participants.update(
-          roomId,
-          {
-            ...updatedOptions,
-            participants: mapRoomParticipantToRawId(participants)
-          }
-        );
+        return await this.client.participants.update(roomId, {
+          ...updatedOptions,
+          participants: mapRoomParticipantToRawId(participants),
+        });
       }
     );
   }
@@ -203,21 +200,22 @@ export class RoomsClient {
    */
   public async removeParticipants(
     roomId: string,
-    participants: RoomParticipant[],
+    participants: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan(
       "RoomsClient-RemoveParticipants",
       options,
       async (updatedOptions) => {
-        await this.client.participants.update(
-          roomId,
-          {
-            ...updatedOptions,
-            participants: mapRoomParticipantToRawIdForRemoval(participants)
-          }
-        );
+        await this.client.participants.update(roomId, {
+          ...updatedOptions,
+          participants: mapCommunicationIdentifierForRemoval(participants),
+        });
       }
     );
   }
 }
+
+export {
+  ParticipantsUpdateResponse
+} from "./generated/src";

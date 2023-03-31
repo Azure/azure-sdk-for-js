@@ -147,26 +147,8 @@ export interface ParticipantsListNextExceptionHeaders {
   errorCode?: string;
 }
 
-/** Known values of {@link Role} that the service accepts. */
-export enum KnownRole {
-  /** Presenter */
-  Presenter = "Presenter",
-  /** Attendee */
-  Attendee = "Attendee",
-  /** Consumer */
-  Consumer = "Consumer"
-}
-
-/**
- * Defines values for Role. \
- * {@link KnownRole} can be used interchangeably with Role,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Presenter** \
- * **Attendee** \
- * **Consumer**
- */
-export type Role = string;
+/** Defines values for Role. */
+export type Role = "Presenter" | "Attendee" | "Consumer";
 
 /** Optional parameters. */
 export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
