@@ -13,8 +13,8 @@ import {
 } from "../../../src";
 import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
 import { UserResponse } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import { sqlComputeEndpoint, endpoint } from "../common/_testConfig";
+import { sqlComputeEndpointMasterKey, masterKey } from "../common/_fakeTestSecrets";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
 
@@ -28,8 +28,8 @@ export const defaultClient = new CosmosClient({
 });
 
 export const defaultComputeGatewayClient = new CosmosClient({
-  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
-  key: masterKey,
+  endpoint:  sqlComputeEndpoint || endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
+  key: sqlComputeEndpointMasterKey || masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
