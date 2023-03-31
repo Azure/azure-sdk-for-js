@@ -5,7 +5,6 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { ClientAssertionCredential } from "./clientAssertionCredential";
 import {
   WorkloadIdentityCredentialOptions,
-  WorkloadIdentityDefaultCredentialOptions,
 } from "./workloadIdentityCredentialOptions";
 import { readFile } from "fs/promises";
 import { CredentialUnavailableError } from "../errors";
@@ -44,20 +43,20 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   constructor(options: WorkloadIdentityCredentialOptions);
 
-  /**
-   * @internal
-   * @hidden
-   * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
-   *
-   * @param options - The identity client options to use for authentication.
-   */
-  constructor(options?: WorkloadIdentityDefaultCredentialOptions);
-  /**
-   * @internal
-   * @hidden
-   */
+  // /**
+  //  * @internal
+  //  * @hidden
+  //  * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
+  //  *
+  //  * @param options - The identity client options to use for authentication.
+  //  */
+  // constructor(options?: WorkloadIdentityDefaultCredentialOptions);
+  // /**
+  //  * @internal
+  //  * @hidden
+  //  */
   constructor(
-    options: WorkloadIdentityDefaultCredentialOptions | WorkloadIdentityCredentialOptions
+    options:  WorkloadIdentityCredentialOptions
   ) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
