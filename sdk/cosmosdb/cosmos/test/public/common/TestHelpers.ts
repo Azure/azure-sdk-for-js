@@ -28,7 +28,8 @@ export const defaultClient = new CosmosClient({
 });
 
 export const defaultComputeGatewayClient = new CosmosClient({
-  endpoint:  sqlComputeEndpoint || endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
+  endpoint:
+    sqlComputeEndpoint || endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
   key: sqlComputeEndpointMasterKey || masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
