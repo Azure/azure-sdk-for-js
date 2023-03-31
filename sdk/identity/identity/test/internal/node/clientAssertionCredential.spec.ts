@@ -20,7 +20,7 @@ describe("ClientAssertionCredential (internal)", function () {
   let doGetTokenSpy: Sinon.SinonSpy;
 
   beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup({ testContext: this.currentTest });
     cleanup = setup.cleanup;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");

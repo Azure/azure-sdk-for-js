@@ -26,7 +26,7 @@ describe("EnvironmentCredential", function () {
   const cachedValues: Record<string, string | undefined> = {};
 
   beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup({ testContext: this.currentTest });
     recorder = setup.recorder;
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {

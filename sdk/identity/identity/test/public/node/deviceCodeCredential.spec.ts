@@ -18,7 +18,10 @@ describe("DeviceCodeCredential", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest, DeveloperSignOnClientId);
+    const setup = await msalNodeTestSetup({
+      testContext: this.currentTest,
+      playbackClientId: DeveloperSignOnClientId,
+    });
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });

@@ -14,7 +14,7 @@ describe("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+    const setup = await msalNodeTestSetup({ testContext: this.currentTest });
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });

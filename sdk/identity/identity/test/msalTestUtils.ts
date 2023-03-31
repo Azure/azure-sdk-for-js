@@ -76,10 +76,13 @@ export const openIdConfigurationResponse: Record<string, string | string[] | boo
   rbac_url: "https://pas.windows.net",
 };
 
-export async function msalNodeTestSetup(
-  testContext?: Mocha.Test,
-  playbackClientId = "azure_client_id"
-): Promise<MsalTestSetupResponse> {
+export async function msalNodeTestSetup(options: {
+  testContext?: Mocha.Test;
+  playbackClientId?: string;
+}): Promise<MsalTestSetupResponse> {
+  const { testContext } = options;
+  const playbackClientId = options.playbackClientId ?? "azure_client_id";
+
   const playbackValues = {
     correlationId: "client-request-id",
   };
