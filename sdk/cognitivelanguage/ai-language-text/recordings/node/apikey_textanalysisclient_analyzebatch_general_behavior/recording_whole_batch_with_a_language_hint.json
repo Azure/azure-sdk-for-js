@@ -6,27 +6,30 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "320",
+        "Content-Length": "429",
         "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "32f8653a-9eff-4af9-a785-b3ce427982c6"
+        "x-ms-client-request-id": "5d504bf2-6d68-4706-9379-f32b1f1dd5aa"
       },
       "RequestBody": {
         "analysisInput": {
           "documents": [
             {
+              "id": "0",
+              "text": "This was the best day of my life.",
+              "language": "en"
+            },
+            {
               "id": "1",
-              "text": "I will go to the park."
+              "text": "I did not like the hotel we stayed at. It was too expensive.",
+              "language": "en"
             },
             {
               "id": "2",
-              "text": "Este es un document escrito en Espa\u00F1ol."
-            },
-            {
-              "id": "3",
-              "text": "\u732B\u306F\u5E78\u305B"
+              "text": "The restaurant was not as good as I hoped.",
+              "language": "en"
             }
           ]
         },
@@ -47,45 +50,45 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "33ce723e-1f67-4e7b-a27a-f208ba58a5a5",
+        "apim-request-id": "efa6dd84-a821-4053-abc1-52a5f53e42c1",
         "Content-Length": "0",
-        "Date": "Fri, 31 Mar 2023 18:32:02 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
+        "Date": "Fri, 31 Mar 2023 18:31:33 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "308",
+        "x-envoy-upstream-service-time": "977",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "6779a2c8-162c-4a38-a515-1eea03fe085b"
+        "x-ms-client-request-id": "80518456-8a85-40c6-bb48-c5be50141265"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "eb560ff7-bc50-46f8-93ef-a66fad07c425",
+        "apim-request-id": "5ee7df98-a09a-49a6-afc5-7acf9dda97ae",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 31 Mar 2023 18:32:02 GMT",
+        "Date": "Fri, 31 Mar 2023 18:31:33 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9",
+        "x-envoy-upstream-service-time": "13",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "7b2476d7-3d67-4a9e-923c-dc38f9b4050b",
-        "lastUpdatedDateTime": "2023-03-31T18:32:03Z",
-        "createdDateTime": "2023-03-31T18:32:02Z",
-        "expirationDateTime": "2023-04-01T18:32:02Z",
+        "jobId": "36192de9-2c44-413c-84db-bba6dba542bb",
+        "lastUpdatedDateTime": "2023-03-31T18:31:34Z",
+        "createdDateTime": "2023-03-31T18:31:33Z",
+        "expirationDateTime": "2023-04-01T18:31:33Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -98,33 +101,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "691ca441-7019-412d-9f30-fe5e81e6ff35"
+        "x-ms-client-request-id": "b3cf5767-b05a-4156-b65f-01a831f3a804"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6288ce33-2935-44ed-84b8-04ca2729ce79",
+        "apim-request-id": "32c0fa28-620f-4280-9014-3d6592b78362",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 31 Mar 2023 18:32:02 GMT",
+        "Date": "Fri, 31 Mar 2023 18:31:34 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10",
+        "x-envoy-upstream-service-time": "28",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "7b2476d7-3d67-4a9e-923c-dc38f9b4050b",
-        "lastUpdatedDateTime": "2023-03-31T18:32:03Z",
-        "createdDateTime": "2023-03-31T18:32:02Z",
-        "expirationDateTime": "2023-04-01T18:32:02Z",
+        "jobId": "36192de9-2c44-413c-84db-bba6dba542bb",
+        "lastUpdatedDateTime": "2023-03-31T18:31:34Z",
+        "createdDateTime": "2023-03-31T18:31:33Z",
+        "expirationDateTime": "2023-04-01T18:31:33Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -137,33 +140,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "352e1936-98ce-4a65-a19d-5bfd14af1cb6"
+        "x-ms-client-request-id": "c1935392-9367-4d5c-8095-154e5653f5f3"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "99d62c38-091b-4e80-8d0a-34d32831e2e0",
-        "Content-Length": "705",
+        "apim-request-id": "734f41d7-98ec-4a9b-b85a-91314af1bb73",
+        "Content-Length": "618",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 31 Mar 2023 18:32:05 GMT",
+        "Date": "Fri, 31 Mar 2023 18:31:36 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "81",
+        "x-envoy-upstream-service-time": "112",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "7b2476d7-3d67-4a9e-923c-dc38f9b4050b",
-        "lastUpdatedDateTime": "2023-03-31T18:32:05Z",
-        "createdDateTime": "2023-03-31T18:32:02Z",
-        "expirationDateTime": "2023-04-01T18:32:02Z",
+        "jobId": "36192de9-2c44-413c-84db-bba6dba542bb",
+        "lastUpdatedDateTime": "2023-03-31T18:31:36Z",
+        "createdDateTime": "2023-03-31T18:31:33Z",
+        "expirationDateTime": "2023-04-01T18:31:33Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -173,171 +176,30 @@
           "total": 3,
           "items": [
             {
-              "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:05.1020466Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "redactedText": "I will go to the park.",
-                    "id": "1",
-                    "entities": [],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
-                    "id": "2",
-                    "entities": [],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "\u732B\u306F\u5E78\u305B",
-                    "id": "3",
-                    "entities": [],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-01-15"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "27977122-0ea8-4ab2-9912-835104febe1c"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "d9e5377d-329a-4fc2-abab-3ceec85a3fcd",
-        "Content-Length": "1537",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 31 Mar 2023 18:32:07 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "198",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "7b2476d7-3d67-4a9e-923c-dc38f9b4050b",
-        "lastUpdatedDateTime": "2023-03-31T18:32:06Z",
-        "createdDateTime": "2023-03-31T18:32:02Z",
-        "expirationDateTime": "2023-04-01T18:32:02Z",
-        "status": "succeeded",
-        "errors": [],
-        "tasks": {
-          "completed": 3,
-          "failed": 0,
-          "inProgress": 0,
-          "total": 3,
-          "items": [
-            {
-              "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:06.0381147Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "park",
-                        "category": "Location",
-                        "subcategory": "Structural",
-                        "offset": 17,
-                        "length": 4,
-                        "confidenceScore": 0.99
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "2",
-                    "entities": [
-                      {
-                        "text": "Espa\u00F1ol",
-                        "category": "Skill",
-                        "offset": 31,
-                        "length": 7,
-                        "confidenceScore": 0.94
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "3",
-                    "entities": [],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-06-01"
-              }
-            },
-            {
-              "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:05.1020466Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "redactedText": "I will go to the park.",
-                    "id": "1",
-                    "entities": [],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
-                    "id": "2",
-                    "entities": [],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "\u732B\u306F\u5E78\u305B",
-                    "id": "3",
-                    "entities": [],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-01-15"
-              }
-            },
-            {
               "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:06.0185116Z",
+              "lastUpdateDateTime": "2023-03-31T18:31:36.6615711Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
+                    "id": "0",
+                    "keyPhrases": [
+                      "best day",
+                      "life"
+                    ],
+                    "warnings": []
+                  },
+                  {
                     "id": "1",
                     "keyPhrases": [
-                      "park"
+                      "hotel"
                     ],
                     "warnings": []
                   },
                   {
                     "id": "2",
                     "keyPhrases": [
-                      "Espa\u00F1ol",
-                      "document"
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "3",
-                    "keyPhrases": [
-                      "\u306F\u5E78\u305B"
+                      "restaurant"
                     ],
                     "warnings": []
                   }
@@ -351,33 +213,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/7b2476d7-3d67-4a9e-923c-dc38f9b4050b?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
-        "x-ms-client-request-id": "92123f02-27ba-495f-bda0-8c09df7f463b"
+        "x-ms-client-request-id": "e124036e-3353-4fce-9dda-0efe65e39377"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "efdef634-99a8-412c-aac7-c823c178c353",
-        "Content-Length": "1537",
+        "apim-request-id": "26296890-553a-4004-9ac6-e03ffa608bef",
+        "Content-Length": "1602",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 31 Mar 2023 18:32:07 GMT",
+        "Date": "Fri, 31 Mar 2023 18:31:38 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "216",
+        "x-envoy-upstream-service-time": "180",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "7b2476d7-3d67-4a9e-923c-dc38f9b4050b",
-        "lastUpdatedDateTime": "2023-03-31T18:32:06Z",
-        "createdDateTime": "2023-03-31T18:32:02Z",
-        "expirationDateTime": "2023-04-01T18:32:02Z",
+        "jobId": "36192de9-2c44-413c-84db-bba6dba542bb",
+        "lastUpdatedDateTime": "2023-03-31T18:31:37Z",
+        "createdDateTime": "2023-03-31T18:31:33Z",
+        "expirationDateTime": "2023-04-01T18:31:33Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -388,19 +250,23 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:06.0381147Z",
+              "lastUpdateDateTime": "2023-03-31T18:31:37.7392034Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
+                    "id": "0",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
                     "id": "1",
                     "entities": [
                       {
-                        "text": "park",
+                        "text": "hotel",
                         "category": "Location",
-                        "subcategory": "Structural",
-                        "offset": 17,
-                        "length": 4,
+                        "offset": 19,
+                        "length": 5,
                         "confidenceScore": 0.99
                       }
                     ],
@@ -410,18 +276,14 @@
                     "id": "2",
                     "entities": [
                       {
-                        "text": "Espa\u00F1ol",
-                        "category": "Skill",
-                        "offset": 31,
-                        "length": 7,
-                        "confidenceScore": 0.94
+                        "text": "restaurant",
+                        "category": "Location",
+                        "subcategory": "Structural",
+                        "offset": 4,
+                        "length": 10,
+                        "confidenceScore": 0.96
                       }
                     ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "3",
-                    "entities": [],
                     "warnings": []
                   }
                 ],
@@ -431,25 +293,25 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:05.1020466Z",
+              "lastUpdateDateTime": "2023-03-31T18:31:37.7569147Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
-                    "redactedText": "I will go to the park.",
+                    "redactedText": "This was the best day of my life.",
+                    "id": "0",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "I did not like the hotel we stayed at. It was too expensive.",
                     "id": "1",
                     "entities": [],
                     "warnings": []
                   },
                   {
-                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
+                    "redactedText": "The restaurant was not as good as I hoped.",
                     "id": "2",
-                    "entities": [],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "\u732B\u306F\u5E78\u305B",
-                    "id": "3",
                     "entities": [],
                     "warnings": []
                   }
@@ -460,29 +322,174 @@
             },
             {
               "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-03-31T18:32:06.0185116Z",
+              "lastUpdateDateTime": "2023-03-31T18:31:36.6615711Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
+                    "id": "0",
+                    "keyPhrases": [
+                      "best day",
+                      "life"
+                    ],
+                    "warnings": []
+                  },
+                  {
                     "id": "1",
                     "keyPhrases": [
-                      "park"
+                      "hotel"
                     ],
                     "warnings": []
                   },
                   {
                     "id": "2",
                     "keyPhrases": [
-                      "Espa\u00F1ol",
-                      "document"
+                      "restaurant"
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/36192de9-2c44-413c-84db-bba6dba542bb?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "339c0b94-6b09-4305-9c81-2335d90f5180"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5c07ec43-3f95-4a35-bd89-82aefd462124",
+        "Content-Length": "1602",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 18:31:38 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "196",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "36192de9-2c44-413c-84db-bba6dba542bb",
+        "lastUpdatedDateTime": "2023-03-31T18:31:37Z",
+        "createdDateTime": "2023-03-31T18:31:33Z",
+        "expirationDateTime": "2023-04-01T18:31:33Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 3,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 3,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:31:37.7392034Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "hotel",
+                        "category": "Location",
+                        "offset": 19,
+                        "length": 5,
+                        "confidenceScore": 0.99
+                      }
                     ],
                     "warnings": []
                   },
                   {
-                    "id": "3",
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "restaurant",
+                        "category": "Location",
+                        "subcategory": "Structural",
+                        "offset": 4,
+                        "length": 10,
+                        "confidenceScore": 0.96
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:31:37.7569147Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "This was the best day of my life.",
+                    "id": "0",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "I did not like the hotel we stayed at. It was too expensive.",
+                    "id": "1",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "The restaurant was not as good as I hoped.",
+                    "id": "2",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "KeyPhraseExtractionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:31:36.6615711Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
                     "keyPhrases": [
-                      "\u306F\u5E78\u305B"
+                      "best day",
+                      "life"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "keyPhrases": [
+                      "hotel"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "keyPhrases": [
+                      "restaurant"
                     ],
                     "warnings": []
                   }

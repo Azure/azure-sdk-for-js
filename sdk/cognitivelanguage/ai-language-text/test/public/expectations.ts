@@ -1153,7 +1153,14 @@ export const expectation15: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, subCategory: "Structural", length: 4, confidenceScore: 0.99 },
+          {
+            text: "park",
+            category: "Location",
+            offset: 17,
+            subCategory: "Structural",
+            length: 4,
+            confidenceScore: 0.99,
+          },
         ],
       },
       {
