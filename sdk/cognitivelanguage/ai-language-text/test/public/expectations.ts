@@ -1153,7 +1153,7 @@ export const expectation15: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+          { text: "park", category: "Location", offset: 17, subCategory: "Structural", length: 4, confidenceScore: 0.99 },
         ],
       },
       {
@@ -6927,7 +6927,14 @@ export const expectation71: any = [
         id: "0",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+          {
+            text: "park",
+            category: "Location",
+            offset: 17,
+            subCategory: "Structural",
+            length: 4,
+            confidenceScore: 0.99,
+          },
         ],
         detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
         isLanguageDefaulted: false,
