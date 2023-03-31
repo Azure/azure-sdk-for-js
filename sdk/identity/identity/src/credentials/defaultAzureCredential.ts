@@ -115,7 +115,7 @@ export class DefaultWorkloadIdentityCredential extends WorkloadIdentityCredentia
       };
       super(workloadIdentityClientTenantOptions);
     } else {
-      super({...options});
+      super(options as WorkloadIdentityCredentialOptions);
     }
   }
 }
