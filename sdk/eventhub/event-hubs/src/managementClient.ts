@@ -20,7 +20,6 @@ import {
   ReceiverOptions,
   SenderEvents,
   SenderOptions,
-  generate_uuid,
 } from "rhea-promise";
 import {
   createLogPrefix,
@@ -450,10 +449,10 @@ export class ManagementClient {
         count++;
         if (count !== 1) {
           // Generate a new message_id every time after the first attempt
-          request.message_id = generate_uuid();
+          request.message_id = getRandomName();
         } else if (!request.message_id) {
           // Set the message_id in the first attempt only if it is not set
-          request.message_id = generate_uuid();
+          request.message_id = getRandomName();
         }
 
         return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
