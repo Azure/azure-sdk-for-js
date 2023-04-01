@@ -1,41 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as json from "ajv";
 import {
   JsonSerializerOptions,
-  DeserializeOptions,
   MessageAdapter,
   MessageContent,
 } from "./models";
-import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
-import LRUCache from "lru-cache";
-import LRUCacheOptions = LRUCache.Options;
+import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
-import { logger } from "./logger";
+import { AjvDeserializer, CacheEntry, cache, getCacheByDefinition, getCacheById, getSchemaObject } from "./cache";
+import { SchemaObject } from "ajv";
+import { errorWithCause, wrapError } from "./errors";
 
-type AVSCSerializer = json.Type;
 
-interface CacheEntry {
-  /** Schema ID */
-  id: string;
-
-  /** avsc-specific representation for schema */
-  serializer: AVSCSerializer;
-}
-
-const jsonMimeType = "json/binary";
-const cacheOptions: LRUCacheOptions<string, any> = {
-  max: 128,
-  /**
-   * This is needed in order to specify `sizeCalculation` but we do not intend
-   * to limit the size just yet.
-   */
-  maxSize: Number.MAX_VALUE,
-  sizeCalculation: (_value: any, key: string) => {
-    return key.length;
-  },
-};
+const jsonMimeType = "application/json";
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
 
 /**
  * Json serializer that obtains schemas from a schema registry and does not
@@ -59,8 +39,6 @@ export class JsonSerializer<MessageT = MessageContent> {
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
-  private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
-  private readonly cacheById = new LRUCache<string, AVSCSerializer>(cacheOptions);
   /**
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
@@ -73,15 +51,10 @@ export class JsonSerializer<MessageT = MessageContent> {
    * Thrown if the schema can not be parsed or the value does not match the schema.
    */
   async serialize(value: unknown, schema: string): Promise<MessageT> {
-    const entry = await this.getSchemaByDefinition(schema);
-    const buffer = wrapError(
-      () => entry.serializer.toBuffer(value),
+    const entry = await this.getSchemaId(schema);
+    const data = wrapError(
+      () => encoder.encode(entry.serializer(value)),
       `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
-    );
-    const data = new Uint8Array(
-      buffer.buffer,
-      buffer.byteOffset,
-      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
     );
     const contentType = `${jsonMimeType}+${entry.id}`;
     return this.messageAdapter
@@ -96,7 +69,7 @@ export class JsonSerializer<MessageT = MessageContent> {
          */
         ({
           data,
-          contentType: contentType,
+          contentType,
         } as MessageContent as unknown as MessageT);
   }
 
@@ -105,41 +78,25 @@ export class JsonSerializer<MessageT = MessageContent> {
    * field if no schema was provided.
    *
    * @param message - The message with the payload to be deserialized.
-   * @param options - Decoding options.
    * @returns The deserialized value.
    * @throws {@link Error}
    * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
-  async deserialize(message: MessageT, options: DeserializeOptions = {}): Promise<unknown> {
-    const { schema: readerSchema } = options;
+  async deserialize(message: MessageT): Promise<unknown> {
     const { data, contentType } = convertMessage(message, this.messageAdapter);
-    const buffer = Buffer.from(data);
-    const writerSchemaId = getSchemaId(contentType);
-    const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
-    if (readerSchema) {
-      const readerSchemaSerializer = getSerializerForSchema(readerSchema);
-      const resolver = wrapError(
-        () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Json reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee 'cause' for more details.`
-      );
-      return wrapError(
-        () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Json deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee 'cause' for more details. Writer schema ID: ${writerSchemaId}`
-      );
-    } else {
-      return wrapError(
-        () => writerSchemaSerializer.fromBuffer(buffer),
-        `Json deserialization failed with schema ID (${writerSchemaId}). See 'cause' for more details.`
-      );
-    }
+    const schemaId = getSchemaId(contentType);
+    const deserializer = await this.getSchemaById(schemaId);
+    return wrapError(
+      () => deserializer(decoder.decode(data)),
+      `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
+    );
   }
 
-  private async getSchemaById(schemaId: string): Promise<AVSCSerializer> {
-    const cached = this.cacheById.get(schemaId);
+  private async getSchemaById(schemaId: string): Promise<AjvDeserializer> {
+    const cached = getCacheById(schemaId);
     if (cached) {
       return cached;
     }
-
     const schemaResponse = await this.registry.getSchema(schemaId);
     if (!schemaResponse) {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
@@ -150,35 +107,26 @@ export class JsonSerializer<MessageT = MessageContent> {
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
       );
     }
-
-    const jsonType = getSerializerForSchema(schemaResponse.definition);
-    return this.cache(schemaId, schemaResponse.definition, jsonType).serializer;
+    return cache(schemaId, schemaResponse.definition).derserializer;
   }
 
-  private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
-    const cached = this.cacheBySchemaDefinition.get(schema);
+  private async getSchemaId(definition: string): Promise<CacheEntry> {
+    const cached = getCacheByDefinition(definition);
     if (cached) {
       return cached;
     }
-
-    const jsonType = getSerializerForSchema(schema);
-    if (!jsonType.name) {
-      throw new Error("Schema must have a name.");
-    }
-
     if (!this.schemaGroup) {
       throw new Error(
         "Schema group must have been specified in the constructor options when the client was created in order to serialize."
       );
     }
-
+    const schemaObj = getSchemaObject(definition);
     const description: SchemaDescription = {
       groupName: this.schemaGroup,
-      name: jsonType.name,
-      format: "Json",
-      definition: schema,
+      name: getSchemaName(schemaObj),
+      format: KnownSchemaFormats.Json,
+      definition,
     };
-
     let id: string;
     if (this.autoRegisterSchemas) {
       id = (await this.registry.registerSchema(description)).id;
@@ -197,17 +145,7 @@ export class JsonSerializer<MessageT = MessageContent> {
       }
     }
 
-    return this.cache(id, schema, jsonType);
-  }
-
-  private cache(id: string, schema: string, serializer: AVSCSerializer): CacheEntry {
-    const entry = { id, serializer };
-    this.cacheBySchemaDefinition.set(schema, entry);
-    this.cacheById.set(id, serializer);
-    logger.verbose(
-      `Cache entry added or updated. Total number of entries: ${this.cacheBySchemaDefinition.size}; Total schema length ${this.cacheBySchemaDefinition.calculatedSize}`
-    );
-    return entry;
+    return cache(id, definition, schemaObj);
   }
 }
 
@@ -240,30 +178,10 @@ function convertMessage<MessageT>(
   }
 }
 
-function getSerializerForSchema(schema: string): AVSCSerializer {
-  return wrapError(
-    () => json.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
-  );
-}
-
-function wrapError<T>(f: () => T, message: string): T {
-  let result: T;
-  try {
-    result = f();
-  } catch (cause) {
-    throw errorWithCause(message, cause as Error);
+function getSchemaName(schema: SchemaObject): string {
+  const id = schema.$id || schema.id;
+  if (!id) {
+    throw new Error("Schema must have an ID.");
   }
-  return result;
-}
-
-function errorWithCause(message: string, cause: Error): Error {
-  return new Error(
-    message,
-    // TS v4.6 and below do not yet recognize the cause option in the Error constructor
-    // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { cause }
-  );
+  return id;
 }

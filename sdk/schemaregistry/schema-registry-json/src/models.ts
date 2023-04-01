@@ -51,13 +51,3 @@ export interface JsonSerializerOptions<MessageT> {
    */
   messageAdapter?: MessageAdapter<MessageT>;
 }
-
-/**
- * The options to the deserialize method.
- */
-export interface DeserializeOptions {
-  /**
-   * The schema to be used for deserializing.
-   */
-  schema?: string;
-}

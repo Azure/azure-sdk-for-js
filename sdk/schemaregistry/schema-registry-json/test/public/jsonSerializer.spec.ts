@@ -6,17 +6,14 @@ import {
   createTestSerializer,
   registerTestSchema,
 } from "./utils/mockedSerializer";
-import { assert, use as chaiUse } from "chai";
-import { testJsonType, testGroup, testSchema, testValue } from "./utils/dummies";
+import { assert } from "@azure/test-utils";
+import { decoder, testDeserialize, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import { MessageContent } from "../../src/";
-import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { v4 as uuid } from "uuid";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 
-chaiUse(chaiPromises);
 
 describe("JsonSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
@@ -39,17 +36,8 @@ describe("JsonSerializer", async function () {
       registry,
     });
     const { contentType, data } = await serializer.serialize(testValue, testSchema);
-    assert.isUndefined((data as Buffer).readBigInt64BE);
-    const buffer = Buffer.from(data);
     assert.strictEqual(`json/binary+${schemaId}`, contentType);
-    assert.deepStrictEqual(testJsonType.fromBuffer(buffer), testValue);
-    assert.equal(serializer["cacheById"].size, 1);
-    assert.equal(
-      serializer["cacheById"].peek(schemaId)?.name,
-      "com.azure.schemaregistry.samples.JsonUser"
-    );
-    assert.equal(serializer["cacheBySchemaDefinition"].size, 1);
-    assert.equal(serializer["cacheBySchemaDefinition"].peek(testSchema)?.id, schemaId);
+    assert.deepStrictEqual(testDeserialize(decoder.decode(data)), testValue);
   });
 
   it("deserializes from the expected format", async () => {

@@ -13,8 +13,8 @@ import {
 } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { testSchemaIds } from "./dummies";
-import { v4 as uuid } from "uuid";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { randomUUID } from "@azure/core-util";
 
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
@@ -84,7 +84,7 @@ function createMockedTestRegistry(): SchemaRegistry {
 
     function newId(): string {
       if (idCounter >= testSchemaIds.length) {
-        return uuid();
+        return randomUUID();
       }
       const id = testSchemaIds[idCounter];
       idCounter++;

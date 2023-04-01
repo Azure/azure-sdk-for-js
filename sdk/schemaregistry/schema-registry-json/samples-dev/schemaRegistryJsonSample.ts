@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient, SchemaDescription, KnownSchemaFormats } from "@azure/schema-registry";
 import { JsonSerializer } from "@azure/schema-registry-json";
 
 // Load the .env file if it exists
@@ -17,24 +17,26 @@ dotenv.config();
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
 
-// The schema group to use for schema registeration or lookup
+// The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Json Schema for user with first and last names
-const schemaObject = {
-  type: "record",
-  name: "User",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "firstName",
+export const schemaObject = {
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "https://example.com/product.schema.json",
+  title: "User",
+  description: "A user for the product",
+  type: "object",
+  properties: {
+    firstName: {
       type: "string",
+      required: true,
     },
-    {
-      name: "lastName",
+    lastName: {
       type: "string",
+      required: true,
     },
-  ],
+  },
 };
 
 // Matching TypeScript interface for schema
@@ -47,9 +49,9 @@ const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: schemaObject.$id,
   groupName,
-  format: "Json",
+  format: KnownSchemaFormats.Json,
   definition: schema,
 };
 
