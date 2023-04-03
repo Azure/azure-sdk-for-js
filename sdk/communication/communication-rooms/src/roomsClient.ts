@@ -13,20 +13,22 @@ import {
 import { logger } from "./logger";
 import { tracingClient } from "./tracing";
 import { 
-  ParticipantsUpdateResponse, 
+  RoomParticipant, 
   RoomsRestClient
 } from "./generated/src";
 import { mapCommunicationIdentifierForRemoval, mapRoomParticipantToRawId } from "./models/mappers";
-import { Room, RoomParticipant } from "./models/models";
+import { CommunicationRoom, InvitedRoomParticipant } from "./models/models";
 import {
   CreateRoomOptions,
   DeleteRoomOptions,
   GetParticipantsOptions,
   GetRoomOptions,
   RemoveParticipantsOptions,
+  RemoveParticipantsResults,
   RoomsClientOptions,
   UpdateRoomOptions,
   UpsertParticipantsOptions,
+  UpsertParticipantsResult,
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -38,6 +40,12 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
  */
 const isRoomsClientOptions = (options: any): options is RoomsClientOptions =>
   !!options && !isKeyCredential(options);
+
+/**
+ * @internal
+ * Empty response object
+ */
+const EmptyResponse = {};
 
 /**
  * The Rooms service client.
@@ -98,7 +106,7 @@ export class RoomsClient {
    * @param options - Operation options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async createRoom(options: CreateRoomOptions = {}): Promise<Room> {
+  public async createRoom(options: CreateRoomOptions = {}): Promise<CommunicationRoom> {
     const repeatabilityRequestId = generateUuid();
     const repeatabilityFirstSent = new Date();
     return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
@@ -118,7 +126,7 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<Room> {
+  public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async () => {
       return await this.client.rooms.update(roomId, options);
     });
@@ -130,7 +138,7 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<Room> {
+  public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-GetRoom", options, async (updatedOptions) => {
       return await this.client.rooms.get(roomId, updatedOptions);
     });
@@ -176,17 +184,18 @@ export class RoomsClient {
    */
   public async upsertParticipants(
     roomId: string,
-    participants: RoomParticipant[],
+    participants: InvitedRoomParticipant[],
     options: UpsertParticipantsOptions = {}
-  ): Promise<ParticipantsUpdateResponse> {
+  ): Promise<UpsertParticipantsResult> {
     return tracingClient.withSpan(
       "RoomsClient-UpsertParticipants",
       options,
       async (updatedOptions) => {
-        return await this.client.participants.update(roomId, {
+        await this.client.participants.update(roomId, {
           ...updatedOptions,
           participants: mapRoomParticipantToRawId(participants),
         });
+        return EmptyResponse;
       }
     );
   }
@@ -202,7 +211,7 @@ export class RoomsClient {
     roomId: string,
     participants: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {}
-  ): Promise<void> {
+  ): Promise<RemoveParticipantsResults> {
     return tracingClient.withSpan(
       "RoomsClient-RemoveParticipants",
       options,
@@ -211,6 +220,7 @@ export class RoomsClient {
           ...updatedOptions,
           participants: mapCommunicationIdentifierForRemoval(participants),
         });
+        return EmptyResponse;
       }
     );
   }

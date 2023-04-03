@@ -5,7 +5,7 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomParticipant, CreateRoomOptions } from "@azure/communication-rooms";
+import { RoomsClient, InvitedRoomParticipant, CreateRoomOptions, RoomParticipant } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
@@ -46,7 +46,7 @@ export async function main() {
   console.log(`Created Room with ID ${roomId}`);
 
   // request payload to add participants
-  const addParticipantsList: RoomParticipant[] = [
+  const addParticipantsList: InvitedRoomParticipant[] = [
     {
       id: user2.user,
       role: "Consumer",
@@ -60,7 +60,7 @@ export async function main() {
   printParticipants(addedParticipants);
 
   // request payload to update user1 with a new role
-  const updateParticipantsList: RoomParticipant[] = [
+  const updateParticipantsList: InvitedRoomParticipant[] = [
     {
       id: user1.user,
       role: "Presenter",

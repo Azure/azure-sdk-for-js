@@ -7,7 +7,7 @@
 
 import {
   RoomsClient,
-  Room,
+  CommunicationRoom,
   CreateRoomOptions,
   UpdateRoomOptions,
 } from "@azure/communication-rooms";
@@ -76,7 +76,7 @@ export async function main() {
  * Outputs the details of a Room to console.
  * @param room - The Room being printed to console.
  */
-function printRoom(room: Room): void {
+function printRoom(room: CommunicationRoom): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);

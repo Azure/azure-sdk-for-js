@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { RoomParticipant } from "./models";
+import { InvitedRoomParticipant } from "./models";
 
 /**
  * Options to create rooms client.
@@ -18,7 +18,7 @@ export interface CreateRoomOptions extends OperationOptions {
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
   /** Collection of participants invited to the room. */
-  participants?: RoomParticipant[];
+  participants?: InvitedRoomParticipant[];
 }
 
 /**
@@ -55,3 +55,13 @@ export type UpsertParticipantsOptions = OperationOptions;
  * Options to remove participants from a room.
  */
 export type RemoveParticipantsOptions = OperationOptions;
+
+/** 
+ * Results of participant upsert operation 
+ */
+export type UpsertParticipantsResult = {};
+
+/**
+ * Results of participant removal operation
+ */
+export type RemoveParticipantsResults = {};

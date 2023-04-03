@@ -2,21 +2,21 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { RoomParticipant } from "./models";
+import { InvitedRoomParticipant } from "./models";
 import {
   CommunicationIdentifier,
   getIdentifierKind,
   getIdentifierRawId,
 } from "@azure/communication-common";
-import { ParticipantProperties } from "../generated/src/models";
+import { ParticipantProperties, RoomParticipant } from "../generated/src/models";
 
 /**
  * @internal
  * Mapping room participant customer model to room participant REST model.
  */
 export const mapToRoomParticipantRestModel = (
-  roomParticipant: RoomParticipant
-): RestModel.RoomParticipant => {
+  roomParticipant: InvitedRoomParticipant
+): RoomParticipant => {
   const { id, role } = roomParticipant;
   if (getIdentifierKind(id).kind !== "communicationUser") {
     throwException("We currently only support CommunicationUsers");
@@ -32,7 +32,7 @@ export const mapToRoomParticipantRestModel = (
  * Mapping room participant role to participants rawId.
  */
 export const mapRoomParticipantToRawId = (
-  participants?: RoomParticipant[]
+  participants?: InvitedRoomParticipant[]
 ): Record<string, ParticipantProperties> => {
   participants = participants ?? [];
   const mappedParticipants: Record<string, RestModel.ParticipantProperties> = {};

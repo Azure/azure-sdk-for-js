@@ -12,8 +12,11 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type CommunicationRoom = RoomModel;
+
+// @public
 export interface CreateRoomOptions extends OperationOptions {
-    participants?: RoomParticipant[];
+    participants?: InvitedRoomParticipant[];
     validFrom?: Date;
     validUntil?: Date;
 }
@@ -28,16 +31,26 @@ export type GetParticipantsOptions = OperationOptions;
 export type GetRoomOptions = OperationOptions;
 
 // @public
+export interface InvitedRoomParticipant {
+    id: CommunicationIdentifier;
+    rawId?: string;
+    role?: ParticipantRole;
+}
+
+// @public
+export type ParticipantRole = Role;
+
+// @public
 export type ParticipantsUpdateResponse = Record<string, unknown>;
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
-export type Role = "Presenter" | "Attendee" | "Consumer";
+export type RemoveParticipantsResults = {};
 
 // @public
-export type Room = RoomModel;
+export type Role = "Presenter" | "Attendee" | "Consumer";
 
 // @public
 export interface RoomModel {
@@ -47,11 +60,10 @@ export interface RoomModel {
     validUntil: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface RoomParticipant {
-    id: CommunicationIdentifier;
-    rawId?: string;
-    role?: Role;
+    rawId: string;
+    role: Role;
 }
 
 // @public
@@ -59,13 +71,13 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    createRoom(options?: CreateRoomOptions): Promise<Room>;
+    createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
-    getRoom(roomId: string, options?: GetRoomOptions): Promise<Room>;
-    removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
-    updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<Room>;
-    upsertParticipants(roomId: string, participants: RoomParticipant[], options?: UpsertParticipantsOptions): Promise<ParticipantsUpdateResponse>;
+    getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
+    removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResults>;
+    updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
+    upsertParticipants(roomId: string, participants: InvitedRoomParticipant[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;
 }
 
 // @public
@@ -80,6 +92,9 @@ export interface UpdateRoomOptions extends OperationOptions {
 
 // @public
 export type UpsertParticipantsOptions = OperationOptions;
+
+// @public
+export type UpsertParticipantsResult = {};
 
 // (No @packageDocumentation comment for this package)
 

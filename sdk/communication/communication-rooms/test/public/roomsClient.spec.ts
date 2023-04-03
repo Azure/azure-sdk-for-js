@@ -9,7 +9,7 @@ import sinon from "sinon";
 import { RoomsClient } from "../../src/roomsClient";
 import { CommunicationUserIdentifier, getIdentifierRawId } from "@azure/communication-common";
 import { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
-import { RoomParticipant } from "../../src/models/models";
+import { InvitedRoomParticipant } from "../../src/models/models";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;
@@ -155,7 +155,7 @@ describe("RoomsClient", function () {
 
     it("successfully adds a participant to the room", async function () {
       testUser = (await createTestUser(recorder)).user;
-      const participants: RoomParticipant[] = [
+      const participants: InvitedRoomParticipant[] = [
         {
           id: testUser,
           role: "Presenter",
@@ -223,7 +223,7 @@ describe("RoomsClient", function () {
       assert.isDefined(createRoomResult);
       roomId = createRoomResult.id;
 
-      const participants: RoomParticipant[] = [
+      const participants: InvitedRoomParticipant[] = [
         {
           id: testUser,
           role: "Presenter",
