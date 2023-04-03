@@ -238,5 +238,3 @@ export class RoomsClient {
     );
   }
 }
-
-export { ParticipantsUpdateResponse } from "./generated/src";

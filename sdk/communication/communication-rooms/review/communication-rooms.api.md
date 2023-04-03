@@ -48,9 +48,6 @@ export type ListRoomOptions = OperationOptions;
 export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 
 // @public
-export type ParticipantsUpdateResponse = Record<string, unknown>;
-
-// @public
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
