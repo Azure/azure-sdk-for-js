@@ -2,13 +2,21 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
-import { Role, RoomModel } from "../generated/src";
 
 /** The meeting room. */
-export type CommunicationRoom = RoomModel;
+export interface CommunicationRoom {
+  /** Unique identifier of a room. This id is server generated. */
+  id: string;
+  /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  createdAt: Date;
+  /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  validFrom: Date;
+  /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  validUntil: Date;
+}
 
 /** The participant's role in the room */
-export type ParticipantRole = Role;
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 
 /** A participant invited to the room. */
 export interface InvitedRoomParticipant {
@@ -18,8 +26,10 @@ export interface InvitedRoomParticipant {
   role?: ParticipantRole;
 }
 
-export {
-  Role,
-  RoomModel,
-  RoomParticipant
-} from "../generated/src";
+/** A participant of the room. */
+export interface RoomParticipant {
+  /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
+  rawId: string;
+  /** The role of a room participant. The default value is Attendee. */
+  role: ParticipantRole;
+}

@@ -12,7 +12,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type CommunicationRoom = RoomModel;
+export interface CommunicationRoom {
+    createdAt: Date;
+    id: string;
+    validFrom: Date;
+    validUntil: Date;
+}
 
 // @public
 export interface CreateRoomOptions extends OperationOptions {
@@ -40,7 +45,7 @@ export interface InvitedRoomParticipant {
 export type ListRoomOptions = OperationOptions;
 
 // @public
-export type ParticipantRole = Role;
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 
 // @public
 export type ParticipantsUpdateResponse = Record<string, unknown>;
@@ -49,23 +54,12 @@ export type ParticipantsUpdateResponse = Record<string, unknown>;
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
-export type RemoveParticipantsResults = {};
-
-// @public
-export type Role = "Presenter" | "Attendee" | "Consumer";
-
-// @public
-export interface RoomModel {
-    createdAt: Date;
-    id: string;
-    validFrom: Date;
-    validUntil: Date;
-}
+export type RemoveParticipantsResult = Record<string, never>;
 
 // @public
 export interface RoomParticipant {
     rawId: string;
-    role: Role;
+    role: ParticipantRole;
 }
 
 // @public
@@ -78,7 +72,7 @@ export class RoomsClient {
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
     listParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
     listRooms(options?: ListRoomOptions): Promise<PagedAsyncIterableIterator<CommunicationRoom>>;
-    removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResults>;
+    removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
     updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
     upsertParticipants(roomId: string, participants: InvitedRoomParticipant[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;
 }
@@ -97,7 +91,7 @@ export interface UpdateRoomOptions extends OperationOptions {
 export type UpsertParticipantsOptions = OperationOptions;
 
 // @public
-export type UpsertParticipantsResult = {};
+export type UpsertParticipantsResult = Record<string, never>;
 
 // (No @packageDocumentation comment for this package)
 

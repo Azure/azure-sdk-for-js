@@ -12,12 +12,9 @@ import {
 
 import { logger } from "./logger";
 import { tracingClient } from "./tracing";
-import { 
-  RoomParticipant, 
-  RoomsRestClient
-} from "./generated/src";
+import { RoomsRestClient } from "./generated/src";
 import { mapCommunicationIdentifierForRemoval, mapRoomParticipantToRawId } from "./models/mappers";
-import { CommunicationRoom, InvitedRoomParticipant } from "./models/models";
+import { CommunicationRoom, InvitedRoomParticipant, RoomParticipant } from "./models/models";
 import {
   CreateRoomOptions,
   DeleteRoomOptions,
@@ -25,7 +22,7 @@ import {
   GetRoomOptions,
   ListRoomOptions,
   RemoveParticipantsOptions,
-  RemoveParticipantsResults,
+  RemoveParticipantsResult,
   RoomsClientOptions,
   UpdateRoomOptions,
   UpsertParticipantsOptions,
@@ -226,7 +223,7 @@ export class RoomsClient {
     roomId: string,
     participants: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {}
-  ): Promise<RemoveParticipantsResults> {
+  ): Promise<RemoveParticipantsResult> {
     return tracingClient.withSpan(
       "RoomsClient-RemoveParticipants",
       options,

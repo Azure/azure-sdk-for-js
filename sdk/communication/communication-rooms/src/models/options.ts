@@ -69,4 +69,4 @@ export type UpsertParticipantsResult = Record<string, never>;
 /**
  * Results of participant removal operation
  */
-export type RemoveParticipantsResults = Record<string, never>;
+export type RemoveParticipantsResult = Record<string, never>;
