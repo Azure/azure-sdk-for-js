@@ -44,7 +44,7 @@ export function extractPartitionKeys(
 
     const partitionKeys: PrimitivePartitionKeyValue[] = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
-      let obj = extractPartitionKey(path, document);
+      const obj = extractPartitionKey(path, document);
       if (obj === undefined) {
         logger.warning("Unsupported PartitionKey found.");
         return undefined;

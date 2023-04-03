@@ -31,6 +31,6 @@ export const NullPartitionKeyLiteral: NullPartitionKeyType = null;
  */
 export function convertToInternalPartitionKey(partitionKey: PartitionKey): PartitionKeyInternal {
   if (Array.isArray(partitionKey))
-    return partitionKey.map((key) => (key === undefined ? NonePartitionKeyLiteral : key));
+    {return partitionKey.map((key) => (key === undefined ? NonePartitionKeyLiteral : key));}
   else return [partitionKey];
 }
