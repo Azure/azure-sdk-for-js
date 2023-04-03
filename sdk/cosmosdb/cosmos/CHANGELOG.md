@@ -1,6 +1,6 @@
 # Release History
 
-## 3.17.4-beta.1 (Unreleased)
+## 3.17.4-beta.1 (2023-03-04)
 
 ### Features Added
 
