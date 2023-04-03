@@ -41,7 +41,7 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
-  ProcessErrorArgs
+  ProcessErrorArgs,
 } from "@azure/service-bus";
 
 if (isNode) {
@@ -87,7 +87,6 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
     ? removeAllNonChar(communicationIdentifierModel.rawId)
     : "";
 }
-
 
 function createServiceBusClient(): ServiceBusClient {
   return new ServiceBusClient(serviceBusConnectionString);
@@ -167,7 +166,7 @@ export async function serviceBusWithNewCall(
   if (!isPlaybackMode()) {
     // subscribe to event dispatcher
     const dispatcherUrl: string =
-        dispatcherEndpoint + `/api/servicebuscallback/subscribe?q=${uniqueId}`;
+      dispatcherEndpoint + `/api/servicebuscallback/subscribe?q=${uniqueId}`;
     try {
       const client = createDefaultHttpClient();
       const request = createPipelineRequest({
