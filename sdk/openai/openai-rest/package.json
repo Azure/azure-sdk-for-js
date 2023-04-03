@@ -70,6 +70,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0"
   },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest/README.md",
   "//metadata": {
     "constantPaths": [
       { "path": "src/azureOpenAIServiceAPI.ts", "prefix": "userAgentInfo" },

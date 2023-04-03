@@ -6,7 +6,9 @@ Azure OpenAI APIs for completions and search
 
 Key links:
 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest)
 - [Package (NPM)](https://www.npmjs.com/package/api-client-factory)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest/samples)
 
 ## Getting started
 
