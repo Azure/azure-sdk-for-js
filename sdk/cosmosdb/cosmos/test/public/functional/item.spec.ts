@@ -56,7 +56,7 @@ interface TestItem {
   foo?: string;
   key?: string | number | boolean;
   key2?: string | number | boolean;
-  _partitionKey?: string,
+  _partitionKey?: string;
   replace?: string;
   nested1?: {
     nested2: {
@@ -354,13 +354,13 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
       key: "value",
       replace: "new property",
     },
-    containerDef: { 
+    containerDef: {
       id: "default container with multiple physical partition",
-      throughput: 12000
+      throughput: 12000,
     },
     originalItemPartitionKey: "aswww",
     replacedItemPartitionKey: "aswww",
-  }
+  };
 
   const dataSetForDefaultMultiplePhysicalPartition2: CRUDTestDataSet = {
     ...dataSetForDefaultSinglePhysicalPartition,
@@ -378,13 +378,13 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
       key: "value",
       replace: "new property",
     },
-    containerDef: { 
+    containerDef: {
       id: "default container with multiple physical partition",
-      throughput: 12000
+      throughput: 12000,
     },
     originalItemPartitionKey: "asdfadsf",
     replacedItemPartitionKey: "asdfadsf",
-  }
+  };
 
   const dataSetForHierarchicalPartitionKey: CRUDTestDataSet = {
     containerDef: {
@@ -894,7 +894,12 @@ describe("bulk/batch item operations", async function () {
               documentToCreate: [
                 { id: readItemId, key: true, key2: true, class: "2010" },
                 { id: createItemWithBooleanPartitionKeyId, key: true, key2: false, class: "2010" },
-                { id: createItemWithUnknownPartitionKeyId, key: undefined, key2: {}, class: "2010" },
+                {
+                  id: createItemWithUnknownPartitionKeyId,
+                  key: undefined,
+                  key2: {},
+                  class: "2010",
+                },
                 { id: createItemWithNumberPartitionKeyId, key: 0, key2: 3, class: "2010" },
                 { id: createItemWithStringPartitionKeyId, key: 5, key2: {}, class: "2010" },
                 { id: deleteItemId, key: {}, key2: {}, class: "2011" },
@@ -1621,7 +1626,7 @@ describe("bulk/batch item operations", async function () {
           partitionKey: {
             paths: ["/key1", "/key2"],
             version: 2,
-            kind: PartitionKeyKind.MultiHash
+            kind: PartitionKeyKind.MultiHash,
           },
           throughput: 25100,
         });
@@ -1827,12 +1832,13 @@ describe("patch operations", function () {
         partitionKey: {
           paths: ["/key1", "/key2"],
           version: 2,
-          kind: PartitionKeyKind.MultiHash
+          kind: PartitionKeyKind.MultiHash,
         },
         throughput: 25100,
       });
       container = contResponse.container;
-      await container.items.upsert({ // Second physical partition
+      await container.items.upsert({
+        // Second physical partition
         id: addItemId,
         first: 1,
         last: "a",
@@ -1844,7 +1850,8 @@ describe("patch operations", function () {
         },
         num: 0,
       });
-      await container.items.upsert({ // First physical partition
+      await container.items.upsert({
+        // First physical partition
         id: addItemWithOnePartitionKeyId,
         first: 1,
         last: "a",
@@ -1856,7 +1863,8 @@ describe("patch operations", function () {
         },
         num: 0,
       });
-      await container.items.upsert({ // First physical partition
+      await container.items.upsert({
+        // First physical partition
         id: addItemWithNoPartitionKeyId,
         first: 1,
         last: "a",
@@ -1866,7 +1874,8 @@ describe("patch operations", function () {
         },
         num: 0,
       });
-      await container.items.upsert({ // First physical partition
+      await container.items.upsert({
+        // First physical partition
         id: conditionItemId,
         first: 1,
         last: "a",
@@ -1906,21 +1915,27 @@ describe("patch operations", function () {
           value: 5,
         },
       ];
-      const { resource: addItem } = await container.item(addItemId, ["asdf", "dfs"]).patch(operations);
+      const { resource: addItem } = await container
+        .item(addItemId, ["asdf", "dfs"])
+        .patch(operations);
       assert.strictEqual(addItem.num, 5);
       assert.strictEqual(addItem.existingObj.newKey, "newVal");
       assert.strictEqual(addItem.laster, "c");
       assert.strictEqual(addItem.last, "b");
       assert.strictEqual(addItem.removable, undefined);
 
-      const { resource: addItemWithOnePartitionKey } = await container.item(addItemWithOnePartitionKeyId, ["sdfasdf", undefined]).patch(operations);
+      const { resource: addItemWithOnePartitionKey } = await container
+        .item(addItemWithOnePartitionKeyId, ["sdfasdf", undefined])
+        .patch(operations);
       assert.strictEqual(addItemWithOnePartitionKey.num, 5);
       assert.strictEqual(addItemWithOnePartitionKey.existingObj.newKey, "newVal");
       assert.strictEqual(addItemWithOnePartitionKey.laster, "c");
       assert.strictEqual(addItemWithOnePartitionKey.last, "b");
       assert.strictEqual(addItemWithOnePartitionKey.removable, undefined);
 
-      const { resource: addItemWithNoPartitionKey } = await container.item(addItemWithNoPartitionKeyId, [undefined, undefined]).patch(operations);
+      const { resource: addItemWithNoPartitionKey } = await container
+        .item(addItemWithNoPartitionKeyId, [undefined, undefined])
+        .patch(operations);
       assert.strictEqual(addItemWithNoPartitionKey.num, 5);
       assert.strictEqual(addItemWithNoPartitionKey.existingObj.newKey, "newVal");
       assert.strictEqual(addItemWithNoPartitionKey.laster, "c");

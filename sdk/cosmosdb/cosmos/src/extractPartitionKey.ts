@@ -31,19 +31,21 @@ export function extractPartitionKeys(
     partitionKeyDefinition.paths &&
     partitionKeyDefinition.paths.length > 0
   ) {
-    
     if (partitionKeyDefinition.systemKey === true) {
       return [];
     }
 
-    if (partitionKeyDefinition.paths.length === 1 && partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH) {
+    if (
+      partitionKeyDefinition.paths.length === 1 &&
+      partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
+    ) {
       return [extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document)];
     }
 
     const partitionKeys: PrimitivePartitionKeyValue[] = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
-      let obj = extractPartitionKey(path, document);
-      if ( obj === undefined ) {
+      const obj = extractPartitionKey(path, document);
+      if (obj === undefined) {
         logger.warning("Unsupported PartitionKey found.");
         return undefined;
       }
@@ -69,10 +71,7 @@ function extractPartitionKey(path: string, obj: unknown): any {
     return obj;
   } else if (obj === NullPartitionKeyLiteral) {
     return NullPartitionKeyLiteral;
-  } else if (
-    obj === undefined ||
-    JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)
-  ) {
+  } else if (obj === undefined || JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)) {
     return NonePartitionKeyLiteral;
   }
   return undefined;
