@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-reservations/8.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "fdc03e6e-e70d-40be-804d-fca5c6af0fe0"
+        "User-Agent": "azsdk-js-arm-reservations/9.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "aa6040a8-9bee-412b-8360-edc60ffa7362"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-store, must-revalidate, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 01 Feb 2023 08:25:49 GMT",
-        "MS-RequestId": "7Z8SmZiFdUGKN3Gixp0-Pg.0",
+        "Date": "Wed, 08 Mar 2023 06:42:12 GMT",
+        "MS-RequestId": "PjpAUWHtvkmwr6PezkvGbw.0",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,10 +27,10 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "3929032a-273b-4c2b-9e82-4caaef43dc39",
+        "x-ms-correlation-request-id": "207529a1-7f6e-435e-ac37-718f56c3bb2a",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "3929032a-273b-4c2b-9e82-4caaef43dc39",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230201T082550Z:3929032a-273b-4c2b-9e82-4caaef43dc39"
+        "x-ms-request-id": "207529a1-7f6e-435e-ac37-718f56c3bb2a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230308T064213Z:207529a1-7f6e-435e-ac37-718f56c3bb2a"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardFSv2Family",

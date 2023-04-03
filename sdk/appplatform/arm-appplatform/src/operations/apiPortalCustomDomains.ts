@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ApiPortalCustomDomainResource,
   ApiPortalCustomDomainsListNextOptionalParams,
@@ -175,8 +179,8 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     apiPortalCustomDomainResource: ApiPortalCustomDomainResource,
     options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>,
       ApiPortalCustomDomainsCreateOrUpdateResponse
     >
   > {
@@ -186,7 +190,7 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     ): Promise<ApiPortalCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,9 +223,9 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         apiPortalName,
@@ -229,10 +233,13 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         apiPortalCustomDomainResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApiPortalCustomDomainsCreateOrUpdateResponse,
+      OperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -283,14 +290,14 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     apiPortalName: string,
     domainName: string,
     options?: ApiPortalCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -323,13 +330,19 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, apiPortalName, domainName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        apiPortalName,
+        domainName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

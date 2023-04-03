@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -138,22 +138,22 @@ export const noradId: OperationParameter = {
 };
 
 export const titleLine: OperationParameter = {
-  parameterPath: ["options", "titleLine"],
+  parameterPath: "titleLine",
   mapper: SpacecraftMapper
 };
 
 export const tleLine1: OperationParameter = {
-  parameterPath: ["options", "tleLine1"],
+  parameterPath: "tleLine1",
   mapper: SpacecraftMapper
 };
 
 export const tleLine2: OperationParameter = {
-  parameterPath: ["options", "tleLine2"],
+  parameterPath: "tleLine2",
   mapper: SpacecraftMapper
 };
 
 export const links: OperationParameter = {
-  parameterPath: ["options", "links"],
+  parameterPath: "links",
   mapper: SpacecraftMapper
 };
 
@@ -257,31 +257,24 @@ export const eventHubUri: OperationParameter = {
 };
 
 export const networkConfiguration: OperationParameter = {
-  parameterPath: ["options", "networkConfiguration"],
+  parameterPath: "networkConfiguration",
+  mapper: ContactProfileMapper
+};
+
+export const thirdPartyConfigurations: OperationParameter = {
+  parameterPath: ["options", "thirdPartyConfigurations"],
   mapper: ContactProfileMapper
 };
 
 export const links1: OperationParameter = {
-  parameterPath: ["options", "links"],
+  parameterPath: "links",
   mapper: ContactProfileMapper
 };
 
 export const capability: OperationQueryParameter = {
   parameterPath: "capability",
   mapper: {
-    defaultValue: "EarthObservation",
     serializedName: "capability",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const groundStationName1: OperationURLParameter = {
-  parameterPath: "groundStationName",
-  mapper: {
-    serializedName: "groundStationName",
     required: true,
     type: {
       name: "String"

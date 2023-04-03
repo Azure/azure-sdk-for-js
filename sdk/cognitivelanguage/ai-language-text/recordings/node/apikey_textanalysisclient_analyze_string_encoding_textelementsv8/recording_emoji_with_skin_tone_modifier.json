@@ -10,8 +10,8 @@
         "Content-Length": "176",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4c073498-94e1-4469-af33-43fb1b941ee3"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "71c155c4-6d0a-43c9-b9b3-c6ea67645a16"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -30,15 +30,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "060a7d96-cda6-4fca-99d9-2c71a275a45d",
+        "apim-request-id": "6ed74245-4873-4b8a-b559-1018bd671a2f",
         "Content-Length": "290",
         "Content-Type": "application/json; charset=utf-8",
-        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Tue, 01 Nov 2022 22:52:03 GMT",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.Language.Text.PII=1,CognitiveServices.TextAnalytics.TextRecords=1",
+        "Date": "Fri, 17 Mar 2023 17:29:27 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "30",
+        "x-envoy-upstream-service-time": "32",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -52,7 +52,7 @@
                 {
                   "text": "859-98-0987",
                   "category": "USSocialSecurityNumber",
-                  "offset": 8,
+                  "offset": 7,
                   "length": 11,
                   "confidenceScore": 0.65
                 }

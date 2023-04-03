@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AppResource,
   AppsListOptionalParams,
@@ -73,8 +73,8 @@ export interface Apps {
     appResource: AppResource,
     options?: AppsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppsCreateOrUpdateResponse>,
       AppsCreateOrUpdateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete an App.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -138,7 +138,7 @@ export interface Apps {
     appResource: AppResource,
     options?: AppsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<AppsUpdateResponse>, AppsUpdateResponse>
+    SimplePollerLike<OperationState<AppsUpdateResponse>, AppsUpdateResponse>
   >;
   /**
    * Operation to update an exiting App.
@@ -186,8 +186,8 @@ export interface Apps {
     activeDeploymentCollection: ActiveDeploymentCollection,
     options?: AppsSetActiveDeploymentsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppsSetActiveDeploymentsResponse>,
+    SimplePollerLike<
+      OperationState<AppsSetActiveDeploymentsResponse>,
       AppsSetActiveDeploymentsResponse
     >
   >;

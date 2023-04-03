@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Pricing, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a provided Microsoft Defender for Cloud pricing configuration in the subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-03-01/examples/Pricings/PutPricingByName_example.json
  */
 async function updatePricingOnSubscription() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "VirtualMachines";
   const pricing: Pricing = { pricingTier: "Standard", subPlan: "P2" };
   const credential = new DefaultAzureCredential();
@@ -27,4 +32,8 @@ async function updatePricingOnSubscription() {
   console.log(result);
 }
 
-updatePricingOnSubscription().catch(console.error);
+async function main() {
+  updatePricingOnSubscription();
+}
+
+main().catch(console.error);

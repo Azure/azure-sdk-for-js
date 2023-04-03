@@ -7,8 +7,8 @@
  */
 
 import {
-  ContainerRegistryBlobClient,
-  isDownloadOciImageManifestResult,
+  ContainerRegistryContentClient,
+  isGetOciImageManifestResult,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -19,15 +19,15 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()
   );
 
-  const downloadResult = await client.downloadManifest("latest");
+  const downloadResult = await client.getManifest("latest");
 
-  if (!isDownloadOciImageManifestResult(downloadResult)) {
+  if (!isGetOciImageManifestResult(downloadResult)) {
     throw new Error("Expected an OCI image manifest");
   }
 

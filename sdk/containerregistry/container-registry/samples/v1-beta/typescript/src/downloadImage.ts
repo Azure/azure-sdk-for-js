@@ -6,7 +6,7 @@
  */
 
 import {
-  ContainerRegistryBlobClient,
+  ContainerRegistryContentClient,
   isDownloadOciImageManifestResult,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -24,7 +24,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()
@@ -39,9 +39,8 @@ async function main() {
   }
 
   const manifest = result.manifest;
-  // Manifests of all media types can be written to a file using the `content` stream.
-  const manifestFile = fs.createWriteStream("manifest.json");
-  result.content.pipe(manifestFile);
+  // Manifests of all media types have a buffer containing their content; this can be written to a file.
+  fs.writeFileSync("manifest.json", result.content);
 
   const configResult = await client.downloadBlob(manifest.config.digest);
   const configFile = fs.createWriteStream("config.json");
