@@ -36,8 +36,8 @@ export const mapRoomParticipantToRawId = (
 ): Record<string, ParticipantProperties> => {
   participants = participants ?? [];
   const mappedParticipants: Record<string, RestModel.ParticipantProperties> = {};
-  for (var participant of participants) {
-    var mappedParticipant = mapToRoomParticipantRestModel(participant);
+  for (const participant of participants) {
+    const mappedParticipant = mapToRoomParticipantRestModel(participant);
     mappedParticipants[mappedParticipant.rawId] = { role: mappedParticipant.role };
   }
 

@@ -64,9 +64,9 @@ export type RemoveParticipantsOptions = OperationOptions;
 /** 
  * Results of participant upsert operation 
  */
-export type UpsertParticipantsResult = {};
+export type UpsertParticipantsResult = Record<string, never>;
 
 /**
  * Results of participant removal operation
  */
-export type RemoveParticipantsResults = {};
+export type RemoveParticipantsResults = Record<string, never>;

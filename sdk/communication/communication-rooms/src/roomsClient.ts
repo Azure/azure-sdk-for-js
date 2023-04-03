@@ -111,7 +111,7 @@ export class RoomsClient {
     const repeatabilityRequestId = generateUuid();
     const repeatabilityFirstSent = new Date();
     return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
-      return await this.client.rooms.create({
+      return this.client.rooms.create({
         ...options,
         repeatabilityFirstSent: repeatabilityFirstSent,
         repeatabilityRequestID: repeatabilityRequestId,
@@ -129,7 +129,7 @@ export class RoomsClient {
    */
   public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async () => {
-      return await this.client.rooms.update(roomId, options);
+      return this.client.rooms.update(roomId, options);
     });
   }
 
@@ -141,7 +141,7 @@ export class RoomsClient {
    */
   public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-GetRoom", options, async (updatedOptions) => {
-      return await this.client.rooms.get(roomId, updatedOptions);
+      return this.client.rooms.get(roomId, updatedOptions);
     });
   }
 
@@ -154,7 +154,7 @@ export class RoomsClient {
       "RoomsClient-ListRooms",
       options,
       async (updatedOptions) => {
-        return await this.client.rooms.list(updatedOptions);
+        return this.client.rooms.list(updatedOptions);
       }
     );  
   }
@@ -184,7 +184,7 @@ export class RoomsClient {
       "RoomsClient-GetParticipants",
       options,
       async (updatedOptions) => {
-        return await this.client.participants.list(roomId, updatedOptions);
+        return this.client.participants.list(roomId, updatedOptions);
       }
     );
   }
