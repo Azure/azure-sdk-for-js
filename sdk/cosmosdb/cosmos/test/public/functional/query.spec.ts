@@ -415,6 +415,15 @@ describe("Queries", function (this: Suite) {
           city: "b",
           address: { zip: 2 },
         });
+        await container.items.create({
+          id: "5esdfeded6f8a2dd1be0109ae34e29",
+          age: 113
+        });
+        await container.items.create({
+          id: "5edsfesdfeded6f8a2dd1be0109ae34e29",
+          age: 115,
+          address: { zip: 2 },
+        });
         await container.items.create({ id: "1", age: 100, city: "b", address: { zip: 2 } });
 
         const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
@@ -429,7 +438,22 @@ describe("Queries", function (this: Suite) {
         });
         const { resources: sum2 } = await queryIterator2.fetchAll();
         assert.equal(sum2.length, 1);
-        assert.strictEqual(sum2[0], 133, "Sum should be 66");
+        assert.strictEqual(sum2[0], 133, "Sum should be 133");
+
+        const queryIterator3 = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          partitionKey: [undefined, undefined],
+        });
+        const { resources: sum3 } = await queryIterator3.fetchAll();
+        assert.equal(sum3.length, 1);
+        assert.strictEqual(sum3[0], 113, "Sum should be 113");
+
+        const queryIterator4 = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          partitionKey: [undefined, 2],
+        });
+        const { resources: sum4 } = await queryIterator4.fetchAll();
+        assert.equal(sum4.length, 1);
+        assert.strictEqual(sum4[0], 115, "Sum should be 115");
+
       });
     });
   });

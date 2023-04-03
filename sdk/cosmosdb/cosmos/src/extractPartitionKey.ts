@@ -9,6 +9,7 @@ import {
   PartitionKeyInternal,
   PrimitivePartitionKeyValue,
 } from "./documents";
+import { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 
 const logger: AzureLogger = createClientLogger("extractPartitionKey");
 
@@ -21,7 +22,7 @@ const logger: AzureLogger = createClientLogger("extractPartitionKey");
  * or an unsupported partitionkey type is encountered.
  * @hidden
  */
-export function extractPartitionKey(
+export function extractPartitionKeys(
   document: unknown,
   partitionKeyDefinition?: PartitionKeyDefinition
 ): PartitionKeyInternal | undefined {
@@ -30,40 +31,53 @@ export function extractPartitionKey(
     partitionKeyDefinition.paths &&
     partitionKeyDefinition.paths.length > 0
   ) {
+    
+    if (partitionKeyDefinition.systemKey === true) {
+      return [];
+    }
+
+    if (partitionKeyDefinition.paths.length === 1 && partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH) {
+      return [extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document)];
+    }
+
     const partitionKeys: PrimitivePartitionKeyValue[] = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
-      const pathParts: string[] = parsePath(path);
-      let obj = document;
-      for (const part of pathParts) {
-        if (typeof obj === "object" && obj !== null && part in obj) {
-          obj = (obj as Record<string, unknown>)[part];
-        } else {
-          obj = undefined;
-          break;
-        }
-      }
-      if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
-        partitionKeys.push(obj);
-      } else if (obj === NullPartitionKeyLiteral) {
-        partitionKeys.push(NullPartitionKeyLiteral);
-      } else if (
-        obj === undefined ||
-        JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)
-      ) {
-        if (partitionKeyDefinition.systemKey === true) {
-          return [];
-        }
-        partitionKeys.push(NonePartitionKeyLiteral);
-      } else {
+      let obj = extractPartitionKey(path, document);
+      if ( obj === undefined ) {
         logger.warning("Unsupported PartitionKey found.");
         return undefined;
       }
+      partitionKeys.push(obj);
     });
     return partitionKeys;
   }
-  logger.warning("Unexpected Partition Key Definition Found.");
+  logger.error("Unexpected Partition Key Definition Found.");
   return undefined;
 }
+
+function extractPartitionKey(path: string, obj: unknown): any {
+  const pathParts: string[] = parsePath(path);
+  for (const part of pathParts) {
+    if (typeof obj === "object" && obj !== null && part in obj) {
+      obj = (obj as Record<string, unknown>)[part];
+    } else {
+      obj = undefined;
+      break;
+    }
+  }
+  if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
+    return obj;
+  } else if (obj === NullPartitionKeyLiteral) {
+    return NullPartitionKeyLiteral;
+  } else if (
+    obj === undefined ||
+    JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)
+  ) {
+    return NonePartitionKeyLiteral;
+  }
+  return undefined;
+}
+
 /**
  * @hidden
  */
