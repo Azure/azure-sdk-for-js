@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices?api-version=2023-03-31",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-communication/4.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7d0e7e8c-dd95-4473-8778-2903069662dd"
+        "x-ms-client-request-id": "1219c0e5-8484-4e96-acf9-6b92339b6863"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,38 +17,38 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 03 Apr 2023 07:04:02 GMT",
+        "Date": "Mon, 03 Apr 2023 07:54:41 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "986cca62-4e67-4450-98b0-daab5060aa21",
+        "x-ms-correlation-request-id": "4e432ed3-d420-4640-80a9-f9488c5df4ef",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-reads": "11966",
-        "x-ms-request-id": "d35dfc16-702d-424d-9747-13b2655fdab1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230403T070402Z:986cca62-4e67-4450-98b0-daab5060aa21"
+        "x-ms-ratelimit-remaining-subscription-reads": "11963",
+        "x-ms-request-id": "92794881-2885-4d9b-914d-ab63765e14df",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230403T075442Z:4e432ed3-d420-4640-80a9-f9488c5df4ef"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices/mycommunicationServicexxx",
+            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices/mycommunicationServicexxx",
             "name": "mycommunicationServicexxx",
             "type": "microsoft.communication/communicationservices",
             "location": "global",
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2023-04-03T07:02:50.1505039Z",
+              "createdAt": "2023-04-03T07:53:23.2702973Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2023-04-03T07:02:50.1505039Z"
+              "lastModifiedAt": "2023-04-03T07:53:23.2702973Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
               "hostName": "mycommunicationservicexxx.communication.azure.com",
-              "immutableResourceId": "cd884760-c25b-4c70-b8a9-43dc05e341bb",
+              "immutableResourceId": "fdb69856-86a8-4f0f-88a6-b5005f9a8777",
               "dataLocation": "UnitedStates"
             }
           }
