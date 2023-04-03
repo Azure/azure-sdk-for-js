@@ -3,7 +3,7 @@
 
 import { CloseReason } from "./models/public";
 import { EventPosition } from "./eventPosition";
-import { LastEnqueuedEventProperties } from "./eventHubReceiver";
+import { LastEnqueuedEventProperties } from "./partitionReceiver";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { ReceivedEventData } from "./eventData";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { randomUUID } from "@azure/core-util";
 import { Checkpoint, CheckpointStore, PartitionOwnership } from "../../../src";
-import { generate_uuid } from "rhea-promise";
 
 /**
  * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
@@ -62,7 +62,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
 
         const newOwnership = {
           ...ownership,
-          etag: generate_uuid(),
+          etag: randomUUID(),
           lastModifiedTimeInMs: date.getTime(),
         };
 
@@ -83,7 +83,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
 
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
-      partitionOwnership.etag = generate_uuid();
+      partitionOwnership.etag = randomUUID();
 
       const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroup}`;
       let partitionMap = this._committedCheckpoints.get(key);

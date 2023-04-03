@@ -17,15 +17,15 @@ import {
   DeleteManifestOptions,
   DownloadBlobOptions,
   DownloadBlobResult,
-  DownloadManifestOptions,
-  DownloadManifestResult,
-  DownloadOciImageManifestResult,
+  GetManifestOptions,
+  GetManifestResult,
+  GetOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
   UploadBlobOptions,
   UploadBlobResult,
-  UploadManifestOptions,
-  UploadManifestResult,
+  SetManifestOptions,
+  SetManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
@@ -38,8 +38,8 @@ const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
-const DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES = [
-  KnownManifestMediaType.OciManifest,
+const ACCEPTED_MANIFEST_MEDIA_TYPES = [
+  KnownManifestMediaType.OciImageManifest,
   KnownManifestMediaType.DockerManifest,
   "application/vnd.oci.image.index.v1+json",
   "application/vnd.docker.distribution.manifest.list.v2+json",
@@ -71,16 +71,16 @@ export class DigestMismatchError extends Error {
 }
 
 /**
- * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI image manifest.
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryContentClient.getManifest} is an OCI image manifest.
  * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
  * @param downloadResult - the download result to check.
  * @returns - whether the downloaded manifest is an OCI image manifest.
  */
-export function isDownloadOciImageManifestResult(
-  downloadResult: DownloadManifestResult
-): downloadResult is DownloadOciImageManifestResult {
+export function isGetOciImageManifestResult(
+  downloadResult: GetManifestResult
+): downloadResult is GetOciImageManifestResult {
   return (
-    downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
+    downloadResult.mediaType === KnownManifestMediaType.OciImageManifest &&
     Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
   );
 }
@@ -88,7 +88,7 @@ export function isDownloadOciImageManifestResult(
 /**
  * Client options used to configure Container Registry Blob API requests.
  */
-export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
+export interface ContainerRegistryContentClientOptions extends CommonClientOptions {
   /**
    * Gets or sets the audience to use for authentication with Azure Active Directory.
    * The authentication scope will be set from this audience.
@@ -106,7 +106,7 @@ const serializer = createSerializer(Mappers, /* isXML */ false);
 /**
  * The Azure Container Registry blob client, responsible for uploading and downloading blobs and manifests, the building blocks of artifacts.
  */
-export class ContainerRegistryBlobClient {
+export class ContainerRegistryContentClient {
   /**
    * The Azure Container Registry endpoint.
    */
@@ -120,14 +120,14 @@ export class ContainerRegistryBlobClient {
   private client: GeneratedClient;
 
   /**
-   * Creates an instance of a ContainerRegistryBlobClient for managing container images and artifacts.
+   * Creates an instance of a ContainerRegistryContentClient for managing container images and artifacts.
    *
    * Example usage:
    * ```ts
-   * import { ContainerRegistryBlobClient } from "@azure/container-registry";
+   * import { ContainerRegistryContentClient } from "@azure/container-registry";
    * import { DefaultAzureCredential} from "@azure/identity";
    *
-   * const client = new ContainerRegistryBlobClient(
+   * const client = new ContainerRegistryContentClient(
    *    "<container registry API endpoint>",
    *    "<repository name>",
    *    new DefaultAzureCredential()
@@ -142,7 +142,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions = {}
+    options: ContainerRegistryContentClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -190,7 +190,7 @@ export class ContainerRegistryBlobClient {
    */
   public async deleteBlob(digest: string, options: DeleteBlobOptions = {}): Promise<void> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.deleteBlob",
+      "ContainerRegistryContentClient.deleteBlob",
       options,
       async (updatedOptions) => {
         await this.client.containerRegistryBlob.deleteBlob(
@@ -207,12 +207,12 @@ export class ContainerRegistryBlobClient {
    *
    * @param manifest - the manifest to upload.
    */
-  public async uploadManifest(
+  public async setManifest(
     manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
-    options: UploadManifestOptions = {}
-  ): Promise<UploadManifestResult> {
+    options: SetManifestOptions = {}
+  ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.uploadManifest",
+      "ContainerRegistryContentClient.uploadManifest",
       options,
       async (updatedOptions) => {
         let manifestBody: Buffer | (() => NodeJS.ReadableStream);
@@ -235,7 +235,7 @@ export class ContainerRegistryBlobClient {
           tagOrDigest,
           manifestBody,
           {
-            contentType: options?.mediaType ?? KnownManifestMediaType.OciManifest,
+            contentType: options?.mediaType ?? KnownManifestMediaType.OciImageManifest,
             ...updatedOptions,
           }
         );
@@ -250,27 +250,25 @@ export class ContainerRegistryBlobClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciImageManifestResult}.
-   * You can use {@link isDownloadOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciImageManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
+   * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest
    */
-  public async downloadManifest(
+  public async getManifest(
     tagOrDigest: string,
-    options: DownloadManifestOptions = {}
-  ): Promise<DownloadManifestResult> {
+    options: GetManifestOptions = {}
+  ): Promise<GetManifestResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.downloadManifest",
+      "ContainerRegistryContentClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const acceptMediaType = options.mediaType ?? DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES;
-
         const response = await this.client.containerRegistry.getManifest(
           this.repositoryName,
           tagOrDigest,
           {
-            accept: Array.isArray(acceptMediaType) ? acceptMediaType.join(", ") : acceptMediaType,
+            accept: ACCEPTED_MANIFEST_MEDIA_TYPES.join(", "),
             ...updatedOptions,
           }
         );
@@ -295,7 +293,7 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        if (response.mediaType === KnownManifestMediaType.OciManifest) {
+        if (response.mediaType === KnownManifestMediaType.OciImageManifest) {
           const manifest = serializer.deserialize(
             Mappers.OCIManifest,
             JSON.parse(content.toString()),
@@ -327,7 +325,7 @@ export class ContainerRegistryBlobClient {
    */
   public async deleteManifest(digest: string, options: DeleteManifestOptions = {}): Promise<void> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.deleteManifest",
+      "ContainerRegistryContentClient.deleteManifest",
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteManifest(
@@ -349,7 +347,7 @@ export class ContainerRegistryBlobClient {
     options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.uploadBlob",
+      "ContainerRegistryContentClient.uploadBlob",
       options,
       async (updatedOptions) => {
         const blobStream = Buffer.isBuffer(blob) ? Readable.from(blob) : blob;
@@ -410,7 +408,7 @@ export class ContainerRegistryBlobClient {
     options: DownloadBlobOptions = {}
   ): Promise<DownloadBlobResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.downloadBlob",
+      "ContainerRegistryContentClient.downloadBlob",
       options,
       async (updatedOptions) => {
         const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
