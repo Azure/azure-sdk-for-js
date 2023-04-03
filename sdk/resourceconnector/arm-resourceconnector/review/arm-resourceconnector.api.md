@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessProfileType = string;
@@ -21,7 +21,6 @@ export interface Appliance extends TrackedResource {
     readonly provisioningState?: string;
     publicKey?: string;
     readonly status?: Status;
-    readonly systemData?: SystemData;
     version?: string;
 }
 
@@ -32,17 +31,25 @@ export interface ApplianceCredentialKubeconfig {
 }
 
 // @public
-export interface ApplianceListClusterCustomerUserCredentialResults {
-    readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
-    readonly sshKeys?: {
-        [propertyName: string]: SSHKey;
-    };
+export interface ApplianceGetTelemetryConfigResult {
+    readonly telemetryInstrumentationKey?: string;
 }
 
 // @public
 export interface ApplianceListCredentialResults {
     readonly hybridConnectionConfig?: HybridConnectionConfig;
     readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
+}
+
+// @public
+export interface ApplianceListKeysResults {
+    readonly artifactProfiles?: {
+        [propertyName: string]: ArtifactProfile;
+    };
+    readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
+    readonly sshKeys?: {
+        [propertyName: string]: SSHKey;
+    };
 }
 
 // @public
@@ -75,16 +82,17 @@ export interface AppliancePropertiesInfrastructureConfig {
 
 // @public
 export interface Appliances {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AppliancesCreateOrUpdateResponse>, AppliancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppliancesCreateOrUpdateResponse>, AppliancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams): Promise<AppliancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, options?: AppliancesGetOptionalParams): Promise<AppliancesGetResponse>;
+    getTelemetryConfig(options?: AppliancesGetTelemetryConfigOptionalParams): Promise<AppliancesGetTelemetryConfigResponse>;
     getUpgradeGraph(resourceGroupName: string, resourceName: string, upgradeGraph: string, options?: AppliancesGetUpgradeGraphOptionalParams): Promise<AppliancesGetUpgradeGraphResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AppliancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Appliance>;
     listBySubscription(options?: AppliancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Appliance>;
-    listClusterCustomerUserCredential(resourceGroupName: string, resourceName: string, options?: AppliancesListClusterCustomerUserCredentialOptionalParams): Promise<AppliancesListClusterCustomerUserCredentialResponse>;
     listClusterUserCredential(resourceGroupName: string, resourceName: string, options?: AppliancesListClusterUserCredentialOptionalParams): Promise<AppliancesListClusterUserCredentialResponse>;
+    listKeys(resourceGroupName: string, resourceName: string, options?: AppliancesListKeysOptionalParams): Promise<AppliancesListKeysResponse>;
     listOperations(options?: AppliancesListOperationsOptionalParams): PagedAsyncIterableIterator<ApplianceOperation>;
     update(resourceGroupName: string, resourceName: string, options?: AppliancesUpdateOptionalParams): Promise<AppliancesUpdateResponse>;
 }
@@ -110,6 +118,13 @@ export interface AppliancesGetOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type AppliancesGetResponse = Appliance;
+
+// @public
+export interface AppliancesGetTelemetryConfigOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppliancesGetTelemetryConfigResponse = ApplianceGetTelemetryConfigResult;
 
 // @public
 export interface AppliancesGetUpgradeGraphOptionalParams extends coreClient.OperationOptions {
@@ -147,18 +162,18 @@ export interface AppliancesListBySubscriptionOptionalParams extends coreClient.O
 export type AppliancesListBySubscriptionResponse = ApplianceListResult;
 
 // @public
-export interface AppliancesListClusterCustomerUserCredentialOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppliancesListClusterCustomerUserCredentialResponse = ApplianceListClusterCustomerUserCredentialResults;
-
-// @public
 export interface AppliancesListClusterUserCredentialOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type AppliancesListClusterUserCredentialResponse = ApplianceListCredentialResults;
+
+// @public
+export interface AppliancesListKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppliancesListKeysResponse = ApplianceListKeysResults;
 
 // @public
 export interface AppliancesListOperationsNextOptionalParams extends coreClient.OperationOptions {
@@ -183,6 +198,14 @@ export interface AppliancesUpdateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type AppliancesUpdateResponse = Appliance;
+
+// @public
+export interface ArtifactProfile {
+    readonly endpoint?: string;
+}
+
+// @public
+export type ArtifactType = string;
 
 // @public
 export type CreatedByType = string;
@@ -235,6 +258,11 @@ export enum KnownAccessProfileType {
 }
 
 // @public
+export enum KnownArtifactType {
+    LogsArtifactType = "LogsArtifactType"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -264,6 +292,9 @@ export enum KnownResourceIdentityType {
 
 // @public
 export enum KnownSSHKeyType {
+    LogsKey = "LogsKey",
+    ManagementCAKey = "ManagementCAKey",
+    ScopedAccessKey = "ScopedAccessKey",
     SSHCustomerUser = "SSHCustomerUser"
 }
 
@@ -271,6 +302,13 @@ export enum KnownSSHKeyType {
 export enum KnownStatus {
     Connected = "Connected",
     Connecting = "Connecting",
+    ImageDeprovisioning = "ImageDeprovisioning",
+    ImageDownloaded = "ImageDownloaded",
+    ImageDownloading = "ImageDownloading",
+    ImagePending = "ImagePending",
+    ImageProvisioned = "ImageProvisioned",
+    ImageProvisioning = "ImageProvisioning",
+    ImageUnknown = "ImageUnknown",
     None = "None",
     Offline = "Offline",
     PostUpgrade = "PostUpgrade",
@@ -284,9 +322,11 @@ export enum KnownStatus {
     UpgradeComplete = "UpgradeComplete",
     UpgradeFailed = "UpgradeFailed",
     UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
+    UpgradingKvaio = "UpgradingKVAIO",
     Validating = "Validating",
     WaitingForCloudOperator = "WaitingForCloudOperator",
-    WaitingForHeartbeat = "WaitingForHeartbeat"
+    WaitingForHeartbeat = "WaitingForHeartbeat",
+    WaitingForKvaio = "WaitingForKVAIO"
 }
 
 // @public
@@ -303,6 +343,7 @@ export type Provider = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -331,8 +372,11 @@ export type ResourceIdentityType = string;
 
 // @public
 export interface SSHKey {
-    privateKey?: string;
-    publicKey?: string;
+    readonly certificate?: string;
+    readonly creationTimeStamp?: number;
+    readonly expirationTimeStamp?: number;
+    readonly privateKey?: string;
+    readonly publicKey?: string;
 }
 
 // @public

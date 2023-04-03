@@ -3935,7 +3935,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230331
+      typescript: 5.1.0-dev.20230402
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8783,8 +8783,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230331:
-    resolution: {integrity: sha512-PLypvuK09nEU9B7OTAx/4oG8foaYoeDTCBYlypMo5bF4L4MN54uLTy6dUwHdnw0QkTl6gjFKZQ4f/dUSZV/NFw==}
+  /typescript/5.1.0-dev.20230402:
+    resolution: {integrity: sha512-YivJhKi6iTmS5qfkSuv/p1NYZtlQLexIHIF25kXxYkpjcs6jEtbLEctviQYTrzGVMq+R0QCTRW5EQtp+NLwtnA==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -14224,7 +14224,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-w+RlU+Y/Bt4N6ZIFpMi2Q6Ozz6L1Y1PCy9tDox6M3ApE4DCjoKKTnAb2vlrCgtaIaYx7Y5odQWlT2wU0o+x28g==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-PClaL03qs9YHUk0aL94B3TPi69zsYeAdb+9Y5jYfVFqfwLPY+SbFPTlQbaNHsFNe2AsSANVnrj6mrZWSDSnu1Q==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14238,8 +14238,8 @@ packages:
       '@types/node': 14.18.41
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

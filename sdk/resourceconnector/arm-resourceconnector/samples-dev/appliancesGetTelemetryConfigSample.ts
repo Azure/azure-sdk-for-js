@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
+ * This sample demonstrates how to Gets the telemetry config.
  *
- * @summary Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListBySubscription.json
+ * @summary Gets the telemetry config.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/TelemetryConfig.json
  */
-async function listAppliancesBySubscription() {
+async function getTelemetryConfigAppliance() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
@@ -29,15 +29,12 @@ async function listAppliancesBySubscription() {
     credential,
     subscriptionId
   );
-  const resArray = new Array();
-  for await (let item of client.appliances.listBySubscription()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.appliances.getTelemetryConfig();
+  console.log(result);
 }
 
 async function main() {
-  listAppliancesBySubscription();
+  getTelemetryConfigAppliance();
 }
 
 main().catch(console.error);

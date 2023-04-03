@@ -15,34 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
+ * This sample demonstrates how to Gets the telemetry config.
  *
- * @summary Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/UpgradeGraph.json
+ * @summary Gets the telemetry config.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/TelemetryConfig.json
  */
-async function getApplianceUpgradeGraph() {
+async function getTelemetryConfigAppliance() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName =
-    process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "appliance01";
-  const upgradeGraph = "stable";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.appliances.getUpgradeGraph(
-    resourceGroupName,
-    resourceName,
-    upgradeGraph
-  );
+  const result = await client.appliances.getTelemetryConfig();
   console.log(result);
 }
 
 async function main() {
-  getApplianceUpgradeGraph();
+  getTelemetryConfigAppliance();
 }
 
 main().catch(console.error);

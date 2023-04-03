@@ -8,45 +8,39 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AppliancesUpdateOptionalParams,
-  ResourceConnectorManagementClient
-} from "@azure/arm-resourceconnector";
+import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
+ * This sample demonstrates how to Returns the cluster customer credentials for the dedicated appliance.
  *
- * @summary Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesPatch.json
+ * @summary Returns the cluster customer credentials for the dedicated appliance.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListKeys.json
  */
-async function updateAppliance() {
+async function listKeysAppliance() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
   const resourceGroupName =
     process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "appliance01";
-  const tags = { key: "value" };
-  const options: AppliancesUpdateOptionalParams = { tags };
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.appliances.update(
+  const result = await client.appliances.listKeys(
     resourceGroupName,
-    resourceName,
-    options
+    resourceName
   );
   console.log(result);
 }
 
 async function main() {
-  updateAppliance();
+  listKeysAppliance();
 }
 
 main().catch(console.error);

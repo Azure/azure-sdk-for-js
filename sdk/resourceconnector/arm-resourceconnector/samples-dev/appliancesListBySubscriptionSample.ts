@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
  *
  * @summary Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListBySubscription.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListBySubscription.json
  */
 async function listAppliancesBySubscription() {
   const subscriptionId =

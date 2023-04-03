@@ -13,25 +13,29 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
+ * This sample demonstrates how to Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
  *
- * @summary Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListBySubscription.json
+ * @summary Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/UpgradeGraph.json
  */
-async function listAppliancesBySubscription() {
+async function getApplianceUpgradeGraph() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
+  const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
+  const resourceName = "appliance01";
+  const upgradeGraph = "stable";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.appliances.listBySubscription()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.appliances.getUpgradeGraph(
+    resourceGroupName,
+    resourceName,
+    upgradeGraph
+  );
+  console.log(result);
 }
 
 async function main() {
-  listAppliancesBySubscription();
+  getApplianceUpgradeGraph();
 }
 
 main().catch(console.error);
