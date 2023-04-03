@@ -15,29 +15,25 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Delete a monitor resource.
+ * This sample demonstrates how to Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
  *
- * @summary Delete a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_Delete.json
+ * @summary Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Organizations_GetApiKey.json
  */
-async function monitorsDelete() {
+async function organizationsGetApiKey() {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.monitors.beginDeleteAndWait(
-    resourceGroupName,
-    monitorName
-  );
+  const result = await client.organizations.getApiKey(resourceGroupName);
   console.log(result);
 }
 
 async function main() {
-  monitorsDelete();
+  organizationsGetApiKey();
 }
 
 main().catch(console.error);
