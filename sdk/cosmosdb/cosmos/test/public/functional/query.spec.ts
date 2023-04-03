@@ -417,7 +417,7 @@ describe("Queries", function (this: Suite) {
         });
         await container.items.create({
           id: "5esdfeded6f8a2dd1be0109ae34e29",
-          age: 113
+          age: 113,
         });
         await container.items.create({
           id: "5edsfesdfeded6f8a2dd1be0109ae34e29",
@@ -453,7 +453,6 @@ describe("Queries", function (this: Suite) {
         const { resources: sum4 } = await queryIterator4.fetchAll();
         assert.equal(sum4.length, 1);
         assert.strictEqual(sum4[0], 115, "Sum should be 115");
-
       });
     });
   });
