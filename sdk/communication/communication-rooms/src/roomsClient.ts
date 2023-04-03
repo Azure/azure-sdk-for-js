@@ -23,6 +23,7 @@ import {
   DeleteRoomOptions,
   GetParticipantsOptions,
   GetRoomOptions,
+  ListRoomOptions,
   RemoveParticipantsOptions,
   RemoveParticipantsResults,
   RoomsClientOptions,
@@ -142,6 +143,20 @@ export class RoomsClient {
     return tracingClient.withSpan("RoomsClient-GetRoom", options, async (updatedOptions) => {
       return await this.client.rooms.get(roomId, updatedOptions);
     });
+  }
+
+  /**
+   * Gets the list of rooms
+   * @param options - Operational options
+   */
+  public async listRooms(options: ListRoomOptions = {}): Promise<PagedAsyncIterableIterator<CommunicationRoom>> {
+    return tracingClient.withSpan(
+      "RoomsClient-ListRooms",
+      options,
+      async (updatedOptions) => {
+        return await this.client.rooms.list(updatedOptions);
+      }
+    );  
   }
 
   /**

@@ -38,6 +38,9 @@ export interface InvitedRoomParticipant {
 }
 
 // @public
+export type ListRoomOptions = OperationOptions;
+
+// @public
 export type ParticipantRole = Role;
 
 // @public
@@ -75,6 +78,7 @@ export class RoomsClient {
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
+    listRooms(options?: ListRoomOptions): Promise<PagedAsyncIterableIterator<CommunicationRoom>>;
     removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResults>;
     updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
     upsertParticipants(roomId: string, participants: InvitedRoomParticipant[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;

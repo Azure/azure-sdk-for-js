@@ -37,6 +37,11 @@ export interface UpdateRoomOptions extends OperationOptions {
 export type GetRoomOptions = OperationOptions;
 
 /**
+ * Options to get the list of a rooms.
+ */
+export type ListRoomOptions = OperationOptions;
+
+/**
  * Options to delete a room.
  */
 export type DeleteRoomOptions = OperationOptions;
