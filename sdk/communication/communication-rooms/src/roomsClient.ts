@@ -176,7 +176,7 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
-  public async getParticipants(
+  public async listParticipants(
     roomId: string,
     options: GetParticipantsOptions = {}
   ): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>> {

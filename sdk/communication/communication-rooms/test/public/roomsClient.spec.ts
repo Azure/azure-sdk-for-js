@@ -167,7 +167,7 @@ describe("RoomsClient", function () {
       roomId = createRoomResult.id;
 
       await client.upsertParticipants(roomId, participants);
-      const addParticipantsResult = await client.getParticipants(roomId);
+      const addParticipantsResult = await client.listParticipants(roomId);
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult);
       for await (const participant of addParticipantsResult) {
@@ -230,7 +230,7 @@ describe("RoomsClient", function () {
         },
       ];
       await client.upsertParticipants(roomId, participants);
-      const allParticipants = await client.getParticipants(roomId);
+      const allParticipants = await client.listParticipants(roomId);
       assert.isDefined(allParticipants);
       for await (const participant of allParticipants) {
         assert.equal(participant.rawId, getIdentifierRawId(participants[0].id));

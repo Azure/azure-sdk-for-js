@@ -55,7 +55,7 @@ export async function main() {
 
   // add user2 to the room with the request payload
   await roomsClient.upsertParticipants(roomId, addParticipantsList);
-  const addedParticipants = await roomsClient.getParticipants(roomId);
+  const addedParticipants = await roomsClient.listParticipants(roomId);
   console.log(`Added Participants`);
   printParticipants(addedParticipants);
 
@@ -70,7 +70,7 @@ export async function main() {
   // update user1 with the request payload
   await roomsClient.upsertParticipants(roomId, updateParticipantsList);
   console.log(`Updated Participants`);
-  printParticipants(await roomsClient.getParticipants(roomId));
+  printParticipants(await roomsClient.listParticipants(roomId));
 
   // request payload to delete both users from the room
   // this demonstrates both objects that can be used in deleting users from rooms: RoomParticipant or CommunicationIdentifier
@@ -79,7 +79,7 @@ export async function main() {
   // remove both users from the room with the request payload
   await roomsClient.removeParticipants(roomId, removeParticipantsList);
   console.log(`Removed Participants`);
-  printParticipants(await roomsClient.getParticipants(roomId));
+  printParticipants(await roomsClient.listParticipants(roomId));
 
   // deletes the room for cleanup
   await roomsClient.deleteRoom(roomId);

@@ -16,8 +16,6 @@ export interface InvitedRoomParticipant {
   id: CommunicationIdentifier;
   /** Role name. */
   role?: ParticipantRole;
-  /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
-  rawId?: string;
 }
 
 export {

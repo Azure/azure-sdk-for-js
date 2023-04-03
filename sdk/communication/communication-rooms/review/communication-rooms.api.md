@@ -33,7 +33,6 @@ export type GetRoomOptions = OperationOptions;
 // @public
 export interface InvitedRoomParticipant {
     id: CommunicationIdentifier;
-    rawId?: string;
     role?: ParticipantRole;
 }
 
@@ -76,8 +75,8 @@ export class RoomsClient {
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
     createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
-    getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
+    listParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
     listRooms(options?: ListRoomOptions): Promise<PagedAsyncIterableIterator<CommunicationRoom>>;
     removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResults>;
     updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
