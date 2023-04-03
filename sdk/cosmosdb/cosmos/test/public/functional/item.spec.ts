@@ -1826,7 +1826,7 @@ describe("patch operations", function () {
       addItemWithNoPartitionKeyId = addEntropy("addItemWithNoPartitionKeyId");
       conditionItemId = addEntropy("conditionItemId");
       const client = new CosmosClient({ key: masterKey, endpoint });
-      const db = await client.databases.createIfNotExists({ id: "patchDb" });
+      const db = await client.databases.createIfNotExists({ id: "patchDb hp" });
       const contResponse = await db.database.containers.createIfNotExists({
         id: "patchContainer",
         partitionKey: {
