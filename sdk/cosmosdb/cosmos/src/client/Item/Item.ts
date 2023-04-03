@@ -10,7 +10,7 @@ import {
   StatusCodes,
 } from "../../common";
 import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
+import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
@@ -142,7 +142,7 @@ export class Item {
     if (this.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } =
         await this.container.readPartitionKeyDefinition();
-      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
     }
 
     const err = {};
@@ -221,7 +221,7 @@ export class Item {
     if (this.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } =
         await this.container.readPartitionKeyDefinition();
-      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
     }
 
     const path = getPathFromLink(this.url);
