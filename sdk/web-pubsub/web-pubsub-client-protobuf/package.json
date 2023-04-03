@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client-protobuf",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure Web PubSub Client Protobuf",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -63,7 +63,7 @@
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
-    "protobufjs": "~7.1.2",
+    "protobufjs": "~7.2.2",
     "long": "^5.2.1"
   },
   "devDependencies": {
@@ -111,7 +111,7 @@
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
-    "protobufjs-cli": "1.0.2",
+    "protobufjs-cli": "^1.1.1",
     "copyfiles": "2.4.1"
   },
   "//sampleConfiguration": {

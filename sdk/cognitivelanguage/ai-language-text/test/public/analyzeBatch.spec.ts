@@ -834,7 +834,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch language hint", async function () {
+        it("whole batch with a language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
@@ -861,34 +861,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
-        it("whole batch with no language hint", async function () {
-          const docs = [
-            "This was the best day of my life.",
-            "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped.",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation14);
-        });
-
-        it("whole batch input with a language hint", async function () {
+        it("whole batch input with no language hint", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
