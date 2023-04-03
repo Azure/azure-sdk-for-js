@@ -59,6 +59,6 @@ export interface RemoveParticipantsResult {
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
-  recordingId?: string;
-  recordingState?: RecordingState;
+  recordingId: string;
+  recordingState: RecordingState;
 }

@@ -166,6 +166,10 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
 }
 
+export function createAssetsJson(): Promise<void> {
+  return runMigrationScript(false);
+}
+
 export async function runMigrationScript(initialPush: boolean): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
@@ -210,8 +214,7 @@ export async function isProxyToolActive(): Promise<boolean> {
     await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
 
     log.info(
-      `Proxy tool seems to be active at http://localhost:${
-        process.env.TEST_PROXY_HTTP_PORT ?? 5000
+      `Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000
       }\n`
     );
     return true;

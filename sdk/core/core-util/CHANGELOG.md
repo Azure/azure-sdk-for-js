@@ -1,14 +1,10 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add `randomUUID` to generate a random UUID.
 
 ## 1.2.0 (2023-03-02)
 

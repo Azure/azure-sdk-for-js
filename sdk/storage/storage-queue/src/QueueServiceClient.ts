@@ -425,7 +425,7 @@ export class QueueServiceClient extends StorageClient {
    * let iterator = queueServiceClient.listQueues();
    * let item = await iterator.next();
    * while (!item.done) {
-   *   console.log(`Queue${i}: ${iterator.value.name}`);
+   *   console.log(`Queue${i}: ${item.value.name}`);
    *   i++;
    *   item = await iterator.next();
    * }

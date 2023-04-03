@@ -214,3 +214,14 @@ directive:
   transform: >
     $.properties.size["x-ms-client-name"] = "sizeInBytes";
 ```
+
+# Remove security definitions
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.
+    transform: >
+      delete $["securityDefinitions"];
+      delete $["security"];
+```
