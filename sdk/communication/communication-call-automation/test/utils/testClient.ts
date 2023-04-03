@@ -28,16 +28,12 @@ import {
   CallAutomationClient,
   CallAutomationClientOptions,
   CallAutomationEvent,
-  CallAutomationEventParser,
-} from "../../../src";
-import { CommunicationIdentifierModel } from "../../../src/generated/src";
+  CallAutomationEventParser
+} from "../../src";
+import { CommunicationIdentifierModel } from "../../src/generated/src";
 import { assert } from "chai";
-import fetch from "node-fetch";
 import {
-  ServiceBusClient,
   ServiceBusReceiver,
-  ServiceBusReceivedMessage,
-  ProcessErrorArgs,
 } from "@azure/service-bus";
 
 if (isNode) {
@@ -84,10 +80,6 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
     : "";
 }
 
-function createServiceBusClient(): ServiceBusClient {
-  return new ServiceBusClient(serviceBusConnectionString);
-}
-
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
@@ -129,6 +121,21 @@ export function createCallAutomationClient(
   return new CallAutomationClient(connectionString, recorder.configureClientOptions(options));
 }
 
+export async function serviceBusWithNewCall(
+  caller: CommunicationIdentifier,
+  receiver: CommunicationIdentifier
+): Promise<string> {
+  const callerId: string = parseIdsFromIdentifier(caller);
+  const receiverId: string = parseIdsFromIdentifier(receiver);
+  const uniqueId: string = callerId + receiverId;
+
+  console.log(dispatcherEndpoint);
+  console.log(serviceBusConnectionString);
+  console.log(serviceBusReceivers);
+  console.log(eventsToPersist)
+  return uniqueId;
+}
+
 async function eventBodyHandler(body: any): Promise<void> {
   if (body.incomingCallContext) {
     const incomingCallContext: string = body.incomingCallContext;
@@ -149,60 +156,6 @@ async function eventBodyHandler(body: any): Promise<void> {
       }
     }
   }
-}
-
-export async function serviceBusWithNewCall(
-  caller: CommunicationIdentifier,
-  receiver: CommunicationIdentifier
-): Promise<string> {
-  const callerId: string = parseIdsFromIdentifier(caller);
-  const receiverId: string = parseIdsFromIdentifier(receiver);
-  const uniqueId: string = callerId + receiverId;
-
-  if (!isPlaybackMode()) {
-    // subscribe to event dispatcher
-    const dispatcherUrl: string =
-      dispatcherEndpoint + `/api/servicebuscallback/subscribe?q=${uniqueId}`;
-
-    try {
-      await fetch(dispatcherUrl, {
-        method: "POST",
-        body: JSON.stringify({}),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-    } catch (e) {
-      console.log("Error occurred", e);
-    }
-
-    // create a service bus processor
-    const serviceBusClient = createServiceBusClient();
-    const serviceBusReceiver: ServiceBusReceiver = serviceBusClient.createReceiver(uniqueId);
-
-    // function to handle messages
-    const messageHandler = async (messageReceived: ServiceBusReceivedMessage): Promise<void> => {
-      if (isRecordMode()) {
-        const messageInString: string = JSON.stringify(messageReceived.body);
-        eventsToPersist.push(messageInString);
-      }
-      await eventBodyHandler(messageReceived.body);
-    };
-
-    // function to handle any errors
-    const errorHandler = async (error: ProcessErrorArgs): Promise<void> => {
-      console.log(error);
-    };
-
-    // subscribe and specify the message and error handlers
-    serviceBusReceiver.subscribe({
-      processMessage: messageHandler,
-      processError: errorHandler,
-    });
-
-    serviceBusReceivers.set(uniqueId, serviceBusReceiver);
-  }
-  return uniqueId;
 }
 
 export async function waitForIncomingCallContext(
