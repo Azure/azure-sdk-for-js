@@ -5,7 +5,12 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import { RoomsClient, InvitedRoomParticipant, CreateRoomOptions, RoomParticipant } from "@azure/communication-rooms";
+import {
+  RoomsClient,
+  InvitedRoomParticipant,
+  CreateRoomOptions,
+  RoomParticipant,
+} from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
@@ -89,7 +94,9 @@ export async function main() {
  * Outputs the participants within a Participantsn to console.
  * @param pc - The Participants being printed to console.
  */
-async function printParticipants(participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>): Promise<void> {
+async function printParticipants(
+  participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>
+): Promise<void> {
   for await (const participant of participants) {
     const rawId = participant.rawId;
     const role = participant.role;

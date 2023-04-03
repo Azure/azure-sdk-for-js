@@ -124,7 +124,10 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<CommunicationRoom> {
+  public async updateRoom(
+    roomId: string,
+    options: UpdateRoomOptions = {}
+  ): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async () => {
       return this.client.rooms.update(roomId, options);
     });
@@ -146,14 +149,12 @@ export class RoomsClient {
    * Gets the list of rooms
    * @param options - Operational options
    */
-  public async listRooms(options: ListRoomOptions = {}): Promise<PagedAsyncIterableIterator<CommunicationRoom>> {
-    return tracingClient.withSpan(
-      "RoomsClient-ListRooms",
-      options,
-      async (updatedOptions) => {
-        return this.client.rooms.list(updatedOptions);
-      }
-    );  
+  public async listRooms(
+    options: ListRoomOptions = {}
+  ): Promise<PagedAsyncIterableIterator<CommunicationRoom>> {
+    return tracingClient.withSpan("RoomsClient-ListRooms", options, async (updatedOptions) => {
+      return this.client.rooms.list(updatedOptions);
+    });
   }
 
   /**
@@ -238,6 +239,4 @@ export class RoomsClient {
   }
 }
 
-export {
-  ParticipantsUpdateResponse
-} from "./generated/src";
+export { ParticipantsUpdateResponse } from "./generated/src";
