@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GatewayResource,
   GatewaysListNextOptionalParams,
@@ -24,9 +28,13 @@ import {
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
+  SkuObject,
+  GatewaysUpdateCapacityOptionalParams,
+  GatewaysUpdateCapacityResponse,
   GatewaysDeleteOptionalParams,
   GatewaysListEnvSecretsOptionalParams,
   GatewaysListEnvSecretsResponse,
+  GatewaysRestartOptionalParams,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse,
@@ -159,8 +167,8 @@ export class GatewaysImpl implements Gateways {
     gatewayResource: GatewayResource,
     options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewaysCreateOrUpdateResponse>,
       GatewaysCreateOrUpdateResponse
     >
   > {
@@ -170,7 +178,7 @@ export class GatewaysImpl implements Gateways {
     ): Promise<GatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -203,13 +211,22 @@ export class GatewaysImpl implements Gateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, gatewayResource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        gatewayResource,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GatewaysCreateOrUpdateResponse,
+      OperationState<GatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -243,26 +260,33 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
-   * Disable the default Spring Cloud Gateway.
+   * Operation to update an exiting Spring Cloud Gateway capacity.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
    * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginUpdateCapacity(
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GatewaysUpdateCapacityResponse>,
+      GatewaysUpdateCapacityResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<GatewaysUpdateCapacityResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -295,13 +319,115 @@ export class GatewaysImpl implements Gateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, options },
-      deleteOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        gatewayCapacityResource,
+        options
+      },
+      spec: updateCapacityOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GatewaysUpdateCapacityResponse,
+      OperationState<GatewaysUpdateCapacityResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  async beginUpdateCapacityAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<GatewaysUpdateCapacityResponse> {
+    const poller = await this.beginUpdateCapacity(
+      resourceGroupName,
+      serviceName,
+      gatewayName,
+      gatewayCapacityResource,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Disable the default Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, gatewayName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -349,6 +475,96 @@ export class GatewaysImpl implements Gateways {
       { resourceGroupName, serviceName, gatewayName, options },
       listEnvSecretsOperationSpec
     );
+  }
+
+  /**
+   * Restart the Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  async beginRestart(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysRestartOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, gatewayName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restart the Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysRestartOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      serviceName,
+      gatewayName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -471,6 +687,40 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateCapacityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayResource
+    },
+    201: {
+      bodyMapper: Mappers.GatewayResource
+    },
+    202: {
+      bodyMapper: Mappers.GatewayResource
+    },
+    204: {
+      bodyMapper: Mappers.GatewayResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.gatewayCapacityResource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.gatewayName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
@@ -505,6 +755,30 @@ const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
         type: { name: "Dictionary", value: { type: { name: "String" } } }
       }
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.gatewayName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import * as sinon from "sinon";
 import EventEmitter from "events";
-import { waitForEvents } from "../../../src/eventHubReceiver";
+import { waitForEvents } from "../../../src/partitionReceiver";
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 
 function assertWaitForEvents(inputs: {

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Downloads a manifest of custom media type.
+ * @summary Downloads a manifest which may be of varying media type.
  * @azsdk-weight 3
  */
 
-import { ContainerRegistryBlobClient } from "@azure/container-registry";
+import { ContainerRegistryContentClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,7 +16,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()
@@ -25,9 +25,7 @@ async function main() {
   const manifestListType = "application/vnd.docker.distribution.manifest.list.v2+json";
   const ociIndexType = "application/vnd.oci.image.index.v1+json";
 
-  const result = await client.downloadManifest("latest", {
-    mediaType: [manifestListType, ociIndexType],
-  });
+  const result = await client.getManifest("latest");
 
   if (result.mediaType === manifestListType) {
     console.log("Manifest is a Docker manifest list");

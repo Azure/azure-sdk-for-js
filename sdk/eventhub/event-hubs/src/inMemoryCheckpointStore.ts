@@ -3,8 +3,8 @@
 
 import { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
-import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { getRandomName } from "./util/utils";
 
 /**
  * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
@@ -64,7 +64,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
 
         const newOwnership = {
           ...ownership,
-          etag: generate_uuid(),
+          etag: getRandomName(),
           lastModifiedTimeInMs: date.getTime(),
         };
 
@@ -93,7 +93,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
 
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
-      partitionOwnership.etag = generate_uuid();
+      partitionOwnership.etag = getRandomName();
 
       const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroup}`;
       let partitionMap = this._committedCheckpoints.get(key);
