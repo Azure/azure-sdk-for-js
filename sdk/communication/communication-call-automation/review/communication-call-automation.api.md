@@ -543,6 +543,17 @@ export interface RemoveParticipantsResult {
 }
 
 // @public
+export interface RemoveParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "RemoveParticipantSucceeded";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
+}
+
+// @public
 export interface RestAddParticipantFailed {
     callConnectionId?: string;
     correlationId?: string;
@@ -560,17 +571,6 @@ export interface RestAddParticipantSucceeded {
     operationContext?: string;
     participant?: CommunicationIdentifierModel;
     resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
-// @public
-export interface RemoveParticipantSucceeded {
-    callConnectionId?: string;
-    correlationId?: string;
-    kind: "RemoveParticipantSucceeded";
-    operationContext?: string;
-    participant?: CommunicationIdentifier;
-    resultInformation?: ResultInformation;
     serverCallId?: string;
 }
 
@@ -614,6 +614,7 @@ export interface RestParticipantsUpdated {
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
     participants?: CallParticipantInternal[];
+    sequenceNumber?: number;
     serverCallId?: string;
 }
 
