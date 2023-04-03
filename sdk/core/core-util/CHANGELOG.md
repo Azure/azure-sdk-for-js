@@ -1,14 +1,16 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.3.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Add `randomUUID` to generate a random UUID.
 
-### Bugs Fixed
+## 1.2.0 (2023-03-02)
 
-### Other Changes
+### Features Added
+
+- Add `createAbortablePromise` which creates promises that can be aborted.
 
 ## 1.1.1 (2022-10-06)
 

@@ -19,7 +19,7 @@ import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import { BatchingPartitionChannel } from "./batchingPartitionChannel";
 import { PartitionAssigner } from "./impl/partitionAssigner";
-import { logger } from "./log";
+import { logger } from "./logger";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkWatcher,
   NetworkWatchersListOptionalParams,
@@ -111,7 +111,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     options?: NetworkWatchersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network watcher resource.
    * @param resourceGroupName The name of the resource group.
@@ -162,8 +162,8 @@ export interface NetworkWatchers {
     parameters: VerificationIPFlowParameters,
     options?: NetworkWatchersVerifyIPFlowOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersVerifyIPFlowResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersVerifyIPFlowResponse>,
       NetworkWatchersVerifyIPFlowResponse
     >
   >;
@@ -193,8 +193,8 @@ export interface NetworkWatchers {
     parameters: NextHopParameters,
     options?: NetworkWatchersGetNextHopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetNextHopResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetNextHopResponse>,
       NetworkWatchersGetNextHopResponse
     >
   >;
@@ -224,8 +224,8 @@ export interface NetworkWatchers {
     parameters: SecurityGroupViewParameters,
     options?: NetworkWatchersGetVMSecurityRulesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetVMSecurityRulesResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetVMSecurityRulesResponse>,
       NetworkWatchersGetVMSecurityRulesResponse
     >
   >;
@@ -255,8 +255,8 @@ export interface NetworkWatchers {
     parameters: TroubleshootingParameters,
     options?: NetworkWatchersGetTroubleshootingOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetTroubleshootingResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetTroubleshootingResponse>,
       NetworkWatchersGetTroubleshootingResponse
     >
   >;
@@ -286,8 +286,8 @@ export interface NetworkWatchers {
     parameters: QueryTroubleshootingParameters,
     options?: NetworkWatchersGetTroubleshootingResultOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetTroubleshootingResultResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetTroubleshootingResultResponse>,
       NetworkWatchersGetTroubleshootingResultResponse
     >
   >;
@@ -317,8 +317,8 @@ export interface NetworkWatchers {
     parameters: FlowLogInformation,
     options?: NetworkWatchersSetFlowLogConfigurationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersSetFlowLogConfigurationResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersSetFlowLogConfigurationResponse>,
       NetworkWatchersSetFlowLogConfigurationResponse
     >
   >;
@@ -349,8 +349,8 @@ export interface NetworkWatchers {
     parameters: FlowLogStatusParameters,
     options?: NetworkWatchersGetFlowLogStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetFlowLogStatusResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetFlowLogStatusResponse>,
       NetworkWatchersGetFlowLogStatusResponse
     >
   >;
@@ -382,8 +382,8 @@ export interface NetworkWatchers {
     parameters: ConnectivityParameters,
     options?: NetworkWatchersCheckConnectivityOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersCheckConnectivityResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersCheckConnectivityResponse>,
       NetworkWatchersCheckConnectivityResponse
     >
   >;
@@ -415,8 +415,8 @@ export interface NetworkWatchers {
     parameters: AzureReachabilityReportParameters,
     options?: NetworkWatchersGetAzureReachabilityReportOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersGetAzureReachabilityReportResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetAzureReachabilityReportResponse>,
       NetworkWatchersGetAzureReachabilityReportResponse
     >
   >;
@@ -448,8 +448,8 @@ export interface NetworkWatchers {
     parameters: AvailableProvidersListParameters,
     options?: NetworkWatchersListAvailableProvidersOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkWatchersListAvailableProvidersResponse>,
+    SimplePollerLike<
+      OperationState<NetworkWatchersListAvailableProvidersResponse>,
       NetworkWatchersListAvailableProvidersResponse
     >
   >;
@@ -484,10 +484,8 @@ export interface NetworkWatchers {
     parameters: NetworkConfigurationDiagnosticParameters,
     options?: NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        NetworkWatchersGetNetworkConfigurationDiagnosticResponse
-      >,
+    SimplePollerLike<
+      OperationState<NetworkWatchersGetNetworkConfigurationDiagnosticResponse>,
       NetworkWatchersGetNetworkConfigurationDiagnosticResponse
     >
   >;

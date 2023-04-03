@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RefundRequest,
   ReturnPostOptionalParams,
@@ -42,7 +46,7 @@ export class ReturnImpl implements Return {
     body: RefundRequest,
     options?: ReturnPostOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>
+    SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -50,7 +54,7 @@ export class ReturnImpl implements Return {
     ): Promise<ReturnPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -83,15 +87,18 @@ export class ReturnImpl implements Return {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      postOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: postOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReturnPostResponse,
+      OperationState<ReturnPostResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -121,20 +128,16 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     201: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     202: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     204: {
-      bodyMapper: Mappers.RefundResponse,
-      headersMapper: Mappers.ReturnPostHeaders
+      bodyMapper: Mappers.ReservationOrderResponse
     },
     default: {
       bodyMapper: Mappers.ErrorModel

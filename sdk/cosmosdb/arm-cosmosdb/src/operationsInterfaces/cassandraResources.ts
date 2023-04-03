@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CassandraKeyspaceGetResults,
   CassandraResourcesListCassandraKeyspacesOptionalParams,
@@ -21,6 +21,7 @@ import {
   CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   CassandraResourcesCreateUpdateCassandraKeyspaceResponse,
   CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
+  CassandraResourcesDeleteCassandraKeyspaceResponse,
   CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams,
   CassandraResourcesGetCassandraKeyspaceThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -36,6 +37,7 @@ import {
   CassandraResourcesCreateUpdateCassandraTableOptionalParams,
   CassandraResourcesCreateUpdateCassandraTableResponse,
   CassandraResourcesDeleteCassandraTableOptionalParams,
+  CassandraResourcesDeleteCassandraTableResponse,
   CassandraResourcesGetCassandraTableThroughputOptionalParams,
   CassandraResourcesGetCassandraTableThroughputResponse,
   CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
@@ -130,10 +132,8 @@ export interface CassandraResources {
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesCreateUpdateCassandraKeyspaceResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
       CassandraResourcesCreateUpdateCassandraKeyspaceResponse
     >
   >;
@@ -165,7 +165,12 @@ export interface CassandraResources {
     accountName: string,
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
+      CassandraResourcesDeleteCassandraKeyspaceResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Cassandra keyspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -178,7 +183,7 @@ export interface CassandraResources {
     accountName: string,
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
-  ): Promise<void>;
+  ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse>;
   /**
    * Gets the RUs per second of the Cassandra Keyspace under an existing Azure Cosmos DB database account
    * with the provided name.
@@ -209,8 +214,8 @@ export interface CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
       >,
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
@@ -245,8 +250,8 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
@@ -278,8 +283,8 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
@@ -333,8 +338,8 @@ export interface CassandraResources {
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
       CassandraResourcesCreateUpdateCassandraTableResponse
     >
   >;
@@ -370,7 +375,12 @@ export interface CassandraResources {
     keyspaceName: string,
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesDeleteCassandraTableResponse>,
+      CassandraResourcesDeleteCassandraTableResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Cassandra table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -385,7 +395,7 @@ export interface CassandraResources {
     keyspaceName: string,
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
-  ): Promise<void>;
+  ): Promise<CassandraResourcesDeleteCassandraTableResponse>;
   /**
    * Gets the RUs per second of the Cassandra table under an existing Azure Cosmos DB database account
    * with the provided name.
@@ -420,10 +430,8 @@ export interface CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesUpdateCassandraTableThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>,
       CassandraResourcesUpdateCassandraTableThroughputResponse
     >
   >;
@@ -460,8 +468,8 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraTableToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse
@@ -497,8 +505,8 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraTableToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse
@@ -551,8 +559,8 @@ export interface CassandraResources {
     createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CassandraResourcesCreateUpdateCassandraViewResponse>,
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraViewResponse>,
       CassandraResourcesCreateUpdateCassandraViewResponse
     >
   >;
@@ -587,7 +595,7 @@ export interface CassandraResources {
     keyspaceName: string,
     viewName: string,
     options?: CassandraResourcesDeleteCassandraViewOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Cassandra view.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -637,10 +645,8 @@ export interface CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesUpdateCassandraViewThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesUpdateCassandraViewThroughputResponse>,
       CassandraResourcesUpdateCassandraViewThroughputResponse
     >
   >;
@@ -677,10 +683,8 @@ export interface CassandraResources {
     viewName: string,
     options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesMigrateCassandraViewToAutoscaleResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>,
       CassandraResourcesMigrateCassandraViewToAutoscaleResponse
     >
   >;
@@ -714,8 +718,8 @@ export interface CassandraResources {
     viewName: string,
     options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraViewToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraViewToManualThroughputResponse

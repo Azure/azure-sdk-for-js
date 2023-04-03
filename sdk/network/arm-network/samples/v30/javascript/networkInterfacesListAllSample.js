@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all network interfaces in a subscription.
  *
  * @summary Gets all network interfaces in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkInterfaceListAll.json
  */
 async function listAllNetworkInterfaces() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listAllNetworkInterfaces() {
   console.log(resArray);
 }
 
-listAllNetworkInterfaces().catch(console.error);
+async function main() {
+  listAllNetworkInterfaces();
+}
+
+main().catch(console.error);

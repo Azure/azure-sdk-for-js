@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BackupInstanceResource,
   BackupInstancesListNextOptionalParams,
@@ -66,7 +70,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -142,7 +146,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -159,9 +163,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   get(
@@ -178,9 +182,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -191,8 +195,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: BackupInstanceResource,
     options?: BackupInstancesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesCreateOrUpdateResponse>,
       BackupInstancesCreateOrUpdateResponse
     >
   > {
@@ -202,7 +206,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -235,13 +239,22 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesCreateOrUpdateResponse,
+      OperationState<BackupInstancesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,9 +263,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -275,9 +288,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -285,14 +298,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -325,13 +338,13 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -340,9 +353,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -362,9 +375,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -375,8 +388,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: TriggerBackupRequest,
     options?: BackupInstancesAdhocBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesAdhocBackupResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesAdhocBackupResponse>,
       BackupInstancesAdhocBackupResponse
     >
   > {
@@ -386,7 +399,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesAdhocBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -419,13 +432,22 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      adhocBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: adhocBackupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesAdhocBackupResponse,
+      OperationState<BackupInstancesAdhocBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -434,9 +456,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -459,7 +481,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -470,8 +492,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: ValidateForBackupRequest,
     options?: BackupInstancesValidateForBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesValidateForBackupResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForBackupResponse>,
       BackupInstancesValidateForBackupResponse
     >
   > {
@@ -481,7 +503,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesValidateForBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -514,13 +536,16 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, parameters, options },
-      validateForBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: validateForBackupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesValidateForBackupResponse,
+      OperationState<BackupInstancesValidateForBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -529,7 +554,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -551,9 +576,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Get result of backup instance creation operation
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param operationId
    * @param options The options parameters.
    */
@@ -578,9 +603,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -591,8 +616,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: AzureBackupRehydrationRequest,
     options?: BackupInstancesTriggerRehydrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesTriggerRehydrateResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerRehydrateResponse>,
       BackupInstancesTriggerRehydrateResponse
     >
   > {
@@ -602,7 +627,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesTriggerRehydrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -635,13 +660,22 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      triggerRehydrateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: triggerRehydrateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesTriggerRehydrateResponse,
+      OperationState<BackupInstancesTriggerRehydrateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -650,9 +684,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -675,9 +709,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -688,8 +722,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: AzureBackupRestoreRequestUnion,
     options?: BackupInstancesTriggerRestoreOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesTriggerRestoreResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerRestoreResponse>,
       BackupInstancesTriggerRestoreResponse
     >
   > {
@@ -699,7 +733,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesTriggerRestoreResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -732,13 +766,22 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      triggerRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: triggerRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesTriggerRestoreResponse,
+      OperationState<BackupInstancesTriggerRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -747,9 +790,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -772,9 +815,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeBackups(
@@ -782,14 +825,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesResumeBackupsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -822,13 +865,13 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      resumeBackupsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: resumeBackupsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -837,9 +880,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeBackupsAndWait(
@@ -859,9 +902,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeProtection(
@@ -869,14 +912,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesResumeProtectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -909,13 +952,13 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      resumeProtectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: resumeProtectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -924,9 +967,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeProtectionAndWait(
@@ -946,9 +989,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginStopProtection(
@@ -956,14 +999,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesStopProtectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -996,13 +1039,13 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      stopProtectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: stopProtectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1011,9 +1054,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginStopProtectionAndWait(
@@ -1034,9 +1077,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginSuspendBackups(
@@ -1044,14 +1087,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesSuspendBackupsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1084,13 +1127,13 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      suspendBackupsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: suspendBackupsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1100,9 +1143,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginSuspendBackupsAndWait(
@@ -1123,9 +1166,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1135,14 +1178,14 @@ export class BackupInstancesImpl implements BackupInstances {
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
     options?: BackupInstancesSyncBackupInstanceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1175,13 +1218,19 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      syncBackupInstanceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: syncBackupInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1191,9 +1240,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1216,9 +1265,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1229,8 +1278,8 @@ export class BackupInstancesImpl implements BackupInstances {
     parameters: ValidateRestoreRequestObject,
     options?: BackupInstancesValidateForRestoreOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesValidateForRestoreResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForRestoreResponse>,
       BackupInstancesValidateForRestoreResponse
     >
   > {
@@ -1240,7 +1289,7 @@ export class BackupInstancesImpl implements BackupInstances {
     ): Promise<BackupInstancesValidateForRestoreResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1273,13 +1322,22 @@ export class BackupInstancesImpl implements BackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      validateForRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: validateForRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesValidateForRestoreResponse,
+      OperationState<BackupInstancesValidateForRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1288,9 +1346,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1313,7 +1371,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

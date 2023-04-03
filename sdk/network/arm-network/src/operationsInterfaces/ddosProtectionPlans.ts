@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DdosProtectionPlan,
   DdosProtectionPlansListOptionalParams,
@@ -51,7 +51,7 @@ export interface DdosProtectionPlans {
     resourceGroupName: string,
     ddosProtectionPlanName: string,
     options?: DdosProtectionPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified DDoS protection plan.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface DdosProtectionPlans {
     parameters: DdosProtectionPlan,
     options?: DdosProtectionPlansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DdosProtectionPlansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DdosProtectionPlansCreateOrUpdateResponse>,
       DdosProtectionPlansCreateOrUpdateResponse
     >
   >;

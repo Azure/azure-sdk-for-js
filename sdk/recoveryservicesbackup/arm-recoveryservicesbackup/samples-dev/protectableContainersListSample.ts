@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the containers that can be registered to Recovery Services Vault.
  *
  * @summary Lists the containers that can be registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectableContainers_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureStorage/ProtectableContainers_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage() {
   const subscriptionId =

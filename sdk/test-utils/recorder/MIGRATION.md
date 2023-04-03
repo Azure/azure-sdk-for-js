@@ -1,24 +1,20 @@
 # Migration Guide
 
-This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock/nise`-based recorder with a solution that uses the language-agnostic [test proxy server].
+This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the older `nock/nise`-based recorder(v1) with a solution that uses the language-agnostic [test proxy server].
 
-## Prerequisites
+## Advantages of migration to v3
 
-- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
-
-## Advantages of migration to v2
-
-- Recorder v2 handles secrets in the recordings better than v1 leveraging the new sanitizers/transformations approach.
-- There are maintenance benefits to recorder v2, partly owing to the new test-proxy tool that is built to support recorders in various languages.
+- Recorder v3 handles secrets in the recordings better than v1 leveraging the new sanitizers/transformations approach.
+- There are maintenance benefits to recorder v3, partly owing to the new test-proxy tool that is built to support recorders in various languages.
 - Will allow us to run the tests in parallel in the future.
 - All the recordings will be saved as JSON files instead of being JS files.
-- Recordings will soon be migrated to an assets repository to lessen the load of the JS repo, which needs the packages to be migrated to recorder v2 first to grasp the benefits.
 - The new recorder allows tests to imitate the live service more accurately during playback, since real HTTP requests are being made.
 - The new recorder's API is more transparent and is easier to use compared to the old recorder.
+- Leverages the asset-sync workflow to enable you push recordings out of the JS repo.
 
 ## Upgrading to the Unified Recorder
 
-The new recorder is version 2.x.y of the `@azure-tools/test-recorder` package. Update the test-recorder dependency in your package.json file as follows:
+The new recorder is version 3.x.y of the `@azure-tools/test-recorder` package. Update the test-recorder dependency in your package.json file as follows:
 
 ```json
 {
@@ -26,7 +22,7 @@ The new recorder is version 2.x.y of the `@azure-tools/test-recorder` package. U
   "devDependencies": {
     // ...
     "@azure-tools/test-credential": "^1.0.0", // If you're using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^3.0.0"
   }
 }
 ```
@@ -55,10 +51,6 @@ Compare with the older test runs to make sure you're running all the tests/files
 
 ## Initializing the recorder
 
-The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
-
-### For Core v2 SDKs
-
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
@@ -83,33 +75,6 @@ const client = new MyServiceClient(
   recorder.configureClientOptions({ /* any additional options to pass through */ }),
 );
 ```
-
-### For Core v1 SDKs
-
-The recorder library provides a custom `HttpClient` that is then passed to the SDK. This client needs to be initialized as follows:
-
-```ts
-let recorder: Recorder;
-
-/*
- * Note the use of function() instead of the arrow syntax. We need access to `this` so we
- * can pass test information from Mocha to the recorder.
- */
-beforeEach(function (this: Context) {
-  recorder = new Recorder(this.currentTest);
-});
-```
-
-When initialising your client in your test, you should pass in the recorder as follows:
-
-```ts
-const client = new MyServiceClient(
-  /* ... insert options here ... */,
-  recorder.configureClientOptionsCoreV1({ /* any additional options to pass through */ }),
-);
-```
-
-This will allow requests to be intercepted and redirected to the proxy tool.
 
 ## Starting and stopping the recorder
 
@@ -329,9 +294,25 @@ Remove the following "devDependencies" from `package.json`
 
 ## Migrating your recordings
 
-Once you have made the necessary code changes, it is time to re-record your tests using the Unified Recorder to complete the migration. To do this, first **delete** the directory containing the old recordings (the `recordings` folder). Then, run your tests with the `TEST_MODE` environment variable to `record`.
+Once you have made the necessary code changes, it is time to re-record your tests using the Unified Recorder to complete the migration.
 
-If everything succeeds, the new recordings will be made available in the `recordings` directory. Inspect them to make sure everything looks OK (no secrets present, etc.), and then run the tests in playback mode to ensure everything is passing. If you're running into issues, check out the [Troubleshooting section](#troubleshooting).
+To do this, first **delete** the directory containing the old recordings (the `recordings` folder).
+
+### Asset Sync - Push recordings to the Azure/azure-sdk-assets repo
+
+Make sure you do have the [Powershell] installed.
+
+`npx dev-tool test-proxy init` - to initialize an `assets.json` file
+
+Then, run your tests with the `TEST_MODE` environment variable to `record`.
+
+`npx dev-tool test-proxy push` - to push the recordings.
+
+If everything succeeds, the new recordings will be made available in the `Azure/azure-sdk-assets` repo based on the tag present in the `assets.json`.
+
+Inspect them to make sure everything looks OK (no secrets present, etc.), and then run the tests in playback mode to ensure everything is passing.
+
+If you're running into issues, check out the [Troubleshooting section](#troubleshooting).
 
 ## Troubleshooting
 
@@ -341,17 +322,8 @@ If you run into issues while migrating your package, some of the following troub
 
 `dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
 
-### Viewing more detailed logs by running the proxy tool manually
-
-If you desire, you can run the proxy tool docker image manually before running your tests. This allows you to specify a different log level (debug in the below example), allowing for more detailed logs to be viewed. Do this by running:
-
-```bash
-docker run -v <your azure-sdk-for-js repository root>:/srv/testproxy -p 5001:5001 -p 5000:5000 -e Logging__LogLevel__Microsoft=Debug azsdkengsys.azurecr.io/engsys/testproxy-lin:latest
-```
-
-Once you've done this, you can run your tests in a separate terminal. `dev-tool` will detect that a test proxy container is already running and will point requests to the Docker container you started.
-
-[docker]: https://docker.com/
 [`core-rest-pipeline`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline
-[`core-http`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
+[latest test proxy artifacts]: https://github.com/Azure/azure-sdk-tools/releases/tag/Azure.Sdk.Tools.TestProxy_1.0.0-dev.20230322.1
+[Azure/azure-sdk-tools]: https://github.com/Azure/azure-sdk-tools
+[powershell]: https://github.com/PowerShell/PowerShell

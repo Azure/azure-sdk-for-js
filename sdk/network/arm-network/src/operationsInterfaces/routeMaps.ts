@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RouteMap,
   RouteMapsListOptionalParams,
@@ -60,8 +60,8 @@ export interface RouteMaps {
     routeMapParameters: RouteMap,
     options?: RouteMapsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RouteMapsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RouteMapsCreateOrUpdateResponse>,
       RouteMapsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface RouteMaps {
     virtualHubName: string,
     routeMapName: string,
     options?: RouteMapsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RouteMap.
    * @param resourceGroupName The resource group name of the RouteMap's resource group.

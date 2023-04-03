@@ -17,6 +17,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
+import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -47,9 +48,13 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      managedIdentityClientId;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
-
+    const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
@@ -57,6 +62,12 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         resourceId: managedResourceId,
       };
       super(managedIdentityResourceIdOptions);
+    } else if (workloadFile && workloadIdentityClientId) {
+      const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
+        ...options,
+        tenantId: tenantId,
+      };
+      super(workloadIdentityClientId, workloadIdentityCredentialOptions);
     } else if (managedIdentityClientId) {
       const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
@@ -69,12 +80,39 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
   }
 }
 
+export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+export class DefaultAzureCliCredential extends AzureCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+
+export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
+  WorkloadIdentityCredential,
   DefaultManagedIdentityCredential,
-  AzureDeveloperCliCredential,
-  AzureCliCredential,
-  AzurePowerShellCredential,
+  DefaultAzureDeveloperCliCredential,
+  DefaultAzureCliCredential,
+  DefaultAzurePowershellCredential,
 ];
 
 /**
@@ -91,6 +129,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
    * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
@@ -112,6 +151,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
    * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
@@ -133,6 +173,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
    * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}

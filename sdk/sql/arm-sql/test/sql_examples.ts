@@ -50,7 +50,7 @@ describe("Sql test", () => {
     const credential = createTestCredential();
     client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "czwTest";
     databaseName = "mydatabasezzzz";
     serverName = "myserverppp";
   });

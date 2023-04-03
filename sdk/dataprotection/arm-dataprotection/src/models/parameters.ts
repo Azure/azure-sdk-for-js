@@ -26,8 +26,7 @@ import {
   ValidateRestoreRequestObject as ValidateRestoreRequestObjectMapper,
   AzureBackupFindRestorableTimeRangesRequest as AzureBackupFindRestorableTimeRangesRequestMapper,
   ResourceGuardResource as ResourceGuardResourceMapper,
-  ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
-  UnlockDeleteRequest as UnlockDeleteRequestMapper
+  PatchResourceGuardInput as PatchResourceGuardInputMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -57,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01-preview",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,7 +71,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -80,6 +79,10 @@ export const subscriptionId: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -227,17 +230,6 @@ export const parameters11: OperationParameter = {
   mapper: ValidateRestoreRequestObjectMapper
 };
 
-export const resourceId: OperationURLParameter = {
-  parameterPath: "resourceId",
-  mapper: {
-    serializedName: "resourceId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const filter: OperationQueryParameter = {
   parameterPath: ["options", "filter"],
   mapper: {
@@ -301,6 +293,11 @@ export const resourceGuardsName: OperationURLParameter = {
   }
 };
 
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PatchResourceGuardInputMapper
+};
+
 export const requestName: OperationURLParameter = {
   parameterPath: "requestName",
   mapper: {
@@ -310,25 +307,4 @@ export const requestName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const resourceGuardProxyName: OperationURLParameter = {
-  parameterPath: "resourceGuardProxyName",
-  mapper: {
-    serializedName: "resourceGuardProxyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters14: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ResourceGuardProxyBaseResourceMapper
-};
-
-export const parameters15: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: UnlockDeleteRequestMapper
 };

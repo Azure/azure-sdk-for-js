@@ -3,7 +3,8 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { Constants, RequestOptions } from "./index";
+import { RequestOptions } from "./index";
+import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
 
 /**
@@ -181,7 +182,7 @@ export class GlobalEndpointManager {
         this.writeableLocations.push(location);
       }
     }
-    for (const location of databaseAccount.writableLocations) {
+    for (const location of databaseAccount.readableLocations) {
       const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
       if (!existingLocation) {
         this.readableLocations.push(location);
@@ -210,7 +211,11 @@ export class GlobalEndpointManager {
    * @param unavailableLocations - list of unavailable locations
    * @param allLocations - list of all locations
    */
-  private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
+  private updateLocation(
+    now: number,
+    unavailableLocations: Location[],
+    allLocations: Location[]
+  ): void {
     for (const location of unavailableLocations) {
       const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
       if (
@@ -229,8 +234,9 @@ export class GlobalEndpointManager {
         loc &&
         now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
       ) {
-        return true;
+        return false;
       }
+      return true;
     });
   }
 

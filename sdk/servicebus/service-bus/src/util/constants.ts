@@ -6,13 +6,20 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.8.1",
+  version: "7.9.0",
 };
 
 /**
  * @internal
  */
 export const messageDispositionTimeout = 20000;
+
+/**
+ * The amount of time in milliseconds that a receiver
+ * will wait while draining credits before returning.
+ * @internal
+ */
+export const receiveDrainTimeoutInMs = 200;
 
 /**
  * @internal

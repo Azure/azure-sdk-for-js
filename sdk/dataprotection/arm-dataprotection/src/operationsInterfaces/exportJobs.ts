@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExportJobsTriggerOptionalParams,
   ExportJobsTriggerResponse
@@ -16,7 +16,7 @@ import {
 export interface ExportJobs {
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -25,14 +25,14 @@ export interface ExportJobs {
     vaultName: string,
     options?: ExportJobsTriggerOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExportJobsTriggerResponse>,
+    SimplePollerLike<
+      OperationState<ExportJobsTriggerResponse>,
       ExportJobsTriggerResponse
     >
   >;
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */

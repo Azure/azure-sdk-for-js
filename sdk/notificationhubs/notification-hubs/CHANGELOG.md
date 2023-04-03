@@ -1,14 +1,37 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.2 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Removed `uuid` in favor of `@azure/core-util` for `randomUUID`.
+
+### Features Added
+
+- [#25230](ttps://github.com/Azure/azure-sdk-for-js/issues/25230) - Added section for React Native support in troubleshooting.
+
+## 1.0.1 (2023-03-21)
+
+### Features Added
+
+- [#25230](ttps://github.com/Azure/azure-sdk-for-js/issues/25230) - Added section for React Native support in troubleshooting.
 
 ### Bugs Fixed
 
-### Other Changes
+- [#25316](https://github.com/Azure/azure-sdk-for-js/issues/25316) - Fix `isSendNotificationOptions` to check for `tagExpression` instead of `tags`.
+
+## 1.0.0 (2023-03-15)
+
+### Features Added
+
+- Added Xiaomi support with the following:
+  - `XiaomiRegistrationDescription` and `XiaomiTemplateRegistrationDescription` for registrations with associated factory methods.
+  - `XiaomiInstallation` for installation operations and associated factory methods.
+  - `XiaomiNotification` for notification send support and associated factory methods.
+
+### Bugs Fixed
+
+- Rollup configuration fixed [#24839](https://github.com/Azure/azure-sdk-for-js/pull/24839)
 
 ## 1.0.0-beta.8 (2022-11-21)
 

@@ -66,7 +66,9 @@ const FIXME2 = {
 };
 
 const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
-
+const excludedSummarizationProperties = {
+  excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
+};
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -369,16 +371,22 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation27);
+
+            await assertActionsResults(
+              await poller.pollUntilDone(),
+              expectation27,
+              excludedSummarizationProperties
+            );
           });
 
           it("extractive summarization with maxSentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const maxSentenceCount = 2;
             const poller = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  maxSentenceCount: 2,
+                  maxSentenceCount,
                 },
               ],
               docs,
@@ -387,7 +395,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation28);
+            const results = await poller.pollUntilDone();
+
+            // The max sentence count is 2, so the number of sentences should be 2 or less
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isAtMost(
+                      result.sentences.length,
+                      maxSentenceCount,
+                      `Exceeded maximum sentence count, expected ${maxSentenceCount}`
+                    );
+                  }
+                }
+              }
+            }
+
+            await assertActionsResults(results, expectation28, excludedSummarizationProperties);
           });
 
           it("extractive summarization with orderBy", async function () {
@@ -405,7 +430,25 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation29);
+            const results = await poller.pollUntilDone();
+
+            // Assert that the sentences are in descending rankScore order
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isTrue(
+                      result.sentences.every(
+                        (sentence, i) =>
+                          i === 0 || sentence.rankScore <= result.sentences[i - 1].rankScore
+                      ),
+                      "Expected the sentences to be in descending order"
+                    );
+                  }
+                }
+              }
+            }
+            await assertActionsResults(results, expectation29, excludedSummarizationProperties);
           });
 
           it("abstractive summarization", async function () {
@@ -422,16 +465,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation30, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation30, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
           });
 
-          it("abstractive summarization with maxSentenceCont", async function () {
+          it("abstractive summarization with sentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.AbstractiveSummarization,
-                  maxSentenceCount: 1,
+                  sentenceCount: 1,
                 },
               ],
               docs,
@@ -440,7 +486,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation31, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation31, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
           });
         });
       });
@@ -785,7 +834,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch language hint", async function () {
+        it("whole batch with a language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
@@ -812,34 +861,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
-        it("whole batch with no language hint", async function () {
-          const docs = [
-            "This was the best day of my life.",
-            "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped.",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation14);
-        });
-
-        it("whole batch input with a language hint", async function () {
+        it("whole batch input with no language hint", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
@@ -896,7 +918,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "auto",
             {
               updateIntervalInMs: pollingInterval,
-              defaultLanguage: "en",
             }
           );
           await assertActionsResults(await poller.pollUntilDone(), expectation71);

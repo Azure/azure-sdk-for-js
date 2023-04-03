@@ -3,16 +3,17 @@
 
 import {
   AnalyzeBatchResult,
-  DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
+  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
 
+const failedOn = undefined as any;
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
 const deploymentName = undefined as any;
@@ -1152,7 +1153,14 @@ export const expectation15: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+          {
+            text: "park",
+            category: "Location",
+            offset: 17,
+            subCategory: "Structural",
+            length: 4,
+            confidenceScore: 0.99,
+          },
         ],
       },
       {
@@ -3977,7 +3985,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today’s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -3987,7 +3995,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft’S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -4007,7 +4015,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC puts Windows in the cloud.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -4017,7 +4025,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -6918,96 +6926,6 @@ export const expectation62: EntityLinkingResult[] = [
   { id: "2", warnings: [], entities: [] },
 ];
 
-export const expectation67: DynamicClassificationResult[] = [
-  { id: "0", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.84 }] },
-  { id: "1", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.46 }] },
-  { id: "2", warnings: [], classifications: [{ category: "Location", confidenceScore: 0.39 }] },
-  { id: "3", warnings: [], classifications: [{ category: "Weather", confidenceScore: 0.4 }] },
-];
-export const expectation68: DynamicClassificationResult[] = [
-  { id: "1", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.84 }] },
-  { id: "2", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.46 }] },
-  { id: "3", warnings: [], classifications: [{ category: "Location", confidenceScore: 0.39 }] },
-  { id: "4", warnings: [], classifications: [{ category: "Weather", confidenceScore: 0.4 }] },
-];
-
-export const expectation69: DynamicClassificationResult[] = [
-  {
-    id: "0",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.84 },
-      { category: "Weather", confidenceScore: 0.08 },
-      { category: "Location", confidenceScore: 0.07 },
-    ],
-  },
-  {
-    id: "1",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.46 },
-      { category: "Weather", confidenceScore: 0.42 },
-      { category: "Location", confidenceScore: 0.12 },
-    ],
-  },
-  {
-    id: "2",
-    warnings: [],
-    classifications: [
-      { category: "Location", confidenceScore: 0.39 },
-      { category: "Weather", confidenceScore: 0.37 },
-      { category: "Travel", confidenceScore: 0.24 },
-    ],
-  },
-  {
-    id: "3",
-    warnings: [],
-    classifications: [
-      { category: "Weather", confidenceScore: 0.4 },
-      { category: "Travel", confidenceScore: 0.31 },
-      { category: "Location", confidenceScore: 0.29 },
-    ],
-  },
-];
-export const expectation70: DynamicClassificationResult[] = [
-  {
-    id: "1",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.84 },
-      { category: "Weather", confidenceScore: 0.08 },
-      { category: "Location", confidenceScore: 0.07 },
-    ],
-  },
-  {
-    id: "2",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.46 },
-      { category: "Weather", confidenceScore: 0.42 },
-      { category: "Location", confidenceScore: 0.12 },
-    ],
-  },
-  {
-    id: "3",
-    warnings: [],
-    classifications: [
-      { category: "Location", confidenceScore: 0.39 },
-      { category: "Weather", confidenceScore: 0.37 },
-      { category: "Travel", confidenceScore: 0.24 },
-    ],
-  },
-  {
-    id: "4",
-    warnings: [],
-    classifications: [
-      { category: "Weather", confidenceScore: 0.4 },
-      { category: "Travel", confidenceScore: 0.31 },
-      { category: "Location", confidenceScore: 0.29 },
-    ],
-  },
-];
-
 export const expectation71: any = [
   {
     kind: "EntityRecognition",
@@ -7016,7 +6934,14 @@ export const expectation71: any = [
         id: "0",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+          {
+            text: "park",
+            category: "Location",
+            offset: 17,
+            subCategory: "Structural",
+            length: 4,
+            confidenceScore: 0.99,
+          },
         ],
         detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
         isLanguageDefaulted: false,
@@ -7238,5 +7163,36 @@ export const expectation72: LanguageDetectionResult[] = [
     primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
     id: "0",
     warnings: [],
+  },
+];
+
+export const expectation73: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    error: {
+      code: KnownErrorCode.InvalidRequest,
+      message: "oh my bad",
+    },
+    modelVersion,
+    failedOn,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [
+          {
+            code: "DocumentTruncated",
+            message:
+              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
   },
 ];

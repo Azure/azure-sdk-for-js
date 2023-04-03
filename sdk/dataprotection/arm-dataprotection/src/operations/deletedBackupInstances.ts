@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DeletedBackupInstanceResource,
   DeletedBackupInstancesListNextOptionalParams,
@@ -41,7 +45,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets deleted backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -117,7 +121,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets deleted backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -134,7 +138,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets a deleted backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -152,7 +156,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   }
 
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -162,14 +166,14 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: DeletedBackupInstancesUndeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -202,13 +206,13 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, backupInstanceName, options },
-      undeleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, backupInstanceName, options },
+      spec: undeleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -216,7 +220,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   }
 
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -238,7 +242,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

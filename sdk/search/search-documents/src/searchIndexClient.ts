@@ -160,21 +160,9 @@ export class SearchIndexClient {
       },
     };
 
-    if (options.apiVersion) {
-      if (!utils.serviceVersions.includes(options.apiVersion)) {
-        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
-      }
-      this.serviceVersion = options.apiVersion;
-      this.apiVersion = options.apiVersion;
-    }
-
-    if (options.serviceVersion) {
-      if (!utils.serviceVersions.includes(options.serviceVersion)) {
-        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
-      }
-      this.serviceVersion = options.serviceVersion;
-      this.apiVersion = options.serviceVersion;
-    }
+    this.serviceVersion =
+      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,
@@ -812,8 +800,20 @@ export class SearchIndexClient {
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
+   * @typeParam Model - An optional type that represents the documents stored in
+   * the search index. For the best typing experience, all non-key fields should
+   * be marked optional and nullable, and the key property should have the
+   * non-nullable type `string`.
    */
-  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
-    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
+  public getSearchClient<Model extends object>(
+    indexName: string,
+    options?: GetSearchClientOptions
+  ): SearchClient<Model> {
+    return new SearchClient<Model>(
+      this.endpoint,
+      indexName,
+      this.credential,
+      options || this.options
+    );
   }
 }

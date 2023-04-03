@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobExecution,
   JobExecutionsListByAgentOptionalParams,
@@ -88,8 +88,8 @@ export interface JobExecutions {
     jobName: string,
     options?: JobExecutionsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateResponse>,
       JobExecutionsCreateResponse
     >
   >;
@@ -145,8 +145,8 @@ export interface JobExecutions {
     jobExecutionId: string,
     options?: JobExecutionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateOrUpdateResponse>,
       JobExecutionsCreateOrUpdateResponse
     >
   >;

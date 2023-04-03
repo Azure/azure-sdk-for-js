@@ -1,0 +1,72 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines?api-version=2018-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a1630f35-329b-439b-a7ac-832273cbec66"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 15 Mar 2023 07:53:13 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "71c29889-2992-4005-9e5c-fdaf15a73e93",
+        "x-ms-ratelimit-remaining-subscription-reads": "11914",
+        "x-ms-request-id": "71c29889-2992-4005-9e5c-fdaf15a73e93",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T075313Z:71c29889-2992-4005-9e5c-fdaf15a73e93"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines/examplePipeline",
+            "name": "examplePipeline",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "properties": {
+              "description": "Example description",
+              "activities": [
+                {
+                  "name": "ExampleCopyActivity1",
+                  "type": "ExecuteWranglingDataflow",
+                  "typeProperties": {
+                    "dataFlow": {
+                      "type": "DataFlowReference",
+                      "referenceName": "exampleDataFlow"
+                    }
+                  }
+                }
+              ],
+              "parameters": {
+                "outputBlobNameList": {
+                  "type": "Array"
+                }
+              },
+              "policy": {
+                "elapsedTimeMetric": {
+                  "duration": "0.00:10:00"
+                }
+              },
+              "lastPublishTime": "2023-03-15T07:53:09Z"
+            },
+            "etag": "150082ae-0000-0100-0000-641179650000"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

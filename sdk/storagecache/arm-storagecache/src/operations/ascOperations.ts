@@ -30,8 +30,8 @@ export class AscOperationsImpl implements AscOperations {
 
   /**
    * Gets the status of an asynchronous operation for the Azure HPC Cache
-   * @param location The name of the region used to look up the operation.
-   * @param operationId The operation id which uniquely identifies the asynchronous operation.
+   * @param location The name of Azure region.
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(

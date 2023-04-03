@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureOrbital } from "../azureOrbital";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OperationsResultsGetOptionalParams,
   OperationsResultsGetResponse
@@ -41,8 +45,8 @@ export class OperationsResultsImpl implements OperationsResults {
     operationId: string,
     options?: OperationsResultsGetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OperationsResultsGetResponse>,
+    SimplePollerLike<
+      OperationState<OperationsResultsGetResponse>,
       OperationsResultsGetResponse
     >
   > {
@@ -52,7 +56,7 @@ export class OperationsResultsImpl implements OperationsResults {
     ): Promise<OperationsResultsGetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -85,14 +89,18 @@ export class OperationsResultsImpl implements OperationsResults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { location, operationId, options },
-      getOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, operationId, options },
+      spec: getOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OperationsResultsGetResponse,
+      OperationState<OperationsResultsGetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -134,7 +142,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

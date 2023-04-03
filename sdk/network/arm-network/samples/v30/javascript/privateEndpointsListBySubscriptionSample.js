@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all private endpoints in a subscription.
  *
  * @summary Gets all private endpoints in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateEndpointListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/PrivateEndpointListAll.json
  */
 async function listAllPrivateEndpoints() {
-  const subscriptionId = "subId";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listAllPrivateEndpoints() {
   console.log(resArray);
 }
 
-listAllPrivateEndpoints().catch(console.error);
+async function main() {
+  listAllPrivateEndpoints();
+}
+
+main().catch(console.error);

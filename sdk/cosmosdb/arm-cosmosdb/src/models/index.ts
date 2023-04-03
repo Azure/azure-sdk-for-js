@@ -383,6 +383,10 @@ export interface DatabaseAccountUpdateParameters {
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
   enablePartitionMerge?: boolean;
+  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  enableBurstCapacity?: boolean;
+  /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
+  minimalTlsVersion?: MinimalTlsVersion;
 }
 
 /** The list of new failover policies for the failover priority change. */
@@ -1034,8 +1038,8 @@ export interface ConflictResolutionPolicy {
 export interface ClientEncryptionPolicy {
   /** Paths of the item that need encryption along with path-specific settings. */
   includedPaths: ClientEncryptionIncludedPath[];
-  /** Version of the client encryption policy definition. Please note, user passed value is ignored. Default policy version is 1. */
-  policyFormatVersion?: number;
+  /** Version of the client encryption policy definition. Supported versions are 1 and 2. Version 2 supports id and partition key path encryption. */
+  policyFormatVersion: number;
 }
 
 /** . */
@@ -1249,6 +1253,10 @@ export interface TableListResult {
 export interface TableResource {
   /** Name of the Cosmos DB table */
   id: string;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** The List operation response, that contains the Cassandra keyspaces and their properties. */
@@ -1332,6 +1340,10 @@ export interface GremlinDatabaseListResult {
 export interface GremlinDatabaseResource {
   /** Name of the Cosmos DB Gremlin database */
   id: string;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** The List operation response, that contains the graphs and their properties. */
@@ -1359,6 +1371,10 @@ export interface GremlinGraphResource {
   conflictResolutionPolicy?: ConflictResolutionPolicy;
   /** Analytical TTL. */
   analyticalStorageTtl?: number;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** The List operation response, that contains Cosmos DB locations and their properties. */
@@ -1513,7 +1529,7 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
-  /** Number of hours to wait between taking a backup of the cluster. */
+  /** Number of hours to wait between taking a backup of the cluster. To disable backups, set this property to 0. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
   deallocated?: boolean;
@@ -2640,6 +2656,8 @@ export interface RestoreParameters extends RestoreParametersBase {
   gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
   /** List of specific tables available for restore. */
   tablesToRestore?: string[];
+  /** The source backup location for restore. */
+  sourceBackupLocation?: string;
 }
 
 /** Parameters to indicate the information about the restore. */
@@ -2776,6 +2794,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
   enablePartitionMerge?: boolean;
+  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  enableBurstCapacity?: boolean;
+  /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
+  minimalTlsVersion?: MinimalTlsVersion;
 }
 
 /** Parameters to create and update Cosmos DB database accounts. */
@@ -2848,6 +2870,10 @@ export interface DatabaseAccountCreateUpdateParameters
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
   enablePartitionMerge?: boolean;
+  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  enableBurstCapacity?: boolean;
+  /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
+  minimalTlsVersion?: MinimalTlsVersion;
 }
 
 /** An Azure Cosmos DB Graph resource. */
@@ -3586,6 +3612,606 @@ export interface PrivateEndpointConnection extends ProxyResource {
   provisioningState?: string;
 }
 
+/** Defines headers for DatabaseAccounts_delete operation. */
+export interface DatabaseAccountsDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for DatabaseAccounts_failoverPriorityChange operation. */
+export interface DatabaseAccountsFailoverPriorityChangeHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for DatabaseAccounts_offlineRegion operation. */
+export interface DatabaseAccountsOfflineRegionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for DatabaseAccounts_onlineRegion operation. */
+export interface DatabaseAccountsOnlineRegionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for DatabaseAccounts_regenerateKey operation. */
+export interface DatabaseAccountsRegenerateKeyHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GraphResources_createUpdateGraph operation. */
+export interface GraphResourcesCreateUpdateGraphHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GraphResources_deleteGraphResource operation. */
+export interface GraphResourcesDeleteGraphResourceHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateSqlDatabase operation. */
+export interface SqlResourcesCreateUpdateSqlDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_deleteSqlDatabase operation. */
+export interface SqlResourcesDeleteSqlDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_updateSqlDatabaseThroughput operation. */
+export interface SqlResourcesUpdateSqlDatabaseThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_migrateSqlDatabaseToAutoscale operation. */
+export interface SqlResourcesMigrateSqlDatabaseToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_migrateSqlDatabaseToManualThroughput operation. */
+export interface SqlResourcesMigrateSqlDatabaseToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateClientEncryptionKey operation. */
+export interface SqlResourcesCreateUpdateClientEncryptionKeyHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateSqlContainer operation. */
+export interface SqlResourcesCreateUpdateSqlContainerHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_deleteSqlContainer operation. */
+export interface SqlResourcesDeleteSqlContainerHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_listSqlContainerPartitionMerge operation. */
+export interface SqlResourcesListSqlContainerPartitionMergeHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_updateSqlContainerThroughput operation. */
+export interface SqlResourcesUpdateSqlContainerThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_migrateSqlContainerToAutoscale operation. */
+export interface SqlResourcesMigrateSqlContainerToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_migrateSqlContainerToManualThroughput operation. */
+export interface SqlResourcesMigrateSqlContainerToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_sqlDatabaseRetrieveThroughputDistribution operation. */
+export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_sqlDatabaseRedistributeThroughput operation. */
+export interface SqlResourcesSqlDatabaseRedistributeThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_sqlContainerRetrieveThroughputDistribution operation. */
+export interface SqlResourcesSqlContainerRetrieveThroughputDistributionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_sqlContainerRedistributeThroughput operation. */
+export interface SqlResourcesSqlContainerRedistributeThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateSqlStoredProcedure operation. */
+export interface SqlResourcesCreateUpdateSqlStoredProcedureHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_deleteSqlStoredProcedure operation. */
+export interface SqlResourcesDeleteSqlStoredProcedureHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateSqlUserDefinedFunction operation. */
+export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_deleteSqlUserDefinedFunction operation. */
+export interface SqlResourcesDeleteSqlUserDefinedFunctionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_createUpdateSqlTrigger operation. */
+export interface SqlResourcesCreateUpdateSqlTriggerHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_deleteSqlTrigger operation. */
+export interface SqlResourcesDeleteSqlTriggerHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_createUpdateMongoDBDatabase operation. */
+export interface MongoDBResourcesCreateUpdateMongoDBDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_deleteMongoDBDatabase operation. */
+export interface MongoDBResourcesDeleteMongoDBDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_updateMongoDBDatabaseThroughput operation. */
+export interface MongoDBResourcesUpdateMongoDBDatabaseThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_migrateMongoDBDatabaseToAutoscale operation. */
+export interface MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_migrateMongoDBDatabaseToManualThroughput operation. */
+export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_mongoDBDatabaseRetrieveThroughputDistribution operation. */
+export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_mongoDBDatabaseRedistributeThroughput operation. */
+export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_mongoDBContainerRetrieveThroughputDistribution operation. */
+export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_mongoDBContainerRedistributeThroughput operation. */
+export interface MongoDBResourcesMongoDBContainerRedistributeThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_createUpdateMongoDBCollection operation. */
+export interface MongoDBResourcesCreateUpdateMongoDBCollectionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_deleteMongoDBCollection operation. */
+export interface MongoDBResourcesDeleteMongoDBCollectionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_listMongoDBCollectionPartitionMerge operation. */
+export interface MongoDBResourcesListMongoDBCollectionPartitionMergeHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_updateMongoDBCollectionThroughput operation. */
+export interface MongoDBResourcesUpdateMongoDBCollectionThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_migrateMongoDBCollectionToAutoscale operation. */
+export interface MongoDBResourcesMigrateMongoDBCollectionToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_migrateMongoDBCollectionToManualThroughput operation. */
+export interface MongoDBResourcesMigrateMongoDBCollectionToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_createUpdateTable operation. */
+export interface TableResourcesCreateUpdateTableHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_deleteTable operation. */
+export interface TableResourcesDeleteTableHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_updateTableThroughput operation. */
+export interface TableResourcesUpdateTableThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_migrateTableToAutoscale operation. */
+export interface TableResourcesMigrateTableToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_migrateTableToManualThroughput operation. */
+export interface TableResourcesMigrateTableToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_createUpdateCassandraKeyspace operation. */
+export interface CassandraResourcesCreateUpdateCassandraKeyspaceHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_deleteCassandraKeyspace operation. */
+export interface CassandraResourcesDeleteCassandraKeyspaceHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_updateCassandraKeyspaceThroughput operation. */
+export interface CassandraResourcesUpdateCassandraKeyspaceThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraKeyspaceToAutoscale operation. */
+export interface CassandraResourcesMigrateCassandraKeyspaceToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraKeyspaceToManualThroughput operation. */
+export interface CassandraResourcesMigrateCassandraKeyspaceToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_createUpdateCassandraTable operation. */
+export interface CassandraResourcesCreateUpdateCassandraTableHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_deleteCassandraTable operation. */
+export interface CassandraResourcesDeleteCassandraTableHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_updateCassandraTableThroughput operation. */
+export interface CassandraResourcesUpdateCassandraTableThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraTableToAutoscale operation. */
+export interface CassandraResourcesMigrateCassandraTableToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraTableToManualThroughput operation. */
+export interface CassandraResourcesMigrateCassandraTableToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_createUpdateCassandraView operation. */
+export interface CassandraResourcesCreateUpdateCassandraViewHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_deleteCassandraView operation. */
+export interface CassandraResourcesDeleteCassandraViewHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_updateCassandraViewThroughput operation. */
+export interface CassandraResourcesUpdateCassandraViewThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraViewToAutoscale operation. */
+export interface CassandraResourcesMigrateCassandraViewToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CassandraResources_migrateCassandraViewToManualThroughput operation. */
+export interface CassandraResourcesMigrateCassandraViewToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_createUpdateGremlinDatabase operation. */
+export interface GremlinResourcesCreateUpdateGremlinDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_deleteGremlinDatabase operation. */
+export interface GremlinResourcesDeleteGremlinDatabaseHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_updateGremlinDatabaseThroughput operation. */
+export interface GremlinResourcesUpdateGremlinDatabaseThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_migrateGremlinDatabaseToAutoscale operation. */
+export interface GremlinResourcesMigrateGremlinDatabaseToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_migrateGremlinDatabaseToManualThroughput operation. */
+export interface GremlinResourcesMigrateGremlinDatabaseToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_createUpdateGremlinGraph operation. */
+export interface GremlinResourcesCreateUpdateGremlinGraphHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_deleteGremlinGraph operation. */
+export interface GremlinResourcesDeleteGremlinGraphHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_updateGremlinGraphThroughput operation. */
+export interface GremlinResourcesUpdateGremlinGraphThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_migrateGremlinGraphToAutoscale operation. */
+export interface GremlinResourcesMigrateGremlinGraphToAutoscaleHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for GremlinResources_migrateGremlinGraphToManualThroughput operation. */
+export interface GremlinResourcesMigrateGremlinGraphToManualThroughputHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for Service_delete operation. */
+export interface ServiceDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Known values of {@link DatabaseAccountKind} that the service accepts. */
 export enum KnownDatabaseAccountKind {
   /** GlobalDocumentDB */
@@ -3756,6 +4382,27 @@ export enum KnownBackupPolicyMigrationStatus {
  * **Failed**
  */
 export type BackupPolicyMigrationStatus = string;
+
+/** Known values of {@link MinimalTlsVersion} that the service accepts. */
+export enum KnownMinimalTlsVersion {
+  /** Tls */
+  Tls = "Tls",
+  /** Tls11 */
+  Tls11 = "Tls11",
+  /** Tls12 */
+  Tls12 = "Tls12"
+}
+
+/**
+ * Defines values for MinimalTlsVersion. \
+ * {@link KnownMinimalTlsVersion} can be used interchangeably with MinimalTlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tls** \
+ * **Tls11** \
+ * **Tls12**
+ */
+export type MinimalTlsVersion = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -4499,6 +5146,9 @@ export interface DatabaseAccountsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type DatabaseAccountsDeleteResponse = DatabaseAccountsDeleteHeaders;
+
 /** Optional parameters. */
 export interface DatabaseAccountsFailoverPriorityChangeOptionalParams
   extends coreClient.OperationOptions {
@@ -4507,6 +5157,9 @@ export interface DatabaseAccountsFailoverPriorityChangeOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the failoverPriorityChange operation. */
+export type DatabaseAccountsFailoverPriorityChangeResponse = DatabaseAccountsFailoverPriorityChangeHeaders;
 
 /** Optional parameters. */
 export interface DatabaseAccountsListOptionalParams
@@ -4815,6 +5468,9 @@ export interface SqlResourcesDeleteSqlDatabaseOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteSqlDatabase operation. */
+export type SqlResourcesDeleteSqlDatabaseResponse = SqlResourcesDeleteSqlDatabaseHeaders;
+
 /** Optional parameters. */
 export interface SqlResourcesGetSqlDatabaseThroughputOptionalParams
   extends coreClient.OperationOptions {}
@@ -4918,6 +5574,9 @@ export interface SqlResourcesDeleteSqlContainerOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteSqlContainer operation. */
+export type SqlResourcesDeleteSqlContainerResponse = SqlResourcesDeleteSqlContainerHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
@@ -5057,6 +5716,9 @@ export interface SqlResourcesDeleteSqlStoredProcedureOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteSqlStoredProcedure operation. */
+export type SqlResourcesDeleteSqlStoredProcedureResponse = SqlResourcesDeleteSqlStoredProcedureHeaders;
+
 /** Optional parameters. */
 export interface SqlResourcesListSqlUserDefinedFunctionsOptionalParams
   extends coreClient.OperationOptions {}
@@ -5092,6 +5754,9 @@ export interface SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteSqlUserDefinedFunction operation. */
+export type SqlResourcesDeleteSqlUserDefinedFunctionResponse = SqlResourcesDeleteSqlUserDefinedFunctionHeaders;
+
 /** Optional parameters. */
 export interface SqlResourcesListSqlTriggersOptionalParams
   extends coreClient.OperationOptions {}
@@ -5126,6 +5791,9 @@ export interface SqlResourcesDeleteSqlTriggerOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteSqlTrigger operation. */
+export type SqlResourcesDeleteSqlTriggerResponse = SqlResourcesDeleteSqlTriggerHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlRoleDefinitionOptionalParams
@@ -5243,6 +5911,9 @@ export interface MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteMongoDBDatabase operation. */
+export type MongoDBResourcesDeleteMongoDBDatabaseResponse = MongoDBResourcesDeleteMongoDBDatabaseHeaders;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams
@@ -5369,6 +6040,9 @@ export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteMongoDBCollection operation. */
+export type MongoDBResourcesDeleteMongoDBCollectionResponse = MongoDBResourcesDeleteMongoDBCollectionHeaders;
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
@@ -5542,6 +6216,9 @@ export interface TableResourcesDeleteTableOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteTable operation. */
+export type TableResourcesDeleteTableResponse = TableResourcesDeleteTableHeaders;
+
 /** Optional parameters. */
 export interface TableResourcesGetTableThroughputOptionalParams
   extends coreClient.OperationOptions {}
@@ -5632,6 +6309,9 @@ export interface CassandraResourcesDeleteCassandraKeyspaceOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteCassandraKeyspace operation. */
+export type CassandraResourcesDeleteCassandraKeyspaceResponse = CassandraResourcesDeleteCassandraKeyspaceHeaders;
+
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams
   extends coreClient.OperationOptions {}
@@ -5709,6 +6389,9 @@ export interface CassandraResourcesDeleteCassandraTableOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteCassandraTable operation. */
+export type CassandraResourcesDeleteCassandraTableResponse = CassandraResourcesDeleteCassandraTableHeaders;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraTableThroughputOptionalParams
@@ -5866,6 +6549,9 @@ export interface GremlinResourcesDeleteGremlinDatabaseOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the deleteGremlinDatabase operation. */
+export type GremlinResourcesDeleteGremlinDatabaseResponse = GremlinResourcesDeleteGremlinDatabaseHeaders;
+
 /** Optional parameters. */
 export interface GremlinResourcesGetGremlinDatabaseThroughputOptionalParams
   extends coreClient.OperationOptions {}
@@ -5943,6 +6629,9 @@ export interface GremlinResourcesDeleteGremlinGraphOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteGremlinGraph operation. */
+export type GremlinResourcesDeleteGremlinGraphResponse = GremlinResourcesDeleteGremlinGraphHeaders;
 
 /** Optional parameters. */
 export interface GremlinResourcesGetGremlinGraphThroughputOptionalParams

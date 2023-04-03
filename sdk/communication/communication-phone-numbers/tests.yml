@@ -11,6 +11,10 @@ stages:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
+        PPE:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-ppe-test-resources-common)
+            - $(sub-config-communication-ppe-test-resources-js)
         Int:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
@@ -25,4 +29,5 @@ stages:
           Path: sdk/communication/communication-phone-numbers/phone-numbers-livetest-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-
+      TestResourceDirectories:
+        - communication/test-resources/

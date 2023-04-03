@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteDeleteOption extends DeleteOption {
@@ -55,6 +55,7 @@ export type AuthCredentialsUnion = AuthCredentials | SecretStoreBasedAuthCredent
 
 // @public
 export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoint {
+    readonly expiryTime?: Date;
     // (undocumented)
     friendlyName?: string;
     objectType: "AzureBackupDiscreteRecoveryPoint";
@@ -285,29 +286,29 @@ export interface BackupInstanceResourceList extends DppResourceList {
 
 // @public
 export interface BackupInstances {
-    beginAdhocBackup(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesAdhocBackupResponse>, BackupInstancesAdhocBackupResponse>>;
+    beginAdhocBackup(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesAdhocBackupResponse>, BackupInstancesAdhocBackupResponse>>;
     beginAdhocBackupAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<BackupInstancesAdhocBackupResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesCreateOrUpdateResponse>, BackupInstancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesCreateOrUpdateResponse>, BackupInstancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<BackupInstancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<void>;
-    beginResumeBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResumeBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeBackupsAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<void>;
-    beginResumeProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResumeProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeProtectionAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<void>;
-    beginStopProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopProtectionAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<void>;
-    beginSuspendBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspendBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendBackupsAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<void>;
-    beginSyncBackupInstance(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSyncBackupInstance(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSyncBackupInstanceAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<void>;
-    beginTriggerRehydrate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesTriggerRehydrateResponse>, BackupInstancesTriggerRehydrateResponse>>;
+    beginTriggerRehydrate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRehydrateResponse>, BackupInstancesTriggerRehydrateResponse>>;
     beginTriggerRehydrateAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<BackupInstancesTriggerRehydrateResponse>;
-    beginTriggerRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesTriggerRestoreResponse>, BackupInstancesTriggerRestoreResponse>>;
+    beginTriggerRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRestoreResponse>, BackupInstancesTriggerRestoreResponse>>;
     beginTriggerRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<BackupInstancesTriggerRestoreResponse>;
-    beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
+    beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
     beginValidateForBackupAndWait(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<BackupInstancesValidateForBackupResponse>;
-    beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
+    beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
     beginValidateForRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<BackupInstancesValidateForRestoreResponse>;
     get(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams): Promise<BackupInstancesGetResponse>;
     getBackupInstanceOperationResult(resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
@@ -357,25 +358,6 @@ export interface BackupInstancesDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface BackupInstancesExtensionRouting {
-    list(resourceId: string, options?: BackupInstancesExtensionRoutingListOptionalParams): PagedAsyncIterableIterator<BackupInstanceResource>;
-}
-
-// @public
-export interface BackupInstancesExtensionRoutingListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BackupInstancesExtensionRoutingListNextResponse = BackupInstanceResourceList;
-
-// @public
-export interface BackupInstancesExtensionRoutingListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BackupInstancesExtensionRoutingListResponse = BackupInstanceResourceList;
 
 // @public
 export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams extends coreClient.OperationOptions {
@@ -596,6 +578,7 @@ export interface BackupSchedule {
 
 // @public
 export interface BackupVault {
+    featureSettings?: FeatureSettings;
     readonly isVaultProtectedByResourceGuard?: boolean;
     monitoringSettings?: MonitoringSettings;
     readonly provisioningState?: ProvisioningState;
@@ -637,12 +620,13 @@ export interface BackupVaultResourceList extends DppResourceList {
 
 // @public
 export interface BackupVaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupVaultsCreateOrUpdateResponse>, BackupVaultsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsCreateOrUpdateResponse>, BackupVaultsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<BackupVaultsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>>;
+    beginDelete(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<BackupVaultsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, location: string, parameters: CheckNameAvailabilityRequest, options?: BackupVaultsCheckNameAvailabilityOptionalParams): Promise<BackupVaultsCheckNameAvailabilityResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: BackupVaultsGetOptionalParams): Promise<BackupVaultsGetResponse>;
     listInResourceGroup(resourceGroupName: string, options?: BackupVaultsGetInResourceGroupOptionalParams): PagedAsyncIterableIterator<BackupVaultResource>;
     listInSubscription(options?: BackupVaultsGetInSubscriptionOptionalParams): PagedAsyncIterableIterator<BackupVaultResource>;
@@ -666,6 +650,8 @@ export type BackupVaultsCreateOrUpdateResponse = BackupVaultResource;
 
 // @public
 export interface BackupVaultsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -822,6 +808,14 @@ export type CopyOptionUnion = CopyOption | CopyOnExpiryOption | CustomCopyOption
 export type CreatedByType = string;
 
 // @public
+export interface CrossSubscriptionRestoreSettings {
+    state?: CrossSubscriptionRestoreState;
+}
+
+// @public
+export type CrossSubscriptionRestoreState = string;
+
+// @public
 export type CurrentProtectionState = string;
 
 // @public
@@ -852,8 +846,6 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     backupInstances: BackupInstances;
     // (undocumented)
-    backupInstancesExtensionRouting: BackupInstancesExtensionRouting;
-    // (undocumented)
     backupPolicies: BackupPolicies;
     // (undocumented)
     backupVaultOperationResults: BackupVaultOperationResults;
@@ -865,8 +857,6 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     dataProtectionOperations: DataProtectionOperations;
     // (undocumented)
     deletedBackupInstances: DeletedBackupInstances;
-    // (undocumented)
-    dppResourceGuardProxy: DppResourceGuardProxy;
     // (undocumented)
     exportJobs: ExportJobs;
     // (undocumented)
@@ -984,7 +974,7 @@ export interface DeletedBackupInstanceResourceList extends DppResourceList {
 // @public
 export interface DeletedBackupInstances {
     // (undocumented)
-    beginUndelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUndelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     // (undocumented)
     beginUndeleteAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesGetOptionalParams): Promise<DeletedBackupInstancesGetResponse>;
@@ -1048,6 +1038,19 @@ export interface DppBaseResourceList {
     value?: DppBaseResource[];
 }
 
+// @public (undocumented)
+export interface DppBaseTrackedResource {
+    eTag?: string;
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
 // @public
 export interface DppIdentityDetails {
     readonly principalId?: string;
@@ -1075,75 +1078,13 @@ export interface DppResource {
 }
 
 // @public
-export interface DppResourceGuardProxy {
-    // (undocumented)
-    delete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyDeleteOptionalParams): Promise<void>;
-    // (undocumented)
-    get(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, options?: DppResourceGuardProxyGetOptionalParams): Promise<DppResourceGuardProxyGetResponse>;
-    // (undocumented)
-    list(resourceGroupName: string, vaultName: string, options?: DppResourceGuardProxyListOptionalParams): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
-    // (undocumented)
-    put(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: ResourceGuardProxyBaseResource, options?: DppResourceGuardProxyPutOptionalParams): Promise<DppResourceGuardProxyPutResponse>;
-    // (undocumented)
-    unlockDelete(resourceGroupName: string, vaultName: string, resourceGuardProxyName: string, parameters: UnlockDeleteRequest, options?: DppResourceGuardProxyUnlockDeleteOptionalParams): Promise<DppResourceGuardProxyUnlockDeleteResponse>;
-}
-
-// @public
-export interface DppResourceGuardProxyDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DppResourceGuardProxyGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
-
-// @public
-export interface DppResourceGuardProxyListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
-
-// @public
-export interface DppResourceGuardProxyListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
-
-// @public
-export interface DppResourceGuardProxyPutOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DppResourceGuardProxyPutResponse = ResourceGuardProxyBaseResource;
-
-// @public
-export interface DppResourceGuardProxyUnlockDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
-
-// @public
 export interface DppResourceList {
     nextLink?: string;
 }
 
 // @public (undocumented)
-export interface DppTrackedResource {
-    eTag?: string;
-    readonly id?: string;
+export interface DppTrackedResource extends DppBaseTrackedResource {
     identity?: DppIdentityDetails;
-    location?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -1191,7 +1132,7 @@ export type ExistingResourcePolicy = string;
 
 // @public
 export interface ExportJobs {
-    beginTrigger(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<PollerLike<PollOperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>>;
+    beginTrigger(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<SimplePollerLike<OperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>>;
     beginTriggerAndWait(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<ExportJobsTriggerResponse>;
 }
 
@@ -1229,6 +1170,11 @@ export interface ExportJobsTriggerOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type ExportJobsTriggerResponse = ExportJobsTriggerHeaders;
+
+// @public
+export interface FeatureSettings {
+    crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+}
 
 // @public
 export type FeatureSupportStatus = string;
@@ -1391,6 +1337,13 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCrossSubscriptionRestoreState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+// @public
 export enum KnownCurrentProtectionState {
     BackupSchedulesSuspended = "BackupSchedulesSuspended",
     ConfiguringProtection = "ConfiguringProtection",
@@ -1506,15 +1459,6 @@ export enum KnownRehydrationStatus {
 }
 
 // @public
-export enum KnownResourceGuardProvisioningState {
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Unknown = "Unknown",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownResourceMoveState {
     CommitFailed = "CommitFailed",
     CommitTimedout = "CommitTimedout",
@@ -1558,6 +1502,7 @@ export enum KnownSoftDeleteState {
 // @public
 export enum KnownSourceDataStoreType {
     ArchiveStore = "ArchiveStore",
+    OperationalStore = "OperationalStore",
     SnapshotStore = "SnapshotStore",
     VaultStore = "VaultStore"
 }
@@ -1575,7 +1520,7 @@ export enum KnownStatus {
 // @public
 export enum KnownStorageSettingStoreTypes {
     ArchiveStore = "ArchiveStore",
-    SnapshotStore = "SnapshotStore",
+    OperationalStore = "OperationalStore",
     VaultStore = "VaultStore"
 }
 
@@ -1740,8 +1685,16 @@ export type OperationStatusResourceGroupContextGetResponse = OperationResource;
 
 // @public
 export interface PatchBackupVaultInput {
+    featureSettings?: FeatureSettings;
     monitoringSettings?: MonitoringSettings;
     securitySettings?: SecuritySettings;
+}
+
+// @public
+export interface PatchResourceGuardInput {
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1864,7 +1817,7 @@ export type RehydrationStatus = string;
 export interface ResourceGuard {
     readonly allowAutoApprovals?: boolean;
     readonly description?: string;
-    readonly provisioningState?: ResourceGuardProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly resourceGuardOperations?: ResourceGuardOperation[];
     vaultCriticalOperationExclusionList?: string[];
 }
@@ -1876,40 +1829,7 @@ export interface ResourceGuardOperation {
 }
 
 // @public (undocumented)
-export interface ResourceGuardOperationDetail {
-    // (undocumented)
-    defaultResourceRequest?: string;
-    // (undocumented)
-    vaultCriticalOperation?: string;
-}
-
-// @public
-export type ResourceGuardProvisioningState = string;
-
-// @public (undocumented)
-export interface ResourceGuardProxyBase {
-    // (undocumented)
-    description?: string;
-    // (undocumented)
-    lastUpdatedTime?: string;
-    // (undocumented)
-    resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
-    // (undocumented)
-    resourceGuardResourceId?: string;
-}
-
-// @public (undocumented)
-export interface ResourceGuardProxyBaseResource extends DppResource {
-    properties?: ResourceGuardProxyBase;
-}
-
-// @public
-export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
-    value?: ResourceGuardProxyBaseResource[];
-}
-
-// @public (undocumented)
-export interface ResourceGuardResource extends DppTrackedResource {
+export interface ResourceGuardResource extends DppBaseTrackedResource {
     properties?: ResourceGuard;
 }
 
@@ -1936,7 +1856,7 @@ export interface ResourceGuards {
     listResourcesInSubscription(options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams): PagedAsyncIterableIterator<ResourceGuardResource>;
     listUpdateProtectedItemRequestsObjects(resourceGroupName: string, resourceGuardsName: string, options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams): PagedAsyncIterableIterator<DppBaseResource>;
     listUpdateProtectionPolicyRequestsObjects(resourceGroupName: string, resourceGuardsName: string, options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams): PagedAsyncIterableIterator<DppBaseResource>;
-    patch(resourceGroupName: string, resourceGuardsName: string, parameters: PatchResourceRequestInput, options?: ResourceGuardsPatchOptionalParams): Promise<ResourceGuardsPatchResponse>;
+    patch(resourceGroupName: string, resourceGuardsName: string, parameters: PatchResourceGuardInput, options?: ResourceGuardsPatchOptionalParams): Promise<ResourceGuardsPatchResponse>;
     put(resourceGroupName: string, resourceGuardsName: string, parameters: ResourceGuardResource, options?: ResourceGuardsPutOptionalParams): Promise<ResourceGuardsPutResponse>;
 }
 
@@ -2315,6 +2235,7 @@ export interface TargetCopySetting {
 export interface TargetDetails {
     filePrefix: string;
     restoreTargetLocationType: RestoreTargetLocationType;
+    targetResourceArmId?: string;
     url: string;
 }
 
@@ -2330,19 +2251,6 @@ export interface TriggerContext {
 
 // @public (undocumented)
 export type TriggerContextUnion = TriggerContext | AdhocBasedTriggerContext | ScheduleBasedTriggerContext;
-
-// @public
-export interface UnlockDeleteRequest {
-    // (undocumented)
-    resourceGuardOperationRequests?: string[];
-    // (undocumented)
-    resourceToBeDeleted?: string;
-}
-
-// @public
-export interface UnlockDeleteResponse {
-    unlockDeleteExpiryTime?: string;
-}
 
 // @public
 export interface UserFacingError {

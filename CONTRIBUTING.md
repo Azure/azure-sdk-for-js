@@ -54,6 +54,7 @@ Rush provides many benefits:
 Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
 
 Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
+
 - running `rush update` command
 - How to update to a newer version of Rush or PNPM.
 
@@ -78,11 +79,13 @@ If you prefer to setup your own environment instead, make sure you have these pr
 - Git
 - Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
+
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
   - Linux: Install Python and GCC/G++ (part of the `build-essential` package on Ubuntu-based distributions) using your distribution's package manager.
 
     **On Linux, development headers for `libsecret` are also required.** Typically, these are available in a package called `libsecret-1-dev` (Debian/Ubuntu) or `libsecret-devel` (Fedora/Red Hat).
+
 - Rush 5.x
   - Install / update Rush globally via `npm install -g @microsoft/rush`.
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
@@ -150,13 +153,11 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`.
-Currently, version `2.x.y` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
-Eventually, all the tests will be migrated to depend on the `2.x.y` version of the recorder that depends on the language-agnostic [test proxy server].
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `3.m.n`.
+Currently, version `3.m.n` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
+Eventually, all the tests will be migrated to depend on the `3.m.n` version of the recorder that depends on the language-agnostic [test proxy server].
 
-To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
-
-Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v2.
+Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v3.
 
 #### Live tests
 
@@ -179,6 +180,8 @@ If you modify the network calls (both the number of calls or their shape) either
 Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
 
 For more information the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+
+Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) that can be handy while testing your SDKs.
 
 ### Other NPM scripts
 
@@ -325,3 +328,23 @@ The daily dev packages are considered volatile and taking dependencies on a dev 
 [python39windows]: https://www.microsoft.com/p/python-39/9p7qfqmjrfp7
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
 [docker]: https://docker.com/
+
+## Samples
+
+### Third-party dependencies
+
+Third party libraries should only be included in samples when necessary to demonstrate usage of an Azure SDK package; they should not be suggested or endorsed as alternatives to the Azure SDK.
+
+When code samples take dependencies, readers should be able to use the material without significant license burden or research on terms. This goal requires restricting dependencies to certain types of open source or commercial licenses.
+
+Samples may take the following categories of dependencies:
+
+- **Open-source** : Open source offerings that use an [Open Source Initiative (OSI) approved license](https://opensource.org/licenses). Any component whose license isn't OSI-approved is considered a commercial offering. Prefer OSS projects that are members of any of the [OSS foundations that Microsoft is part of](https://opensource.microsoft.com/ecosystem/). Prefer permissive licenses for libraries, like [MIT](https://opensource.org/licenses/MIT) and [Apache 2](https://opensource.org/licenses/Apache-2.0). Copy-left licenses like [GPL](https://opensource.org/licenses/gpl-license) are acceptable for tools, and OSs. [Kubernetes](https://github.com/kubernetes/kubernetes), [Linux](https://github.com/torvalds/linux), and [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) are examples of this license type. Links to open source components should be to where the source is hosted, including any applicable license, such as a GitHub repository (or similar).
+
+- **Commercial**: Commercial offerings that enable readers to learn from our content without unnecessary extra costs. Typically, the offering has some form of a community edition, or a free trial sufficient for its use in content. A commercial license may be a form of dual-license, or tiered license. Links to commercial components should be to the commercial site for the software, even if the source software is hosted publicly on GitHub (or similar).
+
+- **Dual licensed**: Commercial offerings that enable readers to choose either license based on their needs. For example, if the offering has an OSS and commercial license, readers can choose between them. [MySql](https://github.com/mysql/mysql-server) is an example of this license type.
+
+- **Tiered licensed**: Offerings that enable readers to use the license tier that corresponds to their characteristics. For example, tiers may be available for students, hobbyists, or companies with defined revenue thresholds. For offerings with tiered licenses, strive to limit our use in tutorials to the features available in the lowest tier. This policy enables the widest audience for the article. [Docker](https://www.docker.com/), [IdentityServer](https://duendesoftware.com/products/identityserver), [ImageSharp](https://sixlabors.com/products/imagesharp/), and [Visual Studio](https://visualstudio.com) are examples of this license type.
+
+In general, we prefer taking dependencies on licensed components in the order of the listed categories. In cases where the category may not be well known, we'll document the category so that readers understand the choice that they're making by using that dependency.

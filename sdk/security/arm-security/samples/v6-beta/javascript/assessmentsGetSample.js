@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a security assessment on your scanned resource
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/Assessments/GetAssessment_example.json
  */
 async function getSecurityRecommendationTaskFromSecurityDataLocation() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2";
   const assessmentName = "21300918-b2e3-0346-785f-c77ff57d243b";
@@ -28,8 +30,6 @@ async function getSecurityRecommendationTaskFromSecurityDataLocation() {
   console.log(result);
 }
 
-getSecurityRecommendationTaskFromSecurityDataLocation().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a security assessment on your scanned resource
  *
@@ -37,7 +37,8 @@ getSecurityRecommendationTaskFromSecurityDataLocation().catch(console.error);
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/Assessments/GetAssessmentWithExpand_example.json
  */
 async function getSecurityRecommendationTaskFromSecurityDataLocationWithExpandParameter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss2";
   const assessmentName = "21300918-b2e3-0346-785f-c77ff57d243b";
@@ -49,4 +50,9 @@ async function getSecurityRecommendationTaskFromSecurityDataLocationWithExpandPa
   console.log(result);
 }
 
-getSecurityRecommendationTaskFromSecurityDataLocationWithExpandParameter().catch(console.error);
+async function main() {
+  getSecurityRecommendationTaskFromSecurityDataLocation();
+  getSecurityRecommendationTaskFromSecurityDataLocationWithExpandParameter();
+}
+
+main().catch(console.error);

@@ -15,9 +15,9 @@ import {
 /** Interface representing a RestorableTimeRanges. */
 export interface RestorableTimeRanges {
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */

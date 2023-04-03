@@ -258,7 +258,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName
   ],
@@ -283,7 +283,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName,
     Parameters.repetitionName
@@ -302,14 +302,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName
   ],

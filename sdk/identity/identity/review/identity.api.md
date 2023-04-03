@@ -88,6 +88,7 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -99,6 +100,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 
 // @public
 export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -182,10 +184,12 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 // @public
 export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityClientId?: string;
+    workloadIdentityClientId?: string;
 }
 
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+    developerCredentialTimeOutInMs?: number;
     tenantId?: string;
 }
 
@@ -374,6 +378,25 @@ export class VisualStudioCodeCredential implements TokenCredential {
 // @public
 export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
+}
+
+// @public
+export class WorkloadIdentityCredential implements TokenCredential {
+    constructor(options: WorkloadIdentityCredentialOptions);
+    // @internal
+    constructor(options?: WorkloadIdentityDefaultCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
+export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
+    clientId: string;
+    federatedTokenFilePath: string;
+    tenantId: string;
+}
+
+// @public
+export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
 // (No @packageDocumentation comment for this package)

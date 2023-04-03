@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CommunicationServiceResource,
   CommunicationServicesListBySubscriptionNextOptionalParams,
@@ -248,90 +252,16 @@ export class CommunicationServicesImpl implements CommunicationServices {
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    communicationServiceName: string,
-    parameters: CommunicationServiceResourceUpdate,
-    options?: CommunicationServicesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesUpdateResponse>,
-      CommunicationServicesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<CommunicationServicesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, communicationServiceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Operation to update an existing CommunicationService.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationServiceName The name of the CommunicationService resource.
-   * @param parameters Parameters for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     communicationServiceName: string,
     parameters: CommunicationServiceResourceUpdate,
     options?: CommunicationServicesUpdateOptionalParams
   ): Promise<CommunicationServicesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      communicationServiceName,
-      parameters,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, communicationServiceName, parameters, options },
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -364,8 +294,8 @@ export class CommunicationServicesImpl implements CommunicationServices {
     parameters: CommunicationServiceResource,
     options?: CommunicationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CommunicationServicesCreateOrUpdateResponse>,
       CommunicationServicesCreateOrUpdateResponse
     >
   > {
@@ -375,7 +305,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
     ): Promise<CommunicationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -408,15 +338,23 @@ export class CommunicationServicesImpl implements CommunicationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, communicationServiceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        communicationServiceName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CommunicationServicesCreateOrUpdateResponse,
+      OperationState<CommunicationServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -454,14 +392,14 @@ export class CommunicationServicesImpl implements CommunicationServices {
     resourceGroupName: string,
     communicationServiceName: string,
     options?: CommunicationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -494,15 +432,15 @@ export class CommunicationServicesImpl implements CommunicationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, communicationServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, communicationServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -552,91 +490,16 @@ export class CommunicationServicesImpl implements CommunicationServices {
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
    */
-  async beginRegenerateKey(
-    resourceGroupName: string,
-    communicationServiceName: string,
-    parameters: RegenerateKeyParameters,
-    options?: CommunicationServicesRegenerateKeyOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesRegenerateKeyResponse>,
-      CommunicationServicesRegenerateKeyResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<CommunicationServicesRegenerateKeyResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, communicationServiceName, parameters, options },
-      regenerateKeyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the
-   * same time.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationServiceName The name of the CommunicationService resource.
-   * @param parameters Parameter that describes the Regenerate Key Operation.
-   * @param options The options parameters.
-   */
-  async beginRegenerateKeyAndWait(
+  regenerateKey(
     resourceGroupName: string,
     communicationServiceName: string,
     parameters: RegenerateKeyParameters,
     options?: CommunicationServicesRegenerateKeyOptionalParams
   ): Promise<CommunicationServicesRegenerateKeyResponse> {
-    const poller = await this.beginRegenerateKey(
-      resourceGroupName,
-      communicationServiceName,
-      parameters,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, communicationServiceName, parameters, options },
+      regenerateKeyOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -763,15 +626,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CommunicationServiceResource
     },
-    201: {
-      bodyMapper: Mappers.CommunicationServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.CommunicationServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.CommunicationServiceResource
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -894,15 +748,6 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationServiceKeys
-    },
-    201: {
-      bodyMapper: Mappers.CommunicationServiceKeys
-    },
-    202: {
-      bodyMapper: Mappers.CommunicationServiceKeys
-    },
-    204: {
       bodyMapper: Mappers.CommunicationServiceKeys
     },
     default: {
