@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ApplicationLiveViewResource,
   ApplicationLiveViewsListNextOptionalParams,
@@ -172,8 +176,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     applicationLiveViewResource: ApplicationLiveViewResource,
     options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
       ApplicationLiveViewsCreateOrUpdateResponse
     >
   > {
@@ -183,7 +187,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,19 +220,22 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         applicationLiveViewName,
         applicationLiveViewResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationLiveViewsCreateOrUpdateResponse,
+      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -274,14 +281,14 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -314,13 +321,18 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, applicationLiveViewName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        applicationLiveViewName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
