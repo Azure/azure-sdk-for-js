@@ -6,11 +6,11 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 import Sinon, { SinonStubbedInstance } from "sinon";
-import { CallMedia } from "../../src/callMedia";
-import { FileSource, RecognizeInputType } from "../../src/models/models";
+import { CallMedia } from "../src/callMedia";
+import { FileSource, RecognizeInputType } from "../src/models/models";
 import { assert } from "chai";
-import { CallMediaImpl } from "../../src/generated/src/operations";
-import { CallMediaRecognizeDtmfOptions } from "../../src";
+import { CallMediaImpl } from "../src/generated/src/operations";
+import { CallMediaRecognizeDtmfOptions } from "../src";
 
 describe("CallMedia Unit Tests", () => {
   let callConnectionId: string;
