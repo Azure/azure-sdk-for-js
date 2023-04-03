@@ -6,7 +6,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
-import { extractPartitionKey } from "../../extractPartitionKey";
+import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
@@ -274,7 +274,7 @@ export class Items {
     const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
       this.container
     );
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
@@ -344,7 +344,7 @@ export class Items {
     const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
       this.container
     );
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true

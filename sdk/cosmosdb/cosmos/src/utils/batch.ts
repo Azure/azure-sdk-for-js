@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { JSONObject } from "../queryExecutionContext";
-import { extractPartitionKey } from "../extractPartitionKey";
+import { extractPartitionKeys } from "../extractPartitionKey";
 import { CosmosDiagnostics, RequestOptions } from "..";
 import {
   NonePartitionKeyLiteral,
@@ -204,8 +204,8 @@ export function prepareOperations(
       case BulkOperationType.Replace:
       case BulkOperationType.Upsert:
         partitionKey = assertNotUndefined(
-          extractPartitionKey(operationInput.resourceBody, definition),
-          ""
+          extractPartitionKeys(operationInput.resourceBody, definition),
+          "Unexpected undefined Partition Key Found."
         );
         break;
       case BulkOperationType.Read:

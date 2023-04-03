@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
-export { extractPartitionKey } from "./extractPartitionKey";
+export { extractPartitionKeys as extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
   Operation,
