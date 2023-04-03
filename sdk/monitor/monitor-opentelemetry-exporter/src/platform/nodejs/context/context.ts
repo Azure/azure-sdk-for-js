@@ -52,7 +52,7 @@ export class Context {
 }
 
 /**
- * Singleton Context instance.
+ * Singleton Context instance
  * @internal
  */
 export function getInstance(): Context {
