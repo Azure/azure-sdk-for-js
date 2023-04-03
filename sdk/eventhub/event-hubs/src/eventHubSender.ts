@@ -34,7 +34,7 @@ import {
   createSimpleLogger,
   logger,
   SimpleLogger,
-} from "./log";
+} from "./logger";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private";
