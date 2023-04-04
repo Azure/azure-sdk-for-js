@@ -1,12 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { v4 } from "uuid";
-import { Constants } from "../common";
-import { Location } from "../documents";
-import { CosmosHeaders } from "../queryExecutionContext";
+import { Constants } from "./common";
+import { Location } from "./documents";
+import { CosmosHeaders } from "./queryExecutionContext";
 import {
   CosmosDiagnostics,
   FailedRequestAttemptDiagnostic,
-  MetadataLookupDiagnostic,
-  MetadataType,
+  MetadataLookUpDiagnostic,
+  MetadataLookUpType,
 } from "./CosmosDiagnostics";
 
 /**
@@ -19,21 +22,21 @@ import {
  * get final CosmosDiagnostic object.
  */
 export class CosmosDiagnosticContext {
-  private requestStartTimeUTC: number;
-  private requestEndTimeUTC: number;
-  private retryStartTimeUTC: number;
+  private requestStartTimeUTCinMs: number;
+  private requestEndTimeUTCinMs: number;
+  private retryStartTimeUTCinMs: number;
   private headers: CosmosHeaders = {};
   private retryAttempNumber: number;
   private failedAttempts: FailedRequestAttemptDiagnostic[] = [];
-  private metadataLookups: MetadataLookupDiagnostic[] = [];
+  private metadataLookups: MetadataLookUpDiagnostic[] = [];
   private requestPayloadLength: number;
   private responsePayloadLength: number;
 
   public locationEndpointsContacted: Map<string, Location> = new Map();
 
   public constructor() {
-    this.requestStartTimeUTC = getCurrentTimestamp();
-    this.retryStartTimeUTC = this.requestStartTimeUTC;
+    this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
+    this.retryStartTimeUTCinMs = this.requestStartTimeUTCinMs;
   }
 
   public recordRequestPayload(payload: string): void {
@@ -49,19 +52,22 @@ export class CosmosDiagnosticContext {
     const attempt: FailedRequestAttemptDiagnostic = {
       id: v4(),
       attemptNumber: this.retryAttempNumber,
-      startTimeUTC: this.retryStartTimeUTC,
-      endTimeUTC: getCurrentTimestamp(),
+      startTimeUTCInMs: this.retryStartTimeUTCinMs,
+      endTimeUTCInMs: getCurrentTimestampInMs(),
       statusCode,
     };
-    this.retryStartTimeUTC = getCurrentTimestamp();
+    this.retryStartTimeUTCinMs = getCurrentTimestampInMs();
     this.retryAttempNumber++;
     this.failedAttempts.push(attempt);
   }
 
-  public recordMetaDataLookup(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void {
+  public recordMetaDataLookup(
+    diagnostics: CosmosDiagnostics,
+    metaDataType: MetadataLookUpType
+  ): void {
     const metaDataRequest = {
-      startTimeUTC: diagnostics.clientSideRequestStatistics.requestStartTimeUTC,
-      endTimeUTC: diagnostics.clientSideRequestStatistics.requestEndTimeUTC,
+      startTimeUTC: diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
+      endTimeUTC: diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs,
       activityId: diagnostics.clientSideRequestStatistics.activityId,
       metaDataType,
       id: v4(),
@@ -95,8 +101,8 @@ export class CosmosDiagnosticContext {
       v4(),
       {
         activityId: this.getActivityId(),
-        requestStartTimeUTC: this.requestStartTimeUTC,
-        requestEndTimeUTC: this.requestEndTimeUTC,
+        requestStartTimeUTCInMs: this.requestStartTimeUTCinMs,
+        requestEndTimeUTCInMs: this.requestEndTimeUTCinMs,
         locationEndpointsContacted: [...this.locationEndpointsContacted.values()],
         metadataDiagnostics: {
           metadataLookups: [...this.metadataLookups],
@@ -112,7 +118,7 @@ export class CosmosDiagnosticContext {
   }
 
   private recordSessionEnd() {
-    this.requestEndTimeUTC = getCurrentTimestamp();
+    this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
   }
 
   private getActivityId(): string {
@@ -120,6 +126,11 @@ export class CosmosDiagnosticContext {
   }
 }
 
-export function getCurrentTimestamp(): number {
+/**
+ * @hidden
+ * Utility function to get currentTime in UTC milliseconds.
+ * @returns
+ */
+export function getCurrentTimestampInMs(): number {
   return Date.now();
 }
