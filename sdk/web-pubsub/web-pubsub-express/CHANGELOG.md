@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fix bug https://github.com/Azure/azure-sdk-for-js/issues/24515
+- Address issue with `query` property from CloudEvent https://github.com/Azure/azure-sdk-for-js/issues/24515
 
 ## 1.0.3 (2022-06-15)
 
