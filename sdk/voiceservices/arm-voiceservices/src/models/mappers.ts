@@ -294,7 +294,7 @@ export const PrimaryRegionProperties: coreClient.CompositeMapper = {
         }
       },
       allowedSignalingSourceAddressPrefixes: {
-        defaultValue: "",
+        defaultValue: [],
         serializedName: "allowedSignalingSourceAddressPrefixes",
         type: {
           name: "Sequence",
@@ -306,7 +306,7 @@ export const PrimaryRegionProperties: coreClient.CompositeMapper = {
         }
       },
       allowedMediaSourceAddressPrefixes: {
-        defaultValue: "",
+        defaultValue: [],
         serializedName: "allowedMediaSourceAddressPrefixes",
         type: {
           name: "Sequence",
@@ -638,7 +638,7 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
         }
       },
       emergencyDialStrings: {
-        defaultValue: "911,933",
+        defaultValue: ["911", "933"],
         serializedName: "properties.emergencyDialStrings",
         type: {
           name: "Sequence",
