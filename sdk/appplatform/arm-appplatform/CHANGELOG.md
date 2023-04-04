@@ -1,16 +1,6 @@
 # Release History
-
-## 2.1.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.5 (2023-01-13)
+    
+## 3.0.0-beta.1 (2023-03-28)
     
 **Features**
 
@@ -18,6 +8,7 @@
   - Added operation group ApiPortals
   - Added operation group ApplicationAccelerators
   - Added operation group ApplicationLiveViews
+  - Added operation group ContainerRegistries
   - Added operation group CustomizedAccelerators
   - Added operation group DevToolPortals
   - Added operation group GatewayCustomDomains
@@ -25,7 +16,12 @@
   - Added operation group Gateways
   - Added operation group PredefinedAccelerators
   - Added operation group Storages
+  - Added operation BuildpackBinding.listForCluster
   - Added operation BuildServiceBuilder.listDeployments
+  - Added operation BuildServiceOperations.beginCreateOrUpdate
+  - Added operation BuildServiceOperations.beginCreateOrUpdateAndWait
+  - Added operation BuildServiceOperations.beginDeleteBuild
+  - Added operation BuildServiceOperations.beginDeleteBuildAndWait
   - Added operation Deployments.beginDisableRemoteDebugging
   - Added operation Deployments.beginDisableRemoteDebuggingAndWait
   - Added operation Deployments.beginEnableRemoteDebugging
@@ -87,6 +83,8 @@
   - Added Interface BindingResource
   - Added Interface Build
   - Added Interface BuilderResource
+  - Added Interface BuildpackBindingListForClusterNextOptionalParams
+  - Added Interface BuildpackBindingListForClusterOptionalParams
   - Added Interface BuildpackBindingResource
   - Added Interface BuildResourceRequests
   - Added Interface BuildResult
@@ -94,10 +92,22 @@
   - Added Interface BuildService
   - Added Interface BuildServiceAgentPoolResource
   - Added Interface BuildServiceBuilderListDeploymentsOptionalParams
+  - Added Interface BuildServiceCreateOrUpdateOptionalParams
+  - Added Interface BuildServiceDeleteBuildHeaders
+  - Added Interface BuildServiceDeleteBuildOptionalParams
   - Added Interface CertificateResource
   - Added Interface ConfigServerResource
   - Added Interface ConfigurationServiceResource
   - Added Interface ContainerProbeSettings
+  - Added Interface ContainerRegistriesCreateOrUpdateOptionalParams
+  - Added Interface ContainerRegistriesGetOptionalParams
+  - Added Interface ContainerRegistriesListNextOptionalParams
+  - Added Interface ContainerRegistriesListOptionalParams
+  - Added Interface ContainerRegistryBasicCredentials
+  - Added Interface ContainerRegistryCredentials
+  - Added Interface ContainerRegistryProperties
+  - Added Interface ContainerRegistryResource
+  - Added Interface ContainerRegistryResourceCollection
   - Added Interface ContentCertificateProperties
   - Added Interface CustomContainer
   - Added Interface CustomContainerUserSourceInfo
@@ -114,6 +124,7 @@
   - Added Interface CustomizedAcceleratorValidateResult
   - Added Interface CustomPersistentDiskProperties
   - Added Interface CustomPersistentDiskResource
+  - Added Interface CustomScaleRule
   - Added Interface DeploymentList
   - Added Interface DeploymentResource
   - Added Interface DeploymentsDisableRemoteDebuggingOptionalParams
@@ -148,6 +159,7 @@
   - Added Interface GatewayOperatorProperties
   - Added Interface GatewayOperatorResourceRequests
   - Added Interface GatewayProperties
+  - Added Interface GatewayPropertiesClientAuth
   - Added Interface GatewayPropertiesEnvironmentVariables
   - Added Interface GatewayResource
   - Added Interface GatewayResourceCollection
@@ -167,8 +179,13 @@
   - Added Interface GatewaysListEnvSecretsOptionalParams
   - Added Interface GatewaysListNextOptionalParams
   - Added Interface GatewaysListOptionalParams
+  - Added Interface GatewaysRestartHeaders
+  - Added Interface GatewaysRestartOptionalParams
+  - Added Interface GatewaysUpdateCapacityHeaders
+  - Added Interface GatewaysUpdateCapacityOptionalParams
   - Added Interface GatewaysValidateDomainOptionalParams
   - Added Interface HttpGetAction
+  - Added Interface HttpScaleRule
   - Added Interface ImageRegistryCredential
   - Added Interface IngressConfig
   - Added Interface IngressSettings
@@ -189,13 +206,19 @@
   - Added Interface Probe
   - Added Interface ProbeAction
   - Added Interface ProxyResource
+  - Added Interface QueueScaleRule
   - Added Interface RemoteDebugging
   - Added Interface RemoteDebuggingPayload
+  - Added Interface Scale
+  - Added Interface ScaleRule
+  - Added Interface ScaleRuleAuth
+  - Added Interface Secret
   - Added Interface ServiceRegistryResource
   - Added Interface ServiceResource
   - Added Interface ServicesStartOptionalParams
   - Added Interface ServicesStopOptionalParams
   - Added Interface ServiceVNetAddons
+  - Added Interface SkuObject
   - Added Interface SourceUploadedUserSourceInfo
   - Added Interface SsoProperties
   - Added Interface StorageAccount
@@ -209,6 +232,7 @@
   - Added Interface StoragesListOptionalParams
   - Added Interface SupportedBuildpackResource
   - Added Interface SupportedStackResource
+  - Added Interface TcpScaleRule
   - Added Interface TCPSocketAction
   - Added Interface TrackedResource
   - Added Interface UploadedUserSourceInfo
@@ -236,8 +260,17 @@
   - Added Type Alias ApplicationLiveViewsListNextResponse
   - Added Type Alias ApplicationLiveViewsListResponse
   - Added Type Alias BackendProtocol
+  - Added Type Alias BuildpackBindingListForClusterNextResponse
+  - Added Type Alias BuildpackBindingListForClusterResponse
   - Added Type Alias BuildServiceBuilderListDeploymentsResponse
+  - Added Type Alias BuildServiceCreateOrUpdateResponse
   - Added Type Alias CertificateResourceProvisioningState
+  - Added Type Alias ContainerRegistriesCreateOrUpdateResponse
+  - Added Type Alias ContainerRegistriesGetResponse
+  - Added Type Alias ContainerRegistriesListNextResponse
+  - Added Type Alias ContainerRegistriesListResponse
+  - Added Type Alias ContainerRegistryCredentialsUnion
+  - Added Type Alias ContainerRegistryProvisioningState
   - Added Type Alias CustomDomainResourceProvisioningState
   - Added Type Alias CustomizedAcceleratorProvisioningState
   - Added Type Alias CustomizedAcceleratorsCreateOrUpdateResponse
@@ -256,6 +289,7 @@
   - Added Type Alias DevToolPortalsGetResponse
   - Added Type Alias DevToolPortalsListNextResponse
   - Added Type Alias DevToolPortalsListResponse
+  - Added Type Alias GatewayCertificateVerification
   - Added Type Alias GatewayCustomDomainsCreateOrUpdateResponse
   - Added Type Alias GatewayCustomDomainsGetResponse
   - Added Type Alias GatewayCustomDomainsListNextResponse
@@ -271,6 +305,7 @@
   - Added Type Alias GatewaysListEnvSecretsResponse
   - Added Type Alias GatewaysListNextResponse
   - Added Type Alias GatewaysListResponse
+  - Added Type Alias GatewaysUpdateCapacityResponse
   - Added Type Alias GatewaysValidateDomainResponse
   - Added Type Alias HttpSchemeType
   - Added Type Alias PowerState
@@ -291,12 +326,17 @@
   - Added Type Alias Type
   - Interface AppResourceProperties has a new optional parameter customPersistentDisks
   - Interface AppResourceProperties has a new optional parameter ingressSettings
+  - Interface AppResourceProperties has a new optional parameter secrets
   - Interface AppResourceProperties has a new optional parameter vnetAddons
   - Interface BuildProperties has a new optional parameter resourceRequests
   - Interface BuildResultProperties has a new optional parameter error
+  - Interface BuildResultProperties has a new optional parameter image
+  - Interface BuildServiceProperties has a new optional parameter containerRegistry
   - Interface BuildStageProperties has a new optional parameter exitCode
   - Interface BuildStageProperties has a new optional parameter reason
   - Interface CertificateProperties has a new optional parameter provisioningState
+  - Interface ClusterResourceProperties has a new optional parameter infraResourceGroup
+  - Interface ClusterResourceProperties has a new optional parameter managedEnvironmentId
   - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
   - Interface ClusterResourceProperties has a new optional parameter powerState
   - Interface ClusterResourceProperties has a new optional parameter vnetAddons
@@ -304,22 +344,26 @@
   - Interface DeploymentSettings has a new optional parameter containerProbeSettings
   - Interface DeploymentSettings has a new optional parameter livenessProbe
   - Interface DeploymentSettings has a new optional parameter readinessProbe
+  - Interface DeploymentSettings has a new optional parameter scale
   - Interface DeploymentSettings has a new optional parameter startupProbe
   - Interface DeploymentSettings has a new optional parameter terminationGracePeriodSeconds
   - Interface ManagedIdentityProperties has a new optional parameter userAssignedIdentities
   - Interface NetworkProfile has a new optional parameter ingressConfig
   - Interface NetworkProfile has a new optional parameter outboundType
+  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
   - Added Enum KnownApiPortalProvisioningState
   - Added Enum KnownApmType
   - Added Enum KnownApplicationAcceleratorProvisioningState
   - Added Enum KnownApplicationLiveViewProvisioningState
   - Added Enum KnownBackendProtocol
   - Added Enum KnownCertificateResourceProvisioningState
+  - Added Enum KnownContainerRegistryProvisioningState
   - Added Enum KnownCustomDomainResourceProvisioningState
   - Added Enum KnownCustomizedAcceleratorProvisioningState
   - Added Enum KnownCustomizedAcceleratorValidateResultState
   - Added Enum KnownDevToolPortalFeatureState
   - Added Enum KnownDevToolPortalProvisioningState
+  - Added Enum KnownGatewayCertificateVerification
   - Added Enum KnownGatewayProvisioningState
   - Added Enum KnownGatewayRouteConfigProtocol
   - Added Enum KnownHttpSchemeType
@@ -334,7 +378,28 @@
   - Added function getContinuationToken
   - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
   - Interface DeploymentsListNextOptionalParams no longer has parameter version
-  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
+
+**Breaking Changes**
+
+  - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
+        [propertyName: string]: {
+            [propertyName: string]: Record<string, unknown>;
+        };
+    } to {
+        [propertyName: string]: Record<string, unknown>;
+    }
+  - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter addonConfigs of interface DeploymentSettings is changed from {
+        [propertyName: string]: {
+            [propertyName: string]: Record<string, unknown>;
+        };
+    } to {
+        [propertyName: string]: Record<string, unknown>;
+    }
     
     
 ## 2.0.0 (2022-05-19)
