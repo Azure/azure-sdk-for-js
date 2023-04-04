@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PredefinedAcceleratorResource,
   PredefinedAcceleratorsListOptionalParams,
@@ -65,7 +65,7 @@ export interface PredefinedAccelerators {
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
     options?: PredefinedAcceleratorsDisableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable predefined accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -97,7 +97,7 @@ export interface PredefinedAccelerators {
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
     options?: PredefinedAcceleratorsEnableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enable predefined accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

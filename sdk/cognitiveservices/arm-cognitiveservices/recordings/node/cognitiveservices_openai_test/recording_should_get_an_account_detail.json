@@ -1,0 +1,152 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "25f20044-c93d-4a22-9406-4ad02d6b475a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 09:20:13 GMT",
+        "ETag": "\u002208006ae3-0000-0d00-0000-642554180000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "19",
+        "x-ms-correlation-request-id": "12985626-06a2-41e6-96af-b55a97b59e0e",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "8d4ba15f-0ce9-4ab2-881b-c0e30aebc483",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092013Z:12985626-06a2-41e6-96af-b55a97b59e0e"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+        "name": "sdk-test-openai",
+        "type": "Microsoft.CognitiveServices/accounts",
+        "etag": "\u002208006ae3-0000-0d00-0000-642554180000\u0022",
+        "location": "West Europe",
+        "sku": {
+          "name": "S0"
+        },
+        "kind": "OpenAI",
+        "properties": {
+          "endpoint": "https://westeurope.api.cognitive.microsoft.com/",
+          "internalId": "bca7647fc60f4f079c855b225f59cb55",
+          "dateCreated": "2023-03-30T07:00:17.0607515Z",
+          "callRateLimit": {
+            "rules": [
+              {
+                "key": "openai.dalle.post",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "POST"
+                  }
+                ]
+              },
+              {
+                "key": "openai.dalle.other",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "openai",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "openai/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "default",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "*",
+                    "method": "*"
+                  }
+                ]
+              }
+            ]
+          },
+          "isMigrated": false,
+          "privateEndpointConnections": [],
+          "publicNetworkAccess": "Enabled",
+          "capabilities": [
+            {
+              "name": "VirtualNetworks"
+            },
+            {
+              "name": "MaxFineTuneCount",
+              "value": "100"
+            },
+            {
+              "name": "MaxRunningFineTuneCount",
+              "value": "1"
+            },
+            {
+              "name": "MaxUserFileCount",
+              "value": "50"
+            },
+            {
+              "name": "MaxTrainingFileSize",
+              "value": "100000000"
+            },
+            {
+              "name": "MaxUserFileImportDurationInHours",
+              "value": "1"
+            },
+            {
+              "name": "MaxFineTuneJobDurationInHours",
+              "value": "720"
+            }
+          ],
+          "endpoints": {
+            "OpenAI Language Model Instance API": "https://westeurope.api.cognitive.microsoft.com/",
+            "OpenAI Dall-E API": "https://westeurope.api.cognitive.microsoft.com/"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "identity": {
+          "principalId": "0c446045-0db7-4965-b705-d497b983fe8c",
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "type": "SystemAssigned"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-30T07:00:14.7205177Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-30T07:00:14.7205177Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
