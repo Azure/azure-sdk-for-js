@@ -13,6 +13,9 @@ import {
   AzureQuotaExtensionAPI
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
@@ -22,7 +25,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/putNetworkOneSkuQuotaRequest.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/putNetworkOneSkuQuotaRequest.json
  */
 async function quotasPutRequestForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
@@ -45,8 +48,6 @@ async function quotasPutRequestForNetwork() {
   console.log(result);
 }
 
-quotasPutRequestForNetwork().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
@@ -55,7 +56,7 @@ quotasPutRequestForNetwork().catch(console.error);
  * @summary Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/putNetworkOneSkuQuotaRequestStandardSkuPublicIpAddresses.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/putNetworkOneSkuQuotaRequestStandardSkuPublicIpAddresses.json
  */
 async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource() {
   const resourceName = "StandardSkuPublicIpAddresses";
@@ -78,10 +79,6 @@ async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource() 
   console.log(result);
 }
 
-quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
@@ -90,7 +87,7 @@ quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource().catch(
  * @summary Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/putComputeOneSkuQuotaRequest.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/putComputeOneSkuQuotaRequest.json
  */
 async function quotasPutRequestForCompute() {
   const resourceName = "standardFSv2Family";
@@ -112,8 +109,6 @@ async function quotasPutRequestForCompute() {
   console.log(result);
 }
 
-quotasPutRequestForCompute().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
@@ -122,7 +117,7 @@ quotasPutRequestForCompute().catch(console.error);
  * @summary Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/putMachineLearningServicesQuotaRequestLowPriority.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/putMachineLearningServicesQuotaRequestLowPriority.json
  */
 async function quotasRequestForMachineLearningServicesLowPriorityResource() {
   const resourceName = "TotalLowPriorityCores";
@@ -145,6 +140,11 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource() {
   console.log(result);
 }
 
-quotasRequestForMachineLearningServicesLowPriorityResource().catch(
-  console.error
-);
+async function main() {
+  quotasPutRequestForNetwork();
+  quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource();
+  quotasPutRequestForCompute();
+  quotasRequestForMachineLearningServicesLowPriorityResource();
+}
+
+main().catch(console.error);
