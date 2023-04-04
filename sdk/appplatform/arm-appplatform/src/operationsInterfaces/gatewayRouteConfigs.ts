@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GatewayRouteConfigResource,
   GatewayRouteConfigsListOptionalParams,
@@ -71,8 +71,8 @@ export interface GatewayRouteConfigs {
     gatewayRouteConfigResource: GatewayRouteConfigResource,
     options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
       GatewayRouteConfigsCreateOrUpdateResponse
     >
   >;
@@ -111,7 +111,7 @@ export interface GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     options?: GatewayRouteConfigsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Spring Cloud Gateway route config.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
