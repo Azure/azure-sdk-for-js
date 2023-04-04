@@ -1,0 +1,295 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6854a938-2e94-4fd0-8e97-b621ea974e70"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Thu, 30 Mar 2023 09:29:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "124",
+        "x-ms-correlation-request-id": "d7c3a4cf-5c13-406f-91e9-c2e1e77f6e14",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "d7c3a4cf-5c13-406f-91e9-c2e1e77f6e14",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092918Z:d7c3a4cf-5c13-406f-91e9-c2e1e77f6e14"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "04642166-c09d-4cb0-b3d7-40fa3aad72c6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "3629",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 09:29:19 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f0a2b5d3-c17f-46b0-abde-98bdd96abe07",
+        "x-ms-original-request-ids": [
+          "72d638e1-8ec2-45bd-ac85-ab327f3e47cb",
+          "c96a5554-f2f2-4e78-9819-7f41dc22308b"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "f0a2b5d3-c17f-46b0-abde-98bdd96abe07",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092920Z:f0a2b5d3-c17f-46b0-abde-98bdd96abe07"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/test-by-mary",
+            "name": "test-by-mary",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "etag": "\u00223600f937-0000-0500-0000-642545d50000\u0022",
+            "location": "southcentralus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "OpenAI",
+            "tags": {},
+            "properties": {
+              "endpoint": "https://test-by-mary.openai.azure.com/",
+              "internalId": "932a8ee5ff404df58707b3f8407c120f",
+              "dateCreated": "2023-03-30T07:50:50.9259198Z",
+              "callRateLimit": {
+                "rules": [
+                  {
+                    "key": "openai.dalle.post",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "dalle/*",
+                        "method": "POST"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "openai.dalle.other",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "dalle/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "openai",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "openai/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "default",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "*",
+                        "method": "*"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "isMigrated": false,
+              "customSubDomainName": "test-by-mary",
+              "privateEndpointConnections": [],
+              "publicNetworkAccess": "Enabled",
+              "capabilities": [
+                {
+                  "name": "VirtualNetworks"
+                },
+                {
+                  "name": "MaxFineTuneCount",
+                  "value": "100"
+                },
+                {
+                  "name": "MaxRunningFineTuneCount",
+                  "value": "1"
+                },
+                {
+                  "name": "MaxUserFileCount",
+                  "value": "50"
+                },
+                {
+                  "name": "MaxTrainingFileSize",
+                  "value": "100000000"
+                },
+                {
+                  "name": "MaxUserFileImportDurationInHours",
+                  "value": "1"
+                },
+                {
+                  "name": "MaxFineTuneJobDurationInHours",
+                  "value": "720"
+                }
+              ],
+              "endpoints": {
+                "OpenAI Language Model Instance API": "https://test-by-mary.openai.azure.com/",
+                "OpenAI Dall-E API": "https://test-by-mary.openai.azure.com/"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "marygao@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2023-03-30T07:50:50.2384724Z",
+              "lastModifiedBy": "marygao@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2023-03-30T07:50:50.2384724Z"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/openai-shared",
+            "name": "openai-shared",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "etag": "\u00224600f689-0000-0100-0000-6413ef480000\u0022",
+            "location": "eastus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "OpenAI",
+            "tags": {},
+            "properties": {
+              "endpoint": "https://openai-shared.openai.azure.com/",
+              "internalId": "a1315891d19345f5a856312b413bcb57",
+              "dateCreated": "2023-02-06T17:39:36.8123411Z",
+              "callRateLimit": {
+                "rules": [
+                  {
+                    "key": "openai.dalle.post",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "dalle/*",
+                        "method": "POST"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "openai.dalle.other",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "dalle/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "openai",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "openai/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "default",
+                    "renewalPeriod": 1,
+                    "count": 30,
+                    "matchPatterns": [
+                      {
+                        "path": "*",
+                        "method": "*"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "isMigrated": false,
+              "customSubDomainName": "openai-shared",
+              "privateEndpointConnections": [],
+              "publicNetworkAccess": "Enabled",
+              "capabilities": [
+                {
+                  "name": "VirtualNetworks"
+                },
+                {
+                  "name": "MaxFineTuneCount",
+                  "value": "100"
+                },
+                {
+                  "name": "MaxRunningFineTuneCount",
+                  "value": "1"
+                },
+                {
+                  "name": "MaxUserFileCount",
+                  "value": "50"
+                },
+                {
+                  "name": "MaxTrainingFileSize",
+                  "value": "100000000"
+                },
+                {
+                  "name": "MaxUserFileImportDurationInHours",
+                  "value": "1"
+                },
+                {
+                  "name": "MaxFineTuneJobDurationInHours",
+                  "value": "720"
+                }
+              ],
+              "endpoints": {
+                "OpenAI Language Model Instance API": "https://openai-shared.openai.azure.com/",
+                "OpenAI Dall-E API": "https://openai-shared.openai.azure.com/"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "achand@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2023-02-06T17:39:36.3808625Z",
+              "lastModifiedBy": "achand@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2023-02-06T17:39:36.3808625Z"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
