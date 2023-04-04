@@ -6,22 +6,22 @@ import {
   DevCenterListProjectsDefaultResponse,
   DevCenterGetProject200Response,
   DevCenterGetProjectDefaultResponse,
-  DevCenterListAllDevBoxes200Response,
-  DevCenterListAllDevBoxesDefaultResponse,
-  DevCenterListAllDevBoxesByUser200Response,
-  DevCenterListAllDevBoxesByUserDefaultResponse,
   DevBoxesListPools200Response,
   DevBoxesListPoolsDefaultResponse,
   DevBoxesGetPool200Response,
   DevBoxesGetPoolDefaultResponse,
-  DevBoxesListSchedulesByPool200Response,
-  DevBoxesListSchedulesByPoolDefaultResponse,
-  DevBoxesGetScheduleByPool200Response,
-  DevBoxesGetScheduleByPoolDefaultResponse,
-  DevBoxesListDevBoxesByUser200Response,
-  DevBoxesListDevBoxesByUserDefaultResponse,
-  DevBoxesGetDevBoxByUser200Response,
-  DevBoxesGetDevBoxByUserDefaultResponse,
+  DevBoxesListSchedules200Response,
+  DevBoxesListSchedulesDefaultResponse,
+  DevBoxesGetSchedule200Response,
+  DevBoxesGetScheduleDefaultResponse,
+  DevBoxesListAllDevBoxes200Response,
+  DevBoxesListAllDevBoxesDefaultResponse,
+  DevBoxesListAllDevBoxesByUser200Response,
+  DevBoxesListAllDevBoxesByUserDefaultResponse,
+  DevBoxesListDevBoxes200Response,
+  DevBoxesListDevBoxesDefaultResponse,
+  DevBoxesGetDevBox200Response,
+  DevBoxesGetDevBoxDefaultResponse,
   DevBoxesCreateDevBox200Response,
   DevBoxesCreateDevBox201Response,
   DevBoxesCreateDevBoxDefaultResponse,
@@ -32,60 +32,56 @@ import {
   DevBoxesStartDevBoxDefaultResponse,
   DevBoxesStopDevBox202Response,
   DevBoxesStopDevBoxDefaultResponse,
+  DevBoxesRestartDevBox202Response,
+  DevBoxesRestartDevBoxDefaultResponse,
   DevBoxesGetRemoteConnection200Response,
   DevBoxesGetRemoteConnectionDefaultResponse,
-  DevBoxesListUpcomingActions200Response,
-  DevBoxesListUpcomingActionsDefaultResponse,
-  DevBoxesGetUpcomingAction200Response,
-  DevBoxesGetUpcomingActionDefaultResponse,
-  DevBoxesSkipUpcomingAction204Response,
-  DevBoxesSkipUpcomingActionDefaultResponse,
-  DevBoxesDelayUpcomingAction200Response,
-  DevBoxesDelayUpcomingActionDefaultResponse,
-  EnvironmentsListEnvironments200Response,
-  EnvironmentsListEnvironmentsDefaultResponse,
-  EnvironmentsListEnvironmentsByUser200Response,
-  EnvironmentsListEnvironmentsByUserDefaultResponse,
-  EnvironmentsGetEnvironmentByUser200Response,
-  EnvironmentsGetEnvironmentByUserDefaultResponse,
-  EnvironmentsCreateOrUpdateEnvironment200Response,
-  EnvironmentsCreateOrUpdateEnvironment201Response,
-  EnvironmentsCreateOrUpdateEnvironmentDefaultResponse,
-  EnvironmentsUpdateEnvironment200Response,
-  EnvironmentsUpdateEnvironmentDefaultResponse,
-  EnvironmentsDeleteEnvironment200Response,
-  EnvironmentsDeleteEnvironment202Response,
-  EnvironmentsDeleteEnvironment204Response,
-  EnvironmentsDeleteEnvironmentDefaultResponse,
-  EnvironmentsDeployEnvironmentAction200Response,
-  EnvironmentsDeployEnvironmentAction202Response,
-  EnvironmentsDeployEnvironmentActionDefaultResponse,
-  EnvironmentsCustomEnvironmentAction200Response,
-  EnvironmentsCustomEnvironmentAction202Response,
-  EnvironmentsCustomEnvironmentActionDefaultResponse,
-  EnvironmentsListCatalogItems200Response,
-  EnvironmentsListCatalogItemsDefaultResponse,
-  EnvironmentsGetCatalogItem200Response,
-  EnvironmentsGetCatalogItemDefaultResponse,
-  EnvironmentsListCatalogItemVersions200Response,
-  EnvironmentsListCatalogItemVersionsDefaultResponse,
-  EnvironmentsGetCatalogItemVersion200Response,
-  EnvironmentsGetCatalogItemVersionDefaultResponse,
-  EnvironmentsListEnvironmentTypes200Response,
-  EnvironmentsListEnvironmentTypesDefaultResponse
+  DevBoxesListActions200Response,
+  DevBoxesListActionsDefaultResponse,
+  DevBoxesGetAction200Response,
+  DevBoxesGetActionDefaultResponse,
+  DevBoxesSkipAction204Response,
+  DevBoxesSkipActionDefaultResponse,
+  DevBoxesDelayAction200Response,
+  DevBoxesDelayActionDefaultResponse,
+  DevBoxesDelayAllActions200Response,
+  DevBoxesDelayAllActionsDefaultResponse,
+  DeploymentEnvironmentsListAllEnvironments200Response,
+  DeploymentEnvironmentsListAllEnvironmentsDefaultResponse,
+  DeploymentEnvironmentsListEnvironments200Response,
+  DeploymentEnvironmentsListEnvironmentsDefaultResponse,
+  DeploymentEnvironmentsGetEnvironment200Response,
+  DeploymentEnvironmentsGetEnvironmentDefaultResponse,
+  DeploymentEnvironmentsCreateOrUpdateEnvironment201Response,
+  DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse,
+  DeploymentEnvironmentsDeleteEnvironment202Response,
+  DeploymentEnvironmentsDeleteEnvironment204Response,
+  DeploymentEnvironmentsDeleteEnvironmentDefaultResponse,
+  DeploymentEnvironmentsListCatalogs200Response,
+  DeploymentEnvironmentsListCatalogsDefaultResponse,
+  DeploymentEnvironmentsGetCatalog200Response,
+  DeploymentEnvironmentsGetCatalogDefaultResponse,
+  DeploymentEnvironmentsListEnvironmentDefinitions200Response,
+  DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse,
+  DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response,
+  DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse,
+  DeploymentEnvironmentsGetEnvironmentDefinition200Response,
+  DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse,
+  DeploymentEnvironmentsListEnvironmentTypes200Response,
+  DeploymentEnvironmentsListEnvironmentTypesDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /projects": ["200"],
   "GET /projects/{projectName}": ["200"],
-  "GET /devboxes": ["200"],
-  "GET /users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/pools": ["200"],
   "GET /projects/{projectName}/pools/{poolName}": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": [
     "200"
   ],
+  "GET /devboxes": ["200"],
+  "GET /users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200"],
   "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
@@ -108,19 +104,28 @@ const responseMap: Record<string, string[]> = {
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
     "202"
   ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": [
+    "202"
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": [
+    "202"
+  ],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": [
     "200"
   ],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions": [
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions": [
     "200"
   ],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}": [
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}": [
     "200"
   ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:skip": [
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip": [
     "204"
   ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:delay": [
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay": [
+    "200"
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay": [
     "200"
   ],
   "GET /projects/{projectName}/environments": ["200"],
@@ -129,37 +134,19 @@ const responseMap: Record<string, string[]> = {
     "200"
   ],
   "PUT /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200",
     "201"
   ],
-  "PATCH /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200"
-  ],
   "DELETE /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200",
     "202",
     "204"
   ],
-  "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:deploy": [
-    "200",
-    "202"
+  "GET /projects/{projectName}/catalogs": ["200"],
+  "GET /projects/{projectName}/catalogs/{catalogName}": ["200"],
+  "GET /projects/{projectName}/environmentDefinitions": ["200"],
+  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions": [
+    "200"
   ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:deploy": [
-    "200",
-    "202"
-  ],
-  "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/catalogItems": ["200"],
-  "GET /projects/{projectName}/catalogItems/{catalogItemId}": ["200"],
-  "GET /projects/{projectName}/catalogItems/{catalogItemId}/versions": ["200"],
-  "GET /projects/{projectName}/catalogItems/{catalogItemId}/versions/{version}": [
+  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}": [
     "200"
   ],
   "GET /projects/{projectName}/environmentTypes": ["200"]
@@ -174,16 +161,6 @@ export function isUnexpected(
   response: DevCenterGetProject200Response | DevCenterGetProjectDefaultResponse
 ): response is DevCenterGetProjectDefaultResponse;
 export function isUnexpected(
-  response:
-    | DevCenterListAllDevBoxes200Response
-    | DevCenterListAllDevBoxesDefaultResponse
-): response is DevCenterListAllDevBoxesDefaultResponse;
-export function isUnexpected(
-  response:
-    | DevCenterListAllDevBoxesByUser200Response
-    | DevCenterListAllDevBoxesByUserDefaultResponse
-): response is DevCenterListAllDevBoxesByUserDefaultResponse;
-export function isUnexpected(
   response: DevBoxesListPools200Response | DevBoxesListPoolsDefaultResponse
 ): response is DevBoxesListPoolsDefaultResponse;
 export function isUnexpected(
@@ -191,24 +168,30 @@ export function isUnexpected(
 ): response is DevBoxesGetPoolDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesListSchedulesByPool200Response
-    | DevBoxesListSchedulesByPoolDefaultResponse
-): response is DevBoxesListSchedulesByPoolDefaultResponse;
+    | DevBoxesListSchedules200Response
+    | DevBoxesListSchedulesDefaultResponse
+): response is DevBoxesListSchedulesDefaultResponse;
+export function isUnexpected(
+  response: DevBoxesGetSchedule200Response | DevBoxesGetScheduleDefaultResponse
+): response is DevBoxesGetScheduleDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesGetScheduleByPool200Response
-    | DevBoxesGetScheduleByPoolDefaultResponse
-): response is DevBoxesGetScheduleByPoolDefaultResponse;
+    | DevBoxesListAllDevBoxes200Response
+    | DevBoxesListAllDevBoxesDefaultResponse
+): response is DevBoxesListAllDevBoxesDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesListDevBoxesByUser200Response
-    | DevBoxesListDevBoxesByUserDefaultResponse
-): response is DevBoxesListDevBoxesByUserDefaultResponse;
+    | DevBoxesListAllDevBoxesByUser200Response
+    | DevBoxesListAllDevBoxesByUserDefaultResponse
+): response is DevBoxesListAllDevBoxesByUserDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesGetDevBoxByUser200Response
-    | DevBoxesGetDevBoxByUserDefaultResponse
-): response is DevBoxesGetDevBoxByUserDefaultResponse;
+    | DevBoxesListDevBoxes200Response
+    | DevBoxesListDevBoxesDefaultResponse
+): response is DevBoxesListDevBoxesDefaultResponse;
+export function isUnexpected(
+  response: DevBoxesGetDevBox200Response | DevBoxesGetDevBoxDefaultResponse
+): response is DevBoxesGetDevBoxDefaultResponse;
 export function isUnexpected(
   response:
     | DevBoxesCreateDevBox200Response
@@ -229,121 +212,109 @@ export function isUnexpected(
 ): response is DevBoxesStopDevBoxDefaultResponse;
 export function isUnexpected(
   response:
+    | DevBoxesRestartDevBox202Response
+    | DevBoxesRestartDevBoxDefaultResponse
+): response is DevBoxesRestartDevBoxDefaultResponse;
+export function isUnexpected(
+  response:
     | DevBoxesGetRemoteConnection200Response
     | DevBoxesGetRemoteConnectionDefaultResponse
 ): response is DevBoxesGetRemoteConnectionDefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesListUpcomingActions200Response
-    | DevBoxesListUpcomingActionsDefaultResponse
-): response is DevBoxesListUpcomingActionsDefaultResponse;
+  response: DevBoxesListActions200Response | DevBoxesListActionsDefaultResponse
+): response is DevBoxesListActionsDefaultResponse;
+export function isUnexpected(
+  response: DevBoxesGetAction200Response | DevBoxesGetActionDefaultResponse
+): response is DevBoxesGetActionDefaultResponse;
+export function isUnexpected(
+  response: DevBoxesSkipAction204Response | DevBoxesSkipActionDefaultResponse
+): response is DevBoxesSkipActionDefaultResponse;
+export function isUnexpected(
+  response: DevBoxesDelayAction200Response | DevBoxesDelayActionDefaultResponse
+): response is DevBoxesDelayActionDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesGetUpcomingAction200Response
-    | DevBoxesGetUpcomingActionDefaultResponse
-): response is DevBoxesGetUpcomingActionDefaultResponse;
+    | DevBoxesDelayAllActions200Response
+    | DevBoxesDelayAllActionsDefaultResponse
+): response is DevBoxesDelayAllActionsDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesSkipUpcomingAction204Response
-    | DevBoxesSkipUpcomingActionDefaultResponse
-): response is DevBoxesSkipUpcomingActionDefaultResponse;
+    | DeploymentEnvironmentsListAllEnvironments200Response
+    | DeploymentEnvironmentsListAllEnvironmentsDefaultResponse
+): response is DeploymentEnvironmentsListAllEnvironmentsDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesDelayUpcomingAction200Response
-    | DevBoxesDelayUpcomingActionDefaultResponse
-): response is DevBoxesDelayUpcomingActionDefaultResponse;
+    | DeploymentEnvironmentsListEnvironments200Response
+    | DeploymentEnvironmentsListEnvironmentsDefaultResponse
+): response is DeploymentEnvironmentsListEnvironmentsDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsListEnvironments200Response
-    | EnvironmentsListEnvironmentsDefaultResponse
-): response is EnvironmentsListEnvironmentsDefaultResponse;
+    | DeploymentEnvironmentsGetEnvironment200Response
+    | DeploymentEnvironmentsGetEnvironmentDefaultResponse
+): response is DeploymentEnvironmentsGetEnvironmentDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsListEnvironmentsByUser200Response
-    | EnvironmentsListEnvironmentsByUserDefaultResponse
-): response is EnvironmentsListEnvironmentsByUserDefaultResponse;
+    | DeploymentEnvironmentsCreateOrUpdateEnvironment201Response
+    | DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse
+): response is DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsGetEnvironmentByUser200Response
-    | EnvironmentsGetEnvironmentByUserDefaultResponse
-): response is EnvironmentsGetEnvironmentByUserDefaultResponse;
+    | DeploymentEnvironmentsDeleteEnvironment202Response
+    | DeploymentEnvironmentsDeleteEnvironment204Response
+    | DeploymentEnvironmentsDeleteEnvironmentDefaultResponse
+): response is DeploymentEnvironmentsDeleteEnvironmentDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsCreateOrUpdateEnvironment200Response
-    | EnvironmentsCreateOrUpdateEnvironment201Response
-    | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse
-): response is EnvironmentsCreateOrUpdateEnvironmentDefaultResponse;
+    | DeploymentEnvironmentsListCatalogs200Response
+    | DeploymentEnvironmentsListCatalogsDefaultResponse
+): response is DeploymentEnvironmentsListCatalogsDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsUpdateEnvironment200Response
-    | EnvironmentsUpdateEnvironmentDefaultResponse
-): response is EnvironmentsUpdateEnvironmentDefaultResponse;
+    | DeploymentEnvironmentsGetCatalog200Response
+    | DeploymentEnvironmentsGetCatalogDefaultResponse
+): response is DeploymentEnvironmentsGetCatalogDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsDeleteEnvironment200Response
-    | EnvironmentsDeleteEnvironment202Response
-    | EnvironmentsDeleteEnvironment204Response
-    | EnvironmentsDeleteEnvironmentDefaultResponse
-): response is EnvironmentsDeleteEnvironmentDefaultResponse;
+    | DeploymentEnvironmentsListEnvironmentDefinitions200Response
+    | DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse
+): response is DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsDeployEnvironmentAction200Response
-    | EnvironmentsDeployEnvironmentAction202Response
-    | EnvironmentsDeployEnvironmentActionDefaultResponse
-): response is EnvironmentsDeployEnvironmentActionDefaultResponse;
+    | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response
+    | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
+): response is DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsCustomEnvironmentAction200Response
-    | EnvironmentsCustomEnvironmentAction202Response
-    | EnvironmentsCustomEnvironmentActionDefaultResponse
-): response is EnvironmentsCustomEnvironmentActionDefaultResponse;
+    | DeploymentEnvironmentsGetEnvironmentDefinition200Response
+    | DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse
+): response is DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsListCatalogItems200Response
-    | EnvironmentsListCatalogItemsDefaultResponse
-): response is EnvironmentsListCatalogItemsDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsGetCatalogItem200Response
-    | EnvironmentsGetCatalogItemDefaultResponse
-): response is EnvironmentsGetCatalogItemDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsListCatalogItemVersions200Response
-    | EnvironmentsListCatalogItemVersionsDefaultResponse
-): response is EnvironmentsListCatalogItemVersionsDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsGetCatalogItemVersion200Response
-    | EnvironmentsGetCatalogItemVersionDefaultResponse
-): response is EnvironmentsGetCatalogItemVersionDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsListEnvironmentTypes200Response
-    | EnvironmentsListEnvironmentTypesDefaultResponse
-): response is EnvironmentsListEnvironmentTypesDefaultResponse;
+    | DeploymentEnvironmentsListEnvironmentTypes200Response
+    | DeploymentEnvironmentsListEnvironmentTypesDefaultResponse
+): response is DeploymentEnvironmentsListEnvironmentTypesDefaultResponse;
 export function isUnexpected(
   response:
     | DevCenterListProjects200Response
     | DevCenterListProjectsDefaultResponse
     | DevCenterGetProject200Response
     | DevCenterGetProjectDefaultResponse
-    | DevCenterListAllDevBoxes200Response
-    | DevCenterListAllDevBoxesDefaultResponse
-    | DevCenterListAllDevBoxesByUser200Response
-    | DevCenterListAllDevBoxesByUserDefaultResponse
     | DevBoxesListPools200Response
     | DevBoxesListPoolsDefaultResponse
     | DevBoxesGetPool200Response
     | DevBoxesGetPoolDefaultResponse
-    | DevBoxesListSchedulesByPool200Response
-    | DevBoxesListSchedulesByPoolDefaultResponse
-    | DevBoxesGetScheduleByPool200Response
-    | DevBoxesGetScheduleByPoolDefaultResponse
-    | DevBoxesListDevBoxesByUser200Response
-    | DevBoxesListDevBoxesByUserDefaultResponse
-    | DevBoxesGetDevBoxByUser200Response
-    | DevBoxesGetDevBoxByUserDefaultResponse
+    | DevBoxesListSchedules200Response
+    | DevBoxesListSchedulesDefaultResponse
+    | DevBoxesGetSchedule200Response
+    | DevBoxesGetScheduleDefaultResponse
+    | DevBoxesListAllDevBoxes200Response
+    | DevBoxesListAllDevBoxesDefaultResponse
+    | DevBoxesListAllDevBoxesByUser200Response
+    | DevBoxesListAllDevBoxesByUserDefaultResponse
+    | DevBoxesListDevBoxes200Response
+    | DevBoxesListDevBoxesDefaultResponse
+    | DevBoxesGetDevBox200Response
+    | DevBoxesGetDevBoxDefaultResponse
     | DevBoxesCreateDevBox200Response
     | DevBoxesCreateDevBox201Response
     | DevBoxesCreateDevBoxDefaultResponse
@@ -354,80 +325,76 @@ export function isUnexpected(
     | DevBoxesStartDevBoxDefaultResponse
     | DevBoxesStopDevBox202Response
     | DevBoxesStopDevBoxDefaultResponse
+    | DevBoxesRestartDevBox202Response
+    | DevBoxesRestartDevBoxDefaultResponse
     | DevBoxesGetRemoteConnection200Response
     | DevBoxesGetRemoteConnectionDefaultResponse
-    | DevBoxesListUpcomingActions200Response
-    | DevBoxesListUpcomingActionsDefaultResponse
-    | DevBoxesGetUpcomingAction200Response
-    | DevBoxesGetUpcomingActionDefaultResponse
-    | DevBoxesSkipUpcomingAction204Response
-    | DevBoxesSkipUpcomingActionDefaultResponse
-    | DevBoxesDelayUpcomingAction200Response
-    | DevBoxesDelayUpcomingActionDefaultResponse
-    | EnvironmentsListEnvironments200Response
-    | EnvironmentsListEnvironmentsDefaultResponse
-    | EnvironmentsListEnvironmentsByUser200Response
-    | EnvironmentsListEnvironmentsByUserDefaultResponse
-    | EnvironmentsGetEnvironmentByUser200Response
-    | EnvironmentsGetEnvironmentByUserDefaultResponse
-    | EnvironmentsCreateOrUpdateEnvironment200Response
-    | EnvironmentsCreateOrUpdateEnvironment201Response
-    | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse
-    | EnvironmentsUpdateEnvironment200Response
-    | EnvironmentsUpdateEnvironmentDefaultResponse
-    | EnvironmentsDeleteEnvironment200Response
-    | EnvironmentsDeleteEnvironment202Response
-    | EnvironmentsDeleteEnvironment204Response
-    | EnvironmentsDeleteEnvironmentDefaultResponse
-    | EnvironmentsDeployEnvironmentAction200Response
-    | EnvironmentsDeployEnvironmentAction202Response
-    | EnvironmentsDeployEnvironmentActionDefaultResponse
-    | EnvironmentsCustomEnvironmentAction200Response
-    | EnvironmentsCustomEnvironmentAction202Response
-    | EnvironmentsCustomEnvironmentActionDefaultResponse
-    | EnvironmentsListCatalogItems200Response
-    | EnvironmentsListCatalogItemsDefaultResponse
-    | EnvironmentsGetCatalogItem200Response
-    | EnvironmentsGetCatalogItemDefaultResponse
-    | EnvironmentsListCatalogItemVersions200Response
-    | EnvironmentsListCatalogItemVersionsDefaultResponse
-    | EnvironmentsGetCatalogItemVersion200Response
-    | EnvironmentsGetCatalogItemVersionDefaultResponse
-    | EnvironmentsListEnvironmentTypes200Response
-    | EnvironmentsListEnvironmentTypesDefaultResponse
+    | DevBoxesListActions200Response
+    | DevBoxesListActionsDefaultResponse
+    | DevBoxesGetAction200Response
+    | DevBoxesGetActionDefaultResponse
+    | DevBoxesSkipAction204Response
+    | DevBoxesSkipActionDefaultResponse
+    | DevBoxesDelayAction200Response
+    | DevBoxesDelayActionDefaultResponse
+    | DevBoxesDelayAllActions200Response
+    | DevBoxesDelayAllActionsDefaultResponse
+    | DeploymentEnvironmentsListAllEnvironments200Response
+    | DeploymentEnvironmentsListAllEnvironmentsDefaultResponse
+    | DeploymentEnvironmentsListEnvironments200Response
+    | DeploymentEnvironmentsListEnvironmentsDefaultResponse
+    | DeploymentEnvironmentsGetEnvironment200Response
+    | DeploymentEnvironmentsGetEnvironmentDefaultResponse
+    | DeploymentEnvironmentsCreateOrUpdateEnvironment201Response
+    | DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse
+    | DeploymentEnvironmentsDeleteEnvironment202Response
+    | DeploymentEnvironmentsDeleteEnvironment204Response
+    | DeploymentEnvironmentsDeleteEnvironmentDefaultResponse
+    | DeploymentEnvironmentsListCatalogs200Response
+    | DeploymentEnvironmentsListCatalogsDefaultResponse
+    | DeploymentEnvironmentsGetCatalog200Response
+    | DeploymentEnvironmentsGetCatalogDefaultResponse
+    | DeploymentEnvironmentsListEnvironmentDefinitions200Response
+    | DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse
+    | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response
+    | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
+    | DeploymentEnvironmentsGetEnvironmentDefinition200Response
+    | DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse
+    | DeploymentEnvironmentsListEnvironmentTypes200Response
+    | DeploymentEnvironmentsListEnvironmentTypesDefaultResponse
 ): response is
   | DevCenterListProjectsDefaultResponse
   | DevCenterGetProjectDefaultResponse
-  | DevCenterListAllDevBoxesDefaultResponse
-  | DevCenterListAllDevBoxesByUserDefaultResponse
   | DevBoxesListPoolsDefaultResponse
   | DevBoxesGetPoolDefaultResponse
-  | DevBoxesListSchedulesByPoolDefaultResponse
-  | DevBoxesGetScheduleByPoolDefaultResponse
-  | DevBoxesListDevBoxesByUserDefaultResponse
-  | DevBoxesGetDevBoxByUserDefaultResponse
+  | DevBoxesListSchedulesDefaultResponse
+  | DevBoxesGetScheduleDefaultResponse
+  | DevBoxesListAllDevBoxesDefaultResponse
+  | DevBoxesListAllDevBoxesByUserDefaultResponse
+  | DevBoxesListDevBoxesDefaultResponse
+  | DevBoxesGetDevBoxDefaultResponse
   | DevBoxesCreateDevBoxDefaultResponse
   | DevBoxesDeleteDevBoxDefaultResponse
   | DevBoxesStartDevBoxDefaultResponse
   | DevBoxesStopDevBoxDefaultResponse
+  | DevBoxesRestartDevBoxDefaultResponse
   | DevBoxesGetRemoteConnectionDefaultResponse
-  | DevBoxesListUpcomingActionsDefaultResponse
-  | DevBoxesGetUpcomingActionDefaultResponse
-  | DevBoxesSkipUpcomingActionDefaultResponse
-  | DevBoxesDelayUpcomingActionDefaultResponse
-  | EnvironmentsListEnvironmentsDefaultResponse
-  | EnvironmentsListEnvironmentsByUserDefaultResponse
-  | EnvironmentsGetEnvironmentByUserDefaultResponse
-  | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse
-  | EnvironmentsUpdateEnvironmentDefaultResponse
-  | EnvironmentsDeleteEnvironmentDefaultResponse
-  | EnvironmentsDeployEnvironmentActionDefaultResponse
-  | EnvironmentsCustomEnvironmentActionDefaultResponse
-  | EnvironmentsListCatalogItemsDefaultResponse
-  | EnvironmentsGetCatalogItemDefaultResponse
-  | EnvironmentsListCatalogItemVersionsDefaultResponse
-  | EnvironmentsGetCatalogItemVersionDefaultResponse
-  | EnvironmentsListEnvironmentTypesDefaultResponse {
+  | DevBoxesListActionsDefaultResponse
+  | DevBoxesGetActionDefaultResponse
+  | DevBoxesSkipActionDefaultResponse
+  | DevBoxesDelayActionDefaultResponse
+  | DevBoxesDelayAllActionsDefaultResponse
+  | DeploymentEnvironmentsListAllEnvironmentsDefaultResponse
+  | DeploymentEnvironmentsListEnvironmentsDefaultResponse
+  | DeploymentEnvironmentsGetEnvironmentDefaultResponse
+  | DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse
+  | DeploymentEnvironmentsDeleteEnvironmentDefaultResponse
+  | DeploymentEnvironmentsListCatalogsDefaultResponse
+  | DeploymentEnvironmentsGetCatalogDefaultResponse
+  | DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse
+  | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
+  | DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse
+  | DeploymentEnvironmentsListEnvironmentTypesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
