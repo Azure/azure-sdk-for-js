@@ -1,0 +1,78 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "125",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f336d487-5874-42bb-8760-b86f9bb5c567"
+      },
+      "RequestBody": {
+        "properties": {
+          "model": {
+            "format": "OpenAI",
+            "name": "text-davinci-003",
+            "version": "1"
+          },
+          "scaleSettings": {
+            "scaleType": "Standard"
+          }
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "764",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 09:19:19 GMT",
+        "ETag": "\u0022bfdfd313-080f-4dfe-85b0-b76327eaf8fe\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "87",
+        "x-ms-correlation-request-id": "bd67d903-2c2b-425f-ad57-bcd24135bf66",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "2b7c817a-ea5b-4f49-b798-e70bf6daee46",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T091920Z:bd67d903-2c2b-425f-ad57-bcd24135bf66"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
+        "type": "Microsoft.CognitiveServices/accounts/deployments",
+        "name": "text-davince-model",
+        "properties": {
+          "model": {
+            "format": "OpenAI",
+            "name": "text-davinci-003",
+            "version": "1"
+          },
+          "scaleSettings": {
+            "scaleType": "Standard"
+          },
+          "capabilities": {
+            "completion": "true",
+            "search": "true"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-30T09:19:19.4294261Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-30T09:19:19.4294261Z"
+        },
+        "etag": "\u0022bfdfd313-080f-4dfe-85b0-b76327eaf8fe\u0022"
+      }
+    }
+  ],
+  "Variables": {}
+}
