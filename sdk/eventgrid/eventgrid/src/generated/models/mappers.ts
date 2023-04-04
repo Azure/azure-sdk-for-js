@@ -854,6 +854,73 @@ export const StorageBlobInventoryPolicyCompletedEventData: coreClient.CompositeM
   }
 };
 
+export const StorageTaskQueuedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskQueuedEventData",
+    modelProperties: {
+      queuedDateTime: {
+        serializedName: "queuedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTaskCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskCompletedEventData",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      completedDateTime: {
+        serializedName: "completedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      summaryReportBlobUrl: {
+        serializedName: "summaryReportBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1827,6 +1894,96 @@ export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
         serializedName: "eventSubscriptionId",
         required: true,
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxCopyStartedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxCopyStartedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxCopyCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxCopyCompletedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxOrderCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxOrderCompletedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
         type: {
           name: "String"
         }
@@ -5995,6 +6152,101 @@ export const AcsRecordingChunkInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsEmailDeliveryReportReceivedEventData",
+    modelProperties: {
+      sender: {
+        serializedName: "sender",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      recipient: {
+        serializedName: "recipient",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      deliveryAttemptTimestamp: {
+        serializedName: "deliveryAttemptTimeStamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsEmailEngagementTrackingReportReceivedEventData",
+    modelProperties: {
+      sender: {
+        serializedName: "sender",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userActionTimestamp: {
+        serializedName: "userActionTimeStamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      engagementContext: {
+        serializedName: "engagementContext",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAgent: {
+        serializedName: "userAgent",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      engagement: {
+        serializedName: "engagementType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PolicyInsightsPolicyStateCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6446,6 +6698,182 @@ export const ApiManagementApiReleaseDeletedEventData: coreClient.CompositeMapper
   }
 };
 
+export const ApiManagementGatewayCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayApiAddedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayApiAddedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayApiRemovedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayApiRemovedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareFhirResourceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6639,6 +7067,3091 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriApplicationDataChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriApplicationDataChangedV2EventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriAttachmentChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriAttachmentChangedV2EventData",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriBiomassModelJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriBiomassModelJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriBoundaryChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriBoundaryChangedV2EventData",
+    modelProperties: {
+      parentId: {
+        serializedName: "parentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentType: {
+        serializedName: "parentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriCropChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriCropChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriCropProductChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriCropProductChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriDeviceChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriDeviceChangedEventData",
+    modelProperties: {
+      deviceDataModelId: {
+        serializedName: "deviceDataModelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      integrationId: {
+        serializedName: "integrationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriDeviceDataModelChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriDeviceDataModelChangedEventData",
+    modelProperties: {
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriFarmChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriFarmChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriFieldChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriFieldChangedV2EventData",
+    modelProperties: {
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriHarvestDataChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriHarvestDataChangedV2EventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData",
+    modelProperties: {
+      shapefileAttachmentId: {
+        serializedName: "shapefileAttachmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriInsightAttachmentChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriInsightAttachmentChangedV2EventData",
+    modelProperties: {
+      insightId: {
+        serializedName: "insightId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelId: {
+        serializedName: "modelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriInsightChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriInsightChangedV2EventData",
+    modelProperties: {
+      modelId: {
+        serializedName: "modelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriManagementZoneChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriManagementZoneChangedV2EventData",
+    modelProperties: {
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cropId: {
+        serializedName: "cropId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriNutrientAnalysisChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriNutrientAnalysisChangedV2EventData",
+    modelProperties: {
+      parentId: {
+        serializedName: "parentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentType: {
+        serializedName: "parentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriPartyChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriPartyChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriPlantTissueAnalysisChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriPlantTissueAnalysisChangedV2EventData",
+    modelProperties: {
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cropId: {
+        serializedName: "cropId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cropProductId: {
+        serializedName: "cropProductId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriPlantingDataChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriPlantingDataChangedV2EventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriPrescriptionChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriPrescriptionChangedV2EventData",
+    modelProperties: {
+      prescriptionMapId: {
+        serializedName: "prescriptionMapId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriPrescriptionMapChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriPrescriptionMapChangedV2EventData",
+    modelProperties: {
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cropId: {
+        serializedName: "cropId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSeasonChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSeasonChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSeasonalFieldChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSeasonalFieldChangedV2EventData",
+    modelProperties: {
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSensorChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSensorChangedEventData",
+    modelProperties: {
+      sensorDataModelId: {
+        serializedName: "sensorDataModelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      integrationId: {
+        serializedName: "integrationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      deviceId: {
+        serializedName: "deviceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSensorDataModelChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSensorDataModelChangedEventData",
+    modelProperties: {
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSensorMappingChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSensorMappingChangedV2EventData",
+    modelProperties: {
+      sensorId: {
+        serializedName: "sensorId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      boundaryId: {
+        serializedName: "boundaryId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSensorPartnerIntegrationChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSensorPartnerIntegrationChangedV2EventData",
+    modelProperties: {
+      integrationId: {
+        serializedName: "integrationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sensorPartnerId: {
+        serializedName: "sensorPartnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriTillageDataChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriTillageDataChangedV2EventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData",
+    modelProperties: {
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriZoneChangedV2EventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriZoneChangedV2EventData",
+    modelProperties: {
+      managementZoneId: {
+        serializedName: "managementZoneId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partyId: {
+        serializedName: "partyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
