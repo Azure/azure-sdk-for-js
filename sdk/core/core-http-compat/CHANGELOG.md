@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.0.1 (2023-04-06)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix issue with disable keep alive policy being added multiple times [PR #25110](https://github.com/Azure/azure-sdk-for-js/pull/25110)
 
 ## 2.0.0 (2023-01-05)
 
