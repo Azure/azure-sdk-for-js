@@ -40,7 +40,7 @@
       "azure-text-translator"
     ],
     "requiredResources": {
-      "Translator resource instance": "https://learn.microsoft.com/en-us/azure/cognitive-services/Translator/create-translator-resource"
+      "Translator resource instance": "https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource"
     }
   },
   "scripts": {
