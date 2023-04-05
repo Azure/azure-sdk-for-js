@@ -228,7 +228,7 @@ export class CallRecording {
     deleteRecording(recordingLocation: string, options?: DeleteRecordingOptions): Promise<void>;
     downloadStreaming(sourceLocation: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocation: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
-    downloadToStream(sourceLocation: string, destinationStreamh: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
+    downloadToStream(sourceLocation: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
     getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
