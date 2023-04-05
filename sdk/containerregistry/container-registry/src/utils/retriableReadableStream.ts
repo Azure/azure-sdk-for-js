@@ -19,6 +19,16 @@ export interface RetriableReadableStreamOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
+   * On data event handler
+   */
+  onData?: (data: Buffer) => void;
+
+  /**
+   * On end (success) event handler
+   */
+  onEnd?: () => void;
+
+  /**
    * Debug purpose only. Used to inject an unexpected end to existing internal stream,
    * to test stream retry works well or not.
    *
@@ -48,6 +58,8 @@ export class RetriableReadableStream extends Readable {
   private source: NodeJS.ReadableStream;
   private retries: number = 0;
   private maxRetryRequests: number;
+  private onData?: (data: Buffer) => void;
+  private onEnd?: () => void;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
 
@@ -76,6 +88,8 @@ export class RetriableReadableStream extends Readable {
     this.end = offset + count - 1;
     this.maxRetryRequests =
       options.maxRetryRequests && options.maxRetryRequests >= 0 ? options.maxRetryRequests : 0;
+    this.onData = options.onData;
+    this.onEnd = options.onEnd;
     this.onProgress = options.onProgress;
     this.options = options;
 
@@ -114,9 +128,10 @@ export class RetriableReadableStream extends Readable {
     //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
     // );
     this.offset += data.length;
-    if (this.onProgress) {
-      this.onProgress({ loadedBytes: this.offset - this.start });
-    }
+
+    this.onData?.(data);
+    this.onProgress?.({ loadedBytes: this.offset - this.start });
+
     if (!this.push(data)) {
       this.source.pause();
     }
@@ -140,6 +155,7 @@ export class RetriableReadableStream extends Readable {
     // );
     this.removeSourceEventHandlers();
     if (this.offset - 1 === this.end) {
+      this.onEnd?.();
       this.push(null);
     } else if (this.offset <= this.end) {
       // console.log(
