@@ -328,14 +328,13 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
       body.id = uuid();
     }
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
