@@ -1957,6 +1957,11 @@
       "packageName": "@azure/arm-newrelicobservability",
       "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/contoso-widgetmanager-rest",
+      "projectFolder": "sdk/contosowidgetmanager/contosowidgetmanager-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

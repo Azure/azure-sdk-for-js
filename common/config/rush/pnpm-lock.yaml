@@ -232,6 +232,7 @@ specifiers:
   '@rush-temp/communication-toll-free-verification': file:./projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:./projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
@@ -568,6 +569,7 @@ dependencies:
   '@rush-temp/communication-toll-free-verification': file:projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
@@ -734,6 +736,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3958,7 +3961,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230403
+      typescript: 5.1.0-dev.20230404
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8807,8 +8810,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230403:
-    resolution: {integrity: sha512-13wAf5PQCHJI5dJ945XBEp+63KzXWkazC4glwfzp1ODLQYVWUnHA6trbCpsMIQfvmiaNmzqRmpSrIqaWppST4g==}
+  /typescript/5.1.0-dev.20230404:
+    resolution: {integrity: sha512-jnBojDBCCoAxsmxh8bjH7FHFBsGVOFOcPwfGhZ9zPnh2/uORifLcsKRHD3DI2dM+6Y9wISlh+cb23R2BQR09xg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -16277,6 +16280,47 @@ packages:
       tslib: 2.5.0
       typescript: 4.8.4
       util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-I98oZcCWtOmtscu9NfEgo/e6IdiE1GvffXwvAcJC6NEY+KIwawxS5sNQfL3d7gFPR+8uSuIviAwjwsG5WZ5IpA==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.37.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
