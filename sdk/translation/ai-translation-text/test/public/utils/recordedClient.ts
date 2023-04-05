@@ -70,8 +70,7 @@ export async function createLanguageClient(options: {
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
   const endpoint =
     env.TEXT_TRANSLATION_ENDPOINT || "https://fakeEndpoint.cognitive.microsofttranslator.com";
-  const client = TextTranslationFactory(endpoint, undefined, updatedOptions);
-  return client;
+  return TextTranslationFactory(endpoint, undefined, updatedOptions);
 }
 
 export async function createTokenTranslationClient(options: {  
