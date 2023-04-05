@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2022-11-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2023-04-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0ee2cc61-67e7-4b5f-8f1d-b7ef4a0ffea8"
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "24970e7d-cb32-4289-a20b-ad5323c96235"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,19 +17,19 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Feb 2023 06:35:52 GMT",
-        "ETag": "\u0022820006bf-0000-0100-0000-63f466140000\u0022",
+        "Date": "Thu, 23 Mar 2023 03:56:11 GMT",
+        "ETag": "\u002265007bd5-0000-0100-0000-641bcc780000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4512592d-d592-404d-b2b9-992bac6b7631",
+        "x-ms-correlation-request-id": "d87d6b92-0c47-4ce0-aa7a-e645bacd8bcc",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-reads": "11917",
-        "x-ms-request-id": "5d600144-5c6f-4d39-83d9-0aa64a9810cb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230221T063552Z:4512592d-d592-404d-b2b9-992bac6b7631"
+        "x-ms-ratelimit-remaining-subscription-reads": "11566",
+        "x-ms-request-id": "f5a37ea7-4ed9-425f-9656-a9c9146e8cbb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230323T035611Z:d87d6b92-0c47-4ce0-aa7a-e645bacd8bcc"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
@@ -42,10 +42,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-02-21T06:32:36.0274628Z",
+          "createdAt": "2023-03-23T03:47:37.6058568Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-02-21T06:32:36.0274628Z"
+          "lastModifiedAt": "2023-03-23T03:47:37.6058568Z"
         },
         "properties": {
           "appLocation": "eastus2",
@@ -56,8 +56,8 @@
           "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
           "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
           "provisioningState": "Succeeded",
-          "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-ac4b81b77db40e",
-          "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapstoac4b81b77db40e"
+          "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-5f2b484b1bdf66",
+          "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapsto5f2b484b1bdf66"
         }
       }
     }
