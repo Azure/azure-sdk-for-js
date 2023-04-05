@@ -85,7 +85,7 @@ Gets the set of languages currently supported by other operations of the Transla
 const langResponse = await translationClient.path("/languages").get();
 
 if (langResponse.status !== "200") {
-  const error = langResponse.body as MtErrorResponseOutput;
+  const error = langResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
@@ -138,7 +138,7 @@ const translateResponse = await translationClient.path("/translate").post({
 });
 
 if (translateResponse.status !== "200") {
-  const error = translateResponse.body as MtErrorResponseOutput;
+  const error = translateResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
@@ -170,7 +170,7 @@ const transliterateResponse = await translationClient.path("/transliterate").pos
 });
 
 if (transliterateResponse.status !== "200") {
-  const error = transliterateResponse.body as MtErrorResponseOutput;
+  const error = transliterateResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
@@ -191,7 +191,7 @@ Identifies the positioning of sentence boundaries in a piece of text.
 
 ```typescript
 const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
-const parameters: BreakSentenceQueryParamProperties & Record<string, unknown> = {
+const parameters: FindSentenceBoundariesQueryParamProperties & Record<string, unknown> = {
   language: "zh-Hans",
   script: "Latn",
 };
@@ -201,7 +201,7 @@ const breakSentenceResponse = await translationClient.path("/breaksentence").pos
 });
 
 if (breakSentenceResponse.status !== "200") {
-  const error = breakSentenceResponse.body as MtErrorResponseOutput;
+  const error = breakSentenceResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
@@ -220,7 +220,7 @@ Returns equivalent words for the source term in the target language.
 
 ```typescript
 const inputText: InputTextItem[] = [{ text: "fly" }];
-const parameters: DictionaryLookupQueryParamProperties & Record<string, unknown> = {
+const parameters: LookupDictionaryEntriesQueryParamProperties & Record<string, unknown> = {
   to: "es",
   from: "en",
 };
@@ -230,7 +230,7 @@ const dictionaryResponse = await translationClient.path("/dictionary/lookup").po
 });
 
 if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body as MtErrorResponseOutput;
+  const error = dictionaryResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
@@ -254,7 +254,7 @@ Returns grammatical structure and context examples for the source term and targe
 
 ```typescript
 const inputText: DictionaryExampleTextItem[] = [{ text: "fly", translation: "volar" }];
-const parameters: DictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
   to: "es",
   from: "en",
 };
@@ -264,7 +264,7 @@ const dictionaryResponse = await translationClient.path("/dictionary/examples").
 });
 
 if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body as MtErrorResponseOutput;
+  const error = dictionaryResponse.body as ErrorResponseOutput;
   throw error.error;
 }
 
