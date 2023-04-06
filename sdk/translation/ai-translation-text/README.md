@@ -96,6 +96,10 @@ if (langResponse.status !== "200") {
   throw error.error;
 }
 
+if (isUnexpected(langResponse)) {
+  throw langResponse.body;
+}
+
 const languages = langResponse.body as GetLanguagesResultOutput;
 
 if (languages.translation) {
@@ -149,6 +153,10 @@ if (translateResponse.status !== "200") {
   throw error.error;
 }
 
+if (isUnexpected(translateResponse)) {
+  throw translateResponse.body;
+}
+
 const translations = translateResponse.body as TranslatedTextItemOutput[];
 for (const key in translations) {
   const translation = translations[key];
@@ -179,6 +187,10 @@ const transliterateResponse = await translationClient.path("/transliterate").pos
 if (transliterateResponse.status !== "200") {
   const error = transliterateResponse.body as ErrorResponseOutput;
   throw error.error;
+}
+
+if (isUnexpected(transliterateResponse)) {
+  throw transliterateResponse.body;
 }
 
 const translations = transliterateResponse.body as TransliteratedTextOutput[];
@@ -212,6 +224,10 @@ if (breakSentenceResponse.status !== "200") {
   throw error.error;
 }
 
+if (isUnexpected(breakSentenceResponse)) {
+  throw breakSentenceResponse.body;
+}
+
 const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
 for (const key in breakSentences) {
   const breakSentence = breakSentences[key];
@@ -239,6 +255,10 @@ const dictionaryResponse = await translationClient.path("/dictionary/lookup").po
 if (dictionaryResponse.status !== "200") {
   const error = dictionaryResponse.body as ErrorResponseOutput;
   throw error.error;
+}
+
+if (isUnexpected(dictionaryResponse)) {
+  throw dictionaryResponse.body;
 }
 
 const dictionaryEntries = dictionaryResponse.body as DictionaryLookupItemOutput[];
@@ -273,6 +293,10 @@ const dictionaryResponse = await translationClient.path("/dictionary/examples").
 if (dictionaryResponse.status !== "200") {
   const error = dictionaryResponse.body as ErrorResponseOutput;
   throw error.error;
+}
+
+if (isUnexpected(dictionaryResponse)) {
+  throw dictionaryResponse.body;
 }
 
 const dictionaryExamples = dictionaryResponse.body as DictionaryExampleItemOutput[];
