@@ -20,8 +20,7 @@ export function distance(s1: string, s2: string, n1: number, n2: number): number
     const d: number = distance(s1, s2, n1 - 1, n2 - 1);
     return d;
   }
-  let nums: Array<number>;
-  nums = [
+  const nums: number[] = [
     distance(s1, s2, n1, n2 - 1),
     distance(s1, s2, n1 - 1, n2),
     distance(s1, s2, n1 - 1, n2 - 1),
