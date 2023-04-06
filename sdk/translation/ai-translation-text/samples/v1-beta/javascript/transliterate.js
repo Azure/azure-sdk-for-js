@@ -6,36 +6,34 @@
  * service to convert characters or letters of a source language to the corresponding
  * characters or letters of a target language.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TransliterateQueryParamProperties, TransliteratedTextOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { TranslatorCredential, isUnexpected } = require("@azure-rest/ai-translation-text");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
-export async function main() {
+async function main() {
   console.log("== Simple transliterate sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "这是个测试。" }
-  ];
-  const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+  const inputText = [{ text: "这是个测试。" }];
+  const parameters = {
     language: "zh-Hans",
     fromScript: "Hans",
-    toScript: "Latn"
+    toScript: "Latn",
   };
   const transliterateResponse = await translationClient.path("/transliterate").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (transliterateResponse.status !== "200") {
-    const error = transliterateResponse.body as ErrorResponseOutput;
+    const error = transliterateResponse.body;
     throw error.error;
   }
 
@@ -43,14 +41,17 @@ export async function main() {
     throw transliterateResponse.body;
   }
 
-  const translations = transliterateResponse.body as TransliteratedTextOutput[];
+  const translations = transliterateResponse.body;
   for (const key in translations) {
     const transliteration = translations[key];
-    console.log(`Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`);
+    console.log(
+      `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
+    );
   }
-
 }
 
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

@@ -4,21 +4,21 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get a list of supported languages
  */
-import TextTranslationClient, { GetLanguagesResultOutput, ErrorResponseOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
-export async function main() {
+async function main() {
   console.log("== List supported languages sample ==");
 
   const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get();
 
   if (langResponse.status !== "200") {
-    const error = langResponse.body as ErrorResponseOutput;
+    const error = langResponse.body;
     throw error.error;
   }
 
@@ -26,13 +26,15 @@ export async function main() {
     throw langResponse.body;
   }
 
-  const languages = langResponse.body as GetLanguagesResultOutput;
+  const languages = langResponse.body;
 
   if (languages.translation) {
     console.log("Translated languages:");
     for (const key in languages.translation) {
       const translationLanguage = languages.translation[key];
-      console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
+      console.log(
+        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`
+      );
     }
   }
 
@@ -40,7 +42,9 @@ export async function main() {
     console.log("Transliteration languages:");
     for (const key in languages.transliteration) {
       const transliterationLanguage = languages.transliteration[key];
-      console.log(`${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`);
+      console.log(
+        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+      );
     }
   }
 
@@ -48,7 +52,9 @@ export async function main() {
     console.log("Dictionary languages:");
     for (const key in languages.dictionary) {
       const dictionaryLanguage = languages.dictionary[key];
-      console.log(`${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`);
+      console.log(
+        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+      );
     }
   }
 }
@@ -56,3 +62,5 @@ export async function main() {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };
