@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import {StaticAccessTokenCredential} from "../StaticAccessTokenCredential";
 import TextTranslationFactory, { TextTranslationClient, TranslatorCredential } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
@@ -35,10 +35,9 @@ export async function createTranslationClient(options: {
 }): Promise<TextTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const endpoint =
-    env.TEXT_TRANSLATION_ENDPOINT || "https://fakeEndpoint.cognitive.microsofttranslator.com";
-  const apikey = env.TEXT_TRANSLATION_API_KEY || "fakeApikey";
-  const region = env.TEXT_TRANSLATION_REGION || "fakeRegion";
+  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
+  const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
+  const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
   const translatorCredential = new TranslatorCredential(apikey, region);
   const client = TextTranslationFactory(endpoint, translatorCredential, updatedOptions);
@@ -51,11 +50,9 @@ export async function createCustomTranslationClient(options: {
 }): Promise<TextTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const customEndpoint =
-    env.TEXT_TRANSLATION_CUSTOM_ENDPOINT ||
-    "https://fakeCustomEndpoint.cognitiveservices.azure.com";
-  const apikey = env.TEXT_TRANSLATION_API_KEY || "fakeApikey";
-  const region = env.TEXT_TRANSLATION_REGION || "fakeRegion";
+  const customEndpoint = assertEnvironmentVariable("TEXT_TRANSLATION_CUSTOM_ENDPOINT");
+  const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
+  const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
   const translatorCredential = new TranslatorCredential(apikey, region);
   const client = TextTranslationFactory(customEndpoint, translatorCredential, updatedOptions);
@@ -68,8 +65,7 @@ export async function createLanguageClient(options: {
 }): Promise<TextTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const endpoint =
-    env.TEXT_TRANSLATION_ENDPOINT || "https://fakeEndpoint.cognitive.microsofttranslator.com";
+  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
   return TextTranslationFactory(endpoint, undefined, updatedOptions);
 }
 
@@ -79,9 +75,9 @@ export async function createTokenTranslationClient(options: {
 }): Promise<TextTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const endpoint = env.TEXT_TRANSLATION_ENDPOINT || "https://fakeEndpoint.cognitive.microsofttranslator.com";
-  const apikey = env.TEXT_TRANSLATION_API_KEY || "fakeApikey";
-  const region = env.TEXT_TRANSLATION_REGION || "fakeRegion"; 
+  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
+  const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
+  const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
   
   const issueTokenURL: string = "https://" + region + ".api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=" + apikey;
   let credential: TokenCredential;
