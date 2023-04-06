@@ -41,8 +41,7 @@ export async function main() {
   }
 
   const dictionaryExamples = dictionaryResponse.body as DictionaryExampleItemOutput[];
-  for (const key in dictionaryExamples) {
-    const dictionaryExample = dictionaryExamples[key];
+  for (const dictionaryExample of dictionaryExamples) {
     console.log(`For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`);
     const firstExample = dictionaryExample?.examples[0];
     console.log(`Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`);

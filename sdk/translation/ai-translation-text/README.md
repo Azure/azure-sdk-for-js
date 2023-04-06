@@ -104,7 +104,7 @@ const languages = langResponse.body as GetLanguagesResultOutput;
 
 if (languages.translation) {
   console.log("Translated languages:");
-  for (const key of languages.translation) {
+  for (const translationLanguage in languages.translation) {
     const translationLanguage = languages.translation[key];
     console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
   }
@@ -158,8 +158,7 @@ if (isUnexpected(translateResponse)) {
 }
 
 const translations = translateResponse.body as TranslatedTextItemOutput[];
-for (const key in translations) {
-  const translation = translations[key];
+for (const translation of translations) {
   console.log(
     `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
   );
@@ -194,8 +193,7 @@ if (isUnexpected(transliterateResponse)) {
 }
 
 const translations = transliterateResponse.body as TransliteratedTextOutput[];
-for (const key in translations) {
-  const transliteration = translations[key];
+for (const transliteration of translations) {
   console.log(
     `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
   );
@@ -229,8 +227,7 @@ if (isUnexpected(breakSentenceResponse)) {
 }
 
 const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
-for (const key in breakSentences) {
-  const breakSentence = breakSentences[key];
+for (const breakSentence of breakSentences) {
   console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
 }
 ```
@@ -262,8 +259,7 @@ if (isUnexpected(dictionaryResponse)) {
 }
 
 const dictionaryEntries = dictionaryResponse.body as DictionaryLookupItemOutput[];
-for (const key in dictionaryEntries) {
-  const dictionaryEntry = dictionaryEntries[key];
+for (const dictionaryEntry of dictionaryEntries) {
   console.log(
     `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`
   );
@@ -300,8 +296,7 @@ if (isUnexpected(dictionaryResponse)) {
 }
 
 const dictionaryExamples = dictionaryResponse.body as DictionaryExampleItemOutput[];
-for (const key in dictionaryExamples) {
-  const dictionaryExample = dictionaryExamples[key];
+for (const dictionaryExample of dictionaryExamples) {
   console.log(
     `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
   );

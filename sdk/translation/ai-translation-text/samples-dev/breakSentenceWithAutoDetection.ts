@@ -36,8 +36,7 @@ export async function main() {
   }
 
   const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
-  for (const key in breakSentences) {
-    const breakSentence = breakSentences[key];
+  for (const breakSentence of breakSentences) {
     console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
     console.log(`Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`);
   }

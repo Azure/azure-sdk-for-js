@@ -44,8 +44,7 @@ export async function main() {
   }
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];
-  for (const key in translations) {
-    const translation = translations[key];
+  for (const translation of translations) {
     console.log(`Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`);
     console.log(`Source Sentece length: ${translation?.translations[0]?.sentLen?.srcSentLen.join(", ")}`);
     console.log(`Translated Sentece length: ${translation?.translations[0]?.sentLen?.transSentLen.join(", ")}`);
