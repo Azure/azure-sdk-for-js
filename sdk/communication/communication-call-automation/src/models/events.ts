@@ -6,6 +6,8 @@ import { CommunicationIdentifier } from "@azure/communication-common";
 import {
   AddParticipantSucceeded as RestAddParticipantSucceeded,
   AddParticipantFailed as RestAddParticipantFailed,
+  RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
+  RemoveParticipantFailed as RestRemoveParticipantFailed,
   CallConnected as RestCallConnected,
   CallDisconnected as RestCallDisconnected,
   CallTransferAccepted as RestCallTransferAccepted,
@@ -111,15 +113,17 @@ export interface AddParticipantFailed
 }
 
 /** The participant successfully removed event. */
-export interface RemoveParticipantSucceeded {
+export interface RemoveParticipantSucceeded
+  extends Omit<
+    RestRemoveParticipantSucceeded,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
   /** Call connection ID. */
-  callConnectionId?: string;
+  callConnectionId: string;
   /** Server call ID. */
-  serverCallId?: string;
+  serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
+  correlationId: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** The participant in the call. */
@@ -129,15 +133,17 @@ export interface RemoveParticipantSucceeded {
 }
 
 /** The failed to remove participant event. */
-export interface RemoveParticipantFailed {
+export interface RemoveParticipantFailed 
+  extends Omit<
+    RestRemoveParticipantFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
   /** Call connection ID. */
-  callConnectionId?: string;
+  callConnectionId: string;
   /** Server call ID. */
-  serverCallId?: string;
+  serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
+  correlationId: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** The participant in the call. */

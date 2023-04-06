@@ -50,7 +50,7 @@ if (isNode) {
 
 const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=redacted",
-  DISPATCHER_ENDPOINT: "https://incomingcalldispatcher.azurewebsites.net",
+  DISPATCHER_ENDPOINT: "https://redacted.azurewebsites.net",
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
 };
