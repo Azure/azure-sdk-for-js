@@ -17,7 +17,8 @@ import {
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  KeyValue as KeyValueMapper
+  KeyValue as KeyValueMapper,
+  Replica as ReplicaMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -58,7 +59,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2023-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -200,4 +201,34 @@ export const keyValueName: OperationURLParameter = {
 export const keyValueParameters: OperationParameter = {
   parameterPath: ["options", "keyValueParameters"],
   mapper: KeyValueMapper
+};
+
+export const replicaName: OperationURLParameter = {
+  parameterPath: "replicaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$")
+    },
+    serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replicaCreationParameters: OperationParameter = {
+  parameterPath: "replicaCreationParameters",
+  mapper: ReplicaMapper
+};
+
+export const replicaName1: OperationURLParameter = {
+  parameterPath: "replicaName",
+  mapper: {
+    serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

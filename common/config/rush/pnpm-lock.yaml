@@ -10105,7 +10105,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-jE0gCMmfii9mcxImMQ9EqurMlzyvXUIJBtGOTAs7TAVdLXntW+GhVwTuNd2qmsqXV4E8M+puxv6y5U6kfEATUg==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-6J1yvKOmz/bSWWxmNI92XjLynIrNnP89rSNl+NU5f7bfmwXXQq0O8cKXX33/ayYZe187nbws93bRpDi+sJjN5g==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -10119,7 +10119,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17171,7 +17172,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18744,7 +18745,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:

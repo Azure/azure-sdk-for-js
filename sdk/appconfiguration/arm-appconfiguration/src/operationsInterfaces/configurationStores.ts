@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigurationStore,
   ConfigurationStoresListOptionalParams,
@@ -93,8 +93,8 @@ export interface ConfigurationStores {
     configStoreCreationParameters: ConfigurationStore,
     options?: ConfigurationStoresCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationStoresCreateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationStoresCreateResponse>,
       ConfigurationStoresCreateResponse
     >
   >;
@@ -121,7 +121,7 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     options?: ConfigurationStoresDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -146,8 +146,8 @@ export interface ConfigurationStores {
     configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
     options?: ConfigurationStoresUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationStoresUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationStoresUpdateResponse>,
       ConfigurationStoresUpdateResponse
     >
   >;
@@ -198,7 +198,7 @@ export interface ConfigurationStores {
     location: string,
     configStoreName: string,
     options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Permanently deletes the specified configuration store.
    * @param location The location in which uniqueness will be verified.

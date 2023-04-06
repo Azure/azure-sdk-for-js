@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
@@ -47,7 +47,8 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
@@ -61,14 +62,15 @@ export interface PrivateEndpointConnections {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
@@ -94,7 +96,7 @@ export interface PrivateEndpointConnections {
     configStoreName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

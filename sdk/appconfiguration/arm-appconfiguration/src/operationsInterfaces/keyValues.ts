@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  KeyValue,
-  KeyValuesListByConfigurationStoreOptionalParams,
   KeyValuesGetOptionalParams,
   KeyValuesGetResponse,
   KeyValuesCreateOrUpdateOptionalParams,
@@ -18,20 +15,8 @@ import {
   KeyValuesDeleteOptionalParams
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a KeyValues. */
 export interface KeyValues {
-  /**
-   * Lists the key-values for a given configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  listByConfigurationStore(
-    resourceGroupName: string,
-    configStoreName: string,
-    options?: KeyValuesListByConfigurationStoreOptionalParams
-  ): PagedAsyncIterableIterator<KeyValue>;
   /**
    * Gets the properties of the specified key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -73,7 +58,7 @@ export interface KeyValues {
     configStoreName: string,
     keyValueName: string,
     options?: KeyValuesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
