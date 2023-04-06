@@ -4,7 +4,7 @@
 // Model:       prebuilt-document
 // Description: Extract text, layout, entities, and general key-value pairs from documents.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 09 2023
+// Created:     Thu Apr 06 2023
 
 import * as fr from "../../../src";
 
@@ -36,6 +36,10 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
    * Extracted key-value pairs.
    */
   keyValuePairs?: fr.DocumentKeyValuePair[];
+  /**
+   * Extracted documents containing any extracted fields.
+   */
+  documents?: fr.AnalyzedDocument[];
 }
 
 /**

@@ -4,7 +4,7 @@
 // Model:       prebuilt-idDocument
 // Description: Extract key information from passports and ID cards.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 09 2023
+// Created:     Wed Apr 05 2023
 
 import * as fr from "../../../src";
 

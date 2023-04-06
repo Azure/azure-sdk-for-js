@@ -13,6 +13,8 @@ import {
   DocumentModelAdministrationClient,
   DocumentTable,
   DocumentModelDetails,
+  FormRecognizerFeature,
+  DocumentBarcode,
 } from "../../../src";
 import { DocumentSelectionMarkField } from "../../../src/models/fields";
 import {
@@ -155,7 +157,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
-        const poller = await client.beginAnalyzeDocument(
+        const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Layout,
           url,
           testPollingOptions
@@ -198,7 +200,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocument(PrebuiltModels.Layout, url, {
+        const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Layout, url, {
           locale: "en-US",
           ...testPollingOptions,
         });
@@ -210,7 +212,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Layout, url, {
+          const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Layout, url, {
             locale: "thisIsNotAValidLanguage",
             ...testPollingOptions,
           });
@@ -227,7 +229,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocument(PrebuiltModels.Layout, url, {
+        const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Layout, url, {
           pages: "1",
           ...testPollingOptions,
         });
@@ -239,7 +241,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Layout, url, {
+          const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Layout, url, {
             // No page 2 in document
             pages: "2",
             ...testPollingOptions,
@@ -251,6 +253,54 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
+      });
+
+      it.only("barcode", async function () {
+        const url = makeTestUrl("/barcode2.tif");
+
+        const poller = await client.beginAnalyzeDocumentFromUrl(
+          "prebuilt-read",
+          url,
+          testPollingOptions
+        );
+
+        const { pages } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(pages);
+
+        assert.isNotEmpty(pages?.[0].barcodes);
+
+        const [barcode1, barcode2] = pages?.[0].barcodes as DocumentBarcode[];
+
+        assert.equal(barcode1.kind, "Code39");
+        assert.equal(barcode1.value, "D589992-X");
+
+        assert.equal(barcode2.kind, "Code39");
+        assert.equal(barcode2.value, "SYN121720213429");
+      });
+
+      it("with queryFields", async function () {
+        const url = makeTestUrl("/Invoice_1.pdf");
+
+        const poller = await client.beginAnalyzeDocumentFromUrl(
+          PrebuiltModels.GeneralDocument,
+          url,
+          {
+            queryFields: ["Charges"],
+            features: [FormRecognizerFeature.QueryFieldsPremium],
+            ...testPollingOptions,
+          }
+        );
+
+        const result = await poller.pollUntilDone();
+
+        assert.ok(result);
+
+        assert.isNotEmpty(result.documents);
+
+        assert.ok(result.documents![0].fields["Charges"]);
+
+        assert.equal(result.documents![0].fields["Charges"].kind, "string");
       });
     });
 
@@ -507,7 +557,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         });
         const url = makeTestUrl("/contoso-allinone.jpg");
 
-        const poller = await client.beginAnalyzeDocument(
+        const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Receipt,
           url,
           testPollingOptions
@@ -581,7 +631,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url, {
+        const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Receipt, url, {
           locale: "en-IN",
           ...testPollingOptions,
         });
@@ -593,7 +643,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url, {
+          const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Receipt, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -661,7 +711,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/businessCard.png");
 
-        const poller = await client.beginAnalyzeDocument(
+        const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.BusinessCard,
           url,
           testPollingOptions
@@ -679,7 +729,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.jpg");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocument(PrebuiltModels.BusinessCard, url, {
+        const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.BusinessCard, url, {
           locale: "en-IN",
           ...testPollingOptions,
         });
@@ -719,10 +769,14 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.jpg");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.BusinessCard, url, {
-            locale: "thisIsNotAValidLocaleString",
-            ...testPollingOptions,
-          });
+          const poller = await client.beginAnalyzeDocumentFromUrl(
+            PrebuiltModels.BusinessCard,
+            url,
+            {
+              locale: "thisIsNotAValidLocaleString",
+              ...testPollingOptions,
+            }
+          );
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
@@ -804,7 +858,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
-        const poller = await client.beginAnalyzeDocument(
+        const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Invoice,
           url,
           testPollingOptions
@@ -826,7 +880,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Invoice, url, {
+          const poller = await client.beginAnalyzeDocumentFromUrl(PrebuiltModels.Invoice, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -915,7 +969,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           restrictions: "B",
         });
 
-        const poller = await client.beginAnalyzeDocument(
+        const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.IdentityDocument,
           url,
           testPollingOptions
@@ -943,10 +997,14 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const url = makeTestUrl("/license.png");
 
         try {
-          const poller = await client.beginAnalyzeDocument(PrebuiltModels.IdentityDocument, url, {
-            locale: "thisIsNotAValidLocaleString",
-            ...testPollingOptions,
-          });
+          const poller = await client.beginAnalyzeDocumentFromUrl(
+            PrebuiltModels.IdentityDocument,
+            url,
+            {
+              locale: "thisIsNotAValidLocaleString",
+              ...testPollingOptions,
+            }
+          );
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
@@ -1115,7 +1173,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       });
     });
 
-    describe.skip("vaccinationCard", function () {
+    describe("vaccinationCard", function () {
       const validator = createValidator({
         cardHolderInfo: {
           firstName: "Angel",

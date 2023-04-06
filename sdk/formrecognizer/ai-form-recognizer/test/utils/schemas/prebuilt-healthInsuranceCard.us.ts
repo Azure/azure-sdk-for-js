@@ -4,7 +4,7 @@
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 09 2023
+// Created:     Wed Apr 05 2023
 
 import * as fr from "../../../src";
 
@@ -15,7 +15,8 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult
+  extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -104,7 +105,9 @@ export interface HealthInsuranceCardUsFields {
   /**
    * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
+  copays?: fr.DocumentArrayField<
+    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
+  >;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
@@ -126,7 +129,7 @@ export interface HealthInsuranceCardUsMember {
   /**
    * Member date of birth
    */
-  birthDate?: fr.DocumentStringField;
+  birthDate?: fr.DocumentDateField;
   /**
    * Member name employer
    */
@@ -224,7 +227,7 @@ export interface HealthInsuranceCardUsPayer {
   /**
    * Payer address
    */
-  address?: fr.DocumentStringField;
+  address?: fr.DocumentAddressField;
   /**
    * Payer phone number
    */
@@ -274,7 +277,7 @@ function modelInfo() {
                 description: "Member name",
               },
               BirthDate: {
-                type: "string",
+                type: "date",
                 description: "Member date of birth",
               },
               Employer: {
@@ -387,7 +390,7 @@ function modelInfo() {
                 description: "Payer Id Number",
               },
               Address: {
-                type: "string",
+                type: "address",
                 description: "Payer address",
               },
               PhoneNumber: {

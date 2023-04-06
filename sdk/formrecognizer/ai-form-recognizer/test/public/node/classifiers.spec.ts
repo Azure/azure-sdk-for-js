@@ -32,7 +32,7 @@ const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOI
  * environment.
  */
 matrix([[/* true, */ false]] as const, async (useAad) => {
-  describe.only(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 
@@ -119,7 +119,17 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
       const result = await poller.pollUntilDone();
 
-      assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
+      assert.isNotEmpty(result.documents);
+      assert.oneOf(result.documents![0].docType, ["foo", "bar"]);
+
+      // Additionally check that the pages aren't empty and that there are some common fields set
+      assert.isNotEmpty(result.pages);
+      assert.ok(result.pages![0].kind);
+      assert.ok(result.pages![0].pageNumber);
+      assert.isDefined(result.pages![0].angle);
+      assert.ok(result.pages![0].height);
+      assert.ok(result.pages![0].width);
+      assert.ok(result.pages![0].unit);
     });
 
     it("analyze from PNG file URL", async function (this: Context) {
@@ -136,6 +146,27 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       const result = await poller.pollUntilDone();
 
       assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
+    });
+
+    it("get & delete classifiers from the account", async function () {
+      const trainingClient = new DocumentModelAdministrationClient(
+        endpoint(),
+        makeCredential(useAad),
+        recorder.configureClientOptions({})
+      );
+      await trainingClient.getDocumentClassifier(_classifierId);
+
+      // Delete the custom classifier we created
+      if (_classifierId) {
+        await trainingClient.deleteDocumentClassifier(_classifierId);
+      }
+
+      // Try to get the classifier and assert that it's gone
+      await assert.isRejected(
+        (async function () {
+          await trainingClient.getDocumentClassifier(_classifierId);
+        })()
+      );
     });
   });
 });

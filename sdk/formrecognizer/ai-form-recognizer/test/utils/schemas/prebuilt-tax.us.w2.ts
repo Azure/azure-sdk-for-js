@@ -4,7 +4,7 @@
 // Model:       prebuilt-tax.us.w2
 // Description: Extract key information from IRS US W2 tax forms (year 2018-2021).
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 09 2023
+// Created:     Wed Apr 05 2023
 
 import * as fr from "../../../src";
 
