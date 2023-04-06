@@ -46,10 +46,28 @@ async function main() {
     },
   ]);
 
+  // Set domains
+  await client.setDomains([
+    {
+      domainUri: firstDomain,      
+      enabled: true,
+    },
+    {
+      domainUri: secondDomain,
+      enabled: true,
+    },
+  ]);
+
   // Update a trunk
   await client.setTrunk({
     fqdn: "<first trunk fqdn>",
     sipSignalingPort: 4321,
+  });
+
+   // Update a domain
+   await client.setDomain({
+    domainUri: firstDomain,
+    enabled: false,
   });
 
   // Get trunks

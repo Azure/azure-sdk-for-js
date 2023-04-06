@@ -16,6 +16,9 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type ActivityStatus = "unknown" | "active" | "inactive";
+
+// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -33,6 +36,14 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export interface GetSipTrunkOptions extends OperationOptions {
+    includeHealth?: boolean;
+}
+
+// @public
+export type InactiveReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -61,11 +72,15 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
+export interface ListSipDomainsOptions extends OperationOptions {
+}
+
+// @public
 export interface ListSipRoutesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListSipTrunksOptions extends OperationOptions {
+export interface ListSipTrunksOptions extends GetSipTrunkOptions {
 }
 
 // @public
@@ -185,6 +200,9 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+
+// @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
@@ -210,14 +228,25 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 // @public
+export interface SipDomain {
+    domainName: string;
+    enabled: boolean;
+}
+
+// @public
 export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
+    deleteDomain(domainName: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
+    getDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
+    getTrunk(fqdn: string, options?: GetSipTrunkOptions): Promise<SipTrunk>;
+    listDomains(options?: ListSipDomainsOptions): PagedAsyncIterableIterator<SipDomain>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
+    setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;
+    setDomains(domains: SipDomain[], options?: OperationOptions): Promise<SipDomain[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
@@ -238,8 +267,28 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
+    enabled?: boolean;
     fqdn: string;
+    readonly health?: SipTrunkHealth;
     sipSignalingPort: number;
+}
+
+// @public
+export interface SipTrunkActivity {
+    inactiveReason?: InactiveReason;
+    status: ActivityStatus;
+}
+
+// @public
+export interface SipTrunkHealth {
+    activity: SipTrunkActivity;
+    ping: SipTrunkPing;
+    tls: SipTrunkTls;
+}
+
+// @public
+export interface SipTrunkPing {
+    status: PingStatus;
 }
 
 // @public
@@ -249,6 +298,14 @@ export interface SipTrunkRoute {
     numberPattern: string;
     trunks?: string[];
 }
+
+// @public
+export interface SipTrunkTls {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 
