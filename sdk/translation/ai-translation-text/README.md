@@ -93,7 +93,7 @@ const languages = langResponse.body as GetLanguagesResultOutput;
 
 if (languages.translation) {
   console.log("Translated languages:");
-  for (const key in languages.translation) {
+  for (const key of languages.translation) {
     const translationLanguage = languages.translation[key];
     console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
   }
