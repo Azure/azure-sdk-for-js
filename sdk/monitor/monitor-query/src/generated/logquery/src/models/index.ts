@@ -531,10 +531,50 @@ export interface QueryExecuteOptionalParams
 export type QueryExecuteResponse = QueryResults;
 
 /** Optional parameters. */
+export interface QueryResourceGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
+  timespan?: string;
+}
+
+/** Contains response data for the resourceGet operation. */
+export type QueryResourceGetResponse = QueryResults;
+
+/** Optional parameters. */
+export interface QueryResourceExecuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
+  prefer?: string;
+}
+
+/** Contains response data for the resourceExecute operation. */
+export type QueryResourceExecuteResponse = QueryResults;
+
+/** Optional parameters. */
 export interface QueryBatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the batch operation. */
 export type QueryBatchResponse = BatchResponse;
+
+/** Optional parameters. */
+export interface QueryResourceGetXmsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
+  timespan?: string;
+}
+
+/** Contains response data for the resourceGetXms operation. */
+export type QueryResourceGetXmsResponse = QueryResults;
+
+/** Optional parameters. */
+export interface QueryResourceExecuteXmsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
+  prefer?: string;
+}
+
+/** Contains response data for the resourceExecuteXms operation. */
+export type QueryResourceExecuteXmsResponse = QueryResults;
 
 /** Optional parameters. */
 export interface MetadataGetOptionalParams
