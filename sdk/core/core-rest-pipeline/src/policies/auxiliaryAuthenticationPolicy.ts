@@ -81,7 +81,7 @@ export function auxiliaryAuthenticationPolicy(
           tokenCyclerMap.set(credential, buildAccessTokenCycler(credential));
         }
         const getAccessToken = tokenCyclerMap.get(credential);
-        const singalAccessToken = await defaultAuthorizeRequest({
+        const singleAccessToken = await defaultAuthorizeRequest({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
           getAccessToken,
