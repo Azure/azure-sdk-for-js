@@ -8,6 +8,7 @@ import {
   DictionaryExampleTextItem,
   LookupDictionaryExamplesQueryParamProperties,
   TextTranslationClient,
+  isUnexpected
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -35,8 +36,10 @@ describe("DictionaryExamples tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
@@ -57,8 +60,10 @@ describe("DictionaryExamples tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const dictionaryExamples = response.body as DictionaryExampleItemOutput[];

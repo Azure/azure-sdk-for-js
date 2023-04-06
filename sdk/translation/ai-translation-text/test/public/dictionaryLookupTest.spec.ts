@@ -8,6 +8,7 @@ import {
   TextTranslationClient,
   LookupDictionaryEntriesQueryParamProperties,
   DictionaryLookupItemOutput,
+  isUnexpected
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -36,8 +37,10 @@ describe("DictionaryLookup tests", () => {
       queryParameters: parameters,
     });
 
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const dictionaryEntries = response.body as DictionaryLookupItemOutput[];
@@ -56,8 +59,10 @@ describe("DictionaryLookup tests", () => {
       queryParameters: parameters,
     });
 
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const dictionaryEntries = response.body as DictionaryLookupItemOutput[];

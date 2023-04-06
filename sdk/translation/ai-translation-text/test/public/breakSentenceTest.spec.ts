@@ -8,6 +8,7 @@ import {
   FindSentenceBoundariesQueryParamProperties,
   InputTextItem,
   TextTranslationClient,
+  isUnexpected
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -30,8 +31,10 @@ describe("BreakSentence tests", () => {
     const response = await client.path("/breaksentence").post({
       body: inputText,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const breakSentences = response.body as BreakSentenceItemOutput[];
@@ -53,8 +56,10 @@ describe("BreakSentence tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const breakSentences = response.body as BreakSentenceItemOutput[];
@@ -75,8 +80,10 @@ describe("BreakSentence tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const breakSentences = response.body as BreakSentenceItemOutput[];
@@ -91,8 +98,10 @@ describe("BreakSentence tests", () => {
     const response = await client.path("/breaksentence").post({
       body: inputText,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const breakSentences = response.body as BreakSentenceItemOutput[];

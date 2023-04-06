@@ -8,12 +8,13 @@ import {
   TextTranslationClient,
   TranslatedTextItemOutput,
   TranslateQueryParamProperties,
+  isUnexpected
 } from "../../src";
 import {
   createCustomTranslationClient,
   createTranslationClient,
   createTokenTranslationClient,
-  startRecorder,
+  startRecorder
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -42,8 +43,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -61,8 +64,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -86,8 +91,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -110,8 +117,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -133,8 +142,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -155,8 +166,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -180,8 +193,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -208,8 +223,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -233,8 +250,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -255,8 +274,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -277,8 +298,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -303,8 +326,10 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TranslatedTextItemOutput[];
@@ -326,9 +351,7 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
-    }
+    assert.equal(response.status, "200");
 
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);

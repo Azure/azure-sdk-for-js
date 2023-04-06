@@ -8,6 +8,7 @@ import {
   TextTranslationClient,
   TransliteratedTextOutput,
   TransliterateQueryParamProperties,
+  isUnexpected
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -37,8 +38,10 @@ describe("Transliterate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TransliteratedTextOutput[];
@@ -60,8 +63,10 @@ describe("Transliterate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TransliteratedTextOutput[];
@@ -84,8 +89,10 @@ describe("Transliterate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
     }
 
     const translations = response.body as TransliteratedTextOutput[];
