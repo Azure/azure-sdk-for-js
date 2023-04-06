@@ -37,7 +37,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
   COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
-  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 const sanitizerOptions: SanitizerOptions = {

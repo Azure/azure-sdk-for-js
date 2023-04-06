@@ -2,16 +2,20 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
+import { CommonClientOptions } from "@azure/core-client";
+import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { logger } from "./utils";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
+import { tracingClient } from "./generated/src/tracing";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
   PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
@@ -39,10 +43,6 @@ import {
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels";
-import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
-import { CommonClientOptions } from "@azure/core-client";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.

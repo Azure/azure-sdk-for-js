@@ -1,0 +1,50 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "192",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 14:04:19 GMT",
+        "MS-CV": "HLSmsKNKxUOAZk\u002Beo2/mFg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "05KwAZAAAAADKJmowvddwTpgfT2q4PijZUFJHMDFFREdFMDkxMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "171ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "nostojic13012023.skype.net": {
+            "enabled": true
+          },
+          "nostojic14012023.skype.net": {
+            "enabled": true
+          },
+          "27383910346242e78817b10fe4e65fe8.skype.net": {
+            "enabled": false
+          }
+        },
+        "trunks": {},
+        "routes": []
+      }
+    }
+  ],
+  "Variables": {
+    "domain-1": "1b7aaf374ccb4ca58825135ec201106e.skype.net",
+    "domain-2": "a8de1959993e46e89cf64b1913d2863b.skype.net",
+    "domain-3": "931bebbf01a84838983c019a6409c68e.skype.net",
+    "domain-4": "cc524a14daa94188b5c5c4f8be0a5c15.skype.net"
+  }
+}

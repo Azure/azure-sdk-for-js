@@ -7,7 +7,13 @@ import { Context } from "mocha";
 import { SipRoutingClient } from "../../../src";
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { SipTrunk } from "../../../src/models";
+import {
+  ActivityStatus,
+  PingStatus,
+  SipTrunk,
+  SipTrunkHealth,
+  TlsStatus,
+} from "../../../src/models";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -52,6 +58,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot retrieve a not existing trunk", async () => {
       try {
+        await client.setTrunks([]);
         await client.getTrunk("not.existing.fqdn");
       } catch (error: any) {
         assert.equal(error.code, "NotFound");
@@ -61,12 +68,17 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
+      await client.setTrunk({
+        fqdn: fourthFqdn,
+        sipSignalingPort: 4567,
+        enabled: true,
+      } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn);
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
+      assert.equal(trunk?.enabled, true);
     });
 
     it("can retrieve trunks", async () => {
@@ -85,13 +97,74 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: true },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: true },
       ];
       await client.setTrunks(expectedTrunks);
 
       const trunks = await listAllTrunks(client);
+
+      assert.isNotNull(trunks);
+      assert.isArray(trunks);
+      assert.deepEqual(trunks, expectedTrunks);
+    });
+
+    it("can retrieve a mocked trunk with health status", async () => {
+      const expectedHealth = {
+        tls: { status: "ok" as TlsStatus },
+        ping: { status: "ok" as PingStatus },
+        activity: { status: "unknown" as ActivityStatus },
+      } as SipTrunkHealth;
+      await client.setTrunk({
+        fqdn: fourthFqdn,
+        sipSignalingPort: 4567,
+        enabled: true,
+      } as SipTrunk);
+
+      const trunk = await client.getTrunk(fourthFqdn, { includeHealth: true });
+
+      assert.isNotNull(trunk);
+      assert.isNotNull(trunk.health);
+      assert.deepEqual(trunk.health, expectedHealth);
+    });
+
+    it("can retrieve multiple mocked trunks with health statuses", async () => {
+      const expectedHealth = {
+        tls: { status: "ok" as TlsStatus },
+        ping: { status: "ok" as PingStatus },
+        activity: { status: "unknown" as ActivityStatus },
+      } as SipTrunkHealth;
+      const expectedTrunks = [
+        {
+          fqdn: firstFqdn,
+          sipSignalingPort: 1239,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+        {
+          fqdn: secondFqdn,
+          sipSignalingPort: 2348,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+        {
+          fqdn: thirdFqdn,
+          sipSignalingPort: 3457,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+      ];
+
+      const createdTrunks = [
+        { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: true },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: true },
+      ];
+
+      await client.setTrunks(createdTrunks);
+
+      const trunks = await listAllTrunks(client, true);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
