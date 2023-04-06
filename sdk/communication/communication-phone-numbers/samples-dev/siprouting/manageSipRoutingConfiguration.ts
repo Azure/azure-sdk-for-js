@@ -20,23 +20,33 @@ export async function main(): Promise<void> {
   const client = new SipRoutingClient(connectionString);
 
   // TODO replace with real FQDN
-  const firstTrunkFqdn = `sample.${randomUUID()}.com`;
+  const firstUuid = randomUUID();
+  const firstDomain = `${firstUuid}.com`;
+  const firstTrunkFqdn = `sample.${firstDomain}`;
   // TODO replace with real FQDN
-  const secondTrunkFqdn = `sample.${randomUUID()}.com`;
+  const secondTrunkFqdn = `sample.${firstDomain}`;
 
   // Clear configuration
   await client.setRoutes([]);
   await client.setTrunks([]);
+
+  // Set domains
+  await client.setDomain({
+    domainName: firstDomain,
+    enabled: false,
+  });
 
   // Set trunks
   await client.setTrunks([
     {
       fqdn: firstTrunkFqdn,
       sipSignalingPort: 1234,
+      enabled: false,
     },
     {
       fqdn: secondTrunkFqdn,
       sipSignalingPort: 1234,
+      enabled: false,
     },
   ]);
 
@@ -60,19 +70,28 @@ export async function main(): Promise<void> {
   await client.setTrunk({
     fqdn: firstTrunkFqdn,
     sipSignalingPort: 4321,
+    enabled: false,
   });
 
-  // Get trunks
+  // List trunks
   const trunks = await client.listTrunks();
   for await (const trunk of trunks) {
-    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+    console.log(
+      `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`
+    );
   }
 
-  // Get routes
+  // List routes
   const routes = await client.listRoutes();
   for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
+  }
+
+  // List domains
+  const domains = await client.listDomains();
+  for await (const domain of domains) {
+    console.log(`Trunk ${domain.domainName} with property enabled:${domain.enabled}`);
   }
 
   // Clear configuration

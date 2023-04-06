@@ -12,7 +12,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
+import { SipDomain, SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
@@ -36,7 +36,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
-  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -57,6 +56,12 @@ const sanitizerOptions: SanitizerOptions = {
       regex: true,
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
+    },
+  ],
+  headerSanitizers: [
+    {
+      key: "Sec-Fetch-Dest",
+      value: "empty",
     },
   ],
 };
@@ -80,19 +85,14 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 
 export async function createRecordedClient(
   context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({
-      additionalPolicies: [
-        {
-          policy: createMSUserAgentPolicy(),
-          position: "perCall",
-        },
-      ],
-    }),
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   return { client, recorder };
@@ -108,8 +108,10 @@ export function createMockToken(): TokenCredential {
 
 export async function createRecordedClientWithToken(
   context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
@@ -125,14 +127,7 @@ export async function createRecordedClientWithToken(
   const client = new SipRoutingClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({
-      additionalPolicies: [
-        {
-          policy: createMSUserAgentPolicy(),
-          position: "perCall",
-        },
-      ],
-    }),
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   // casting is a workaround to enable min-max testing
@@ -145,26 +140,64 @@ export async function clearSipConfiguration(): Promise<void> {
   );
   await client.setRoutes([]);
   await client.setTrunks([]);
+  const verifiedDomains = (await listAllDomains(client)).filter((x) => x.enabled === true);
+  await client.setDomains(verifiedDomains);
 }
 
-let fqdnNumber = 1;
-export function getUniqueFqdn(recorder: Recorder): string {
+let fqdnNumber = 1;let domainNumber = 1;
+export function getUniqueFqdn(recorder: Recorder, domain = ""): string {
   const id = randomUUID().replace(/-/g, "");
   return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
+
+  fqdnNumber++;
+  const fqdn =
+    domain.length > 0
+      ? `test${fqdnNumber}.` + domain
+      : `test${fqdnNumber}.` + env.AZURE_TEST_DOMAIN;
+  return recorder.variable(`fqdn-${fqdnNumber}`, fqdn);
 }
+
+export function getUniqueDomain(recorder: Recorder): string {
+  const uniqueDomain = randomUUID().replace(/-/g, "") + ".skype.net";
+  return recorder.variable(`domain-${domainNumber++}`, `${uniqueDomain}`);
+}
+
 export function resetUniqueFqdns(): void {
-  fqdnNumber = 1;
+  fqdnNumber = 0;
 }
 
-export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
-  const result: SipTrunk[] = [];
-
-  for await (const trunk of client.listTrunks()) {
-    if (trunk) {
-      result.push(trunk);
-    }
+export async function listAllTrunks(
+  client: SipRoutingClient,
+  includeHealth?: boolean
+): Promise<SipTrunk[]> {
+  const result = [];
+  for await (const trunk of client.listTrunks({ includeHealth })) {
+    result.push(trunk);
   }
   return result;
+}
+
+export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
+  const result: SipDomain[] = [];
+  for await (const domain of client.listDomains()) {
+    result.push(domain);
+  }
+  return result;
+}
+
+export function resetUniqueDomains(): void {
+  domainNumber = 1;
+}
+
+export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
+  const additionalPolicies: AdditionalPolicyConfig[] = [
+    {
+      policy: createMSUserAgentPolicy(mockedApi),
+      position: "perRetry",
+    },
+  ];
+
+  return additionalPolicies;
 }
 
 export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {

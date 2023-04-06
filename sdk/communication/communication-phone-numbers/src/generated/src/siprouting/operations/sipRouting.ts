@@ -15,7 +15,9 @@ import {
   SipRoutingGetOptionalParams,
   SipRoutingGetResponse,
   SipRoutingUpdateOptionalParams,
-  SipRoutingUpdateResponse
+  SipRoutingUpdateResponse,
+  SipRoutingTestRoutesWithNumberOptionalParams,
+  SipRoutingTestRoutesWithNumberResponse
 } from "../models";
 
 /** Class containing SipRouting operations. */
@@ -47,6 +49,21 @@ export class SipRoutingImpl implements SipRouting {
   ): Promise<SipRoutingUpdateResponse> {
     return this.client.sendOperationRequest({ options }, updateOperationSpec);
   }
+
+  /**
+   * Gets the list of routes matching the target phone number, ordered by priority.
+   * @param targetPhoneNumber Phone number to test routing patterns against
+   * @param options The options parameters.
+   */
+  testRoutesWithNumber(
+    targetPhoneNumber: string,
+    options?: SipRoutingTestRoutesWithNumberOptionalParams
+  ): Promise<SipRoutingTestRoutesWithNumberResponse> {
+    return this.client.sendOperationRequest(
+      { targetPhoneNumber, options },
+      testRoutesWithNumberOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -63,7 +80,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SipRoutingGetExceptionHeaders
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -82,6 +99,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
+      domains: ["options", "domains"],
       trunks: ["options", "trunks"],
       routes: ["options", "routes"]
     },
@@ -90,6 +108,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const testRoutesWithNumberOperationSpec: coreClient.OperationSpec = {
+  path: "/sip:testRoutesWithNumber",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoutesForNumber
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      domains: ["options", "domains"],
+      trunks: ["options", "trunks"],
+      routes: ["options", "routes"]
+    },
+    mapper: Mappers.SipConfiguration
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.targetPhoneNumber],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };

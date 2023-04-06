@@ -19,6 +19,20 @@
 ### Breaking Changes
 - Changed public methods `getTrunks` to `listTrunks` and `getRoutes` to `listRoutes`.
 
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0-alpha.20230303.1 (2023-03-03)
+- Added support for the API version 2023-01-01-preview.
+- Added ability to retrieve SIP trunk health properties.
+- Property "domains" added to sip configuration
+- Enabled property added to "trunk"
+
+## 1.2.0-alpha.20230221.1 (2023-02-21)
+- Added support for the API version 2023-01-01-preview.
+- Added ability to retrieve SIP trunk health properties.
+
 ## 1.2.0-beta.4 (2023-01-10)
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
 - Adds support for Direct routing configuration management.
