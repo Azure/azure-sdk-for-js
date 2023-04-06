@@ -35,6 +35,7 @@ Key links:
 ### Prerequisites
 
 - An existing Translator service or Cognitive Services resource.
+- Latest versions of Edge, Chrome, Safar and Firefox
 
 ### Install the `@azure-rest/ai-translation-text` package
 
@@ -47,6 +48,12 @@ npm install @azure-rest/ai-translation-text
 #### Create a Translator service resource
 
 You can create Translator resource following [Create a Translator resource][translator_resource_create].
+
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ### Authenticate the client
 
