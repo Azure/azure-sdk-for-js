@@ -8,7 +8,7 @@ import {
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
-  auxiliaryAuthenticationPolicy,
+  multiTenantAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
 } from "../src";
@@ -16,7 +16,7 @@ import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
-describe("AuxiliaryAuthenticationPolicy", function () {
+describe("MultiTenantAuthenticationPolicy", function () {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -45,8 +45,8 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const auxiTokenAuthPolicy = createAuxiliaryTokenPolicy(tokenScopes, [mockCredential]);
-    await auxiTokenAuthPolicy.sendRequest(request, next);
+    const multiTenantTokenAuthPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [mockCredential]);
+    await multiTenantTokenAuthPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken.calledWith(tokenScopes, {
@@ -84,11 +84,11 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const auxiTokenAuthPolicy = createAuxiliaryTokenPolicy(tokenScopes, [
+    const multiTenantAuthenticationPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [
       mockCredential1,
       mockCredential2,
     ]);
-    await auxiTokenAuthPolicy.sendRequest(request, next);
+    await multiTenantAuthenticationPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken1.calledWith(tokenScopes, {
@@ -118,7 +118,7 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const policy = createAuxiliaryTokenPolicy("test-scope", [shortCredential, longCredential]);
+    const policy = createMultiTenantAuthenticationPolicy("test-scope", [shortCredential, longCredential]);
 
     // The token is cached and remains cached for a bit.
     await policy.sendRequest(request, next);
@@ -165,7 +165,7 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const policy = createAuxiliaryTokenPolicy("test-scope", [credential]);
+    const policy = createMultiTenantAuthenticationPolicy("test-scope", [credential]);
 
     credential.shouldThrow = true;
 
@@ -190,7 +190,7 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const credential = new MockRefreshAzureCredential(tokenExpiration);
 
     const request = createPipelineRequest({ url: "http://example.com" });
-    const policy = createAuxiliaryTokenPolicy("test-scope", [credential]);
+    const policy = createMultiTenantAuthenticationPolicy("test-scope", [credential]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     let error: Error | undefined;
@@ -202,15 +202,15 @@ describe("AuxiliaryAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Auxiliary token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Multi tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
     );
   });
 
-  function createAuxiliaryTokenPolicy(
+  function createMultiTenantAuthenticationPolicy(
     scopes: string | string[],
     credentials: TokenCredential[]
   ): PipelinePolicy {
-    return auxiliaryAuthenticationPolicy({
+    return multiTenantAuthenticationPolicy({
       scopes,
       credentials,
     });
@@ -225,7 +225,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
     public clock?: sinon.SinonFakeTimers
-  ) {}
+  ) { }
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;

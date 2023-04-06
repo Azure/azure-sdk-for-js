@@ -24,7 +24,7 @@ export interface MultiTenantAuthenticationPolicyOptions {
    */
   credentials?: TokenCredential[];
   /**
-   * The scopes for which the auxiliary token applies.
+   * The scopes for which the Multi tenant token applies.
    */
   scopes: string | string[];
   /**
@@ -71,7 +71,7 @@ export function multiTenantAuthenticationPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Auxiliary token authentication is not permitted for non-TLS protected (non-https) URLs."
+          "Multi tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
 
