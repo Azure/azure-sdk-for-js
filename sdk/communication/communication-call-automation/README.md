@@ -5,10 +5,8 @@ This package contains a JavaScript SDK for Azure Communication Call Automation. 
 [Overview of Call Automation][overview] | [Product documentation][product_docs]
 
 ## Getting started
-TODO
 
 ### Prerequisites
-TODO
 
 - An [Azure subscription][azure_sub].
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
@@ -19,7 +17,6 @@ npm install @azure/communication-call-automation
 ```
 
 ### Browser support
-TODO
 
 #### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation][build_doc].
@@ -73,7 +70,6 @@ const response = callConnection.getCallMedia().playToAll(myFile);
 ```
 
 ## Troubleshooting
-TODO
 
 ## Next steps
 - [Call Automation Overview][overview]

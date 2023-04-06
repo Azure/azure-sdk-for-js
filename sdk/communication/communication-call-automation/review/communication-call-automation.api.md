@@ -521,15 +521,16 @@ export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantFailed_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface RemoveParticipantFailed {
-    callConnectionId?: string;
-    correlationId?: string;
+export interface RemoveParticipantFailed extends Omit<RemoveParticipantFailed_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
     kind: "RemoveParticipantFailed";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
-    serverCallId?: string;
+    serverCallId: string;
 }
 
 // @public
@@ -542,15 +543,16 @@ export interface RemoveParticipantsResult {
     operationContext?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantSucceeded_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface RemoveParticipantSucceeded {
-    callConnectionId?: string;
-    correlationId?: string;
+export interface RemoveParticipantSucceeded extends Omit<RemoveParticipantSucceeded_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
     kind: "RemoveParticipantSucceeded";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
-    serverCallId?: string;
+    serverCallId: string;
 }
 
 // @public
