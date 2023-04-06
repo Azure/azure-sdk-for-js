@@ -133,7 +133,7 @@ export interface RemoveParticipantSucceeded
 }
 
 /** The failed to remove participant event. */
-export interface RemoveParticipantFailed 
+export interface RemoveParticipantFailed
   extends Omit<
     RestRemoveParticipantFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
