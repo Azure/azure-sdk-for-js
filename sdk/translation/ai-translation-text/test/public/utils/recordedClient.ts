@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import {StaticAccessTokenCredential} from "../StaticAccessTokenCredential";
+import {StaticAccessTokenCredential} from "./StaticAccessTokenCredential";
 import TextTranslationFactory, { TextTranslationClient, TranslatorCredential } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import {

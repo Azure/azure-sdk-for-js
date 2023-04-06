@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { editDistance } from "./testHelper";
+import { editDistance } from "./utils/testHelper";
 
 describe("Transliterate tests", () => {
   let recorder: Recorder;
