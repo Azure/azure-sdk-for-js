@@ -7,7 +7,7 @@ import { RouterClient } from "../../../src/routerClient";
 export async function pollForJobOffer(workerId: string, client: RouterClient): Promise<JobOffer> {
   return new Promise<JobOffer>(async (resolve, _) => {
     let worker: RouterWorker = {};
-    while (worker.offers?.length == undefined || worker.offers.length < 1) {
+    while (worker.offers?.length === undefined || worker.offers.length < 1) {
       worker = await client.getWorker(workerId);
     }
     const offer: JobOffer = worker.offers[0];
@@ -22,7 +22,7 @@ export async function pollForJobAssignment(
 ): Promise<JobAssignment> {
   return new Promise<JobAssignment>(async (resolve, _) => {
     let job: RouterJob = {};
-    while (job.assignments == undefined || Object.keys(job.assignments).length < 1) {
+    while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
       job = await client.getJob(jobId);
     }
     const assignment: JobAssignment = Object.values(job.assignments)[0];

@@ -4,10 +4,10 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
-  RouterJob,
-  RouterClient,
+  CreateJobOptions,
   RouterAdministrationClient,
-  CreateJobOptions
+  RouterClient,
+  RouterJob
 } from "../../../src";
 import { Context } from "mocha";
 import {
@@ -71,7 +71,7 @@ describe("RouterClient", function() {
     });
 
     it("should create a job", async function() {
-      let options: CreateJobOptions = { ...jobRequest };
+      const options: CreateJobOptions = { ...jobRequest };
       const result = await client.createJob(jobId, options);
 
       assert.isDefined(result);

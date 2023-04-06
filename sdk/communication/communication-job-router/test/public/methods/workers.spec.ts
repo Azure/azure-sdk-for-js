@@ -4,11 +4,11 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { RouterWorker, RouterClient, RouterAdministrationClient } from "../../../src";
+import { RouterAdministrationClient, RouterClient, RouterWorker } from "../../../src";
 import {
-  getQueueRequest,
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
+  getQueueRequest,
   getWorkerRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";

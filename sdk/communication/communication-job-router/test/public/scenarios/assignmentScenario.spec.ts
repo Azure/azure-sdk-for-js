@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { JobAssignment, JobOffer, RouterAdministrationClient, RouterClient } from "../../../src";
-import { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
+  getExceptionPolicyRequest,
   getJobRequest,
   getQueueRequest,
-  getWorkerRequest,
-  getExceptionPolicyRequest
+  getWorkerRequest
 } from "../utils/testData";
+import { assert } from "chai";
+import { JobAssignment, JobOffer, RouterAdministrationClient, RouterClient } from "../../../src";
+import { Context } from "mocha";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -75,7 +75,7 @@ describe("RouterClient", function() {
       await client.createJob(jobId, jobRequest);
 
       const offer: JobOffer = await pollForJobOffer(workerId, client);
-      assert.isTrue(offer.jobId == jobId);
+      assert.isTrue(offer.jobId === jobId);
       assert.equal(offer.capacityCost, 1);
       assert.isNotNull(offer.offerTimeUtc);
       assert.isNotNull(offer.expiryTimeUtc);

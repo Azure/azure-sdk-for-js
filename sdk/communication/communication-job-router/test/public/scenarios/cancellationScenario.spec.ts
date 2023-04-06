@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  getClassificationPolicyRequest,
+  getDistributionPolicyRequest,
+  getExceptionPolicyRequest,
+  getJobRequest,
+  getQueueRequest
+} from "../utils/testData";
 import { assert } from "chai";
 import { v4 as uuid } from "uuid";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import {
-  getQueueRequest,
-  getExceptionPolicyRequest,
-  getDistributionPolicyRequest,
-  getClassificationPolicyRequest,
-  getJobRequest
-} from "../utils/testData";
 import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
 import { timeoutMs } from "../utils/constants";
 

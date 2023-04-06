@@ -5,20 +5,20 @@ import { assert } from "chai";
 import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { Context } from "mocha";
 import {
-  getQueueRequest,
+  getClassificationPolicyCombined,
+  getClassificationPolicyConditional,
+  getClassificationPolicyFallback,
+  getClassificationPolicyPassthrough,
+  getDistributionPolicyRequest,
+  getExceptionPolicyRequest,
+  getJobConditional,
+  getJobEnglish,
+  getJobFallback,
+  getJobFrench,
+  getJobPassthrough,
   getQueueEnglish,
   getQueueFrench,
-  getExceptionPolicyRequest,
-  getDistributionPolicyRequest,
-  getClassificationPolicyFallback,
-  getClassificationPolicyConditional,
-  getClassificationPolicyPassthrough,
-  getClassificationPolicyCombined,
-  getJobFallback,
-  getJobConditional,
-  getJobPassthrough,
-  getJobEnglish,
-  getJobFrench
+  getQueueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";

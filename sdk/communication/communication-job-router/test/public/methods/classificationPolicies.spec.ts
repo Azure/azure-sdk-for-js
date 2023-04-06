@@ -6,10 +6,10 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
 import {
+  getClassificationPolicyRequest,
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
-  getQueueRequest,
-  getClassificationPolicyRequest
+  getQueueRequest
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
