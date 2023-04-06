@@ -4,7 +4,7 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get a list of supported languages
  */
-import TextTranslationFactory, { GetLanguagesResultOutput, ErrorResponseOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { GetLanguagesResultOutput, ErrorResponseOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,6 +20,10 @@ export async function main() {
   if (langResponse.status !== "200") {
     const error = langResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(langResponse)) {
+    throw langResponse.body;
   }
 
   const languages = langResponse.body as GetLanguagesResultOutput;

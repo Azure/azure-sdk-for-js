@@ -6,7 +6,7 @@
  * service to convert characters or letters of a source language to the corresponding
  * characters or letters of a target language.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TransliterateQueryParamProperties, TransliteratedTextOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TransliterateQueryParamProperties, TransliteratedTextOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -37,6 +37,10 @@ export async function main() {
   if (transliterateResponse.status !== "200") {
     const error = transliterateResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(transliterateResponse)) {
+    throw transliterateResponse.body;
   }
 
   const translations = transliterateResponse.body as TransliteratedTextOutput[];

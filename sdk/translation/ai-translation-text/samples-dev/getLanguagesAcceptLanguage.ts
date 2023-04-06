@@ -12,7 +12,7 @@
  * Names are provided in the English language when a target language is not specified
  * or when localization is not available.
  */
-import TextTranslationFactory, { GetLanguagesParameters, GetLanguagesResultOutput, ErrorResponseOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { GetLanguagesParameters, GetLanguagesResultOutput, ErrorResponseOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -33,6 +33,10 @@ export async function main() {
   if (langResponse.status !== "200") {
     const error = langResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(langResponse)) {
+    throw langResponse.body;
   }
 
   const languages = langResponse.body as GetLanguagesResultOutput;

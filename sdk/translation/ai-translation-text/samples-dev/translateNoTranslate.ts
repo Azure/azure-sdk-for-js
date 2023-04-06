@@ -7,7 +7,7 @@
  * in its original language. In the following example, the content inside the first div
  * element won't be translated, while the content in the second div element will be translated.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -38,6 +38,10 @@ export async function main() {
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(translateResponse)) {
+    throw translateResponse.body;
   }
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];

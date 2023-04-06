@@ -4,7 +4,7 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get equivalent words for the source term in the target language.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, LookupDictionaryEntriesQueryParamProperties, DictionaryLookupItemOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, LookupDictionaryEntriesQueryParamProperties, DictionaryLookupItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -34,6 +34,10 @@ export async function main() {
   if (dictionaryResponse.status !== "200") {
     const error = dictionaryResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(dictionaryResponse)) {
+    throw dictionaryResponse.body;
   }
 
   const dictionaryEntries = dictionaryResponse.body as DictionaryLookupItemOutput[];

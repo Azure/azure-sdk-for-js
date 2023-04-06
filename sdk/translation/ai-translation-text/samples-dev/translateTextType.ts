@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how you can select whether the translated text is plain text or HTML text.
  * Any HTML needs to be a well-formed, complete element. Possible values are: plain (default) or html.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -36,6 +36,10 @@ export async function main() {
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(translateResponse)) {
+    throw translateResponse.body;
   }
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];

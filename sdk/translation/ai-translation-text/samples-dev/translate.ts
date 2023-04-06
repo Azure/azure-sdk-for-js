@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator
  * service to get translation for a text which language is know to a target language.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -35,6 +35,10 @@ export async function main() {
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(translateResponse)) {
+    throw translateResponse.body;
   }
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];
