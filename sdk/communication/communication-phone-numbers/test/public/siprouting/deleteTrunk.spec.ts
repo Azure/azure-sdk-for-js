@@ -48,11 +48,11 @@ matrix([[true, false]], async function (useAad) {
       const trunk: SipTrunk = {
         fqdn: testFqdn,
         sipSignalingPort: 5678,
+        enabled: true,
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);
       assert.exists((await listAllTrunks(client)).find((value) => value.fqdn === trunk.fqdn));
-
       await client.deleteTrunk(testFqdn);
 
       assert.notExists((await listAllTrunks(client)).find((value) => value.fqdn === trunk.fqdn));

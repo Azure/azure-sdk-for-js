@@ -30,9 +30,11 @@ export const getTrunksHttpClient: HttpClient = createMockHttpClient<SipTrunk[]>(
   {
     fqdn: "one.trunk.contoso.com",
     sipSignalingPort: 1234,
+    enabled: true,
   },
   {
     fqdn: "two.trunk.contoso.com",
     sipSignalingPort: 4321,
+    enabled: true,
   },
 ]);
