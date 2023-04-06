@@ -1,0 +1,261 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1341",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b9692566-1632-443f-a065-81b19b2b7ba9"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "Rahul Dev  \u0026 Ria  met as they are independently travelling to Siliguri. Ria is running away to meet her boyfriend while Rahul\u2019s reason is sell his steal. The destination however for both are the hills of Darjeeling. Rahul and Ria are bound by fate here onwards. They knowingly steps into each other\u0027s life as well as behind each other\u2019s back as they travel, as Rahul hides his steal in Ria\u2019s bag. It gets into the hands of a thief\u2026\u2026 For Rahul the steal is the only hope, and that is something Ria realizes on visiting Rahul\u2019s family.Things take a turn around when Ria is heart broken, as her relationship with her boyfriend falls apart. She offers to aid Rahul one hand and makes a deal with her father on the other. As things falls into place for one. The world shatters for the other. Couples are made in heaven\u2026\u2026 Love becomes inevitable when two people cross each other\u2019s path and passes through the good and the bad times. Rahul and Ria meet again but in an altogether different circumstances. This time neither is it in an alien land nor are they alone.But in the last,they both confess there love,and get married.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "CustomMultiLabelClassification",
+            "parameters": {
+              "projectName": "MultiLabel",
+              "deploymentName": "MultiLabelDeployment"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "2502aefc-09af-4fdc-9c25-00a9a7d59633",
+        "Content-Length": "0",
+        "Date": "Fri, 31 Mar 2023 22:01:37 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/bc09544b-67c0-404f-8fc1-9fb95149c30d?api-version=2022-10-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "347",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bc09544b-67c0-404f-8fc1-9fb95149c30d?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d5e70f7d-85c0-40f0-b927-6ffed63c54f4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b9966fd2-9390-4c82-97c4-8ed7c942886a",
+        "Content-Length": "280",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 22:01:39 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "bc09544b-67c0-404f-8fc1-9fb95149c30d",
+        "lastUpdatedDateTime": "2023-03-31T22:01:39Z",
+        "createdDateTime": "2023-03-31T22:01:38Z",
+        "expirationDateTime": "2023-04-01T22:01:38Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bc09544b-67c0-404f-8fc1-9fb95149c30d?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a3208df4-eb00-4bd3-bbd7-a6162e853a0e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7810c0ed-a04f-4542-8cef-f7dbdadf0aa1",
+        "Content-Length": "280",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 22:01:39 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "bc09544b-67c0-404f-8fc1-9fb95149c30d",
+        "lastUpdatedDateTime": "2023-03-31T22:01:39Z",
+        "createdDateTime": "2023-03-31T22:01:38Z",
+        "expirationDateTime": "2023-04-01T22:01:38Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bc09544b-67c0-404f-8fc1-9fb95149c30d?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "388322a9-52c6-44dc-9f15-3d23412f7a31"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "4f401079-4f28-46f3-ae50-0928bd833d09",
+        "Content-Length": "635",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 22:01:41 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "99",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "bc09544b-67c0-404f-8fc1-9fb95149c30d",
+        "lastUpdatedDateTime": "2023-03-31T22:01:39Z",
+        "createdDateTime": "2023-03-31T22:01:38Z",
+        "expirationDateTime": "2023-04-01T22:01:38Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "CustomMultiLabelClassificationLROResults",
+              "lastUpdateDateTime": "2023-03-31T22:01:39.5716143Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "class": [
+                      {
+                        "category": "Comedy",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "category": "Drama",
+                        "confidenceScore": 0.95
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "MultiLabel",
+                "deploymentName": "MultiLabelDeployment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bc09544b-67c0-404f-8fc1-9fb95149c30d?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5ab1a8b1-a23b-4c11-bd73-e709d4856781"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "001a97c8-3315-47f6-bd20-31cdb34ebad1",
+        "Content-Length": "635",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 22:01:41 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "44",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "bc09544b-67c0-404f-8fc1-9fb95149c30d",
+        "lastUpdatedDateTime": "2023-03-31T22:01:39Z",
+        "createdDateTime": "2023-03-31T22:01:38Z",
+        "expirationDateTime": "2023-04-01T22:01:38Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "CustomMultiLabelClassificationLROResults",
+              "lastUpdateDateTime": "2023-03-31T22:01:39.5716143Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "class": [
+                      {
+                        "category": "Comedy",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "category": "Drama",
+                        "confidenceScore": 0.95
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "MultiLabel",
+                "deploymentName": "MultiLabelDeployment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -8,6 +8,7 @@ specifiers:
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:./projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
@@ -344,6 +345,7 @@ dependencies:
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
@@ -734,6 +736,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3998,7 +4001,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230405
+      typescript: 5.1.0-dev.20230406
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8861,8 +8864,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230405:
-    resolution: {integrity: sha512-4unWRVmR6URHndao/lK2XCSabqveeczgOSGNNQbfZW7Hu4b+YND5DlpVQOL/Yaz9olB1FgeZidZwYnTQbOXc6w==}
+  /typescript/5.1.0-dev.20230406:
+    resolution: {integrity: sha512-FYnJSNhyGIzc9fCHcPTS/YyboOKfchGpKhrDIcNCqvODooe7BNOWGx6sjMu8xTav8E0905iuPa6TOueq/C6gxg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9651,7 +9654,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-FxfCfovYvmTjcSow40Tq9KVGI/dCaAhAuQ3YBT4eVGAwzN2lbn39DC5f4a7soVVjSa2GQik2bZEfY1A2qlkp7w==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-klkC6UKOIHYQashvWmvf/2RRICvFoCeKsCP+EuPILy6r6fsYnYrdqTNPd6zHeUgzSIvQHzfW/ArOctZKfdiRFg==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9659,12 +9662,14 @@ packages:
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
+      '@types/decompress': 4.2.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.42
       '@types/sinon': 9.0.11
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
+      decompress: 4.2.1
       dotenv: 16.0.3
       eslint: 8.37.0
       karma: 6.4.1
@@ -9694,6 +9699,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-language-textauthoring.tgz:
+    resolution: {integrity: sha512-GTU83ToayG2z/7fIzk19QIqDMXP6vOQabzHT9uBguiCn1/Y8iz+FhvtnIpsnMyflPyl/JmejpznRZxYavSCWMw==, tarball: file:projects/ai-language-textauthoring.tgz}
+    name: '@rush-temp/ai-language-textauthoring'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      dotenv: 8.6.0
+      eslint: 8.37.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
@@ -17171,7 +17197,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18744,7 +18770,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
