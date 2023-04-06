@@ -10,7 +10,7 @@ import { logger as coreLogger } from "../log";
 import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
 /**
- * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+ * The programmatic identifier of the auxiliaryAuthenticationPolicy.
  */
 export const auxiliaryAuthenticationPolicyName = "auxiliaryAuthenticationPolicy";
 const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
@@ -18,7 +18,7 @@ const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
 /**
  * Options to configure the auxiliaryAuthenticationPolicy
  */
-export interface AuxiliaryAuthenticationPolicyNameOptions {
+export interface AuxiliaryAuthenticationPolicyOptions {
   /**
    * The TokenCredential list that can supply the auxiliary authentication token.
    */
@@ -60,7 +60,7 @@ function buildAccessTokenCycler(credential: TokenCredential) {
  * then apply it to the Authorization header of a request as a Bearer token.
  */
 export function auxiliaryAuthenticationPolicy(
-  options: AuxiliaryAuthenticationPolicyNameOptions
+  options: AuxiliaryAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credentials, scopes } = options;
   const logger = options.logger || coreLogger;
@@ -87,8 +87,8 @@ export function auxiliaryAuthenticationPolicy(
           getAccessToken,
           logger,
         });
-        if (singalAccessToken) {
-          tokenList.push(singalAccessToken);
+        if (singleAccessToken) {
+          tokenList.push(singleAccessToken);
         }
       }
 

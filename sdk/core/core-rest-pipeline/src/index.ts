@@ -89,6 +89,6 @@ export {
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
   auxiliaryAuthenticationPolicy,
-  AuxiliaryAuthenticationPolicyNameOptions,
+  AuxiliaryAuthenticationPolicyOptions,
   auxiliaryAuthenticationPolicyName,
 } from "./policies/auxiliaryAuthenticationPolicy";
