@@ -3,9 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { ClientAssertionCredential } from "./clientAssertionCredential";
-import {
-  WorkloadIdentityCredentialOptions,
-} from "./workloadIdentityCredentialOptions";
+import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 import { readFile } from "fs/promises";
 import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, processEnvVars } from "../util/logging";
@@ -55,9 +53,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   //  * @internal
   //  * @hidden
   //  */
-  constructor(
-    options:  WorkloadIdentityCredentialOptions
-  ) {
+  constructor(options: WorkloadIdentityCredentialOptions) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
     logger.info(`Found the following environment variables: ${assignedEnv}`);
