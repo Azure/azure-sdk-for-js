@@ -49,10 +49,10 @@ export interface AnalyzedDocument {
 
 // @public
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
-    additionalFields?: string[];
     features?: string[];
     locale?: string;
     pages?: string;
+    queryFields?: string[];
 }
 
 // @public
@@ -120,6 +120,10 @@ export interface ClassifierDocumentTypeDetails {
 }
 
 // @public
+export interface ClassifyDocumentOptions extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState> {
+}
+
+// @public
 export interface CommonModelCreationOptions {
     description?: string;
     tags?: Record<string, string>;
@@ -174,10 +178,8 @@ export class DocumentAnalysisClient {
     beginAnalyzeDocument<Result>(model: DocumentModel<Result>, document: FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<Result>): Promise<AnalysisPoller<Result>>;
     beginAnalyzeDocumentFromUrl(modelId: string, documentUrl: string, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
     beginAnalyzeDocumentFromUrl<Result>(model: DocumentModel<Result>, documentUrl: string, options?: AnalyzeDocumentOptions<Result>): Promise<AnalysisPoller<Result>>;
-    // (undocumented)
-    beginClassifyDocument(classifierId: string, document: FormRecognizerRequestBody, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
-    // (undocumented)
-    beginClassifyDocumentFromUrl(classifierId: string, documentUrl: string, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
+    beginClassifyDocument(classifierId: string, document: FormRecognizerRequestBody, options?: ClassifyDocumentOptions): Promise<AnalysisPoller>;
+    beginClassifyDocumentFromUrl(classifierId: string, documentUrl: string, options?: ClassifyDocumentOptions): Promise<AnalysisPoller>;
 }
 
 // @public
@@ -194,11 +196,9 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
     status: AnalyzeResultOperationStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface DocumentAnnotation extends HasBoundingPolygon {
-    // (undocumented)
     confidence: number;
-    // (undocumented)
     kind: DocumentAnnotationKind;
 }
 
@@ -211,20 +211,21 @@ export interface DocumentArrayField<T = DocumentField> extends DocumentFieldComm
     values: T[];
 }
 
-// @public (undocumented)
+// @public
 export interface DocumentBarcode extends HasBoundingPolygon {
-    // (undocumented)
     confidence: number;
-    // (undocumented)
     kind: DocumentBarcodeKind;
-    // (undocumented)
     span: DocumentSpan;
-    // (undocumented)
     value: string;
 }
 
 // @public
 export type DocumentBarcodeKind = string;
+
+// @public
+export interface DocumentBooleanField extends DocumentValueField<boolean> {
+    kind: "boolean";
+}
 
 // @public
 export type DocumentBuildMode = string;
@@ -258,7 +259,7 @@ export interface DocumentClassifierDetails {
 export interface DocumentClassifierOperationState extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {
 }
 
-// @public (undocumented)
+// @public
 export type DocumentClassifierPoller = PollerLike<DocumentClassifierOperationState, DocumentClassifierDetails>;
 
 // @public
@@ -279,7 +280,7 @@ export interface DocumentDateField extends DocumentValueField<Date> {
 }
 
 // @public
-export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentCurrencyField | DocumentAddressField | DocumentArrayField | DocumentObjectField;
+export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentBooleanField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentCurrencyField | DocumentAddressField | DocumentArrayField | DocumentObjectField;
 
 // @public
 export interface DocumentFieldCommon {
@@ -310,15 +311,11 @@ export interface DocumentFootnote {
     spans: DocumentSpan[];
 }
 
-// @public (undocumented)
+// @public
 export interface DocumentFormula extends HasBoundingPolygon {
-    // (undocumented)
     confidence: number;
-    // (undocumented)
     kind: DocumentFormulaKind;
-    // (undocumented)
     span: DocumentSpan;
-    // (undocumented)
     value: string;
 }
 
@@ -339,7 +336,6 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
-    // (undocumented)
     commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
@@ -372,23 +368,19 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    // (undocumented)
     beginBuildDocumentClassifier(classifierId: string, docTypes: {
         [docType: string]: ClassifierDocumentTypeDetails;
     }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
-    // (undocumented)
-    deleteDocumentClassifier(classifierId: string, options?: DeleteDocumentModelOptions): Promise<void>;
+    deleteDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<void>;
     deleteDocumentModel(modelId: string, options?: DeleteDocumentModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    // (undocumented)
-    getDocumentClassifier(classifierId: string, options?: GetModelOptions): Promise<DocumentClassifierDetails>;
+    getDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<DocumentClassifierDetails>;
     getDocumentModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;
     getResourceDetails(options?: GetResourceDetailsOptions): Promise<ResourceDetails>;
-    // (undocumented)
     listDocumentClassifiers(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentClassifierDetails>;
     listDocumentModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
@@ -475,14 +467,10 @@ export interface DocumentObjectField<Properties = {
 // @public
 export interface DocumentPage {
     angle?: number;
-    // (undocumented)
     annotations?: DocumentAnnotation[];
-    // (undocumented)
     barcodes?: DocumentBarcode[];
-    // (undocumented)
     formulas?: DocumentFormula[];
     height?: number;
-    // Warning: (ae-forgotten-export) The symbol "DocumentPageKind" needs to be exported by the entry point index.d.ts
     kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
@@ -492,6 +480,9 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
+
+// @public
+export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -638,6 +629,17 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
 }
 
 // @public
+export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});
+
+// @public (undocumented)
+export const FormRecognizerFeature: {
+    readonly QueryFieldsPremium: "queryFields.premium";
+    readonly OcrFont: "ocr.font";
+    readonly OcrHighResolution: "ocr.highResolution";
+    readonly OcrFormula: "ocr.formula";
+};
+
+// @public
 export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
 
 // @public
@@ -747,9 +749,15 @@ export interface PollerOptions<TState extends PollOperationState<unknown>> exten
 }
 
 // @public
+export interface QuotaDetails {
+    quota: number;
+    quotaResetOn: Date;
+    used: number;
+}
+
+// @public
 export interface ResourceDetails {
     customDocumentModels: CustomDocumentModelsDetails;
-    // Warning: (ae-forgotten-export) The symbol "QuotaDetails" needs to be exported by the entry point index.d.ts
     customNeuralDocumentModelBuilds: QuotaDetails;
 }
 
