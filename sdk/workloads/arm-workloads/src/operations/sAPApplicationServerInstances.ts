@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SAPApplicationServerInstance,
   SAPApplicationServerInstancesListNextOptionalParams,
@@ -173,8 +177,8 @@ export class SAPApplicationServerInstancesImpl
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesCreateResponse>,
       SAPApplicationServerInstancesCreateResponse
     >
   > {
@@ -184,7 +188,7 @@ export class SAPApplicationServerInstancesImpl
     ): Promise<SAPApplicationServerInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -217,18 +221,21 @@ export class SAPApplicationServerInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPApplicationServerInstancesCreateResponse,
+      OperationState<SAPApplicationServerInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,8 +278,8 @@ export class SAPApplicationServerInstancesImpl
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesUpdateResponse>,
       SAPApplicationServerInstancesUpdateResponse
     >
   > {
@@ -282,7 +289,7 @@ export class SAPApplicationServerInstancesImpl
     ): Promise<SAPApplicationServerInstancesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,18 +322,21 @@ export class SAPApplicationServerInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPApplicationServerInstancesUpdateResponse,
+      OperationState<SAPApplicationServerInstancesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -369,8 +379,8 @@ export class SAPApplicationServerInstancesImpl
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesDeleteResponse>,
       SAPApplicationServerInstancesDeleteResponse
     >
   > {
@@ -380,7 +390,7 @@ export class SAPApplicationServerInstancesImpl
     ): Promise<SAPApplicationServerInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -413,20 +423,23 @@ export class SAPApplicationServerInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPApplicationServerInstancesDeleteResponse,
+      OperationState<SAPApplicationServerInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -486,8 +499,8 @@ export class SAPApplicationServerInstancesImpl
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesStartInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesStartInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesStartInstanceResponse>,
       SAPApplicationServerInstancesStartInstanceResponse
     >
   > {
@@ -497,7 +510,7 @@ export class SAPApplicationServerInstancesImpl
     ): Promise<SAPApplicationServerInstancesStartInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -530,20 +543,23 @@ export class SAPApplicationServerInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
         options
       },
-      startInstanceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: startInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPApplicationServerInstancesStartInstanceResponse,
+      OperationState<SAPApplicationServerInstancesStartInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -584,8 +600,8 @@ export class SAPApplicationServerInstancesImpl
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesStopInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesStopInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesStopInstanceResponse>,
       SAPApplicationServerInstancesStopInstanceResponse
     >
   > {
@@ -595,7 +611,7 @@ export class SAPApplicationServerInstancesImpl
     ): Promise<SAPApplicationServerInstancesStopInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -628,20 +644,23 @@ export class SAPApplicationServerInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
         options
       },
-      stopInstanceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: stopInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPApplicationServerInstancesStopInstanceResponse,
+      OperationState<SAPApplicationServerInstancesStopInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

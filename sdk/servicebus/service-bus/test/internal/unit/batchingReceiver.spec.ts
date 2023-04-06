@@ -491,6 +491,10 @@ describe("BatchingReceiver unit tests", () => {
       clock?.runAll();
     };
 
+    fakeRheaReceiver["close"] = (_options) => {
+      return Promise.resolve();
+    };
+
     Object.defineProperty(fakeRheaReceiver, "credit", {
       get: () => credit,
     });

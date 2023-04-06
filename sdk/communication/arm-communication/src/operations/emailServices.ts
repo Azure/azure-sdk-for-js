@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   EmailServiceResource,
   EmailServicesListBySubscriptionNextOptionalParams,
@@ -203,8 +207,8 @@ export class EmailServicesImpl implements EmailServices {
     parameters: EmailServiceResource,
     options?: EmailServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EmailServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EmailServicesCreateOrUpdateResponse>,
       EmailServicesCreateOrUpdateResponse
     >
   > {
@@ -214,7 +218,7 @@ export class EmailServicesImpl implements EmailServices {
     ): Promise<EmailServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -247,15 +251,18 @@ export class EmailServicesImpl implements EmailServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, emailServiceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      EmailServicesCreateOrUpdateResponse,
+      OperationState<EmailServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -293,14 +300,14 @@ export class EmailServicesImpl implements EmailServices {
     resourceGroupName: string,
     emailServiceName: string,
     options?: EmailServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -333,15 +340,15 @@ export class EmailServicesImpl implements EmailServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, emailServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -379,8 +386,8 @@ export class EmailServicesImpl implements EmailServices {
     parameters: EmailServiceResourceUpdate,
     options?: EmailServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EmailServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EmailServicesUpdateResponse>,
       EmailServicesUpdateResponse
     >
   > {
@@ -390,7 +397,7 @@ export class EmailServicesImpl implements EmailServices {
     ): Promise<EmailServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -423,15 +430,18 @@ export class EmailServicesImpl implements EmailServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, emailServiceName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      EmailServicesUpdateResponse,
+      OperationState<EmailServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

@@ -80,13 +80,39 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
   }
 }
 
+export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+export class DefaultAzureCliCredential extends AzureCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+
+export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
   WorkloadIdentityCredential,
   DefaultManagedIdentityCredential,
-  AzureDeveloperCliCredential,
-  AzureCliCredential,
-  AzurePowerShellCredential,
+  DefaultAzureDeveloperCliCredential,
+  DefaultAzureCliCredential,
+  DefaultAzurePowershellCredential,
 ];
 
 /**

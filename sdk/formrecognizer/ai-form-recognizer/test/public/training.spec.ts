@@ -233,7 +233,8 @@ matrix(
                   throw new Error(
                     `The service returned model info for ${modelId}, but we thought we had deleted it!`
                   );
-                } catch ({ message }) {
+                } catch (e) {
+                  const { message } = e as any;
                   assert.isTrue((message as string).endsWith(" not found."));
                 }
               })

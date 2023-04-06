@@ -10,8 +10,8 @@ import {
 import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy";
 import { assert } from "chai";
 
-describe("apiVersionPolicy", () => {
-  it("should override the default api-version", async () => {
+describe("apiVersionPolicy", function () {
+  it("should override the default api-version", async function () {
     const expectedVersion = "2020-12-06";
     const fakeClient: HttpClient = {
       async sendRequest(req) {

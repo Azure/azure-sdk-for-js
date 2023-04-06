@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CurrentQuotaLimitBase,
   QuotaListNextOptionalParams,
@@ -178,8 +182,8 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<QuotaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<QuotaCreateOrUpdateResponse>,
       QuotaCreateOrUpdateResponse
     >
   > {
@@ -189,7 +193,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -222,9 +226,9 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         subscriptionId,
         providerId,
         location,
@@ -232,12 +236,15 @@ export class QuotaImpl implements Quota {
         createQuotaRequest,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaCreateOrUpdateResponse,
+      OperationState<QuotaCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -301,7 +308,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
+    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -309,7 +316,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,9 +349,9 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         subscriptionId,
         providerId,
         location,
@@ -352,12 +359,15 @@ export class QuotaImpl implements Quota {
         createQuotaRequest,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaUpdateResponse,
+      OperationState<QuotaUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedInstanceLongTermRetentionPolicy,
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseNextOptionalParams,
@@ -182,8 +186,8 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     parameters: ManagedInstanceLongTermRetentionPolicy,
     options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
       >,
       ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
@@ -195,7 +199,7 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     ): Promise<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,9 +232,9 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         databaseName,
@@ -238,10 +242,15 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<
+        ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -340,7 +349,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -371,8 +380,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters51,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters39,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -381,7 +390,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managedInstanceName,
     Parameters.policyName2
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -395,7 +404,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

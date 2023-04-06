@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fetches the result of any operation on the backup item.
  *
  * @summary Fetches the result of any operation on the backup item.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
  */
 async function getOperationResultsOfProtectedVM() {
   const subscriptionId =

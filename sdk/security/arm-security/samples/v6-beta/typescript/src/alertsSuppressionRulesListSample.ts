@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List of all the dismiss rules for the given subscription
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/AlertsSuppressionRules/GetAlertsSuppressionRulesWithAlertType_example.json
  */
 async function getSuppressionAlertRuleForSubscriptionFilteredByAlertType() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
@@ -27,10 +32,6 @@ async function getSuppressionAlertRuleForSubscriptionFilteredByAlertType() {
   }
   console.log(resArray);
 }
-
-getSuppressionAlertRuleForSubscriptionFilteredByAlertType().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to List of all the dismiss rules for the given subscription
@@ -39,7 +40,9 @@ getSuppressionAlertRuleForSubscriptionFilteredByAlertType().catch(
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/AlertsSuppressionRules/GetAlertsSuppressionRules_example.json
  */
 async function getSuppressionRulesForSubscription() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
@@ -49,4 +52,9 @@ async function getSuppressionRulesForSubscription() {
   console.log(resArray);
 }
 
-getSuppressionRulesForSubscription().catch(console.error);
+async function main() {
+  getSuppressionAlertRuleForSubscriptionFilteredByAlertType();
+  getSuppressionRulesForSubscription();
+}
+
+main().catch(console.error);

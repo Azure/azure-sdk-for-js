@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ConfigurationServiceResource,
   ConfigurationServicesListNextOptionalParams,
@@ -158,8 +162,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     configurationServiceResource: ConfigurationServiceResource,
     options?: ConfigurationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesCreateOrUpdateResponse>,
       ConfigurationServicesCreateOrUpdateResponse
     >
   > {
@@ -169,7 +173,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     ): Promise<ConfigurationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -202,19 +206,22 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationServiceName,
         configurationServiceResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationServicesCreateOrUpdateResponse,
+      OperationState<ConfigurationServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -261,14 +268,14 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     options?: ConfigurationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -301,13 +308,18 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, configurationServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        configurationServiceName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -371,8 +383,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     settings: ConfigurationServiceSettings,
     options?: ConfigurationServicesValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesValidateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesValidateResponse>,
       ConfigurationServicesValidateResponse
     >
   > {
@@ -382,7 +394,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     ): Promise<ConfigurationServicesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -415,21 +427,24 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationServiceName,
         settings,
         options
       },
-      validateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: validateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationServicesValidateResponse,
+      OperationState<ConfigurationServicesValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

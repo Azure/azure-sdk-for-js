@@ -6,9 +6,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIConfiguration } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";
@@ -78,7 +78,7 @@ export const appServiceMsi2017: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (resourceId) {
@@ -98,6 +98,9 @@ export const appServiceMsi2017: MSI = {
       allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+    return (
+      (tokenResponse && { ...tokenResponse.accessToken, refreshesOn: tokenResponse.refreshesIn }) ||
+      null
+    );
   },
 };

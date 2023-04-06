@@ -23,22 +23,22 @@ import {
 export interface NetAppResource {
   /**
    * Check if a resource name is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name Resource name to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckNameAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckNameAvailabilityResponse>;
   /**
    * Check if a file path is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name File path to verify.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
    *                 Microsoft.NetApp/volumes
@@ -52,22 +52,22 @@ export interface NetAppResource {
   ): Promise<NetAppResourceCheckFilePathAvailabilityResponse>;
   /**
    * Check if a quota is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name Name of the resource to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckQuotaNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
   /**
    * Provides storage to network proximity and logical zone mapping information.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   queryRegionInfo(

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BuilderResource,
   BuildServiceBuilderListNextOptionalParams,
@@ -183,8 +187,8 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
     builderResource: BuilderResource,
     options?: BuildServiceBuilderCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BuildServiceBuilderCreateOrUpdateResponse>,
       BuildServiceBuilderCreateOrUpdateResponse
     >
   > {
@@ -194,7 +198,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
     ): Promise<BuildServiceBuilderCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -227,9 +231,9 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         buildServiceName,
@@ -237,10 +241,13 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
         builderResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BuildServiceBuilderCreateOrUpdateResponse,
+      OperationState<BuildServiceBuilderCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -291,14 +298,14 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
     buildServiceName: string,
     builderName: string,
     options?: BuildServiceBuilderDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,19 +338,19 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         buildServiceName,
         builderName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -153,7 +153,8 @@ const message = {
   ],
 };
 
-const response = await emailClient.send(message);
+const poller = await emailClient.beginSend(message);
+const response = await poller.pollUntilDone();
 ```
 
 ## Next steps
