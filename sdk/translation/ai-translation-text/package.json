@@ -116,7 +116,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/textTranslation.ts",
+        "path": "src/customClient.ts",
         "prefix": "userAgentInfo"
       }
     ]
