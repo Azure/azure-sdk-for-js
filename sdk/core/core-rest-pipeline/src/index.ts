@@ -88,7 +88,7 @@ export {
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
-  auxiliaryAuthenticationPolicy,
-  AuxiliaryAuthenticationPolicyOptions,
-  auxiliaryAuthenticationPolicyName,
-} from "./policies/auxiliaryAuthenticationPolicy";
+  multiTenantAuthenticationPolicy,
+  MultiTenantAuthenticationPolicyOptions,
+  multiTenantAuthenticationPolicyName,
+} from "./policies/multiTenantAuthenticationPolicy";

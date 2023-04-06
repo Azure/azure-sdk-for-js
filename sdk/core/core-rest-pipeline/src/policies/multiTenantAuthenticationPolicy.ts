@@ -10,17 +10,17 @@ import { logger as coreLogger } from "../log";
 import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
 /**
- * The programmatic identifier of the auxiliaryAuthenticationPolicy.
+ * The programmatic identifier of the multiTenantAuthenticationPolicy.
  */
-export const auxiliaryAuthenticationPolicyName = "auxiliaryAuthenticationPolicy";
+export const multiTenantAuthenticationPolicyName = "multiTenantAuthenticationPolicy";
 const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
 
 /**
- * Options to configure the auxiliaryAuthenticationPolicy
+ * Options to configure the multiTenantAuthenticationPolicy
  */
-export interface AuxiliaryAuthenticationPolicyOptions {
+export interface MultiTenantAuthenticationPolicyOptions {
   /**
-   * The TokenCredential list that can supply the auxiliary authentication token.
+   * The TokenCredential list that can supply the multi tenant authentication token.
    */
   credentials?: TokenCredential[];
   /**
@@ -52,22 +52,22 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
 }
 
 function buildAccessTokenCycler(credential: TokenCredential) {
-  return credential ? createTokenCycler(credential /* , options */) : () => Promise.resolve(null);
+  return credential ? createTokenCycler(credential) : () => Promise.resolve(null);
 }
 
 /**
  * A policy that can request a token from a TokenCredential implementation and
  * then apply it to the Authorization header of a request as a Bearer token.
  */
-export function auxiliaryAuthenticationPolicy(
-  options: AuxiliaryAuthenticationPolicyOptions
+export function multiTenantAuthenticationPolicy(
+  options: MultiTenantAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credentials, scopes } = options;
   const logger = options.logger || coreLogger;
   const tokenCyclerMap = new Map();
 
   return {
-    name: auxiliaryAuthenticationPolicyName,
+    name: multiTenantAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
