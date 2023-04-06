@@ -8,7 +8,8 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  * Options for the {@link WorkloadIdentityCredential}
  */
 export interface WorkloadIdentityCredentialOptions
-  extends WorkloadIdentityDefaultCredentialOptions {
+extends MultiTenantTokenCredentialOptions,
+AuthorityValidationOptions {
   /**
    * ID of the application's Azure Active Directory tenant. Also called its directory ID.
    */
@@ -23,9 +24,3 @@ export interface WorkloadIdentityCredentialOptions
   federatedTokenFilePath?: string;
 }
 
-/**
- * Internal Options for the {@link WorkloadIdentityCredential}, not meant to be used directly.
- */
-export interface WorkloadIdentityDefaultCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
-    AuthorityValidationOptions {}

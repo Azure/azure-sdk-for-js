@@ -399,14 +399,10 @@ export class WorkloadIdentityCredential implements TokenCredential {
 }
 
 // @public
-export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
+export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
     federatedTokenFilePath?: string;
     tenantId?: string;
-}
-
-// @public
-export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
 // (No @packageDocumentation comment for this package)
