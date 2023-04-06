@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
@@ -60,8 +60,8 @@ export interface PrivateEndpointConnections {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsUpdateResponse>,
       PrivateEndpointConnectionsUpdateResponse
     >
   >;
@@ -93,8 +93,8 @@ export interface PrivateEndpointConnections {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsDeleteResponse>,
       PrivateEndpointConnectionsDeleteResponse
     >
   >;

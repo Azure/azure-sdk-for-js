@@ -1,146 +1,37 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Devices/IotHubs?api-version=2022-04-30-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Devices/IotHubs?api-version=2022-11-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-iothub/6.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "735fe351-62e8-4637-9833-dca6259b7190"
+        "User-Agent": "azsdk-js-arm-iothub/6.3.0-beta.2 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "15208e45-fa4f-4b84-9256-10133f99b1eb"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 404,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "612",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 06 Dec 2022 02:13:49 GMT",
+        "Date": "Thu, 06 Apr 2023 05:38:48 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e4f5468d-dd9d-4554-880f-55c28f38ebcb",
-        "x-ms-ratelimit-remaining-subscription-reads": "11945",
-        "x-ms-request-id": "e4f5468d-dd9d-4554-880f-55c28f38ebcb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221206T021350Z:e4f5468d-dd9d-4554-880f-55c28f38ebcb"
+        "x-ms-correlation-request-id": "da96c87e-378c-4cd6-be3a-34b82c9a1194",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "da96c87e-378c-4cd6-be3a-34b82c9a1194",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230406T053849Z:da96c87e-378c-4cd6-be3a-34b82c9a1194"
       },
       "ResponseBody": {
-        "value": [
-          {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Devices/IotHubs/myiothubxxxxyyyjjrr",
-            "name": "myiothubxxxxyyyjjrr",
-            "type": "Microsoft.Devices/IotHubs",
-            "location": "eastus",
-            "tags": {
-              "key": "value1"
-            },
-            "subscriptionid": "azure_subscription_id",
-            "resourcegroup": "myjstest",
-            "etag": "AAAADHc9vDw=",
-            "properties": {
-              "locations": [
-                {
-                  "location": "East US",
-                  "role": "primary"
-                },
-                {
-                  "location": "West US",
-                  "role": "secondary"
-                }
-              ],
-              "state": "Active",
-              "provisioningState": "Succeeded",
-              "ipFilterRules": [],
-              "networkRuleSets": {
-                "defaultAction": "Deny",
-                "applyToBuiltInEventHubEndpoint": true,
-                "ipRules": [
-                  {
-                    "filterName": "rule1",
-                    "action": "Allow",
-                    "ipMask": "131.117.159.53"
-                  }
-                ]
-              },
-              "hostName": "myiothubxxxxyyyjjrr.azure-devices.net",
-              "eventHubEndpoints": {
-                "events": {
-                  "retentionTimeInDays": 1,
-                  "partitionCount": 2,
-                  "partitionIds": [
-                    "0",
-                    "1"
-                  ],
-                  "path": "myiothubxxxxyyyjjrr",
-                  "endpoint": "sb://iothub-ns-myiothubxx-23268252-67261d46d2.servicebus.windows.net/"
-                }
-              },
-              "routing": {
-                "endpoints": {
-                  "serviceBusQueues": [],
-                  "serviceBusTopics": [],
-                  "eventHubs": [],
-                  "storageContainers": [],
-                  "cosmosDBSqlCollections": []
-                },
-                "routes": [],
-                "fallbackRoute": {
-                  "name": "$fallback",
-                  "source": "DeviceMessages",
-                  "condition": "true",
-                  "endpointNames": [
-                    "events"
-                  ],
-                  "isEnabled": false
-                }
-              },
-              "storageEndpoints": {
-                "$default": {
-                  "sasTtlAsIso8601": "PT1H",
-                  "connectionString": "",
-                  "containerName": ""
-                }
-              },
-              "messagingEndpoints": {
-                "fileNotifications": {
-                  "lockDurationAsIso8601": "PT1M",
-                  "ttlAsIso8601": "PT1H",
-                  "maxDeliveryCount": 10
-                }
-              },
-              "enableFileUploadNotifications": false,
-              "cloudToDevice": {
-                "maxDeliveryCount": 10,
-                "defaultTtlAsIso8601": "PT1H",
-                "feedback": {
-                  "lockDurationAsIso8601": "PT1M",
-                  "ttlAsIso8601": "PT1H",
-                  "maxDeliveryCount": 10
-                }
-              },
-              "features": "None",
-              "minTlsVersion": "1.2",
-              "allowedFqdnList": []
-            },
-            "sku": {
-              "name": "S1",
-              "tier": "Standard",
-              "capacity": 1
-            },
-            "identity": {
-              "type": "None"
-            },
-            "systemData": {
-              "createdAt": "2022-12-06T02:11:45.2666667Z"
-            }
-          }
-        ]
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027IotHubs\u0027 could not be found in the namespace \u0027Microsoft.Devices\u0027 for api version \u00272022-11-15-preview\u0027. The supported api-versions are \u00272015-08-15-preview,2016-02-03,2017-01-19,2017-07-01,2018-01-22,2018-04-01,2018-04-01-preview,2018-12-01-preview,2019-03-22-preview,2019-03-22,2019-07-01-preview,2019-11-04,2020-01-01,2020-03-01,2020-04-01,2020-06-15,2020-07-10-preview,2020-08-01,2020-08-31-preview,2020-08-31,2021-02-01-preview,2021-03-03-preview,2021-03-31,2021-07-01-preview,2021-07-01,2021-07-02-preview,2021-07-02,2022-04-30-preview\u0027."
+        }
       }
     }
   ],

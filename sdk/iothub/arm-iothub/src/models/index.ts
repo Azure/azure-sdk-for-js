@@ -149,6 +149,8 @@ export interface IotHubProperties {
   enableDataResidency?: boolean;
   /** This property store root certificate related information */
   rootCertificate?: RootCertificateProperties;
+  /** This property specifies the IP Version the hub is currently utilizing. */
+  ipVersion?: IpVersion;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -1291,6 +1293,13 @@ export interface IotHubResourceDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for IotHub_manualFailover operation. */
+export interface IotHubManualFailoverHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
 /** Defines headers for PrivateEndpointConnections_update operation. */
 export interface PrivateEndpointConnectionsUpdateHeaders {
   /** URL to query for status of the operation. */
@@ -1488,6 +1497,27 @@ export enum KnownIotHubReplicaRoleType {
  * **secondary**
  */
 export type IotHubReplicaRoleType = string;
+
+/** Known values of {@link IpVersion} that the service accepts. */
+export enum KnownIpVersion {
+  /** Ipv4 */
+  Ipv4 = "ipv4",
+  /** Ipv6 */
+  Ipv6 = "ipv6",
+  /** Ipv4Ipv6 */
+  Ipv4Ipv6 = "ipv4ipv6"
+}
+
+/**
+ * Defines values for IpVersion. \
+ * {@link KnownIpVersion} can be used interchangeably with IpVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ipv4** \
+ * **ipv6** \
+ * **ipv4ipv6**
+ */
+export type IpVersion = string;
 
 /** Known values of {@link IotHubSku} that the service accepts. */
 export enum KnownIotHubSku {

@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { IotHubDescription, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
  *
  * @summary Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_createOrUpdate.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_createOrUpdate.json
  */
 async function iotHubResourceCreateOrUpdate() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const iotHubDescription: IotHubDescription = {
     etag: "AAAAAAFD6M4=",
@@ -41,6 +47,7 @@ async function iotHubResourceCreateOrUpdate() {
       },
       features: "None",
       ipFilterRules: [],
+      ipVersion: "ipv4ipv6",
       messagingEndpoints: {
         fileNotifications: {
           lockDurationAsIso8601: "PT1M",
@@ -95,4 +102,8 @@ async function iotHubResourceCreateOrUpdate() {
   console.log(result);
 }
 
-iotHubResourceCreateOrUpdate().catch(console.error);
+async function main() {
+  iotHubResourceCreateOrUpdate();
+}
+
+main().catch(console.error);

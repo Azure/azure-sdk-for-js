@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ExportDevicesRequest, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
  *
  * @summary Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_exportdevices.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_exportdevices.json
  */
 async function iotHubResourceExportDevices() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const exportDevicesParameters: ExportDevicesRequest = {
     authenticationType: "identityBased",
@@ -40,4 +46,8 @@ async function iotHubResourceExportDevices() {
   console.log(result);
 }
 
-iotHubResourceExportDevices().catch(console.error);
+async function main() {
+  iotHubResourceExportDevices();
+}
+
+main().catch(console.error);

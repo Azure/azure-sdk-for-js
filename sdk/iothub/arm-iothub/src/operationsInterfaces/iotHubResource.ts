@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IotHubDescription,
   IotHubResourceListBySubscriptionOptionalParams,
@@ -178,8 +178,8 @@ export interface IotHubResource {
     iotHubDescription: IotHubDescription,
     options?: IotHubResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceCreateOrUpdateResponse>,
       IotHubResourceCreateOrUpdateResponse
     >
   >;
@@ -211,8 +211,8 @@ export interface IotHubResource {
     iotHubTags: TagsResource,
     options?: IotHubResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceUpdateResponse>,
       IotHubResourceUpdateResponse
     >
   >;
@@ -240,8 +240,8 @@ export interface IotHubResource {
     resourceName: string,
     options?: IotHubResourceDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceDeleteResponse>,
       IotHubResourceDeleteResponse
     >
   >;

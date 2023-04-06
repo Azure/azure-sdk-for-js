@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { IotHubClient } = require("@azure/arm-iothub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update the status of a private endpoint connection with the specified name
  *
  * @summary Update the status of a private endpoint connection with the specified name
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_updateprivateendpointconnection.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_updateprivateendpointconnection.json
  */
 async function privateEndpointConnectionUpdate() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
   const privateEndpointConnection = {
@@ -41,4 +43,8 @@ async function privateEndpointConnectionUpdate() {
   console.log(result);
 }
 
-privateEndpointConnectionUpdate().catch(console.error);
+async function main() {
+  privateEndpointConnectionUpdate();
+}
+
+main().catch(console.error);

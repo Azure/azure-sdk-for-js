@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { CertificateDescription, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Adds new or replaces existing certificate.
  *
  * @summary Adds new or replaces existing certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_certificatescreateorupdate.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_certificatescreateorupdate.json
  */
 async function certificatesCreateOrUpdate() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "iothub";
   const certificateName = "cert";
   const certificateDescription: CertificateDescription = {
@@ -36,4 +42,8 @@ async function certificatesCreateOrUpdate() {
   console.log(result);
 }
 
-certificatesCreateOrUpdate().catch(console.error);
+async function main() {
+  certificatesCreateOrUpdate();
+}
+
+main().catch(console.error);

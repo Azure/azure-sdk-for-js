@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub.
  *
  * @summary Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_listehgroups.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_listehgroups.json
  */
 async function iotHubResourceListEventHubConsumerGroups() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const eventHubEndpointName = "events";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function iotHubResourceListEventHubConsumerGroups() {
   console.log(resArray);
 }
 
-iotHubResourceListEventHubConsumerGroups().catch(console.error);
+async function main() {
+  iotHubResourceListEventHubConsumerGroups();
+}
+
+main().catch(console.error);
