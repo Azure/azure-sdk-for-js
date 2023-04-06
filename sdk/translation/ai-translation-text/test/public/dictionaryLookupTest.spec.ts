@@ -39,7 +39,7 @@ describe("DictionaryLookup tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const dictionaryEntries = response.body as DictionaryLookupItemOutput[];
     assert.isTrue(dictionaryEntries[0].normalizedSource === "fly");
     assert.isTrue(dictionaryEntries[0].displaySource === "fly");
@@ -59,7 +59,7 @@ describe("DictionaryLookup tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const dictionaryEntries = response.body as DictionaryLookupItemOutput[];
     assert.isTrue(dictionaryEntries.length === 2);
   });

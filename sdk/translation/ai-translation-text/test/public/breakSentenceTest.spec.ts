@@ -33,7 +33,7 @@ describe("BreakSentence tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const breakSentences = response.body as BreakSentenceItemOutput[];
     assert.isTrue(breakSentences[0].detectedLanguage?.language === "en");
     assert.isTrue(breakSentences[0].detectedLanguage?.score === 1.0);
@@ -56,7 +56,7 @@ describe("BreakSentence tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const breakSentences = response.body as BreakSentenceItemOutput[];
 
     const expectedLengths = [78, 41, 110, 46];
@@ -78,7 +78,7 @@ describe("BreakSentence tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const breakSentences = response.body as BreakSentenceItemOutput[];
     assert.equal(breakSentences[0].sentLen[0], 18);
   });
@@ -94,7 +94,7 @@ describe("BreakSentence tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const breakSentences = response.body as BreakSentenceItemOutput[];
     assert.equal(breakSentences[0].detectedLanguage?.language, "en");
     assert.equal(breakSentences[1].detectedLanguage?.language, "ar");

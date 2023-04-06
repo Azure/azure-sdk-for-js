@@ -45,7 +45,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].translations[0].to === "cs");
@@ -64,7 +64,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -89,7 +89,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -113,7 +113,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -136,7 +136,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].to === "zh-Hans");
@@ -158,7 +158,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].transliteration != null);
@@ -183,7 +183,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -211,7 +211,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -236,7 +236,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -258,7 +258,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -280,7 +280,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -306,7 +306,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -329,7 +329,7 @@ describe("Translate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
@@ -348,9 +348,6 @@ describe("Translate tests", () => {
       body: inputText,
       queryParameters: parameters,
     });
-    if (response.status !== "200") {
-      throw response.body.toString();
-    }
     assert.equal(response.status, "200");
   });
 });

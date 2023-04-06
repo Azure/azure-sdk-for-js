@@ -40,7 +40,7 @@ describe("Transliterate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TransliteratedTextOutput[];
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
@@ -63,7 +63,7 @@ describe("Transliterate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TransliteratedTextOutput[];
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
@@ -87,7 +87,7 @@ describe("Transliterate tests", () => {
     if (response.status !== "200") {
       throw response.body.toString();
     }
-    assert.equal(response.status, "200");
+
     const translations = response.body as TransliteratedTextOutput[];
     assert.isTrue(translations[0].text !== null);
     assert.isTrue(translations[1].text !== null);
