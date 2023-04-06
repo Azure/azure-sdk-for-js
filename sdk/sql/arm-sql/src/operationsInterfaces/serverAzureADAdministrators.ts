@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerAzureADAdministrator,
   ServerAzureADAdministratorsListByServerOptionalParams,
@@ -64,8 +64,8 @@ export interface ServerAzureADAdministrators {
     parameters: ServerAzureADAdministrator,
     options?: ServerAzureADAdministratorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerAzureADAdministratorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerAzureADAdministratorsCreateOrUpdateResponse>,
       ServerAzureADAdministratorsCreateOrUpdateResponse
     >
   >;
@@ -98,7 +98,7 @@ export interface ServerAzureADAdministrators {
     serverName: string,
     administratorName: AdministratorName,
     options?: ServerAzureADAdministratorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Azure Active Directory administrator with the given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

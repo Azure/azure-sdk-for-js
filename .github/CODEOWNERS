@@ -71,7 +71,7 @@
 /sdk/communication/communication-alpha-ids/ @danielav7
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
+/sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -89,7 +89,7 @@
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @alexokun @Mrayyan @shwali-msft @allchiang-msft @mikehang-msft
+/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4
@@ -98,7 +98,7 @@
 /sdk/communication/communication-short-codes/ @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
+/sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
@@ -144,10 +144,6 @@
 
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
-/sdk/purview/purview-sharing-rest/ @anniruddh
-
-# PRLabel: %Personalizer
-/sdk/personalizer/ @tyclintw
 
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi

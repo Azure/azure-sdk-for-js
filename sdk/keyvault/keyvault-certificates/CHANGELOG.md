@@ -1,12 +1,16 @@
 # Release History
 
-## 4.7.0 (Unreleased)
+## 4.7.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 4.7.0 (2023-03-09)
 
 ### Other Changes
 

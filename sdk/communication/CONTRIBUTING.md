@@ -54,6 +54,10 @@ If you are testing against a personal resource, you can check the [Managed Ident
 
 For a more in-depth look on how to authenticate using managed identity, refer to the [Azure Identity client library for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) documentation. This document also has more ways for you to authenticate using the `DefaultAzureCredential` object besides the ones we discussed in this contributing file.
 
+### Running the New-TestResources and Remove-TestResources Scripts
+
+You may want to run the `New-TestResources.ps1` or `Remove-TestResources.ps1` scripts to test resource deployments in the SDK Live Test pipelines locally. You will need to add the additional `-TestResourceDirectories` parameter when running these scripts. If you are using the shared `test-resources.json` you can point to `communication/test-resources/`. If you are using a custom `test-resources.json`, you can point to `communication/<package-name>/test-resources.json`.
+
 ## Submitting a Pull Request
 
 The easiest way for you to test without worrying about breaking changes you may cause is to create a fork from the [JS Azure SDK repo](https://github.com/Azure/azure-sdk-for-js). After downloading your repo, make sure to add the original repo as an upstream. To do this, use the `git remote add upstream https://github.com/Azure/azure-sdk-for-js.git`

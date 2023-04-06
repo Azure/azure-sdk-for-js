@@ -195,6 +195,54 @@ directive:
       "Docker-Content-Digest": {
         "type": "string",
         "description": "Identifies the docker upload uuid for the current request."
+      },
+      "Content-Type": {
+        "type": "string",
+        "description": "Content type of the uploaded media",
+        "x-ms-client-name": "MediaType"
       }
     };
+```
+
+# Rename Descriptor.size to sizeInBytes
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.Descriptor
+  transform: >
+    $.properties.size["x-ms-client-name"] = "sizeInBytes";
+```
+
+# Remove security definitions
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.
+    transform: >
+      delete $["securityDefinitions"];
+      delete $["security"];
+```
+
+# Rename `config` to `configuration` in OciManifest
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.OCIManifest
+    transform: >
+      $.properties.config["x-ms-client-name"] = "configuration";
+```
+
+# Make `deleteBlob` succeed on 404
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      $.responses["404"] = {
+        "description": "The blob to be deleted does not exist"
+      };
 ```

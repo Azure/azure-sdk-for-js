@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AssetTrack,
   TracksListOptionalParams,
@@ -71,8 +71,8 @@ export interface Tracks {
     parameters: AssetTrack,
     options?: TracksCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TracksCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<TracksCreateOrUpdateResponse>,
       TracksCreateOrUpdateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface Tracks {
     trackName: string,
     options?: TracksDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TracksDeleteResponse>, TracksDeleteResponse>
+    PollerLike<PollOperationState<TracksDeleteResponse>, TracksDeleteResponse>
   >;
   /**
    * Deletes a Track in the asset
@@ -142,7 +142,7 @@ export interface Tracks {
     parameters: AssetTrack,
     options?: TracksUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TracksUpdateResponse>, TracksUpdateResponse>
+    PollerLike<PollOperationState<TracksUpdateResponse>, TracksUpdateResponse>
   >;
   /**
    * Updates an existing Track in the asset
@@ -180,8 +180,8 @@ export interface Tracks {
     trackName: string,
     options?: TracksUpdateTrackDataOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<TracksUpdateTrackDataResponse>,
+    PollerLike<
+      PollOperationState<TracksUpdateTrackDataResponse>,
       TracksUpdateTrackDataResponse
     >
   >;

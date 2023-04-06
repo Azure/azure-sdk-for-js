@@ -398,7 +398,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -422,7 +422,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName
   ],
@@ -447,7 +447,7 @@ const listExpressionTracesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName
   ],
@@ -465,14 +465,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top1, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -489,14 +488,13 @@ const listExpressionTracesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName
   ],

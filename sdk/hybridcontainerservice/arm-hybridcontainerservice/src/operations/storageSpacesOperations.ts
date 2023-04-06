@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridContainerServiceClient } from "../hybridContainerServiceClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageSpaces,
   StorageSpacesListByResourceGroupNextOptionalParams,
@@ -201,8 +205,8 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
     storageSpaces: StorageSpaces,
     options?: StorageSpacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSpacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSpacesCreateOrUpdateResponse>,
       StorageSpacesCreateOrUpdateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
     ): Promise<StorageSpacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSpacesName, storageSpaces, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSpacesName, storageSpaces, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageSpacesCreateOrUpdateResponse,
+      OperationState<StorageSpacesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -311,8 +318,8 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
     storageSpaces: StorageSpacesPatch,
     options?: StorageSpacesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSpacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSpacesUpdateResponse>,
       StorageSpacesUpdateResponse
     >
   > {
@@ -322,7 +329,7 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
     ): Promise<StorageSpacesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -355,15 +362,18 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSpacesName, storageSpaces, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSpacesName, storageSpaces, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageSpacesUpdateResponse,
+      OperationState<StorageSpacesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -612,7 +622,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -633,7 +642,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

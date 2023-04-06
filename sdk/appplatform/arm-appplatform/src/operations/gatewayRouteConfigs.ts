@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GatewayRouteConfigResource,
   GatewayRouteConfigsListNextOptionalParams,
@@ -177,8 +181,8 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     gatewayRouteConfigResource: GatewayRouteConfigResource,
     options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
       GatewayRouteConfigsCreateOrUpdateResponse
     >
   > {
@@ -188,7 +192,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     ): Promise<GatewayRouteConfigsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,9 +225,9 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         gatewayName,
@@ -231,10 +235,13 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         gatewayRouteConfigResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GatewayRouteConfigsCreateOrUpdateResponse,
+      OperationState<GatewayRouteConfigsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -287,14 +294,14 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     options?: GatewayRouteConfigsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -327,13 +334,19 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, routeConfigName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        routeConfigName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

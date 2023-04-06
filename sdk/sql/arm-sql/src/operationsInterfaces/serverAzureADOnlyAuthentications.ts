@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerAzureADOnlyAuthentication,
   ServerAzureADOnlyAuthenticationsListByServerOptionalParams,
@@ -66,10 +66,8 @@ export interface ServerAzureADOnlyAuthentications {
     parameters: ServerAzureADOnlyAuthentication,
     options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse>,
       ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse
     >
   >;
@@ -104,7 +102,7 @@ export interface ServerAzureADOnlyAuthentications {
     serverName: string,
     authenticationName: AuthenticationName,
     options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing server Active Directory only authentication property.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

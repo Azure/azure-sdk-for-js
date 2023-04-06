@@ -1,5 +1,14 @@
 # Release History
 
+## 1.0.0-beta.12 (2023-04-04)
+
+### Features Added
+
+- Use Prefix/Distro version if available.
+- Remove standard metrics custom handling.
+- Remove mapped Span attributes and remaining as properties.
+- Updated OpenTelemetry dependencies to their latest available versions.
+
 ## 1.0.0-beta.11 (2023-02-02)
 
 ### Features Added

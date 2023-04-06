@@ -61,7 +61,7 @@ message DownstreamMessage {
         string from = 1;
         optional string group = 2;
         MessageData data = 3;
-        uint64 sequence_id = 4;
+        optional uint64 sequence_id = 4;
     }
 
     message SystemMessage {

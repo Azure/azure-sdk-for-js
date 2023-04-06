@@ -491,6 +491,10 @@ describe("BatchingReceiver unit tests", () => {
       clock?.runAll();
     };
 
+    fakeRheaReceiver["close"] = (_options) => {
+      return Promise.resolve();
+    };
+
     Object.defineProperty(fakeRheaReceiver, "credit", {
       get: () => credit,
     });
@@ -614,6 +618,63 @@ describe("BatchingReceiver unit tests", () => {
       } catch (err: any) {
         assert.equal(err.message, "actual error");
       }
+    });
+
+    it("batchingReceiverLite.receiveMessages() does not over-add credit", async () => {
+      const fakeRheaReceiver = createFakeReceiver();
+
+      const batchingReceiver = new BatchingReceiverLite(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        async () => {
+          return fakeRheaReceiver;
+        },
+        "peekLock",
+        false,
+        false
+      );
+
+      batchingReceiver["_receiveMessagesImpl"](
+        fakeRheaReceiver,
+        {
+          maxMessageCount: 2,
+          maxTimeAfterFirstMessageInMs: 1,
+          maxWaitTimeInMs: 1,
+        },
+        () => {
+          /* empty body */
+        },
+        () => {
+          /* empty body */
+        }
+      );
+
+      assert.equal(
+        fakeRheaReceiver.credit,
+        2,
+        "No messages received, nothing drained, should have all the credits from the start."
+      );
+
+      batchingReceiver["_receiveMessagesImpl"](
+        fakeRheaReceiver,
+        {
+          maxMessageCount: 2,
+          maxTimeAfterFirstMessageInMs: 1,
+          maxWaitTimeInMs: 1,
+        },
+        () => {
+          /* empty body */
+        },
+        () => {
+          /* empty body */
+        }
+      );
+
+      assert.equal(
+        fakeRheaReceiver.credit,
+        2,
+        "No messages received, nothing drained, should still have enough credits."
+      );
     });
 
     it("batchingReceiverLite.close() (ie, no error) just shuts down the current operation with no error", async () => {

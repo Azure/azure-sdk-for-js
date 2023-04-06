@@ -2193,7 +2193,6 @@ const listHostingEnvironmentDetectorResponsesNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2215,7 +2214,6 @@ const listSiteDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2237,7 +2235,6 @@ const listSiteDiagnosticCategoriesNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2259,7 +2256,6 @@ const listSiteAnalysesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2282,7 +2278,6 @@ const listSiteDetectorsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2305,7 +2300,6 @@ const listSiteDetectorResponsesSlotNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2328,7 +2322,6 @@ const listSiteDiagnosticCategoriesSlotNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2351,7 +2344,6 @@ const listSiteAnalysesSlotNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2375,7 +2367,6 @@ const listSiteDetectorsSlotNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

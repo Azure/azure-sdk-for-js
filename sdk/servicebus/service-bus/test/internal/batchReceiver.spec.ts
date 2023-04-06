@@ -18,13 +18,13 @@ import {
   getRandomTestClientTypeWithSessions,
 } from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
-import { Receiver } from "rhea-promise";
+import { Receiver, ReceiverEvents } from "rhea-promise";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "../../src/receivers/sessionReceiver";
 import { LinkEntity } from "../../src/core/linkEntity";
-import { Constants, StandardAbortMessage } from "@azure/core-amqp";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { testLogger } from "./utils/misc";
 
@@ -888,7 +888,9 @@ describe("Batching Receiver", () => {
           "Receiving a single message to warm up receiver (there isn't one, so this should just time out)"
         );
 
-        await receiver.receiveMessages(1);
+        const maxWaitTimeInMs = 5000;
+
+        await receiver.receiveMessages(1, { maxWaitTimeInMs });
 
         testLogger.info("After receiving our non-existent warmup message");
 
@@ -903,9 +905,11 @@ describe("Batching Receiver", () => {
 
         testLogger.info("Receiving first message + 9 more (forces a drain to happen)");
 
+        // ensure draining will not time out before detached error
+        batchingReceiver!["_batchingReceiverLite"]["_drainTimeoutInMs"] = maxWaitTimeInMs * 2;
         // Purposefully request more messages than what's available
         // so that the receiver will have to drain.
-        const messages1 = await receiver.receiveMessages(10);
+        const messages1 = await receiver.receiveMessages(10, { maxWaitTimeInMs });
 
         testLogger.info(
           `Receiving done, got ${messages1.length} messages, now waiting for detach event since we forced a .idle()`
@@ -913,12 +917,7 @@ describe("Batching Receiver", () => {
 
         const result = await Promise.all([
           onDetachedCalledPromise,
-          delay(
-            Constants.defaultOperationTimeoutInMs * 1.5,
-            undefined,
-            undefined,
-            "ondetachednevercalled"
-          ),
+          delay(maxWaitTimeInMs * 1.5, undefined, undefined, "ondetachednevercalled"),
         ]);
 
         if (typeof result === "string" && result === "ondetachednevercalled") {
@@ -942,7 +941,7 @@ describe("Batching Receiver", () => {
         // wait for the 2nd message to be received.
         // NOTE: we've forced the connection to restart at this point - it's quite possible to get errors
         // while we attempt to receive, so we need to handle that.
-        const messages2 = await receiver.receiveMessages(1);
+        const messages2 = await receiver.receiveMessages(1, { maxWaitTimeInMs });
 
         testLogger.info("Messages received: ${messages2.length}");
 
@@ -1161,25 +1160,28 @@ describe("Batching Receiver", () => {
         // Send a message so we can be sure when the receiver is open and active.
         await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const messages1 = await sessionReceiver.receiveMessages(1);
+        const maxWaitTimeInMs = 5000;
+        const messages1 = await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs });
         should.equal(
           messages1.length,
           1,
           "Unexpected number of received messages(before disconnect)."
         );
 
-        const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
+        const messageSession = (sessionReceiver as ServiceBusSessionReceiverImpl)[
           "_messageSession"
         ];
 
         // Send a message so we have something to receive.
         await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const { onDetachedCalledPromise } = causeDisconnectDuringDrain(batchingReceiver);
+        const { onDetachedCalledPromise } = causeDisconnectDuringDrain(messageSession);
 
+        // ensure draining will not time out before detached error
+        messageSession!["_batchingReceiverLite"]["_drainTimeoutInMs"] = maxWaitTimeInMs * 2;
         // Purposefully request more messages than what's available
         // so that the receiver will have to drain.
-        const messages2 = await sessionReceiver.receiveMessages(10);
+        const messages2 = await sessionReceiver.receiveMessages(10, { maxWaitTimeInMs });
 
         await onDetachedCalledPromise;
 
@@ -1192,7 +1194,7 @@ describe("Batching Receiver", () => {
 
         try {
           // New receiveMessages should fail because the session lock would be lost due to the disconnection
-          await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+          await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs });
           assert.fail("Receive messages call should have failed since the lock was lost");
         } catch (error: any) {
           should.equal(
@@ -1205,7 +1207,7 @@ describe("Batching Receiver", () => {
           sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
             entityNames
           )) as ServiceBusSessionReceiver;
-          const messages3 = await sessionReceiver.receiveMessages(1);
+          const messages3 = await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs });
 
           messages3.length.should.equal(
             1,
@@ -1362,6 +1364,115 @@ describe("Batching Receiver", () => {
           });
         }
       });
+    });
+  });
+
+  describe("Batch Receiver - drain", function (): void {
+    before(() => {
+      serviceBusClient = createServiceBusClientForTests();
+    });
+
+    after(() => {
+      return serviceBusClient.test.after();
+    });
+
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    it("honors timeout", async () => {
+      /**
+       * This test ensures that if `receiveMessages` will return
+       * even if the `receiver_drain` event never fires.
+       *
+       * To test this, we remove the underlying receiver's `receiver_drain`
+       * event handler so that the drain timeout has to be reached for the
+       * operation to return.
+       */
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      const testMessages = [];
+      for (let i = 0; i < 2; i++) {
+        testMessages.push(TestMessage.getSample());
+      }
+      await sender.sendMessages(testMessages);
+
+      // The first time `receiveMessages` is called the receiver link is created.
+      // The `receiver_drained` handler is only added after the link is created,
+      // which is a non-blocking task.
+      await receiver.receiveMessages(1, { maxWaitTimeInMs: 1 });
+
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
+
+      if (!batchingReceiver!.isOpen()) {
+        throw new Error(`Unable to initialize receiver link.`);
+      }
+
+      // Since the receiver has already been initialized,
+      // the `receiver_drained` handler is attached as soon
+      // as receiveMessages is invoked.
+      // We remove the `receiver_drained` timeout after `receiveMessages`
+      // does its initial setup by wrapping it in a `setTimeout`.
+      // This triggers the `receiver_drained` handler removal on the next
+      // tick of the event loop; after the handler has been attached.
+      setTimeout(() => {
+        // remove `receiver_drained` event handler
+        batchingReceiver!["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
+      }, 0);
+
+      const results = await receiver.receiveMessages(5, { maxWaitTimeInMs: 1 });
+
+      // eslint-disable-next-line no-unused-expressions
+      Array.isArray(results).should.be.true;
+      results.length.should.equal(1, "Received an unexpected number of messages.");
+    });
+
+    it("can call receiveMessages after a timeout", async () => {
+      /**
+       * This test ensures that subsequent `receiveMessages` will work
+       * even if the drain timeout was hit in an earlier invocation.
+       * This is interesting to test because we close the receiver link
+       * if the drain timeout is hit, so subsequent invocations need to
+       * recreate it.
+       */
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      const testMessages = [];
+      for (let i = 0; i < 3; i++) {
+        testMessages.push(TestMessage.getSample());
+      }
+      await sender.sendMessages(testMessages);
+
+      // The first time `receiveMessages` is called the receiver link is created.
+      // The `receiver_drained` handler is only added after the link is created,
+      // which is a non-blocking task.
+      await receiver.receiveMessages(1, { maxWaitTimeInMs: 1 });
+
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl)["_batchingReceiver"];
+      if (!batchingReceiver!.isOpen()) {
+        throw new Error(`Unable to initialize receiver link.`);
+      }
+
+      // Since the receiver has already been initialized,
+      // the `receiver_drained` handler is attached as soon
+      // as receiveMessages is invoked.
+      setTimeout(() => {
+        // remove `receiver_drained` event handler
+        batchingReceiver!["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
+      }, 0);
+
+      batchingReceiver!["_batchingReceiverLite"]["_drainTimeoutInMs"] = 0;
+      const results1 = await receiver.receiveMessages(5, { maxWaitTimeInMs: 1 });
+      // eslint-disable-next-line no-unused-expressions
+      Array.isArray(results1).should.be.true;
+      results1.length.should.equal(2, "Received an unexpected number of messages.");
+
+      batchingReceiver!["_batchingReceiverLite"]["_drainTimeoutInMs"] = 200;
+      // this time the link should be re-created and `receiver_drained` event handler
+      // is attached. Draining will not time out.
+      await sender.sendMessages(testMessages);
+      const results2 = await receiver.receiveMessages(5, { maxWaitTimeInMs: 1 });
+      // eslint-disable-next-line no-unused-expressions
+      Array.isArray(results2).should.be.true;
+      results2.length.should.equal(3, "Received an unexpected number of messages.");
     });
   });
 });

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List custom assessment automations by provided subscription
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomAssessmentAutomations/customAssessmentAutomationListBySubscription_example.json
  */
 async function listCustomAssessmentAutomationsInASubscription() {
-  const subscriptionId = "e5d1b86c-3051-44d5-8802-aa65d45a279b";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "e5d1b86c-3051-44d5-8802-aa65d45a279b";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listCustomAssessmentAutomationsInASubscription() {
   console.log(resArray);
 }
 
-listCustomAssessmentAutomationsInASubscription().catch(console.error);
+async function main() {
+  listCustomAssessmentAutomationsInASubscription();
+}
+
+main().catch(console.error);

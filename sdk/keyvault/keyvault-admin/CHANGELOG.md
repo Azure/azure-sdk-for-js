@@ -1,14 +1,20 @@
 # Release History
 
-## 4.4.0 (Unreleased)
+## 4.4.1 (Unreleased)
 
 ### Features Added
-
-- Added `KeyVaultSettingsClient` to get and update Managed HSM settings.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 4.4.0 (2023-03-09)
+
+### Features Added
+
+- Added `KeyVaultSettingsClient` to get and update Managed HSM settings.
 
 ### Other Changes
 

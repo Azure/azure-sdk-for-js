@@ -964,7 +964,7 @@ export const Descriptor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      size: {
+      sizeInBytes: {
         serializedName: "size",
         type: {
           name: "Number"
@@ -1226,7 +1226,7 @@ export const OCIManifest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OCIManifest",
     modelProperties: {
-      config: {
+      configuration: {
         serializedName: "config",
         type: {
           name: "Composite",
@@ -1618,6 +1618,12 @@ export const ContainerRegistryGetManifestHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       dockerContentDigest: {
         serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      },
+      mediaType: {
+        serializedName: "content-type",
         type: {
           name: "String"
         }

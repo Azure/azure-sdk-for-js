@@ -368,6 +368,18 @@ export function createWindowsTileNotification(notification: NotificationCommon):
 export function createWindowsToastNotification(notification: NotificationCommon): WindowsNotification;
 
 // @public
+export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
+
+// @public
+export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification;
+
+// @public
+export function createXiaomiRegistrationDescription(description: XiaomiRegistrationDescriptionCommon): XiaomiRegistrationDescription;
+
+// @public
+export function createXiaomiTemplateRegistrationDescription(description: XiaomiTemplateRegistrationDescriptionCommon): XiaomiTemplateRegistrationDescription;
+
+// @public
 export interface DeviceTokenInstallation extends InstallationCommon {
     pushChannel: string;
 }
@@ -472,7 +484,7 @@ export interface GcmTemplateRegistrationDescriptionCommon extends GcmRegistratio
 }
 
 // @public
-export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FcmLegacyInstallation | WindowsInstallation;
+export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FcmLegacyInstallation | XiaomiInstallation | WindowsInstallation;
 
 // @public
 export interface InstallationCommon {
@@ -533,7 +545,7 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | WindowsNotification | TemplateNotification;
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | XiaomiNotification | WindowsNotification | TemplateNotification;
 
 // @public
 export interface NotificationCommon {
@@ -559,6 +571,7 @@ export interface NotificationDetails {
     tags?: string;
     targetPlatforms?: string;
     wnsOutcomeCounts?: NotificationOutcome[];
+    xiaomiOutcomeCounts?: NotificationOutcome[];
 }
 
 // @public
@@ -690,10 +703,10 @@ export interface PolledOperationOptions extends OperationOptions {
 export type PushHandle = BrowserPushChannel | string;
 
 // @public
-export type RegistrationChannel = AdmRegistrationChannel | AppleRegistrationChannel | BaiduRegistrationChannel | BrowserRegistrationChannel | FirebaseLegacyRegistrationChannel | WindowsRegistrationChannel;
+export type RegistrationChannel = AdmRegistrationChannel | AppleRegistrationChannel | BaiduRegistrationChannel | BrowserRegistrationChannel | FirebaseLegacyRegistrationChannel | XiaomiRegistrationChannel | WindowsRegistrationChannel;
 
 // @public
-export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRegistrationDescription | AppleRegistrationDescription | AppleTemplateRegistrationDescription | BaiduRegistrationDescription | BaiduTemplateRegistrationDescription | BrowserRegistrationDescription | BrowserTemplateRegistrationDescription | GcmRegistrationDescription | GcmTemplateRegistrationDescription | MpnsRegistrationDescription | MpnsTemplateRegistrationDescription | WindowsRegistrationDescription | WindowsTemplateRegistrationDescription;
+export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRegistrationDescription | AppleRegistrationDescription | AppleTemplateRegistrationDescription | BaiduRegistrationDescription | BaiduTemplateRegistrationDescription | BrowserRegistrationDescription | BrowserTemplateRegistrationDescription | GcmRegistrationDescription | GcmTemplateRegistrationDescription | MpnsRegistrationDescription | MpnsTemplateRegistrationDescription | XiaomiRegistrationDescription | XiaomiTemplateRegistrationDescription | WindowsRegistrationDescription | WindowsTemplateRegistrationDescription;
 
 // @public
 export interface RegistrationDescriptionCommon {
@@ -729,7 +742,7 @@ export interface RegistrationResult {
 }
 
 // @public
-export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
+export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Mpns" | "MpnsTemplate" | "Xiaomi" | "XiaomiTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {
@@ -799,6 +812,41 @@ export interface WindowsTemplateRegistrationDescription extends WindowsTemplateR
 // @public
 export interface WindowsTemplateRegistrationDescriptionCommon extends WindowsRegistrationDescriptionCommon, TemplateRegistrationDescription {
     wnsHeaders?: Record<string, string>;
+}
+
+// @public
+export interface XiaomiInstallation extends DeviceTokenInstallation {
+    platform: "xiaomi";
+}
+
+// @public
+export interface XiaomiNotification extends JsonNotification {
+    platform: "xiaomi";
+}
+
+// @public
+export interface XiaomiRegistrationChannel {
+    kind: "xiaomi";
+    xiaomiRegistrationId: string;
+}
+
+// @public
+export interface XiaomiRegistrationDescription extends XiaomiRegistrationDescriptionCommon {
+    kind: "Xiaomi";
+}
+
+// @public
+export interface XiaomiRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    xiaomiRegistrationId: string;
+}
+
+// @public
+export interface XiaomiTemplateRegistrationDescription extends XiaomiTemplateRegistrationDescriptionCommon {
+    kind: "XiaomiTemplate";
+}
+
+// @public
+export interface XiaomiTemplateRegistrationDescriptionCommon extends XiaomiRegistrationDescriptionCommon, TemplateRegistrationDescription {
 }
 
 // (No @packageDocumentation comment for this package)

@@ -247,7 +247,6 @@ const listAppServiceCertificateOrderDetectorResponseNextOperationSpec: coreClien
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
