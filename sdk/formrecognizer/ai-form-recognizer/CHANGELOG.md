@@ -22,8 +22,6 @@
 - Form Recognizer pollers will now appropriately handle `AbortSignal` cancellation. If the client passes an `AbortSignal` to a long-running operation (such as any of the model/classifier creation operations or any analysis operation), the `AbortSignal` may now be used to abort the operation. The poller will stop polling, any requests in progress will be aborted, and the poller will throw an `AbortError`.
 - Fixed a bug in which fields of strongly-typed custom `DocumentModel` objects that contain spaces in their field names were not handled correctly. A field named `"Account Number"` will now be represented as `accountNumber` in the `DocumentModel` object, instead of `"account Number"`. None of the supported prebuilt DocumentModel objects are affected by this change.
 
-### Other Changes
-
 ## 4.0.0 (2022-09-08)
 
 ### Features Added
