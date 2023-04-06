@@ -4,7 +4,6 @@
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { __decorate } from "tslib";
 import { SDK_VERSION } from "./constants";
 import {
   CopyAuthorization,
@@ -39,6 +38,7 @@ import {
   GetOperationOptions,
   ListModelsOptions,
   ListOperationsOptions,
+  PollerOptions,
 } from "./options";
 import { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
 import {
@@ -605,8 +605,7 @@ export class DocumentModelAdministrationClient {
     function captureRetryAfter(
       rawResponse: FullOperationResponse,
       ctx: OperationContext,
-      options: import("/home/wtemple/Development/azure-sdk-for-js/sdk/formrecognizer/ai-form-recognizer/src/options/PollerOptions").PollerOptions<State> &
-        import("/home/wtemple/Development/azure-sdk-for-js/sdk/core/core-client/types/latest/core-client").OperationOptions,
+      options: PollerOptions<State> & OperationOptions,
       args: [flatResponse: unknown, error?: unknown]
     ) {
       const retryAfterHeader = rawResponse.headers.get("retry-after");
