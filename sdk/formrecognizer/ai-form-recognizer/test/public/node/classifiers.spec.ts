@@ -31,7 +31,7 @@ const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOI
  * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
  * environment.
  */
-matrix([[/* true, */ false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
@@ -149,6 +149,12 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
     });
 
     it("get & delete classifiers from the account", async function () {
+      if (useAad) {
+        // TODO: AAD is not implemented for this operation in the service.
+        this.skip();
+        return;
+      }
+
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
         makeCredential(useAad),
