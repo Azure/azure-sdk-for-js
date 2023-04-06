@@ -77,7 +77,7 @@ With the value of the `TranslatorCredential` you can create the [TextTranslation
 
 ```typescript
 const translateCedential = new TranslatorCredential(apiKey, region);
-const translationClient = TextTranslationFactory(endpoint, translateCedential);
+const translationClient = TextTranslationClient(endpoint, translateCedential);
 ```
 
 ## Examples
