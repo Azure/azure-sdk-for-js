@@ -40,7 +40,7 @@ describe("DictionaryExamples tests", () => {
     }
 
     const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
-    assert.equals(dictionaryExamples[0].normalizedSource, "fly");
+    assert.equal(dictionaryExamples[0].normalizedSource, "fly");
     assert.isTrue(dictionaryExamples[0].normalizedTarget === "volar");
   });
 

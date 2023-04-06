@@ -120,8 +120,5 @@
         "prefix": "userAgentInfo"
       }
     ]
-  },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   }
 }
