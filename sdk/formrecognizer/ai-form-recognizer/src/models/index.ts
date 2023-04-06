@@ -5,6 +5,7 @@ export {
   DocumentPhoneNumberField,
   DocumentDateField,
   DocumentNumberField,
+  DocumentBooleanField,
   DocumentTimeField,
   DocumentArrayField,
   DocumentObjectField,

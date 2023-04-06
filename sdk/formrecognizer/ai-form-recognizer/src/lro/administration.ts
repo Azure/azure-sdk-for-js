@@ -14,7 +14,12 @@ import {
   DocumentClassifierBuildOperationDetails,
 } from "../generated";
 import { PollerOptions } from "../options/PollerOptions";
+import { OperationContext } from "./util/poller";
 
+/**
+ * The possible types of all administration operation states.
+ * @internal
+ */
 export type AdministrationOperationState =
   | DocumentModelOperationState
   | DocumentClassifierOperationState;
@@ -72,13 +77,19 @@ export interface DocumentModelOperationState
   extends PollOperationState<DocumentModelDetails>,
     ModelAdministrationOperationStateCommon {}
 
-// The generated type for GetOperationResult is not ideal here. This assertion is just kicking the can down the road but
-// it's about the only thing we can do to actually access the common `result` property.
+/**
+ * The respones of a model creation operation.
+ * @internal
+ */
 export type DocumentModelBuildResponse =
   | DocumentModelBuildOperationDetails
   | DocumentModelCopyToOperationDetails
   | DocumentModelComposeOperationDetails;
 
+/**
+ * The possible responses of an administration operation.
+ * @internal
+ */
 export type DocumentModelAdministrationResponse =
   | DocumentModelBuildResponse
   | DocumentClassifierBuildOperationDetails;
@@ -107,8 +118,8 @@ export async function toTrainingPollOperationState(
     // `DocumentModelDetails | DocumentClassifierDetails | undefined`, which isn't assignable to the type of
     // either operation state's result. We would need some kind of dependent typing to express how the type of `result`
     // actually _determines_ the type of the resulting return value.
-    result: response.result as never,
-  };
+    result: response.result,
+  } as DocumentModelOperationState | DocumentClassifierOperationState;
 }
 
 /**
@@ -125,13 +136,17 @@ export interface TrainingOperationDefinition<State extends AdministrationOperati
   /**
    * A function to start the operation, producing an operationLocation.
    */
-  start: () => Promise<{ operationLocation?: string }>;
+  start: (ctx: OperationContext) => Promise<{ operationLocation?: string }>;
   /**
    * Options for the poller and requests.
    */
   options: PollerOptions<State> & OperationOptions;
 }
 
+/**
+ * A long-running operation (poller) that tracks the state of a custom classifier creation operation, eventually
+ * producing a {@link DocumentClassifierDetails}.
+ */
 export type DocumentClassifierPoller = PollerLike<
   DocumentClassifierOperationState,
   DocumentClassifierDetails

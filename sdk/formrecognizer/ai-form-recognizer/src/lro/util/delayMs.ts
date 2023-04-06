@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignalLike } from "@azure/abort-controller";
 import { maybemap } from "../../util";
 
 type CancellationToken = Parameters<typeof clearTimeout>[0];
@@ -37,22 +38,30 @@ export interface CancelablePromiseLike<T> extends PromiseLike<T> {
  * @param ms - the number of milliseconds to wait before resolving
  * @param cb - a callback that can provide the caller with a cancellation function
  */
-export function delayMs(ms: number): CancelablePromiseLike<void> {
+export function delayMs(
+  ms: number,
+  abortSignal: AbortSignalLike | undefined
+): CancelablePromiseLike<void> {
   let aborted = false;
-  let toReject: (() => void) | undefined;
+  let toReject: ((e: Error) => void) | undefined;
+
+  abortSignal?.addEventListener("abort", () => {
+    aborted = true;
+    toReject?.(new Error("The operation was aborted."));
+  });
 
   return Object.assign(
     new Promise<void>((resolve, reject) => {
       let token: CancellationToken | undefined;
       toReject = () => {
         maybemap(token, clearTimeout);
-        reject(INTERRUPTED);
+        reject(new Error(INTERRUPTED));
       };
 
       // In the rare case that the operation is _already_ aborted, we will reject instantly. This could happen, for
       // example, if the user calls the cancellation function immediately without yielding execution.
       if (aborted) {
-        toReject();
+        toReject(new Error("The operation was canceled prematurely."));
       } else {
         token = setTimeout(resolve, ms);
       }
@@ -60,7 +69,7 @@ export function delayMs(ms: number): CancelablePromiseLike<void> {
     {
       cancel: () => {
         aborted = true;
-        toReject?.();
+        toReject?.(new Error("The operation was canceled."));
       },
     }
   );

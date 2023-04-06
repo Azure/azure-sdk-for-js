@@ -12,7 +12,9 @@ import {
   DocumentAnnotationKind,
   DocumentBarcodeKind,
   DocumentFormulaKind,
+  DocumentPageKind,
 } from "../generated";
+import { AnalyzeDocumentOptions } from "../options";
 
 /** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
 export interface HasBoundingPolygon {
@@ -165,60 +167,80 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
-
+  /** Common name of the key-value pair. */
   commonName?: string;
 
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
 }
 
+/**
+ * A visual annotation element in the document, such as a check mark or cross.
+ */
 export interface DocumentAnnotation extends HasBoundingPolygon {
+  /**
+   * The kind of annotation that this element represents. One of:
+   *  - "check": A check mark (✓).
+   *  - "cross": A cross mark (X).
+   */
   kind: DocumentAnnotationKind;
-  confidence: number;
-}
 
-export interface DocumentBarcode extends HasBoundingPolygon {
-  kind: DocumentBarcodeKind;
-  value: string;
-  span: DocumentSpan;
-  confidence: number;
-}
-
-export interface DocumentFormula extends HasBoundingPolygon {
-  kind: DocumentFormulaKind;
-  value: string;
-  span: DocumentSpan;
+  /** Confidence of correctly extracting the annotation. */
   confidence: number;
 }
 
 /**
- * The type of content that this page represents. One of:
- * 
- *   - "document": A page from a PDF or image file. All content from Office/HTML files is represented as a single page.
- *   - "sheet": A sheet from a spreadsheet.
- *   - "slide": A slide from a presentation.
- *   - "image": An embedded image from an Office/HTML file.
- * 
- * This type is non-exhaustive. It is possible that new values will be added in the future.
+ * An extracted barcode.
  */
-export type DocumentPageKind = "document" | "sheet" | "slide" | "image" | (string & {});
+export interface DocumentBarcode extends HasBoundingPolygon {
+  /**
+   * The type of barcode that was extracted. See the `DocumentBarcodeKind` type for a list of possible values.
+   */
+  kind: DocumentBarcodeKind;
+  /** The encoded data in the barcode. */
+  value: string;
+
+  /** The location of the barcode in the reading-order concatenated `content`. */
+  span: DocumentSpan;
+
+  /** Confidence of correctly extracting the barcode. */
+  confidence: number;
+}
+
+/**
+ * An extracted formula.
+ */
+export interface DocumentFormula extends HasBoundingPolygon {
+  /**
+   * The type of formula that was extracted. One of:
+   * - "inline": a formula embedded in the content of a paragraph.
+   * - "display": a formula in display mode that takes up a whole line.
+   */
+  kind: DocumentFormulaKind;
+
+  /** A LaTeX expression describing the formula. */
+  value: string;
+
+  /** Location of the formula in the reading-order concatenated content. */
+  span: DocumentSpan;
+
+  /** Confidence of correctly extracting the formula. */
+  confidence: number;
+}
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
   /**
    * The type of content that this page represents. One of:
-   * 
+   *
    *   - "document": A page from a PDF or image file. All content from Office/HTML files is represented as a single page.
    *   - "sheet": A sheet from a spreadsheet.
    *   - "slide": A slide from a presentation.
    *   - "image": An embedded image from an Office/HTML file.
-   * 
-   * ## API Compatibility
-   * 
-   * This property was introduced in version 2023-02-28-preview. If the page type is not known, the value is "document"
-   * by default.
+   *
+   * If the page type is not known, the value is "document" by default.
    */
-  kind: DocumentPageKind,
+  kind: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
@@ -238,7 +260,22 @@ export interface DocumentPage {
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
 
+  /**
+   * Extracted annotations from the page, such as check marks or cross marks.
+   */
   annotations?: DocumentAnnotation[];
+
+  /**
+   * Extracted barcodes from the page.
+   */
   barcodes?: DocumentBarcode[];
+
+  /**
+   * Extracted formulas from the page.
+   *
+   * The `"ocr.formula"` feature must be enabled or this property will be undefined.
+   *
+   * See {@link AnalyzeDocumentOptions#features}.
+   */
   formulas?: DocumentFormula[];
 }

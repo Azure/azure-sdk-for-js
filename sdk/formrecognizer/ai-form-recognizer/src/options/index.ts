@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
+import { AnalyzeDocumentOptions, FormRecognizerFeature } from "./AnalyzeDocumentOptions";
 import {
   CreateDocumentModelOptions,
   CommonModelCreationOptions,
@@ -28,6 +28,8 @@ import { PollerOptions } from "./PollerOptions";
 
 import { BeginBuildDocumentClassifierOptions } from "./BuildDocumentClassifierOptions";
 
+import { ClassifyDocumentOptions } from "./ClassifyDocumentOptions";
+
 export {
   AnalyzeDocumentOptions,
   CreateDocumentModelOptions,
@@ -50,4 +52,6 @@ export {
   StringIndexType,
   FormRecognizerApiVersion,
   BeginBuildDocumentClassifierOptions,
+  ClassifyDocumentOptions,
+  FormRecognizerFeature,
 };

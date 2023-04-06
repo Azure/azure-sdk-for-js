@@ -53,6 +53,8 @@ export {
   DocumentFormulaKind,
   AzureBlobFileListSource,
   AzureBlobContentSource,
+  QuotaDetails,
+  DocumentPageKind,
 } from "./generated";
 export {
   AnalysisPoller,
