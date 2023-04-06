@@ -4,7 +4,7 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
-import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, BreakSentenceItemOutput } from "@azure-rest/ai-translation-text";
+import TextTranslationFactory, { ErrorResponseOutput, TranslatorCredential, InputTextItem, BreakSentenceItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -29,6 +29,10 @@ export async function main() {
   if (breakSentenceResponse.status !== "200") {
     const error = breakSentenceResponse.body as ErrorResponseOutput;
     throw error.error;
+  }
+
+  if (isUnexpected(breakSentenceResponse)) {
+    throw breakSentenceResponse.body;
   }
 
   const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
