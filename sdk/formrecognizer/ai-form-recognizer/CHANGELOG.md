@@ -1,5 +1,29 @@
 # Release History
 
+## 4.1.0-beta.1 (2023-04-10)
+
+### Features Added
+
+- Added support for Form Recognizer API version `2023-02-28-preview`. This is the default API version for SDK version `4.1.0-beta.1`. For a detailed list of changes included in this API version, see the [Form Recognizer release notes](https://learn.microsoft.com/azure/applied-ai-services/form-recognizer/whats-new?view=form-recog-3.0.0&tabs=javascript#march-2023).
+- Added support for custom classification models. Classifiers combine layout and language features to accurately identify documents from among a set of document types.
+  - Added `beginBuildDocumentClassifier` to `DocumentModelAdministrationClient` to build a custom classifier from training documents. See [the service documentation on custom classifiers](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel) for more information on creating a training data set and creating a classifier.
+  - Added `getDocumentClassifier`, `listDocumentClassifiers`, and `deleteDocumentClassifiers` methods to `DocumentModelAdministrationClient` to manage custom classifiers.
+  - Added `beginClassifyDocument` and `beginClassifyDocumentFromUrl` to `DocumentAnalysisClient` to classify documents using a custom classification model.
+- Added `features` to `AnalyzeDocumentOptions`. Features are add-on capabilities that must be explicitly activated in order to extract them. The use of features may incur additional costs, so please review the [service documentation of add-on capabilities](https://aka.ms/azsdk/formrecognizer/features) for more information. The Form Recognizer service has introduced four features in this API version:
+  - `ocr.highResolution`: improves the quality of content extraction for A1/A2/A3 documents with small text.
+  - `ocr.formula`: enables extraction of formulas, such as mathematical equations.
+  - `ocr.font`: extends the existting `styles` property to include more font properties such as `similarFontFamily` for the font face of the text, `fontStyle` for styles such as italics, `fontWeight` for boldness, `color`, and `backgroundColor`.
+  - `queryFields.premium`: enables the use of `queryFields` (see below).
+- Added `queryFields` to `AnalyzeDocumentOptions`. The service now supports extracting additional query fields using Azure OpenAI capabilities. This feature may only be used if the `"queryFields.premium"` feature is enabled (see above). See [the service documentation on query fields](https://aka.ms/azsdk/formrecognizer/queryfields) for more information.
+
+### Bugs Fixed
+
+- Form Recognizer pollers (`AnalysisPoller`, `DocumentModelPoller`, and `DocumentClassifierPoller`) will now appropriately handle the HTTP `Retry-After` header. If the Form Recognizer service sends a `Retry-After` header in its response, the poller will wait at least that long before polling again. This prevents the poller from making too many requests if the service tells the client to wait.
+- Form Recognizer pollers will now appropriately handle `AbortSignal` cancellation. If the client passes an `AbortSignal` to a long-running operation (such as any of the model/classifier creation operations or any analysis operation), the `AbortSignal` may now be used to abort the operation. The poller will stop polling, any requests in progress will be aborted, and the poller will throw an `AbortError`.
+- Fixed a bug in which fields of strongly-typed custom `DocumentModel` objects that contain spaces in their field names were not handled correctly. A field named `"Account Number"` will now be represented as `accountNumber` in the `DocumentModel` object, instead of `"account Number"`. None of the supported prebuilt DocumentModel objects are affected by this change.
+
+### Other Changes
+
 ## 4.0.0 (2022-09-08)
 
 ### Features Added
