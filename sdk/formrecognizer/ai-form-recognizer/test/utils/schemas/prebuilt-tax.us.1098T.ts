@@ -236,8 +236,7 @@ function modelInfo() {
           },
           PaymentReceived: {
             type: "number",
-            description:
-              "Payment received for qualified tuition and related expenses (box 1)",
+            description: "Payment received for qualified tuition and related expenses (box 1)",
             example: "1,234,567.89",
           },
           AdjustmentsForPriorYear: {
@@ -252,8 +251,7 @@ function modelInfo() {
           },
           ScholarshipsAdjustments: {
             type: "number",
-            description:
-              "Adjustments of scholarships or grants for a prior year (box 6)",
+            description: "Adjustments of scholarships or grants for a prior year (box 6)",
             example: "1,234,567.89",
           },
           IncludesAmountForNextPeriod: {

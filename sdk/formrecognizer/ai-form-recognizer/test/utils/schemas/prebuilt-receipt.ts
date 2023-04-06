@@ -231,9 +231,7 @@ export interface ReceiptFields {
   /**
    * `Receipt` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptTaxDetailsElement>
-  >;
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptTaxDetailsElement>>;
 }
 
 /**
@@ -319,15 +317,11 @@ export interface ReceiptRetailMealFields {
   /**
    * `ReceiptRetailMeal` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptRetailMealItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
   /**
    * `ReceiptRetailMeal` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>
-  >;
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>>;
 }
 
 /**
@@ -413,15 +407,11 @@ export interface ReceiptCreditCardFields {
   /**
    * `ReceiptCreditCard` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptCreditCardItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
   /**
    * `ReceiptCreditCard` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>
-  >;
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>>;
 }
 
 /**
@@ -511,9 +501,7 @@ export interface ReceiptGasFields {
   /**
    * `ReceiptGas` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptGasTaxDetailsElement>
-  >;
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasTaxDetailsElement>>;
 }
 
 /**
@@ -599,15 +587,11 @@ export interface ReceiptParkingFields {
   /**
    * `ReceiptParking` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptParkingItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
   /**
    * `ReceiptParking` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>
-  >;
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>>;
 }
 
 /**
@@ -689,9 +673,7 @@ export interface ReceiptHotelFields {
   /**
    * `ReceiptHotel` "Items" field
    */
-  items?: fr.DocumentArrayField<
-    fr.DocumentObjectField<ReceiptHotelItemsElement>
-  >;
+  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptHotelItemsElement>>;
 }
 
 /**

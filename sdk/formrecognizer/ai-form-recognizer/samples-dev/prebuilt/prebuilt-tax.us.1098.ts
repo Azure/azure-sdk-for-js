@@ -260,8 +260,7 @@ function modelInfo() {
           },
           MortgageInterest: {
             type: "number",
-            description:
-              "Mortgage interest amount received from payer(s)/borrower(s) (box 1)",
+            description: "Mortgage interest amount received from payer(s)/borrower(s) (box 1)",
             example: "1,234,567.89",
           },
           OutstandingMortgagePrincipal: {
@@ -286,8 +285,7 @@ function modelInfo() {
           },
           PointsPaid: {
             type: "number",
-            description:
-              "Points paid on purchase of principal residence (box 6)",
+            description: "Points paid on purchase of principal residence (box 6)",
             example: "1,234,567.89",
           },
           IsPropertyAddressSameAsBorrower: {
@@ -298,8 +296,7 @@ function modelInfo() {
           },
           PropertyAddress: {
             type: "string",
-            description:
-              "Address or description of the property securing the mortgage (box 8)",
+            description: "Address or description of the property securing the mortgage (box 8)",
             example: "123 Main St., Redmond WA 98052",
           },
           MortgagedPropertiesCount: {

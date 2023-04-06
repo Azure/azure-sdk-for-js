@@ -18,9 +18,10 @@ import { PollerOptions } from "./PollerOptions";
  */
 export type FormRecognizerFeature =
   | (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature]
+  // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {});
 
-// eslint-disable-next-line typescript/no-redeclare
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormRecognizerFeature = {
   /**
    * Enables the use of Query Fields.

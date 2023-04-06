@@ -15,8 +15,7 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult
-  extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -105,9 +104,7 @@ export interface HealthInsuranceCardUsFields {
   /**
    * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<
-    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
-  >;
+  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
@@ -243,7 +240,7 @@ export interface HealthInsuranceCardUsPlan {
    */
   number?: fr.DocumentStringField;
   /**
-   * Plan name - If see Medicaid -> then medicaid
+   * Plan name - If see Medicaid -\> then medicaid
    */
   name?: fr.DocumentStringField;
   /**

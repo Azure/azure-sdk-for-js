@@ -32,7 +32,6 @@ import { DocumentModel } from "./documentModel";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
-import { __values } from "tslib";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.
@@ -400,7 +399,7 @@ export class DocumentAnalysisClient {
 
   /**
    * A helper method for running analysis polymorphically.
-   * @internal
+   *
    * @param model - the model ID or DocumentModel to use for analysis
    * @param input - the string URL or request body to use
    * @param options - analysis options
@@ -764,9 +763,10 @@ function toAnalyzeRequest(
       return ["application/json", { urlSource: input.url }];
     case "base64":
       return ["application/json", { base64Source: input.base64 }];
-    default:
+    default: {
       const __exhaust: never = input;
       throw new Error(`Unreachable 'toAnalyzeRequest' case: ${__exhaust}`);
+    }
   }
 }
 
