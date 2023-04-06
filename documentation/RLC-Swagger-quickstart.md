@@ -298,6 +298,14 @@ Please ensure that your test recordings are committed together with your code.
 ## Fix CI for PR
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
 
+## CC dpg-devs for review
+
+Please add below comment in your pr to include dpg-devs to review your pr timely.
+
+```
+cc @Azure/dpg-devs for awareness
+```
+
 # Create API View
 When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. You could click the API view link in that comment to know more details. 
 

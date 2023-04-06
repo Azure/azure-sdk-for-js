@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LongTermRetentionPolicy,
   LongTermRetentionPoliciesListByDatabaseOptionalParams,
@@ -69,8 +69,8 @@ export interface LongTermRetentionPolicies {
     parameters: LongTermRetentionPolicy,
     options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
       LongTermRetentionPoliciesCreateOrUpdateResponse
     >
   >;

@@ -139,7 +139,6 @@ directive:
           "type": "integer",
           "description": "Schema version"
         };
-    $["required"] = ["config", "layers"];
 ```
 
 # Rename created to createdOn in OciAnnotations
@@ -213,4 +212,37 @@ directive:
   where: $.definitions.Descriptor
   transform: >
     $.properties.size["x-ms-client-name"] = "sizeInBytes";
+```
+
+# Remove security definitions
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.
+    transform: >
+      delete $["securityDefinitions"];
+      delete $["security"];
+```
+
+# Rename `config` to `configuration` in OciManifest
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.OCIManifest
+    transform: >
+      $.properties.config["x-ms-client-name"] = "configuration";
+```
+
+# Make `deleteBlob` succeed on 404
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      $.responses["404"] = {
+        "description": "The blob to be deleted does not exist"
+      };
 ```

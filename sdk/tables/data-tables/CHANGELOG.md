@@ -1,18 +1,15 @@
 # Release History
 
-## 13.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 13.2.2 (2023-04-03)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix issue [#25252](https://github.com/Azure/azure-sdk-for-js/issues/25252) where SAS was signed using srk, spk, erk and epk but the query parameters were not included in the result causing all requests with scoped partition and row keys to fail with `AuthorizationFailure`. [25293](https://github.com/Azure/azure-sdk-for-js/pull/25293)
 
 ## 13.2.1 (2023-01-12)
 
 ### Bugs Fixed
+
 - Fix issue [#22341](https://github.com/Azure/azure-sdk-for-js/issues/22341) when multiple transactions are submitted concurrently. [#24190](https://github.com/Azure/azure-sdk-for-js/pull/24190)
 
 ## 13.2.0 (2022-09-07)

@@ -403,7 +403,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -466,7 +466,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.runId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -532,8 +532,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

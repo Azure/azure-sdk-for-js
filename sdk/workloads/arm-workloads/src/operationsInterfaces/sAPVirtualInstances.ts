@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPVirtualInstance,
   SAPVirtualInstancesListByResourceGroupOptionalParams,
@@ -56,8 +56,8 @@ export interface SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesCreateResponse>,
       SAPVirtualInstancesCreateResponse
     >
   >;
@@ -106,8 +106,8 @@ export interface SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesDeleteResponse>,
       SAPVirtualInstancesDeleteResponse
     >
   >;
@@ -134,8 +134,8 @@ export interface SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStartResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStartResponse>,
       SAPVirtualInstancesStartResponse
     >
   >;
@@ -161,8 +161,8 @@ export interface SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStopResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStopResponse>,
       SAPVirtualInstancesStopResponse
     >
   >;

@@ -21,7 +21,8 @@ import {
   UpdateDomainRequestParameters as UpdateDomainRequestParametersMapper,
   VerificationParameter as VerificationParameterMapper,
   EmailServiceResource as EmailServiceResourceMapper,
-  EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper
+  EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper,
+  SenderUsernameResource as SenderUsernameResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -51,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2023-03-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -92,13 +93,10 @@ export const nameAvailabilityParameters: OperationParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -127,7 +125,7 @@ export const communicationServiceName: OperationURLParameter = {
   parameterPath: "communicationServiceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w]+$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
       MaxLength: 63,
       MinLength: 1
     },
@@ -208,4 +206,24 @@ export const parameters6: OperationParameter = {
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: EmailServiceResourceUpdateMapper
+};
+
+export const senderUsername: OperationURLParameter = {
+  parameterPath: "senderUsername",
+  mapper: {
+    constraints: {
+      MaxLength: 253,
+      MinLength: 1
+    },
+    serializedName: "senderUsername",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SenderUsernameResourceMapper
 };

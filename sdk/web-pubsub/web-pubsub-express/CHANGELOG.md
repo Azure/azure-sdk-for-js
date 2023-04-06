@@ -1,18 +1,15 @@
 # Release History
 
-## 1.0.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.4 (2023-04-03)
 
 ### Bugs Fixed
 
-### Other Changes
+- Address issue with `query` property from CloudEvent https://github.com/Azure/azure-sdk-for-js/issues/24515
 
 ## 1.0.3 (2022-06-15)
 
 ### Bugs Fixed
+
 - Fix issue https://github.com/Azure/azure-sdk-for-js/issues/22134 that hub name should be case insensitive
 
 ## 1.0.2 (2022-01-30)
@@ -56,7 +53,7 @@ No changes.
       res.setState("calledTime", calledTime);
       res.success();
     },
-    allowedEndpoints: ["https://xxx.webpubsub.azure.com"]
+    allowedEndpoints: ["https://xxx.webpubsub.azure.com"],
   });
   ```
 
@@ -78,7 +75,7 @@ No changes.
       // You can also set the state here
       res.setState("calledTime", calledTime);
       res.success();
-    }
+    },
   });
   ```
 

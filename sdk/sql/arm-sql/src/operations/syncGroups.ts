@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SyncDatabaseIdProperties,
   SyncGroupsListSyncDatabaseIdsNextOptionalParams,
@@ -26,7 +30,7 @@ import {
   SyncGroupsListHubSchemasResponse,
   SyncGroupLogProperties,
   SyncGroupsListLogsNextOptionalParams,
-  Enum60,
+  SyncGroupsType,
   SyncGroupsListLogsOptionalParams,
   SyncGroupsListLogsResponse,
   SyncGroup,
@@ -253,7 +257,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties> {
     const iter = this.listLogsPagingAll(
@@ -299,7 +303,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<SyncGroupLogProperties[]> {
@@ -344,7 +348,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties> {
     for await (const page of this.listLogsPagingPage(
@@ -485,14 +489,14 @@ export class SyncGroupsImpl implements SyncGroups {
     databaseName: string,
     syncGroupName: string,
     options?: SyncGroupsRefreshHubSchemaOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -525,13 +529,19 @@ export class SyncGroupsImpl implements SyncGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, databaseName, syncGroupName, options },
-      refreshHubSchemaOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        syncGroupName,
+        options
+      },
+      spec: refreshHubSchemaOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -605,7 +615,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): Promise<SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
@@ -707,8 +717,8 @@ export class SyncGroupsImpl implements SyncGroups {
     parameters: SyncGroup,
     options?: SyncGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncGroupsCreateOrUpdateResponse>,
       SyncGroupsCreateOrUpdateResponse
     >
   > {
@@ -718,7 +728,7 @@ export class SyncGroupsImpl implements SyncGroups {
     ): Promise<SyncGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -751,9 +761,9 @@ export class SyncGroupsImpl implements SyncGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -761,10 +771,13 @@ export class SyncGroupsImpl implements SyncGroups {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncGroupsCreateOrUpdateResponse,
+      OperationState<SyncGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -815,14 +828,14 @@ export class SyncGroupsImpl implements SyncGroups {
     databaseName: string,
     syncGroupName: string,
     options?: SyncGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -855,13 +868,19 @@ export class SyncGroupsImpl implements SyncGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, databaseName, syncGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        syncGroupName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -912,8 +931,8 @@ export class SyncGroupsImpl implements SyncGroups {
     parameters: SyncGroup,
     options?: SyncGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncGroupsUpdateResponse>,
       SyncGroupsUpdateResponse
     >
   > {
@@ -923,7 +942,7 @@ export class SyncGroupsImpl implements SyncGroups {
     ): Promise<SyncGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -956,9 +975,9 @@ export class SyncGroupsImpl implements SyncGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -966,10 +985,13 @@ export class SyncGroupsImpl implements SyncGroups {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncGroupsUpdateResponse,
+      OperationState<SyncGroupsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1139,7 +1161,7 @@ const listSyncDatabaseIdsOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1153,7 +1175,7 @@ const refreshHubSchemaOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1174,7 +1196,7 @@ const listHubSchemasOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1197,7 +1219,7 @@ const listLogsOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.startTime1,
     Parameters.endTime1,
     Parameters.typeParam,
@@ -1219,7 +1241,7 @@ const cancelSyncOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/cancelSync",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1235,7 +1257,7 @@ const triggerSyncOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/triggerSync",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1256,7 +1278,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1287,8 +1309,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters69,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters57,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1297,7 +1319,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.syncGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1306,7 +1328,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1336,8 +1358,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters69,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters57,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1346,7 +1368,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.syncGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1360,7 +1382,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -5,12 +5,15 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
-  ServerCallLocator,
-  GroupCallLocator,
   CallRejectReason,
   RecognizeInputType,
   FileSource,
   DtmfTone,
+  RecordingContent,
+  RecordingChannel,
+  RecordingFormat,
+  RecordingStorage,
+  CallLocator,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -130,15 +133,15 @@ export type GetParticipantOptions = OperationOptions;
  */
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. */
-  callLocator: ServerCallLocator | GroupCallLocator;
+  callLocator: CallLocator;
   /** The uri to send notifications to. */
   recordingStateCallbackEndpoint?: string;
   /** The content type of call recording. */
-  recordingContent?: string;
+  recordingContent?: RecordingContent;
   /** The channel type of call recording. */
-  recordingChannel?: string;
+  recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
-  recordingFormat?: string;
+  recordingFormat?: RecordingFormat;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
@@ -147,7 +150,9 @@ export interface StartRecordingOptions extends OperationOptions {
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
   /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: string;
+  recordingStorageType?: RecordingStorage;
+  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
+  externalStorageLocation?: string;
 }
 
 /**
@@ -169,3 +174,18 @@ export type GetRecordingPropertiesOptions = OperationOptions;
  * Options to resume recording.
  */
 export type ResumeRecordingOptions = OperationOptions;
+
+/**
+ * Options to delete recording.
+ */
+export type DeleteRecordingOptions = OperationOptions;
+
+/**
+ * Options to download recording.
+ */
+export interface DownloadRecordingOptions extends OperationOptions {
+  /** Offset byte to start download from. */
+  offset?: number;
+  /** Max content length in bytes. */
+  length?: number;
+}

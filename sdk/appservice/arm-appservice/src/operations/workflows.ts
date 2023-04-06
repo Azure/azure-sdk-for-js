@@ -92,7 +92,7 @@ const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -115,7 +115,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

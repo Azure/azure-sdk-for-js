@@ -34,6 +34,8 @@ export interface ConnectRequest {
     context: ConnectionContext;
     headers?: Record<string, string[]>;
     queries?: Record<string, string[]>;
+    // @deprecated
+    query?: Record<string, string[]>;
     subprotocols?: string[];
 }
 

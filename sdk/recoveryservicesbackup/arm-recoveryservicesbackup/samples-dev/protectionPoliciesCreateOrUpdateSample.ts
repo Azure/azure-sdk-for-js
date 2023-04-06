@@ -23,7 +23,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
 async function createOrUpdateDailyAzureStorageProtectionPolicy() {
   const subscriptionId =
@@ -95,7 +95,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
   const subscriptionId =
@@ -172,7 +172,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
   const subscriptionId =
@@ -245,7 +245,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureVMProtectionPolicy() {
   const subscriptionId =
@@ -311,7 +311,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
   const subscriptionId =
@@ -407,7 +407,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
 async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
   const subscriptionId =
@@ -483,7 +483,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
 async function createOrUpdateSimpleAzureVMProtectionPolicy() {
   const subscriptionId =
