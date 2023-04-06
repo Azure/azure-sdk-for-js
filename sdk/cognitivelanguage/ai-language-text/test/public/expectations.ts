@@ -2162,19 +2162,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "402da07a-dd7d-4872-b6f0-cdac0c6d60c1",
+          id: "a6ba00cb-d94f-47bc-9acb-44a7361de453",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:402da07a-dd7d-4872-b6f0-cdac0c6d60c1",
+            value: "urn:uuid:a6ba00cb-d94f-47bc-9acb-44a7361de453",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/6d38391b-7644-45d3-b944-8c34a1202787",
+              fullUrl: "Composition/53c4aa39-3150-4951-94ed-7f4260fc2670",
               resource: {
                 resourceType: "Composition",
-                id: "6d38391b-7644-45d3-b944-8c34a1202787",
+                id: "53c4aa39-3150-4951-94ed-7f4260fc2670",
                 language: "en",
                 status: "final",
                 type: {
@@ -2184,18 +2184,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
+                  reference: "Patient/9b180042-487d-4f04-aec8-b63dede967a9",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
+                  reference: "Encounter/46a049bd-2b0e-4325-8025-60c2ddb4f8a1",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
+                    reference: "Practitioner/c4998788-8e0e-454f-a583-ddc2aa60d81c",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -2203,20 +2203,27 @@ export const expectation25: AnalyzeBatchResult[] = [
                 title: "Pathology study",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/c4998788-8e0e-454f-a583-ddc2aa60d81c",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>Patient does not suffer from high blood pressure.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>Patient does not suffer from high blood pressure.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/be590686-b660-4125-b31c-70e68dd7fcf0",
+                        reference: "List/562eb58b-4b45-4557-8769-ac27808db93b",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -2224,26 +2231,19 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
-              resource: {
-                resourceType: "Practitioner",
-                id: "238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
+              fullUrl: "Patient/9b180042-487d-4f04-aec8-b63dede967a9",
               resource: {
                 resourceType: "Patient",
-                id: "08753679-6896-4364-88cb-1a6ab88161ee",
+                id: "9b180042-487d-4f04-aec8-b63dede967a9",
+                language: "en",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
+              fullUrl: "Encounter/46a049bd-2b0e-4325-8025-60c2ddb4f8a1",
               resource: {
                 resourceType: "Encounter",
-                id: "272b0e3f-a564-45f8-8c0d-125eb30c7315",
+                id: "46a049bd-2b0e-4325-8025-60c2ddb4f8a1",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -2253,20 +2253,49 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
+                  reference: "Patient/9b180042-487d-4f04-aec8-b63dede967a9",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Observation/ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
+              fullUrl: "List/562eb58b-4b45-4557-8769-ac27808db93b",
+              resource: {
+                resourceType: "List",
+                id: "562eb58b-4b45-4557-8769-ac27808db93b",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/9b180042-487d-4f04-aec8-b63dede967a9",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/46a049bd-2b0e-4325-8025-60c2ddb4f8a1",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "Observation/74e44e5a-fb20-4a85-bbb6-8675388d5bda",
+                      type: "Observation",
+                      display: "high blood pressure",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "Observation/74e44e5a-fb20-4a85-bbb6-8675388d5bda",
               resource: {
                 resourceType: "Observation",
-                id: "ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
+                id: "74e44e5a-fb20-4a85-bbb6-8675388d5bda",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 29 },
                       { url: "length", valueInteger: 19 },
                     ],
@@ -2345,11 +2374,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "high blood pressure",
                 },
                 subject: {
-                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
+                  reference: "Patient/9b180042-487d-4f04-aec8-b63dede967a9",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
+                  reference: "Encounter/46a049bd-2b0e-4325-8025-60c2ddb4f8a1",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -2369,31 +2398,11 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/be590686-b660-4125-b31c-70e68dd7fcf0",
+              fullUrl: "Practitioner/c4998788-8e0e-454f-a583-ddc2aa60d81c",
               resource: {
-                resourceType: "List",
-                id: "be590686-b660-4125-b31c-70e68dd7fcf0",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "Observation/ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
-                      type: "Observation",
-                      display: "high blood pressure",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "c4998788-8e0e-454f-a583-ddc2aa60d81c",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -2584,19 +2593,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "7cc37cac-fbb3-4a86-ae18-40d65b40b76d",
+          id: "19e4254c-44c5-48a3-b831-70c04de090db",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:7cc37cac-fbb3-4a86-ae18-40d65b40b76d",
+            value: "urn:uuid:19e4254c-44c5-48a3-b831-70c04de090db",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/d4644e42-4bf7-4d1b-a880-a8c760ccaa2b",
+              fullUrl: "Composition/3510d7bc-290c-4e47-96e1-f8bd72ca112c",
               resource: {
                 resourceType: "Composition",
-                id: "d4644e42-4bf7-4d1b-a880-a8c760ccaa2b",
+                id: "3510d7bc-290c-4e47-96e1-f8bd72ca112c",
                 language: "en",
                 status: "final",
                 type: {
@@ -2606,18 +2615,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
+                  reference: "Patient/ab1ba858-6fd9-4da0-af62-960053e38286",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
+                  reference: "Encounter/60d5cd33-f8ac-40a6-824a-62ff8a9d9e6e",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
+                    reference: "Practitioner/fe1e2846-3eea-44ed-97e9-1d5e2645999b",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -2625,20 +2634,27 @@ export const expectation25: AnalyzeBatchResult[] = [
                 title: "Pathology study",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/fe1e2846-3eea-44ed-97e9-1d5e2645999b",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>Prescribed 100mg ibuprofen, taken twice daily.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>Prescribed 100mg ibuprofen, taken twice daily.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/688c71ee-9ac0-4f21-8252-33588d538b1d",
+                        reference: "List/a720354d-bc72-46e7-9429-99e0d16bbc2a",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -2646,26 +2662,19 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
-              resource: {
-                resourceType: "Practitioner",
-                id: "ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
+              fullUrl: "Patient/ab1ba858-6fd9-4da0-af62-960053e38286",
               resource: {
                 resourceType: "Patient",
-                id: "6f809212-1d61-42c3-b417-e607f047a899",
+                id: "ab1ba858-6fd9-4da0-af62-960053e38286",
+                language: "en",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
+              fullUrl: "Encounter/60d5cd33-f8ac-40a6-824a-62ff8a9d9e6e",
               resource: {
                 resourceType: "Encounter",
-                id: "1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
+                id: "60d5cd33-f8ac-40a6-824a-62ff8a9d9e6e",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -2675,20 +2684,49 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
+                  reference: "Patient/ab1ba858-6fd9-4da0-af62-960053e38286",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "MedicationStatement/7cda64d3-6144-4992-acb6-28c12ebc194f",
+              fullUrl: "List/a720354d-bc72-46e7-9429-99e0d16bbc2a",
+              resource: {
+                resourceType: "List",
+                id: "a720354d-bc72-46e7-9429-99e0d16bbc2a",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/ab1ba858-6fd9-4da0-af62-960053e38286",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/60d5cd33-f8ac-40a6-824a-62ff8a9d9e6e",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "MedicationStatement/45438aff-91cf-4fdf-8705-ed38ea5b9809",
+                      type: "MedicationStatement",
+                      display: "ibuprofen",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "MedicationStatement/45438aff-91cf-4fdf-8705-ed38ea5b9809",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "7cda64d3-6144-4992-acb6-28c12ebc194f",
+                id: "45438aff-91cf-4fdf-8705-ed38ea5b9809",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 17 },
                       { url: "length", valueInteger: 9 },
                     ],
@@ -2739,11 +2777,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "ibuprofen",
                 },
                 subject: {
-                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
+                  reference: "Patient/ab1ba858-6fd9-4da0-af62-960053e38286",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
+                  reference: "Encounter/60d5cd33-f8ac-40a6-824a-62ff8a9d9e6e",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -2751,40 +2789,44 @@ export const expectation25: AnalyzeBatchResult[] = [
                   {
                     text: "100mg",
                     timing: {
+                      extension: [
+                        {
+                          extension: [
+                            { url: "documentId" },
+                            { url: "offset", valueInteger: 34 },
+                            { url: "length", valueInteger: 11 },
+                          ],
+                          url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                        },
+                      ],
                       repeat: { frequency: 2, period: 1, periodUnit: "d" },
                       code: { text: "twice daily" },
                     },
-                    doseAndRate: [{ doseQuantity: { value: 100 } }],
+                    doseAndRate: [
+                      {
+                        extension: [
+                          {
+                            extension: [
+                              { url: "documentId" },
+                              { url: "offset", valueInteger: 11 },
+                              { url: "length", valueInteger: 5 },
+                            ],
+                            url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                          },
+                        ],
+                        doseQuantity: { value: 100 },
+                      },
+                    ],
                   },
                 ],
               },
             },
             {
-              fullUrl: "List/688c71ee-9ac0-4f21-8252-33588d538b1d",
+              fullUrl: "Practitioner/fe1e2846-3eea-44ed-97e9-1d5e2645999b",
               resource: {
-                resourceType: "List",
-                id: "688c71ee-9ac0-4f21-8252-33588d538b1d",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "MedicationStatement/7cda64d3-6144-4992-acb6-28c12ebc194f",
-                      type: "MedicationStatement",
-                      display: "ibuprofen",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "fe1e2846-3eea-44ed-97e9-1d5e2645999b",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -3022,19 +3064,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "df9abed4-38ba-40a0-a5dd-7792fb17f381",
+          id: "585f5bb9-120f-48dc-b565-22df8524394f",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:df9abed4-38ba-40a0-a5dd-7792fb17f381",
+            value: "urn:uuid:585f5bb9-120f-48dc-b565-22df8524394f",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/ad516356-e360-4b1e-a2f7-e9ee94fd0e40",
+              fullUrl: "Composition/36b00a90-fd1d-4038-983e-50852b74b917",
               resource: {
                 resourceType: "Composition",
-                id: "ad516356-e360-4b1e-a2f7-e9ee94fd0e40",
+                id: "36b00a90-fd1d-4038-983e-50852b74b917",
                 language: "en",
                 status: "final",
                 type: {
@@ -3044,18 +3086,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
+                  reference: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/d29dbdf8-cbb3-453c-a5ff-465eb646d841",
+                    reference: "Practitioner/d8d63b1f-77ca-435d-bd5e-0b8cbeb7cd5d",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -3063,20 +3105,27 @@ export const expectation25: AnalyzeBatchResult[] = [
                 title: "Pathology study",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/d8d63b1f-77ca-435d-bd5e-0b8cbeb7cd5d",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/5e0d7db4-283b-4228-98e7-15c9f5de73b3",
+                        reference: "List/960ef36e-0b2b-481a-bbe3-97e41f5c3141",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -3084,26 +3133,19 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/d29dbdf8-cbb3-453c-a5ff-465eb646d841",
-              resource: {
-                resourceType: "Practitioner",
-                id: "d29dbdf8-cbb3-453c-a5ff-465eb646d841",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
+              fullUrl: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
               resource: {
                 resourceType: "Patient",
-                id: "fb8e02d0-057a-40e5-a941-d4885687447c",
+                id: "e5b0a080-93d2-498a-9bf8-16485a04ebcb",
+                language: "en",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
+              fullUrl: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
               resource: {
                 resourceType: "Encounter",
-                id: "dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
+                id: "88541865-0f68-4a0b-bc9e-33d61a366c17",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -3113,16 +3155,58 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Condition/a5343e33-ee37-41c7-ada3-ce9e582ec461",
+              fullUrl: "List/960ef36e-0b2b-481a-bbe3-97e41f5c3141",
+              resource: {
+                resourceType: "List",
+                id: "960ef36e-0b2b-481a-bbe3-97e41f5c3141",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "Condition/7213fa9d-830a-4178-b1ce-fd422c05a51b",
+                      type: "Condition",
+                      display: "Meningitis",
+                    },
+                  },
+                  {
+                    item: {
+                      reference: "Observation/a0a5a752-8ebd-409a-83e8-58eaf86a9ee3",
+                      type: "Observation",
+                      display: "fever",
+                    },
+                  },
+                  {
+                    item: {
+                      reference: "MedicationStatement/7451b887-76fe-4490-8229-24f84633bb9c",
+                      type: "MedicationStatement",
+                      display: "Penicillin",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "Condition/7213fa9d-830a-4178-b1ce-fd422c05a51b",
               resource: {
                 resourceType: "Condition",
-                id: "a5343e33-ee37-41c7-ada3-ce9e582ec461",
+                id: "7213fa9d-830a-4178-b1ce-fd422c05a51b",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"],
                 },
@@ -3130,6 +3214,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 24 },
                       { url: "length", valueInteger: 10 },
                     ],
@@ -3211,25 +3296,89 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Meningitis",
                 },
                 subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
+                  reference: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
                   type: "Encounter",
                   display: "unknown",
                 },
               },
             },
             {
-              fullUrl: "Observation/a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
+              fullUrl: "MedicationStatement/7451b887-76fe-4490-8229-24f84633bb9c",
               resource: {
-                resourceType: "Observation",
-                id: "a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
+                resourceType: "MedicationStatement",
+                id: "7451b887-76fe-4490-8229-24f84633bb9c",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
+                      { url: "offset", valueInteger: 77 },
+                      { url: "length", valueInteger: 10 },
+                    ],
+                    url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                  },
+                ],
+                status: "unknown",
+                medicationCodeableConcept: {
+                  coding: [
+                    {
+                      system: "http://www.nlm.nih.gov/research/umls",
+                      code: "C0030842",
+                      display: "penicillins",
+                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000019206" },
+                    { system: "http://www.whocc.no/atc", code: "J01C" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "0014106" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000009423" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "0199-8025" },
+                    { system: "http://www.nlm.nih.gov/research/umls/gs", code: "4011" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U003521" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85099402" },
+                    { system: "http://loinc.org", code: "LP14319-5" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "40319" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mmsl", code: "d00116" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D010406" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C1500" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_dtp", code: "NSC0402815" },
+                    {
+                      system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
+                      code: "CDR0000045296",
+                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nddf", code: "016121" },
+                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "37190" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "x009C" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "E-7260" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "C-54000" },
+                    { system: "http://snomed.info/sct", code: "764146007" },
+                    { system: "http://hl7.org/fhir/ndfrt", code: "4019880" },
+                  ],
+                  text: "Penicillin",
+                },
+                subject: {
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
+                  type: "Patient",
+                },
+                context: {
+                  reference: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+              },
+            },
+            {
+              fullUrl: "Observation/a0a5a752-8ebd-409a-83e8-58eaf86a9ee3",
+              resource: {
+                resourceType: "Observation",
+                id: "a0a5a752-8ebd-409a-83e8-58eaf86a9ee3",
+                language: "en",
+                extension: [
+                  {
+                    extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 47 },
                       { url: "length", valueInteger: 5 },
                     ],
@@ -3315,11 +3464,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "fever",
                 },
                 subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
+                  reference: "Patient/e5b0a080-93d2-498a-9bf8-16485a04ebcb",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
+                  reference: "Encounter/88541865-0f68-4a0b-bc9e-33d61a366c17",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -3339,107 +3488,11 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "MedicationStatement/8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
+              fullUrl: "Practitioner/d8d63b1f-77ca-435d-bd5e-0b8cbeb7cd5d",
               resource: {
-                resourceType: "MedicationStatement",
-                id: "8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
-                language: "en",
-                extension: [
-                  {
-                    extension: [
-                      { url: "offset", valueInteger: 77 },
-                      { url: "length", valueInteger: 10 },
-                    ],
-                    url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
-                  },
-                ],
-                status: "unknown",
-                medicationCodeableConcept: {
-                  coding: [
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls",
-                      code: "C0030842",
-                      display: "penicillins",
-                    },
-                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000019206" },
-                    { system: "http://www.whocc.no/atc", code: "J01C" },
-                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "0014106" },
-                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000009423" },
-                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "0199-8025" },
-                    { system: "http://www.nlm.nih.gov/research/umls/gs", code: "4011" },
-                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U003521" },
-                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85099402" },
-                    { system: "http://loinc.org", code: "LP14319-5" },
-                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "40319" },
-                    { system: "http://www.nlm.nih.gov/research/umls/mmsl", code: "d00116" },
-                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D010406" },
-                    { system: "http://ncimeta.nci.nih.gov", code: "C1500" },
-                    { system: "http://www.nlm.nih.gov/research/umls/nci_dtp", code: "NSC0402815" },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
-                      code: "CDR0000045296",
-                    },
-                    { system: "http://www.nlm.nih.gov/research/umls/nddf", code: "016121" },
-                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "37190" },
-                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "x009C" },
-                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "E-7260" },
-                    { system: "http://snomed.info/sct/900000000000207008", code: "C-54000" },
-                    { system: "http://snomed.info/sct", code: "764146007" },
-                    { system: "http://hl7.org/fhir/ndfrt", code: "4019880" },
-                  ],
-                  text: "Penicillin",
-                },
-                subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
-                  type: "Patient",
-                },
-                context: {
-                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-              },
-            },
-            {
-              fullUrl: "List/5e0d7db4-283b-4228-98e7-15c9f5de73b3",
-              resource: {
-                resourceType: "List",
-                id: "5e0d7db4-283b-4228-98e7-15c9f5de73b3",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "Condition/a5343e33-ee37-41c7-ada3-ce9e582ec461",
-                      type: "Condition",
-                      display: "Meningitis",
-                    },
-                  },
-                  {
-                    item: {
-                      reference: "Observation/a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
-                      type: "Observation",
-                      display: "fever",
-                    },
-                  },
-                  {
-                    item: {
-                      reference: "MedicationStatement/8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
-                      type: "MedicationStatement",
-                      display: "Penicillin",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "d8d63b1f-77ca-435d-bd5e-0b8cbeb7cd5d",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -3450,7 +3503,6 @@ export const expectation25: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation26: AnalyzeBatchResult[] = [
   {
     kind: "Healthcare",
@@ -4299,19 +4351,19 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "de09cedf-3bdd-4fb9-902a-0cebb94c621d",
+          id: "393947ea-15ef-480d-9050-fc6fe98eb447",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:de09cedf-3bdd-4fb9-902a-0cebb94c621d",
+            value: "urn:uuid:393947ea-15ef-480d-9050-fc6fe98eb447",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/5f5bbb7c-0ef5-473a-bdba-788ab0d61863",
+              fullUrl: "Composition/055b71da-bbe9-4016-8626-86adfa203bd5",
               resource: {
                 resourceType: "Composition",
-                id: "5f5bbb7c-0ef5-473a-bdba-788ab0d61863",
+                id: "055b71da-bbe9-4016-8626-86adfa203bd5",
                 language: "en",
                 status: "final",
                 type: {
@@ -4321,18 +4373,18 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
+                  reference: "Patient/2fde11d0-6831-4a77-bb72-ab1829404f5f",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
+                  reference: "Encounter/81aed2bf-4ede-4236-b4b6-113656db6dc8",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/0a60b7b0-d6c4-4384-85f6-163a51def135",
+                    reference: "Practitioner/49574a15-b75f-4ec8-81c3-41a8386fe02e",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -4340,20 +4392,27 @@ export const expectation32: AnalyzeBatchResult[] = [
                 title: "Discharge summary",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/49574a15-b75f-4ec8-81c3-41a8386fe02e",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
+                        reference: "List/dfea5648-c911-41a3-adeb-e0f8431b96ef",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -4361,26 +4420,29 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/0a60b7b0-d6c4-4384-85f6-163a51def135",
-              resource: {
-                resourceType: "Practitioner",
-                id: "0a60b7b0-d6c4-4384-85f6-163a51def135",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
+              fullUrl: "Patient/2fde11d0-6831-4a77-bb72-ab1829404f5f",
               resource: {
                 resourceType: "Patient",
-                id: "51881afd-5713-4966-9e36-4564ffe12400",
+                id: "2fde11d0-6831-4a77-bb72-ab1829404f5f",
+                language: "en",
+                extension: [
+                  {
+                    extension: [
+                      { url: "documentId" },
+                      { url: "offset", valueInteger: 29 },
+                      { url: "length", valueInteger: 9 },
+                    ],
+                    url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                  },
+                ],
                 gender: "male",
               },
             },
             {
-              fullUrl: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
+              fullUrl: "Encounter/81aed2bf-4ede-4236-b4b6-113656db6dc8",
               resource: {
                 resourceType: "Encounter",
-                id: "18210bfc-0fe1-4bf5-9439-774379af575a",
+                id: "81aed2bf-4ede-4236-b4b6-113656db6dc8",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -4390,20 +4452,49 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
+                  reference: "Patient/2fde11d0-6831-4a77-bb72-ab1829404f5f",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Observation/765e2c26-0e90-4921-9e90-b30358ab476e",
+              fullUrl: "List/dfea5648-c911-41a3-adeb-e0f8431b96ef",
+              resource: {
+                resourceType: "List",
+                id: "dfea5648-c911-41a3-adeb-e0f8431b96ef",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/2fde11d0-6831-4a77-bb72-ab1829404f5f",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/81aed2bf-4ede-4236-b4b6-113656db6dc8",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "Observation/b87e8a3d-7464-4116-b69d-797687aba3ab",
+                      type: "Observation",
+                      display: "angina",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "Observation/b87e8a3d-7464-4116-b69d-797687aba3ab",
               resource: {
                 resourceType: "Observation",
-                id: "765e2c26-0e90-4921-9e90-b30358ab476e",
+                id: "b87e8a3d-7464-4116-b69d-797687aba3ab",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 69 },
                       { url: "length", valueInteger: 6 },
                     ],
@@ -4478,15 +4569,25 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "angina",
                 },
                 subject: {
-                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
+                  reference: "Patient/2fde11d0-6831-4a77-bb72-ab1829404f5f",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
+                  reference: "Encounter/81aed2bf-4ede-4236-b4b6-113656db6dc8",
                   type: "Encounter",
                   display: "unknown",
                 },
                 effectiveTiming: {
+                  extension: [
+                    {
+                      extension: [
+                        { url: "documentId" },
+                        { url: "offset", valueInteger: 85 },
+                        { url: "length", valueInteger: 19 },
+                      ],
+                      url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                    },
+                  ],
                   repeat: { duration: 1, durationUnit: "mo" },
                   code: { text: "past several months" },
                 },
@@ -4495,6 +4596,7 @@ export const expectation32: AnalyzeBatchResult[] = [
                     extension: [
                       {
                         extension: [
+                          { url: "documentId" },
                           { url: "offset", valueInteger: 57 },
                           { url: "length", valueInteger: 11 },
                         ],
@@ -4518,31 +4620,11 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
+              fullUrl: "Practitioner/49574a15-b75f-4ec8-81c3-41a8386fe02e",
               resource: {
-                resourceType: "List",
-                id: "aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "Observation/765e2c26-0e90-4921-9e90-b30358ab476e",
-                      type: "Observation",
-                      display: "angina",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "49574a15-b75f-4ec8-81c3-41a8386fe02e",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -4733,19 +4815,19 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "2ab7e599-8b93-405a-99c0-3e0aa15e5357",
+          id: "9ea22165-5408-42bf-8102-1276bc188dac",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:2ab7e599-8b93-405a-99c0-3e0aa15e5357",
+            value: "urn:uuid:9ea22165-5408-42bf-8102-1276bc188dac",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/05a2583b-2950-468b-84e7-0d0e8c93d565",
+              fullUrl: "Composition/be3e1d6e-a161-47c0-a40f-d7831962e8f6",
               resource: {
                 resourceType: "Composition",
-                id: "05a2583b-2950-468b-84e7-0d0e8c93d565",
+                id: "be3e1d6e-a161-47c0-a40f-d7831962e8f6",
                 language: "en",
                 status: "final",
                 type: {
@@ -4755,18 +4837,18 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
+                  reference: "Patient/3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
+                  reference: "Encounter/19bdd7be-b4ff-4973-8db7-9d6bc4eef95c",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/d7e36f71-78a7-4813-840f-aff949879ce6",
+                    reference: "Practitioner/90018f0a-a529-4336-af91-290e54271bd7",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -4774,20 +4856,27 @@ export const expectation32: AnalyzeBatchResult[] = [
                 title: "Discharge summary",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/90018f0a-a529-4336-af91-290e54271bd7",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>Prescribed 100mg ibuprofen, taken twice daily.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>Prescribed 100mg ibuprofen, taken twice daily.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/76345e65-1dc8-4fae-bc14-e61f347518c8",
+                        reference: "List/954e5c41-fe8f-4354-a931-f1b1f4dfd2d1",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -4795,26 +4884,19 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/d7e36f71-78a7-4813-840f-aff949879ce6",
-              resource: {
-                resourceType: "Practitioner",
-                id: "d7e36f71-78a7-4813-840f-aff949879ce6",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
+              fullUrl: "Patient/3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
               resource: {
                 resourceType: "Patient",
-                id: "b934435a-7dcf-4377-adab-ff9472cf3788",
+                id: "3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
+                language: "en",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
+              fullUrl: "Encounter/19bdd7be-b4ff-4973-8db7-9d6bc4eef95c",
               resource: {
                 resourceType: "Encounter",
-                id: "67140a2c-7a7d-4da1-9457-9f77d8412325",
+                id: "19bdd7be-b4ff-4973-8db7-9d6bc4eef95c",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -4824,20 +4906,49 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
+                  reference: "Patient/3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "MedicationStatement/23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
+              fullUrl: "List/954e5c41-fe8f-4354-a931-f1b1f4dfd2d1",
+              resource: {
+                resourceType: "List",
+                id: "954e5c41-fe8f-4354-a931-f1b1f4dfd2d1",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/19bdd7be-b4ff-4973-8db7-9d6bc4eef95c",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "MedicationStatement/a1cfdf79-247e-44f2-9e45-532301b66a39",
+                      type: "MedicationStatement",
+                      display: "ibuprofen",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "MedicationStatement/a1cfdf79-247e-44f2-9e45-532301b66a39",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
+                id: "a1cfdf79-247e-44f2-9e45-532301b66a39",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 17 },
                       { url: "length", valueInteger: 9 },
                     ],
@@ -4888,11 +4999,11 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "ibuprofen",
                 },
                 subject: {
-                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
+                  reference: "Patient/3a4c3a21-cebd-4810-a73c-33a80e4af0c2",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
+                  reference: "Encounter/19bdd7be-b4ff-4973-8db7-9d6bc4eef95c",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -4900,40 +5011,44 @@ export const expectation32: AnalyzeBatchResult[] = [
                   {
                     text: "100mg",
                     timing: {
+                      extension: [
+                        {
+                          extension: [
+                            { url: "documentId" },
+                            { url: "offset", valueInteger: 34 },
+                            { url: "length", valueInteger: 11 },
+                          ],
+                          url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                        },
+                      ],
                       repeat: { frequency: 2, period: 1, periodUnit: "d" },
                       code: { text: "twice daily" },
                     },
-                    doseAndRate: [{ doseQuantity: { value: 100 } }],
+                    doseAndRate: [
+                      {
+                        extension: [
+                          {
+                            extension: [
+                              { url: "documentId" },
+                              { url: "offset", valueInteger: 11 },
+                              { url: "length", valueInteger: 5 },
+                            ],
+                            url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
+                          },
+                        ],
+                        doseQuantity: { value: 100 },
+                      },
+                    ],
                   },
                 ],
               },
             },
             {
-              fullUrl: "List/76345e65-1dc8-4fae-bc14-e61f347518c8",
+              fullUrl: "Practitioner/90018f0a-a529-4336-af91-290e54271bd7",
               resource: {
-                resourceType: "List",
-                id: "76345e65-1dc8-4fae-bc14-e61f347518c8",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "MedicationStatement/23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
-                      type: "MedicationStatement",
-                      display: "ibuprofen",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "90018f0a-a529-4336-af91-290e54271bd7",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -5004,19 +5119,19 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "bd0a5e35-b396-4c73-bca3-50fdb14ceb6c",
+          id: "62e7204b-5357-4c99-b08c-725a0ada9d97",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:bd0a5e35-b396-4c73-bca3-50fdb14ceb6c",
+            value: "urn:uuid:62e7204b-5357-4c99-b08c-725a0ada9d97",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/77baaef8-7741-44bb-999e-95d454aa7e35",
+              fullUrl: "Composition/05f32110-49c7-4a13-850a-fc4d7e5c514b",
               resource: {
                 resourceType: "Composition",
-                id: "77baaef8-7741-44bb-999e-95d454aa7e35",
+                id: "05f32110-49c7-4a13-850a-fc4d7e5c514b",
                 language: "en",
                 status: "final",
                 type: {
@@ -5026,18 +5141,18 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
+                  reference: "Patient/5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
+                  reference: "Encounter/88baf28a-bf21-40a5-adc8-4fc3db1c1d67",
                   type: "Encounter",
                   display: "unknown",
                 },
                 date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/95bf16a2-5b8e-4422-814f-0531f9084f5c",
+                    reference: "Practitioner/b2ad36f1-4bed-4ce1-8c8b-bf4c6bf6e980",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -5045,20 +5160,27 @@ export const expectation32: AnalyzeBatchResult[] = [
                 title: "Discharge summary",
                 section: [
                   {
-                    title: "General",
+                    title: "(General)",
                     code: {
                       coding: [{ system: "", display: "Unrecognized Section" }],
-                      text: "General",
+                      text: "(General)",
                     },
+                    author: [
+                      {
+                        reference: "Practitioner/b2ad36f1-4bed-4ce1-8c8b-bf4c6bf6e980",
+                        type: "Practitioner",
+                        display: "Unknown",
+                      },
+                    ],
                     text: {
                       status: "additional",
-                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>General</h1>\r\n\t\t\t\t\t\t\t<p>Patient does not suffer from high blood pressure.</p>\r\n\t\t\t\t\t</div>",
+                      div: "<div>\r\n\t\t\t\t\t\t\t<h1>(General)</h1>\r\n\t\t\t\t\t\t\t<p>Patient does not suffer from high blood pressure.</p>\r\n\t\t\t\t\t</div>",
                     },
                     entry: [
                       {
-                        reference: "List/b3135a26-3ae8-4b4e-b675-07c87cf187a6",
+                        reference: "List/dea282d0-c576-42c7-b55b-a371d8a95fee",
                         type: "List",
-                        display: "General",
+                        display: "(General)",
                       },
                     ],
                   },
@@ -5066,26 +5188,19 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/95bf16a2-5b8e-4422-814f-0531f9084f5c",
-              resource: {
-                resourceType: "Practitioner",
-                id: "95bf16a2-5b8e-4422-814f-0531f9084f5c",
-                name: [{ text: "Unknown", family: "Unknown" }],
-              },
-            },
-            {
-              fullUrl: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
+              fullUrl: "Patient/5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
               resource: {
                 resourceType: "Patient",
-                id: "9478fbe5-39c6-4638-bc3b-e7b27c48b794",
+                id: "5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
+                language: "en",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
+              fullUrl: "Encounter/88baf28a-bf21-40a5-adc8-4fc3db1c1d67",
               resource: {
                 resourceType: "Encounter",
-                id: "72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
+                id: "88baf28a-bf21-40a5-adc8-4fc3db1c1d67",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -5095,20 +5210,49 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
+                  reference: "Patient/5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Observation/debb4346-ac9a-4367-ad7c-9b4c4593bef8",
+              fullUrl: "List/dea282d0-c576-42c7-b55b-a371d8a95fee",
+              resource: {
+                resourceType: "List",
+                id: "dea282d0-c576-42c7-b55b-a371d8a95fee",
+                status: "current",
+                mode: "snapshot",
+                title: "(General)",
+                subject: {
+                  reference: "Patient/5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
+                  type: "Patient",
+                },
+                encounter: {
+                  reference: "Encounter/88baf28a-bf21-40a5-adc8-4fc3db1c1d67",
+                  type: "Encounter",
+                  display: "unknown",
+                },
+                entry: [
+                  {
+                    item: {
+                      reference: "Observation/9da1f7d2-ae2a-43ca-b33c-779b13ab8149",
+                      type: "Observation",
+                      display: "high blood pressure",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              fullUrl: "Observation/9da1f7d2-ae2a-43ca-b33c-779b13ab8149",
               resource: {
                 resourceType: "Observation",
-                id: "debb4346-ac9a-4367-ad7c-9b4c4593bef8",
+                id: "9da1f7d2-ae2a-43ca-b33c-779b13ab8149",
                 language: "en",
                 extension: [
                   {
                     extension: [
+                      { url: "documentId" },
                       { url: "offset", valueInteger: 29 },
                       { url: "length", valueInteger: 19 },
                     ],
@@ -5187,11 +5331,11 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "high blood pressure",
                 },
                 subject: {
-                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
+                  reference: "Patient/5a1abcd5-2ecf-4406-a46f-1dfbe45d3232",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
+                  reference: "Encounter/88baf28a-bf21-40a5-adc8-4fc3db1c1d67",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -5211,31 +5355,11 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/b3135a26-3ae8-4b4e-b675-07c87cf187a6",
+              fullUrl: "Practitioner/b2ad36f1-4bed-4ce1-8c8b-bf4c6bf6e980",
               resource: {
-                resourceType: "List",
-                id: "b3135a26-3ae8-4b4e-b675-07c87cf187a6",
-                status: "current",
-                mode: "snapshot",
-                title: "General",
-                subject: {
-                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
-                  type: "Patient",
-                },
-                encounter: {
-                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
-                  type: "Encounter",
-                  display: "unknown",
-                },
-                entry: [
-                  {
-                    item: {
-                      reference: "Observation/debb4346-ac9a-4367-ad7c-9b4c4593bef8",
-                      type: "Observation",
-                      display: "high blood pressure",
-                    },
-                  },
-                ],
+                resourceType: "Practitioner",
+                id: "b2ad36f1-4bed-4ce1-8c8b-bf4c6bf6e980",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
           ],
@@ -5246,6 +5370,7 @@ export const expectation32: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
+
 export const expectation33: AnalyzeBatchResult[] = [
   {
     kind: "EntityRecognition",
