@@ -19,10 +19,6 @@
 ### Breaking Changes
 - Changed public methods `getTrunks` to `listTrunks` and `getRoutes` to `listRoutes`.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.2.0-alpha.20230303.1 (2023-03-03)
 - Added support for the API version 2023-01-01-preview.
 - Added ability to retrieve SIP trunk health properties.
