@@ -6,6 +6,11 @@ import { ConnectionConfig } from "@azure/core-amqp";
 import { packageJsonInfo } from "../util/constants";
 
 /**
+ * The names of the operations that can be instrumented.
+ */
+export type MessagingOperationNames = "publish" | "receive" | "process";
+
+/**
  * The {@link TracingClient} that is used to add tracing spans.
  */
 export const tracingClient = createTracingClient({
@@ -22,12 +27,16 @@ export const tracingClient = createTracingClient({
  */
 export function toSpanOptions(
   serviceBusConfig: Pick<ConnectionConfig, "host"> & { entityPath: string },
-  spanKind?: TracingSpanKind
+  operation: MessagingOperationNames,
+  spanKind?: TracingSpanKind,
 ): TracingSpanOptions {
   const spanOptions: TracingSpanOptions = {
     spanAttributes: {
-      "message_bus.destination": serviceBusConfig.entityPath,
-      "peer.address": serviceBusConfig.host,
+      "hostname": serviceBusConfig.host,
+      "messaging.system": "servicebus",
+      "entity-path": serviceBusConfig.entityPath,
+      "messaging.operation": operation,
+      "net.peer.name": serviceBusConfig.host,
     },
   };
   if (spanKind) {
