@@ -1,7 +1,7 @@
 # Release History
 
 ## 1.0.0-beta.1 (Unreleased)
-Initial version of Text Translation client library for .NET
+Initial release
 
 ### Features Added
 - Added support for Text Translation - [Translate API](https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate)
