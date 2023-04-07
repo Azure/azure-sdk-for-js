@@ -4,10 +4,10 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
@@ -40,7 +40,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -539,8 +539,7 @@ export interface TranslationOutput {
 }
 
 // @public (undocumented)
-export class TranslatorCredential {
-    constructor(key: string, region: string);
+export interface TranslatorCredential {
     // (undocumented)
     key: string;
     // (undocumented)
