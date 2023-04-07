@@ -254,17 +254,17 @@ export class CallAutomationClient {
   /**
    * Answer the call.
    * @param incomingCallContext - The context associated with the call.
-   * @param callbackUri - The callback url.
+   * @param callbackUrl - The callback url.
    * @param options - Additional request options contains answerCall api options.
    */
   public async answerCall(
     incomingCallContext: string,
-    callbackUri: string,
+    callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      callbackUri: callbackUri,
+      callbackUri: callbackUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
     };
