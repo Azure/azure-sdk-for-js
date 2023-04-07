@@ -4001,7 +4001,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230406
+      typescript: 5.1.0-dev.20230407
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8858,14 +8858,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230406:
-    resolution: {integrity: sha512-FYnJSNhyGIzc9fCHcPTS/YyboOKfchGpKhrDIcNCqvODooe7BNOWGx6sjMu8xTav8E0905iuPa6TOueq/C6gxg==}
+  /typescript/5.1.0-dev.20230407:
+    resolution: {integrity: sha512-UoqoOW9TWlQcxKiOcDSY2N+m6YgY0jBSqDY5NC6xUMHPifb9bVe5dJI+O6cv/JFJQEqX/183+Z2dhA2l/heuBw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -16949,7 +16949,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1

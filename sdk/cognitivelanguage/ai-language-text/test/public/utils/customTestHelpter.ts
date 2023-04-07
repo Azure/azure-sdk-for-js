@@ -53,7 +53,7 @@ async function uploadDocuments(fileName: string): Promise<void> {
   const fileNames = await readdir(dir);
 
   const client = await createStorageBlob();
-  for (const file in fileNames) {
+  for (const file of fileNames) {
     if (file.endsWith(".txt")) {
       const blob = client.getBlockBlobClient(file);
       const filePath = path.join(dir, file);
