@@ -75,7 +75,7 @@ Once you have the value for the API key and Region, create an `TranslatorCredent
 
 With the value of the `TranslatorCredential` you can create the [TextTranslationClient][translator_client_class]:
 
-```typescript
+```javascript
 const translateCedential = new TranslatorCredential(apiKey, region);
 const translationClient = TextTranslationClient(endpoint, translateCedential);
 ```
@@ -88,11 +88,11 @@ The following section provides several code snippets using the `client` [created
 
 Gets the set of languages currently supported by other operations of the Translator.
 
-```typescript
+```javascript
 const langResponse = await translationClient.path("/languages").get();
 
 if (langResponse.status !== "200") {
-  const error = langResponse.body as ErrorResponseOutput;
+  const error = langResponse.body;
   throw error.error;
 }
 
@@ -100,11 +100,11 @@ if (isUnexpected(langResponse)) {
   throw langResponse.body;
 }
 
-const languages = langResponse.body as GetLanguagesResultOutput;
+const languages = langResponse.body;
 
 if (languages.translation) {
   console.log("Translated languages:");
-  for (const translationLanguage in languages.translation) {
+  for (const key in languages.translation) {
     const translationLanguage = languages.translation[key];
     console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
   }
@@ -137,9 +137,9 @@ Please refer to the service documentation for a conceptual discussion of [langua
 
 Renders single source-language text to multiple target-language texts with a single request.
 
-```typescript
-const inputText: InputTextItem[] = [{ text: "This is a test." }];
-const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
+```javascript
+const inputText = [{ text: "This is a test." }];
+const parameters = {
   to: "cs",
   from: "en",
 };
@@ -149,7 +149,7 @@ const translateResponse = await translationClient.path("/translate").post({
 });
 
 if (translateResponse.status !== "200") {
-  const error = translateResponse.body as ErrorResponseOutput;
+  const error = translateResponse.body;
   throw error.error;
 }
 
@@ -157,7 +157,7 @@ if (isUnexpected(translateResponse)) {
   throw translateResponse.body;
 }
 
-const translations = translateResponse.body as TranslatedTextItemOutput[];
+const translations = translateResponse.body;
 for (const translation of translations) {
   console.log(
     `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
@@ -171,9 +171,9 @@ Please refer to the service documentation for a conceptual discussion of [transl
 
 Converts characters or letters of a source language to the corresponding characters or letters of a target language.
 
-```typescript
-const inputText: InputTextItem[] = [{ text: "这是个测试。" }];
-const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+```javascript
+const inputText = [{ text: "这是个测试。" }];
+const parameters = {
   language: "zh-Hans",
   fromScript: "Hans",
   toScript: "Latn",
@@ -184,7 +184,7 @@ const transliterateResponse = await translationClient.path("/transliterate").pos
 });
 
 if (transliterateResponse.status !== "200") {
-  const error = transliterateResponse.body as ErrorResponseOutput;
+  const error = transliterateResponse.body;
   throw error.error;
 }
 
@@ -192,7 +192,7 @@ if (isUnexpected(transliterateResponse)) {
   throw transliterateResponse.body;
 }
 
-const translations = transliterateResponse.body as TransliteratedTextOutput[];
+const translations = transliterateResponse.body;
 for (const transliteration of translations) {
   console.log(
     `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
@@ -206,9 +206,9 @@ Please refer to the service documentation for a conceptual discussion of [transl
 
 Identifies the positioning of sentence boundaries in a piece of text.
 
-```typescript
-const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
-const parameters: FindSentenceBoundariesQueryParamProperties & Record<string, unknown> = {
+```javascript
+const inputText = [{ text: "zhè shì gè cè shì。" }];
+const parameters = {
   language: "zh-Hans",
   script: "Latn",
 };
@@ -218,7 +218,7 @@ const breakSentenceResponse = await translationClient.path("/breaksentence").pos
 });
 
 if (breakSentenceResponse.status !== "200") {
-  const error = breakSentenceResponse.body as ErrorResponseOutput;
+  const error = breakSentenceResponse.body;
   throw error.error;
 }
 
@@ -226,7 +226,7 @@ if (isUnexpected(breakSentenceResponse)) {
   throw breakSentenceResponse.body;
 }
 
-const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
+const breakSentences = breakSentenceResponse.body;
 for (const breakSentence of breakSentences) {
   console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
 }
@@ -238,9 +238,9 @@ Please refer to the service documentation for a conceptual discussion of [break 
 
 Returns equivalent words for the source term in the target language.
 
-```typescript
-const inputText: InputTextItem[] = [{ text: "fly" }];
-const parameters: LookupDictionaryEntriesQueryParamProperties & Record<string, unknown> = {
+```javascript
+const inputText = [{ text: "fly" }];
+const parameters = {
   to: "es",
   from: "en",
 };
@@ -250,7 +250,7 @@ const dictionaryResponse = await translationClient.path("/dictionary/lookup").po
 });
 
 if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body as ErrorResponseOutput;
+  const error = dictionaryResponse.body;
   throw error.error;
 }
 
@@ -258,7 +258,7 @@ if (isUnexpected(dictionaryResponse)) {
   throw dictionaryResponse.body;
 }
 
-const dictionaryEntries = dictionaryResponse.body as DictionaryLookupItemOutput[];
+const dictionaryEntries = dictionaryResponse.body;
 for (const dictionaryEntry of dictionaryEntries) {
   console.log(
     `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`
@@ -275,9 +275,9 @@ Please refer to the service documentation for a conceptual discussion of [dictio
 
 Returns grammatical structure and context examples for the source term and target term pair.
 
-```typescript
-const inputText: DictionaryExampleTextItem[] = [{ text: "fly", translation: "volar" }];
-const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+```javascript
+const inputText = [{ text: "fly", translation: "volar" }];
+const parameters = {
   to: "es",
   from: "en",
 };
@@ -287,7 +287,7 @@ const dictionaryResponse = await translationClient.path("/dictionary/examples").
 });
 
 if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body as ErrorResponseOutput;
+  const error = dictionaryResponse.body;
   throw error.error;
 }
 
@@ -295,7 +295,7 @@ if (isUnexpected(dictionaryResponse)) {
   throw dictionaryResponse.body;
 }
 
-const dictionaryExamples = dictionaryResponse.body as DictionaryExampleItemOutput[];
+const dictionaryExamples = dictionaryResponse.body;
 for (const dictionaryExample of dictionaryExamples) {
   console.log(
     `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
