@@ -34,7 +34,7 @@ export function toSpanOptions(
     spanAttributes: {
       "hostname": serviceBusConfig.host,
       "messaging.system": "servicebus",
-      "entity-path": serviceBusConfig.entityPath,
+      "messaging.source.name": serviceBusConfig.entityPath,
       "messaging.operation": operation,
       "net.peer.name": serviceBusConfig.host,
     },
