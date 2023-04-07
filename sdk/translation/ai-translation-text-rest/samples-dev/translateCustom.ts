@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how You can get translations from a customized system built with
  * Custom Translator (https://learn.microsoft.com/azure/cognitive-services/translator/customization). Add the Category ID from your Custom Translator [project details](https://learn.microsoft.com/azure/cognitive-services/translator/custom-translator/how-to-create-project#view-project-details)
  * to this parameter to use your deployed customized system.
- * 
+ *
  * It is possible to set `allowFalback` paramter. It specifies that the service is allowed to
  * fall back to a general system when a custom system doesn't exist. Possible values are:
  * `true` (default) or `false`.
@@ -17,7 +17,14 @@
  * category, the request will return a 400 status code. `allowFallback=true` specifies that
  * the service is allowed to fall back to a general system when a custom system doesn't exist.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  TranslateQueryParamProperties,
+  TranslatedTextItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -32,18 +39,16 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "This is a test." }
-  ];
+  const inputText: InputTextItem[] = [{ text: "This is a test." }];
   const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
     to: "cs",
     from: "en",
-    category: "<<CUSTOM CATEGORY ID>>"
+    category: "<<CUSTOM CATEGORY ID>>",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
@@ -56,9 +61,10 @@ export async function main() {
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];
   for (const translation of translations) {
-    console.log(`Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`);
+    console.log(
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
+    );
   }
-
 }
 
 main().catch((err) => {

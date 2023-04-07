@@ -7,7 +7,7 @@
  * in the translation. The degree of profanity and the context that makes words profane
  * differ between cultures, and as a result the degree of profanity in the target language
  * may be amplified or reduced.
- * 
+ *
  * If you want to avoid getting profanity in the translation, regardless of the presence
  * of profanity in the source text, you can use the profanity filtering option. The option
  * allows you to choose whether you want to see profanity deleted, whether you want to mark
@@ -15,7 +15,14 @@
  * or you want no action taken. The accepted values of `ProfanityAction` are `Deleted`, `Marked`
  * and `NoAction` (default).
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  TranslateQueryParamProperties,
+  TranslatedTextItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -30,19 +37,17 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "This is ***." }
-  ];
+  const inputText: InputTextItem[] = [{ text: "This is ***." }];
   const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
     to: "cs",
     from: "en",
     profanityAction: "Marked",
-    profanityMarker: "Asterisk"
+    profanityMarker: "Asterisk",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
@@ -55,9 +60,10 @@ export async function main() {
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];
   for (const translation of translations) {
-    console.log(`Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`);
+    console.log(
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
+    );
   }
-
 }
 
 main().catch((err) => {

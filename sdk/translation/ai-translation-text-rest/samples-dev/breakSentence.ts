@@ -4,7 +4,14 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, FindSentenceBoundariesQueryParamProperties, BreakSentenceItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  FindSentenceBoundariesQueryParamProperties,
+  BreakSentenceItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,17 +26,15 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "zhè shì gè cè shì。" }
-  ];
+  const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
   const parameters: FindSentenceBoundariesQueryParamProperties & Record<string, unknown> = {
     language: "zh-Hans",
-    script: "Latn"
+    script: "Latn",
   };
   const breakSentenceResponse = await translationClient.path("/breaksentence").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (breakSentenceResponse.status !== "200") {
     const error = breakSentenceResponse.body as ErrorResponseOutput;
@@ -44,7 +49,6 @@ export async function main() {
   for (const breakSentence of breakSentences) {
     console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
   }
-
 }
 
 main().catch((err) => {

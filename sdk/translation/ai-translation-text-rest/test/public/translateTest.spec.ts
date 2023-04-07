@@ -8,13 +8,13 @@ import {
   TextTranslationClient,
   TranslatedTextItemOutput,
   TranslateQueryParamProperties,
-  isUnexpected
+  isUnexpected,
 } from "../../src";
 import {
   createCustomTranslationClient,
   createTranslationClient,
   createTokenTranslationClient,
-  startRecorder
+  startRecorder,
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 

@@ -4,7 +4,14 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get grammatical structure and context examples for the source term and target term pair.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, DictionaryExampleTextItem, LookupDictionaryExamplesQueryParamProperties, DictionaryExampleItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  DictionaryExampleTextItem,
+  LookupDictionaryExamplesQueryParamProperties,
+  DictionaryExampleItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,17 +26,15 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: DictionaryExampleTextItem[] = [
-    { text: "fly", translation: "volar" }
-  ];
+  const inputText: DictionaryExampleTextItem[] = [{ text: "fly", translation: "volar" }];
   const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
     to: "es",
-    from: "en"
+    from: "en",
   };
   const dictionaryResponse = await translationClient.path("/dictionary/examples").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (dictionaryResponse.status !== "200") {
     const error = dictionaryResponse.body as ErrorResponseOutput;
@@ -42,11 +47,16 @@ export async function main() {
 
   const dictionaryExamples = dictionaryResponse.body as DictionaryExampleItemOutput[];
   for (const dictionaryExample of dictionaryExamples) {
-    console.log(`For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`);
+    console.log(
+      `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
+    );
     const firstExample = dictionaryExample?.examples[0];
-    console.log(`Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`);
+    console.log(
+      `Example: '${
+        firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix
+      }'.`
+    );
   }
-
 }
 
 main().catch((err) => {

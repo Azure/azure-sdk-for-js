@@ -2,14 +2,19 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import {StaticAccessTokenCredential} from "./StaticAccessTokenCredential";
-import createTextTranslationClient, { TranslatorCredential, TextTranslationClient } from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
 import {
-  createDefaultHttpClient,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+  Recorder,
+  RecorderStartOptions,
+  isPlaybackMode,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
+import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential";
+import createTextTranslationClient, {
+  TranslatorCredential,
+  TextTranslationClient,
+} from "../../../src";
+import { ClientOptions } from "@azure-rest/core-client";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
@@ -69,7 +74,7 @@ export async function createLanguageClient(options: {
   return createTextTranslationClient(endpoint, undefined, updatedOptions);
 }
 
-export async function createTokenTranslationClient(options: {  
+export async function createTokenTranslationClient(options: {
   recorder?: Recorder;
   clientOptions?: ClientOptions;
 }): Promise<TextTranslationClient> {
@@ -78,24 +83,27 @@ export async function createTokenTranslationClient(options: {
   const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
   const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
   const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
-  
-  const issueTokenURL: string = "https://" + region + ".api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=" + apikey;
+
+  const issueTokenURL: string =
+    "https://" +
+    region +
+    ".api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=" +
+    apikey;
   let credential: TokenCredential;
   if (isPlaybackMode()) {
     credential = createMockToken();
-  }
-  else {  
+  } else {
     const tokenClient = createDefaultHttpClient();
     const request = createPipelineRequest({
       url: issueTokenURL,
-      method: "POST"
+      method: "POST",
     });
     request.allowInsecureConnection = true;
     const response = await tokenClient.sendRequest(request);
-    const token:string = response.bodyAsText!; 
+    const token: string = response.bodyAsText!;
     credential = new StaticAccessTokenCredential(token);
   }
-  const client = createTextTranslationClient (endpoint, credential, updatedOptions);    
+  const client = createTextTranslationClient(endpoint, credential, updatedOptions);
   return client;
 }
 

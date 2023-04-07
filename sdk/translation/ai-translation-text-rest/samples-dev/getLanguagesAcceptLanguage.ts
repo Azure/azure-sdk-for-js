@@ -8,11 +8,16 @@
  * The language is specified by providing a well-formed BCP 47 language tag.
  * For instance, use the value `fr` to request names in French or use the value `zh-Hant`
  * to request names in Chinese Traditional.
- * 
+ *
  * Names are provided in the English language when a target language is not specified
  * or when localization is not available.
  */
-import TextTranslationClient, { GetLanguagesParameters, GetLanguagesResultOutput, ErrorResponseOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  GetLanguagesParameters,
+  GetLanguagesResultOutput,
+  ErrorResponseOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -24,8 +29,8 @@ export async function main() {
 
   const parameters: GetLanguagesParameters = {
     headers: {
-      "Accept-Language": "cs"
-    }
+      "Accept-Language": "cs",
+    },
   };
   const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get(parameters);
@@ -45,7 +50,9 @@ export async function main() {
     console.log("Translated languages:");
     for (const key in languages.translation) {
       const translationLanguage = languages.translation[key];
-      console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
+      console.log(
+        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`
+      );
     }
   }
 
@@ -53,7 +60,9 @@ export async function main() {
     console.log("Transliteration languages:");
     for (const key in languages.transliteration) {
       const transliterationLanguage = languages.transliteration[key];
-      console.log(`${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`);
+      console.log(
+        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+      );
     }
   }
 
@@ -61,7 +70,9 @@ export async function main() {
     console.log("Dictionary languages:");
     for (const key in languages.dictionary) {
       const dictionaryLanguage = languages.dictionary[key];
-      console.log(`${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`);
+      console.log(
+        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+      );
     }
   }
 }

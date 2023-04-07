@@ -6,7 +6,14 @@
  * service to convert characters or letters of a source language to the corresponding
  * characters or letters of a target language.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TransliterateQueryParamProperties, TransliteratedTextOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  TransliterateQueryParamProperties,
+  TransliteratedTextOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -21,18 +28,16 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "这是个测试。" }
-  ];
+  const inputText: InputTextItem[] = [{ text: "这是个测试。" }];
   const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
     language: "zh-Hans",
     fromScript: "Hans",
-    toScript: "Latn"
+    toScript: "Latn",
   };
   const transliterateResponse = await translationClient.path("/transliterate").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (transliterateResponse.status !== "200") {
     const error = transliterateResponse.body as ErrorResponseOutput;
@@ -45,9 +50,10 @@ export async function main() {
 
   const translations = transliterateResponse.body as TransliteratedTextOutput[];
   for (const transliteration of translations) {
-    console.log(`Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`);
+    console.log(
+      `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
+    );
   }
-
 }
 
 main().catch((err) => {

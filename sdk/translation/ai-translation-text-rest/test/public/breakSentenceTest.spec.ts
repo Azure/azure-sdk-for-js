@@ -8,7 +8,7 @@ import {
   FindSentenceBoundariesQueryParamProperties,
   InputTextItem,
   TextTranslationClient,
-  isUnexpected
+  isUnexpected,
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";

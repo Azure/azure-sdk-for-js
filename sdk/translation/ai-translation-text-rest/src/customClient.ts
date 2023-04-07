@@ -3,21 +3,14 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { TextTranslationClient } from "./generated/clientDefinitions";
 import {
   TranslatorCredential,
   TranslatorAuthenticationPolicy,
-  TranslatorAzureKeyAuthenticationPolicy
+  TranslatorAzureKeyAuthenticationPolicy,
 } from "./authentication";
-import {
-  AzureKeyCredential,
-  TokenCredential
-} from "@azure/core-auth";
+import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 
 const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
@@ -27,10 +20,7 @@ const PLATFORM_PATH = "/translator/text/v3.0";
 /** Policy that sets the api-version (or equivalent) to reflect the library version. */
 const apiVersionPolicy = {
   name: "MTApiVersionPolicy",
-  async sendRequest(
-    request: PipelineRequest,
-    next: SendRequest
-  ): Promise<PipelineResponse> {
+  async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
     const param = request.url.split("?");
     if (param.length > 1) {
       const newParams = param[1].split("&");
@@ -41,7 +31,7 @@ const apiVersionPolicy = {
       request.url = param[0] + "?api-version=3.0";
     }
     return next(request);
-  }
+  },
 };
 
 /**
@@ -82,16 +72,20 @@ export default function createClient(
   client.pipeline.addPolicy(apiVersionPolicy);
 
   if (credential instanceof TranslatorCredential) {
-    const mtAuthneticationPolicy = new TranslatorAuthenticationPolicy(credential as TranslatorCredential);
+    const mtAuthneticationPolicy = new TranslatorAuthenticationPolicy(
+      credential as TranslatorCredential
+    );
     client.pipeline.addPolicy(mtAuthneticationPolicy);
   } else if (credential instanceof AzureKeyCredential) {
-    const mtKeyAuthenticationPolicy = new TranslatorAzureKeyAuthenticationPolicy(credential as AzureKeyCredential);
+    const mtKeyAuthenticationPolicy = new TranslatorAzureKeyAuthenticationPolicy(
+      credential as AzureKeyCredential
+    );
     client.pipeline.addPolicy(mtKeyAuthenticationPolicy);
   } else if (credential) {
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
-        scopes: DEFAULT_SCOPE
+        scopes: DEFAULT_SCOPE,
       })
     );
   }

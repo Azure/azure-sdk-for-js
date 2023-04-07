@@ -4,7 +4,13 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, BreakSentenceItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  BreakSentenceItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,12 +25,10 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "How are you? I am fine. What did you do today?" }
-  ];
+  const inputText: InputTextItem[] = [{ text: "How are you? I am fine. What did you do today?" }];
   const breakSentenceResponse = await translationClient.path("/breaksentence").post({
-    body: inputText
-  })
+    body: inputText,
+  });
 
   if (breakSentenceResponse.status !== "200") {
     const error = breakSentenceResponse.body as ErrorResponseOutput;
@@ -38,9 +42,10 @@ export async function main() {
   const breakSentences = breakSentenceResponse.body as BreakSentenceItemOutput[];
   for (const breakSentence of breakSentences) {
     console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
-    console.log(`Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`);
+    console.log(
+      `Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`
+    );
   }
-
 }
 
 main().catch((err) => {

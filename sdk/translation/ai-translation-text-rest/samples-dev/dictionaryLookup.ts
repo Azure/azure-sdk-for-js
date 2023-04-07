@@ -4,7 +4,14 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get equivalent words for the source term in the target language.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, LookupDictionaryEntriesQueryParamProperties, DictionaryLookupItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  LookupDictionaryEntriesQueryParamProperties,
+  DictionaryLookupItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,17 +26,15 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "fly" }
-  ];
+  const inputText: InputTextItem[] = [{ text: "fly" }];
   const parameters: LookupDictionaryEntriesQueryParamProperties & Record<string, unknown> = {
     to: "es",
-    from: "en"
+    from: "en",
   };
   const dictionaryResponse = await translationClient.path("/dictionary/lookup").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (dictionaryResponse.status !== "200") {
     const error = dictionaryResponse.body as ErrorResponseOutput;
@@ -42,10 +47,13 @@ export async function main() {
 
   const dictionaryEntries = dictionaryResponse.body as DictionaryLookupItemOutput[];
   for (const dictionaryEntry of dictionaryEntries) {
-    console.log(`For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`);
-    console.log(`First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`);
+    console.log(
+      `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`
+    );
+    console.log(
+      `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`
+    );
   }
-
 }
 
 main().catch((err) => {

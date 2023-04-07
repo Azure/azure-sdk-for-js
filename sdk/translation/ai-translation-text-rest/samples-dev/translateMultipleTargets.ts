@@ -5,7 +5,14 @@
  * @summary This sample demonstrates how you can provide multiple target languages which results
  * to each input element be translated to all target languages.
  */
-import TextTranslationClient, { ErrorResponseOutput, TranslatorCredential, InputTextItem, TranslateQueryParamProperties, TranslatedTextItemOutput, isUnexpected } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, {
+  ErrorResponseOutput,
+  TranslatorCredential,
+  InputTextItem,
+  TranslateQueryParamProperties,
+  TranslatedTextItemOutput,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,17 +27,15 @@ export async function main() {
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
 
-  const inputText: InputTextItem[] = [
-    { text: "This is a test." }
-  ];
+  const inputText: InputTextItem[] = [{ text: "This is a test." }];
   const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
     to: "cs,es,de",
-    from: "en"
+    from: "en",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
-    queryParameters: parameters
-  })
+    queryParameters: parameters,
+  });
 
   if (translateResponse.status !== "200") {
     const error = translateResponse.body as ErrorResponseOutput;
@@ -43,9 +48,10 @@ export async function main() {
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];
   for (const translation of translations) {
-
     for (const textKey in translation.translations) {
-      console.log(`Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`);
+      console.log(
+        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`
+      );
     }
   }
 }
