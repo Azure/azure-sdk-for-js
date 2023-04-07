@@ -1,0 +1,28 @@
+parameters:
+- name: Location
+  displayName: Location
+  type: string
+  default: eastus
+
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure-rest/ai-translation-text"
+      ServiceDirectory: translation
+      Location: "${{ parameters.Location }}"
+      CloudConfig:
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+      SupportedClouds: 'Public'
+      EnvVars:
+        AZURE_SUBSCRIPTION_ID: $(TEXTANALYTICS_SUBSCRIPTION_ID)
+        AZURE_TENANT_ID: $(TEXTANALYTICS_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(TEXTANALYTICS_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(TEXTANALYTICS_CLIENT_ID)
+        TEXT_TRANSLATION_API_KEY: $(TEXT_TRANSLATION_API_KEY)
+        TEXT_TRANSLATION_ENDPOINT: $(TEXT_TRANSLATION_ENDPOINT)
+        TEXT_TRANSLATION_CUSTOM_ENDPOINT: $(TEXT_TRANSLATION_CUSTOM_ENDPOINT)
+        TEXT_TRANSLATION_REGION: $(TEXT_TRANSLATION_REGION)
