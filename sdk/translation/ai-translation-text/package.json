@@ -28,6 +28,7 @@
     "dist-esm/src/",
     "types/ai-translation-text.d.ts",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {
