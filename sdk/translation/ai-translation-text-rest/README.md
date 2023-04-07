@@ -31,11 +31,11 @@ Key links:
 ### Currently supported environments
 
 - LTS versions of Node.js
+- Latest versions of Edge, Chrome, Safar and Firefox
 
 ### Prerequisites
 
 - An existing Translator service or Cognitive Services resource.
-- Latest versions of Edge, Chrome, Safar and Firefox
 
 ### Install the `@azure-rest/ai-translation-text` package
 
@@ -91,11 +91,6 @@ Gets the set of languages currently supported by other operations of the Transla
 ```javascript
 const langResponse = await translationClient.path("/languages").get();
 
-if (langResponse.status !== "200") {
-  const error = langResponse.body;
-  throw error.error;
-}
-
 if (isUnexpected(langResponse)) {
   throw langResponse.body;
 }
@@ -148,11 +143,6 @@ const translateResponse = await translationClient.path("/translate").post({
   queryParameters: parameters,
 });
 
-if (translateResponse.status !== "200") {
-  const error = translateResponse.body;
-  throw error.error;
-}
-
 if (isUnexpected(translateResponse)) {
   throw translateResponse.body;
 }
@@ -183,11 +173,6 @@ const transliterateResponse = await translationClient.path("/transliterate").pos
   queryParameters: parameters,
 });
 
-if (transliterateResponse.status !== "200") {
-  const error = transliterateResponse.body;
-  throw error.error;
-}
-
 if (isUnexpected(transliterateResponse)) {
   throw transliterateResponse.body;
 }
@@ -217,11 +202,6 @@ const breakSentenceResponse = await translationClient.path("/breaksentence").pos
   queryParameters: parameters,
 });
 
-if (breakSentenceResponse.status !== "200") {
-  const error = breakSentenceResponse.body;
-  throw error.error;
-}
-
 if (isUnexpected(breakSentenceResponse)) {
   throw breakSentenceResponse.body;
 }
@@ -248,11 +228,6 @@ const dictionaryResponse = await translationClient.path("/dictionary/lookup").po
   body: inputText,
   queryParameters: parameters,
 });
-
-if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body;
-  throw error.error;
-}
 
 if (isUnexpected(dictionaryResponse)) {
   throw dictionaryResponse.body;
@@ -285,11 +260,6 @@ const dictionaryResponse = await translationClient.path("/dictionary/examples").
   body: inputText,
   queryParameters: parameters,
 });
-
-if (dictionaryResponse.status !== "200") {
-  const error = dictionaryResponse.body;
-  throw error.error;
-}
 
 if (isUnexpected(dictionaryResponse)) {
   throw dictionaryResponse.body;
