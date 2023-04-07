@@ -24,7 +24,7 @@ Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-text)
 - [API reference documentation](https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/samples)
 
 ## Getting started
 
@@ -334,7 +334,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication
 [service_errors]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#errors
-[translator_client_class]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text/src/generated/clientDefinitions.ts
+[translator_client_class]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text-rest/src/generated/clientDefinitions.ts
 [languages_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages
 [translate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate
 [transliterate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-transliterate
