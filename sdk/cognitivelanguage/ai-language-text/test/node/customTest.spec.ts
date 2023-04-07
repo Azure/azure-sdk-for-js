@@ -56,7 +56,6 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           beforeEach(async function (this: Context) {
             recorder = await startRecorder(this.currentTest);
             client = createClient(authMethod, {
-              resource: "CustomText",
               recorder,
             });
           });
@@ -115,7 +114,6 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           beforeEach(async function (this: Context) {
             recorder = await startRecorder(this.currentTest);
             client = createClient(authMethod, {
-              resource: "CustomText",
               recorder,
             });
           });
@@ -173,7 +171,6 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           beforeEach(async function (this: Context) {
             recorder = await startRecorder(this.currentTest);
             client = createClient(authMethod, {
-              resource: "CustomText",
               recorder,
             });
           });
