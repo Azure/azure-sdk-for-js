@@ -37,7 +37,7 @@
     "productSlugs": [
       "azure",
       "azure-cognitive-services",
-      "azure-text-translator"
+      "azure-translator"
     ],
     "requiredResources": {
       "Translator resource instance": "https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource"

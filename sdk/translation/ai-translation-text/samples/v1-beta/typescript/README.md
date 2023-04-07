@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
-  - azure-text-translator
+  - azure-translator
 urlFragment: ai-translation-text-typescript-beta
 ---
 
