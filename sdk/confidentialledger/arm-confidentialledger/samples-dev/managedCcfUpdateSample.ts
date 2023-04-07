@@ -8,37 +8,52 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
+import {
+  ManagedCCF,
+  ConfidentialLedgerClient
+} from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes an existing Confidential Ledger.
+ * This sample demonstrates how to Updates properties of Managed CCF
  *
- * @summary Deletes an existing Confidential Ledger.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_Delete.json
+ * @summary Updates properties of Managed CCF
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Update.json
  */
-async function confidentialLedgerDelete() {
+async function managedCcfUpdate() {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
     process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
     "DummyResourceGroupName";
-  const ledgerName = "DummyLedgerName";
+  const appName = "DummyMccfAppName";
+  const managedCCF: ManagedCCF = {
+    location: "EastUS",
+    properties: {
+      deploymentType: {
+        appSourceUri:
+          "https://myaccount.blob.core.windows.net/storage/mccfsource?sv=2022-02-11%st=2022-03-11",
+        languageRuntime: "CPP"
+      }
+    },
+    tags: { additionalProps1: "additional properties" }
+  };
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
-  const result = await client.ledger.beginDeleteAndWait(
+  const result = await client.managedCCFOperations.beginUpdateAndWait(
     resourceGroupName,
-    ledgerName
+    appName,
+    managedCCF
   );
   console.log(result);
 }
 
 async function main() {
-  confidentialLedgerDelete();
+  managedCcfUpdate();
 }
 
 main().catch(console.error);

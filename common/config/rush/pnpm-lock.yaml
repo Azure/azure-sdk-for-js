@@ -3998,7 +3998,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230405
+      typescript: 5.1.0-dev.20230406
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8861,8 +8861,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230405:
-    resolution: {integrity: sha512-4unWRVmR6URHndao/lK2XCSabqveeczgOSGNNQbfZW7Hu4b+YND5DlpVQOL/Yaz9olB1FgeZidZwYnTQbOXc6w==}
+  /typescript/5.1.0-dev.20230406:
+    resolution: {integrity: sha512-FYnJSNhyGIzc9fCHcPTS/YyboOKfchGpKhrDIcNCqvODooe7BNOWGx6sjMu8xTav8E0905iuPa6TOueq/C6gxg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -11015,7 +11015,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-RCYYrcf/AW0dqr+2QvY2EU+4rniSy5+K9uTGVuKvXixjIqYhcwUo580X77OQnjtpZPEByA6n/0t+ESkfik4FUw==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11029,8 +11029,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15680,7 +15680,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-BCxCcEVIqXSsumZ5b/0E4S4wAsI6WI7EsbY8tNQX/yEMYeMOKchffplek8nBnjjMXJh93itkE3Im9HTTAd4HBQ==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-5/l5GYmYlgc007crbcLNODtwZn7Ge10AZ7fONGz/FWCszObt2YQn/6xXttfS8zKo6XNmUFqlUd6qGhJnyv0FjA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -15722,7 +15722,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -17171,7 +17170,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18744,7 +18743,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:

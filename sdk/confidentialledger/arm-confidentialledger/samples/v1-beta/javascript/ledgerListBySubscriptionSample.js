@@ -8,36 +8,30 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ConfidentialLedgerClient } = require("@azure/arm-confidentialledger");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves the properties of all Confidential Ledgers.
  *
  * @summary Retrieves the properties of all Confidential Ledgers.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_List.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_ListBySub.json
  */
-async function confidentialLedgerList() {
+async function confidentialLedgerListBySub() {
   const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
-    "0000000-0000-0000-0000-000000000001";
-  const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
-    "DummyResourceGroupName";
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] || "0000000-0000-0000-0000-000000000001";
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ledger.listByResourceGroup(resourceGroupName)) {
+  for await (let item of client.ledger.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  confidentialLedgerList();
+  confidentialLedgerListBySub();
 }
 
 main().catch(console.error);

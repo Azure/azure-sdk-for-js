@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Ledger } from "../operationsInterfaces";
+import { ManagedCCFOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,31 +20,30 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ConfidentialLedger,
-  LedgerListByResourceGroupNextOptionalParams,
-  LedgerListByResourceGroupOptionalParams,
-  LedgerListByResourceGroupResponse,
-  LedgerListBySubscriptionNextOptionalParams,
-  LedgerListBySubscriptionOptionalParams,
-  LedgerListBySubscriptionResponse,
-  LedgerGetOptionalParams,
-  LedgerGetResponse,
-  LedgerDeleteOptionalParams,
-  LedgerCreateOptionalParams,
-  LedgerCreateResponse,
-  LedgerUpdateOptionalParams,
-  LedgerUpdateResponse,
-  LedgerListByResourceGroupNextResponse,
-  LedgerListBySubscriptionNextResponse
+  ManagedCCF,
+  ManagedCCFListByResourceGroupNextOptionalParams,
+  ManagedCCFListByResourceGroupOptionalParams,
+  ManagedCCFListByResourceGroupResponse,
+  ManagedCCFListBySubscriptionNextOptionalParams,
+  ManagedCCFListBySubscriptionOptionalParams,
+  ManagedCCFListBySubscriptionResponse,
+  ManagedCCFGetOptionalParams,
+  ManagedCCFGetResponse,
+  ManagedCCFDeleteOptionalParams,
+  ManagedCCFCreateOptionalParams,
+  ManagedCCFCreateResponse,
+  ManagedCCFUpdateOptionalParams,
+  ManagedCCFListByResourceGroupNextResponse,
+  ManagedCCFListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Ledger operations. */
-export class LedgerImpl implements Ledger {
+/** Class containing ManagedCCFOperations operations. */
+export class ManagedCCFOperationsImpl implements ManagedCCFOperations {
   private readonly client: ConfidentialLedgerClient;
 
   /**
-   * Initialize a new instance of the class Ledger class.
+   * Initialize a new instance of the class ManagedCCFOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ConfidentialLedgerClient) {
@@ -52,14 +51,14 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Retrieves the properties of all Confidential Ledgers.
+   * Retrieves the properties of all Managed CCF apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: LedgerListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ConfidentialLedger> {
+    options?: ManagedCCFListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<ManagedCCF> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -83,10 +82,10 @@ export class LedgerImpl implements Ledger {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: LedgerListByResourceGroupOptionalParams,
+    options?: ManagedCCFListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ConfidentialLedger[]> {
-    let result: LedgerListByResourceGroupResponse;
+  ): AsyncIterableIterator<ManagedCCF[]> {
+    let result: ManagedCCFListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -110,8 +109,8 @@ export class LedgerImpl implements Ledger {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: LedgerListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ConfidentialLedger> {
+    options?: ManagedCCFListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ManagedCCF> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -121,12 +120,12 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Retrieves the properties of all Confidential Ledgers.
+   * Retrieves the properties of all Managed CCF.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: LedgerListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<ConfidentialLedger> {
+    options?: ManagedCCFListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<ManagedCCF> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -145,10 +144,10 @@ export class LedgerImpl implements Ledger {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: LedgerListBySubscriptionOptionalParams,
+    options?: ManagedCCFListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ConfidentialLedger[]> {
-    let result: LedgerListBySubscriptionResponse;
+  ): AsyncIterableIterator<ManagedCCF[]> {
+    let result: ManagedCCFListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -167,40 +166,40 @@ export class LedgerImpl implements Ledger {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: LedgerListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<ConfidentialLedger> {
+    options?: ManagedCCFListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<ManagedCCF> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Retrieves the properties of a Confidential Ledger.
+   * Retrieves the properties of a Managed CCF app.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
+   * @param appName Name of the Managed CCF
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    ledgerName: string,
-    options?: LedgerGetOptionalParams
-  ): Promise<LedgerGetResponse> {
+    appName: string,
+    options?: ManagedCCFGetOptionalParams
+  ): Promise<ManagedCCFGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ledgerName, options },
+      { resourceGroupName, appName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Deletes an existing Confidential Ledger.
+   * Deletes an existing Managed CCF.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
+   * @param appName Name of the Managed CCF
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    ledgerName: string,
-    options?: LedgerDeleteOptionalParams
+    appName: string,
+    options?: ManagedCCFDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -243,7 +242,7 @@ export class LedgerImpl implements Ledger {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ledgerName, options },
+      args: { resourceGroupName, appName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -255,43 +254,42 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Deletes an existing Confidential Ledger.
+   * Deletes an existing Managed CCF.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
+   * @param appName Name of the Managed CCF
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    ledgerName: string,
-    options?: LedgerDeleteOptionalParams
+    appName: string,
+    options?: ManagedCCFDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      ledgerName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, appName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Creates a  Confidential Ledger with the specified ledger parameters.
+   * Creates a Managed CCF with the specified Managed CCF parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
-   * @param confidentialLedger Confidential Ledger Create Request Body
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Create Request Body
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    ledgerName: string,
-    confidentialLedger: ConfidentialLedger,
-    options?: LedgerCreateOptionalParams
+    appName: string,
+    managedCCF: ManagedCCF,
+    options?: ManagedCCFCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<LedgerCreateResponse>, LedgerCreateResponse>
+    SimplePollerLike<
+      OperationState<ManagedCCFCreateResponse>,
+      ManagedCCFCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LedgerCreateResponse> => {
+    ): Promise<ManagedCCFCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -329,12 +327,12 @@ export class LedgerImpl implements Ledger {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      args: { resourceGroupName, appName, managedCCF, options },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      LedgerCreateResponse,
-      OperationState<LedgerCreateResponse>
+      ManagedCCFCreateResponse,
+      OperationState<ManagedCCFCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -345,46 +343,44 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Creates a  Confidential Ledger with the specified ledger parameters.
+   * Creates a Managed CCF with the specified Managed CCF parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
-   * @param confidentialLedger Confidential Ledger Create Request Body
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Create Request Body
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    ledgerName: string,
-    confidentialLedger: ConfidentialLedger,
-    options?: LedgerCreateOptionalParams
-  ): Promise<LedgerCreateResponse> {
+    appName: string,
+    managedCCF: ManagedCCF,
+    options?: ManagedCCFCreateOptionalParams
+  ): Promise<ManagedCCFCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      ledgerName,
-      confidentialLedger,
+      appName,
+      managedCCF,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates properties of Confidential Ledger
+   * Updates properties of Managed CCF
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
-   * @param confidentialLedger Confidential Ledger request body for Updating Ledger
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Request body for Updating Managed CCF App
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    ledgerName: string,
-    confidentialLedger: ConfidentialLedger,
-    options?: LedgerUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<LedgerUpdateResponse>, LedgerUpdateResponse>
-  > {
+    appName: string,
+    managedCCF: ManagedCCF,
+    options?: ManagedCCFUpdateOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LedgerUpdateResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -422,13 +418,10 @@ export class LedgerImpl implements Ledger {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      args: { resourceGroupName, appName, managedCCF, options },
       spec: updateOperationSpec
     });
-    const poller = await createHttpPoller<
-      LedgerUpdateResponse,
-      OperationState<LedgerUpdateResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -437,36 +430,36 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Updates properties of Confidential Ledger
+   * Updates properties of Managed CCF
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ledgerName Name of the Confidential Ledger
-   * @param confidentialLedger Confidential Ledger request body for Updating Ledger
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Request body for Updating Managed CCF App
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    ledgerName: string,
-    confidentialLedger: ConfidentialLedger,
-    options?: LedgerUpdateOptionalParams
-  ): Promise<LedgerUpdateResponse> {
+    appName: string,
+    managedCCF: ManagedCCF,
+    options?: ManagedCCFUpdateOptionalParams
+  ): Promise<void> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      ledgerName,
-      confidentialLedger,
+      appName,
+      managedCCF,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Retrieves the properties of all Confidential Ledgers.
+   * Retrieves the properties of all Managed CCF apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: LedgerListByResourceGroupOptionalParams
-  ): Promise<LedgerListByResourceGroupResponse> {
+    options?: ManagedCCFListByResourceGroupOptionalParams
+  ): Promise<ManagedCCFListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -474,12 +467,12 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
-   * Retrieves the properties of all Confidential Ledgers.
+   * Retrieves the properties of all Managed CCF.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: LedgerListBySubscriptionOptionalParams
-  ): Promise<LedgerListBySubscriptionResponse> {
+    options?: ManagedCCFListBySubscriptionOptionalParams
+  ): Promise<ManagedCCFListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -495,8 +488,8 @@ export class LedgerImpl implements Ledger {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LedgerListByResourceGroupNextOptionalParams
-  ): Promise<LedgerListByResourceGroupNextResponse> {
+    options?: ManagedCCFListByResourceGroupNextOptionalParams
+  ): Promise<ManagedCCFListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -510,8 +503,8 @@ export class LedgerImpl implements Ledger {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: LedgerListBySubscriptionNextOptionalParams
-  ): Promise<LedgerListBySubscriptionNextResponse> {
+    options?: ManagedCCFListBySubscriptionNextOptionalParams
+  ): Promise<ManagedCCFListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -523,11 +516,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedger
+      bodyMapper: Mappers.ManagedCCF
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -538,14 +531,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ledgerName
+    Parameters.appName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -561,39 +554,39 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ledgerName
+    Parameters.appName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedger
+      bodyMapper: Mappers.ManagedCCF
     },
     201: {
-      bodyMapper: Mappers.ConfidentialLedger
+      bodyMapper: Mappers.ManagedCCF
     },
     202: {
-      bodyMapper: Mappers.ConfidentialLedger
+      bodyMapper: Mappers.ManagedCCF
     },
     204: {
-      bodyMapper: Mappers.ConfidentialLedger
+      bodyMapper: Mappers.ManagedCCF
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.confidentialLedger,
+  requestBody: Parameters.managedCCF,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ledgerName
+    Parameters.appName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -601,32 +594,24 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}",
   httpMethod: "PATCH",
   responses: {
-    200: {
-      bodyMapper: Mappers.ConfidentialLedger
-    },
-    201: {
-      bodyMapper: Mappers.ConfidentialLedger
-    },
-    202: {
-      bodyMapper: Mappers.ConfidentialLedger
-    },
-    204: {
-      bodyMapper: Mappers.ConfidentialLedger
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.confidentialLedger,
+  requestBody: Parameters.managedCCF,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ledgerName
+    Parameters.appName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -634,11 +619,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedgerList
+      bodyMapper: Mappers.ManagedCCFList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -655,11 +640,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ConfidentialLedger/ledgers/",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ConfidentialLedger/managedCCFs/",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedgerList
+      bodyMapper: Mappers.ManagedCCFList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -675,7 +660,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedgerList
+      bodyMapper: Mappers.ManagedCCFList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -695,7 +680,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfidentialLedgerList
+      bodyMapper: Mappers.ManagedCCFList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

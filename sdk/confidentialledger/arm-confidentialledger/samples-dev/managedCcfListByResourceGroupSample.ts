@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieves the properties of all Confidential Ledgers.
+ * This sample demonstrates how to Retrieves the properties of all Managed CCF apps.
  *
- * @summary Retrieves the properties of all Confidential Ledgers.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_List.json
+ * @summary Retrieves the properties of all Managed CCF apps.
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_List.json
  */
-async function confidentialLedgerList() {
+async function managedCcfList() {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -30,14 +30,16 @@ async function confidentialLedgerList() {
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ledger.listByResourceGroup(resourceGroupName)) {
+  for await (let item of client.managedCCFOperations.listByResourceGroup(
+    resourceGroupName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  confidentialLedgerList();
+  managedCcfList();
 }
 
 main().catch(console.error);
