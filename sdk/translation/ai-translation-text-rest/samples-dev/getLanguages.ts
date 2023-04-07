@@ -5,8 +5,6 @@
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get a list of supported languages
  */
 import TextTranslationClient, {
-  GetLanguagesResultOutput,
-  ErrorResponseOutput,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -21,16 +19,11 @@ export async function main() {
   const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get();
 
-  if (langResponse.status !== "200") {
-    const error = langResponse.body as ErrorResponseOutput;
-    throw error.error;
-  }
-
   if (isUnexpected(langResponse)) {
-    throw langResponse.body;
+    throw langResponse.body.error;
   }
 
-  const languages = langResponse.body as GetLanguagesResultOutput;
+  const languages = langResponse.body;
 
   if (languages.translation) {
     console.log("Translated languages:");

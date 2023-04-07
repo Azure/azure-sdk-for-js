@@ -6,11 +6,8 @@
  * for the input text and the translated text.
  */
 import TextTranslationClient, {
-  ErrorResponseOutput,
   TranslatorCredential,
   InputTextItem,
-  TranslateQueryParamProperties,
-  TranslatedTextItemOutput,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -24,33 +21,29 @@ const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 export async function main() {
   console.log("== Translation with sentence boundaries sample ==");
 
-  const translateCedential = new TranslatorCredential(apiKey, region);
-  const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
+  const translateCedential: TranslatorCredential = {
+    key: apiKey,
+    region
+  };
+  const translationClient = TextTranslationClient(endpoint, translateCedential);
 
   const inputText: InputTextItem[] = [
     { text: "The answer lies in machine translation. This is a test." },
   ];
-  const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
-    to: "cs",
-    from: "en",
-
-    includeSentenceLength: true,
-  };
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
-    queryParameters: parameters,
-  });
+    queryParameters: {
+      to: "cs",
+      from: "en",
 
-  if (translateResponse.status !== "200") {
-    const error = translateResponse.body as ErrorResponseOutput;
-    throw error.error;
-  }
+      includeSentenceLength: true,
+  }});
 
   if (isUnexpected(translateResponse)) {
-    throw translateResponse.body;
+    throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body as TranslatedTextItemOutput[];
+  const translations = translateResponse.body;
   for (const translation of translations) {
     console.log(
       `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`

@@ -7,11 +7,8 @@
  * characters or letters of a target language.
  */
 import TextTranslationClient, {
-  ErrorResponseOutput,
   TranslatorCredential,
   InputTextItem,
-  TransliterateQueryParamProperties,
-  TransliteratedTextOutput,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -25,30 +22,26 @@ const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 export async function main() {
   console.log("== Simple transliterate sample ==");
 
-  const translateCedential = new TranslatorCredential(apiKey, region);
-  const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
+  const translateCedential: TranslatorCredential = {
+    key: apiKey,
+    region
+  };
+  const translationClient = TextTranslationClient(endpoint, translateCedential);
 
   const inputText: InputTextItem[] = [{ text: "这是个测试。" }];
-  const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
-    language: "zh-Hans",
-    fromScript: "Hans",
-    toScript: "Latn",
-  };
   const transliterateResponse = await translationClient.path("/transliterate").post({
     body: inputText,
-    queryParameters: parameters,
-  });
-
-  if (transliterateResponse.status !== "200") {
-    const error = transliterateResponse.body as ErrorResponseOutput;
-    throw error.error;
-  }
+    queryParameters: {
+      language: "zh-Hans",
+      fromScript: "Hans",
+      toScript: "Latn",
+  }});
 
   if (isUnexpected(transliterateResponse)) {
-    throw transliterateResponse.body;
+    throw transliterateResponse.body.error;
   }
 
-  const translations = transliterateResponse.body as TransliteratedTextOutput[];
+  const translations = transliterateResponse.body;
   for (const transliteration of translations) {
     console.log(
       `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`

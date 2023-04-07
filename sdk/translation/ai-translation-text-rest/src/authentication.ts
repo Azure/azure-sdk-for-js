@@ -12,14 +12,9 @@ import {
 const APIM_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const APIM_REGION_HEADER_NAME = "Ocp-Apim-Subscription-Region";
 
-export class TranslatorCredential {
+export interface TranslatorCredential {
   key: string;
   region: string;
-
-  constructor(key: string, region: string) {
-    this.key = key;
-    this.region = region;
-  }
 }
 
 export class TranslatorAuthenticationPolicy implements PipelinePolicy {

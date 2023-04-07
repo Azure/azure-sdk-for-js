@@ -9,10 +9,8 @@
  * Note You must include the From parameter in your API translation request instead of using the autodetect feature.
  */
 import TextTranslationClient, {
-  ErrorResponseOutput,
   TranslatorCredential,
   InputTextItem,
-  TranslateQueryParamProperties,
   TranslatedTextItemOutput,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
@@ -27,30 +25,26 @@ const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 export async function main() {
   console.log("== Translation with Dictionary sample ==");
 
-  const translateCedential = new TranslatorCredential(apiKey, region);
-  const translationClient = TextTranslationClient(endpoint, translateCedential, undefined);
+  const translateCedential: TranslatorCredential = {
+    key: apiKey,
+    region
+  };
+  const translationClient = TextTranslationClient(endpoint, translateCedential);
 
   const inputText: InputTextItem[] = [
     {
       text: 'The word <mstrans:dictionary translation="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
     },
   ];
-  const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
-    to: "cs",
-    from: "en",
-  };
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
-    queryParameters: parameters,
-  });
-
-  if (translateResponse.status !== "200") {
-    const error = translateResponse.body as ErrorResponseOutput;
-    throw error.error;
-  }
+    queryParameters: {
+      to: "cs",
+      from: "en",
+  }});
 
   if (isUnexpected(translateResponse)) {
-    throw translateResponse.body;
+    throw translateResponse.body.error;
   }
 
   const translations = translateResponse.body as TranslatedTextItemOutput[];

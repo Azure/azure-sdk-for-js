@@ -10,12 +10,20 @@ import {
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
 } from "./authentication";
-import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
 const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
+
+function isKeyCredential(credential: any): credential is KeyCredential {
+  return (credential as KeyCredential).key !== undefined;
+}
+
+function isTranslatorKeyCredential(credential: any): credential is TranslatorCredential {
+  return (credential as TranslatorCredential).key !== undefined;
+}
 
 /** Policy that sets the api-version (or equivalent) to reflect the library version. */
 const apiVersionPolicy = {
@@ -42,7 +50,7 @@ const apiVersionPolicy = {
  */
 export default function createClient(
   endpoint: undefined | string,
-  credential: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential = undefined,
+  credential: undefined | TranslatorCredential | KeyCredential | TokenCredential = undefined,
   options: ClientOptions = {}
 ): TextTranslationClient {
   let serviceEndpoint: string;
@@ -71,12 +79,12 @@ export default function createClient(
   const client = getClient(baseUrl, options) as TextTranslationClient;
   client.pipeline.addPolicy(apiVersionPolicy);
 
-  if (credential instanceof TranslatorCredential) {
+  if (isTranslatorKeyCredential(credential)) {
     const mtAuthneticationPolicy = new TranslatorAuthenticationPolicy(
       credential as TranslatorCredential
     );
     client.pipeline.addPolicy(mtAuthneticationPolicy);
-  } else if (credential instanceof AzureKeyCredential) {
+  } else if (isKeyCredential(credential)) {
     const mtKeyAuthenticationPolicy = new TranslatorAzureKeyAuthenticationPolicy(
       credential as AzureKeyCredential
     );
