@@ -306,7 +306,7 @@ export class BatchingReceiverLite {
         "BatchingReceiverLite.process",
         args,
         () => messages,
-        toProcessingSpanOptions(messages, this, this._connectionContext.config)
+        toProcessingSpanOptions(messages, this, this._connectionContext.config, "process")
       );
     } finally {
       this._closeHandler = undefined;

@@ -34,7 +34,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   options: OperationOptionsBase,
   entityPath: string,
   host: string,
-  operation: MessagingOperationNames,
+  operation: MessagingOperationNames
 ): {
   /**
    * If instrumentation was done, a copy of the message with
@@ -138,7 +138,7 @@ export function toProcessingSpanOptions(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
-  operation: MessagingOperationNames,
+  operation: MessagingOperationNames
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {

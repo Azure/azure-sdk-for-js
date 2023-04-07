@@ -28,7 +28,7 @@ export const tracingClient = createTracingClient({
 export function toSpanOptions(
   serviceBusConfig: Pick<ConnectionConfig, "host"> & { entityPath: string },
   operation: MessagingOperationNames,
-  spanKind?: TracingSpanKind,
+  spanKind?: TracingSpanKind
 ): TracingSpanOptions {
   const spanOptions: TracingSpanOptions = {
     spanAttributes: {
