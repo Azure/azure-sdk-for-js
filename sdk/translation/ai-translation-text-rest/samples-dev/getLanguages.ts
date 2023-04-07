@@ -4,9 +4,7 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get a list of supported languages
  */
-import TextTranslationClient, {
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 
 import * as dotenv from "dotenv";
 dotenv.config();

@@ -22,7 +22,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region
+    region,
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 

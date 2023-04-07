@@ -22,7 +22,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region
+    region,
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
@@ -32,7 +32,8 @@ export async function main() {
     queryParameters: {
       to: "es",
       from: "en",
-  }});
+    },
+  });
 
   if (isUnexpected(dictionaryResponse)) {
     throw dictionaryResponse.body.error;
