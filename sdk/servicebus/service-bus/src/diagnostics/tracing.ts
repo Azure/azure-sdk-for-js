@@ -32,7 +32,6 @@ export function toSpanOptions(
 ): TracingSpanOptions {
   const spanOptions: TracingSpanOptions = {
     spanAttributes: {
-      "hostname": serviceBusConfig.host,
       "messaging.system": "servicebus",
       "messaging.source.name": serviceBusConfig.entityPath,
       "messaging.operation": operation,
