@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import {StaticAccessTokenCredential} from "./StaticAccessTokenCredential";
-import TextTranslationClient, { TextTranslationClient, TranslatorCredential } from "../../../src";
+import createTextTranslationClient, { TranslatorCredential, TextTranslationClient } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import {
   createDefaultHttpClient,
@@ -40,7 +40,7 @@ export async function createTranslationClient(options: {
   const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
   const translatorCredential = new TranslatorCredential(apikey, region);
-  const client = TextTranslationClient(endpoint, translatorCredential, updatedOptions);
+  const client = createTextTranslationClient(endpoint, translatorCredential, updatedOptions);
   return client;
 }
 
@@ -55,7 +55,7 @@ export async function createCustomTranslationClient(options: {
   const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
   const translatorCredential = new TranslatorCredential(apikey, region);
-  const client = TextTranslationClient(customEndpoint, translatorCredential, updatedOptions);
+  const client = createTextTranslationClient(customEndpoint, translatorCredential, updatedOptions);
   return client;
 }
 
@@ -66,7 +66,7 @@ export async function createLanguageClient(options: {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
   const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
-  return TextTranslationClient(endpoint, undefined, updatedOptions);
+  return createTextTranslationClient(endpoint, undefined, updatedOptions);
 }
 
 export async function createTokenTranslationClient(options: {  
@@ -95,7 +95,7 @@ export async function createTokenTranslationClient(options: {
     const token:string = response.bodyAsText!; 
     credential = new StaticAccessTokenCredential(token);
   }
-  const client = TextTranslationClient (endpoint, credential, updatedOptions);    
+  const client = createTextTranslationClient (endpoint, credential, updatedOptions);    
   return client;
 }
 

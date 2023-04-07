@@ -24,6 +24,26 @@ const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
 
+/** Policy that sets the api-version (or equivalent) to reflect the library version. */
+const apiVersionPolicy = {
+  name: "MTApiVersionPolicy",
+  async sendRequest(
+    request: PipelineRequest,
+    next: SendRequest
+  ): Promise<PipelineResponse> {
+    const param = request.url.split("?");
+    if (param.length > 1) {
+      const newParams = param[1].split("&");
+      newParams.push("api-version=3.0");
+      request.url = param[0] + "?" + newParams.join("&");
+    } else {
+      // no query parameters in request url
+      request.url = param[0] + "?api-version=3.0";
+    }
+    return next(request);
+  }
+};
+
 /**
  * Initialize a new instance of `TextTranslationClient`
  * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
@@ -38,7 +58,7 @@ export default function createClient(
   let serviceEndpoint: string;
   if (!endpoint) {
     serviceEndpoint = DEFAULT_ENPOINT;
-  } else if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) != -1) {
+  } else if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) !== -1) {
     serviceEndpoint = `${endpoint}${PLATFORM_PATH}`;
   } else {
     serviceEndpoint = endpoint;
@@ -78,23 +98,3 @@ export default function createClient(
 
   return client;
 }
-
-/** Policy that sets the api-version (or equivalent) to reflect the library version. */
-const apiVersionPolicy = {
-  name: "MTApiVersionPolicy",
-  async sendRequest(
-    request: PipelineRequest,
-    next: SendRequest
-  ): Promise<PipelineResponse> {
-    const param = request.url.split("?");
-    if (param.length > 1) {
-      const newParams = param[1].split("&");
-      newParams.push("api-version=3.0");
-      request.url = param[0] + "?" + newParams.join("&");
-    } else {
-      // no query parameters in request url
-      request.url = param[0] + "?api-version=3.0";
-    }
-    return next(request);
-  }
-};
