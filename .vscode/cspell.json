@@ -43,7 +43,7 @@
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/translation/ai-translation-text/review/*.md"
+    "sdk/translation/ai-translation-text-rest/review/*.md"
   ],
   "words": [
     "adfs",
