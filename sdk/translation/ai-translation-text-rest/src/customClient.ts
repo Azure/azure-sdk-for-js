@@ -18,11 +18,11 @@ const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
 
 function isKeyCredential(credential: any): credential is KeyCredential {
-  return (credential as KeyCredential).key !== undefined;
+  return (credential as KeyCredential)?.key !== undefined;
 }
 
 function isTranslatorKeyCredential(credential: any): credential is TranslatorCredential {
-  return (credential as TranslatorCredential).key !== undefined;
+  return (credential as TranslatorCredential)?.key !== undefined;
 }
 
 /** Policy that sets the api-version (or equivalent) to reflect the library version. */

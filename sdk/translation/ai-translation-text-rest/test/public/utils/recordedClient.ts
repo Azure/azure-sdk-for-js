@@ -44,7 +44,10 @@ export async function createTranslationClient(options: {
   const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
   const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
-  const translatorCredential = new TranslatorCredential(apikey, region);
+  const translatorCredential: TranslatorCredential = {
+    key: apikey,
+    region,
+  };
   const client = createTextTranslationClient(endpoint, translatorCredential, updatedOptions);
   return client;
 }
@@ -59,7 +62,10 @@ export async function createCustomTranslationClient(options: {
   const apikey = assertEnvironmentVariable("TEXT_TRANSLATION_API_KEY");
   const region = assertEnvironmentVariable("TEXT_TRANSLATION_REGION");
 
-  const translatorCredential = new TranslatorCredential(apikey, region);
+  const translatorCredential: TranslatorCredential = {
+    key: apikey,
+    region,
+  };
   const client = createTextTranslationClient(customEndpoint, translatorCredential, updatedOptions);
   return client;
 }
