@@ -1,0 +1,71 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "83e34c22-71b9-42d4-ac24-b200c85adb25"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:34 GMT",
+        "ETag": "\u00224b00d988-0000-0700-0000-642f8c000000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3de43db2-27c1-493e-b682-ea494a11d168",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "7806ea5a-26ce-4504-ade3-d9aa8e1f7e5b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032034Z:3de43db2-27c1-493e-b682-ea494a11d168"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "name": "resourcetest",
+        "type": "microsoft.quantum/workspaces",
+        "location": "westus",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-04-07T03:18:50.1204428Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-04-07T03:18:50.1204428Z"
+        },
+        "identity": {
+          "principalId": "61363520-02f4-4072-9ed7-bfae544bc619",
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "providers": [
+            {
+              "providerId": "IonQ",
+              "providerSku": "pay-as-you-go-cred",
+              "applicationName": "resourcetest-IonQ",
+              "provisioningState": "Succeeded",
+              "resourceUsageId": "071b47f3-8711-4c80-be18-0e52b955e1e2"
+            }
+          ],
+          "provisioningState": "Succeeded",
+          "usable": "Yes",
+          "storageAccount": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/testStorageAccount",
+          "endpointUri": "https://resourcetest.westus.quantum.azure.com"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

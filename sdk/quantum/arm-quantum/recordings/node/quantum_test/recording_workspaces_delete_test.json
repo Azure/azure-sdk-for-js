@@ -1,0 +1,2077 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest?api-version=2022-01-10-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e6cbd169-b4c1-4efd-86f7-e1208b78e3c2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:39 GMT",
+        "ETag": "\u00224b00e388-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+        "mise-correlation-id": "a126588e-225e-48b7-8fc1-0f1780907d65",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:4d6ac272-7369-45c6-9036-63d733c8519f",
+        "Set-Cookie": [
+          "ARRAffinity=8a8e82587631bd1fea2bdcd0346375ac21afae7e018a14302b285dfe5d8a9bd6;Path=/;HttpOnly;Secure;Domain=rpcontrol2westus.azurewebsites.net",
+          "ARRAffinitySameSite=8a8e82587631bd1fea2bdcd0346375ac21afae7e018a14302b285dfe5d8a9bd6;Path=/;HttpOnly;SameSite=None;Secure;Domain=rpcontrol2westus.azurewebsites.net"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Azure-Ref": "0B4wvZAAAAAAYx2esoc5wRbUpPHKbVFxtU0pDRURHRTA1MTYAZTQ4MjI1M2ItOWUwNS00MDVlLWE4M2YtNTg2ZWUxZDU1M2U0",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b5c64047-837d-4a94-8645-4f6580f7a684",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032039Z:b5c64047-837d-4a94-8645-4f6580f7a684",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": "null"
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "70cb9a10-12ef-4ab0-8914-a9ce4240f96f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:39 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "60fd407e-e98f-4f5c-bdcd-b188758a4627",
+        "x-ms-ratelimit-remaining-tenant-reads": "11955",
+        "x-ms-request-id": "48ac0f35-82c9-4029-b578-c66250775513",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032040Z:60fd407e-e98f-4f5c-bdcd-b188758a4627"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "40b3aa5c-5d2f-4eee-a42b-29674aca4852"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:40 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "55b9ab40-b1f4-4984-ae1e-135a579d0628",
+        "x-ms-ratelimit-remaining-tenant-reads": "11954",
+        "x-ms-request-id": "36c8be3a-16f2-4bee-bf62-ba422f646963",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032040Z:55b9ab40-b1f4-4984-ae1e-135a579d0628"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "12aefb8e-8a91-47d8-b35e-c14bd29f5bd8"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:42 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "75d3e46d-8fa1-4e14-93f5-7a97caa76951",
+        "x-ms-ratelimit-remaining-tenant-reads": "11953",
+        "x-ms-request-id": "022c1dc4-aeba-4503-aa94-8de1f747acd7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032042Z:75d3e46d-8fa1-4e14-93f5-7a97caa76951"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4036baa2-7ce4-4431-bd4e-ce8206880cbe"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:44 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1472b48d-b1bb-454f-880a-6b8968522d1a",
+        "x-ms-ratelimit-remaining-tenant-reads": "11952",
+        "x-ms-request-id": "55519251-4bdf-4942-ae3f-fe5e5f299677",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032044Z:1472b48d-b1bb-454f-880a-6b8968522d1a"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "964188b4-e220-4afa-88d2-77dfdd315843"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:47 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "274e935c-05f3-428f-afff-d4363009214c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11951",
+        "x-ms-request-id": "47956351-d3cb-44d0-82ec-9c7fb46e1ce4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032047Z:274e935c-05f3-428f-afff-d4363009214c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0c220520-9a8b-4edb-a765-9d069dbc4325"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:49 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "de2a2670-c433-4d4b-b0bc-d00d8b8db342",
+        "x-ms-ratelimit-remaining-tenant-reads": "11950",
+        "x-ms-request-id": "c035706e-dcca-4c36-8199-b1ac51c99d11",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032049Z:de2a2670-c433-4d4b-b0bc-d00d8b8db342"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "eb19608c-8dd0-43d0-a781-6d5e5b615b9d"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:51 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4d13104c-481f-4305-aeba-983ea6c33779",
+        "x-ms-ratelimit-remaining-tenant-reads": "11949",
+        "x-ms-request-id": "10b722e9-0145-47c6-a666-1aac8668ed48",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032052Z:4d13104c-481f-4305-aeba-983ea6c33779"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0b673fe8-0ff4-4992-87d6-07144501d0a9"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:54 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fa2cb21b-8143-458c-b485-4e8fbd2b3dca",
+        "x-ms-ratelimit-remaining-tenant-reads": "11948",
+        "x-ms-request-id": "cfedc173-0173-480c-ad3c-63bef2ab9bf6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032054Z:fa2cb21b-8143-458c-b485-4e8fbd2b3dca"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "800d13f4-c20c-4549-84f8-a42403403a34"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:56 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ad510a71-4302-4000-870a-a742d2ef40c5",
+        "x-ms-ratelimit-remaining-tenant-reads": "11947",
+        "x-ms-request-id": "a2ad5e47-ee08-47a7-9c86-1f5d9818557e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032056Z:ad510a71-4302-4000-870a-a742d2ef40c5"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3d6c12af-8809-4950-9651-4bb56a22a9ea"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:20:58 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "97acb5a3-33cf-44c0-a2cd-ceb182cb0931",
+        "x-ms-ratelimit-remaining-tenant-reads": "11946",
+        "x-ms-request-id": "e191d67a-235d-4121-885f-afe667147cde",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032059Z:97acb5a3-33cf-44c0-a2cd-ceb182cb0931"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "06ca7fdb-db18-4fe2-88de-58b04a23f4bc"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:01 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "30fe015a-109d-4fb4-afb5-a11a57f6655f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11945",
+        "x-ms-request-id": "97945b6d-4df3-427a-954a-fcbed42247de",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032101Z:30fe015a-109d-4fb4-afb5-a11a57f6655f"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8214c545-72cf-445e-bd6f-f0ce4cd4312f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:03 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "373de465-f866-41e8-a6c8-ec0b2151d13c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11944",
+        "x-ms-request-id": "fa239854-ac64-4fd5-b023-89acd0abe769",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032103Z:373de465-f866-41e8-a6c8-ec0b2151d13c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6597ba56-b620-426b-9b3e-58b9fb5d44b0"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:06 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1fdad1eb-f0ff-4cb4-b1d7-0481e5be3122",
+        "x-ms-ratelimit-remaining-tenant-reads": "11943",
+        "x-ms-request-id": "6fce41da-213c-42c5-aac8-94fb37d32042",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032106Z:1fdad1eb-f0ff-4cb4-b1d7-0481e5be3122"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "24869d91-3db6-4850-a71a-846d6adab841"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:08 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0ce86989-2be9-490c-a1f3-0bda86c84e77",
+        "x-ms-ratelimit-remaining-tenant-reads": "11942",
+        "x-ms-request-id": "37d29674-8d96-4bd1-bff8-54a6c34c25c4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032108Z:0ce86989-2be9-490c-a1f3-0bda86c84e77"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0e2036f3-3c3a-4617-b0d6-c8c356539a1c"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:10 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e9922eda-21a9-4410-8932-7324ddb22cc7",
+        "x-ms-ratelimit-remaining-tenant-reads": "11941",
+        "x-ms-request-id": "e1c832cd-07f2-461e-96cf-f5031e5543a0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032110Z:e9922eda-21a9-4410-8932-7324ddb22cc7"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "081e2077-cd9c-4a6f-a2cb-c0c110d5f64b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:13 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9bb4cdbc-c168-4a22-8b1a-293978097eaf",
+        "x-ms-ratelimit-remaining-tenant-reads": "11940",
+        "x-ms-request-id": "03628921-1903-4f69-90e4-50d67a732ca6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032113Z:9bb4cdbc-c168-4a22-8b1a-293978097eaf"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "db145327-353e-4cf3-9bda-a1dd1617b91e"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:15 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "158b644d-5271-4c1a-9f8d-b994571ecc86",
+        "x-ms-ratelimit-remaining-tenant-reads": "11939",
+        "x-ms-request-id": "f8de9fd8-430a-4772-b750-e8769c4fd4df",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032115Z:158b644d-5271-4c1a-9f8d-b994571ecc86"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bf8f4dcc-c7af-4e89-b92b-3ea29b14ef66"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:17 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "36273cff-6743-416f-87ce-a820562a3dfb",
+        "x-ms-ratelimit-remaining-tenant-reads": "11938",
+        "x-ms-request-id": "19a960f5-37b1-4f69-8dcc-5cf9dea8e124",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032118Z:36273cff-6743-416f-87ce-a820562a3dfb"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "32bf0132-f988-4f90-9cfa-2dbe569e5220"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:19 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "14deeff0-adb2-453f-8058-5989acc1ecf3",
+        "x-ms-ratelimit-remaining-tenant-reads": "11937",
+        "x-ms-request-id": "16127e96-7798-4eb2-882d-db9a6a3f0890",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032120Z:14deeff0-adb2-453f-8058-5989acc1ecf3"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1b21c3e5-218b-4c62-8e59-e4a456904da2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:22 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2d10fa36-aedd-47e7-bed4-5e266a9b2a5f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11936",
+        "x-ms-request-id": "a6d778fb-1cf6-4753-9b50-7e5223dbc843",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032122Z:2d10fa36-aedd-47e7-bed4-5e266a9b2a5f"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6f628f1a-e4f4-44ba-b393-b7230de3a104"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:24 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "82b39a53-8bf5-4a24-87f9-faf2b3d95259",
+        "x-ms-ratelimit-remaining-tenant-reads": "11935",
+        "x-ms-request-id": "0d7c8f2d-939e-47a8-9276-d2797a2ce5fa",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032124Z:82b39a53-8bf5-4a24-87f9-faf2b3d95259"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1fdb58cf-8945-418b-aac0-d917c1570847"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:26 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "78b03998-e9dd-40ed-a7a9-34f5f6c6114d",
+        "x-ms-ratelimit-remaining-tenant-reads": "11934",
+        "x-ms-request-id": "b0d234c5-12a9-4cf6-a354-a2678cd0bf85",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032127Z:78b03998-e9dd-40ed-a7a9-34f5f6c6114d"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a8ee7290-f96d-48d0-925d-a9d932374e2a"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:29 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f1dfd497-b4ad-4bbe-af7e-df5577693dc4",
+        "x-ms-ratelimit-remaining-tenant-reads": "11933",
+        "x-ms-request-id": "caa32ee1-6842-43af-a502-4b609eedbdae",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032129Z:f1dfd497-b4ad-4bbe-af7e-df5577693dc4"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "10f42081-8ae7-4c2a-b59d-1f71201d193a"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:31 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3888ebc6-2e16-4980-a177-99f35b024102",
+        "x-ms-ratelimit-remaining-tenant-reads": "11932",
+        "x-ms-request-id": "0f11f888-9495-4e9c-93f6-25dc75cd5dae",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032131Z:3888ebc6-2e16-4980-a177-99f35b024102"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9dd32e6e-407c-46fc-aeee-344a459cc9ac"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:33 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2e5227b4-f3b2-42bd-a2a8-d9b1d5bfb963",
+        "x-ms-ratelimit-remaining-tenant-reads": "11931",
+        "x-ms-request-id": "2290ba2d-de5e-4b57-a26f-fc705b828d83",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032134Z:2e5227b4-f3b2-42bd-a2a8-d9b1d5bfb963"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1237a42b-ed7a-47c8-a226-92a297a7ba9c"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:35 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4b1431b7-f58b-4197-bacd-85671879c4b0",
+        "x-ms-ratelimit-remaining-tenant-reads": "11930",
+        "x-ms-request-id": "dbfbf67e-2b5c-4d06-82f8-9782067f506a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032136Z:4b1431b7-f58b-4197-bacd-85671879c4b0"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "767e9568-c275-4e80-a38f-76b3e8836262"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:38 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d4c69cda-761e-4ec0-97b3-acdc25d279f9",
+        "x-ms-ratelimit-remaining-tenant-reads": "11929",
+        "x-ms-request-id": "29ad1554-b4c8-482f-9ba3-3afd35abb83c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032138Z:d4c69cda-761e-4ec0-97b3-acdc25d279f9"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "451a5c02-9bf3-4155-9944-55b8206ece6f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:40 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "774cf7f3-417b-48e0-ab2c-f94f77745eb1",
+        "x-ms-ratelimit-remaining-tenant-reads": "11928",
+        "x-ms-request-id": "e7cf5667-eafe-43f2-bfb2-4ccb46ddc5fe",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032140Z:774cf7f3-417b-48e0-ab2c-f94f77745eb1"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d0e352cd-a413-413d-a114-de692037690f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:42 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c539ed29-2248-4bde-851d-242a67c6f7fe",
+        "x-ms-ratelimit-remaining-tenant-reads": "11927",
+        "x-ms-request-id": "b925c116-6347-400c-845f-00bba58d0e79",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032143Z:c539ed29-2248-4bde-851d-242a67c6f7fe"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b6efea92-79ff-4296-954f-785a755585cc"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:45 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1a4f0165-0c9c-434a-959c-8a4fdf528674",
+        "x-ms-ratelimit-remaining-tenant-reads": "11926",
+        "x-ms-request-id": "e8ef6ca6-5fca-413d-8096-8937ebe454f3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032145Z:1a4f0165-0c9c-434a-959c-8a4fdf528674"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "30f48ad0-ef09-4224-b0fe-22e1242cfc95"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:47 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dfbd86fc-0b35-4c7e-bf8a-4f33c7fe771a",
+        "x-ms-ratelimit-remaining-tenant-reads": "11925",
+        "x-ms-request-id": "3d1f2052-0221-487a-b169-d5753b8201fe",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032148Z:dfbd86fc-0b35-4c7e-bf8a-4f33c7fe771a"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "300d9313-0890-4646-918c-e793a5631f89"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:50 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "33c05d33-1840-406f-813a-4bdb2a72678d",
+        "x-ms-ratelimit-remaining-tenant-reads": "11924",
+        "x-ms-request-id": "7495e35e-a132-4eac-9fc4-bff3b92fe99f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032150Z:33c05d33-1840-406f-813a-4bdb2a72678d"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4134cee2-e2dd-4dbc-bda8-619bc68574bd"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:52 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "56a10a70-ddb7-4230-9edc-237e536f870c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11923",
+        "x-ms-request-id": "67a637ae-8a2b-463d-9732-c02dc3cd6058",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032152Z:56a10a70-ddb7-4230-9edc-237e536f870c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e6d386b7-8e19-4d58-8107-5255ac75dc29"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:54 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8753de4b-b239-4e63-ade8-3af67ca9a83e",
+        "x-ms-ratelimit-remaining-tenant-reads": "11922",
+        "x-ms-request-id": "2f476f1a-eb47-4c52-a639-36a5ac855b8e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032155Z:8753de4b-b239-4e63-ade8-3af67ca9a83e"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a971a978-2b53-4cd1-b169-caa16c517c76"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:56 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2943ee97-9e5d-4a83-bab4-fcb69f8d803c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11921",
+        "x-ms-request-id": "f56c63c9-296f-44e7-883f-3fe8fbe52061",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032157Z:2943ee97-9e5d-4a83-bab4-fcb69f8d803c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8eb53bd0-bd14-4f20-ac1c-93d2e3d2096b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:21:59 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1d851bb7-c7df-4502-b180-1dd0f00d7c7c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11920",
+        "x-ms-request-id": "ef50bb2d-5b85-49de-8994-452b3b968371",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032159Z:1d851bb7-c7df-4502-b180-1dd0f00d7c7c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ba2c296c-1f9f-49d5-ad8b-e891b52abdb1"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:01 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "72e15b51-5490-4788-944e-492a0e43a896",
+        "x-ms-ratelimit-remaining-tenant-reads": "11919",
+        "x-ms-request-id": "924897ea-2c9c-43ef-bcc1-4f50e9a4aa27",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032201Z:72e15b51-5490-4788-944e-492a0e43a896"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d173f4b1-2784-425b-bcfc-0fea9b70f3ac"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:03 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c2d11a7e-e47a-433d-b02c-0e8d0d51bd4b",
+        "x-ms-ratelimit-remaining-tenant-reads": "11918",
+        "x-ms-request-id": "bee14885-f248-4417-84d7-d6ee76bee116",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032204Z:c2d11a7e-e47a-433d-b02c-0e8d0d51bd4b"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3bf86004-1f28-41e6-a6a8-471783cab5f7"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:05 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f2af9224-378a-4039-9d09-ae9199d659ba",
+        "x-ms-ratelimit-remaining-tenant-reads": "11917",
+        "x-ms-request-id": "a868b3a3-a712-457e-9e03-318d4be466c6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032206Z:f2af9224-378a-4039-9d09-ae9199d659ba"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4ef2c10b-c1d0-48c5-be50-4a04e22ef88f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:08 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fbc9947f-792a-4761-a203-cfde426aa1f9",
+        "x-ms-ratelimit-remaining-tenant-reads": "11916",
+        "x-ms-request-id": "9fcd7d53-bd12-48b9-9fb8-986574a2b22e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032208Z:fbc9947f-792a-4761-a203-cfde426aa1f9"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1c92e0b8-fea6-4885-969e-3c679167de6d"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:10 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "24ebc0ba-3591-4e72-b245-d06a47f327e9",
+        "x-ms-ratelimit-remaining-tenant-reads": "11915",
+        "x-ms-request-id": "e9cff778-9118-4535-8fb2-8a12492f6c98",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032211Z:24ebc0ba-3591-4e72-b245-d06a47f327e9"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3044bf4f-63af-4c13-b8ba-86a8373cac71"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:13 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "67746111-ffdd-4753-bc33-bb86a29c868b",
+        "x-ms-ratelimit-remaining-tenant-reads": "11914",
+        "x-ms-request-id": "fd8eac5e-bb65-439f-a3bb-f06916825cca",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032213Z:67746111-ffdd-4753-bc33-bb86a29c868b"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c5214ec9-fe6d-4674-8581-32e0e71d1fb9"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:15 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "396ea8ac-ade3-4190-aa3c-3f72546f51dc",
+        "x-ms-ratelimit-remaining-tenant-reads": "11913",
+        "x-ms-request-id": "ed647975-57e1-4a73-a4bd-d3b82f019c16",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032215Z:396ea8ac-ade3-4190-aa3c-3f72546f51dc"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "501d5f4f-39d8-4d10-b2aa-06b12341d147"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:17 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "873897d5-9c0b-4d5b-92f9-8e8e2815c648",
+        "x-ms-ratelimit-remaining-tenant-reads": "11912",
+        "x-ms-request-id": "ecaa1757-e031-42ad-9179-145be7f0c990",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032218Z:873897d5-9c0b-4d5b-92f9-8e8e2815c648"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b97007ff-9cb5-4ac5-b6d3-6dc323c01fc2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:19 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a93ce758-3bac-42ec-a557-b94b573616b7",
+        "x-ms-ratelimit-remaining-tenant-reads": "11911",
+        "x-ms-request-id": "7ce8fc9a-2d1a-4da0-a90c-c05f1ea75d5e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032220Z:a93ce758-3bac-42ec-a557-b94b573616b7"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3fdcda91-5b73-44a4-9bba-bfcfbd170337"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:22 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7e89dfc3-f18d-405b-9336-4d4cb0a81f07",
+        "x-ms-ratelimit-remaining-tenant-reads": "11910",
+        "x-ms-request-id": "b901de09-8fd3-44cd-9ca6-c84367fa3b5c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032222Z:7e89dfc3-f18d-405b-9336-4d4cb0a81f07"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "80f5e6f3-4466-4cec-bcc3-4ddee2e7bea3"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:24 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fd1781d4-f95e-4158-b5b6-46fba67dba8c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11909",
+        "x-ms-request-id": "7a5e77e0-6b8b-413f-b5ad-4c4d1f0b7fa5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032225Z:fd1781d4-f95e-4158-b5b6-46fba67dba8c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a710ba59-2b19-4c8c-931f-0fc6c1a8aa41"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:26 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1f5ada6d-3ce8-41a2-b84f-6190c98c319f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11908",
+        "x-ms-request-id": "cc375015-8501-4a97-b082-916b685b054a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032227Z:1f5ada6d-3ce8-41a2-b84f-6190c98c319f"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "018fc606-7850-4f43-9bbc-c23fb284b6d9"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:28 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3ed4a9c4-7362-4815-ba54-44deff2dba7a",
+        "x-ms-ratelimit-remaining-tenant-reads": "11907",
+        "x-ms-request-id": "a2616f14-eb52-46bf-adf7-98d04055a1cc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032229Z:3ed4a9c4-7362-4815-ba54-44deff2dba7a"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c9029ff4-10d2-4d2a-a629-54047f124244"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:31 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2154e063-32ec-4ad4-8426-3f4a8ddfbe78",
+        "x-ms-ratelimit-remaining-tenant-reads": "11906",
+        "x-ms-request-id": "22718083-650b-428e-872f-da6a154b22be",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032231Z:2154e063-32ec-4ad4-8426-3f4a8ddfbe78"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1ed49751-e5a0-417f-a384-ff79e4204405"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:33 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b6d966d3-b553-407a-808b-78ebcd765b63",
+        "x-ms-ratelimit-remaining-tenant-reads": "11905",
+        "x-ms-request-id": "d81fccee-9dae-4923-8390-818aaa0e2fbc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032234Z:b6d966d3-b553-407a-808b-78ebcd765b63"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4ebc770b-ae6c-493e-9e22-55027f6260ec"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:35 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8e1b42b6-5861-49ee-98d7-1965d9df4030",
+        "x-ms-ratelimit-remaining-tenant-reads": "11904",
+        "x-ms-request-id": "d809b345-770f-4846-8f9a-f332857e6089",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032236Z:8e1b42b6-5861-49ee-98d7-1965d9df4030"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ed1204fc-7ee2-4d61-85c9-cc15cbfa4964"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:38 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4ef308e4-037d-4f31-9747-3dc4dd533ab0",
+        "x-ms-ratelimit-remaining-tenant-reads": "11903",
+        "x-ms-request-id": "8a5e8338-1a76-4347-8427-7fedf80779d7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032238Z:4ef308e4-037d-4f31-9747-3dc4dd533ab0"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5ee20bc4-8dbe-4a46-be16-2e20397b5619"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "476",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:40 GMT",
+        "ETag": "\u00221c0020bd-0000-0700-0000-642f8c070000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c86b13ba-9575-442a-967c-7d1c541429af",
+        "x-ms-ratelimit-remaining-tenant-reads": "11902",
+        "x-ms-request-id": "fce2fac8-bc50-43d4-8e1d-3e11894e3536",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032241Z:c86b13ba-9575-442a-967c-7d1c541429af"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Deleting",
+        "startTime": "2023-04-07T03:20:39.0763577Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "52c417d3-c264-4b8a-969f-6347def7d0f8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:42 GMT",
+        "ETag": "\u00221c0091be-0000-0700-0000-642f8c820000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e2e19850-ce67-47e4-b7aa-287112ad33f7",
+        "x-ms-ratelimit-remaining-tenant-reads": "11901",
+        "x-ms-request-id": "e55f3e84-780b-4fc9-b13d-8e906a72d08f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032243Z:e2e19850-ce67-47e4-b7aa-287112ad33f7"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Quantum/locations/WESTUS/operationStatuses/22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "name": "22c7c48e-a6b5-44fe-bf06-b7729c90d5ee*A7F352527B022546D176011559925B15C8552DA0607C522D6351A9807812D74E",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces/resourcetest",
+        "status": "Succeeded",
+        "startTime": "2023-04-07T03:20:39.0763577Z",
+        "endTime": "2023-04-07T03:22:42.5346674Z",
+        "percentComplete": 100.0,
+        "properties": null
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Quantum/workspaces?api-version=2022-01-10-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-quantum/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "06f914e0-9544-4c10-b1ae-f8515648c3cd"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 07 Apr 2023 03:22:43 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "44b487a4-73ca-44d5-bf08-35fbaf45dad8",
+        "x-ms-original-request-ids": [
+          "aa5f766b-9c02-4a6d-9ef0-14f27f3f57a3",
+          "78ecd250-c426-4fdc-9730-ec0dbe00ee16",
+          "e2062d81-b280-4901-917a-05773e2b06f4",
+          "4bd5c9e4-88c2-4b8a-a2c5-08b7af95b85e",
+          "58c5912f-3485-4157-ae2c-034823caba26",
+          "a0b33b16-d758-44ca-ad99-9b45a2a00e52",
+          "d4f6c5b5-4918-4425-bf7d-d262dfc86c0d",
+          "910c6f79-d821-4314-b5e6-b4ca492de55c",
+          "ef4b1dc5-c019-417a-b9c4-bf3acc2aa360",
+          "c08bbb23-6bdf-4aed-83a9-12717e12b79f"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "44b487a4-73ca-44d5-bf08-35fbaf45dad8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230407T032244Z:44b487a4-73ca-44d5-bf08-35fbaf45dad8"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}
