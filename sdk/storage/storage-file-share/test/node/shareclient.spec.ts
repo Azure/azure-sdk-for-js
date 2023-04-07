@@ -41,7 +41,7 @@ describe("ShareClient Node.js only", () => {
           permissions: "rwd",
           startsOn: yesterday,
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
       },
     ];
 
@@ -71,7 +71,7 @@ describe("ShareClient Node.js only", () => {
   it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
     const identifiers: any = [
       {
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
       },
     ];
 
