@@ -51,11 +51,7 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
     }
     case "failed": {
       const responseBody = (response as LroResponse).rawResponse.body;
-      logger.verbose(
-        `Poller failure raw response:\n\t: ${
-          responseBody
-        }`
-      );
+      logger.verbose(`Poller failure raw response:\n\t: ${responseBody}`);
       stateProxy.setError(state, new Error(`The long-running operation has failed`));
       stateProxy.setFailed(state);
       break;
