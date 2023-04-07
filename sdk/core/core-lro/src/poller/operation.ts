@@ -4,6 +4,7 @@
 import { Operation, OperationStatus, RestorableOperationState, StateProxy } from "./models";
 import { logger } from "../logger";
 import { terminalStates } from "./constants";
+import { LroResponse } from "../http/models";
 
 /**
  * Deserializes the state
@@ -49,6 +50,12 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
       break;
     }
     case "failed": {
+      const responseBody = (response as LroResponse).rawResponse.body;
+      logger.verbose(
+        `Poller failure raw response:\n\t: ${
+          responseBody
+        }`
+      );
       stateProxy.setError(state, new Error(`The long-running operation has failed`));
       stateProxy.setFailed(state);
       break;
