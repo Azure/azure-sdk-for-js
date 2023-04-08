@@ -92,7 +92,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_FEDERATED_TOKEN_FILE"`;
+      "AZURE_FEDERATED_TOKEN_FILE". See the troubleshooting guide for more information, https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
