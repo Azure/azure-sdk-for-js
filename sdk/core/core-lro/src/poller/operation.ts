@@ -4,6 +4,7 @@
 import { Operation, OperationStatus, RestorableOperationState, StateProxy } from "./models";
 import { logger } from "../logger";
 import { terminalStates } from "./constants";
+import { ErrorModel, InnerError } from "./models";
 
 /**
  * Deserializes the state
@@ -33,24 +34,69 @@ function setStateError<TState, TResult>(inputs: {
   };
 }
 
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
+  }
+  return message + " " + innerMessage;
+}
+
+function transformError(err: ErrorModel): {
+  code: string;
+  message: string;
+} {
+  const topLevelError = err;
+  let message = topLevelError.message;
+  let code = topLevelError.code;
+  function unwrap(error: ErrorModel | InnerError): ErrorModel {
+    const innerError = error.innererror;
+    if (innerError) {
+      if (innerError.message) {
+        message = appendReadableErrorMessage(message, innerError.message);
+      }
+      if (innerError.code) {
+        code = innerError.code;
+      }
+      return unwrap(innerError);
+    }
+    return error as ErrorModel;
+  }
+  unwrap(topLevelError);
+  return {
+    code,
+    message,
+  };
+}
+
 function processOperationStatus<TState, TResult, TResponse>(result: {
   status: OperationStatus;
   response: TResponse;
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
   processResult?: (result: TResponse, state: TState) => TResult;
+  getError?: (response: TResponse) => ErrorModel | undefined;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
 }): void {
-  const { state, stateProxy, status, isDone, processResult, response, setErrorAsResult } = result;
+  const { state, stateProxy, status, isDone, processResult, getError, response, setErrorAsResult } =
+    result;
   switch (status) {
     case "succeeded": {
       stateProxy.setSucceeded(state);
       break;
     }
     case "failed": {
-      stateProxy.setError(state, new Error(`The long-running operation has failed`));
+      const err = getError?.(response);
+      let postfix = "";
+      if (err) {
+        const { code, message } = transformError(err);
+        postfix = `. ${code}. ${message}`;
+      }
+      const errStr = `The long-running operation has failed${postfix}`;
+      stateProxy.setError(state, new Error(errStr));
       stateProxy.setFailed(state);
+      logger.warning(errStr);
       break;
     }
     case "canceled": {
@@ -200,6 +246,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   processResult?: (result: TResponse, state: TState) => TResult;
+  getError?: (response: TResponse) => ErrorModel | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
@@ -217,6 +264,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     withOperationLocation,
     getPollingInterval,
     processResult,
+    getError,
     updateState,
     setDelay,
     isDone,
@@ -241,6 +289,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       stateProxy,
       isDone,
       processResult,
+      getError,
       setErrorAsResult,
     });
 

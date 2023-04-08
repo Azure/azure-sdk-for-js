@@ -10,6 +10,7 @@ import {
   ResponseBody,
 } from "./models";
 import {
+  ErrorModel,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
@@ -171,6 +172,10 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
   return undefined;
 }
 
+export function getError<T>(response: LroResponse<T>): ErrorModel | undefined {
+  return (response.flatResponse as ResponseBody).error;
+}
+
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
   const timeNow = Math.floor(new Date().getTime());
   const retryAfterTime = retryAfterDate.getTime();
@@ -301,6 +306,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
   lro: LongRunningOperation;
   stateProxy: StateProxy<TState, TResult>;
   processResult?: (result: unknown, state: TState) => TResult;
+  getError?: (response: LroResponse) => ErrorModel | undefined;
   updateState?: (state: TState, lastResponse: LroResponse) => void;
   isDone?: (lastResponse: LroResponse, state: TState) => boolean;
   setDelay: (intervalInMs: number) => void;
@@ -313,6 +319,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     stateProxy,
     options,
     processResult,
+    getError,
     updateState,
     setDelay,
     state,
@@ -325,6 +332,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)
       : ({ flatResponse }) => flatResponse as TResult,
+    getError,
     updateState,
     getPollingInterval: parseRetryAfter,
     getOperationLocation,

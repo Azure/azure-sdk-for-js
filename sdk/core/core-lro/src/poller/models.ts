@@ -70,6 +70,20 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   withOperationLocation?: (operationLocation: string) => void;
 }
 
+export interface ErrorModel {
+  code: string;
+  details: ErrorModel[];
+  innererror?: InnerError;
+  message: string;
+  target?: string;
+}
+
+export interface InnerError {
+  code: string;
+  message: string;
+  innererror?: InnerError;
+}
+
 /**
  * Options for `buildCreatePoller`.
  */
@@ -115,6 +129,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    * wait before sending the next polling request.
    */
   getPollingInterval?: (response: TResponse) => number | undefined;
+  /**
+   * Extracts an error model from a response.
+   */
+  getError?: (response: TResponse) => ErrorModel | undefined;
   /**
    * Control whether to throw an exception if the operation failed or was canceled.
    */
