@@ -5,10 +5,8 @@
  * @summary Authenticates using Workload Identity Credential
  */
 
-import { DefaultAzureCredential, WorkloadIdentityCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+const { DefaultAzureCredential, WorkloadIdentityCredential } = require("@azure/identity");
+require("dotenv").config();
 
 async function testDefaultCredential() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +22,7 @@ async function testDefaultCredential() {
 async function testWorkloadCredential() {
   const credential = new WorkloadIdentityCredential({
     tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
-    clientId: "client-id"
+    clientId: "client-id",
   });
 
   try {

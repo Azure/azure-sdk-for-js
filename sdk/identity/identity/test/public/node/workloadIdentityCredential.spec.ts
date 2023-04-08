@@ -45,7 +45,6 @@ describe.skip("WorkloadIdentityCredential", function () {
 
   it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("workload-identity");
-    console.log("file path =", fileDir.tempFile);
     const credential = new WorkloadIdentityCredential(
       recorder.configureClientOptions({
         tenantId,
@@ -65,7 +64,6 @@ describe.skip("WorkloadIdentityCredential", function () {
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
-    console.log("process env IN MS", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new ManagedIdentityCredential(clientId, recorder.configureClientOptions({}));
     try {
       const token = await credential.getToken(scope);
@@ -79,7 +77,6 @@ describe.skip("WorkloadIdentityCredential", function () {
 
   it("authenticates with DefaultAzure Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
-    console.log("process env IN dac", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
     try {
       const token = await credential.getToken(scope);
@@ -94,7 +91,6 @@ describe.skip("WorkloadIdentityCredential", function () {
   });
   it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
-    console.log("process env IN dac client id", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({
         managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",

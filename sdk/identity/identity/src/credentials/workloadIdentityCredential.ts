@@ -39,20 +39,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(options: WorkloadIdentityCredentialOptions);
-
-  // /**
-  //  * @internal
-  //  * @hidden
-  //  * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
-  //  *
-  //  * @param options - The identity client options to use for authentication.
-  //  */
-  // constructor(options?: WorkloadIdentityDefaultCredentialOptions);
-  // /**
-  //  * @internal
-  //  * @hidden
-  //  */
   constructor(options: WorkloadIdentityCredentialOptions) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
