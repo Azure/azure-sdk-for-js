@@ -4,7 +4,7 @@
 import { LongRunningOperation, LroResourceLocationConfig, RawResponse } from "../../http/models";
 import { PollOperation, PollOperationState } from "../pollOperation";
 import { RestorableOperationState, StateProxy } from "../../poller/models";
-import { getError, initHttpOperation, pollHttpOperation } from "../../http/operation";
+import { initHttpOperation, pollHttpOperation } from "../../http/operation";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollerConfig } from "./models";
 import { logger } from "../../logger";
@@ -76,7 +76,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         state: this.state,
         stateProxy,
         processResult: this.processResult,
-        getError,
         updateState: updateState
           ? (state, { rawResponse }) => updateState(state, rawResponse)
           : undefined,

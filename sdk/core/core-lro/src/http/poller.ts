@@ -4,7 +4,7 @@
 import { LongRunningOperation, LroResponse } from "./models";
 import { OperationState, SimplePollerLike } from "../poller/models";
 import {
-  getError,
+  getErrorFromResponse,
   getOperationLocation,
   getOperationStatus,
   getResourceLocation,
@@ -42,7 +42,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     getOperationLocation,
     getResourceLocation,
     getPollingInterval: parseRetryAfter,
-    getError,
+    getError: getErrorFromResponse,
     resolveOnUnsuccessful,
   })(
     {
