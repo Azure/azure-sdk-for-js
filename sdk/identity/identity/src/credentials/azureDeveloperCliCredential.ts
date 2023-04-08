@@ -97,8 +97,8 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  *
  * <ol>
  *     <li>Run "azd login" in Azure Developer CLI to authenticate interactively as a user.</li>
- *     <li>Run "azd login --client-id {@code clientID} --client-secret {@code clientSecret}
- *     --tenant-id {@code tenantID}" to authenticate as a service principal.</li>
+ *     <li>Run "azd login --client-id clientID --client-secret clientSecret
+ *     --tenant-id tenantID" to authenticate as a service principal.</li>
  * </ol>
  *
  * You may need to repeat this process after a certain time period, depending on the refresh token validity in your
