@@ -72,10 +72,8 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
 
 export interface ErrorModel {
   code: string;
-  details: ErrorModel[];
   innererror?: InnerError;
   message: string;
-  target?: string;
 }
 
 export interface InnerError {

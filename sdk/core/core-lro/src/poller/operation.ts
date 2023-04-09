@@ -48,7 +48,7 @@ function appendReadableErrorMessage(currentMessage: string, innerMessage: string
   return message + " " + innerMessage;
 }
 
-function transformError(err: ErrorModel): {
+function simplifyError(err: ErrorModel): {
   code: string;
   message: string;
 } {
@@ -87,7 +87,7 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
       const err = getError?.(response);
       let postfix = "";
       if (err) {
-        const { code, message } = transformError(err);
+        const { code, message } = simplifyError(err);
         postfix = `. ${code}. ${message}`;
       }
       const errStr = `The long-running operation has failed${postfix}`;
