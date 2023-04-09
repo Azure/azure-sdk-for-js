@@ -173,8 +173,8 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
 }
 
 export function getErrorFromResponse<T>(response: LroResponse<T>): ErrorModel | undefined {
-  const obj = response.flatResponse as Partial<ResponseBody>;
-  return obj.error?.code && obj.error.message ? obj.error : undefined;
+  const error = (response.flatResponse as ResponseBody).error as Partial<ErrorModel>;
+  return error.code && error.message ? (error as ErrorModel) : undefined;
 }
 
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
