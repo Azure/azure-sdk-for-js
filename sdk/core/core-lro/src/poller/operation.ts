@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Operation, OperationStatus, RestorableOperationState, StateProxy } from "./models";
+import {
+  ErrorModel,
+  InnerError,
+  Operation,
+  OperationStatus,
+  RestorableOperationState,
+  StateProxy,
+} from "./models";
 import { logger } from "../logger";
 import { terminalStates } from "./constants";
-import { ErrorModel, InnerError } from "./models";
 
 /**
  * Deserializes the state
@@ -46,23 +52,14 @@ function transformError(err: ErrorModel): {
   code: string;
   message: string;
 } {
-  const topLevelError = err;
-  let message = topLevelError.message;
-  let code = topLevelError.code;
-  function unwrap(error: ErrorModel | InnerError): ErrorModel {
-    const innerError = error.innererror;
-    if (innerError) {
-      if (innerError.message) {
-        message = appendReadableErrorMessage(message, innerError.message);
-      }
-      if (innerError.code) {
-        code = innerError.code;
-      }
-      return unwrap(innerError);
-    }
-    return error as ErrorModel;
+  let message = err.message;
+  let code = err.code;
+  let curErr = err as InnerError;
+  while (curErr.innererror) {
+    curErr = curErr.innererror;
+    code = curErr.code;
+    message = appendReadableErrorMessage(message, curErr.message);
   }
-  unwrap(topLevelError);
   return {
     code,
     message,
