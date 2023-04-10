@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the recovery points recommended for move to another tier
  *
  * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
 async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
   const subscriptionId =

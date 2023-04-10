@@ -56,6 +56,9 @@ export function isObjectWithProperties<Thing, PropertyName extends string>(thing
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export function randomUUID(): string;
+
+// @public
 export type UnknownObject = {
     [s: string]: unknown;
 };

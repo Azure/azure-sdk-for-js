@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { AbortController } from "@azure/abort-controller";
 import { CloseReason } from "./models/public";
 import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { EventHubReceiver } from "./eventHubReceiver";
+import { createReceiver, PartitionReceiver } from "./partitionReceiver";
 import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -22,7 +22,7 @@ import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventDa
 export class PartitionPump {
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: CommonEventProcessorOptions;
-  private _receiver: EventHubReceiver | undefined;
+  private _receiver: PartitionReceiver | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
@@ -59,7 +59,7 @@ export class PartitionPump {
   }
 
   /**
-   * Creates a new `EventHubReceiver` and replaces any existing receiver.
+   * Creates a new `PartitionReceiver` and replaces any existing receiver.
    * @param partitionId - The partition the receiver should read messages from.
    * @param lastSeenSequenceNumber - The sequence number to begin receiving messages from (exclusive).
    * If `-1`, then the PartitionPump's startPosition will be used instead.
@@ -67,7 +67,7 @@ export class PartitionPump {
   private _setOrReplaceReceiver(
     partitionId: string,
     lastSeenSequenceNumber: number
-  ): EventHubReceiver {
+  ): PartitionReceiver {
     // Determine what the new EventPosition should be.
     // If this PartitionPump has received events, we'll start from the last
     // seen sequenceNumber (exclusive).
@@ -81,7 +81,7 @@ export class PartitionPump {
         : this._startPosition;
 
     // Set or replace the PartitionPump's receiver.
-    this._receiver = new EventHubReceiver(
+    this._receiver = createReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
       partitionId,

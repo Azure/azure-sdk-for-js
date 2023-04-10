@@ -1,23 +1,23 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx12/apps/myappxxx?api-version=2022-11-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx12/apps/myappxxx?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "dba56197-6842-428f-b56e-b35231290eab"
+        "User-Agent": "azsdk-js-arm-appplatform/3.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d94f4d9b-e0b5-49dd-876f-d1754fa8449f"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 18 Jan 2023 07:31:14 GMT",
+        "Content-Type": "application/json",
+        "Date": "Tue, 28 Mar 2023 09:00:49 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
@@ -25,12 +25,12 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "dba56197-6842-428f-b56e-b35231290eab",
-        "x-ms-correlation-request-id": "153bc8df-0375-4979-ab63-c0f1777caba1",
+        "x-ms-client-request-id": "d94f4d9b-e0b5-49dd-876f-d1754fa8449f",
+        "x-ms-correlation-request-id": "c7d24cde-2e3b-43e7-abf2-835dfaebd3f9",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "11998",
-        "x-ms-request-id": "153bc8df-0375-4979-ab63-c0f1777caba1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T073115Z:153bc8df-0375-4979-ab63-c0f1777caba1",
-        "x-rp-server-mvid": "602e8535-9334-4b2f-9945-fcf7db9ba99e"
+        "x-ms-request-id": "c7d24cde-2e3b-43e7-abf2-835dfaebd3f9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230328T090049Z:c7d24cde-2e3b-43e7-abf2-835dfaebd3f9",
+        "x-rp-server-mvid": "2d8cffe0-ed19-4f32-b630-c96199e681e1"
       },
       "ResponseBody": {
         "properties": {
@@ -38,7 +38,8 @@
             "applicationConfigurationService": {},
             "serviceRegistry": {}
           },
-          "public": false,
+          "public": true,
+          "url": "https://myservicexxx12-myappxxx.azuremicroservices.io",
           "provisioningState": "Succeeded",
           "fqdn": "myservicexxx12.azuremicroservices.io",
           "httpsOnly": false,
@@ -62,15 +63,15 @@
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": null,
         "location": "east us",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx12/apps/myappxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx12/apps/myappxxx",
         "name": "myappxxx",
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-01-18T07:30:57.0617299Z",
+          "createdAt": "2023-03-28T09:00:31.6709469Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-01-18T07:30:57.0617299Z"
+          "lastModifiedAt": "2023-03-28T09:00:31.6709469Z"
         }
       }
     }

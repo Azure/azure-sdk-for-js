@@ -70,6 +70,11 @@ export interface ConnectRequest {
    */
   claims?: Record<string, string[]>;
   /**
+   * The query that the client WebSocket connection has when it connects.
+   * @deprecated Please use queries instead.
+   */
+  query?: Record<string, string[]>;
+  /**
    * The queries that the client WebSocket connection has when it connects.
    */
   queries?: Record<string, string[]>;

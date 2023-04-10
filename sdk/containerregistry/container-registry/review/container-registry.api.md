@@ -58,25 +58,6 @@ export interface ArtifactTagProperties {
 }
 
 // @public
-export class ContainerRegistryBlobClient {
-    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryBlobClientOptions);
-    deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
-    deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
-    downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
-    downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
-    readonly endpoint: string;
-    readonly repositoryName: string;
-    uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
-}
-
-// @public
-export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
-    audience?: string;
-    serviceVersion?: "2021-07-01";
-}
-
-// @public
 export class ContainerRegistryClient {
     constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -89,6 +70,25 @@ export class ContainerRegistryClient {
 
 // @public
 export interface ContainerRegistryClientOptions extends CommonClientOptions {
+    audience?: string;
+    serviceVersion?: "2021-07-01";
+}
+
+// @public
+export class ContainerRegistryContentClient {
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryContentClientOptions);
+    deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
+    deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
+    downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
+    readonly endpoint: string;
+    getManifest(tagOrDigest: string, options?: GetManifestOptions): Promise<GetManifestResult>;
+    readonly repositoryName: string;
+    setManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: SetManifestOptions): Promise<SetManifestResult>;
+    uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
+}
+
+// @public
+export interface ContainerRegistryContentClientOptions extends CommonClientOptions {
     audience?: string;
     serviceVersion?: "2021-07-01";
 }
@@ -154,25 +154,24 @@ export interface DownloadBlobResult {
 }
 
 // @public
-export interface DownloadManifestOptions extends OperationOptions {
-    mediaType?: string | string[];
+export interface GetManifestOptions extends OperationOptions {
 }
 
 // @public
-export interface DownloadManifestResult {
-    content: NodeJS.ReadableStream;
+export interface GetManifestPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetManifestResult {
+    content: Buffer;
     digest: string;
     mediaType: string;
 }
 
 // @public
-export interface DownloadOciImageManifestResult extends DownloadManifestResult {
+export interface GetOciImageManifestResult extends GetManifestResult {
     manifest: OciImageManifest;
-    mediaType: KnownManifestMediaType.OciManifest;
-}
-
-// @public
-export interface GetManifestPropertiesOptions extends OperationOptions {
+    mediaType: KnownManifestMediaType.OciImageManifest;
 }
 
 // @public
@@ -184,7 +183,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isDownloadOciImageManifestResult(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
+export function isGetOciImageManifestResult(downloadResult: GetManifestResult): downloadResult is GetOciImageManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -232,7 +231,7 @@ export enum KnownContainerRegistryAudience {
 // @public
 export enum KnownManifestMediaType {
     DockerManifest = "application/vnd.docker.distribution.manifest.v2+json",
-    OciManifest = "application/vnd.oci.image.manifest.v1+json"
+    OciImageManifest = "application/vnd.oci.image.manifest.v1+json"
 }
 
 // @public
@@ -255,8 +254,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 }
 
 // @public
-export interface OciAnnotations {
-    [additionalProperties: string]: unknown;
+export interface OciAnnotations extends Record<string, unknown> {
     authors?: string;
     createdOn?: Date;
     description?: string;
@@ -283,9 +281,9 @@ export interface OciDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config: OciDescriptor;
+    configuration: OciDescriptor;
     layers: OciDescriptor[];
-    schemaVersion?: number;
+    schemaVersion: number;
 }
 
 // @public
@@ -305,6 +303,17 @@ export interface RegistryArtifact {
 // @public
 export interface RepositoryPageResponse extends Array<string> {
     continuationToken?: string;
+}
+
+// @public
+export interface SetManifestOptions extends OperationOptions {
+    mediaType?: string;
+    tag?: string;
+}
+
+// @public
+export interface SetManifestResult {
+    digest: string;
 }
 
 // @public
@@ -344,17 +353,6 @@ export interface UploadBlobOptions extends OperationOptions {
 export interface UploadBlobResult {
     digest: string;
     sizeInBytes: number;
-}
-
-// @public
-export interface UploadManifestOptions extends OperationOptions {
-    mediaType?: string;
-    tag?: string;
-}
-
-// @public
-export interface UploadManifestResult {
-    digest: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -39,14 +39,20 @@ export class Context {
     [Context.nodeVersion] = node.split(".");
     Context.opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
-    this.tags[
-      KnownContextTagKeys.AiInternalSdkVersion
-    ] = `node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:ext${Context.sdkVersion}`;
+
+    let prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
+      ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
+      : "";
+    let version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
+      ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
+      : `ext${Context.sdkVersion}`;
+    let internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
+    this.tags[KnownContextTagKeys.AiInternalSdkVersion] = internalSdkVersion;
   }
 }
 
 /**
- * Singleton Context instance.
+ * Singleton Context instance
  * @internal
  */
 export function getInstance(): Context {

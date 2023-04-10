@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestorePoint,
   RestorePointsListByDatabaseOptionalParams,
@@ -52,8 +52,8 @@ export interface RestorePoints {
     parameters: CreateDatabaseRestorePointDefinition,
     options?: RestorePointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<RestorePointsCreateResponse>,
       RestorePointsCreateResponse
     >
   >;

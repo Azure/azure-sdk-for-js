@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadClassifier,
   WorkloadClassifiersListByWorkloadGroupOptionalParams,
@@ -75,8 +75,8 @@ export interface WorkloadClassifiers {
     parameters: WorkloadClassifier,
     options?: WorkloadClassifiersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadClassifiersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadClassifiersCreateOrUpdateResponse>,
       WorkloadClassifiersCreateOrUpdateResponse
     >
   >;
@@ -117,7 +117,7 @@ export interface WorkloadClassifiers {
     workloadGroupName: string,
     workloadClassifierName: string,
     options?: WorkloadClassifiersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workload classifier.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

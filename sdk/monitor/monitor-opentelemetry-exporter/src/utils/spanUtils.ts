@@ -48,7 +48,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         }`;
       } else if (httpUrl) {
         try {
-          let url = new URL(String(httpUrl));
+          const url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
         } catch (ex: any) {}
       }
@@ -75,21 +75,25 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
   const properties: { [propertyName: string]: string } = {};
   if (attributes) {
     for (const key of Object.keys(attributes)) {
+      // Avoid duplication ignoring fields already mapped.
       if (
         !(
-          key.startsWith("http.") ||
-          key.startsWith("rpc.") ||
-          key.startsWith("db.") ||
-          key.startsWith("peer.") ||
-          key.startsWith("message.") ||
-          key.startsWith("messaging.") ||
-          key.startsWith("enduser.") ||
-          key.startsWith("net.") ||
-          key.startsWith("exception.") ||
-          key.startsWith("thread.") ||
-          key.startsWith("faas.") ||
-          key.startsWith("code.") ||
-          key.startsWith("_MS.")
+          key.startsWith("_MS.") ||
+          key == SemanticAttributes.NET_PEER_IP ||
+          key == SemanticAttributes.NET_PEER_NAME ||
+          key == SemanticAttributes.PEER_SERVICE ||
+          key == SemanticAttributes.HTTP_METHOD ||
+          key == SemanticAttributes.HTTP_URL ||
+          key == SemanticAttributes.HTTP_STATUS_CODE ||
+          key == SemanticAttributes.HTTP_ROUTE ||
+          key == SemanticAttributes.HTTP_HOST ||
+          key == SemanticAttributes.HTTP_URL ||
+          key == SemanticAttributes.DB_SYSTEM ||
+          key == SemanticAttributes.DB_STATEMENT ||
+          key == SemanticAttributes.DB_OPERATION ||
+          key == SemanticAttributes.DB_NAME ||
+          key == SemanticAttributes.RPC_SYSTEM ||
+          key == SemanticAttributes.RPC_GRPC_STATUS_CODE
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -115,7 +119,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
-    name: span.name, //Default
+    name: span.name, // Default
     id: `${span.spanContext().spanId}`,
     success: span.status.code != SpanStatusCode.ERROR,
     resultCode: "0",
@@ -138,7 +142,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
     if (httpUrl) {
       try {
-        let dependencyUrl = new URL(String(httpUrl));
+        const dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
       } catch (ex: any) {}
     }
@@ -152,11 +156,11 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (target) {
       try {
         // Remove default port
-        let portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
-        let res = portRegex.exec(target);
+        const portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
+        const res = portRegex.exec(target);
         if (res != null) {
-          let protocol = res[1];
-          let port = res[3];
+          const protocol = res[1];
+          const port = res[3];
           if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
             // Drop port
             target = res[1] + res[2] + res[4];
@@ -189,7 +193,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
-    let target = getDependencyTarget(span.attributes);
+    const target = getDependencyTarget(span.attributes);
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
@@ -204,7 +208,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
     }
-    let target = getDependencyTarget(span.attributes);
+    const target = getDependencyTarget(span.attributes);
     if (target) {
       remoteDependencyData.target = `${target}`;
     } else if (rpcSystem) {
@@ -309,18 +313,18 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
  * @internal
  */
 export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelope[] {
-  let envelopes: Envelope[] = [];
+  const envelopes: Envelope[] = [];
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      let time = new Date(hrTimeToMilliseconds(event.time));
+      const time = new Date(hrTimeToMilliseconds(event.time));
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
 
-      let tags: Tags = createTagsFromResource(span.resource);
+      const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      let spanId = span.spanContext()?.spanId;
+      const spanId = span.spanContext()?.spanId;
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
       }
@@ -339,22 +343,22 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           if (stack) {
             hasFullStack = true;
           }
-          let exceptionMsg = event.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
+          const exceptionMsg = event.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
           if (exceptionMsg) {
             message = String(exceptionMsg);
           }
-          let escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
+          const escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
           if (escaped != undefined) {
             properties[SemanticAttributes.EXCEPTION_ESCAPED] = String(escaped);
           }
         }
-        let exceptionDetails: TelemetryExceptionDetails = {
+        const exceptionDetails: TelemetryExceptionDetails = {
           typeName: typeName,
           message: message,
           stack: stack,
           hasFullStack: hasFullStack,
         };
-        let exceptionData: TelemetryExceptionData = {
+        const exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
           version: 2,
           properties: properties,
@@ -363,7 +367,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       } else {
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";
-        let messageData: MessageData = {
+        const messageData: MessageData = {
           message: event.name,
           version: 2,
           properties: properties,
@@ -374,7 +378,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       if (span.attributes[AzureMonitorSampleRate]) {
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
-      let env: Envelope = {
+      const env: Envelope = {
         name: name,
         time: time,
         instrumentationKey: ikey,

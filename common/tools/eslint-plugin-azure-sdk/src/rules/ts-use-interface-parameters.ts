@@ -20,6 +20,7 @@ import {
   TypeReference,
   TypeReferenceNode,
   isArrayTypeNode,
+  canHaveModifiers,
 } from "typescript";
 import {
   FunctionDeclaration,
@@ -270,8 +271,12 @@ export = {
               return;
             }
 
-            // ignore if private methoc
-            const modifiers = converter.get(node as TSESTree.Node).modifiers;
+            const tsNode = converter.get(node as TSESTree.Node);
+            if (!canHaveModifiers(tsNode)) {
+              return;
+            }
+            // ignore if private method
+            const modifiers = tsNode.modifiers;
             if (
               modifiers !== undefined &&
               modifiers.some(

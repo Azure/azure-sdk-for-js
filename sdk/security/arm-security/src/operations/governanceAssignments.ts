@@ -40,11 +40,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Get security governanceAssignments on all your resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
+   * Get governance assignments on all of your resources inside a scope
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
    * @param options The options parameters.
    */
   public list(
@@ -113,11 +113,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Get security governanceAssignments on all your resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
+   * Get governance assignments on all of your resources inside a scope
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
    * @param options The options parameters.
    */
   private _list(
@@ -133,12 +133,12 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
 
   /**
    * Get a specific governanceAssignment for the requested scope by AssignmentKey
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
    * @param options The options parameters.
    */
   get(
@@ -154,14 +154,14 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   }
 
   /**
-   * Creates or update a security GovernanceAssignment on the given subscription.
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
-   * @param governanceAssignment GovernanceAssignment over a subscription scope
+   * Creates or updates a governance assignment on the given subscription.
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
+   * @param governanceAssignment Governance assignment over a subscription scope
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -179,12 +179,12 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
 
   /**
    * Delete a GovernanceAssignment over a given scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
-   * @param assignmentKey The security governance assignment key - the assessment key of the required
-   *                      governance assignment
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assignmentKey The governance assignment key - the assessment key of the required governance
+   *                      assignment
    * @param options The options parameters.
    */
   delete(
@@ -201,10 +201,10 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
 
   /**
    * ListNext
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param assessmentName The Assessment Key - Unique key for the assessment type
+   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param assessmentName The Assessment Key - A unique key for the assessment type
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -235,11 +235,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName
+    Parameters.scope1,
+    Parameters.assessmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -256,11 +256,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName,
+    Parameters.scope1,
+    Parameters.assessmentName1,
     Parameters.assignmentKey
   ],
   headerParameters: [Parameters.accept],
@@ -282,11 +282,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.governanceAssignment,
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName,
+    Parameters.scope1,
+    Parameters.assessmentName1,
     Parameters.assignmentKey
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -298,11 +298,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName,
+    Parameters.scope1,
+    Parameters.assessmentName1,
     Parameters.assignmentKey
   ],
   serializer
@@ -318,12 +318,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.scope,
-    Parameters.assessmentName
+    Parameters.scope1,
+    Parameters.assessmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
