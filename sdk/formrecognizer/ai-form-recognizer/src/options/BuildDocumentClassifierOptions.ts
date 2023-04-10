@@ -15,9 +15,4 @@ export interface BeginBuildDocumentClassifierOptions
    * A textual description of the classifier (can be any text).
    */
   description?: string;
-
-  /**
-   * Additional, user-specified key-value pairs to associate with the classifier as persistent metadata.
-   */
-  tags?: Record<string, string>;
 }

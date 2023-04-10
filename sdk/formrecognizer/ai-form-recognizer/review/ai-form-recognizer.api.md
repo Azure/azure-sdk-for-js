@@ -93,7 +93,6 @@ export { AzureKeyCredential }
 // @public
 export interface BeginBuildDocumentClassifierOptions extends OperationOptions, PollerOptions<DocumentClassifierOperationState> {
     description?: string;
-    tags?: Record<string, string>;
 }
 
 // @public
