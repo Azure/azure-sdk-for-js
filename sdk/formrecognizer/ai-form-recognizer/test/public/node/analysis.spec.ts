@@ -284,6 +284,45 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(barcode2.value, "SYN121720213429");
       });
 
+      it("annotations", async function () {
+        if (!isLiveMode()) {
+          // Currently need to skip this test in record/playback mode but we can run it live.
+          this.skip();
+        }
+
+        const url = makeTestUrl("/annotations.jpg");
+
+        const poller = await client.beginAnalyzeDocumentFromUrl(
+          "prebuilt-layout",
+          url,
+          testPollingOptions
+        );
+
+        const { pages } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(pages);
+
+        assert.isNotEmpty(pages?.[0].annotations);
+      });
+
+      it("formula", async function () {
+        // This test is currently not working as expected.
+        this.skip();
+
+        const url = makeTestUrl("/formula1.jpg");
+
+        const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-document", url, {
+          ...testPollingOptions,
+          features: [FormRecognizerFeature.OcrFormula],
+        });
+
+        const { pages } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(pages);
+
+        assert.isNotEmpty(pages?.[0].formulas);
+      });
+
       it("with queryFields", async function () {
         const url = makeTestUrl("/Invoice_1.pdf");
 
