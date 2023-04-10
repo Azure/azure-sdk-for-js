@@ -14,8 +14,16 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, LedgerImpl } from "./operations";
-import { Operations, Ledger } from "./operationsInterfaces";
+import {
+  OperationsImpl,
+  LedgerImpl,
+  ManagedCCFOperationsImpl
+} from "./operations";
+import {
+  Operations,
+  Ledger,
+  ManagedCCFOperations
+} from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -33,8 +41,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ConfidentialLedgerClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   *                       00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -58,7 +65,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-confidentialledger/1.2.1`;
+    const packageDetails = `azsdk-js-arm-confidentialledger/1.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -111,9 +118,10 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-13";
+    this.apiVersion = options.apiVersion || "2023-01-26-preview";
     this.operations = new OperationsImpl(this);
     this.ledger = new LedgerImpl(this);
+    this.managedCCFOperations = new ManagedCCFOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -162,6 +170,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 
   operations: Operations;
   ledger: Ledger;
+  managedCCFOperations: ManagedCCFOperations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

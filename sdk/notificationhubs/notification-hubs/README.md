@@ -52,9 +52,9 @@ Once created, the Notification Hub can be configured using the [Azure Portal or 
 This SDK for JavaScript offers two ways of interacting with Azure Notification Hubs, either through the class-based approach, or with a modular design approach.  The class-based approach is consistent across all packages to create a client and then interact with the methods on the client.
 
 ```typescript
-import { 
+import {
   NotificationHubsClient,
-  createAppleInstallation 
+  createAppleInstallation
 } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -68,9 +68,9 @@ const installation = createAppleInstallation({
 const result = await client.createOrUpdateInstallation(installation);
 ```
 
-The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.  
+The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.
 
-Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.  
+Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.
 
 The following subpaths are exposed:
 
@@ -293,10 +293,10 @@ registration = await client.updateRegistration(registration);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { 
-  createClientContext, 
-  getRegistration, 
-  updateRegistration 
+import {
+  createClientContext,
+  getRegistration,
+  updateRegistration
 } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -384,7 +384,7 @@ const result = await sendNotification(context, notification);
 Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendNotification` method.
 
 ```typescript
-import { 
+import {
   NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs/api";
@@ -443,7 +443,7 @@ if (result.notificationId) {
 
 #### Direct Send
 
-To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.  
+To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.
 
 ```typescript
 import {
@@ -663,9 +663,11 @@ React Native currently does not have support for [`URLSearchParams`] which is us
 import 'url-search-params-polyfill';
 ```
 
+We also need to provide polyfill for `TextEncoder` API and async iterator API. Please see our [React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native/appconfigBasic/README.md#add-polyfills) for more details.
+
 ### Diagnose Dropped Notifications
 
-Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  
+Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
 
 [Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
 
