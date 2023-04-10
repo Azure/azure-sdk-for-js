@@ -67,7 +67,7 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Returns all Caches the user has access to under a subscription.
+   * Returns all caches the user has access to under a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -121,8 +121,8 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Returns all Caches the user has access to under a resource group.
-   * @param resourceGroupName Target resource group.
+   * Returns all caches the user has access to under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -190,7 +190,7 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Returns all Caches the user has access to under a subscription.
+   * Returns all caches the user has access to under a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -200,8 +200,8 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Returns all Caches the user has access to under a resource group.
-   * @param resourceGroupName Target resource group.
+   * Returns all caches the user has access to under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -215,9 +215,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Schedules a Cache for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Schedules a cache for deletion.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -279,9 +279,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Schedules a Cache for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Schedules a cache for deletion.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -299,9 +299,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Returns a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Returns a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -317,11 +317,11 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Create or update a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Create or update a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
-   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   * @param cache Object containing the user-selectable properties of the new cache. If read-only
    *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
@@ -392,11 +392,11 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Create or update a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Create or update a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
-   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   * @param cache Object containing the user-selectable properties of the new cache. If read-only
    *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
@@ -416,9 +416,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Update a Cache instance.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Update a cache instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -486,9 +486,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Update a Cache instance.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Update a cache instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -506,9 +506,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Cache to write generate debug info for support to process.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a cache to write generate debug info for support to process.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -571,9 +571,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Cache to write generate debug info for support to process.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a cache to write generate debug info for support to process.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -591,10 +591,10 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see
+   * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
    * errors returned until the flush is complete.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -657,10 +657,10 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see
+   * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
    * errors returned until the flush is complete.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -674,9 +674,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Stopped state Cache to transition to Active state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a Stopped state cache to transition to Active state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -739,9 +739,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells a Stopped state Cache to transition to Active state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a Stopped state cache to transition to Active state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -755,9 +755,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells an Active Cache to transition to Stopped state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells an Active cache to transition to Stopped state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -820,9 +820,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Tells an Active Cache to transition to Stopped state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells an Active cache to transition to Stopped state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -837,8 +837,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Create a priming job. This operation is only allowed when the cache is healthy.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -910,8 +910,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Create a priming job. This operation is only allowed when the cache is healthy.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -930,8 +930,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Schedule a priming job for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1003,8 +1003,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Schedule a priming job for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1023,8 +1023,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Schedule a priming job to be paused.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1096,8 +1096,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Schedule a priming job to be paused.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1116,8 +1116,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Resumes a paused priming job.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1189,8 +1189,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Resumes a paused priming job.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1208,9 +1208,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1273,9 +1273,9 @@ export class CachesImpl implements Caches {
   }
 
   /**
-   * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1294,8 +1294,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Update cache space allocation.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1367,8 +1367,8 @@ export class CachesImpl implements Caches {
 
   /**
    * Update cache space allocation.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -1402,7 +1402,7 @@ export class CachesImpl implements Caches {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Target resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */

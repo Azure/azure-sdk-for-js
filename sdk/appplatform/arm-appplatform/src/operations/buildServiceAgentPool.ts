@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BuildServiceAgentPoolResource,
   BuildServiceAgentPoolListNextOptionalParams,
@@ -200,8 +204,8 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     agentPoolResource: BuildServiceAgentPoolResource,
     options?: BuildServiceAgentPoolUpdatePutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BuildServiceAgentPoolUpdatePutResponse>,
+    SimplePollerLike<
+      OperationState<BuildServiceAgentPoolUpdatePutResponse>,
       BuildServiceAgentPoolUpdatePutResponse
     >
   > {
@@ -211,7 +215,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     ): Promise<BuildServiceAgentPoolUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -244,9 +248,9 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         buildServiceName,
@@ -254,10 +258,13 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         agentPoolResource,
         options
       },
-      updatePutOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updatePutOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BuildServiceAgentPoolUpdatePutResponse,
+      OperationState<BuildServiceAgentPoolUpdatePutResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

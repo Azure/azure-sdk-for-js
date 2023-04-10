@@ -18,6 +18,7 @@ import {
   OperationsImpl,
   WorkspacesImpl,
   ScalingPlansImpl,
+  ScalingPlanPooledSchedulesImpl,
   ApplicationGroupsImpl,
   StartMenuItemsImpl,
   ApplicationsImpl,
@@ -26,14 +27,13 @@ import {
   UserSessionsImpl,
   SessionHostsImpl,
   MsixPackagesImpl,
-  MsixImagesImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  MsixImagesImpl
 } from "./operations";
 import {
   Operations,
   Workspaces,
   ScalingPlans,
+  ScalingPlanPooledSchedules,
   ApplicationGroups,
   StartMenuItems,
   Applications,
@@ -42,9 +42,7 @@ import {
   UserSessions,
   SessionHosts,
   MsixPackages,
-  MsixImages,
-  PrivateEndpointConnections,
-  PrivateLinkResources
+  MsixImages
 } from "./operationsInterfaces";
 import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
 
@@ -80,7 +78,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,10 +131,11 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-03-preview";
+    this.apiVersion = options.apiVersion || "2022-09-09";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
+    this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
     this.applicationGroups = new ApplicationGroupsImpl(this);
     this.startMenuItems = new StartMenuItemsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -146,8 +145,6 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.sessionHosts = new SessionHostsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
     this.msixImages = new MsixImagesImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -182,6 +179,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   operations: Operations;
   workspaces: Workspaces;
   scalingPlans: ScalingPlans;
+  scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
   applicationGroups: ApplicationGroups;
   startMenuItems: StartMenuItems;
   applications: Applications;
@@ -191,6 +189,4 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   sessionHosts: SessionHosts;
   msixPackages: MsixPackages;
   msixImages: MsixImages;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
 }

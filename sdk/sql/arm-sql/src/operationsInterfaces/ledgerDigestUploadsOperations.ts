@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LedgerDigestUploads,
   LedgerDigestUploadsListByDatabaseOptionalParams,
@@ -71,8 +71,8 @@ export interface LedgerDigestUploadsOperations {
     parameters: LedgerDigestUploads,
     options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
       LedgerDigestUploadsCreateOrUpdateResponse
     >
   >;
@@ -111,8 +111,8 @@ export interface LedgerDigestUploadsOperations {
     ledgerDigestUploads: LedgerDigestUploadsName,
     options?: LedgerDigestUploadsDisableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LedgerDigestUploadsDisableResponse>,
+    SimplePollerLike<
+      OperationState<LedgerDigestUploadsDisableResponse>,
       LedgerDigestUploadsDisableResponse
     >
   >;

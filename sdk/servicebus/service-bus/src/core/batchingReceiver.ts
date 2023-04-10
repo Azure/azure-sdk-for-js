@@ -17,6 +17,7 @@ import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { receiveDrainTimeoutInMs } from "../util/constants";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
@@ -241,6 +242,8 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * @internal
  */
 export class BatchingReceiverLite {
+  // testing hook
+  private _drainTimeoutInMs: number = receiveDrainTimeoutInMs;
   constructor(
     private _connectionContext: ConnectionContext,
     public entityPath: string,
@@ -323,6 +326,59 @@ export class BatchingReceiverLite {
     }
   }
 
+  private async tryDrainReceiver(
+    receiver: MinimalReceiver,
+    loggingPrefix: string,
+    abortSignal?: AbortSignalLike
+  ): Promise<void> {
+    if (!receiver.isOpen() || receiver.credit <= 0) {
+      return;
+    }
+    let drainTimedout: boolean = false;
+    let drainTimer: ReturnType<typeof setTimeout>;
+    const drainPromise = new Promise<void>((resolve) => {
+      function drainListener() {
+        logger.verbose(`${loggingPrefix} Receiver has been drained.`);
+        clearTimeout(drainTimer);
+        resolve();
+      }
+      function removeListeners() {
+        abortSignal?.removeEventListener("abort", onAbort);
+        receiver.removeListener(ReceiverEvents.receiverDrained, drainListener);
+      }
+      function onAbort() {
+        removeListeners();
+        clearTimeout(drainTimer);
+        resolve();
+      }
+
+      drainTimer = setTimeout(() => {
+        drainTimedout = true;
+        removeListeners();
+        resolve();
+      }, this._drainTimeoutInMs);
+      receiver.once(ReceiverEvents.receiverDrained, drainListener);
+      abortSignal?.addEventListener("abort", onAbort);
+    });
+
+    receiver.drainCredit();
+    logger.verbose(
+      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`
+    );
+    await drainPromise;
+    if (drainTimedout) {
+      logger.warning(
+        `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`
+      );
+      // Close the receiver link since we have not received the receiver drain event
+      // to prevent out-of-sync state between local and remote
+      await receiver.close();
+    }
+
+    // Turn off draining.
+    receiver.drain = false;
+  }
+
   private _receiveMessagesImpl(
     receiver: MinimalReceiver,
     args: ReceiveMessageArgs,
@@ -338,11 +394,10 @@ export class BatchingReceiverLite {
     const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
     let totalWaitTimer: NodeJS.Timer | undefined;
-
     // eslint-disable-next-line prefer-const
     let cleanupBeforeResolveOrReject: () => void;
 
-    const reject = (err: Error | AmqpError): void => {
+    const rejectAfterCleanup = (err: Error | AmqpError): void => {
       cleanupBeforeResolveOrReject();
       origReject(err);
     };
@@ -375,7 +430,7 @@ export class BatchingReceiverLite {
       } else {
         error = new ServiceBusError("An error occurred while receiving messages.", "GeneralError");
       }
-      reject(error);
+      rejectAfterCleanup(error);
     };
 
     this._closeHandler = (error?: AmqpError | Error): void => {
@@ -388,11 +443,10 @@ export class BatchingReceiverLite {
         logger.verbose(
           `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
         );
-
         return resolveAfterPendingMessageCallbacks(brokeredMessages);
       }
 
-      reject(translateServiceBusError(error));
+      rejectAfterCleanup(translateServiceBusError(error));
     };
 
     let abortSignalCleanupFunction: (() => void) | undefined = undefined;
@@ -401,26 +455,19 @@ export class BatchingReceiverLite {
     // - maxMessageCount is reached or
     // - maxWaitTime is passed or
     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-    this._finalAction = (): void => {
+    this._finalAction = async (): Promise<void> => {
       if (receiver.drain) {
         // If a drain is already in process then we should let it complete. Some messages might still be in flight, but they will
         // arrive before the drain completes.
+        logger.verbose(`${loggingPrefix} Already draining.`);
         return;
       }
 
-      // Drain any pending credits.
-      if (receiver.isOpen() && receiver.credit > 0) {
-        logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
-        receiver.drainCredit();
-      } else {
-        logger.verbose(
-          `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
-        );
-
-        // we can resolve immediately (ie, no setTimeout call) because we have no
-        // remaining messages (thus nothing to wait for)
-        resolveImmediately(brokeredMessages);
-      }
+      await this.tryDrainReceiver(receiver, loggingPrefix, args.abortSignal);
+      logger.verbose(
+        `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
+      );
+      resolveImmediately(brokeredMessages);
     };
 
     // Action to be performed on the "message" event.
@@ -465,7 +512,7 @@ export class BatchingReceiverLite {
           err,
           `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`
         );
-        reject(errObj);
+        rejectAfterCleanup(errObj);
       }
       if (brokeredMessages.length >= args.maxMessageCount) {
         this._finalAction!();
@@ -481,18 +528,6 @@ export class BatchingReceiverLite {
       }
     };
 
-    // Action to be performed on the "receiver_drained" event.
-    const onReceiveDrain: OnAmqpEvent = () => {
-      receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-      receiver.drain = false;
-
-      logger.verbose(
-        `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
-      );
-
-      resolveAfterPendingMessageCallbacks(brokeredMessages);
-    };
-
     cleanupBeforeResolveOrReject = (): void => {
       if (receiver != null) {
         receiver.removeListener(ReceiverEvents.receiverError, onError);
@@ -500,7 +535,6 @@ export class BatchingReceiverLite {
         receiver.session.removeListener(SessionEvents.sessionError, onError);
         receiver.removeListener(ReceiverEvents.receiverClose, onClose);
         receiver.session.removeListener(SessionEvents.sessionClose, onClose);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
       }
 
       if (totalWaitTimer) {
@@ -519,7 +553,7 @@ export class BatchingReceiverLite {
         // with remote. Reset the link so that we will have fresh start.
         receiver.close();
       }
-      reject(err);
+      rejectAfterCleanup(err);
     }, args.abortSignal);
 
     // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
@@ -549,7 +583,6 @@ export class BatchingReceiverLite {
     receiver.on(ReceiverEvents.message, onReceiveMessage);
     receiver.on(ReceiverEvents.receiverError, onError);
     receiver.on(ReceiverEvents.receiverClose, onClose);
-    receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
 
     receiver.session.on(SessionEvents.sessionError, onError);
     receiver.session.on(SessionEvents.sessionClose, onClose);

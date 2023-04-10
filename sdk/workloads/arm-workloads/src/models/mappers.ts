@@ -1782,19 +1782,6 @@ export const ImageReference: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      exactVersion: {
-        serializedName: "exactVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sharedGalleryImageId: {
-        serializedName: "sharedGalleryImageId",
-        type: {
-          name: "String"
-        }
       }
     }
   }

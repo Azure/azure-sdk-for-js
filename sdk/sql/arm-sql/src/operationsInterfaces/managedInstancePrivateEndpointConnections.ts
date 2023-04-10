@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedInstancePrivateEndpointConnection,
   ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams,
@@ -63,8 +63,8 @@ export interface ManagedInstancePrivateEndpointConnections {
     parameters: ManagedInstancePrivateEndpointConnection,
     options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse
       >,
       ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse
@@ -99,7 +99,7 @@ export interface ManagedInstancePrivateEndpointConnections {
     managedInstanceName: string,
     privateEndpointConnectionName: string,
     options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

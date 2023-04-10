@@ -6,109 +6,142 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  GovernanceRule,
+  GovernanceRulesListOptionalParams,
   GovernanceRulesGetOptionalParams,
   GovernanceRulesGetResponse,
-  GovernanceRule,
   GovernanceRulesCreateOrUpdateOptionalParams,
   GovernanceRulesCreateOrUpdateResponse,
   GovernanceRulesDeleteOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSubscriptionResponse,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
+  GovernanceRulesExecuteOptionalParams,
+  GovernanceRulesExecuteResponse,
+  GovernanceRulesOperationResultsOptionalParams,
+  GovernanceRulesOperationResultsResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a GovernanceRules. */
 export interface GovernanceRules {
   /**
-   * Get a specific governanceRule for the requested scope by ruleId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Get a list of all relevant governance rules over a scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param options The options parameters.
+   */
+  list(
+    scope: string,
+    options?: GovernanceRulesListOptionalParams
+  ): PagedAsyncIterableIterator<GovernanceRule>;
+  /**
+   * Get a specific governance rule for the requested scope by ruleId
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   get(
+    scope: string,
     ruleId: string,
     options?: GovernanceRulesGetOptionalParams
   ): Promise<GovernanceRulesGetResponse>;
   /**
-   * Creates or update a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param governanceRule GovernanceRule over a subscription scope
+   * Creates or updates a governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param governanceRule Governance rule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
+    scope: string,
     ruleId: string,
     governanceRule: GovernanceRule,
     options?: GovernanceRulesCreateOrUpdateOptionalParams
   ): Promise<GovernanceRulesCreateOrUpdateResponse>;
   /**
-   * Delete a GovernanceRule over a given scope
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Delete a Governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    scope: string,
+    ruleId: string,
+    options?: GovernanceRulesDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a Governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    scope: string,
     ruleId: string,
     options?: GovernanceRulesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a governance rule
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
-  beginRuleIdExecuteSingleSubscription(
+  beginExecute(
+    scope: string,
     ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
+    options?: GovernanceRulesExecuteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
-      >,
-      GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
+    SimplePollerLike<
+      OperationState<GovernanceRulesExecuteResponse>,
+      GovernanceRulesExecuteResponse
     >
   >;
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Execute a governance rule
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
-  beginRuleIdExecuteSingleSubscriptionAndWait(
+  beginExecuteAndWait(
+    scope: string,
     ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
-  ): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>;
+    options?: GovernanceRulesExecuteOptionalParams
+  ): Promise<GovernanceRulesExecuteResponse>;
   /**
-   * Execute a security GovernanceRule on the given security connector.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Get governance rules long run operation result for the requested scope by ruleId and operationId
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param operationId The governance rule long running operation unique key
    * @param options The options parameters.
    */
-  beginRuleIdExecuteSingleSecurityConnector(
-    resourceGroupName: string,
-    securityConnectorName: string,
+  operationResults(
+    scope: string,
     ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
-      >,
-      GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
-    >
-  >;
-  /**
-   * Execute a security GovernanceRule on the given security connector.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param options The options parameters.
-   */
-  beginRuleIdExecuteSingleSecurityConnectorAndWait(
-    resourceGroupName: string,
-    securityConnectorName: string,
-    ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
-  ): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>;
+    operationId: string,
+    options?: GovernanceRulesOperationResultsOptionalParams
+  ): Promise<GovernanceRulesOperationResultsResponse>;
 }

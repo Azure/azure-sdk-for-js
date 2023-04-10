@@ -10,7 +10,9 @@ import { objectHasProperty } from "@azure/core-util";
  * @returns true if SendNotificationOptions otherwise false.
  */
 export function isSendNotificationOptions(options: unknown): options is SendNotificationOptions {
-  return objectHasProperty(options, "tags") || objectHasProperty(options, "enableTestSend");
+  return (
+    objectHasProperty(options, "tagExpression") || objectHasProperty(options, "enableTestSend")
+  );
 }
 
 /**

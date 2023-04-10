@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LongTermRetentionBackup,
   LongTermRetentionBackupsListByDatabaseNextOptionalParams,
@@ -613,8 +617,8 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     parameters: CopyLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsCopyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsCopyResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsCopyResponse>,
       LongTermRetentionBackupsCopyResponse
     >
   > {
@@ -624,7 +628,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     ): Promise<LongTermRetentionBackupsCopyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -657,9 +661,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         locationName,
         longTermRetentionServerName,
         longTermRetentionDatabaseName,
@@ -667,10 +671,13 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         parameters,
         options
       },
-      copyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: copyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LongTermRetentionBackupsCopyResponse,
+      OperationState<LongTermRetentionBackupsCopyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -722,8 +729,8 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     parameters: UpdateLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsUpdateResponse>,
       LongTermRetentionBackupsUpdateResponse
     >
   > {
@@ -733,7 +740,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     ): Promise<LongTermRetentionBackupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -766,9 +773,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         locationName,
         longTermRetentionServerName,
         longTermRetentionDatabaseName,
@@ -776,10 +783,13 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LongTermRetentionBackupsUpdateResponse,
+      OperationState<LongTermRetentionBackupsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -855,14 +865,14 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     options?: LongTermRetentionBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -895,19 +905,19 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         locationName,
         longTermRetentionServerName,
         longTermRetentionDatabaseName,
         backupName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1015,8 +1025,8 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     parameters: CopyLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>,
       LongTermRetentionBackupsCopyByResourceGroupResponse
     >
   > {
@@ -1026,7 +1036,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     ): Promise<LongTermRetentionBackupsCopyByResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1059,9 +1069,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         locationName,
         longTermRetentionServerName,
@@ -1070,10 +1080,13 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         parameters,
         options
       },
-      copyByResourceGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: copyByResourceGroupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LongTermRetentionBackupsCopyByResourceGroupResponse,
+      OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1132,8 +1145,8 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     parameters: UpdateLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>,
       LongTermRetentionBackupsUpdateByResourceGroupResponse
     >
   > {
@@ -1143,7 +1156,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     ): Promise<LongTermRetentionBackupsUpdateByResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1176,9 +1189,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         locationName,
         longTermRetentionServerName,
@@ -1187,10 +1200,13 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         parameters,
         options
       },
-      updateByResourceGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateByResourceGroupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LongTermRetentionBackupsUpdateByResourceGroupResponse,
+      OperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1277,14 +1293,14 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1317,9 +1333,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         locationName,
         longTermRetentionServerName,
@@ -1327,10 +1343,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         backupName,
         options
       },
-      deleteByResourceGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteByResourceGroupOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1599,8 +1615,8 @@ const copyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters84,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters66,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1609,7 +1625,7 @@ const copyOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionDatabaseName,
     Parameters.backupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1632,8 +1648,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters85,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters67,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1642,7 +1658,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionDatabaseName,
     Parameters.backupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1656,7 +1672,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1673,7 +1689,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1695,7 +1711,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1720,7 +1736,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1743,7 +1759,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1775,8 +1791,8 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters84,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters66,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1786,7 +1802,7 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionDatabaseName,
     Parameters.backupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1809,8 +1825,8 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters85,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters67,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1820,7 +1836,7 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionDatabaseName,
     Parameters.backupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1834,7 +1850,7 @@ const getByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1852,7 +1868,7 @@ const deleteByResourceGroupOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1875,7 +1891,7 @@ const listByResourceGroupDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1901,7 +1917,7 @@ const listByResourceGroupLocationOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1925,7 +1941,7 @@ const listByResourceGroupServerOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion6,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],

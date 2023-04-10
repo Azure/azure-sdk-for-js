@@ -37,6 +37,7 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
+import { ContentDownloaderImpl } from "./contentDownloader";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -63,6 +64,7 @@ export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly callConnectionImpl: CallConnectionImpl;
   private readonly callRecordingImpl: CallRecordingImpl;
+  private readonly contentDownloaderImpl: ContentDownloaderImpl;
   private readonly callMediaImpl: CallMediaImpl;
   private readonly sourceIdentity?: CommunicationIdentifierModel;
 
@@ -127,6 +129,7 @@ export class CallAutomationClient {
     this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
     this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
+    this.contentDownloaderImpl = new ContentDownloaderImpl(this.callAutomationApiClient);
     this.sourceIdentity = options.sourceIdentity
       ? communicationIdentifierModelConverter(options.sourceIdentity)
       : undefined;
@@ -144,7 +147,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callRecordingImpl);
+    return new CallRecording(this.callRecordingImpl, this.contentDownloaderImpl);
   }
 
   /**
@@ -177,6 +180,12 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders:
+          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+        voipHeaders:
+          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
+      },
       sourceCallerIdNumber:
         target instanceof CallInvite
           ? PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber)
@@ -280,6 +289,12 @@ export class CallAutomationClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(target.target),
+      customContext: {
+        sipHeaders:
+          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+        voipHeaders:
+          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
+      },
     };
 
     return this.callAutomationApiClient.redirectCall(request, options);

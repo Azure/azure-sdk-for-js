@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationLiveViewResource,
   ApplicationLiveViewsListOptionalParams,
@@ -63,8 +63,8 @@ export interface ApplicationLiveViews {
     applicationLiveViewResource: ApplicationLiveViewResource,
     options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
       ApplicationLiveViewsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

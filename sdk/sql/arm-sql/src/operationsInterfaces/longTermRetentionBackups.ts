@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LongTermRetentionBackup,
   LongTermRetentionBackupsListByDatabaseOptionalParams,
@@ -129,8 +129,8 @@ export interface LongTermRetentionBackups {
     parameters: CopyLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsCopyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsCopyResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsCopyResponse>,
       LongTermRetentionBackupsCopyResponse
     >
   >;
@@ -168,8 +168,8 @@ export interface LongTermRetentionBackups {
     parameters: UpdateLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsUpdateResponse>,
       LongTermRetentionBackupsUpdateResponse
     >
   >;
@@ -219,7 +219,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     options?: LongTermRetentionBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param locationName The location of the database
@@ -255,8 +255,8 @@ export interface LongTermRetentionBackups {
     parameters: CopyLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>,
       LongTermRetentionBackupsCopyByResourceGroupResponse
     >
   >;
@@ -300,8 +300,8 @@ export interface LongTermRetentionBackups {
     parameters: UpdateLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>,
       LongTermRetentionBackupsUpdateByResourceGroupResponse
     >
   >;
@@ -360,7 +360,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

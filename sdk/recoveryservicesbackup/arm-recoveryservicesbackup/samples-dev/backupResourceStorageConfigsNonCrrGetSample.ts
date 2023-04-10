@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fetches resource storage config.
  *
  * @summary Fetches resource storage config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/BackupStorageConfig_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/Common/BackupStorageConfig_Get.json
  */
 async function getVaultStorageConfiguration() {
   const subscriptionId =

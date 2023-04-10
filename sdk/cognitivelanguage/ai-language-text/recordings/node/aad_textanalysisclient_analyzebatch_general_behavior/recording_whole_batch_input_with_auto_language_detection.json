@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "498",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "bea4b3f2-9061-4fe1-bbb6-f9d6ff628dfb"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "d548892d-533f-4616-b047-82f7104a948e"
       },
       "RequestBody": {
         "analysisInput": {
@@ -62,45 +62,45 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "c2e3374b-3611-419c-ace2-f74b41b304b2",
+        "apim-request-id": "698a4525-2c97-4726-8827-e1a31cb42ff8",
         "Content-Length": "0",
-        "Date": "Tue, 17 Jan 2023 23:58:42 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+        "Date": "Fri, 31 Mar 2023 18:32:09 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "407",
+        "x-envoy-upstream-service-time": "1025",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "28d6ad01-d998-4f4a-b845-6e9641326c7c"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "16b201b9-17f0-4676-aca6-0e3d3d20142b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3c3bb421-8513-4be4-951e-11e03b16cfa3",
+        "apim-request-id": "0a51a888-5927-4d1b-b585-9126bb9c5fc4",
         "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:42 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:09 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15",
+        "x-envoy-upstream-service-time": "16",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:43Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:09Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -113,33 +113,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "1584c17d-0957-4951-98e7-e8e2f586befa"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "9061ddb5-30f3-4f46-9929-ed3a44e20835"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "06e0a5b9-4cd9-4a5f-a7ae-bded9286f6c1",
+        "apim-request-id": "d48c78d7-ea87-43d0-9249-f24d340baaa7",
         "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:42 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:09 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10",
+        "x-envoy-upstream-service-time": "8",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:43Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:09Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -152,142 +152,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "7e23e1f7-fb42-4e64-b396-0170df4fac14"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "4835bd0a-3798-47d1-b579-fe5d1539ec1e"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "61a340f9-e7d7-4a1e-80e3-b5a3269674c1",
-        "Content-Length": "2428",
+        "apim-request-id": "1fd7106f-c9af-4432-a779-786ee52991da",
+        "Content-Length": "1095",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:45 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:11 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "104",
+        "x-envoy-upstream-service-time": "148",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:45Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:11Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 2,
+          "completed": 1,
           "failed": 0,
-          "inProgress": 4,
+          "inProgress": 5,
           "total": 6,
           "items": [
             {
-              "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.4306721Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "sentiment": "neutral",
-                    "confidenceScores": {
-                      "positive": 0.0,
-                      "neutral": 0.99,
-                      "negative": 0.0
-                    },
-                    "sentences": [
-                      {
-                        "sentiment": "neutral",
-                        "confidenceScores": {
-                          "positive": 0.0,
-                          "neutral": 0.99,
-                          "negative": 0.0
-                        },
-                        "offset": 0,
-                        "length": 22,
-                        "text": "I will go to the park."
-                      }
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "English",
-                      "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "1",
-                    "sentiment": "neutral",
-                    "confidenceScores": {
-                      "positive": 0.02,
-                      "neutral": 0.98,
-                      "negative": 0.0
-                    },
-                    "sentences": [
-                      {
-                        "sentiment": "neutral",
-                        "confidenceScores": {
-                          "positive": 0.02,
-                          "neutral": 0.98,
-                          "negative": 0.0
-                        },
-                        "offset": 0,
-                        "length": 39,
-                        "text": "Este es un document escrito en Espa\u00F1ol."
-                      }
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Spanish",
-                      "iso6391Name": "es",
-                      "confidenceScore": 0.75
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "2",
-                    "sentiment": "positive",
-                    "confidenceScores": {
-                      "positive": 0.96,
-                      "neutral": 0.04,
-                      "negative": 0.01
-                    },
-                    "sentences": [
-                      {
-                        "sentiment": "positive",
-                        "confidenceScores": {
-                          "positive": 0.96,
-                          "neutral": 0.04,
-                          "negative": 0.01
-                        },
-                        "offset": 0,
-                        "length": 4,
-                        "text": "\u732B\u306F\u5E78\u305B"
-                      }
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Japanese",
-                      "iso6391Name": "ja",
-                      "confidenceScore": 1.0
-                    },
-                    "isLanguageDefaulted": false
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2022-11-01"
-              }
-            },
-            {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.6151656Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -332,44 +234,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "7560da69-5096-4020-939e-cef39791c54d"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "5983186e-22d0-4b9c-973f-a6536600a834"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "321e2606-772a-47b4-a7e4-bd75d24113be",
-        "Content-Length": "4791",
+        "apim-request-id": "1c000431-b369-4373-aca0-8c0a2e7d5423",
+        "Content-Length": "4158",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:47 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:13 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "219",
+        "x-envoy-upstream-service-time": "377",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:46Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:13Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 5,
+          "completed": 4,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 6,
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.3237836Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.1358173Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -379,6 +281,7 @@
                       {
                         "text": "park",
                         "category": "Location",
+                        "subcategory": "Structural",
                         "offset": 17,
                         "length": 4,
                         "confidenceScore": 0.99
@@ -388,7 +291,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -415,7 +318,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -445,7 +348,7 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.4306721Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.4071333Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -474,7 +377,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -503,7 +406,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -542,70 +445,21 @@
               }
             },
             {
-              "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.5363246Z",
+              "kind": "EntityLinkingLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:12.9933534Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "keyPhrases": [
-                      "park"
-                    ],
+                    "entities": [],
                     "warnings": [],
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "1",
-                    "keyPhrases": [
-                      "Espa\u00F1ol",
-                      "document"
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Spanish",
-                      "iso6391Name": "es",
-                      "confidenceScore": 0.75
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "2",
-                    "keyPhrases": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Japanese",
-                      "iso6391Name": "ja",
                       "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2022-10-01"
-              }
-            },
-            {
-              "kind": "EntityLinkingLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.4268578Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "English",
-                      "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
                   },
                   {
                     "id": "1",
@@ -614,7 +468,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   }
@@ -637,7 +491,7 @@
             },
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.6151656Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -682,44 +536,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "6c493391-c208-440c-9e06-c3d106f2341f"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "ea4abf49-12f8-4872-9a5e-e0909e0a72d7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "9d0a6f18-c713-49a3-b5d0-77cbf3e674ef",
-        "Content-Length": "4791",
+        "apim-request-id": "6d73ec4a-a8bf-4bb8-a3b5-7138e641649f",
+        "Content-Length": "4158",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:49 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:16 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "480",
+        "x-envoy-upstream-service-time": "225",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:49Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:16Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 5,
+          "completed": 4,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 6,
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.3237836Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.1358173Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -729,6 +583,7 @@
                       {
                         "text": "park",
                         "category": "Location",
+                        "subcategory": "Structural",
                         "offset": 17,
                         "length": 4,
                         "confidenceScore": 0.99
@@ -738,7 +593,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -765,7 +620,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -795,7 +650,7 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.4306721Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.4071333Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -824,7 +679,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -853,7 +708,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -892,70 +747,21 @@
               }
             },
             {
-              "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.5363246Z",
+              "kind": "EntityLinkingLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:12.9933534Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "keyPhrases": [
-                      "park"
-                    ],
+                    "entities": [],
                     "warnings": [],
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "1",
-                    "keyPhrases": [
-                      "Espa\u00F1ol",
-                      "document"
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Spanish",
-                      "iso6391Name": "es",
-                      "confidenceScore": 0.75
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "2",
-                    "keyPhrases": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Japanese",
-                      "iso6391Name": "ja",
                       "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2022-10-01"
-              }
-            },
-            {
-              "kind": "EntityLinkingLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.4268578Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "English",
-                      "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
                   },
                   {
                     "id": "1",
@@ -964,7 +770,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   }
@@ -987,7 +793,7 @@
             },
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.6151656Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1032,44 +838,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "e851ce9b-a2e4-4f2f-a6e0-b0be8881629a"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "1549f954-428d-499f-8122-80748b86c70c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7435be3c-35fe-4226-9103-3511131b1cf8",
-        "Content-Length": "5543",
+        "apim-request-id": "0753c565-e83e-4897-9aa3-abd387dd023b",
+        "Content-Length": "4906",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:52 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:21 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "407",
+        "x-envoy-upstream-service-time": "2900",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:51Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
-        "status": "succeeded",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:18Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
+        "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 6,
+          "completed": 5,
           "failed": 0,
-          "inProgress": 0,
+          "inProgress": 1,
           "total": 6,
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.3237836Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.1358173Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1079,6 +885,7 @@
                       {
                         "text": "park",
                         "category": "Location",
+                        "subcategory": "Structural",
                         "offset": 17,
                         "length": 4,
                         "confidenceScore": 0.99
@@ -1088,7 +895,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1115,7 +922,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1145,7 +952,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:51.3215318Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:18.1059028Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1157,7 +964,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1169,7 +976,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1192,7 +999,7 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.4306721Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.4071333Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1221,7 +1028,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1250,7 +1057,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1289,70 +1096,21 @@
               }
             },
             {
-              "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.5363246Z",
+              "kind": "EntityLinkingLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:12.9933534Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "keyPhrases": [
-                      "park"
-                    ],
+                    "entities": [],
                     "warnings": [],
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "1",
-                    "keyPhrases": [
-                      "Espa\u00F1ol",
-                      "document"
-                    ],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Spanish",
-                      "iso6391Name": "es",
-                      "confidenceScore": 0.75
-                    },
-                    "isLanguageDefaulted": false
-                  },
-                  {
-                    "id": "2",
-                    "keyPhrases": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "Japanese",
-                      "iso6391Name": "ja",
                       "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2022-10-01"
-              }
-            },
-            {
-              "kind": "EntityLinkingLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.4268578Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [],
-                    "warnings": [],
-                    "detectedLanguage": {
-                      "name": "English",
-                      "iso6391Name": "en",
-                      "confidenceScore": 0.98
-                    },
-                    "isLanguageDefaulted": false
                   },
                   {
                     "id": "1",
@@ -1361,7 +1119,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   }
@@ -1384,7 +1142,7 @@
             },
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.6151656Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1429,33 +1187,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.4.0-1098-azure)",
-        "x-ms-client-request-id": "67b4c250-3d47-4c9d-b13f-5fbc2441c4e9"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "fa74444a-4d21-4f45-a186-50d74e413e7f"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ecda73ad-dbd0-44bd-884a-c3e727cd494b",
-        "Content-Length": "5543",
+        "apim-request-id": "0bb87600-5d6f-47c3-8f7a-8051d2f8b0f3",
+        "Content-Length": "5560",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 17 Jan 2023 23:58:52 GMT",
+        "Date": "Fri, 31 Mar 2023 18:32:23 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "331",
+        "x-envoy-upstream-service-time": "574",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0e4ab1a7-9d96-4022-b5dd-bd88fad4ddb9",
-        "lastUpdatedDateTime": "2023-01-17T23:58:51Z",
-        "createdDateTime": "2023-01-17T23:58:43Z",
-        "expirationDateTime": "2023-01-18T23:58:43Z",
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:21Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -1466,7 +1224,7 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.3237836Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.1358173Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1476,6 +1234,7 @@
                       {
                         "text": "park",
                         "category": "Location",
+                        "subcategory": "Structural",
                         "offset": 17,
                         "length": 4,
                         "confidenceScore": 0.99
@@ -1485,7 +1244,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1512,7 +1271,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1542,7 +1301,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:51.3215318Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:18.1059028Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1554,7 +1313,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1566,7 +1325,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1589,7 +1348,7 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.4306721Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.4071333Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1618,7 +1377,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1647,7 +1406,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1687,7 +1446,7 @@
             },
             {
               "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.5363246Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:21.8794153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1700,7 +1459,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1714,7 +1473,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1736,7 +1495,7 @@
             },
             {
               "kind": "EntityLinkingLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:46.4268578Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:12.9933534Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1747,7 +1506,7 @@
                     "detectedLanguage": {
                       "name": "English",
                       "iso6391Name": "en",
-                      "confidenceScore": 0.98
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   },
@@ -1758,7 +1517,7 @@
                     "detectedLanguage": {
                       "name": "Spanish",
                       "iso6391Name": "es",
-                      "confidenceScore": 0.75
+                      "confidenceScore": 1.0
                     },
                     "isLanguageDefaulted": false
                   }
@@ -1781,7 +1540,405 @@
             },
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2023-01-17T23:58:45.6151656Z",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [],
+                    "relations": [],
+                    "warnings": [],
+                    "detectedLanguage": "en",
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code \u0027es\u0027. Supported languages: en. For additional details see https://aka.ms/language-service/language-support"
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code \u0027ja\u0027. Supported languages: en. For additional details see https://aka.ms/language-service/language-support"
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2022-03-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/836d1e6d-5672-4085-9644-f5b1d192368c?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1104-azure)",
+        "x-ms-client-request-id": "f7e3e839-9d52-40af-9206-c65d9a42223b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "c629456e-64d7-4378-9b42-7cee802f3279",
+        "Content-Length": "5560",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 31 Mar 2023 18:32:25 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "536",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "836d1e6d-5672-4085-9644-f5b1d192368c",
+        "lastUpdatedDateTime": "2023-03-31T18:32:21Z",
+        "createdDateTime": "2023-03-31T18:32:08Z",
+        "expirationDateTime": "2023-04-01T18:32:08Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 6,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 6,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.1358173Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "park",
+                        "category": "Location",
+                        "subcategory": "Structural",
+                        "offset": 17,
+                        "length": 4,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "English",
+                      "iso6391Name": "en",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "un",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 8,
+                        "length": 2,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "Espa\u00F1ol",
+                        "category": "Skill",
+                        "offset": 31,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Spanish",
+                      "iso6391Name": "es",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "\u732B",
+                        "category": "Product",
+                        "offset": 0,
+                        "length": 1,
+                        "confidenceScore": 0.42
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Japanese",
+                      "iso6391Name": "ja",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:18.1059028Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "I will go to the park.",
+                    "id": "0",
+                    "entities": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "English",
+                      "iso6391Name": "en",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
+                    "id": "1",
+                    "entities": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Spanish",
+                      "iso6391Name": "es",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "redactedText": "\u732B\u306F\u5E78\u305B",
+                    "id": "2",
+                    "entities": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Japanese",
+                      "iso6391Name": "ja",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "SentimentAnalysisLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:13.4071333Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 22,
+                        "text": "I will go to the park."
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "English",
+                      "iso6391Name": "en",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.02,
+                      "neutral": 0.98,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.02,
+                          "neutral": 0.98,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 39,
+                        "text": "Este es un document escrito en Espa\u00F1ol."
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Spanish",
+                      "iso6391Name": "es",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "2",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 0.96,
+                      "neutral": 0.04,
+                      "negative": 0.01
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 0.96,
+                          "neutral": 0.04,
+                          "negative": 0.01
+                        },
+                        "offset": 0,
+                        "length": 4,
+                        "text": "\u732B\u306F\u5E78\u305B"
+                      }
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Japanese",
+                      "iso6391Name": "ja",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-11-01"
+              }
+            },
+            {
+              "kind": "KeyPhraseExtractionLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:21.8794153Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "keyPhrases": [
+                      "park"
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "English",
+                      "iso6391Name": "en",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "1",
+                    "keyPhrases": [
+                      "Espa\u00F1ol",
+                      "document"
+                    ],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Spanish",
+                      "iso6391Name": "es",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "2",
+                    "keyPhrases": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Japanese",
+                      "iso6391Name": "ja",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01"
+              }
+            },
+            {
+              "kind": "EntityLinkingLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:12.9933534Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "English",
+                      "iso6391Name": "en",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  },
+                  {
+                    "id": "1",
+                    "entities": [],
+                    "warnings": [],
+                    "detectedLanguage": {
+                      "name": "Spanish",
+                      "iso6391Name": "es",
+                      "confidenceScore": 1.0
+                    },
+                    "isLanguageDefaulted": false
+                  }
+                ],
+                "errors": [
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code \u0027ja\u0027. Supported languages: en,es. For additional details see https://aka.ms/language-service/language-support"
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2023-03-31T18:32:11.9215153Z",
               "status": "succeeded",
               "results": {
                 "documents": [
