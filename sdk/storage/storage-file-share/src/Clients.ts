@@ -63,7 +63,7 @@ import {
   FileLastWrittenMode,
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -566,7 +566,7 @@ export class ShareClient extends StorageClient {
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
+  constructor(connectionString: string, name: string, options?: ShareClientOptions);
   /**
    * Creates an instance of ShareClient.
    *
