@@ -11,7 +11,7 @@ import {
   ExportedCustomMultiLabelClassificationProjectAssets,
   ExportedCustomEntityRecognitionProjectAssets,
 } from "@azure/ai-language-textauthoring";
-import { BlobServiceClient, ContainerClient, RestError } from "@azure/storage-blob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 import path from "path";
 import decompress from "decompress";
@@ -24,67 +24,73 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { logger } from "../../../src/logger";
 import { readdir, rm } from "fs/promises";
 
-let files: string;
+let dir: string;
+const pathName = path.join(
+  __dirname.split("ai-language-text")[0],
+  "ai-language-text",
+  "test",
+  "public",
+  "utils"
+);
 const storageInputContainerName = "documents";
 const language = "en-us";
 const trainingConfigVersion = "2022-05-01";
+const modelLabel = "projectModel";
+const trainParam: TextAnalysisAuthoringTrainBodyParam = {
+  body: {
+    modelLabel,
+    trainingConfigVersion,
+    evaluationOptions: {
+      kind: "percentage",
+      testingSplitPercentage: 30,
+      trainingSplitPercentage: 70,
+    },
+  },
+};
+const deployParam: TextAnalysisAuthoringDeployProjectParameters = {
+  body: {
+    trainedModelLabel: modelLabel,
+  },
+};
+
 async function createStorageBlob(): Promise<ContainerClient> {
   /* Return a container client */
   const defaultAzureCredential = new DefaultAzureCredential();
   // Get documents containers
   const blobServiceClient = new BlobServiceClient(
-    assertEnvironmentVariable("STORAGE_ENDPOINT") || "string",
+    assertEnvironmentVariable("STORAGE_ENDPOINT"),
     defaultAzureCredential
   );
   return blobServiceClient.getContainerClient(storageInputContainerName);
 }
 
-async function uploadDocuments(fileName: string): Promise<void> {
-  // Unpack zip files and upload to blob
-  const pathName = path.join(
-    __dirname.split("ai-language-text")[0],
-    "ai-language-text",
-    "test",
-    "public",
-    "utils"
-  );
-  await decompress(path.join(pathName, `${fileName}.zip`), pathName);
-  const dir = path.join(pathName, fileName);
-  const fileNames = await readdir(dir);
-
+async function uploadDocumentsToStorage(dirName: string): Promise<void> {
+  const fileNames = await readdir(dirName);
   const client = await createStorageBlob();
   for (const file of fileNames) {
     if (file.endsWith(".txt")) {
       const blob = client.getBlockBlobClient(file);
-      const filePath = path.join(dir, file);
+      const filePath = path.join(dirName, file);
       await blob.uploadFile(filePath);
     }
   }
 }
 
-async function polling(client: TextAuthoringClient, project: any) {
-  try {
-    const poller = getLongRunningPoller(client, project);
-    await poller.pollUntilDone();
-  } catch (error) {
-    logger.info("Error encountered", error);
-    throw new RestError(`Poller encountered error here ${error}`);
-  }
-}
-
-export async function createCustomTestProject(
-  client: TextAuthoringClient,
+async function getAssetsforProject(
   projectKind:
     | "CustomEntityRecognition"
     | "CustomSingleLabelClassification"
-    | "CustomMultiLabelClassification",
-  projectName: string,
-  deploymentName: string
-): Promise<void> {
+    | "CustomMultiLabelClassification"
+): Promise<
+  | ExportedCustomSingleLabelClassificationProjectAssets
+  | ExportedCustomMultiLabelClassificationProjectAssets
+  | ExportedCustomEntityRecognitionProjectAssets
+> {
   let assets:
     | ExportedCustomSingleLabelClassificationProjectAssets
     | ExportedCustomMultiLabelClassificationProjectAssets
     | ExportedCustomEntityRecognitionProjectAssets;
+  let files: string;
   switch (projectKind) {
     case "CustomSingleLabelClassification":
       assets = customSingleLabelAssets;
@@ -101,11 +107,30 @@ export async function createCustomTestProject(
       files = "LoanAgreements";
       break;
   }
-  const modelLabel = "projectModel";
-  await uploadDocuments(files);
-  logger.info("Finish uploading documents to storage");
 
-  const options: CreateProjectOptions = {
+  dir = path.join(pathName, files);
+  return assets;
+}
+
+async function polling(client: TextAuthoringClient, project: any) {
+  const poller = getLongRunningPoller(client, project);
+  await poller.pollUntilDone();
+}
+
+export async function createCustomTestProject(
+  client: TextAuthoringClient,
+  projectKind:
+    | "CustomEntityRecognition"
+    | "CustomSingleLabelClassification"
+    | "CustomMultiLabelClassification",
+  projectName: string,
+  deploymentName: string
+): Promise<void> {
+  const assets = await getAssetsforProject(projectKind);
+  await decompress(dir.concat(".zip"), pathName);
+  await uploadDocumentsToStorage(dir);
+
+  const createProjectOptions: CreateProjectOptions = {
     projectKind,
     storageInputContainerName,
     projectName,
@@ -119,7 +144,7 @@ export async function createCustomTestProject(
     .path("/authoring/analyze-text/projects/{projectName}/:import", projectName)
     .post({
       body: {
-        metadata: options,
+        metadata: createProjectOptions,
         projectFileVersion: "2022-05-01",
         stringIndexType: "Utf16CodeUnit",
         assets,
@@ -129,17 +154,6 @@ export async function createCustomTestProject(
   logger.info("Project created", projectName);
 
   // Start training
-  const trainParam: TextAnalysisAuthoringTrainBodyParam = {
-    body: {
-      modelLabel,
-      trainingConfigVersion,
-      evaluationOptions: {
-        kind: "percentage",
-        testingSplitPercentage: 30,
-        trainingSplitPercentage: 70,
-      },
-    },
-  };
   const trainTask = await client
     .path("/authoring/analyze-text/projects/{projectName}/:train", projectName)
     .post(trainParam);
@@ -147,11 +161,6 @@ export async function createCustomTestProject(
   logger.info("Training finished");
 
   // Deploy model
-  const deployParam: TextAnalysisAuthoringDeployProjectParameters = {
-    body: {
-      trainedModelLabel: modelLabel,
-    },
-  };
   const deployTask = await client
     .path(
       "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}",
@@ -167,20 +176,9 @@ export async function cleanupCustomTestResource(
   client: TextAuthoringClient,
   projectName: string
 ): Promise<void> {
-  // Delete project
   const deleteTask = await client
     .path("/authoring/analyze-text/projects/{projectName}", projectName)
     .delete();
   await polling(client, deleteTask);
-  // Remove folder
-  const pathName = path.join(
-    __dirname.split("ai-language-text")[0],
-    "ai-language-text",
-    "test",
-    "public",
-    "utils"
-  );
-
-  const dir = path.join(pathName, files);
   rm(dir, { recursive: true, force: true });
 }

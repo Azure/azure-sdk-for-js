@@ -12,13 +12,5 @@ stages:
       PackageName: "@azure/ai-language-textauthoring"
       ServiceDirectory: cognitivelanguage
       Location: "${{ parameters.Location }}"
-      CloudConfig:
-        Public:
-          SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
       SupportedClouds: 'Public'
-      EnvVars:
-        AZURE_SUBSCRIPTION_ID: $(TEXTANALYTICS_SUBSCRIPTION_ID)
-        AZURE_TENANT_ID: $(TEXTANALYTICS_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(TEXTANALYTICS_CLIENT_SECRET)
-        AZURE_CLIENT_ID: $(TEXTANALYTICS_CLIENT_ID)
+      TimeOutInMinutes: "90"

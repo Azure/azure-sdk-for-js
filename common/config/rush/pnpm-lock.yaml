@@ -737,7 +737,6 @@ packages:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
     deprecated: Please migrate to a supported (non-beta) version of this package
-    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -4002,8 +4001,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230407
-      typescript: 5.1.0-dev.20230409
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8866,10 +8864,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230407:
-    resolution: {integrity: sha512-UoqoOW9TWlQcxKiOcDSY2N+m6YgY0jBSqDY5NC6xUMHPifb9bVe5dJI+O6cv/JFJQEqX/183+Z2dhA2l/heuBw==}
-  /typescript/5.1.0-dev.20230409:
-    resolution: {integrity: sha512-97xdCsU+nUtaHW7mFi7x6KfRz4ragV0WGI/Z5uoW0pelxP1l6NYM/0VJ3Gs2X8fer09TDflGF/oL8k4YR9eroQ==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
