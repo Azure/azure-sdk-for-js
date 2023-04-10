@@ -24,7 +24,6 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { logger } from "../../../src/logger";
 import { readdir, rm } from "fs/promises";
 
-let dir: string;
 const pathName = path.join(
   __dirname.split("ai-language-text")[0],
   "ai-language-text",
@@ -74,6 +73,7 @@ async function uploadDocumentsToStorage(dirName: string): Promise<void> {
       await blob.uploadFile(filePath);
     }
   }
+  rm(dirName, { recursive: true, force: true });
 }
 
 async function getAssetsforProject(
@@ -81,11 +81,13 @@ async function getAssetsforProject(
     | "CustomEntityRecognition"
     | "CustomSingleLabelClassification"
     | "CustomMultiLabelClassification"
-): Promise<
-  | ExportedCustomSingleLabelClassificationProjectAssets
-  | ExportedCustomMultiLabelClassificationProjectAssets
-  | ExportedCustomEntityRecognitionProjectAssets
-> {
+): Promise<{
+  assets:
+    | ExportedCustomSingleLabelClassificationProjectAssets
+    | ExportedCustomMultiLabelClassificationProjectAssets
+    | ExportedCustomEntityRecognitionProjectAssets;
+  dirName: string;
+}> {
   let assets:
     | ExportedCustomSingleLabelClassificationProjectAssets
     | ExportedCustomMultiLabelClassificationProjectAssets
@@ -108,8 +110,8 @@ async function getAssetsforProject(
       break;
   }
 
-  dir = path.join(pathName, files);
-  return assets;
+  const dirName = path.join(pathName, files);
+  return { assets, dirName };
 }
 
 async function polling(client: TextAuthoringClient, project: any) {
@@ -126,9 +128,9 @@ export async function createCustomTestProject(
   projectName: string,
   deploymentName: string
 ): Promise<void> {
-  const assets = await getAssetsforProject(projectKind);
-  await decompress(dir.concat(".zip"), pathName);
-  await uploadDocumentsToStorage(dir);
+  const { assets, dirName } = await getAssetsforProject(projectKind);
+  await decompress(dirName.concat(".zip"), pathName);
+  await uploadDocumentsToStorage(dirName);
 
   const createProjectOptions: CreateProjectOptions = {
     projectKind,
@@ -174,11 +176,10 @@ export async function createCustomTestProject(
 
 export async function cleanupCustomTestResource(
   client: TextAuthoringClient,
-  projectName: string
+  projectName: string,
 ): Promise<void> {
   const deleteTask = await client
     .path("/authoring/analyze-text/projects/{projectName}", projectName)
     .delete();
   await polling(client, deleteTask);
-  rm(dir, { recursive: true, force: true });
 }
