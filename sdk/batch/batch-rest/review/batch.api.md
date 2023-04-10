@@ -1572,7 +1572,8 @@ export interface ComputeNodesGetRemoteDesktop200Headers {
 
 // @public
 export interface ComputeNodesGetRemoteDesktop200Response extends HttpResponse {
-    body: Uint8Array;
+    // (undocumented)
+    body: string;
     // (undocumented)
     headers: RawHttpHeaders & ComputeNodesGetRemoteDesktop200Headers;
     // (undocumented)
@@ -2295,7 +2296,8 @@ export interface FileGetFromComputeNode200Headers {
 
 // @public
 export interface FileGetFromComputeNode200Response extends HttpResponse {
-    body: Uint8Array;
+    // (undocumented)
+    body: string;
     // (undocumented)
     headers: RawHttpHeaders & FileGetFromComputeNode200Headers;
     // (undocumented)
