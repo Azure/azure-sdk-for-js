@@ -88,30 +88,16 @@ async function getAssetsforProject(
     | ExportedCustomEntityRecognitionProjectAssets;
   dirName: string;
 }> {
-  let assets:
-    | ExportedCustomSingleLabelClassificationProjectAssets
-    | ExportedCustomMultiLabelClassificationProjectAssets
-    | ExportedCustomEntityRecognitionProjectAssets;
-  let files: string;
   switch (projectKind) {
     case "CustomSingleLabelClassification":
-      assets = customSingleLabelAssets;
-      files = "WebOfScience";
-      break;
+      return { assets: customSingleLabelAssets, dirName: path.join(pathName, "WebOfScience") };
 
     case "CustomMultiLabelClassification":
-      assets = customMultiLabelAssets;
-      files = "MoviesSummary";
-      break;
+      return { assets: customMultiLabelAssets, dirName: path.join(pathName, "MoviesSummary") };
 
     case "CustomEntityRecognition":
-      assets = customEntityAssets;
-      files = "LoanAgreements";
-      break;
+      return { assets: customEntityAssets, dirName: path.join(pathName, "LoanAgreements") };
   }
-
-  const dirName = path.join(pathName, files);
-  return { assets, dirName };
 }
 
 async function polling(client: TextAuthoringClient, project: any) {
@@ -176,7 +162,7 @@ export async function createCustomTestProject(
 
 export async function cleanupCustomTestResource(
   client: TextAuthoringClient,
-  projectName: string,
+  projectName: string
 ): Promise<void> {
   const deleteTask = await client
     .path("/authoring/analyze-text/projects/{projectName}", projectName)
