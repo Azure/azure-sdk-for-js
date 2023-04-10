@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the list of CPU/memory/GPU capabilities of a region.
  *
  * @summary Get the list of CPU/memory/GPU capabilities of a region.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/CapabilitiesList.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/CapabilitiesList.json
  */
 async function getCapabilities() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
