@@ -8,7 +8,7 @@
 - Added an `expiresOn` property to `DocumentModelSummary` and `DocumentModelDetails`. If this field is populated, it contains the date and time that the model will expire and will no longer be usable.
 - Added support for custom classification models. Classifiers combine layout and language features to accurately identify documents from among a set of document types.
   - Added `beginBuildDocumentClassifier` to `DocumentModelAdministrationClient` to build a custom classifier from training documents. See [the service documentation on custom classifiers](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel) for more information on creating a training data set and creating a classifier.
-  - Added `getDocumentClassifier`, `listDocumentClassifiers`, and `deleteDocumentClassifiers` methods to `DocumentModelAdministrationClient` to manage custom classifiers.
+  - Added `getDocumentClassifier`, `listDocumentClassifiers`, and `deleteDocumentClassifier` methods to `DocumentModelAdministrationClient` to manage custom classifiers.
   - Added `beginClassifyDocument` and `beginClassifyDocumentFromUrl` to `DocumentAnalysisClient` to classify documents using a custom classification model.
   - The `getOperation` method can now return `DocumentClassifierBuildOperationDetails` for classifier build operations.
 - Added `features` to `AnalyzeDocumentOptions`. Features are add-on capabilities that must be explicitly activated in order to extract them. The use of features may incur additional costs, so please review the [service documentation of add-on capabilities](https://aka.ms/azsdk/formrecognizer/features) for more information. The Form Recognizer service has introduced four features in this API version:
