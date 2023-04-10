@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AaWuNSmqHe3jJOGl36l6DBhxQDcimoCzk5-N6HxAeDWI1%40thread.v2/readReceipts?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A7SeKCRsilUJN_77z9hv7Fus0xUlQTH4T8Fjungj8UTY1%40thread.v2/readReceipts?api-version=2023-04-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,22 +10,24 @@
         "Connection": "keep-alive",
         "Content-Length": "33",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 Node/v18.2.0 OS/(x64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "2824d658-40dc-4e04-9b3b-74e7d4fb2402"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.3 Node/v14.19.0 OS/(arm64-Darwin-22.3.0)",
+        "x-ms-client-request-id": "02e90926-a392-4863-80d8-2532c31bbbbe"
       },
       "RequestBody": {
-        "chatMessageId": "1653551972669"
+        "chatMessageId": "1679101628113"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
+        "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Thu, 26 May 2022 07:59:32 GMT",
-        "MS-CV": "wy8o7RfUsU6ilt/YTpiNHA.0",
+        "Date": "Sat, 18 Mar 2023 01:07:09 GMT",
+        "MS-CV": "\u002BiI5YAwJqkqLaRLFbG75MQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ZTOPYgAAAABDTJ2ROeFoQasLL2QYQXLfUFJHMDFFREdFMDYxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "x-azure-ref": "20230318T010708Z-1vv9exqx192u70a2dzpnkg6dz800000002ug00000000dg69",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "163ms"
+        "X-Processing-Time": "239ms"
       },
       "ResponseBody": null
     }

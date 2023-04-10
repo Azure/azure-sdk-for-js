@@ -854,8 +854,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.16:
-    resolution: {integrity: sha512-EcwDgD7tmxY4rZif/T7YK1JMNjIfaBVrJvu2BBZDlnyRtBbhQbkzDH5wCm1c7mgsWAZTeR/BsCffUOSWFXw8JQ==}
+  /@azure/communication-signaling/1.0.0-beta.17:
+    resolution: {integrity: sha512-vJejWxpVEbBoA+TpDDJyUQUx2PE7N9fZ9pZpbz9rE5396sEj9RPhbjP1NB1uM2mgECMzkcWs4Qwl+dRca7r29g==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.1
@@ -3999,7 +3999,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230409
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8862,8 +8862,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230409:
-    resolution: {integrity: sha512-97xdCsU+nUtaHW7mFi7x6KfRz4ragV0WGI/Z5uoW0pelxP1l6NYM/0VJ3Gs2X8fer09TDflGF/oL8k4YR9eroQ==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -15736,12 +15736,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-3ervp/eA4WcVXNIC53x05ApqOcVeaq8NMjCYiXNpYF1evmk0wEw8vfE4s/h2Hh63CEpaT+kSICWbX5AEJAwAPw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-7zOMxoCkIYd16gk/T/lxwnfWt8+DGZuI9vsdlacNFGYCR5BORnk/qo+9LgsIEFGKQ1O6fLJuZh7KrNQn3whEnQ==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-common': 2.2.0
-      '@azure/communication-signaling': 1.0.0-beta.16
+      '@azure/communication-signaling': 1.0.0-beta.17
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -16306,7 +16306,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:

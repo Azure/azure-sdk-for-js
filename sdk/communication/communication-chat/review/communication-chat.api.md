@@ -38,6 +38,16 @@ export interface AddParticipantsRequest {
 }
 
 // @public
+export interface ChatAttachment {
+    attachmentType: "teamsInlineImage";
+    contentType?: string;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url: string;
+}
+
+// @public
 export class ChatClient {
     constructor(endpoint: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
     createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResult>;
@@ -103,6 +113,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
+    attachments?: ChatAttachment[];
     initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];
