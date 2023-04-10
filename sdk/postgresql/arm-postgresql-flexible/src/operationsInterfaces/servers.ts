@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Server,
   ServersListByResourceGroupOptionalParams,
@@ -55,7 +55,10 @@ export interface Servers {
     parameters: Server,
     options?: ServersCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServersCreateResponse>, ServersCreateResponse>
+    SimplePollerLike<
+      OperationState<ServersCreateResponse>,
+      ServersCreateResponse
+    >
   >;
   /**
    * Creates a new server.
@@ -84,7 +87,10 @@ export interface Servers {
     parameters: ServerForUpdate,
     options?: ServersUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>
+    SimplePollerLike<
+      OperationState<ServersUpdateResponse>,
+      ServersUpdateResponse
+    >
   >;
   /**
    * Updates an existing server. The request body can contain one to many of the properties present in
@@ -110,7 +116,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -143,7 +149,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -165,7 +171,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -187,7 +193,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

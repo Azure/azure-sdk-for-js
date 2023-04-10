@@ -533,7 +533,7 @@ export interface DataEncryption {
   primaryKeyURI?: string;
   /** Resource Id for the User assigned identity to be used for data encryption for primary server. */
   primaryUserAssignedIdentityId?: string;
-  /** Data encryption type to depict if it is System assigned vs Azure Key vault. */
+  /** Data encryption type to depict if it is System Managed vs Azure Key vault. */
   type?: ArmServerKeyType;
 }
 
@@ -1220,8 +1220,8 @@ export type PasswordAuthEnum = string;
 
 /** Known values of {@link ArmServerKeyType} that the service accepts. */
 export enum KnownArmServerKeyType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
+  /** SystemManaged */
+  SystemManaged = "SystemManaged",
   /** AzureKeyVault */
   AzureKeyVault = "AzureKeyVault"
 }
@@ -1231,7 +1231,7 @@ export enum KnownArmServerKeyType {
  * {@link KnownArmServerKeyType} can be used interchangeably with ArmServerKeyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SystemAssigned** \
+ * **SystemManaged** \
  * **AzureKeyVault**
  */
 export type ArmServerKeyType = string;
@@ -1329,16 +1329,8 @@ export enum KnownReplicationRole {
   None = "None",
   /** Primary */
   Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-  /** WalReplica */
-  WalReplica = "WalReplica",
-  /** SyncReplica */
-  SyncReplica = "SyncReplica",
   /** AsyncReplica */
   AsyncReplica = "AsyncReplica",
-  /** GeoSyncReplica */
-  GeoSyncReplica = "GeoSyncReplica",
   /** GeoAsyncReplica */
   GeoAsyncReplica = "GeoAsyncReplica"
 }
@@ -1350,11 +1342,7 @@ export enum KnownReplicationRole {
  * ### Known values supported by the service
  * **None** \
  * **Primary** \
- * **Secondary** \
- * **WalReplica** \
- * **SyncReplica** \
  * **AsyncReplica** \
- * **GeoSyncReplica** \
  * **GeoAsyncReplica**
  */
 export type ReplicationRole = string;

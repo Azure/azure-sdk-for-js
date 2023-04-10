@@ -98,7 +98,7 @@ export const serverName: OperationURLParameter = {
   parameterPath: "serverName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*"),
       MaxLength: 63,
       MinLength: 3
     },

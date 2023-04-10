@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ActiveDirectoryAdministrator,
   AdministratorsListByServerOptionalParams,
@@ -48,8 +48,8 @@ export interface Administrators {
     parameters: ActiveDirectoryAdministratorAdd,
     options?: AdministratorsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AdministratorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AdministratorsCreateResponse>,
       AdministratorsCreateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface Administrators {
     serverName: string,
     objectId: string,
     options?: AdministratorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Active Directory Administrator associated with the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
