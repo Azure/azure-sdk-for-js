@@ -15,29 +15,30 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieves the properties of all Confidential Ledgers.
+ * This sample demonstrates how to Deletes an existing Managed CCF.
  *
- * @summary Retrieves the properties of all Confidential Ledgers.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_List.json
+ * @summary Deletes an existing Managed CCF.
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Delete.json
  */
-async function confidentialLedgerList() {
+async function confidentialLedgerDelete() {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
     process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
     "DummyResourceGroupName";
+  const appName = "DummyMccfAppName";
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.ledger.listByResourceGroup(resourceGroupName)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.managedCCFOperations.beginDeleteAndWait(
+    resourceGroupName,
+    appName
+  );
+  console.log(result);
 }
 
 async function main() {
-  confidentialLedgerList();
+  confidentialLedgerDelete();
 }
 
 main().catch(console.error);
