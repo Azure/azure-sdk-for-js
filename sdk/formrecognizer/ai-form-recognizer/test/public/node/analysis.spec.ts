@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -256,6 +256,11 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("barcode", async function () {
+        if (!isLiveMode()) {
+          // Currently need to skip this test in record/playback mode but we can run it live.
+          this.skip();
+        }
+
         const url = makeTestUrl("/barcode2.tif");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
