@@ -7,11 +7,15 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
 import {
-  GeneratedClientOptionalParams,
+  ConfigurationClientOptionalParams,
   GetKeysOptionalParams,
   GetKeysResponse,
   CheckKeysOptionalParams,
@@ -51,14 +55,78 @@ import {
 } from "./models";
 
 /** @internal */
-export class GeneratedClient extends GeneratedClientContext {
+export class ConfigurationClient extends coreClient.ServiceClient {
+  endpoint: string;
+  syncToken?: string;
+  apiVersion: string;
+
   /**
-   * Initializes a new instance of the GeneratedClient class.
+   * Initializes a new instance of the ConfigurationClient class.
    * @param endpoint The endpoint of the App Configuration instance to send requests to.
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
-    super(endpoint, options);
+  constructor(endpoint: string, options?: ConfigurationClientOptionalParams) {
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ConfigurationClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-template/1.0.11-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "1.0";
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -288,7 +356,7 @@ const getKeysOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult,
-      headersMapper: Mappers.GeneratedClientGetKeysHeaders
+      headersMapper: Mappers.ConfigurationClientGetKeysHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -308,7 +376,7 @@ const checkKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GeneratedClientCheckKeysHeaders
+      headersMapper: Mappers.ConfigurationClientCheckKeysHeaders
     },
     default: {}
   },
@@ -323,7 +391,7 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.GeneratedClientGetKeyValuesHeaders
+      headersMapper: Mappers.ConfigurationClientGetKeyValuesHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -349,7 +417,7 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GeneratedClientCheckKeyValuesHeaders
+      headersMapper: Mappers.ConfigurationClientCheckKeyValuesHeaders
     },
     default: {}
   },
@@ -370,7 +438,7 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
-      headersMapper: Mappers.GeneratedClientGetKeyValueHeaders
+      headersMapper: Mappers.ConfigurationClientGetKeyValueHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -393,7 +461,7 @@ const putKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
-      headersMapper: Mappers.GeneratedClientPutKeyValueHeaders
+      headersMapper: Mappers.ConfigurationClientPutKeyValueHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -418,10 +486,10 @@ const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
-      headersMapper: Mappers.GeneratedClientDeleteKeyValueHeaders
+      headersMapper: Mappers.ConfigurationClientDeleteKeyValueHeaders
     },
     204: {
-      headersMapper: Mappers.GeneratedClientDeleteKeyValueHeaders
+      headersMapper: Mappers.ConfigurationClientDeleteKeyValueHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -441,7 +509,7 @@ const checkKeyValueOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GeneratedClientCheckKeyValueHeaders
+      headersMapper: Mappers.ConfigurationClientCheckKeyValueHeaders
     },
     default: {}
   },
@@ -461,7 +529,7 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LabelListResult,
-      headersMapper: Mappers.GeneratedClientGetLabelsHeaders
+      headersMapper: Mappers.ConfigurationClientGetLabelsHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -486,7 +554,7 @@ const checkLabelsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GeneratedClientCheckLabelsHeaders
+      headersMapper: Mappers.ConfigurationClientCheckLabelsHeaders
     },
     default: {}
   },
@@ -506,7 +574,7 @@ const putLockOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
-      headersMapper: Mappers.GeneratedClientPutLockHeaders
+      headersMapper: Mappers.ConfigurationClientPutLockHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -528,7 +596,7 @@ const deleteLockOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
-      headersMapper: Mappers.GeneratedClientDeleteLockHeaders
+      headersMapper: Mappers.ConfigurationClientDeleteLockHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -550,7 +618,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.GeneratedClientGetRevisionsHeaders
+      headersMapper: Mappers.ConfigurationClientGetRevisionsHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -576,7 +644,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GeneratedClientCheckRevisionsHeaders
+      headersMapper: Mappers.ConfigurationClientCheckRevisionsHeaders
     },
     default: {}
   },
@@ -597,13 +665,12 @@ const getKeysNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult,
-      headersMapper: Mappers.GeneratedClientGetKeysNextHeaders
+      headersMapper: Mappers.ConfigurationClientGetKeysNextHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.accept,
@@ -618,19 +685,12 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.GeneratedClientGetKeyValuesNextHeaders
+      headersMapper: Mappers.ConfigurationClientGetKeyValuesNextHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.key,
-    Parameters.label,
-    Parameters.select
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
@@ -645,18 +705,12 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LabelListResult,
-      headersMapper: Mappers.GeneratedClientGetLabelsNextHeaders
+      headersMapper: Mappers.ConfigurationClientGetLabelsNextHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.select1
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
@@ -671,19 +725,12 @@ const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.GeneratedClientGetRevisionsNextHeaders
+      headersMapper: Mappers.ConfigurationClientGetRevisionsNextHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.key,
-    Parameters.label,
-    Parameters.select
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,

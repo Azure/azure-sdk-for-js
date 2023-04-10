@@ -81,58 +81,32 @@ export interface Label {
   readonly name?: string;
 }
 
-/** Defines headers for GeneratedClient_getKeys operation. */
-export interface GeneratedClientGetKeysHeaders {
+/** Defines headers for ConfigurationClient_getKeys operation. */
+export interface ConfigurationClientGetKeysHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_checkKeys operation. */
-export interface GeneratedClientCheckKeysHeaders {
+/** Defines headers for ConfigurationClient_checkKeys operation. */
+export interface ConfigurationClientCheckKeysHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getKeyValues operation. */
-export interface GeneratedClientGetKeyValuesHeaders {
+/** Defines headers for ConfigurationClient_getKeyValues operation. */
+export interface ConfigurationClientGetKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_checkKeyValues operation. */
-export interface GeneratedClientCheckKeyValuesHeaders {
+/** Defines headers for ConfigurationClient_checkKeyValues operation. */
+export interface ConfigurationClientCheckKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getKeyValue operation. */
-export interface GeneratedClientGetKeyValueHeaders {
-  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
-  syncToken?: string;
-  /** An identifier representing the returned state of the resource. */
-  eTag?: string;
-  /** A UTC datetime that specifies the last time the resource was modified. */
-  lastModified?: string;
-}
-
-/** Defines headers for GeneratedClient_putKeyValue operation. */
-export interface GeneratedClientPutKeyValueHeaders {
-  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
-  syncToken?: string;
-  /** An identifier representing the returned state of the resource. */
-  eTag?: string;
-}
-
-/** Defines headers for GeneratedClient_deleteKeyValue operation. */
-export interface GeneratedClientDeleteKeyValueHeaders {
-  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
-  syncToken?: string;
-  /** An identifier representing the returned state of the resource. */
-  eTag?: string;
-}
-
-/** Defines headers for GeneratedClient_checkKeyValue operation. */
-export interface GeneratedClientCheckKeyValueHeaders {
+/** Defines headers for ConfigurationClient_getKeyValue operation. */
+export interface ConfigurationClientGetKeyValueHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
   /** An identifier representing the returned state of the resource. */
@@ -141,66 +115,92 @@ export interface GeneratedClientCheckKeyValueHeaders {
   lastModified?: string;
 }
 
-/** Defines headers for GeneratedClient_getLabels operation. */
-export interface GeneratedClientGetLabelsHeaders {
-  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
-  syncToken?: string;
-}
-
-/** Defines headers for GeneratedClient_checkLabels operation. */
-export interface GeneratedClientCheckLabelsHeaders {
-  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
-  syncToken?: string;
-}
-
-/** Defines headers for GeneratedClient_putLock operation. */
-export interface GeneratedClientPutLockHeaders {
+/** Defines headers for ConfigurationClient_putKeyValue operation. */
+export interface ConfigurationClientPutKeyValueHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
   /** An identifier representing the returned state of the resource. */
   eTag?: string;
 }
 
-/** Defines headers for GeneratedClient_deleteLock operation. */
-export interface GeneratedClientDeleteLockHeaders {
+/** Defines headers for ConfigurationClient_deleteKeyValue operation. */
+export interface ConfigurationClientDeleteKeyValueHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
   /** An identifier representing the returned state of the resource. */
   eTag?: string;
 }
 
-/** Defines headers for GeneratedClient_getRevisions operation. */
-export interface GeneratedClientGetRevisionsHeaders {
+/** Defines headers for ConfigurationClient_checkKeyValue operation. */
+export interface ConfigurationClientCheckKeyValueHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+  /** A UTC datetime that specifies the last time the resource was modified. */
+  lastModified?: string;
+}
+
+/** Defines headers for ConfigurationClient_getLabels operation. */
+export interface ConfigurationClientGetLabelsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_checkRevisions operation. */
-export interface GeneratedClientCheckRevisionsHeaders {
+/** Defines headers for ConfigurationClient_checkLabels operation. */
+export interface ConfigurationClientCheckLabelsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getKeysNext operation. */
-export interface GeneratedClientGetKeysNextHeaders {
+/** Defines headers for ConfigurationClient_putLock operation. */
+export interface ConfigurationClientPutLockHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+}
+
+/** Defines headers for ConfigurationClient_deleteLock operation. */
+export interface ConfigurationClientDeleteLockHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+}
+
+/** Defines headers for ConfigurationClient_getRevisions operation. */
+export interface ConfigurationClientGetRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getKeyValuesNext operation. */
-export interface GeneratedClientGetKeyValuesNextHeaders {
+/** Defines headers for ConfigurationClient_checkRevisions operation. */
+export interface ConfigurationClientCheckRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getLabelsNext operation. */
-export interface GeneratedClientGetLabelsNextHeaders {
+/** Defines headers for ConfigurationClient_getKeysNext operation. */
+export interface ConfigurationClientGetKeysNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
 
-/** Defines headers for GeneratedClient_getRevisionsNext operation. */
-export interface GeneratedClientGetRevisionsNextHeaders {
+/** Defines headers for ConfigurationClient_getKeyValuesNext operation. */
+export interface ConfigurationClientGetKeyValuesNextHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+}
+
+/** Defines headers for ConfigurationClient_getLabelsNext operation. */
+export interface ConfigurationClientGetLabelsNextHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+}
+
+/** Defines headers for ConfigurationClient_getRevisionsNext operation. */
+export interface ConfigurationClientGetRevisionsNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
@@ -227,7 +227,7 @@ export interface GetKeysOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the getKeys operation. */
-export type GetKeysResponse = GeneratedClientGetKeysHeaders & KeyListResult;
+export type GetKeysResponse = ConfigurationClientGetKeysHeaders & KeyListResult;
 
 /** Optional parameters. */
 export interface CheckKeysOptionalParams extends coreClient.OperationOptions {
@@ -240,7 +240,7 @@ export interface CheckKeysOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the checkKeys operation. */
-export type CheckKeysResponse = GeneratedClientCheckKeysHeaders;
+export type CheckKeysResponse = ConfigurationClientCheckKeysHeaders;
 
 /** Optional parameters. */
 export interface GetKeyValuesOptionalParams
@@ -258,7 +258,7 @@ export interface GetKeyValuesOptionalParams
 }
 
 /** Contains response data for the getKeyValues operation. */
-export type GetKeyValuesResponse = GeneratedClientGetKeyValuesHeaders &
+export type GetKeyValuesResponse = ConfigurationClientGetKeyValuesHeaders &
   KeyValueListResult;
 
 /** Optional parameters. */
@@ -277,7 +277,7 @@ export interface CheckKeyValuesOptionalParams
 }
 
 /** Contains response data for the checkKeyValues operation. */
-export type CheckKeyValuesResponse = GeneratedClientCheckKeyValuesHeaders;
+export type CheckKeyValuesResponse = ConfigurationClientCheckKeyValuesHeaders;
 
 /** Optional parameters. */
 export interface GetKeyValueOptionalParams extends coreClient.OperationOptions {
@@ -294,7 +294,7 @@ export interface GetKeyValueOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the getKeyValue operation. */
-export type GetKeyValueResponse = GeneratedClientGetKeyValueHeaders &
+export type GetKeyValueResponse = ConfigurationClientGetKeyValueHeaders &
   ConfigurationSetting;
 
 /** Optional parameters. */
@@ -310,7 +310,7 @@ export interface PutKeyValueOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the putKeyValue operation. */
-export type PutKeyValueResponse = GeneratedClientPutKeyValueHeaders &
+export type PutKeyValueResponse = ConfigurationClientPutKeyValueHeaders &
   ConfigurationSetting;
 
 /** Optional parameters. */
@@ -323,7 +323,7 @@ export interface DeleteKeyValueOptionalParams
 }
 
 /** Contains response data for the deleteKeyValue operation. */
-export type DeleteKeyValueResponse = GeneratedClientDeleteKeyValueHeaders &
+export type DeleteKeyValueResponse = ConfigurationClientDeleteKeyValueHeaders &
   ConfigurationSetting;
 
 /** Optional parameters. */
@@ -342,7 +342,7 @@ export interface CheckKeyValueOptionalParams
 }
 
 /** Contains response data for the checkKeyValue operation. */
-export type CheckKeyValueResponse = GeneratedClientCheckKeyValueHeaders;
+export type CheckKeyValueResponse = ConfigurationClientCheckKeyValueHeaders;
 
 /** Optional parameters. */
 export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
@@ -357,7 +357,7 @@ export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the getLabels operation. */
-export type GetLabelsResponse = GeneratedClientGetLabelsHeaders &
+export type GetLabelsResponse = ConfigurationClientGetLabelsHeaders &
   LabelListResult;
 
 /** Optional parameters. */
@@ -373,7 +373,7 @@ export interface CheckLabelsOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the checkLabels operation. */
-export type CheckLabelsResponse = GeneratedClientCheckLabelsHeaders;
+export type CheckLabelsResponse = ConfigurationClientCheckLabelsHeaders;
 
 /** Optional parameters. */
 export interface PutLockOptionalParams extends coreClient.OperationOptions {
@@ -386,7 +386,7 @@ export interface PutLockOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the putLock operation. */
-export type PutLockResponse = GeneratedClientPutLockHeaders &
+export type PutLockResponse = ConfigurationClientPutLockHeaders &
   ConfigurationSetting;
 
 /** Optional parameters. */
@@ -400,7 +400,7 @@ export interface DeleteLockOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the deleteLock operation. */
-export type DeleteLockResponse = GeneratedClientDeleteLockHeaders &
+export type DeleteLockResponse = ConfigurationClientDeleteLockHeaders &
   ConfigurationSetting;
 
 /** Optional parameters. */
@@ -419,7 +419,7 @@ export interface GetRevisionsOptionalParams
 }
 
 /** Contains response data for the getRevisions operation. */
-export type GetRevisionsResponse = GeneratedClientGetRevisionsHeaders &
+export type GetRevisionsResponse = ConfigurationClientGetRevisionsHeaders &
   KeyValueListResult;
 
 /** Optional parameters. */
@@ -438,79 +438,53 @@ export interface CheckRevisionsOptionalParams
 }
 
 /** Contains response data for the checkRevisions operation. */
-export type CheckRevisionsResponse = GeneratedClientCheckRevisionsHeaders;
+export type CheckRevisionsResponse = ConfigurationClientCheckRevisionsHeaders;
 
 /** Optional parameters. */
 export interface GetKeysNextOptionalParams extends coreClient.OperationOptions {
-  /** A filter for the name of the returned keys. */
-  name?: string;
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
 }
 
 /** Contains response data for the getKeysNext operation. */
-export type GetKeysNextResponse = GeneratedClientGetKeysNextHeaders &
+export type GetKeysNextResponse = ConfigurationClientGetKeysNextHeaders &
   KeyListResult;
 
 /** Optional parameters. */
 export interface GetKeyValuesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
-  key?: string;
-  /** A filter used to match labels */
-  label?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
 }
 
 /** Contains response data for the getKeyValuesNext operation. */
-export type GetKeyValuesNextResponse = GeneratedClientGetKeyValuesNextHeaders &
+export type GetKeyValuesNextResponse = ConfigurationClientGetKeyValuesNextHeaders &
   KeyValueListResult;
 
 /** Optional parameters. */
 export interface GetLabelsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** A filter for the name of the returned labels. */
-  name?: string;
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
 }
 
 /** Contains response data for the getLabelsNext operation. */
-export type GetLabelsNextResponse = GeneratedClientGetLabelsNextHeaders &
+export type GetLabelsNextResponse = ConfigurationClientGetLabelsNextHeaders &
   LabelListResult;
 
 /** Optional parameters. */
 export interface GetRevisionsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
-  key?: string;
-  /** A filter used to match labels */
-  label?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
 }
 
 /** Contains response data for the getRevisionsNext operation. */
-export type GetRevisionsNextResponse = GeneratedClientGetRevisionsNextHeaders &
+export type GetRevisionsNextResponse = ConfigurationClientGetRevisionsNextHeaders &
   KeyValueListResult;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
+export interface ConfigurationClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;

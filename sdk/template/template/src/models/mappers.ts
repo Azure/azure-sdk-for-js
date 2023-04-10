@@ -219,10 +219,10 @@ export const Label: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetKeysHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientGetKeysHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetKeysHeaders",
+    className: "ConfigurationClientGetKeysHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -234,10 +234,10 @@ export const GeneratedClientGetKeysHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientCheckKeysHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientCheckKeysHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientCheckKeysHeaders",
+    className: "ConfigurationClientCheckKeysHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -249,10 +249,10 @@ export const GeneratedClientCheckKeysHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetKeyValuesHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientGetKeyValuesHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetKeyValuesHeaders",
+    className: "ConfigurationClientGetKeyValuesHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -264,10 +264,10 @@ export const GeneratedClientGetKeyValuesHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientCheckKeyValuesHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientCheckKeyValuesHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientCheckKeyValuesHeaders",
+    className: "ConfigurationClientCheckKeyValuesHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -279,79 +279,10 @@ export const GeneratedClientCheckKeyValuesHeaders: coreClient.CompositeMapper = 
   }
 };
 
-export const GeneratedClientGetKeyValueHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientGetKeyValueHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetKeyValueHeaders",
-    modelProperties: {
-      syncToken: {
-        serializedName: "sync-token",
-        type: {
-          name: "String"
-        }
-      },
-      eTag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      lastModified: {
-        serializedName: "last-modified",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeneratedClientPutKeyValueHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeneratedClientPutKeyValueHeaders",
-    modelProperties: {
-      syncToken: {
-        serializedName: "sync-token",
-        type: {
-          name: "String"
-        }
-      },
-      eTag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeneratedClientDeleteKeyValueHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeneratedClientDeleteKeyValueHeaders",
-    modelProperties: {
-      syncToken: {
-        serializedName: "sync-token",
-        type: {
-          name: "String"
-        }
-      },
-      eTag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeneratedClientCheckKeyValueHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeneratedClientCheckKeyValueHeaders",
+    className: "ConfigurationClientGetKeyValueHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -375,40 +306,10 @@ export const GeneratedClientCheckKeyValueHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetLabelsHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientPutKeyValueHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetLabelsHeaders",
-    modelProperties: {
-      syncToken: {
-        serializedName: "sync-token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeneratedClientCheckLabelsHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeneratedClientCheckLabelsHeaders",
-    modelProperties: {
-      syncToken: {
-        serializedName: "sync-token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const GeneratedClientPutLockHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeneratedClientPutLockHeaders",
+    className: "ConfigurationClientPutKeyValueHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -426,10 +327,10 @@ export const GeneratedClientPutLockHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientDeleteLockHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientDeleteKeyValueHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientDeleteLockHeaders",
+    className: "ConfigurationClientDeleteKeyValueHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -447,10 +348,37 @@ export const GeneratedClientDeleteLockHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetRevisionsHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientCheckKeyValueHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetRevisionsHeaders",
+    className: "ConfigurationClientCheckKeyValueHeaders",
+    modelProperties: {
+      syncToken: {
+        serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationClientGetLabelsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationClientGetLabelsHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -462,10 +390,10 @@ export const GeneratedClientGetRevisionsHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientCheckRevisionsHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientCheckLabelsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientCheckRevisionsHeaders",
+    className: "ConfigurationClientCheckLabelsHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -477,10 +405,52 @@ export const GeneratedClientCheckRevisionsHeaders: coreClient.CompositeMapper = 
   }
 };
 
-export const GeneratedClientGetKeysNextHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientPutLockHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetKeysNextHeaders",
+    className: "ConfigurationClientPutLockHeaders",
+    modelProperties: {
+      syncToken: {
+        serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationClientDeleteLockHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationClientDeleteLockHeaders",
+    modelProperties: {
+      syncToken: {
+        serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationClientGetRevisionsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationClientGetRevisionsHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -492,10 +462,10 @@ export const GeneratedClientGetKeysNextHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetKeyValuesNextHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientCheckRevisionsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetKeyValuesNextHeaders",
+    className: "ConfigurationClientCheckRevisionsHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -507,10 +477,10 @@ export const GeneratedClientGetKeyValuesNextHeaders: coreClient.CompositeMapper 
   }
 };
 
-export const GeneratedClientGetLabelsNextHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientGetKeysNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetLabelsNextHeaders",
+    className: "ConfigurationClientGetKeysNextHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
@@ -522,10 +492,40 @@ export const GeneratedClientGetLabelsNextHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedClientGetRevisionsNextHeaders: coreClient.CompositeMapper = {
+export const ConfigurationClientGetKeyValuesNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientGetRevisionsNextHeaders",
+    className: "ConfigurationClientGetKeyValuesNextHeaders",
+    modelProperties: {
+      syncToken: {
+        serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationClientGetLabelsNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationClientGetLabelsNextHeaders",
+    modelProperties: {
+      syncToken: {
+        serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationClientGetRevisionsNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationClientGetRevisionsNextHeaders",
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",

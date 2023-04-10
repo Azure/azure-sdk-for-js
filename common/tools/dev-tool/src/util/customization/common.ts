@@ -1,4 +1,9 @@
-import { ClassDeclaration, FunctionDeclaration, InterfaceDeclaration, TypeAliasDeclaration } from "ts-morph";
+import {
+  ClassDeclaration,
+  FunctionDeclaration,
+  InterfaceDeclaration,
+  TypeAliasDeclaration,
+} from "ts-morph";
 
 export type Declaration =
   | FunctionDeclaration

@@ -7,19 +7,19 @@
 ```yaml
 v3: true
 package-name: "@azure/template"
-title: GeneratedClient
+title: ConfigurationClient
 description: Example Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./sources/generated
 input-file: ./appconfiguration.json
 add-credentials: false
 package-version: 1.0.11-beta.1
 disable-async-iterators: true
 hide-clients: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-rc.10"
 ```
 
 ### Rename KeyValue to ConfigurationSetting

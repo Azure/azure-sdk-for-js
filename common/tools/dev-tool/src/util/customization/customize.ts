@@ -7,7 +7,6 @@ import {
   InterfaceDeclaration,
   TypeAliasDeclaration,
   SourceFile,
-
 } from "ts-morph";
 import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
@@ -25,7 +24,10 @@ export async function customize(originalDir: string, customDir: string, outDir: 
 
   const projectInfo = await resolveProject(process.cwd());
 
-  outputProject = new Project({tsConfigFilePath:  path.join(projectInfo.path, "tsconfig.json"), libFolderPath: path.join(projectInfo.path, "node_modules", "typescript", "lib")});
+  outputProject = new Project({
+    tsConfigFilePath: path.join(projectInfo.path, "tsconfig.json"),
+    libFolderPath: path.join(projectInfo.path, "node_modules", "typescript", "lib"),
+  });
   // Merge the module declarations for all files in the custom directory and its subdirectories
   await processDirectory(customDir, outDir);
 }
@@ -34,7 +36,10 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   const filesInCustom = await getFiles(customDir);
   const filesInOriginal = await getFiles(originalDir);
 
-  const filesToCopy = filesInCustom.filter(file => !filesInOriginal.some(f => f.replace(originalDir, "").includes(file.replace(customDir, ""))));
+  const filesToCopy = filesInCustom.filter(
+    (file) =>
+      !filesInOriginal.some((f) => f.replace(originalDir, "").includes(file.replace(customDir, "")))
+  );
 
   console.log(filesToCopy);
 
@@ -56,7 +61,6 @@ async function getFiles(dir: string): Promise<string[]> {
   return files.flat() as string[];
 }
 
-
 type CustomDeclarationsMap = {
   functions: Map<string, FunctionDeclaration>;
   classes: Map<string, ClassDeclaration>;
@@ -68,16 +72,11 @@ export async function readFileContent(filepath: string): Promise<string> {
   return fs.readFile(filepath, "utf8");
 }
 
-export async function writeFileContent(
-  filepath: string,
-  content: string
-): Promise<void> {
+export async function writeFileContent(filepath: string, content: string): Promise<void> {
   return fs.writeFile(filepath, content);
 }
 
-export function getOriginalDeclarationsMap(
-  sourceFile: SourceFile
-): CustomDeclarationsMap {
+export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclarationsMap {
   const originalDeclarationsMap: CustomDeclarationsMap = {
     functions: new Map<string, FunctionDeclaration>(),
     classes: new Map<string, ClassDeclaration>(),
@@ -103,16 +102,10 @@ export function getOriginalDeclarationsMap(
     originalDeclarationsMap.classes.set(className, originalClass);
   }
   for (const originalInterface of sourceFile.getInterfaces()) {
-    originalDeclarationsMap.interfaces.set(
-      originalInterface.getName(),
-      originalInterface
-    );
+    originalDeclarationsMap.interfaces.set(originalInterface.getName(), originalInterface);
   }
   for (const originalTypeAlias of sourceFile.getTypeAliases()) {
-    originalDeclarationsMap.typeAliases.set(
-      originalTypeAlias.getName(),
-      originalTypeAlias
-    );
+    originalDeclarationsMap.typeAliases.set(originalTypeAlias.getName(), originalTypeAlias);
   }
 
   return originalDeclarationsMap;
@@ -123,27 +116,19 @@ function removeTsIgnore(content: string): string {
   return content.replace(tsIgnorePattern, "");
 }
 
-
-
-export async function processFile(
-  customFilePath: string,
-  originalFilePath: string
-): Promise<void> {
+export async function processFile(customFilePath: string, originalFilePath: string): Promise<void> {
   const customContent = await readFileContent(customFilePath);
   const originalContent = await readFileContent(originalFilePath);
 
-  const customFile = {path: customFilePath, content: customContent};
-  const originalFile = {path: originalFilePath, content: originalContent};
+  const customFile = { path: customFilePath, content: customContent };
+  const originalFile = { path: originalFilePath, content: originalContent };
   const mergedContent = mergeModuleDeclarations(customFile, originalFile);
   const cleanedContent = removeTsIgnore(mergedContent);
 
   await writeFileContent(originalFilePath, cleanedContent);
 }
 
-export async function processDirectory(
-  customDir: string,
-  originalDir: string
-): Promise<void> {
+export async function processDirectory(customDir: string, originalDir: string): Promise<void> {
   // Note: the originalDir is in reality the output directory but for readability we call it originalDir
   // since we copied over eveything from the original directory to the output directory avoid
   // overwriting the original files.
@@ -165,14 +150,18 @@ export async function processDirectory(
 }
 
 export function mergeModuleDeclarations(
-  customContent: {path: string, content: string},
-  originalContent: {path: string, content: string}
+  customContent: { path: string; content: string },
+  originalContent: { path: string; content: string }
 ): string {
   const project = new Project();
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile("custom.ts", customContent.content);
-  const originalVirtualSourceFile = outputProject.createSourceFile(originalContent.path, originalContent.content, {overwrite: true});
+  const originalVirtualSourceFile = outputProject.createSourceFile(
+    originalContent.path,
+    originalContent.content,
+    { overwrite: true }
+  );
 
   // Create a map of of all the available customizations in the current file.
   const originalDeclarationsMap = getOriginalDeclarationsMap(originalVirtualSourceFile);
@@ -181,10 +170,14 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile,
+    originalVirtualSourceFile
   );
 
-  augmentClasses(originalDeclarationsMap.classes, customVirtualSourceFile.getClasses(), originalVirtualSourceFile);
+  augmentClasses(
+    originalDeclarationsMap.classes,
+    customVirtualSourceFile.getClasses(),
+    originalVirtualSourceFile
+  );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
@@ -193,29 +186,30 @@ export function mergeModuleDeclarations(
   );
 
   originalVirtualSourceFile.fixMissingImports();
-  sortSourceFileContents(originalVirtualSourceFile)
+  sortSourceFileContents(originalVirtualSourceFile);
   copyCustomImports(customVirtualSourceFile, originalVirtualSourceFile);
   return originalVirtualSourceFile.getFullText();
 }
 
 function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
   for (const customImport of customFile.getImportDeclarations()) {
-    if(customImport.isModuleSpecifierRelative()) {
+    if (customImport.isModuleSpecifierRelative()) {
       continue;
     }
 
-    const originalImport = originalFile.getImportDeclaration(customImport.getModuleSpecifierValue());
-    
-    
-    if(!originalImport) {
+    const originalImport = originalFile.getImportDeclaration(
+      customImport.getModuleSpecifierValue()
+    );
+
+    if (!originalImport) {
       originalFile.addImportDeclaration(customImport.getStructure());
     }
 
-    if(originalImport?.getNamespaceImport()) {
+    if (originalImport?.getNamespaceImport()) {
       continue;
     }
 
-    const originalNamedImports = originalImport?.getNamedImports().map(i => i.getName()) || [];
+    const originalNamedImports = originalImport?.getNamedImports().map((i) => i.getName()) || [];
 
     const allImports = new Set<string>(originalNamedImports);
     for (const customNamedImport of customImport.getNamedImports()) {
