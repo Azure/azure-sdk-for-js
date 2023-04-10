@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3998,7 +3999,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230405
+      typescript: 5.1.0-dev.20230409
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8855,14 +8856,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230405:
-    resolution: {integrity: sha512-4unWRVmR6URHndao/lK2XCSabqveeczgOSGNNQbfZW7Hu4b+YND5DlpVQOL/Yaz9olB1FgeZidZwYnTQbOXc6w==}
+  /typescript/5.1.0-dev.20230409:
+    resolution: {integrity: sha512-97xdCsU+nUtaHW7mFi7x6KfRz4ragV0WGI/Z5uoW0pelxP1l6NYM/0VJ3Gs2X8fer09TDflGF/oL8k4YR9eroQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9220,6 +9221,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -11015,7 +11024,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-RCYYrcf/AW0dqr+2QvY2EU+4rniSy5+K9uTGVuKvXixjIqYhcwUo580X77OQnjtpZPEByA6n/0t+ESkfik4FUw==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11029,8 +11038,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15680,7 +15689,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-BCxCcEVIqXSsumZ5b/0E4S4wAsI6WI7EsbY8tNQX/yEMYeMOKchffplek8nBnjjMXJh93itkE3Im9HTTAd4HBQ==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-5/l5GYmYlgc007crbcLNODtwZn7Ge10AZ7fONGz/FWCszObt2YQn/6xXttfS8zKo6XNmUFqlUd6qGhJnyv0FjA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -15722,7 +15731,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16518,7 +16526,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-qvA+e0Az/3IZA8icAk4/zaH3Kc9DdWlcFq9vglmarO7ZuuJ2zXFTw7+evnUrZHk/lzDGeBljxUGR4N81wW1sgw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-kK5ldNyRVlwXgfZCIHPQpntjtH05dXyzyaO/QUWUL89eeskBdaMB695pE9rVxbfPeifPRA/X4Sv0t9mCd5y/6Q==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16570,7 +16578,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16923,7 +16931,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -17171,7 +17179,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18744,7 +18752,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:

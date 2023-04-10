@@ -3,10 +3,10 @@
 
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { assert } from "chai";
-import { CallRecordingImpl } from "../../src/generated/src/operations";
-import { CallRecording, StartRecordingOptions } from "../../src";
-import { ContentDownloaderImpl } from "../../src/contentDownloader";
-import { RecordingStateResponse } from "../../src/generated/src";
+import { CallRecordingImpl } from "../src/generated/src/operations";
+import { CallRecording, StartRecordingOptions } from "../src";
+import { ContentDownloaderImpl } from "../src/contentDownloader";
+import { RecordingStateResponse } from "../src/generated/src";
 
 describe("CallRecording Unit Tests", () => {
   let callRecordingImpl: SinonStubbedInstance<CallRecordingImpl>;

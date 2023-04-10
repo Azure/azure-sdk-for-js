@@ -46,8 +46,6 @@ export class CallRecording {
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpoint;
-    startCallRecordingRequest.recordingStorageType = options.recordingStorageType;
-    startCallRecordingRequest.externalStorageLocation = options.externalStorageLocation;
 
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
