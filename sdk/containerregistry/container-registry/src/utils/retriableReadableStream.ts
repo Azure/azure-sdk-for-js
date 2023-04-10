@@ -52,10 +52,7 @@ export interface RetriableReadableStreamOptions {
  */
 export class RetriableReadableStream extends Readable {
   private start: number;
-  private offset: number;
   private end: number;
-  private getter: ReadableStreamGetter;
-  private source: NodeJS.ReadableStream;
   private retries: number = 0;
   private maxRetryRequests: number;
   private onData?: (data: Buffer) => void;
@@ -74,17 +71,15 @@ export class RetriableReadableStream extends Readable {
    * @param options -
    */
   public constructor(
-    source: NodeJS.ReadableStream,
-    getter: ReadableStreamGetter,
-    offset: number,
+    private source: NodeJS.ReadableStream,
+    private getter: ReadableStreamGetter,
+    private offset: number,
     count: number,
     options: RetriableReadableStreamOptions = {}
   ) {
     super({ highWaterMark: options.highWaterMark });
     this.getter = getter;
-    this.source = source;
     this.start = offset;
-    this.offset = offset;
     this.end = offset + count - 1;
     this.maxRetryRequests =
       options.maxRetryRequests && options.maxRetryRequests >= 0 ? options.maxRetryRequests : 0;
@@ -124,9 +119,6 @@ export class RetriableReadableStream extends Readable {
       return;
     }
 
-    // console.log(
-    //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
-    // );
     this.offset += data.length;
 
     this.onData?.(data);
@@ -148,19 +140,11 @@ export class RetriableReadableStream extends Readable {
       return;
     }
 
-    // console.log(
-    //   `Source stream emits end or error, offset: ${
-    //     this.offset
-    //   }, dest end : ${this.end}`
-    // );
     this.removeSourceEventHandlers();
     if (this.offset - 1 === this.end) {
       this.onEnd?.();
       this.push(null);
     } else if (this.offset <= this.end) {
-      // console.log(
-      //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
-      // );
       if (this.retries < this.maxRetryRequests) {
         this.retries += 1;
         this.getter(this.offset)
