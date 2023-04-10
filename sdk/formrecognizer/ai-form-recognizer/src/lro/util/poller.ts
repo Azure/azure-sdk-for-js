@@ -3,7 +3,7 @@
 
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { delayMs } from "./delayMs";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 const DEFAULT_POLLING_INTERVAL = 5000;
 
@@ -60,6 +60,10 @@ export async function lro<TResult, TState extends PollOperationState<TResult>>(
       serverDrivenDelay = interval;
     },
   };
+
+  if (initAbortSignal?.aborted) {
+    throw new AbortError("The operation was aborted.");
+  }
 
   let state = await spec.init(initContext);
 

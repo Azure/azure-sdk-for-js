@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { maybemap } from "../../util";
 
 type CancellationToken = Parameters<typeof clearTimeout>[0];
-
-const INTERRUPTED = "The local operation (timer) was interrupted or cancelled.";
 
 /**
  * A PromiseLike object that supports cancellation.
@@ -47,21 +45,21 @@ export function delayMs(
 
   abortSignal?.addEventListener("abort", () => {
     aborted = true;
-    toReject?.(new Error("The operation was aborted."));
+    toReject?.(new AbortError("The operation was aborted."));
   });
 
   return Object.assign(
     new Promise<void>((resolve, reject) => {
       let token: CancellationToken | undefined;
-      toReject = () => {
+      toReject = (e) => {
         maybemap(token, clearTimeout);
-        reject(new Error(INTERRUPTED));
+        reject(e);
       };
 
       // In the rare case that the operation is _already_ aborted, we will reject instantly. This could happen, for
       // example, if the user calls the cancellation function immediately without yielding execution.
       if (aborted) {
-        toReject(new Error("The operation was canceled prematurely."));
+        toReject(new Error("The operation was cancelled prematurely."));
       } else {
         token = setTimeout(resolve, ms);
       }
@@ -69,7 +67,7 @@ export function delayMs(
     {
       cancel: () => {
         aborted = true;
-        toReject?.(new Error("The operation was canceled."));
+        toReject?.(new Error("The operation was cancelled."));
       },
     }
   );
