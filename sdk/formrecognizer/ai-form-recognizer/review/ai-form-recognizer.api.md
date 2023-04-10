@@ -678,6 +678,129 @@ export interface InnerError {
 }
 
 // @public
+export enum KnownDocumentAnnotationKind {
+    Check = "check",
+    Cross = "cross"
+}
+
+// @public
+export enum KnownDocumentBarcodeKind {
+    Aztec = "Aztec",
+    Codabar = "Codabar",
+    Code128 = "Code128",
+    Code39 = "Code39",
+    Code93 = "Code93",
+    DataBar = "DataBar",
+    DataBarExpanded = "DataBarExpanded",
+    DataMatrix = "DataMatrix",
+    EAN13 = "EAN13",
+    EAN8 = "EAN8",
+    ITF = "ITF",
+    MaxiCode = "MaxiCode",
+    MicroQRCode = "MicroQRCode",
+    PDF417 = "PDF417",
+    QRCode = "QRCode",
+    Upca = "UPCA",
+    Upce = "UPCE"
+}
+
+// @public
+export enum KnownDocumentBuildMode {
+    Neural = "neural",
+    Template = "template"
+}
+
+// @public
+export enum KnownDocumentFieldType {
+    Address = "address",
+    Array = "array",
+    Boolean = "boolean",
+    CountryRegion = "countryRegion",
+    Currency = "currency",
+    Date = "date",
+    Integer = "integer",
+    Number = "number",
+    Object = "object",
+    PhoneNumber = "phoneNumber",
+    SelectionMark = "selectionMark",
+    Signature = "signature",
+    String = "string",
+    Time = "time"
+}
+
+// @public
+export enum KnownDocumentFormulaKind {
+    Display = "display",
+    Inline = "inline"
+}
+
+// @public
+export enum KnownDocumentPageKind {
+    Document = "document",
+    Image = "image",
+    Sheet = "sheet",
+    Slide = "slide"
+}
+
+// @public
+export enum KnownDocumentSignatureType {
+    Signed = "signed",
+    Unsigned = "unsigned"
+}
+
+// @public
+export enum KnownDocumentTableCellKind {
+    ColumnHeader = "columnHeader",
+    Content = "content",
+    Description = "description",
+    RowHeader = "rowHeader",
+    StubHead = "stubHead"
+}
+
+// @public
+export enum KnownFontStyle {
+    Italic = "italic",
+    Normal = "normal"
+}
+
+// @public
+export enum KnownFontWeight {
+    Bold = "bold",
+    Normal = "normal"
+}
+
+// @public
+export enum KnownLengthUnit {
+    Inch = "inch",
+    Pixel = "pixel"
+}
+
+// @public
+export enum KnownOperationKind {
+    DocumentClassifierBuild = "documentClassifierBuild",
+    DocumentModelBuild = "documentModelBuild",
+    DocumentModelCompose = "documentModelCompose",
+    DocumentModelCopyTo = "documentModelCopyTo"
+}
+
+// @public
+export enum KnownParagraphRole {
+    Footnote = "footnote",
+    FormulaBlock = "formulaBlock",
+    PageFooter = "pageFooter",
+    PageHeader = "pageHeader",
+    PageNumber = "pageNumber",
+    SectionHeading = "sectionHeading",
+    Title = "title"
+}
+
+// @public
+export enum KnownSelectionMarkState {
+    Selected = "selected",
+    Unselected = "unselected"
+}
+
+// @public
 export type LengthUnit = string;
 
 // @public

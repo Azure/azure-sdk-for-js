@@ -55,6 +55,22 @@ export {
   AzureBlobContentSource,
   QuotaDetails,
   DocumentPageKind,
+
+  // KnownXYZ enums
+  KnownDocumentBuildMode,
+  KnownDocumentFieldType,
+  KnownDocumentAnnotationKind,
+  KnownDocumentBarcodeKind,
+  KnownDocumentFormulaKind,
+  KnownDocumentPageKind,
+  KnownDocumentSignatureType,
+  KnownDocumentTableCellKind,
+  KnownFontStyle,
+  KnownFontWeight,
+  KnownLengthUnit,
+  KnownOperationKind,
+  KnownParagraphRole,
+  KnownSelectionMarkState,
 } from "./generated";
 export {
   AnalysisPoller,
