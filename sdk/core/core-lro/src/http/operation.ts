@@ -10,7 +10,7 @@ import {
   ResponseBody,
 } from "./models";
 import {
-  ErrorModel,
+  LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
@@ -172,9 +172,9 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
   return undefined;
 }
 
-export function getErrorFromResponse<T>(response: LroResponse<T>): ErrorModel | undefined {
-  const error = (response.flatResponse as ResponseBody).error as Partial<ErrorModel>;
-  return error.code && error.message ? (error as ErrorModel) : undefined;
+export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
+  const error = (response.flatResponse as ResponseBody).error as Partial<LroError>;
+  return error.code && error.message ? (error as LroError) : undefined;
 }
 
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {

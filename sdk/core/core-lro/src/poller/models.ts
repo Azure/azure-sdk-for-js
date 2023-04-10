@@ -70,7 +70,7 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   withOperationLocation?: (operationLocation: string) => void;
 }
 
-export interface ErrorModel {
+export interface LroError {
   code: string;
   innererror?: InnerError;
   message: string;
@@ -130,7 +130,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
   /**
    * Extracts an error model from a response.
    */
-  getError?: (response: TResponse) => ErrorModel | undefined;
+  getError?: (response: TResponse) => LroError | undefined;
   /**
    * Control whether to throw an exception if the operation failed or was canceled.
    */

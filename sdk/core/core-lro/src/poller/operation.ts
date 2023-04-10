@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  ErrorModel,
+  LroError,
   InnerError,
   Operation,
   OperationStatus,
@@ -48,7 +48,7 @@ function appendReadableErrorMessage(currentMessage: string, innerMessage: string
   return message + " " + innerMessage;
 }
 
-function simplifyError(err: ErrorModel): {
+function simplifyError(err: LroError): {
   code: string;
   message: string;
 } {
@@ -72,7 +72,7 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
   processResult?: (result: TResponse, state: TState) => TResult;
-  getError?: (response: TResponse) => ErrorModel | undefined;
+  getError?: (response: TResponse) => LroError | undefined;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
 }): void {
@@ -243,7 +243,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   processResult?: (result: TResponse, state: TState) => TResult;
-  getError?: (response: TResponse) => ErrorModel | undefined;
+  getError?: (response: TResponse) => LroError | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;

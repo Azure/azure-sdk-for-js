@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ErrorModel } from "../poller/models";
+import { LroError } from "../poller/models";
 
 // TODO: rename to ResourceLocationConfig
 /**
@@ -22,7 +22,7 @@ export interface ResponseBody extends Record<string, unknown> {
   /** The properties of the provisioning process */
   properties?: { provisioningState?: unknown } & Record<string, unknown>;
   /** The error if the operation failed */
-  error?: ErrorModel;
+  error?: LroError;
 }
 
 /**
