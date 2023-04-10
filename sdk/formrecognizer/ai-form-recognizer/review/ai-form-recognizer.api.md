@@ -323,6 +323,13 @@ export interface DocumentFormula extends HasBoundingPolygon {
 export type DocumentFormulaKind = string;
 
 // @public
+export interface DocumentImage extends HasBoundingPolygon {
+    confidence: number;
+    pageNumber: number;
+    span: DocumentSpan;
+}
+
+// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -471,6 +478,7 @@ export interface DocumentPage {
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
+    images?: DocumentImage[];
     kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;

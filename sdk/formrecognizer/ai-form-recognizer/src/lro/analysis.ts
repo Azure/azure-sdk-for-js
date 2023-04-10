@@ -28,6 +28,7 @@ import {
   DocumentLine,
   DocumentParagraph,
   DocumentFormula,
+  DocumentImage,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -238,6 +239,12 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       (formula): DocumentFormula => ({
         ...formula,
         polygon: toBoundingPolygon(formula.polygon),
+      })
+    ),
+    images: generated.images?.map(
+      (image): DocumentImage => ({
+        ...image,
+        polygon: toBoundingPolygon(image.polygon),
       })
     ),
   };

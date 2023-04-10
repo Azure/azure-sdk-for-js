@@ -5,16 +5,29 @@
 ### Features Added
 
 - Added support for Form Recognizer API version `2023-02-28-preview`. This is the default API version for SDK version `4.1.0-beta.1`. For a detailed list of changes included in this API version, see the [Form Recognizer release notes](https://learn.microsoft.com/azure/applied-ai-services/form-recognizer/whats-new?view=form-recog-3.0.0&tabs=javascript#march-2023).
+- Added an `expiresOn` property to `DocumentModelSummary` and `DocumentModelDetails`. If this field is populated, it contains the date and time that the model will expire and will no longer be usable.
 - Added support for custom classification models. Classifiers combine layout and language features to accurately identify documents from among a set of document types.
   - Added `beginBuildDocumentClassifier` to `DocumentModelAdministrationClient` to build a custom classifier from training documents. See [the service documentation on custom classifiers](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel) for more information on creating a training data set and creating a classifier.
   - Added `getDocumentClassifier`, `listDocumentClassifiers`, and `deleteDocumentClassifiers` methods to `DocumentModelAdministrationClient` to manage custom classifiers.
   - Added `beginClassifyDocument` and `beginClassifyDocumentFromUrl` to `DocumentAnalysisClient` to classify documents using a custom classification model.
+  - The `getOperation` method can now return `DocumentClassifierBuildOperationDetails` for classifier build operations.
 - Added `features` to `AnalyzeDocumentOptions`. Features are add-on capabilities that must be explicitly activated in order to extract them. The use of features may incur additional costs, so please review the [service documentation of add-on capabilities](https://aka.ms/azsdk/formrecognizer/features) for more information. The Form Recognizer service has introduced four features in this API version:
   - `ocr.highResolution`: improves the quality of content extraction for A1/A2/A3 documents with small text.
   - `ocr.formula`: enables extraction of formulas, such as mathematical equations.
-  - `ocr.font`: extends the existting `styles` property to include more font properties such as `similarFontFamily` for the font face of the text, `fontStyle` for styles such as italics, `fontWeight` for boldness, `color`, and `backgroundColor`.
+  - `ocr.font`: extends the existing `styles` property to include more font properties such as `similarFontFamily` for the font face of the text, `fontStyle` for styles such as italics, `fontWeight` for boldness, `color`, and `backgroundColor`.
   - `queryFields.premium`: enables the use of `queryFields` (see below).
 - Added `queryFields` to `AnalyzeDocumentOptions`. The service now supports extracting additional query fields using Azure OpenAI capabilities. This feature may only be used if the `"queryFields.premium"` feature is enabled (see above). See [the service documentation on query fields](https://aka.ms/azsdk/formrecognizer/queryfields) for more information.
+- Updated the `AddressValue` type to include several new fields: `cityDistrict`, `house`, `level`, `stateDistrict`, `suburb`, and `unit`. Please see the documentation of these fields for more information.
+- Added a `currencyCode` field to `CurrencyValue`. This field contains the normalized ISO 4217 currency code for the currency value.
+- Added a `commonName` field to `DocumentKeyValuePair`. This field contains a normalized "common" name for the field if the service was able to extract one.
+- Added a new field `annotations` and corresponding type `DocumentAnnotation` to `DocumentPage`. This new page-level property contains information about extracted "annotations," which are visual marks like checkmarks or crosses.
+- Added a new field `barcodes` and corresponding type `DocumentBarcode` to `DocumentPage`. This new page-level property contains information about extracted barcodes, including the type of the barcode (`kind`) and the decoded data (`value`).
+- Added a new field `formulas` and corresponding type `DocumentFormula` to `DocumentPage`. This new page-level property contains information about extracted formulas, including the `kind` of formula ("display" or "inline") and an equivalent LaTeX expression (`value`). This field is only populated if the `"ocr.formula"` feature is enabled.
+- Added a new field `images` and corresponding type `DocumentImage` to `DocumentPage`. This page-level property contains information about images in the document. Images are represented by other pages, and the `DocumentImage` type contains the page number of the image's data (`pageNumber`, **note** that this is a 1-based index) and the bounding polygon of the image.
+- Added a new `kind` field to `DocumentPage`. This field indicates what kind of content the page represents. The possible kinds are "document", "sheet", "slide", and "image".
+- Added a new `DocumentBooleanField` type for extracted fields that contain boolean values. This type is used in the `fields` data of an `AnalyzedDocument`.
+- Added new fields `backgroundColor`, `color`, `fontStyle`, `fontWeight`, and `similarFontFamily` to `DocumentStyle`. These fields contain additional information about the font style of extracted text and will only be populated if the `"ocr.font"` feature is enabled.
+- Added a new field `customNeuralDocumentModelBuilds` to `ResourceDetails` that contains information about the neural model build quota. This field has the type `QuotaDetails` and contains information about how many custom neural models may be built (`quota`), how many have been built (`used`), and when the quota will be reset (`quotaResetOn`).
 
 ### Bugs Fixed
 

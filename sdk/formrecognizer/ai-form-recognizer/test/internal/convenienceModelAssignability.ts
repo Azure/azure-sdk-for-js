@@ -11,6 +11,10 @@ import {
   DocumentTable as GeneratedDocumentTable,
   DocumentTableCell as GeneratedDocumentTableCell,
   DocumentWord as GeneratedDocumentWord,
+  DocumentImage as GeneratedDocumentImage,
+  DocumentAnnotation as GeneratedDocumentAnnotation,
+  DocumentBarcode as GeneratedDocumentBarcode,
+  DocumentFormula as GeneratedDocumentFormula,
 } from "../../src/generated";
 import {
   Document,
@@ -22,6 +26,10 @@ import {
   DocumentTable,
   DocumentTableCell,
   DocumentWord,
+  DocumentImage,
+  DocumentAnnotation,
+  DocumentBarcode,
+  DocumentFormula,
 } from "../../src/models/documentElements";
 
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in this test file.
@@ -39,10 +47,18 @@ declare const documentTableCell: DocumentTableCell;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
+declare const documentImage: DocumentImage;
+declare const documentAnnotation: DocumentAnnotation;
+declare const documentBarcode: DocumentBarcode;
+declare const documentFormula: DocumentFormula;
 
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
+checkAssign<Omit<GeneratedDocumentImage, "polygon">>(documentImage);
+checkAssign<Omit<GeneratedDocumentAnnotation, "polygon">>(documentAnnotation);
+checkAssign<Omit<GeneratedDocumentBarcode, "polygon">>(documentBarcode);
+checkAssign<Omit<GeneratedDocumentFormula, "polygon">>(documentFormula);
 checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagraph);
 checkAssign<Omit<GeneratedDocumentTableCell, "boundingRegions">>(documentTableCell);
 checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
@@ -68,10 +84,18 @@ declare const generatedDocumentTableCell: GeneratedDocumentTableCell;
 declare const generatedDocumentKeyValueElement: GeneratedDocumentKeyValueElement;
 declare const generatedDocument: GeneratedDocument;
 declare const generatedDocumentPage: GeneratedDocumentPage;
+declare const generatedDocumentImage: GeneratedDocumentImage;
+declare const generatedDocumentAnnotation: GeneratedDocumentAnnotation;
+declare const generatedDocumentBarcode: GeneratedDocumentBarcode;
+declare const generatedDocumentFormula: GeneratedDocumentFormula;
 
 checkAssign<Omit<DocumentWord, "polygon">>(generatedWord);
 checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
+checkAssign<Omit<DocumentImage, "polygon">>(generatedDocumentImage);
+checkAssign<Omit<DocumentAnnotation, "polygon">>(generatedDocumentAnnotation);
+checkAssign<Omit<DocumentBarcode, "polygon">>(generatedDocumentBarcode);
+checkAssign<Omit<DocumentFormula, "polygon">>(generatedDocumentFormula);
 checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagraph);
 checkAssign<Omit<DocumentTableCell, "boundingRegions">>(generatedDocumentTableCell);
 checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
@@ -92,5 +116,3 @@ checkAssign<
     | "kind"
   >
 >(generatedDocumentPage);
-
-// TODO: add tests for new page elements
