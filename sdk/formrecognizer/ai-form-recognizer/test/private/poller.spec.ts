@@ -56,7 +56,7 @@ function createOperation(abortController?: AbortController) {
       },
       async poll(ctx, _state) {
         await new Promise((resolve, reject) => {
-          let cancel = setTimeout(resolve, 500);
+          const cancel = setTimeout(resolve, 500);
           ctx.abortSignal?.addEventListener("abort", () => {
             clearTimeout(cancel);
             reject(new AbortError("The operation was aborted (poll)."));
