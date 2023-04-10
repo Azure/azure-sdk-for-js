@@ -1018,6 +1018,7 @@ packages:
   /@azure/data-tables/12.1.2:
     resolution: {integrity: sha512-eGldbkw9UjzrAXzy28/raKauQEjspG1FAHxWI/kEInkFm9mvs5uR2KGEGlQNYfz6pzcCOrsxHlh+pmWKuIgPSQ==}
     engines: {node: '>=12.0.0'}
+    deprecated: Please upgrade to the latest package version to get important bug fixes
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-client': 1.6.1
@@ -1654,6 +1655,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -2116,6 +2118,7 @@ packages:
 
   /@sinonjs/commons/1.8.4:
     resolution: {integrity: sha512-RpmQdHVo8hCEHDVpO39zToS9jOhR6nw+/lQAzRNq9ErrGV9IeHM71XCn68svVl/euFeVW6BWX4p35gkhbOcSIQ==}
+    deprecated: Breaks compatibility with ES5, use v1.8.5
     dependencies:
       type-detect: 4.0.8
     dev: false
@@ -2858,7 +2861,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -2934,8 +2937,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.2:
-    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
+  /autorest/3.6.3:
+    resolution: {integrity: sha512-j/Axwk9bniifTNtBLYVxfQZGQIGPKljFaCQCBWOiybVar2j3tkHP1btiC4a/t9pAJXY6IaFgWctoPM3G/Puhyg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3816,7 +3819,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221103
+      typescript: 5.1.0-dev.20230417
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -7300,6 +7303,7 @@ packages:
   /puppeteer/14.4.1:
     resolution: {integrity: sha512-+H0Gm84aXUvSLdSiDROtLlOofftClgw2TdceMvvCU9UvMryappoeS3+eOLfKvoy4sm8B8MWnYmPhWxVFudAOFQ==}
     engines: {node: '>=14.1.0'}
+    deprecated: < 19.4.0 is no longer supported
     requiresBuild: true
     dependencies:
       cross-fetch: 3.1.5
@@ -7680,6 +7684,7 @@ packages:
 
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: '>=0.66.0 <3'
     dependencies:
@@ -7693,6 +7698,7 @@ packages:
 
   /rollup-plugin-terser/5.3.1_rollup@2.79.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: '>=0.66.0 <3'
     dependencies:
@@ -8080,6 +8086,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: false
 
   /spawn-command/0.0.2-1:
@@ -8764,9 +8771,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221103:
-    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.1.0-dev.20230417:
+    resolution: {integrity: sha512-bEjKfPjxAgvrUViweybCkB++3y9qyF4hCBeXOf998QQDJpLAcaQWmub4IoPZ5yTvrkuGuNzFpy46tytA4p1fbA==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -9136,6 +9143,14 @@ packages:
       xmlbuilder: 11.0.1
     dev: false
 
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
   /xmlbuilder/11.0.1:
     resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
     engines: {node: '>=4.0'}
@@ -9454,7 +9469,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       csv-parse: 5.3.1
@@ -9744,7 +9759,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10301,7 +10316,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10960,7 +10975,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11192,7 +11207,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13347,7 +13362,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14497,7 +14512,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15845,7 +15860,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16108,7 +16123,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-DI3EVBK7YyQUeOJm/RZkNNLUuxK3F0Jxm5NGr5BrpOwQ8DMs4XhQpsLOVe5YtdNOrtPmapSTL+mOZsyUM9eDtQ==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-X6yPLKJv3x2tofzL5LyB81LmwTECA+gkbIqM0UDnZnm5RYJbbV7rWpwBt0/Dr4C75HMQNh9Hy1UvpB7tkMrezw==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16161,7 +16176,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16569,7 +16584,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17437,7 +17452,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17543,7 +17558,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0

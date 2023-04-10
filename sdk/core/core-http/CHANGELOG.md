@@ -1,5 +1,11 @@
 # Release History
 
+## 2.3.2 (2023-04-17)
+
+### Other Changes
+
+- Upgrade dependency `xml2js` version to `^0.5.0`.
+
 ## 2.3.1 (2022-11-09)
 
 ### Bugs Fixed
