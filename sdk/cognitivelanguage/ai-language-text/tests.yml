@@ -13,4 +13,4 @@ stages:
       ServiceDirectory: cognitivelanguage
       Location: "${{ parameters.Location }}"
       SupportedClouds: 'Public'
-      TimeoutInMinutes: "90"
+      TimeoutInMinutes: "120"
