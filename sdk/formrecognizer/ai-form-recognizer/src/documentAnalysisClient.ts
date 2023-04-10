@@ -606,7 +606,7 @@ export class DocumentAnalysisClient {
       operationLocation: string
     ): Promise<AnalyzeResultOperation> =>
       this._tracing.withSpan(
-        "DocumentAnalysisClient.createClassificationPoller-getAnalyzeResult",
+        "DocumentAnalysisClient.createAnalysisPoller-getAnalyzeResult",
         definition.options,
         (finalOptions) =>
           this._restClient.sendOperationRequest<AnalyzeResultOperation>(
@@ -660,7 +660,7 @@ export class DocumentAnalysisClient {
       resumeFrom !== undefined
         ? async (ctx: OperationContext) =>
             this._tracing.withSpan(
-              "DocumentAnalysisClient.createClassificationPoller-resume",
+              "DocumentAnalysisClient.createAnalysisPoller-resume",
               definition.options,
               async () => {
                 const { clientVersion, operationLocation, modelId } = JSON.parse(resumeFrom) as {
@@ -691,7 +691,7 @@ export class DocumentAnalysisClient {
         : // Otherwise, we'll start a new operation from the initialModelId
           async (ctx: OperationContext) =>
             this._tracing.withSpan(
-              "DocumentAnalysisClient.createClassificationPoller-start",
+              "DocumentAnalysisClient.createAnalysisPoller-start",
               definition.options,
               async () => {
                 const { operationLocation } = await startOperation(ctx.abortSignal);
