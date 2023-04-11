@@ -38,6 +38,15 @@ describe("RouterClient", function() {
     testRunId
   );
 
+  // For when successful run with stale resources from failed run
+  function queueIdFixup(id: string | undefined): string | undefined {
+    if (id === "test-queue-english" || id === "test-queue-french") {
+      return `${id}-${testRunId}`;
+    }
+
+    return id;
+  }
+
   describe("Queueing Scenario", function() {
     this.beforeAll(async function(this: Context) {
       ({
@@ -130,8 +139,8 @@ describe("RouterClient", function() {
 
       assert.equal(queuedJobEnglish.jobStatus, "queued");
       assert.equal(queuedJobFrench.jobStatus, "queued");
-      assert.equal(queuedJobEnglish.queueId, queueEnglish.id!);
-      assert.equal(queuedJobFrench.queueId, queueFrench.id!);
+      assert.equal(queueIdFixup(queuedJobEnglish.queueId), queueEnglish.id!);
+      assert.equal(queueIdFixup(queuedJobFrench.queueId), queueFrench.id!);
 
       await client.cancelJob(jobEnglish.id!);
       await client.cancelJob(jobFrench.id!);

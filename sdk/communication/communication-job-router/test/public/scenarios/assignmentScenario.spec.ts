@@ -61,7 +61,7 @@ describe("RouterClient", function() {
         await recorder?.stop();
       }
 
-      await sleep(2000);
+      await sleep(3000);
       await client.deregisterWorker(workerId);
       await client.deleteWorker(workerId);
       await client.deleteJob(jobId);
