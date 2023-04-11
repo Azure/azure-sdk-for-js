@@ -1,10 +1,20 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.3.1 (Unreleased)
 
 ### Features Added
 
-- Add `randomUUID` to generate a random UUID.
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.3.0 (2023-04-06)
+
+### Features Added
+
+- Add `randomUUID` to generate a random UUID. [PR #25408](https://github.com/Azure/azure-sdk-for-js/pull/25408)
 
 ## 1.2.0 (2023-03-02)
 
