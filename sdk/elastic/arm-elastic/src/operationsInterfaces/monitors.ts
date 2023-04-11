@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ElasticMonitorResource,
   MonitorsListOptionalParams,
@@ -62,8 +62,8 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsCreateResponse>,
       MonitorsCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a monitor resource.
    * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.

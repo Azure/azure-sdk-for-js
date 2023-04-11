@@ -12055,7 +12055,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-4YZs8SjIY+ze/V2cBMfGV0W7iBEDvTDPWz7anDzygsKSF71tWoG3hEUPKF2IjTdAxjfQNSJ83G+eYwTDuZhrqA==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-5xCBSoTkHMW+mjOiubcrJe81absXkwzQJOR47qfRCrzr42hBurn/EOGb8cDMGonHfcjmGLJzMh49RQnddbhvJg==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12070,7 +12070,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
