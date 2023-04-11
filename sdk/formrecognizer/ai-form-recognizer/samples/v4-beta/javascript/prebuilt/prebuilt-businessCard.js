@@ -6,126 +6,12 @@
 // API Version: 2023-02-28-preview
 // Created:     Thu Apr 06 2023
 
-import * as fr from "@azure/ai-form-recognizer";
+const fr = require("@azure/ai-form-recognizer");
 
 /**
  * Extract key information from business cards.
  */
-export const PrebuiltBusinessCardModel = fr.createModelFromSchema(
-  modelInfo()
-) as fr.DocumentModel<PrebuiltBusinessCardResult>;
-
-export interface PrebuiltBusinessCardResult extends fr.AnalyzeResultCommon {
-  /**
-   * Extracted pages.
-   */
-  pages?: fr.DocumentPage[];
-  /**
-   * Extracted document paragraphs.
-   */
-  paragraphs?: fr.DocumentParagraph[];
-  /**
-   * Extracted font styles.
-   */
-  styles?: fr.DocumentStyle[];
-  /**
-   * Extracted key-value pairs.
-   */
-  keyValuePairs?: fr.DocumentKeyValuePair[];
-  /**
-   * Extracted documents.
-   */
-  documents: PrebuiltBusinessCardDocument[];
-}
-
-export type PrebuiltBusinessCardDocument = BusinessCard;
-
-export interface BusinessCard {
-  /**
-   * Document type: "businessCard".
-   */
-  docType: "businessCard";
-  /**
-   * Document fields.
-   */
-  fields: BusinessCardFields;
-  /**
-   * Bounding regions covering the document.
-   */
-  boundingRegions?: fr.BoundingRegion[];
-  /**
-   * Locations of the document's elements in the `content` text (reading-order-concatenated content).
-   */
-  spans: fr.DocumentSpan[];
-  /**
-   * The service's confidence that it has correctly extracted the document.
-   */
-  confidence: number;
-}
-
-/**
- * Describes the fields of `BusinessCardFields`.
- */
-export interface BusinessCardFields {
-  /**
-   * `BusinessCard` "ContactNames" field
-   */
-  contactNames?: fr.DocumentArrayField<fr.DocumentObjectField<BusinessCardContactNamesElement>>;
-  /**
-   * `BusinessCard` "CompanyNames" field
-   */
-  companyNames?: fr.DocumentArrayField<fr.DocumentStringField>;
-  /**
-   * `BusinessCard` "JobTitles" field
-   */
-  jobTitles?: fr.DocumentArrayField<fr.DocumentStringField>;
-  /**
-   * `BusinessCard` "Departments" field
-   */
-  departments?: fr.DocumentArrayField<fr.DocumentStringField>;
-  /**
-   * `BusinessCard` "Addresses" field
-   */
-  addresses?: fr.DocumentArrayField<fr.DocumentAddressField>;
-  /**
-   * `BusinessCard` "WorkPhones" field
-   */
-  workPhones?: fr.DocumentArrayField<fr.DocumentPhoneNumberField>;
-  /**
-   * `BusinessCard` "MobilePhones" field
-   */
-  mobilePhones?: fr.DocumentArrayField<fr.DocumentPhoneNumberField>;
-  /**
-   * `BusinessCard` "Faxes" field
-   */
-  faxes?: fr.DocumentArrayField<fr.DocumentPhoneNumberField>;
-  /**
-   * `BusinessCard` "OtherPhones" field
-   */
-  otherPhones?: fr.DocumentArrayField<fr.DocumentPhoneNumberField>;
-  /**
-   * `BusinessCard` "Emails" field
-   */
-  emails?: fr.DocumentArrayField<fr.DocumentStringField>;
-  /**
-   * `BusinessCard` "Websites" field
-   */
-  websites?: fr.DocumentArrayField<fr.DocumentStringField>;
-}
-
-/**
- * Describes the fields of `BusinessCardContactNamesElement`.
- */
-export interface BusinessCardContactNamesElement {
-  /**
-   * First (given) name of contact
-   */
-  firstName?: fr.DocumentStringField;
-  /**
-   * Last (family) name of contact
-   */
-  lastName?: fr.DocumentStringField;
-}
+const PrebuiltBusinessCardModel = fr.createModelFromSchema(modelInfo());
 
 /**
  * The raw model schema.
@@ -243,5 +129,14 @@ function modelInfo() {
         },
       },
     },
-  } as const;
+  };
 }
+
+module.exports = {
+  PrebuiltBusinessCardModel,
+  PrebuiltBusinessCardResult,
+  PrebuiltBusinessCardDocument,
+  BusinessCard,
+  BusinessCardFields,
+  BusinessCardContactNamesElement,
+};
