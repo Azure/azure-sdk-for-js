@@ -118,6 +118,14 @@ export interface WebResourceLike {
    */
   keepAlive?: boolean;
   /**
+   * The number of concurrent sockets the HTTP agent can have open per host. Node.js only.
+   */
+  maxSockets?: number;
+  /**
+   * The total number of concurrent sockets the HTTP agent can have open. Node.js only.
+   */
+  maxTotalSockets?: number;
+  /**
    * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
    */
   decompressResponse?: boolean;
@@ -260,6 +268,14 @@ export class WebResource implements WebResourceLike {
    * Whether to keep the HTTP connections alive throughout requests.
    */
   keepAlive?: boolean;
+  /**
+   * The number of concurrent sockets the HTTP agent can have open per host. Node.js only.
+   */
+  maxSockets?: number;
+  /**
+   * The total number of concurrent sockets the HTTP agent can have open. Node.js only.
+   */
+  maxTotalSockets?: number;
   /**
    * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
    */

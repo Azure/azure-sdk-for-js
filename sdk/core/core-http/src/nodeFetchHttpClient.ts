@@ -324,6 +324,12 @@ export class NodeFetchHttpClient implements HttpClient {
       );
 
       agent = tunnel.agent;
+      if (httpRequest.maxSockets !== undefined) {
+        agent.maxSockets = httpRequest.maxSockets;
+      }
+      if (httpRequest.maxTotalSockets !== undefined) {
+        agent.maxTotalSockets = httpRequest.maxTotalSockets;
+      }
       if (tunnel.isHttps) {
         proxyAgents.httpsAgent = tunnel.agent as https.Agent;
       } else {
@@ -340,6 +346,8 @@ export class NodeFetchHttpClient implements HttpClient {
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
         keepAlive: httpRequest.keepAlive,
+        maxSockets: httpRequest.maxSockets,
+        maxTotalSockets: httpRequest.maxTotalSockets,
       };
 
       if (isHttps) {

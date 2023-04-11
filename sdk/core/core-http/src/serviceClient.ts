@@ -9,6 +9,7 @@ import {
   deserializationPolicy,
 } from "./policies/deserializationPolicy";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { DefaultMaxSocketsOptions, maxSocketsPolicy } from "./policies/maxSocketsPolicy";
 import { DefaultRedirectOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { DefaultRetryOptions, exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
@@ -781,6 +782,11 @@ export function createPipelineFromOptions(
     ...pipelineOptions.keepAliveOptions,
   };
 
+  const maxSocketsOptions = {
+    ...DefaultMaxSocketsOptions,
+    ...pipelineOptions.maxSocketsOptions,
+  };
+
   const retryOptions = {
     ...DefaultRetryOptions,
     ...pipelineOptions.retryOptions,
@@ -807,6 +813,7 @@ export function createPipelineFromOptions(
   requestPolicyFactories.push(
     tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(keepAliveOptions),
+    maxSocketsPolicy(maxSocketsOptions),
     userAgentPolicy({ value: userAgentValue }),
     generateClientRequestIdPolicy(),
     deserializationPolicy(deserializationOptions.expectedContentTypes),

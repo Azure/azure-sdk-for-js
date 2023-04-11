@@ -4,6 +4,7 @@
 import { DeserializationOptions } from "./policies/deserializationPolicy";
 import { HttpClient } from "./httpClient";
 import { KeepAliveOptions } from "./policies/keepAlivePolicy";
+import { MaxSocketsOptions } from "./policies/maxSocketsPolicy";
 import { LogPolicyOptions } from "./policies/logPolicy";
 import { ProxyOptions } from "./serviceClient";
 import { RedirectOptions } from "./policies/redirectPolicy";
@@ -36,6 +37,12 @@ export interface PipelineOptions {
    * requests.
    */
   keepAliveOptions?: KeepAliveOptions;
+
+  /**
+   * Options for how HTTP connections should be maintained for future
+   * requests.
+   */
+  maxSocketsOptions?: MaxSocketsOptions;
 
   /**
    * Options for how redirect responses are handled.

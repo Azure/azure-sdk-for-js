@@ -422,6 +422,15 @@ export const MapperType: {
 };
 
 // @public
+export interface MaxSocketsOptions {
+    perHost?: number;
+    total?: number;
+}
+
+// @public
+export function maxSocketsPolicy(maxSocketsOptions?: MaxSocketsOptions): RequestPolicyFactory;
+
+// @public
 export interface OperationArguments {
     [parameterName: string]: any;
     options?: RequestOptionsBase;
@@ -510,6 +519,7 @@ export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 export interface PipelineOptions {
     httpClient?: HttpClient;
     keepAliveOptions?: KeepAliveOptions;
+    maxSocketsOptions?: MaxSocketsOptions;
     proxyOptions?: ProxyOptions;
     redirectOptions?: RedirectOptions;
     retryOptions?: RetryOptions;
@@ -858,6 +868,8 @@ export class WebResource implements WebResourceLike {
     formData?: any;
     headers: HttpHeadersLike;
     keepAlive?: boolean;
+    maxSockets?: number;
+    maxTotalSockets?: number;
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -890,6 +902,8 @@ export interface WebResourceLike {
     formData?: any;
     headers: HttpHeadersLike;
     keepAlive?: boolean;
+    maxSockets?: number;
+    maxTotalSockets?: number;
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;

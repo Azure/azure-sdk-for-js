@@ -63,6 +63,7 @@ export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
+export { maxSocketsPolicy, MaxSocketsOptions } from "./policies/maxSocketsPolicy";
 export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
