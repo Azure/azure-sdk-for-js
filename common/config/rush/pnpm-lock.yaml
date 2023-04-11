@@ -702,6 +702,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -1025,6 +1026,7 @@ packages:
   /@azure/data-tables/12.1.2:
     resolution: {integrity: sha512-eGldbkw9UjzrAXzy28/raKauQEjspG1FAHxWI/kEInkFm9mvs5uR2KGEGlQNYfz6pzcCOrsxHlh+pmWKuIgPSQ==}
     engines: {node: '>=12.0.0'}
+    deprecated: Please upgrade to the latest package version to get important bug fixes
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-client': 1.7.1
@@ -3890,7 +3892,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230223
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8502,9 +8504,15 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230223:
-    resolution: {integrity: sha512-dUsdRdWs5mX+5uhIGuE1IEkfTzM5vY9qfVxIbRB3vxVINGEI8mS9/f3gs5xenafNblfMX8wUVvQ7y2x6Syk0tA==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
+    engines: {node: '>=12.20'}
+    hasBin: true
+    dev: false
+
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
@@ -8845,6 +8853,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -9518,7 +9534,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-qC4iqzqWu2mja0Pm3Y0GZGTERbGg85Cu5GP9YJfWVpwJd7XqgTakqqjwH/ANI+nQQqNQeePQouogEL02gezkhQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-Tnjt+HsjtcvmkmENBwyzZypEDDtO7eXdTyePnfGcbvilKaYv8bTcItk9n8K9Y0sxPCBgzHg9t0pjrKDcFLs+DA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -9567,6 +9583,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15836,7 +15853,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-nzykt/eRnpCN46pW+TBwn/SSAx0ZcVm474DTHW7RlakArR+RU0qk8xhVmrLbA2EXUt7r2Gv1czBh2Nwdaq+QrA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-lexnnbJACgHA+/Dws7s3TAXB3JF2tTlIZBHb96AtLQxfdv/LZt3ZkPKQ3rZhwo1j2G5gwk00aBgfFdqzfVwlvQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -15887,7 +15904,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16251,7 +16268,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/4.9.5
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
@@ -16552,7 +16569,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-riM26vkLP0Sv4WqP1Hz2jHu77NwZvWUGd5Zb7G3mtvfbBemo10/RSmxUeaKh7fE2ODV+wi0ntglBURUO12Y9mA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-G34wHggD9EqRpo9qqR3jy+Pt5PXKH8dDv2f9vNxXLEBtGGc8MTAg781qQbi9E5PI5ne80T0bNJieTsx9nNuv1Q==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -16599,6 +16616,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -18188,7 +18206,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-jK57Eg/wAEJQ9F/7j4JZzWpOODHK9T4kEqWTw3IZEaFGA6saKefrIDm+l1AS15vWD/lGDOioiibtkyHDE8w5mQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-eWFJAelqDA7qbtDwi48/LHloZUwKTF5K/oErSrL121xmzLe7Hrxc4QPA9NDhGe+06sAMhEeh0Eg9FMS8CVA5Hw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -18213,7 +18231,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-kiz/W60w1+lWhI9rTq562tYkoiQ6izYjewEkbLTr343DeG6/9X9a/SkrG9PWSh7fH6NEh703/ojeH+5LMErKpg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-hOg3QPYA84eSaehVO722iWQQHy7JgDfkA12R7QsPWgOOIi24h/iex3TTupdAR3IZ78j0UCxlRx3MceAT9jwBmw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18231,6 +18249,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
@@ -18407,7 +18426,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-l/BSD4i+H4u/Se/aiY4QAQbZmNUBaATzCp8nZvTfq07EKyOG7V7gt/cN3YYhRDPsvN9179NAc9dJHMZv9KtTFg==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-ONqoYo1ECThliKzQdgGPugy0AZqInWmvNTXW/BpbZ71P8YR3/az9eI1mFVlrnuHYW6DPDw34W5IBKiqAeaawMw==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -18671,7 +18690,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-edQiJQBf+qQhkyE+lG/j17BaAEFOb4lu7oD1M8zLkG1M7VmMZM6ro/1DtD48RpsADV6nalA63LMq7cCDQuzc4Q==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-Eu5iKp4W8WAwRwFPn3oUWPkv1HvYPrmNtYhVYHwIrzw+u/wt4ayl465vjcdnFycz+hJbii2wReZVubfv2GoRmA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -18784,7 +18803,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-O/aj4m0W/WLqOb0fOCiEY/FchiyiAWDve68fv0MxvjUbQ+4Gcbgb9QsMRjmscvJu/pCT1EuNjRRZabkucmSpIw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-g+RCKUbqKi8pm9pofGATuHicU3Zzk9X+ISLYcbB2DJVXYQuZdIdIX763D41KYteNa1CJT7btYS/Uw69nMEe4Rw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18840,7 +18859,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-tH4B4bQSSR1ZQs83ErDC8Ch0KSwguXt5xzmid7ESeIysYhZNMQSbUWLgXtxrdBRuhbo1fDf39h6oVMXVMjtwFA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-i60hSfpVNWYKEKKRrVU/rovsrMZrQpAMYkL7iA6V5VYup70OXdlLQAtinDhdsPFzYMzx6HpX21wJN4WKk9H2rQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
