@@ -39,8 +39,7 @@ export interface PipelineOptions {
   keepAliveOptions?: KeepAliveOptions;
 
   /**
-   * Options for how HTTP connections should be maintained for future
-   * requests.
+   * Options for how many concurrent sockets an HTTP agent can have open.
    */
   maxSocketsOptions?: MaxSocketsOptions;
 
