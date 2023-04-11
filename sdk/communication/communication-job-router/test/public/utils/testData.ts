@@ -111,7 +111,7 @@ const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
 export function getQueueEnglish(guid: string): JobQueue {
   return {
     id: `${queueId}-english-${guid}`,
-    name: `${queueId}-english`,
+    name: `${queueId}-english-${guid}`,
     distributionPolicyId: distributionPolicyId,
     labels: { Region: region, Product: product, Language: english }
   };
@@ -120,7 +120,7 @@ export function getQueueEnglish(guid: string): JobQueue {
 export function getQueueFrench(guid: string): JobQueue {
   return {
     id: `${queueId}-french-${guid}`,
-    name: `${queueId}-french`,
+    name: `${queueId}-french-${guid}`,
     distributionPolicyId: distributionPolicyId,
     labels: { Region: region, Product: product, Language: french }
   };
@@ -238,15 +238,41 @@ export interface ExceptionPolicyRequest {
   exceptionPolicyId: string;
   exceptionPolicyRequest: ExceptionPolicy;
 }
+export function getExceptionPolicyRequestWithReclassifyAction(
+  guid: string
+): ExceptionPolicyRequest {
+  return getExceptionPolicyRequestInternal(guid, true);
+}
 export function getExceptionPolicyRequest(guid: string): ExceptionPolicyRequest {
-  const id = `${exceptionPolicyId}-${guid}`;
-  return {
-    exceptionPolicyId: id,
-    exceptionPolicyRequest: {
-      id,
-      name: exceptionPolicyId,
-      exceptionRules: {
-        MaxWaitTimeExceeded: {
+  return getExceptionPolicyRequestInternal(guid, false);
+}
+function getExceptionPolicyRequestInternal(
+  guid: string,
+  addReclassifyAction: boolean
+): ExceptionPolicyRequest {
+  function getExceptionRules() {
+    let exceptionRules = {};
+
+    exceptionRules = {
+      ...exceptionRules,
+      MaxWaitTimeExceededCancel: {
+        actions: {
+          Cancel: {
+            kind: "cancel",
+            note: "wait time exceeded; cancelling"
+          }
+        },
+        trigger: {
+          kind: "wait-time",
+          thresholdSeconds: 10
+        }
+      }
+    };
+
+    if (addReclassifyAction) {
+      exceptionRules = {
+        ...exceptionRules,
+        MaxWaitTimeExceededReclassify: {
           actions: {
             MoveJobToEscalatedQueue: {
               kind: "reclassify",
@@ -261,7 +287,20 @@ export function getExceptionPolicyRequest(guid: string): ExceptionPolicyRequest 
             thresholdSeconds: 10
           }
         }
-      }
+      };
+    }
+
+    return exceptionRules;
+  }
+
+  const id = `${exceptionPolicyId}-${guid}`;
+  const exceptionRules = getExceptionRules();
+  return {
+    exceptionPolicyId: id,
+    exceptionPolicyRequest: {
+      id,
+      name: exceptionPolicyId,
+      exceptionRules
     }
   };
 }

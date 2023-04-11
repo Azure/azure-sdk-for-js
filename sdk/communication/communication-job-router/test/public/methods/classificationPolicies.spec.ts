@@ -41,6 +41,10 @@ describe("RouterClient", function() {
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
+      await administrationClient.createClassificationPolicy(
+        classificationPolicyId,
+        classificationPolicyRequest
+      );
     });
 
     afterEach(async function(this: Context) {
