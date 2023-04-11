@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- * @azsdk-skip-javascript
- */
-
 // Model:       prebuilt-tax.us.1098
 // Description: Extract key information from United States Internal Revenue Service Form 1098 (2021-2022).
 // API Version: 2023-02-28-preview

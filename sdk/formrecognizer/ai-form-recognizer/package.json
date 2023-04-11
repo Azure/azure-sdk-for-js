@@ -133,9 +133,12 @@
     "skip": [
       "analyzeDocumentByModelId.js",
       "buildModel.js",
+      "buildClassifier.js",
       "composeModel.js",
       "copyModel.js",
-      "getModel.js"
+      "getModel.js",
+      "getClassifier.js",
+      "classifyDocument.js"
     ],
     "productName": "Azure Form Recognizer",
     "productSlugs": [
