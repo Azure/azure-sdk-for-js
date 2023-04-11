@@ -53,6 +53,7 @@ export type DocumentField =
   | DocumentPhoneNumberField
   | DocumentNumberField
   | DocumentIntegerField
+  | DocumentBooleanField
   | DocumentSelectionMarkField
   | DocumentCountryRegionField
   | DocumentSignatureField
@@ -209,6 +210,14 @@ export interface DocumentAddressField extends DocumentFieldCommon {
 }
 
 /**
+ * A DocumentField that has a boolean value.
+ */
+export interface DocumentBooleanField extends DocumentValueField<boolean> {
+  /** Field kind: "boolean". */
+  kind: "boolean";
+}
+
+/**
  * A DocumentField that consists of several named properties that have their own DocumentField values.
  */
 export interface DocumentObjectField<Properties = { [k: string]: DocumentField | undefined }>
@@ -252,6 +261,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
       case "time":
       case "phoneNumber":
       case "number":
+      case "boolean":
       case "integer":
       case "selectionMark":
       case "countryRegion":

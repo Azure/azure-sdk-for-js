@@ -3,8 +3,25 @@
 
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { delayMs } from "./delayMs";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 const DEFAULT_POLLING_INTERVAL = 5000;
+
+/**
+ * Information about the Long-Running Operation (LRO) that is being performed.
+ */
+export interface OperationContext {
+  /**
+   * An AbortSignal that can be used to cancel the operation.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Sets the server's preferred polling interval in milliseconds. To clear the server's preferred polling interval,
+   * pass `undefined`.
+   */
+  updateDelay: (interval: number | undefined) => void;
+}
 
 /**
  * A specification for a long-running operation, which defines the poller flow.
@@ -14,11 +31,11 @@ export interface OperationSpec<TState extends PollOperationState<unknown>> {
   /**
    * A function that produces the first operation state for this LRO.
    */
-  init: () => Promise<TState>;
+  init: (ctx: OperationContext) => Promise<TState>;
   /**
    * A function that consumes the existing state of the poller and produces the next state.
    */
-  poll: (state: TState) => Promise<TState>;
+  poll: (ctx: OperationContext, state: TState) => Promise<TState>;
   /**
    * A function that serializes the state into a string.
    */
@@ -32,9 +49,23 @@ export interface OperationSpec<TState extends PollOperationState<unknown>> {
  */
 export async function lro<TResult, TState extends PollOperationState<TResult>>(
   spec: OperationSpec<TState>,
-  pollingInterval: number | undefined
+  pollingInterval: number | undefined,
+  initAbortSignal: AbortSignalLike | undefined
 ): Promise<PollerLike<TState, TResult>> {
-  let state = typeof spec.init === "function" ? await spec.init() : spec.init;
+  let serverDrivenDelay: number | undefined;
+
+  const initContext: OperationContext = {
+    abortSignal: initAbortSignal,
+    updateDelay: (interval) => {
+      serverDrivenDelay = interval;
+    },
+  };
+
+  if (initAbortSignal?.aborted) {
+    throw new AbortError("The operation was aborted.");
+  }
+
+  let state = await spec.init(initContext);
 
   type ThisPoller = PollerLike<TState, TResult>;
 
@@ -55,18 +86,30 @@ export async function lro<TResult, TState extends PollOperationState<TResult>>(
       return () => handlers.delete(s);
     },
     stopPolling: () => cancelJob?.(),
-    poll: async () => {
-      state = await spec.poll(state);
+    poll: async (options) => {
+      state = await spec.poll(
+        {
+          abortSignal: options?.abortSignal,
+          updateDelay: (interval) => {
+            serverDrivenDelay = interval;
+          },
+        },
+        state
+      );
       handleProgressEvents();
     },
-    pollUntilDone: () =>
+    pollUntilDone: (options) =>
       (job ??= (async () => {
         // Technically, the poller could complete during initialization
         if (!self.isDone()) {
           // Poll once to get the ball rolling, this avoids a delay if the operation completes immediately
-          await self.poll();
+          await self.poll(options);
           while (!self.isDone()) {
-            const delay = delayMs(pollingInterval ?? DEFAULT_POLLING_INTERVAL);
+            const finalPollingInterval = Math.max(
+              serverDrivenDelay ?? 0,
+              pollingInterval ?? DEFAULT_POLLING_INTERVAL
+            );
+            const delay = delayMs(finalPollingInterval, options?.abortSignal);
             cancelJob = delay.cancel;
             await delay.then(() => self.poll());
           }

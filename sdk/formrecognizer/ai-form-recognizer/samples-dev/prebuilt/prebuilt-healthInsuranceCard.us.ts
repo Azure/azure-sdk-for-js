@@ -7,8 +7,8 @@
 
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
-// API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Apr 06 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -114,10 +114,6 @@ export interface HealthInsuranceCardUsFields {
    */
   payer?: fr.DocumentObjectField<HealthInsuranceCardUsPayer>;
   /**
-   * `HealthInsuranceCardUs` "MedicareMedicaidInfo" field
-   */
-  medicareMedicaidInfo?: fr.DocumentObjectField<HealthInsuranceCardUsMedicareMedicaidInfo>;
-  /**
    * `HealthInsuranceCardUs` "Plan" field
    */
   plan?: fr.DocumentObjectField<HealthInsuranceCardUsPlan>;
@@ -134,7 +130,7 @@ export interface HealthInsuranceCardUsMember {
   /**
    * Member date of birth
    */
-  dateOfBirth?: fr.DocumentStringField;
+  birthDate?: fr.DocumentDateField;
   /**
    * Member name employer
    */
@@ -159,10 +155,6 @@ export interface HealthInsuranceCardUsDependentsElement {
    * Dependent name
    */
   name?: fr.DocumentStringField;
-  /**
-   * Dependent Membership Identification Suffix
-   */
-  idNumberSuffix?: fr.DocumentStringField;
 }
 
 /**
@@ -186,7 +178,7 @@ export interface HealthInsuranceCardUsPrescriptionInfo {
   /**
    * ANSI issuer identification number (IIN)
    */
-  issuerId?: fr.DocumentStringField;
+  issuer?: fr.DocumentStringField;
   /**
    * Prescription issued BIN number
    */
@@ -222,7 +214,7 @@ export interface HealthInsuranceCardUsCopaysElement {
   /**
    * Co-Pay required amount
    */
-  amount?: fr.DocumentStringField;
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -236,25 +228,11 @@ export interface HealthInsuranceCardUsPayer {
   /**
    * Payer address
    */
-  address?: fr.DocumentStringField;
+  address?: fr.DocumentAddressField;
   /**
    * Payer phone number
    */
   phoneNumber?: fr.DocumentPhoneNumberField;
-}
-
-/**
- * Describes the fields of `HealthInsuranceCardUsMedicareMedicaidInfo`.
- */
-export interface HealthInsuranceCardUsMedicareMedicaidInfo {
-  /**
-   * Hospital and facilities effective date
-   */
-  partAEffectiveDate?: fr.DocumentStringField;
-  /**
-   * Medical and services effictive date
-   */
-  partBEffectiveDate?: fr.DocumentStringField;
 }
 
 /**
@@ -266,9 +244,13 @@ export interface HealthInsuranceCardUsPlan {
    */
   number?: fr.DocumentStringField;
   /**
-   * Plan name - If see Medicaid -\> then medicaid
+   * Plan name - If see Medicaid -> then medicaid
    */
   name?: fr.DocumentStringField;
+  /**
+   * Plan type
+   */
+  type?: fr.DocumentStringField;
 }
 
 /**
@@ -278,8 +260,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       "healthInsuranceCard.us": {
         buildMode: "template",
@@ -295,8 +277,8 @@ function modelInfo() {
                 type: "string",
                 description: "Member name",
               },
-              DateOfBirth: {
-                type: "string",
+              BirthDate: {
+                type: "date",
                 description: "Member date of birth",
               },
               Employer: {
@@ -325,10 +307,6 @@ function modelInfo() {
                   type: "string",
                   description: "Dependent name",
                 },
-                IdNumberSuffix: {
-                  type: "string",
-                  description: "Dependent Membership Identification Suffix",
-                },
               },
             },
           },
@@ -353,7 +331,7 @@ function modelInfo() {
           PrescriptionInfo: {
             type: "object",
             properties: {
-              IssuerId: {
+              Issuer: {
                 type: "string",
                 description: "ANSI issuer identification number (IIN)",
               },
@@ -399,7 +377,7 @@ function modelInfo() {
                   description: "Co-Pay Benefit name",
                 },
                 Amount: {
-                  type: "string",
+                  type: "currency",
                   description: "Co-Pay required amount",
                 },
               },
@@ -413,25 +391,12 @@ function modelInfo() {
                 description: "Payer Id Number",
               },
               Address: {
-                type: "string",
+                type: "address",
                 description: "Payer address",
               },
               PhoneNumber: {
                 type: "phoneNumber",
                 description: "Payer phone number",
-              },
-            },
-          },
-          MedicareMedicaidInfo: {
-            type: "object",
-            properties: {
-              PartAEffectiveDate: {
-                type: "string",
-                description: "Hospital and facilities effective date",
-              },
-              PartBEffectiveDate: {
-                type: "string",
-                description: "Medical and services effictive date",
               },
             },
           },
@@ -445,6 +410,10 @@ function modelInfo() {
               Name: {
                 type: "string",
                 description: "Plan name - If see Medicaid -> then medicaid",
+              },
+              Type: {
+                type: "string",
+                description: "Plan type",
               },
             },
           },

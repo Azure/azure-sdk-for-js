@@ -208,7 +208,16 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-      "words": ["WDLABCD", "presentationml", "spreadsheetml", "wordprocessingml", "heif", "copays"]
+      "words": [
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays",
+        "Upca",
+        "Upce"
+      ]
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
