@@ -3,7 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelinePolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { AlphaIdsClient } from "../../src";
 import { TokenCredential } from "@azure/identity";
@@ -12,6 +12,20 @@ import { createMockToken } from "../public/utils/recordedClient";
 import { configurationHttpClient } from "../public/utils/mockHttpClients";
 import { isNode } from "@azure/test-utils";
 import sinon from "sinon";
+
+export const userAgentPolicy: (policyName: string, customHeader: string) => PipelinePolicy = (
+  customHeader: string,
+  policyName: string
+) => {
+  return {
+    name: policyName,
+    sendRequest: async (req, next) => {
+      const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+      req.headers.set(userAgentHeader, customHeader);
+      return next(req);
+    },
+  };
+};
 
 describe("AlphaIdsClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -113,5 +127,25 @@ describe("AlphaIdsClient - headers", function () {
       request.headers.get(userAgentHeader) as string,
       new RegExp(`alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g")
     );
+  });
+
+  it("can set custom user-agent prefix through additional policies", async function () {
+    const testPipeline = createEmptyPipeline();
+    const customPolicyName = "custom-header-policy";
+    const customHeader = "alphaidsclient-headers-test-additional";
+    testPipeline.addPolicy(userAgentPolicy(customHeader, customPolicyName));
+    client = new AlphaIdsClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
+      httpClient: configurationHttpClient,
+      apiVersion: "custom-api-version",
+      pipeline: testPipeline,
+    } as never);
+
+    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    await client.getConfiguration();
+    sinon.assert.calledOnce(spy);
+    request = spy.getCall(0).args[0];
+
+    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    assert.match(request.headers.get(userAgentHeader) as string, new RegExp(customHeader, "g"));
   });
 });

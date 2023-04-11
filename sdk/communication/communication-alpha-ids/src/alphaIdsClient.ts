@@ -55,7 +55,6 @@ export class AlphaIdsClient {
         },
       },
     };
-
     this.client = new AlphaIDsGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
