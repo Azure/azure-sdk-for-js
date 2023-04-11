@@ -21,7 +21,6 @@ import {
   customSingleLabelAssets,
 } from "../customTestsAssets";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { logger } from "../../../src/logger";
 import { readdir, rm } from "fs/promises";
 
 const pathName = path.join(
@@ -33,12 +32,12 @@ const pathName = path.join(
 );
 const storageInputContainerName = "documents";
 const language = "en-us";
-const trainingConfigVersion = "2022-05-01";
+const languageAPIVersion = "2022-05-01";
 const modelLabel = "projectModel";
 const trainParam: TextAnalysisAuthoringTrainBodyParam = {
   body: {
     modelLabel,
-    trainingConfigVersion,
+    trainingConfigVersion: languageAPIVersion,
     evaluationOptions: {
       kind: "percentage",
       testingSplitPercentage: 30,
@@ -86,17 +85,17 @@ async function getAssetsforProject(
     | ExportedCustomSingleLabelClassificationProjectAssets
     | ExportedCustomMultiLabelClassificationProjectAssets
     | ExportedCustomEntityRecognitionProjectAssets;
-  dirName: string;
+  fileName: string;
 }> {
   switch (projectKind) {
     case "CustomSingleLabelClassification":
-      return { assets: customSingleLabelAssets, dirName: path.join(pathName, "WebOfScience") };
+      return { assets: customSingleLabelAssets, fileName: "WebOfScience" };
 
     case "CustomMultiLabelClassification":
-      return { assets: customMultiLabelAssets, dirName: path.join(pathName, "MoviesSummary") };
+      return { assets: customMultiLabelAssets, fileName: "MoviesSummary" };
 
     case "CustomEntityRecognition":
-      return { assets: customEntityAssets, dirName: path.join(pathName, "LoanAgreements") };
+      return { assets: customEntityAssets, fileName: "LoanAgreements" };
   }
 }
 
@@ -114,7 +113,8 @@ export async function createCustomTestProject(
   projectName: string,
   deploymentName: string
 ): Promise<void> {
-  const { assets, dirName } = await getAssetsforProject(projectKind);
+  const { assets, fileName } = await getAssetsforProject(projectKind);
+  const dirName = path.join(pathName, fileName);
   await decompress(dirName.concat(".zip"), pathName);
   await uploadDocumentsToStorage(dirName);
 
@@ -133,20 +133,18 @@ export async function createCustomTestProject(
     .post({
       body: {
         metadata: createProjectOptions,
-        projectFileVersion: "2022-05-01",
+        projectFileVersion: languageAPIVersion,
         stringIndexType: "Utf16CodeUnit",
         assets,
       },
     });
   await polling(client, importTask);
-  logger.info("Project created", projectName);
 
   // Start training
   const trainTask = await client
     .path("/authoring/analyze-text/projects/{projectName}/:train", projectName)
     .post(trainParam);
   await polling(client, trainTask);
-  logger.info("Training finished");
 
   // Deploy model
   const deployTask = await client
@@ -157,7 +155,6 @@ export async function createCustomTestProject(
     )
     .put(deployParam);
   await polling(client, deployTask);
-  logger.info("Model deployment finished");
 }
 
 export async function cleanupCustomTestResource(
@@ -167,5 +164,5 @@ export async function cleanupCustomTestResource(
   const deleteTask = await client
     .path("/authoring/analyze-text/projects/{projectName}", projectName)
     .delete();
-  await polling(client, deleteTask);
+  polling(client, deleteTask);
 }

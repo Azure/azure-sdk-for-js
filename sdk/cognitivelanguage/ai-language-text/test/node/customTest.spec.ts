@@ -31,8 +31,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             return;
           }
           // Create authoring client
-          const endpoint = assertEnvironmentVariable("ENDPOINT") || "<connection string>";
-          const apiKey = assertEnvironmentVariable("LANGUAGE_API_KEY") || "<api key>";
+          const endpoint = assertEnvironmentVariable("ENDPOINT");
+          const apiKey = assertEnvironmentVariable("LANGUAGE_API_KEY");
           authoringClient = createAuthoringClient(endpoint, new AzureKeyCredential(apiKey));
         });
 
