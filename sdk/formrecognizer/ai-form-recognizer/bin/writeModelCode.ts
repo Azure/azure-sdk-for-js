@@ -17,6 +17,7 @@ import { camelCase, capitalize, uncapitalize, Field } from "./utils";
 const sampleHeader = `
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 `;
 
