@@ -7,9 +7,7 @@ import { matrix } from "@azure/test-utils";
 import { Context, Suite } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../public/utils/recordedClient";
 import createAuthoringClient, { TextAuthoringClient } from "@azure/ai-language-textauthoring";
-import {
-  createCustomTestProject,
-} from "../public/utils/customTestHelpter";
+import { createCustomTestProject } from "../public/utils/customTestHelpter";
 import { assertActionsResults } from "../public/utils/resultHelper";
 import { expectation1, expectation2, expectation4 } from "../public/expectations";
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
