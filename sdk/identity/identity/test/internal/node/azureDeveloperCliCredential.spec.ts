@@ -125,7 +125,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+          "Azure Developer CLI could not be found. To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
         );
       }
     } else {

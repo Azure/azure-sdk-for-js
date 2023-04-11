@@ -166,7 +166,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI could not be found. To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot ."
+            "Azure Developer CLI could not be found. To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
