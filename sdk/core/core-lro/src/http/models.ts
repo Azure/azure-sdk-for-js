@@ -22,7 +22,7 @@ export interface ResponseBody extends Record<string, unknown> {
   /** The properties of the provisioning process */
   properties?: { provisioningState?: unknown } & Record<string, unknown>;
   /** The error if the operation failed */
-  error?: LroError;
+  error?: Partial<LroError>;
 }
 
 /**

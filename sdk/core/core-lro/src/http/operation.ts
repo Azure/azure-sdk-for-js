@@ -173,8 +173,20 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
 }
 
 export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
-  const error = (response.flatResponse as ResponseBody).error as Partial<LroError>;
-  return error.code && error.message ? (error as LroError) : undefined;
+  const error = (response.flatResponse as ResponseBody).error;
+  if (!error) {
+    logger.warning(
+      `The long-running operation failed but there is no error property in the response's body`
+    );
+    return;
+  }
+  if (!error.code || !error.message) {
+    logger.warning(
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+    );
+    return;
+  }
+  return error as LroError;
 }
 
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
