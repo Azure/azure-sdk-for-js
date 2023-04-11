@@ -156,12 +156,3 @@ export async function createCustomTestProject(
     .put(deployParam);
   await polling(client, deployTask);
 }
-
-export async function cleanupCustomTestResource(
-  client: TextAuthoringClient,
-  projectName: string
-): Promise<void> {
-  const deleteTask = await client
-    .path("/authoring/analyze-text/projects/{projectName}", projectName)
-    .delete();
-}

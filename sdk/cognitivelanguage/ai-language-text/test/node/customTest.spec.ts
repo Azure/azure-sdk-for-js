@@ -8,7 +8,6 @@ import { Context, Suite } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../public/utils/recordedClient";
 import createAuthoringClient, { TextAuthoringClient } from "@azure/ai-language-textauthoring";
 import {
-  cleanupCustomTestResource,
   createCustomTestProject,
 } from "../public/utils/customTestHelpter";
 import { assertActionsResults } from "../public/utils/resultHelper";
@@ -64,13 +63,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await recorder.stop();
           });
 
-          after(async function (this: Context) {
-            if (isPlaybackMode()) {
-              return;
-            }
-            await cleanupCustomTestResource(authoringClient, projectName);
-          });
-
           it("entity recognition", async function (this: Context) {
             const docs = [
               `This is a Loan agreement between the two individuals mentioned below in the parties section of the agreement. \nI. Parties of agreement:\n- Casey Jensen with a mailing address of 2469 Pennsylvania Avenue, City of New Brunswick, State of New Jersey (the "Borrower")\n- Hollie Rees with a mailing address of 42 Gladwell Street, City of Memphis, State of Tennessee (the "Lender")`,
@@ -122,13 +114,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await recorder.stop();
           });
 
-          after(async function (this: Context) {
-            if (isPlaybackMode()) {
-              return;
-            }
-            await cleanupCustomTestResource(authoringClient, projectName);
-          });
-
           it("single label classification action", async function (this: Context) {
             const docs = [
               "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
@@ -177,12 +162,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
           afterEach(async function (this: Context) {
             await recorder.stop();
-          });
-
-          after(async function (this: Context) {
-            if (!isPlaybackMode()) {
-              await cleanupCustomTestResource(authoringClient, projectName);
-            }
           });
 
           it("multi label classification action", async function () {
