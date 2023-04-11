@@ -246,3 +246,15 @@ directive:
         "description": "The blob to be deleted does not exist"
       };
 ```
+
+# Remove stream response from `deleteBlob`
+
+We don't care about the stream that is returned and we don't want to clean it up
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      delete $.responses["202"].schema;
+```

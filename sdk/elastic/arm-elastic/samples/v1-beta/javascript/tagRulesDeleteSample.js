@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftElastic } = require("@azure/arm-elastic");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a tag rule set for a given monitor resource.
  *
  * @summary Delete a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/TagRules_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TagRules_Delete.json
  */
 async function tagRulesDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function tagRulesDelete() {
   console.log(result);
 }
 
-tagRulesDelete().catch(console.error);
+async function main() {
+  tagRulesDelete();
+}
+
+main().catch(console.error);

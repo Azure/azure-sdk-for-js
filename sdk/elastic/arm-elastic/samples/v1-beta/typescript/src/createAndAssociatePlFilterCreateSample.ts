@@ -13,16 +13,22 @@ import {
   MicrosoftElastic
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create and Associate private link traffic filter for the given deployment.
  *
  * @summary Create and Associate private link traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/PrivateLinkTrafficFilters_Create.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/PrivateLinkTrafficFilters_Create.json
  */
 async function createAndAssociatePlFilterCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const privateEndpointGuid = "fdb54d3b-e85e-4d08-8958-0d2f7g523df9";
   const privateEndpointName = "myPrivateEndpoint";
@@ -40,4 +46,8 @@ async function createAndAssociatePlFilterCreate() {
   console.log(result);
 }
 
-createAndAssociatePlFilterCreate().catch(console.error);
+async function main() {
+  createAndAssociatePlFilterCreate();
+}
+
+main().catch(console.error);

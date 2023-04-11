@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AADBasedSecurityPrincipal {
@@ -21,6 +21,13 @@ export interface AADBasedSecurityPrincipal {
 export interface CertBasedSecurityPrincipal {
     cert?: string;
     ledgerRoleName?: LedgerRoleName;
+}
+
+// @public
+export interface CertificateTags {
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -47,8 +54,9 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
-export interface ConfidentialLedger extends Resource, ResourceLocation, Tags {
+export interface ConfidentialLedger extends TrackedResource, Tags {
     properties?: LedgerProperties;
+    runningState?: RunningState;
 }
 
 // @public (undocumented)
@@ -61,6 +69,8 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
     checkNameAvailability(nameAvailabilityRequest: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityOperationResponse>;
     // (undocumented)
     ledger: Ledger;
+    // (undocumented)
+    managedCCFOperations: ManagedCCFOperations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -82,6 +92,12 @@ export interface ConfidentialLedgerList {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DeploymentType {
+    appSourceUri?: string;
+    languageRuntime?: LanguageRuntime;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -121,6 +137,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownLanguageRuntime {
+    CPP = "CPP",
+    JS = "JS"
+}
+
+// @public
 export enum KnownLedgerRoleName {
     Administrator = "Administrator",
     Contributor = "Contributor",
@@ -146,12 +168,24 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRunningState {
+    Active = "Active",
+    Paused = "Paused",
+    Pausing = "Pausing",
+    Resuming = "Resuming",
+    Unknown = "Unknown"
+}
+
+// @public
+export type LanguageRuntime = string;
+
+// @public
 export interface Ledger {
-    beginCreate(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerCreateOptionalParams): Promise<PollerLike<PollOperationState<LedgerCreateResponse>, LedgerCreateResponse>>;
+    beginCreate(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerCreateOptionalParams): Promise<SimplePollerLike<OperationState<LedgerCreateResponse>, LedgerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerCreateOptionalParams): Promise<LedgerCreateResponse>;
-    beginDelete(resourceGroupName: string, ledgerName: string, options?: LedgerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, ledgerName: string, options?: LedgerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, ledgerName: string, options?: LedgerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerUpdateOptionalParams): Promise<PollerLike<PollOperationState<LedgerUpdateResponse>, LedgerUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LedgerUpdateResponse>, LedgerUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, ledgerName: string, confidentialLedger: ConfidentialLedger, options?: LedgerUpdateOptionalParams): Promise<LedgerUpdateResponse>;
     get(resourceGroupName: string, ledgerName: string, options?: LedgerGetOptionalParams): Promise<LedgerGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LedgerListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConfidentialLedger>;
@@ -238,6 +272,106 @@ export interface LedgerUpdateOptionalParams extends coreClient.OperationOptions 
 export type LedgerUpdateResponse = ConfidentialLedger;
 
 // @public
+export interface ManagedCCF extends TrackedResource {
+    properties?: ManagedCCFProperties;
+}
+
+// @public
+export interface ManagedCCFCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedCCFCreateResponse = ManagedCCF;
+
+// @public
+export interface ManagedCCFDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedCCFGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCCFGetResponse = ManagedCCF;
+
+// @public
+export interface ManagedCCFList {
+    nextLink?: string;
+    value?: ManagedCCF[];
+}
+
+// @public
+export interface ManagedCCFListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCCFListByResourceGroupNextResponse = ManagedCCFList;
+
+// @public
+export interface ManagedCCFListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ManagedCCFListByResourceGroupResponse = ManagedCCFList;
+
+// @public
+export interface ManagedCCFListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedCCFListBySubscriptionNextResponse = ManagedCCFList;
+
+// @public
+export interface ManagedCCFListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ManagedCCFListBySubscriptionResponse = ManagedCCFList;
+
+// @public
+export interface ManagedCCFOperations {
+    beginCreate(resourceGroupName: string, appName: string, managedCCF: ManagedCCF, options?: ManagedCCFCreateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedCCFCreateResponse>, ManagedCCFCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, appName: string, managedCCF: ManagedCCF, options?: ManagedCCFCreateOptionalParams): Promise<ManagedCCFCreateResponse>;
+    beginDelete(resourceGroupName: string, appName: string, options?: ManagedCCFDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, appName: string, options?: ManagedCCFDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, appName: string, managedCCF: ManagedCCF, options?: ManagedCCFUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginUpdateAndWait(resourceGroupName: string, appName: string, managedCCF: ManagedCCF, options?: ManagedCCFUpdateOptionalParams): Promise<void>;
+    get(resourceGroupName: string, appName: string, options?: ManagedCCFGetOptionalParams): Promise<ManagedCCFGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ManagedCCFListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCCF>;
+    listBySubscription(options?: ManagedCCFListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCCF>;
+}
+
+// @public
+export interface ManagedCCFProperties {
+    readonly appName?: string;
+    readonly appUri?: string;
+    deploymentType?: DeploymentType;
+    readonly identityServiceUri?: string;
+    memberIdentityCertificates?: MemberIdentityCertificate[];
+    nodeCount?: number;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ManagedCCFUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MemberIdentityCertificate {
+    certificate?: string;
+    encryptionkey?: string;
+    tags?: any;
+}
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ResourceProviderOperationDefinition>;
 }
@@ -268,11 +402,6 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceLocation {
-    location?: string;
-}
-
-// @public
 export interface ResourceProviderOperationDefinition {
     display?: ResourceProviderOperationDisplay;
     isDataAction?: boolean;
@@ -294,6 +423,9 @@ export interface ResourceProviderOperationList {
 }
 
 // @public
+export type RunningState = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -305,6 +437,14 @@ export interface SystemData {
 
 // @public
 export interface Tags {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
