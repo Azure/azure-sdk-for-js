@@ -264,13 +264,9 @@ export class ManagedIdentityCredential implements TokenCredential {
                   const expiresInSeconds = resultToken?.expiresOnTimestamp
                     ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
                     : 0;
-                  const refreshInSeconds = resultToken?.refreshesOn
-                    ? Math.floor((resultToken.refreshesOn - Date.now()) / 1000)
-                    : 0;
                   return {
                     accessToken: resultToken?.token,
                     expiresInSeconds,
-                    refreshInSeconds,
                   };
                 } else {
                   logger.info(
@@ -278,8 +274,7 @@ export class ManagedIdentityCredential implements TokenCredential {
                   );
                   return {
                     accessToken: "no_access_token_returned",
-                    expiresInSeconds: 0,
-                    refreshInSeconds: 0,
+                    expiresInSeconds: 0
                   };
                 }
               }

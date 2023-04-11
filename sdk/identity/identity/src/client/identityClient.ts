@@ -36,11 +36,6 @@ export interface TokenResponse {
    */
   accessToken: AccessToken;
   /**
-   * The time in which the access token should be refreshed,
-   * specified in milliseconds, UNIX epoch time
-   */
-  refreshesIn?: number;
-  /**
    * The refresh token if the 'offline_access' scope was used.
    */
   refreshToken?: string;
