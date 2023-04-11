@@ -405,32 +405,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.equal(serviceVersion, client.apiVersion);
       });
 
-      it("passing invalid apiVersion type and valid serviceVersion", () => {
-        let errorThrown = false;
-        try {
-          new SearchClient<Hotel>("", "", credential, {
-            serviceVersion,
-            apiVersion: "foo",
-          });
-        } catch (ex: any) {
-          errorThrown = true;
-        }
-        assert.isTrue(errorThrown, "Invalid apiVersion");
-      });
-
-      it("passing invalid serviceVersion type and valid apiVersion", () => {
-        let errorThrown = false;
-        try {
-          new SearchClient<Hotel>("", "", credential, {
-            apiVersion: serviceVersion,
-            serviceVersion: "foo",
-          });
-        } catch (ex: any) {
-          errorThrown = true;
-        }
-        assert.isTrue(errorThrown, "Invalid serviceVersion");
-      });
-
       it("supports passing the deprecated apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential, {
           apiVersion: serviceVersion,

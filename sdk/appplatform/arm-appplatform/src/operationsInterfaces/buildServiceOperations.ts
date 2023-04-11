@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BuildService,
   BuildServiceListBuildServicesOptionalParams,
@@ -16,10 +17,13 @@ import {
   BuildServiceListBuildResultsOptionalParams,
   BuildServiceGetBuildServiceOptionalParams,
   BuildServiceGetBuildServiceResponse,
+  BuildServiceCreateOrUpdateOptionalParams,
+  BuildServiceCreateOrUpdateResponse,
   BuildServiceGetBuildOptionalParams,
   BuildServiceGetBuildResponse,
   BuildServiceCreateOrUpdateBuildOptionalParams,
   BuildServiceCreateOrUpdateBuildResponse,
+  BuildServiceDeleteBuildOptionalParams,
   BuildServiceGetBuildResultOptionalParams,
   BuildServiceGetBuildResultResponse,
   BuildServiceGetBuildResultLogOptionalParams,
@@ -96,6 +100,43 @@ export interface BuildServiceOperations {
     options?: BuildServiceGetBuildServiceOptionalParams
   ): Promise<BuildServiceGetBuildServiceResponse>;
   /**
+   * Create a build service resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildService Parameters for the create operation
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildService: BuildService,
+    options?: BuildServiceCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BuildServiceCreateOrUpdateResponse>,
+      BuildServiceCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create a build service resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildService Parameters for the create operation
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildService: BuildService,
+    options?: BuildServiceCreateOrUpdateOptionalParams
+  ): Promise<BuildServiceCreateOrUpdateResponse>;
+  /**
    * Get a KPack build.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -129,6 +170,38 @@ export interface BuildServiceOperations {
     build: Build,
     options?: BuildServiceCreateOrUpdateBuildOptionalParams
   ): Promise<BuildServiceCreateOrUpdateBuildResponse>;
+  /**
+   * delete a KPack build.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildName The name of the build resource.
+   * @param options The options parameters.
+   */
+  beginDeleteBuild(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildName: string,
+    options?: BuildServiceDeleteBuildOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * delete a KPack build.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildName The name of the build resource.
+   * @param options The options parameters.
+   */
+  beginDeleteBuildAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildName: string,
+    options?: BuildServiceDeleteBuildOptionalParams
+  ): Promise<void>;
   /**
    * Get a KPack build result.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

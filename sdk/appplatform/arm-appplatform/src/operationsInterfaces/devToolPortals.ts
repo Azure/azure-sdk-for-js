@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DevToolPortalResource,
   DevToolPortalsListOptionalParams,
@@ -63,8 +63,8 @@ export interface DevToolPortals {
     devToolPortalResource: DevToolPortalResource,
     options?: DevToolPortalsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevToolPortalsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevToolPortalsCreateOrUpdateResponse>,
       DevToolPortalsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

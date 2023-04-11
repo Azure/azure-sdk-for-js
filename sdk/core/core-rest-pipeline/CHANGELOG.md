@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.3 (Unreleased)
+## 1.10.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.10.3 (2023-04-06)
+
+### Other Changes
+
+- Migrate to use core-util UUID helper [PR# 25413](https://github.com/Azure/azure-sdk-for-js/pull/25413)
 
 ## 1.10.2 (2023-03-02)
 

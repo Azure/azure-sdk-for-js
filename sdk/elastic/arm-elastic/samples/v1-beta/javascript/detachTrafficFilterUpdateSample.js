@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftElastic } = require("@azure/arm-elastic");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Detach traffic filter for the given deployment.
  *
  * @summary Detach traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/DetachTrafficFilters_Update.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/DetachTrafficFilters_Update.json
  */
 async function detachTrafficFilterUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const rulesetId = "31d91b5afb6f4c2eaaf104c97b1991dd";
   const options = { rulesetId };
@@ -33,4 +35,8 @@ async function detachTrafficFilterUpdate() {
   console.log(result);
 }
 
-detachTrafficFilterUpdate().catch(console.error);
+async function main() {
+  detachTrafficFilterUpdate();
+}
+
+main().catch(console.error);

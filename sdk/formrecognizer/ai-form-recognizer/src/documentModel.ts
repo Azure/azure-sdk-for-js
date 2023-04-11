@@ -53,12 +53,15 @@ function extractField(
 
     for (const [subFieldName, subFieldSchema] of Object.entries(schema.properties!)) {
       if (field.properties[subFieldName] !== undefined && field.properties[subFieldName] !== null) {
-        result[isAcronymic(subFieldName) ? subFieldName : uncapitalize(subFieldName)] =
-          extractField(
-            fieldName + "." + subFieldName,
-            subFieldSchema,
-            field.properties[subFieldName]!
-          );
+        const trueFieldName = (
+          isAcronymic(subFieldName) ? subFieldName : uncapitalize(subFieldName)
+        ).replace(/\s/g, "");
+
+        result[trueFieldName] = extractField(
+          fieldName + "." + subFieldName,
+          subFieldSchema,
+          field.properties[subFieldName]!
+        );
       }
     }
 
@@ -95,11 +98,11 @@ export function createModelFromSchema(
     transformResult(baseResult: AnalyzeResult): AnalyzeResult<unknown> {
       const hasDocuments = Object.entries(schema.docTypes ?? {}).length > 0;
 
-      const defaultDocuments = hasDocuments ? [] : undefined;
-
       return {
         ...baseResult,
-        documents: baseResult.documents?.map(toDocument) ?? defaultDocuments,
+        documents: hasDocuments
+          ? baseResult.documents?.map(toDocument)
+          : baseResult.documents ?? [],
       };
 
       function toDocument(document: AnalyzedDocument): unknown {
@@ -117,7 +120,10 @@ export function createModelFromSchema(
             document.fields[fieldName] !== undefined &&
             document.fields[fieldName] !== null
           ) {
-            result[isAcronymic(fieldName) ? fieldName : uncapitalize(fieldName)] = extractField(
+            const trueFieldName = (
+              isAcronymic(fieldName) ? fieldName : uncapitalize(fieldName)
+            ).replace(/\s/g, "");
+            result[trueFieldName] = extractField(
               fieldName,
               fieldSchema,
               document.fields[fieldName]
