@@ -734,7 +734,6 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
-    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3999,7 +3998,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230409
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8862,8 +8861,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230409:
-    resolution: {integrity: sha512-97xdCsU+nUtaHW7mFi7x6KfRz4ragV0WGI/Z5uoW0pelxP1l6NYM/0VJ3Gs2X8fer09TDflGF/oL8k4YR9eroQ==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -12030,7 +12029,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-4YZs8SjIY+ze/V2cBMfGV0W7iBEDvTDPWz7anDzygsKSF71tWoG3hEUPKF2IjTdAxjfQNSJ83G+eYwTDuZhrqA==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-5xCBSoTkHMW+mjOiubcrJe81absXkwzQJOR47qfRCrzr42hBurn/EOGb8cDMGonHfcjmGLJzMh49RQnddbhvJg==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12044,7 +12043,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16306,7 +16306,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
