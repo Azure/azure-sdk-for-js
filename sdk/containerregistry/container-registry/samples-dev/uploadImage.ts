@@ -29,7 +29,8 @@ async function main() {
   const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const manifest: OciImageManifest = {
-    config: {
+    schemaVersion: 2,
+    configuration: {
       digest: configDigest,
       sizeInBytes: configSize,
       mediaType: "application/vnd.oci.image.config.v1+json",

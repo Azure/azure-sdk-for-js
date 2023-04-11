@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -289,10 +289,8 @@ export interface HighAvailabilitySoftwareConfiguration {
 
 // @public
 export interface ImageReference {
-    readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
-    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
 }
@@ -592,9 +590,9 @@ export interface MonitorPropertiesErrors extends ErrorModel {
 
 // @public
 export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<MonitorsDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<Monitor>;
@@ -857,9 +855,9 @@ export interface ProviderInstancePropertiesErrors extends ErrorModel {
 
 // @public
 export interface ProviderInstances {
-    beginCreate(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<ProviderInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesDeleteResponse>, ProviderInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProviderInstancesDeleteResponse>, ProviderInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<ProviderInstancesDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesGetOptionalParams): Promise<ProviderInstancesGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: ProviderInstancesListOptionalParams): PagedAsyncIterableIterator<ProviderInstance>;
@@ -954,15 +952,15 @@ export interface SAPApplicationServerInstanceList {
 
 // @public
 export interface SAPApplicationServerInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesCreateResponse>, SAPApplicationServerInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesCreateResponse>, SAPApplicationServerInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SAPApplicationServerInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesDeleteResponse>, SAPApplicationServerInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesDeleteResponse>, SAPApplicationServerInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SAPApplicationServerInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesStartInstanceResponse>, SAPApplicationServerInstancesStartInstanceResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStartInstanceResponse>, SAPApplicationServerInstancesStartInstanceResponse>>;
     beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SAPApplicationServerInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesStopInstanceResponse>, SAPApplicationServerInstancesStopInstanceResponse>>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStopInstanceResponse>, SAPApplicationServerInstancesStopInstanceResponse>>;
     beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SAPApplicationServerInstancesStopInstanceResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesUpdateResponse>, SAPApplicationServerInstancesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesUpdateResponse>, SAPApplicationServerInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<SAPApplicationServerInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesGetOptionalParams): Promise<SAPApplicationServerInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPApplicationServerInstancesListOptionalParams): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
@@ -1071,15 +1069,15 @@ export interface SAPCentralInstanceList {
 
 // @public
 export interface SAPCentralInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesCreateResponse>, SAPCentralInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesCreateResponse>, SAPCentralInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SAPCentralInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesDeleteResponse>, SAPCentralInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesDeleteResponse>, SAPCentralInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SAPCentralInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesStartInstanceResponse>, SAPCentralInstancesStartInstanceResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStartInstanceResponse>, SAPCentralInstancesStartInstanceResponse>>;
     beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SAPCentralInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesStopInstanceResponse>, SAPCentralInstancesStopInstanceResponse>>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStopInstanceResponse>, SAPCentralInstancesStopInstanceResponse>>;
     beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SAPCentralInstancesStopInstanceResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesUpdateResponse>, SAPCentralInstancesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesUpdateResponse>, SAPCentralInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<SAPCentralInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesGetOptionalParams): Promise<SAPCentralInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPCentralInstancesListOptionalParams): PagedAsyncIterableIterator<SAPCentralServerInstance>;
@@ -1204,15 +1202,15 @@ export interface SAPDatabaseInstanceList {
 
 // @public
 export interface SAPDatabaseInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesCreateResponse>, SAPDatabaseInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesCreateResponse>, SAPDatabaseInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SAPDatabaseInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesDeleteResponse>, SAPDatabaseInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesDeleteResponse>, SAPDatabaseInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SAPDatabaseInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesStartInstanceResponse>, SAPDatabaseInstancesStartInstanceResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStartInstanceResponse>, SAPDatabaseInstancesStartInstanceResponse>>;
     beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SAPDatabaseInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesStopInstanceResponse>, SAPDatabaseInstancesStopInstanceResponse>>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStopInstanceResponse>, SAPDatabaseInstancesStopInstanceResponse>>;
     beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SAPDatabaseInstancesStopInstanceResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesUpdateResponse>, SAPDatabaseInstancesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesUpdateResponse>, SAPDatabaseInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SAPDatabaseInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesGetOptionalParams): Promise<SAPDatabaseInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPDatabaseInstancesListOptionalParams): PagedAsyncIterableIterator<SAPDatabaseInstance>;
@@ -1533,13 +1531,13 @@ export type SapVirtualInstanceProvisioningState = string;
 
 // @public
 export interface SAPVirtualInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesCreateResponse>, SAPVirtualInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesCreateResponse>, SAPVirtualInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SAPVirtualInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesDeleteResponse>, SAPVirtualInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesDeleteResponse>, SAPVirtualInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SAPVirtualInstancesDeleteResponse>;
-    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesStartResponse>, SAPVirtualInstancesStartResponse>>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStartResponse>, SAPVirtualInstancesStartResponse>>;
     beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SAPVirtualInstancesStartResponse>;
-    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesStopResponse>, SAPVirtualInstancesStopResponse>>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStopResponse>, SAPVirtualInstancesStopResponse>>;
     beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SAPVirtualInstancesStopResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesGetOptionalParams): Promise<SAPVirtualInstancesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SAPVirtualInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
