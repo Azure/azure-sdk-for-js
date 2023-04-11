@@ -274,7 +274,7 @@ export class ManagedIdentityCredential implements TokenCredential {
                   );
                   return {
                     accessToken: "no_access_token_returned",
-                    expiresInSeconds: 0
+                    expiresInSeconds: 0,
                   };
                 }
               }

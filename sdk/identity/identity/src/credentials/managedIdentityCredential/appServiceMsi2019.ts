@@ -96,6 +96,6 @@ export const appServiceMsi2019: MSI = {
       allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
-    return ((tokenResponse && tokenResponse.accessToken) || null);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   },
 };
