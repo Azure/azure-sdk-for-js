@@ -10,7 +10,7 @@ import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils"
 import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
-import { SyntaxKind } from "typescript";
+import { SyntaxKind, canHaveModifiers } from "typescript";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
@@ -31,6 +31,9 @@ const reportInternal = (
   converter: ParserWeakMapESTreeToTSNode
 ): void => {
   const tsNode = converter.get(node as TSESTree.Node);
+  if (!canHaveModifiers(tsNode)) {
+    return;
+  }
   const modifiers = tsNode.modifiers;
 
   // if type is internal and has a TSDoc and is a private member

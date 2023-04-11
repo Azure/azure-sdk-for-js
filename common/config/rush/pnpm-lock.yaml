@@ -866,6 +866,24 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-amqp/3.2.2:
+    resolution: {integrity: sha512-6ta1UERwLLO3TUl6xsMGSLkj6zhhyE028h2LA26a9awfMxF62PPlm+ZvdJcidkphr69hT87PtPO6SHeZzguCZw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-util': 1.2.0
+      '@azure/logger': 1.0.4
+      buffer: 6.0.3
+      events: 3.3.0
+      jssha: 3.3.0
+      process: 0.11.10
+      rhea: 2.0.8
+      rhea-promise: 2.1.0
+      tslib: 2.5.0
+      util: 0.12.5
+    dev: false
+
   /@azure/core-asynciterator-polyfill/1.0.2:
     resolution: {integrity: sha512-3rkP4LnnlWawl0LZptJOdXNrT/fHp2eQMadoasa6afspXdpGrtPZuAQc2PD0cpgyuoXtUWyC3tv7xfntjGS5Dw==}
     engines: {node: '>=12.0.0'}
@@ -1204,6 +1222,32 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.4
       events: 3.3.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/service-bus/7.8.1:
+    resolution: {integrity: sha512-Mo/tCxNiYUT92rKj5mSILeccD5H2ndyPqpZZ+IdtFusa/e3mIz8Kghm1otsxpJCB3XHj6vPJxON/gDRE4exe7Q==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 3.2.2
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.2.0
+      '@azure/core-xml': 1.3.3
+      '@azure/logger': 1.0.4
+      '@types/is-buffer': 2.0.0
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.0
+      long: 5.2.1
+      process: 0.11.10
+      rhea-promise: 2.1.0
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
@@ -2502,10 +2546,6 @@ packages:
 
   /@types/node/16.18.23:
     resolution: {integrity: sha512-XAMpaw1s1+6zM+jn2tmw8MyaRDIJfXxqmIQIS0HfoGYPuf7dUWeiUKopwq13KFX9lEp1+THGtlaaYx39Nxr58g==}
-    dev: false
-
-  /@types/node/17.0.45:
-    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
     dev: false
 
   /@types/node/18.15.11:
@@ -3958,7 +3998,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230404
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -7771,6 +7811,14 @@ packages:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: false
 
+  /rhea-promise/2.1.0:
+    resolution: {integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==}
+    dependencies:
+      debug: 3.2.7
+      rhea: 2.0.8
+      tslib: 2.5.0
+    dev: false
+
   /rhea-promise/3.0.0:
     resolution: {integrity: sha512-aj0nweqb7avqIo+PANLyOCQV6wlTw3j1Ktk+sPgfiIVUC5U6qt5l1FIXTbXUfNH6pJ3YCDT+bRIYGramJ53pAA==}
     dependencies:
@@ -7779,6 +7827,12 @@ packages:
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /rhea/2.0.8:
+    resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /rhea/3.0.2:
@@ -8633,7 +8687,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_ksn4eycaeggbrckn3ykh37hwf4:
+  /ts-node/10.9.1_mzjxd25yb7ztde7ev5zh6gh62m:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -8652,7 +8706,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 17.0.45
+      '@types/node': 16.18.23
       acorn: 8.8.2
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -8801,14 +8855,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230404:
-    resolution: {integrity: sha512-jnBojDBCCoAxsmxh8bjH7FHFBsGVOFOcPwfGhZ9zPnh2/uORifLcsKRHD3DI2dM+6Y9wISlh+cb23R2BQR09xg==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9166,6 +9220,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -10961,7 +11023,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-RCYYrcf/AW0dqr+2QvY2EU+4rniSy5+K9uTGVuKvXixjIqYhcwUo580X77OQnjtpZPEByA6n/0t+ESkfik4FUw==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -10975,8 +11037,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15477,7 +15539,7 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-5IMCUC4n9OhNpbXDbMXImW7FJ9kKijsVa+x+AHGXONXSzNILDKiGqCDSeT8SnnnWIUnxxePMUKK/jKtT5IAe3g==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-DBcM72mR0ByFS3D2PXptJc8xBmq2+62o4retRm1LhFk3IWqTnjPOvl0Y+yidTO0Cjt7shdhN+y/TtNADeY1Zmw==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
@@ -15491,8 +15553,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15626,7 +15688,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-BCxCcEVIqXSsumZ5b/0E4S4wAsI6WI7EsbY8tNQX/yEMYeMOKchffplek8nBnjjMXJh93itkE3Im9HTTAd4HBQ==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-5/l5GYmYlgc007crbcLNODtwZn7Ge10AZ7fONGz/FWCszObt2YQn/6xXttfS8zKo6XNmUFqlUd6qGhJnyv0FjA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -15668,7 +15730,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16244,7 +16305,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -16464,7 +16525,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-qvA+e0Az/3IZA8icAk4/zaH3Kc9DdWlcFq9vglmarO7ZuuJ2zXFTw7+evnUrZHk/lzDGeBljxUGR4N81wW1sgw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-kK5ldNyRVlwXgfZCIHPQpntjtH05dXyzyaO/QUWUL89eeskBdaMB695pE9rVxbfPeifPRA/X4Sv0t9mCd5y/6Q==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16516,7 +16577,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16869,7 +16930,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -17121,6 +17182,7 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
+      '@azure/service-bus': 7.8.1
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
@@ -18432,12 +18494,12 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-kDq4Xkn5AoN6R174eCoyNto0dheT8QHuFrAQthU/N/ASFtlaYsWNXoa7IlyoWxw6qYpzA/KO4qajQ8ztH4UIvw==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-NfjWtU+8W7g7vp7F5jqjtBAnveBGDGYbFB+WSNwM1zWwOzUdvRMnGMAxvAhz+zuW8F9YQwvHxmOJUpJ48sCF5Q==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@types/express': 4.17.17
-      '@types/node': 17.0.45
+      '@types/node': 16.18.23
       '@types/uuid': 8.3.4
       concurrently: 6.5.1
       cross-env: 7.0.3
@@ -18446,7 +18508,7 @@ packages:
       express: 4.18.2
       prettier: 2.8.7
       rimraf: 3.0.2
-      ts-node: 10.9.1_ksn4eycaeggbrckn3ykh37hwf4
+      ts-node: 10.9.1_mzjxd25yb7ztde7ev5zh6gh62m
       tslib: 2.5.0
       typescript: 4.8.4
       undici: 5.21.0
@@ -18693,6 +18755,7 @@ packages:
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
+      '@azure/service-bus': 7.8.1
       '@types/node': 14.18.42
       '@types/uuid': 8.3.4
       dotenv: 16.0.3

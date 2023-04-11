@@ -254,8 +254,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 }
 
 // @public
-export interface OciAnnotations {
-    [additionalProperties: string]: unknown;
+export interface OciAnnotations extends Record<string, unknown> {
     authors?: string;
     createdOn?: Date;
     description?: string;
@@ -282,9 +281,9 @@ export interface OciDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config: OciDescriptor;
+    configuration: OciDescriptor;
     layers: OciDescriptor[];
-    schemaVersion?: number;
+    schemaVersion: number;
 }
 
 // @public

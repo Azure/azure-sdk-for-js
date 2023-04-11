@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPCentralServerInstance,
   SAPCentralInstancesListOptionalParams,
@@ -69,8 +69,8 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesCreateResponse>,
       SAPCentralInstancesCreateResponse
     >
   >;
@@ -104,8 +104,8 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesUpdateResponse>,
       SAPCentralInstancesUpdateResponse
     >
   >;
@@ -141,8 +141,8 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesDeleteResponse>,
       SAPCentralInstancesDeleteResponse
     >
   >;
@@ -177,8 +177,8 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesStartInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesStartInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesStartInstanceResponse>,
       SAPCentralInstancesStartInstanceResponse
     >
   >;
@@ -210,8 +210,8 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesStopInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesStopInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesStopInstanceResponse>,
       SAPCentralInstancesStopInstanceResponse
     >
   >;

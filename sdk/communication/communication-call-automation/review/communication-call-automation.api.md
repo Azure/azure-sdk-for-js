@@ -79,7 +79,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
 
 // @public
 export class CallAutomationEventParser {
@@ -163,6 +163,17 @@ export class CallInvite {
 }
 
 // @public
+export interface CallLocator {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    kind: CallLocatorType;
+}
+
+// @public
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+
+// @public
 export class CallMedia {
     constructor(callConnectionId: string, callMediaImpl: CallMediaImpl);
     cancelAllMediaOperations(): Promise<void>;
@@ -216,7 +227,8 @@ export class CallRecording {
     constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl);
     deleteRecording(recordingLocation: string, options?: DeleteRecordingOptions): Promise<void>;
     downloadStreaming(sourceLocation: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
-    downloadTo(sourceLocation: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
+    downloadToPath(sourceLocation: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
+    downloadToStream(sourceLocation: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
     getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -250,8 +262,14 @@ export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -306,14 +324,6 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
-
-// @public
-export interface GroupCallLocator {
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    readonly kind?: "groupCallLocator";
-}
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -449,30 +459,13 @@ export enum RecognizeInputType {
 }
 
 // @public
-export enum RecordingChannel {
-    // (undocumented)
-    Mixed = "mixed",
-    // (undocumented)
-    Unmixed = "unmixed"
-}
+export type RecordingChannel = "mixed" | "unmixed";
 
 // @public
-export enum RecordingContent {
-    // (undocumented)
-    Audio = "audio",
-    // (undocumented)
-    AudioVideo = "audioVideo"
-}
+export type RecordingContent = "audio" | "audioVideo";
 
 // @public
-export enum RecordingFormat {
-    // (undocumented)
-    Mp3 = "mp3",
-    // (undocumented)
-    Mp4 = "mp4",
-    // (undocumented)
-    Wav = "wav"
-}
+export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
 export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -493,19 +486,33 @@ export interface RecordingStateResult {
 }
 
 // @public
-export enum RecordingStorage {
-    // (undocumented)
-    Acs = "acs",
-    // (undocumented)
-    BlobStorage = "blobStorage"
-}
+export type RecordingStorage = "acs" | "blobStorage";
 
 // @public
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantFailed_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface RemoveParticipantFailed extends Omit<RemoveParticipantFailed_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "RemoveParticipantFailed";
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -516,6 +523,18 @@ export interface RemoveParticipantsOptions extends OperationOptions {
 // @public
 export interface RemoveParticipantsResult {
     operationContext?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantSucceeded_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface RemoveParticipantSucceeded extends Omit<RemoveParticipantSucceeded_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "RemoveParticipantSucceeded";
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -579,6 +598,7 @@ export interface RestParticipantsUpdated {
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
     participants?: CallParticipantInternal[];
+    sequenceNumber?: number;
     serverCallId?: string;
 }
 
@@ -672,22 +692,15 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
-export interface ServerCallLocator {
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    readonly kind?: "serverCallLocator";
-}
-
-// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
-    callLocator: ServerCallLocator | GroupCallLocator;
-    recordingChannel?: string;
-    recordingContent?: string;
-    recordingFormat?: string;
+    callLocator: CallLocator;
+    externalStorageLocation?: string;
+    recordingChannel?: RecordingChannel;
+    recordingContent?: RecordingContent;
+    recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpoint?: string;
-    recordingStorageType?: string;
+    recordingStorageType?: RecordingStorage;
 }
 
 // @public

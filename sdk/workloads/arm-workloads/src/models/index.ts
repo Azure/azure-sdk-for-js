@@ -199,7 +199,7 @@ export interface DiskVolumeConfiguration {
   sku?: DiskSku;
 }
 
-/** The disk sku. */
+/** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
 export interface DiskSku {
   /** Defines the disk sku name. */
   name?: DiskSkuName;
@@ -207,7 +207,7 @@ export interface DiskSku {
 
 /** The supported disk size details for a disk type. */
 export interface DiskDetails {
-  /** The disk sku. */
+  /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
   sku?: DiskSku;
   /** The disk size in GB. */
   sizeGB?: number;
@@ -247,7 +247,7 @@ export interface SAPAvailabilityZonePair {
   zoneB?: number;
 }
 
-/** Managed service identity (user assigned identities) */
+/** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
 export interface UserAssignedServiceIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
@@ -350,7 +350,7 @@ export interface SystemData {
 export interface UpdateSAPVirtualInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Managed service identity (user assigned identities) */
+  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
   identity?: UserAssignedServiceIdentity;
 }
 
@@ -653,7 +653,7 @@ export interface ErrorInnerError {
 export interface UpdateMonitorRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Managed service identity (user assigned identities) */
+  /** [currently not in use] Managed service identity(user assigned identities) */
   identity?: UserAssignedServiceIdentity;
 }
 
@@ -787,13 +787,6 @@ export interface ImageReference {
   sku?: string;
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
   version?: string;
-  /**
-   * Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exactVersion?: string;
-  /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
-  sharedGalleryImageId?: string;
 }
 
 /** Defines the OS configuration. */
@@ -1340,7 +1333,7 @@ export interface SingleServerFullResourceNames
   virtualMachine?: VirtualMachineResourceNames;
 }
 
-/** Gets or sets the single server configuration. */
+/** Gets or sets the single server configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
 export interface SingleServerConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "SingleServer";
@@ -1358,7 +1351,7 @@ export interface SingleServerConfiguration extends InfrastructureConfiguration {
   customResourceNames?: SingleServerCustomResourceNamesUnion;
 }
 
-/** Gets or sets the three tier SAP configuration. */
+/** Gets or sets the three tier SAP configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
 export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "ThreeTier";
@@ -1378,24 +1371,24 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   customResourceNames?: ThreeTierCustomResourceNamesUnion;
 }
 
-/** Gets or sets the skip file share configuration */
+/** Gets or sets the file share configuration for scenarios where transport directory fileshare is not created or required. */
 export interface SkipFileShareConfiguration extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Skip";
 }
 
-/** Gets or sets the file share configuration for file share created with the VIS case. */
+/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn’t need to pre-created. */
 export interface CreateAndMountFileShareConfiguration
   extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "CreateAndMount";
-  /** The name of file share resource group. The app rg is used in case of missing input. */
+  /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
   resourceGroup?: string;
   /** The name of file share storage account name . A custom name is used in case of missing input. */
   storageAccountName?: string;
 }
 
-/** Gets or sets the file share configuration for externally mounted cases. */
+/** Gets or sets the file share configuration where the transport directory fileshare already exists, and user wishes to mount the fileshare as a part of the create infra flow. */
 export interface MountFileShareConfiguration extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Mount";
@@ -1469,7 +1462,7 @@ export interface OperationsDefinitionDisplay
 
 /** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance extends TrackedResource {
-  /** Managed service identity (user assigned identities) */
+  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
   identity?: UserAssignedServiceIdentity;
   /** Defines the environment type - Production/Non Production. */
   environment: SAPEnvironmentType;
@@ -1698,7 +1691,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
 
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
 export interface Monitor extends TrackedResource {
-  /** Managed service identity (user assigned identities) */
+  /** [currently not in use] Managed service identity(user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the SAP monitor.
@@ -1736,7 +1729,7 @@ export interface Monitor extends TrackedResource {
 
 /** A provider instance associated with SAP monitor. */
 export interface ProviderInstance extends ProxyResource {
-  /** Managed service identity (user assigned identities) */
+  /** [currently not in use] Managed service identity(user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the provider instance
@@ -1748,7 +1741,7 @@ export interface ProviderInstance extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: ProviderInstancePropertiesErrors;
-  /** Defines the provider instance errors. */
+  /** Defines the provider specific properties. */
   providerSettings?: ProviderSpecificPropertiesUnion;
 }
 

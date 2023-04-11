@@ -90,6 +90,87 @@ describe("getClient", () => {
       // Define the apiVersion in url
       await client.pathUnchecked(`/foo?api-version=${operationApiVersion}`).get();
     });
+
+    it("should not encode url when skip query parameter encoding and api version parameter exists", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return {
+          headers: createHttpHeaders(),
+          status: 200,
+          request: req,
+        } as PipelineResponse;
+      });
+
+      const apiVersion = "2021-11-18";
+      const client = getClient("https://example.org", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `colors=blue,red,green&api-version=${apiVersion}`);
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get({
+        queryParameters: {
+          colors: ["blue", "red", "green"],
+        },
+        skipUrlEncoding: true,
+      });
+    });
+
+    it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return {
+          headers: createHttpHeaders(),
+          status: 200,
+          request: req,
+        } as PipelineResponse;
+      });
+
+      const apiVersion = "2021-11-18";
+      const client = getClient("https://example.org", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `colors=blue%2Cred%2Cgreen&api-version=${apiVersion}`);
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get({
+        queryParameters: {
+          colors: ["blue", "red", "green"],
+        },
+      });
+    });
+  });
+
+  it("should append api version correctly", async () => {
+    const defaultHttpClient = getCachedDefaultHttpsClient();
+    sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      return {
+        headers: createHttpHeaders(),
+        status: 200,
+        request: req,
+      } as PipelineResponse;
+    });
+
+    const apiVersion = "2021-11-18";
+    const client = getClient("https://example.org", { apiVersion });
+    const validationPolicy: PipelinePolicy = {
+      name: "validationPolicy",
+      sendRequest: (req, next) => {
+        assert.equal(req.url, `https://example.org/foo?api-version=${apiVersion}`);
+        return next(req);
+      },
+    };
+
+    client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+    await client.pathUnchecked("/foo").get();
   });
 
   it("should insert policies in the correct pipeline position", async function () {

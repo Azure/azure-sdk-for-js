@@ -43,7 +43,7 @@ async function main() {
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
   fs.writeFileSync("manifest.json", result.content);
 
-  const configResult = await client.downloadBlob(manifest.config.digest);
+  const configResult = await client.downloadBlob(manifest.configuration.digest);
   const configFile = fs.createWriteStream("config.json");
   configResult.content.pipe(configFile);
 
