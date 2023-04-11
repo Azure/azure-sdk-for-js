@@ -4001,7 +4001,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230410
+      typescript: 5.1.0-dev.20230411
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8864,8 +8864,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230410:
-    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
+  /typescript/5.1.0-dev.20230411:
+    resolution: {integrity: sha512-3yO7RzC4rZID1/u1alMwKKAhp/kyDkFiR+73vsvK5z99GYRVbUJIy9f3w2pGNZI3K7YI5Hv1bN2XWkPgZhB2CA==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -12069,6 +12069,7 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 16.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -16331,7 +16332,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
