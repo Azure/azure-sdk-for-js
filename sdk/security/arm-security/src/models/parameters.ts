@@ -35,13 +35,13 @@ import {
   AlertSimulatorRequestBody as AlertSimulatorRequestBodyMapper,
   Setting as SettingMapper,
   IngestionSetting as IngestionSettingMapper,
-  SecurityConnector as SecurityConnectorMapper,
   GovernanceRule as GovernanceRuleMapper,
   ExecuteGovernanceRuleParams as ExecuteGovernanceRuleParamsMapper,
   GovernanceAssignment as GovernanceAssignmentMapper,
   Application as ApplicationMapper,
   RuleResultsInput as RuleResultsInputMapper,
-  RulesResultsInput as RulesResultsInputMapper
+  RulesResultsInput as RulesResultsInputMapper,
+  SecurityConnector as SecurityConnectorMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -230,7 +230,7 @@ export const complianceResultName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1027,34 +1027,6 @@ export const softwareName: OperationURLParameter = {
 export const apiVersion16: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const securityConnectorName: OperationURLParameter = {
-  parameterPath: "securityConnectorName",
-  mapper: {
-    serializedName: "securityConnectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const securityConnector: OperationParameter = {
-  parameterPath: "securityConnector",
-  mapper: SecurityConnectorMapper
-};
-
-export const apiVersion17: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
     defaultValue: "2022-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
@@ -1137,7 +1109,7 @@ export const governanceAssignment: OperationParameter = {
   mapper: GovernanceAssignmentMapper
 };
 
-export const apiVersion18: OperationQueryParameter = {
+export const apiVersion17: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-07-01-preview",
@@ -1163,6 +1135,17 @@ export const applicationId: OperationURLParameter = {
 export const application: OperationParameter = {
   parameterPath: "application",
   mapper: ApplicationMapper
+};
+
+export const securityConnectorName: OperationURLParameter = {
+  parameterPath: "securityConnectorName",
+  mapper: {
+    serializedName: "securityConnectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const resourceGroupName1: OperationURLParameter = {
@@ -1196,7 +1179,7 @@ export const serviceName: OperationURLParameter = {
   }
 };
 
-export const apiVersion19: OperationQueryParameter = {
+export const apiVersion18: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-11-20-preview",
@@ -1223,7 +1206,7 @@ export const apiCollectionId: OperationURLParameter = {
   }
 };
 
-export const apiVersion20: OperationQueryParameter = {
+export const apiVersion19: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-01-preview",
@@ -1308,4 +1291,65 @@ export const body4: OperationParameter = {
 export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: RulesResultsInputMapper
+};
+
+export const apiVersion20: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const securityConnector: OperationParameter = {
+  parameterPath: "securityConnector",
+  mapper: SecurityConnectorMapper
+};
+
+export const apiVersion21: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-01-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const pricingName1: OperationURLParameter = {
+  parameterPath: "pricingName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9_]+$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "pricingName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const securityOperatorName: OperationURLParameter = {
+  parameterPath: "securityOperatorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9_]+$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "securityOperatorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

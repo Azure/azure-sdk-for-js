@@ -404,7 +404,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
   serializer
@@ -420,7 +420,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept],
   serializer
@@ -440,7 +440,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.governanceRule,
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -450,7 +450,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   serializer
 };
@@ -476,7 +476,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.executeGovernanceRuleParams,
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -497,7 +497,7 @@ const operationResultsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a security connector
  *
  * @summary Updates a security connector
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-08-01-preview/examples/SecurityConnectors/PatchSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/PatchSecurityConnector_example.json
  */
 async function updateASecurityConnector() {
   const subscriptionId =

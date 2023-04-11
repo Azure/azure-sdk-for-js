@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "199",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-security/6.0.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e14fe9d4-5530-4bb0-8a60-949e855f01e5"
+        "User-Agent": "azsdk-js-arm-security/6.0.0-beta.4 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3fd8ffa9-ece0-47b2-af8f-cb81c199867b"
       },
       "RequestBody": {
         "properties": {
@@ -29,24 +29,22 @@
           }
         }
       },
-      "StatusCode": 200,
+      "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2020-01-01-preview",
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "434",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Mar 2023 02:42:18 GMT",
+        "Date": "Tue, 11 Apr 2023 09:09:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "892bee9a-fc68-4e57-ab72-09c058c6c5f0",
+        "x-ms-correlation-request-id": "c6c61ab4-a40f-4c1d-b134-ba64d1fc6121",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "249",
-        "x-ms-request-id": "892bee9a-fc68-4e57-ab72-09c058c6c5f0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230321T024218Z:892bee9a-fc68-4e57-ab72-09c058c6c5f0"
+        "x-ms-request-id": "c6c61ab4-a40f-4c1d-b134-ba64d1fc6121",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230411T090952Z:c6c61ab4-a40f-4c1d-b134-ba64d1fc6121"
       },
       "ResponseBody": {
         "properties": {
@@ -66,7 +64,7 @@
         "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Security/securityContacts/default",
         "name": "default",
         "type": "Microsoft.Security/securityContacts",
-        "etag": "\u0022ec03c1e0-0000-0d00-0000-6419198a0000\u0022",
+        "etag": "\u0022ad01c025-0000-0d00-0000-643523e00000\u0022",
         "location": "West Europe"
       }
     }

@@ -15,29 +15,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieves details of a specific security connector
+ * This sample demonstrates how to Lists Microsoft Defender for Cloud securityOperators in the subscription.
  *
- * @summary Retrieves details of a specific security connector
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/GetSecurityConnectorSingleResource_example.json
+ * @summary Lists Microsoft Defender for Cloud securityOperators in the subscription.
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-01-01-preview/examples/SecurityOperators/ListSecurityOperators_example.json
  */
-async function retrieveASecurityConnector() {
+async function listSecurityOperators() {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName =
-    process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const securityConnectorName = "exampleSecurityConnectorName";
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const pricingName = "CloudPosture";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securityConnectors.get(
-    resourceGroupName,
-    securityConnectorName
-  );
+  const result = await client.securityOperators.list(pricingName);
   console.log(result);
 }
 
 async function main() {
-  retrieveASecurityConnector();
+  listSecurityOperators();
 }
 
 main().catch(console.error);
