@@ -16,23 +16,27 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   KeysImpl,
+  ManagedHsmKeysImpl,
   VaultsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ManagedHsmsImpl,
   MhsmPrivateEndpointConnectionsImpl,
   MhsmPrivateLinkResourcesImpl,
+  MhsmRegionsImpl,
   OperationsImpl,
   SecretsImpl
 } from "./operations";
 import {
   Keys,
+  ManagedHsmKeys,
   Vaults,
   PrivateEndpointConnections,
   PrivateLinkResources,
   ManagedHsms,
   MhsmPrivateEndpointConnections,
   MhsmPrivateLinkResources,
+  MhsmRegions,
   Operations,
   Secrets
 } from "./operationsInterfaces";
@@ -71,7 +75,7 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-keyvault/2.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-keyvault/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,8 +128,9 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-02-01";
     this.keys = new KeysImpl(this);
+    this.managedHsmKeys = new ManagedHsmKeysImpl(this);
     this.vaults = new VaultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -134,6 +139,7 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
       this
     );
     this.mhsmPrivateLinkResources = new MhsmPrivateLinkResourcesImpl(this);
+    this.mhsmRegions = new MhsmRegionsImpl(this);
     this.operations = new OperationsImpl(this);
     this.secrets = new SecretsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -168,12 +174,14 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
   }
 
   keys: Keys;
+  managedHsmKeys: ManagedHsmKeys;
   vaults: Vaults;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   managedHsms: ManagedHsms;
   mhsmPrivateEndpointConnections: MhsmPrivateEndpointConnections;
   mhsmPrivateLinkResources: MhsmPrivateLinkResources;
+  mhsmRegions: MhsmRegions;
   operations: Operations;
   secrets: Secrets;
 }

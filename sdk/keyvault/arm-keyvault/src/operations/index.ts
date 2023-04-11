@@ -7,11 +7,13 @@
  */
 
 export * from "./keys";
+export * from "./managedHsmKeys";
 export * from "./vaults";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./managedHsms";
 export * from "./mhsmPrivateEndpointConnections";
 export * from "./mhsmPrivateLinkResources";
+export * from "./mhsmRegions";
 export * from "./operations";
 export * from "./secrets";

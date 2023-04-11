@@ -65,7 +65,7 @@ const listByMhsmResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer

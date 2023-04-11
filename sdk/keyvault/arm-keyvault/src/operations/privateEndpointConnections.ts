@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByResourceNextOptionalParams,
@@ -190,8 +194,8 @@ export class PrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsDeleteResponse>,
       PrivateEndpointConnectionsDeleteResponse
     >
   > {
@@ -201,7 +205,7 @@ export class PrivateEndpointConnectionsImpl
     ): Promise<PrivateEndpointConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,13 +238,21 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, privateEndpointConnectionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionsDeleteResponse,
+      OperationState<PrivateEndpointConnectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -425,7 +437,6 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
