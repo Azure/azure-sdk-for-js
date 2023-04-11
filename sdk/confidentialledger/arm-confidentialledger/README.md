@@ -6,7 +6,7 @@ Microsoft Azure Confidential Compute Ledger Control Plane REST API version 2020-
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/arm-confidentialledger) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-confidentialledger) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

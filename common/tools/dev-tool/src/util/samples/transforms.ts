@@ -33,7 +33,11 @@ export const createToCommonJsTransform: (
     return ts.visitEachChild(node, visitor, context);
   };
 
-  return ts.visitNode(sourceFile, visitor);
+  const visited = ts.visitNode(sourceFile, visitor);
+  if (!visited) {
+    throw new Error("Expect valid visited node");
+  }
+  return visited as ts.SourceFile;
 };
 
 interface TranspiledModule {
