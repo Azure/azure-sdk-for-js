@@ -296,6 +296,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     try {
       this.logger.info("Attempting to acquire token silently");
+      await ((this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts());
       const response =
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
