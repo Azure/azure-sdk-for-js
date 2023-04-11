@@ -298,8 +298,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
        * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
        */
-      await ((this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts());
-      
+      await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
+
       const response =
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
