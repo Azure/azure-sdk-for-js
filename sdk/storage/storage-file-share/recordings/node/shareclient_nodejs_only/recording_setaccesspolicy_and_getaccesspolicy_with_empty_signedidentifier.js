@@ -27,7 +27,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share160224079312107686', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><SignedIdentifiers><SignedIdentifier><Id>MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=</Id><AccessPolicy/></SignedIdentifier></SignedIdentifiers>")
+  .put('/share160224079312107686', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><SignedIdentifiers><SignedIdentifier><Id>6D97528B-8412-48AE-9DB1-6BF69C9F83A6</Id><AccessPolicy/></SignedIdentifier></SignedIdentifiers>")
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -51,7 +51,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/share160224079312107686')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers><SignedIdentifier><Id>MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=</Id></SignedIdentifier></SignedIdentifiers>", [
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers><SignedIdentifier><Id>6D97528B-8412-48AE-9DB1-6BF69C9F83A6</Id></SignedIdentifier></SignedIdentifiers>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',

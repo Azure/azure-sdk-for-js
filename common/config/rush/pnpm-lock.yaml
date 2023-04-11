@@ -3998,7 +3998,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230409
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8861,8 +8861,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230409:
-    resolution: {integrity: sha512-97xdCsU+nUtaHW7mFi7x6KfRz4ragV0WGI/Z5uoW0pelxP1l6NYM/0VJ3Gs2X8fer09TDflGF/oL8k4YR9eroQ==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9220,6 +9220,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -11015,7 +11023,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-RCYYrcf/AW0dqr+2QvY2EU+4rniSy5+K9uTGVuKvXixjIqYhcwUo580X77OQnjtpZPEByA6n/0t+ESkfik4FUw==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11029,8 +11037,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12021,7 +12029,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-4YZs8SjIY+ze/V2cBMfGV0W7iBEDvTDPWz7anDzygsKSF71tWoG3hEUPKF2IjTdAxjfQNSJ83G+eYwTDuZhrqA==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-5xCBSoTkHMW+mjOiubcrJe81absXkwzQJOR47qfRCrzr42hBurn/EOGb8cDMGonHfcjmGLJzMh49RQnddbhvJg==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12035,7 +12043,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16297,7 +16306,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -16517,7 +16526,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-qvA+e0Az/3IZA8icAk4/zaH3Kc9DdWlcFq9vglmarO7ZuuJ2zXFTw7+evnUrZHk/lzDGeBljxUGR4N81wW1sgw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-kK5ldNyRVlwXgfZCIHPQpntjtH05dXyzyaO/QUWUL89eeskBdaMB695pE9rVxbfPeifPRA/X4Sv0t9mCd5y/6Q==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16569,7 +16578,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
