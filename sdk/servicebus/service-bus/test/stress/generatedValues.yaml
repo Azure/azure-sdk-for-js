@@ -1,0 +1,7 @@
+scenarios:
+- memory: 1.5Gi
+  testTarget: scenarioStreamingReceive
+  Scenario: node18-streamingReceiver
+  image: Dockerfile
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshanalluru/jssb/dockerfile:harshanalluru
+
