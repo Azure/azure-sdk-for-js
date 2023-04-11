@@ -164,5 +164,4 @@ export async function cleanupCustomTestResource(
   const deleteTask = await client
     .path("/authoring/analyze-text/projects/{projectName}", projectName)
     .delete();
-  polling(client, deleteTask);
 }
