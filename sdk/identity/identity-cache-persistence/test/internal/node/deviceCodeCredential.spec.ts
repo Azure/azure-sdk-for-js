@@ -161,8 +161,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
     assert.equal(getTokenSilentSpy.callCount, 2);
 
-    // TODO: Why is this the case?
-    // I created an issue to track this: https://github.com/Azure/azure-sdk-for-js/issues/14701
-    assert.equal(doGetTokenSpy.callCount, 2);
+    // Resolved with issue - https://github.com/Azure/azure-sdk-for-js/issues/24349
+    assert.equal(doGetTokenSpy.callCount, 1);
   });
 });
