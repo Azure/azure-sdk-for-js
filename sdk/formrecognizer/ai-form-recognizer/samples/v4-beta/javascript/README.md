@@ -22,8 +22,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [buildModel.js][buildmodel]                             | build a model with a single document type from a training data set                         |
 | [classifyDocument.js][classifydocument]                 | use a custom classifier to classify a document                                             |
 | [copyModel.js][copymodel]                               | copy a model from one resource to another                                                  |
-| [extractGeneralDocument.js][extractgeneraldocument]     | use the prebuilt (general) document model to extract key-value pairs and entities          |
-| [extractLayout.js][extractlayout]                       | use the prebuilt layout model to extract basic document elements only                      |
 | [getClassifier.js][getclassifier]                       | get information about a classifier by its ID                                               |
 | [getInfo.js][getinfo]                                   | get information about the count and limit of custom models in the resource                 |
 | [getModel.js][getmodel]                                 | get information about a model by its ID                                                    |
