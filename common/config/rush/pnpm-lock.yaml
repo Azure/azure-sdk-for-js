@@ -8,6 +8,7 @@ specifiers:
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:./projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
@@ -345,6 +346,7 @@ dependencies:
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
@@ -4000,7 +4002,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230406
+      typescript: 5.1.0-dev.20230411
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8857,14 +8859,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230406:
-    resolution: {integrity: sha512-FYnJSNhyGIzc9fCHcPTS/YyboOKfchGpKhrDIcNCqvODooe7BNOWGx6sjMu8xTav8E0905iuPa6TOueq/C6gxg==}
+  /typescript/5.1.0-dev.20230411:
+    resolution: {integrity: sha512-3yO7RzC4rZID1/u1alMwKKAhp/kyDkFiR+73vsvK5z99GYRVbUJIy9f3w2pGNZI3K7YI5Hv1bN2XWkPgZhB2CA==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9222,6 +9224,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -9653,7 +9663,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-FxfCfovYvmTjcSow40Tq9KVGI/dCaAhAuQ3YBT4eVGAwzN2lbn39DC5f4a7soVVjSa2GQik2bZEfY1A2qlkp7w==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-klkC6UKOIHYQashvWmvf/2RRICvFoCeKsCP+EuPILy6r6fsYnYrdqTNPd6zHeUgzSIvQHzfW/ArOctZKfdiRFg==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9661,12 +9671,14 @@ packages:
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
+      '@types/decompress': 4.2.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.42
       '@types/sinon': 9.0.11
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
+      decompress: 4.2.1
       dotenv: 16.0.3
       eslint: 8.37.0
       karma: 6.4.1
@@ -9696,6 +9708,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-language-textauthoring.tgz:
+    resolution: {integrity: sha512-GTU83ToayG2z/7fIzk19QIqDMXP6vOQabzHT9uBguiCn1/Y8iz+FhvtnIpsnMyflPyl/JmejpznRZxYavSCWMw==, tarball: file:projects/ai-language-textauthoring.tgz}
+    name: '@rush-temp/ai-language-textauthoring'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      dotenv: 8.6.0
+      eslint: 8.37.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
@@ -11017,7 +11050,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-RCYYrcf/AW0dqr+2QvY2EU+4rniSy5+K9uTGVuKvXixjIqYhcwUo580X77OQnjtpZPEByA6n/0t+ESkfik4FUw==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11031,8 +11064,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12023,7 +12056,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-4YZs8SjIY+ze/V2cBMfGV0W7iBEDvTDPWz7anDzygsKSF71tWoG3hEUPKF2IjTdAxjfQNSJ83G+eYwTDuZhrqA==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-5xCBSoTkHMW+mjOiubcrJe81absXkwzQJOR47qfRCrzr42hBurn/EOGb8cDMGonHfcjmGLJzMh49RQnddbhvJg==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12037,7 +12070,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16327,7 +16361,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-A5YXB1oeGqoFPG68lXJtKpxack6DD11c+7Ysgu/w7R2r1BPMAhCYjNXM9uHxj1jQRm77UWE5Ngy5uLIgFJeyEg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -16547,7 +16581,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-qvA+e0Az/3IZA8icAk4/zaH3Kc9DdWlcFq9vglmarO7ZuuJ2zXFTw7+evnUrZHk/lzDGeBljxUGR4N81wW1sgw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-kK5ldNyRVlwXgfZCIHPQpntjtH05dXyzyaO/QUWUL89eeskBdaMB695pE9rVxbfPeifPRA/X4Sv0t9mCd5y/6Q==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -16599,7 +16633,7 @@ packages:
       uglify-js: 3.17.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
-      xml2js: 0.4.23
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16952,7 +16986,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1

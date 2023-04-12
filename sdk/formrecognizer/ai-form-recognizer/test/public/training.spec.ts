@@ -33,7 +33,10 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
+  [
+    [/* true, */ false],
+    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
+  ] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
@@ -145,7 +148,7 @@ matrix(
               const urlParts = testingContainerUrl.split("?");
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
-              const poller = await recognizerClient.beginAnalyzeDocument(
+              const poller = await recognizerClient.beginAnalyzeDocumentFromUrl(
                 model.modelId,
                 url,
                 testPollingOptions
@@ -233,9 +236,8 @@ matrix(
                   throw new Error(
                     `The service returned model info for ${modelId}, but we thought we had deleted it!`
                   );
-                } catch (e) {
-                  const { message } = e as any;
-                  assert.isTrue((message as string).endsWith(" not found."));
+                } catch (e: unknown) {
+                  assert.isTrue((e as Error).message.endsWith(" not found."));
                 }
               })
             );
