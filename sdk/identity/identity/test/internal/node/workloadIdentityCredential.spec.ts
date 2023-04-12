@@ -9,9 +9,9 @@ import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import {
+  AccessToken,
   DefaultAzureCredential,
   ManagedIdentityCredential,
-  TokenCredential,
   WorkloadIdentityCredential,
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
@@ -60,8 +60,12 @@ describe("WorkloadIdentityCredential", function () {
       federatedTokenFilePath,
     } as WorkloadIdentityCredentialOptions);
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isNotNull(token);
+    await validateWorkloadIdentityCredential(credential, token!, {
+      clientId,
+      tenantId,
+      federatedTokenFilePath,
+    });
   });
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
@@ -76,12 +80,24 @@ describe("WorkloadIdentityCredential", function () {
   it("authenticates with DefaultAzure Credential", async function (this: Context) {
     console.log("process env IN dac", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new DefaultAzureCredential();
+    const sandbox = sinon.createSandbox();
     try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      const { token, successfulCredential } = await credential["getTokenInternal"](scope);
+      assert.isDefined(successfulCredential);
+      assert.equal(successfulCredential.constructor.name, "WorkloadIdentityCredential");
+      validateWorkloadIdentityCredential(
+        successfulCredential as WorkloadIdentityCredential,
+        token,
+        {
+          clientId,
+          tenantId,
+          federatedTokenFilePath,
+        }
+      );
     } catch (e) {
       console.log(e);
+    } finally {
+      sandbox.restore();
     }
   });
   it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
@@ -91,33 +107,48 @@ describe("WorkloadIdentityCredential", function () {
       workloadIdentityClientId: "workloadIdentityClientId",
     });
     const sandbox = sinon.createSandbox();
-    let successfulSource: TokenCredential | undefined;
-    credential["_sources"].forEach((source) => {
-      const stub = sandbox.stub(source, "getToken").callsFake((scopes, options) => {
-        successfulSource = source;
-        return stub.wrappedMethod(scopes, options);
-      });
-    });
     try {
-      const token = await credential.getToken(scope);
-      assert.equal(successfulSource?.constructor.name, "WorkloadIdentityCredential");
-      const actualFederatedTokenFilePath = (successfulSource as WorkloadIdentityCredential)[
-        "federatedTokenFilePath"
-      ];
-      const clientAssertionCredential = (successfulSource as WorkloadIdentityCredential)["client"];
-      const actualClientId = clientAssertionCredential
-        ? clientAssertionCredential["clientId"]
-        : undefined;
-      const actualTenantId = clientAssertionCredential
-        ? clientAssertionCredential["tenantId"]
-        : undefined;
-      assert.equal(actualFederatedTokenFilePath, federatedTokenFilePath);
-      assert.equal(actualClientId, clientId);
-      assert.equal(actualTenantId, tenantId);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      const { token, successfulCredential } = await credential["getTokenInternal"](scope);
+      assert.isDefined(successfulCredential);
+      assert.equal(successfulCredential.constructor.name, "WorkloadIdentityCredential");
+      validateWorkloadIdentityCredential(
+        successfulCredential as WorkloadIdentityCredential,
+        token,
+        {
+          clientId: "workloadIdentityClientId",
+          tenantId,
+          federatedTokenFilePath,
+        }
+      );
+    } catch (e) {
+      console.log(e);
     } finally {
       sandbox.restore();
     }
   });
 });
+
+async function validateWorkloadIdentityCredential(
+  credential: WorkloadIdentityCredential,
+  token: AccessToken,
+  options: { clientId: string; tenantId: string; federatedTokenFilePath: string }
+) {
+  const {
+    clientId: expectedClientId,
+    tenantId: expectedTenantId,
+    federatedTokenFilePath: expectedFederatedTokenFilePath,
+  } = options;
+  const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
+  const clientAssertionCredential = credential["client"];
+  const actualClientId = clientAssertionCredential
+    ? clientAssertionCredential["clientId"]
+    : undefined;
+  const actualTenantId = clientAssertionCredential
+    ? clientAssertionCredential["tenantId"]
+    : undefined;
+  assert.equal(actualFederatedTokenFilePath, expectedFederatedTokenFilePath);
+  assert.equal(actualClientId, expectedClientId);
+  assert.equal(actualTenantId, expectedTenantId);
+  assert.ok(token?.token);
+  assert.ok(token?.expiresOnTimestamp! > Date.now());
+}
