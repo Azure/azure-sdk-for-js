@@ -24,6 +24,7 @@ import {
   loadPersistedEvents,
   persistEvents,
 } from "./utils/recordedClient";
+import { v4 as uuidv4 } from "uuid";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -43,6 +44,18 @@ describe("Call Automation Client Unit Tests", () => {
     client = Sinon.createStubInstance(
       CallAutomationClient
     ) as SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
+  });
+
+  it("RepeatabilityHeadersGeneration", async () => {
+    // mocks
+    const repeatabilityFirstSent: string = new Date().toUTCString();
+    const repeatabilityRequestID: string = uuidv4();
+
+    // asserts
+    assert.isNotNull(repeatabilityFirstSent);
+    assert.isNotNull(repeatabilityRequestID);
+    assert.typeOf(repeatabilityFirstSent, 'string');
+    assert.typeOf(repeatabilityRequestID, 'string');
   });
 
   it("CreateGroupCall", async () => {
@@ -69,6 +82,8 @@ describe("Call Automation Client Unit Tests", () => {
       })
       .catch((error) => console.error(error));
   });
+
+
 });
 
 describe("Call Automation Main Client Live Tests", function () {
