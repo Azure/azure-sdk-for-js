@@ -5,7 +5,10 @@
 /* eslint-disable sort-imports */
 
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import {
+  MsalTestCleanup,
+  msalNodeTestSetup,
+} from "../../../../identity/test/node/msalNodeTestSetup";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { createPersistence } from "./setup.spec";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
