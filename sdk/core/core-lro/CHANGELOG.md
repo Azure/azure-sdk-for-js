@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Include detailed error information in failed polling error messages.
+
 ## 2.5.2 (2023-04-06)
 
 ### Bugs Fixed
