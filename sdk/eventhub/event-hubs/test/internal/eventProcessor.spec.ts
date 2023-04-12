@@ -14,7 +14,7 @@ import {
   earliestEventPosition,
   latestEventPosition,
 } from "../../src";
-import { Dictionary, generate_uuid } from "rhea-promise";
+import { Dictionary } from "rhea-promise";
 import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
 import {
@@ -37,7 +37,8 @@ import { delay } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition";
 import { loggerForTest } from "../public/utils/logHelpers";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { v4 } from "uuid";
+import { getRandomName } from "../../src/util/utils";
+import { randomUUID } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -702,7 +703,7 @@ testWithServiceTypes((serviceVersion) => {
 
       // work around initial state issue by filling partitions with at least one message
       for (let i = 1; i < 100; i++) {
-        const filer = { body: "b", messageId: v4() };
+        const filer = { body: "b", messageId: getRandomName() };
         await producerClient.sendBatch([filer]);
       }
 
@@ -854,14 +855,14 @@ testWithServiceTypes((serviceVersion) => {
           fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
           eventHubName: "myEventHub",
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-          ownerId: generate_uuid(),
+          ownerId: randomUUID(),
           partitionId: "0",
         };
         const partitionOwnership2: PartitionOwnership = {
           fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
           eventHubName: "myEventHub",
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-          ownerId: generate_uuid(),
+          ownerId: randomUUID(),
           partitionId: "1",
         };
         const partitionOwnership = await inMemoryCheckpointStore.claimOwnership([

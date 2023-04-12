@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AzureFileVolume {
@@ -64,11 +64,6 @@ export interface CloudErrorBody {
     details?: CloudErrorBody[];
     message?: string;
     target?: string;
-}
-
-// @public
-export interface ConfidentialComputeProperties {
-    ccePolicy?: string;
 }
 
 // @public
@@ -146,11 +141,7 @@ export interface ContainerGroupListResult {
 export type ContainerGroupNetworkProtocol = string;
 
 // @public
-export type ContainerGroupPriority = string;
-
-// @public
 export interface ContainerGroupProperties {
-    confidentialComputeProperties?: ConfidentialComputeProperties;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
@@ -161,9 +152,10 @@ export interface ContainerGroupProperties {
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
+    readonly isCustomProvisioningTimeout?: IsCustomProvisioningTimeout;
     osType: OperatingSystemTypes;
-    priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
+    provisioningTimeoutInSeconds?: number;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
     subnetIds?: ContainerGroupSubnetId[];
@@ -181,13 +173,13 @@ export type ContainerGroupRestartPolicy = string;
 
 // @public
 export interface ContainerGroups {
-    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<ContainerGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<ContainerGroupsDeleteResponse>;
-    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<void>;
     get(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOptionalParams): Promise<ContainerGroupsGetResponse>;
     getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
@@ -505,6 +497,9 @@ export interface IpAddress {
 }
 
 // @public
+export type IsCustomProvisioningTimeout = string;
+
+// @public
 export enum KnownContainerGroupIpAddressType {
     Private = "Private",
     Public = "Public"
@@ -517,12 +512,6 @@ export enum KnownContainerGroupNetworkProtocol {
 }
 
 // @public
-export enum KnownContainerGroupPriority {
-    Regular = "Regular",
-    Spot = "Spot"
-}
-
-// @public
 export enum KnownContainerGroupRestartPolicy {
     Always = "Always",
     Never = "Never",
@@ -531,7 +520,6 @@ export enum KnownContainerGroupRestartPolicy {
 
 // @public
 export enum KnownContainerGroupSku {
-    Confidential = "Confidential",
     Dedicated = "Dedicated",
     Standard = "Standard"
 }
@@ -562,6 +550,12 @@ export enum KnownGpuSku {
     K80 = "K80",
     P100 = "P100",
     V100 = "V100"
+}
+
+// @public
+export enum KnownIsCustomProvisioningTimeout {
+    False = "False",
+    True = "True"
 }
 
 // @public
@@ -734,7 +728,7 @@ export type Scheme = string;
 
 // @public
 export interface SubnetServiceAssociationLink {
-    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<void>;
 }
 

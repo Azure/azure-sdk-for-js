@@ -376,6 +376,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"

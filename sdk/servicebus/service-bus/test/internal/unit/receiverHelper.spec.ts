@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverEvents } from "rhea-promise";
+import { Receiver, ReceiverEvents, delay } from "rhea-promise";
 import { ReceiverHelper } from "../../../src/core/receiverHelper";
 import { assertThrows } from "../../public/utils/testUtils";
 import { createRheaReceiverForTests } from "./unittestUtils";
@@ -126,5 +126,33 @@ describe("ReceiverHelper unit tests", () => {
     assert.isFalse(helper["_isSuspended"]);
     helper.addCredit(101);
     assert.equal(receiver.credit, 101);
+  });
+
+  it("resolves from suspend() when drain is blocking ", async () => {
+    const receiver = createRheaReceiverForTests();
+    const helper = new ReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
+
+    (receiver as any)["_link"]["drain_credit"] = () => {
+      (receiver as any).credit = 0;
+      // not emitting the `receiverDrained` event
+    };
+    let drainWasCalled = false;
+
+    receiver.on(ReceiverEvents.receiverDrained, () => {
+      drainWasCalled = true;
+    });
+
+    // we can explicitly drain
+    helper.resume();
+    helper.addCredit(101);
+
+    await Promise.race([
+      helper.drain(),
+      delay(2000).then(() => {
+        throw new Error("Test failed. helper.drain() should have already resolved.");
+      }),
+    ]);
+
+    assert.isFalse(drainWasCalled);
   });
 });

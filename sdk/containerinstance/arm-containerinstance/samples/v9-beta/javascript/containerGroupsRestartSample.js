@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
  *
  * @summary Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsRestart.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupsRestart.json
  */
 async function containerRestart() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";

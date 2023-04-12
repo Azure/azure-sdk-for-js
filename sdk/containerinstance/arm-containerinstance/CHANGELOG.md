@@ -1,28 +1,16 @@
 # Release History
-
-## 9.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 9.1.0-beta.1 (2023-01-13)
+    
+## 9.1.0-beta.2 (2023-04-10)
     
 **Features**
 
-  - Added Interface ConfidentialComputeProperties
   - Added Interface DeploymentExtensionSpec
-  - Added Type Alias ContainerGroupPriority
-  - Interface ContainerGroupProperties has a new optional parameter confidentialComputeProperties
+  - Added Type Alias IsCustomProvisioningTimeout
   - Interface ContainerGroupProperties has a new optional parameter extensions
-  - Interface ContainerGroupProperties has a new optional parameter priority
+  - Interface ContainerGroupProperties has a new optional parameter isCustomProvisioningTimeout
+  - Interface ContainerGroupProperties has a new optional parameter provisioningTimeoutInSeconds
   - Interface EncryptionProperties has a new optional parameter identity
-  - Added Enum KnownContainerGroupPriority
-  - Enum KnownContainerGroupSku has a new value Confidential
+  - Added Enum KnownIsCustomProvisioningTimeout
   - Added function getContinuationToken
     
     

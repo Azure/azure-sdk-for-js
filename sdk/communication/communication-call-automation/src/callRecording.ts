@@ -9,17 +9,23 @@ import {
   PauseRecordingOptions,
   GetRecordingPropertiesOptions,
   ResumeRecordingOptions,
+  DeleteRecordingOptions,
+  DownloadRecordingOptions,
 } from "./models/options";
 import { communicationIdentifierModelConverter } from "./utli/converters";
+import { ContentDownloaderImpl } from "./contentDownloader";
+import * as fs from "fs";
 
 /**
  * CallRecording class represents call recording related APIs.
  */
 export class CallRecording {
   private readonly callRecordingImpl: CallRecordingImpl;
+  private readonly contentDownloader: ContentDownloaderImpl;
 
-  constructor(callRecordingImpl: CallRecordingImpl) {
+  constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl) {
     this.callRecordingImpl = callRecordingImpl;
+    this.contentDownloader = contentDownloader;
   }
 
   /**
@@ -32,9 +38,14 @@ export class CallRecording {
       callLocator: options.callLocator,
     };
 
+    if (options.recordingStorageType === "blobStorage" && !options.externalStorageLocation) {
+      throw new Error("externalStorageLocation required for recordingStorageType blobStorage");
+    }
+
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
+    startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpoint;
 
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
@@ -53,11 +64,17 @@ export class CallRecording {
       startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
     }
 
-    const response: RecordingStateResult = {
-      ...(await this.callRecordingImpl.startRecording(startCallRecordingRequest, options)),
+    const response = await this.callRecordingImpl.startRecording(
+      startCallRecordingRequest,
+      options
+    );
+
+    const result: RecordingStateResult = {
+      recordingId: response.recordingId!,
+      recordingState: response.recordingState!,
     };
 
-    return response;
+    return result;
   }
 
   /**
@@ -69,11 +86,14 @@ export class CallRecording {
     recordingId: string,
     options: GetRecordingPropertiesOptions = {}
   ): Promise<RecordingStateResult> {
-    const response: RecordingStateResult = {
-      ...(await this.callRecordingImpl.getRecordingProperties(recordingId, options)),
+    const response = await this.callRecordingImpl.getRecordingProperties(recordingId, options);
+
+    const result: RecordingStateResult = {
+      recordingId: response.recordingId!,
+      recordingState: response.recordingState!,
     };
 
-    return response;
+    return result;
   }
 
   /**
@@ -110,5 +130,75 @@ export class CallRecording {
     options: ResumeRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
+  }
+
+  /**
+   * Deletes a recording.
+   * @param recordingLocation - The recording location uri. Required.
+   * @param options - Additional request options contains deleteRecording api options.
+   */
+  public async deleteRecording(
+    recordingLocation: string,
+    options: DeleteRecordingOptions = {}
+  ): Promise<void> {
+    await this.contentDownloader.deleteRecording(recordingLocation, options);
+  }
+
+  /**
+   * Returns a stream with a call recording.
+   * @param sourceLocation - The source location uri. Required.
+   * @param options - Additional request options contains downloadRecording api options.
+   */
+  public async downloadStreaming(
+    sourceLocation: string,
+    options: DownloadRecordingOptions = {}
+  ): Promise<NodeJS.ReadableStream> {
+    const result = this.contentDownloader.download(sourceLocation, options);
+    const recordingStream = (await result).readableStreamBody;
+    if (recordingStream) {
+      return recordingStream;
+    } else {
+      throw Error("failed to get stream");
+    }
+  }
+
+  /**
+   * Downloads a call recording file to the specified stream.
+   * @param sourceLocation - The source location uri. Required.
+   * @param destinationStream - The destination stream. Required.
+   * @param options - Additional request options contains downloadRecording api options.
+   */
+  public async downloadToStream(
+    sourceLocation: string,
+    destinationStream: NodeJS.WritableStream,
+    options: DownloadRecordingOptions = {}
+  ): Promise<void> {
+    const result = this.contentDownloader.download(sourceLocation, options);
+    const recordingStream = (await result).readableStreamBody;
+    if (recordingStream) {
+      recordingStream.pipe(destinationStream);
+    } else {
+      throw Error("failed to get stream");
+    }
+  }
+
+  /**
+   * Downloads a call recording file to the specified path.
+   * @param sourceLocation - The source location uri. Required.
+   * @param destinationPath - The destination path. Required.
+   * @param options - Additional request options contains downloadRecording api options.
+   */
+  public async downloadToPath(
+    sourceLocation: string,
+    destinationPath: string,
+    options: DownloadRecordingOptions = {}
+  ): Promise<void> {
+    const result = this.contentDownloader.download(sourceLocation, options);
+    const recordingStream = (await result).readableStreamBody;
+    if (recordingStream) {
+      recordingStream.pipe(fs.createWriteStream(destinationPath));
+    } else {
+      throw Error("failed to get stream");
+    }
   }
 }

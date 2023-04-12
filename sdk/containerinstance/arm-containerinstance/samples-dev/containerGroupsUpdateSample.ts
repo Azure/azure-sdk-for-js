@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates container group tags with specified values.
  *
  * @summary Updates container group tags with specified values.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsUpdate.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupsUpdate.json
  */
 async function containerGroupsUpdate() {
   const subscriptionId =
