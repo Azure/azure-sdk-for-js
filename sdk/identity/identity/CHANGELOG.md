@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.2 (2023-04-11)
+## 3.1.4 (2023-04-11)
 
 ### Bugs Fixed
 - Added a workaround of fetching all accounts from token cache to fix the issue of silent authentication not taking place when authenticationRecord is passed. For reference, see [issue](https://github.com/Azure/azure-sdk-for-js/issues/24349).
