@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListBySubscriptionOptionalParams,
@@ -75,8 +75,8 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   >;
@@ -106,8 +106,8 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   >;
@@ -134,7 +134,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Event Hubs Cluster. This operation is idempotent.
    * @param resourceGroupName Name of the resource group within the azure subscription.
