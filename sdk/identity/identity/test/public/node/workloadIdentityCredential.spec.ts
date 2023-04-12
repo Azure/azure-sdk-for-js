@@ -89,6 +89,24 @@ describe.skip("WorkloadIdentityCredential", function () {
       rmdirSync(fileDir.tempDir);
     }
   });
+  it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
+    const fileDir = await setupFileandEnv("token-exchange-msi");
+    const credential = new DefaultAzureCredential(
+      recorder.configureClientOptions({
+        managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",
+      })
+    );
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } catch (e) {
+      console.log(e);
+    } finally {
+      unlinkSync(fileDir.tempFile);
+      rmdirSync(fileDir.tempDir);
+    }
+  });
 
   async function setupFileandEnv(testName: string): Promise<FileDirectory> {
     const testTitle = testName + Date.now().toString();
