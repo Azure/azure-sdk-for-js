@@ -179,7 +179,6 @@ export class CallConnection {
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(target.target),
-      transfereeCallerId: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
       operationContext: options.operationContext,
       customContext: {
         sipHeaders: target.sipHeaders,

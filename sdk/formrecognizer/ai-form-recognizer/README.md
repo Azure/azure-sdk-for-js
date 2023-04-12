@@ -7,6 +7,7 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 - Read - Read information about textual elements, such as page words and lines in addition to text language information.
 - Prebuilt - Analyze data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using prebuilt models.
 - Custom - Build custom models to extract text, field values, selection marks, and table data from documents. Custom models are built with your own data, so they're tailored to your documents.
+- Classifiers - Build custom classifiers to categorize documents into predefined classes.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
@@ -491,6 +492,47 @@ main().catch((error) => {
 });
 ```
 
+### Classify a document
+
+The Form Recognizer service supports custom document classifiers that can classify documents into a set of predefined categories based on a training data set. Documents can be classified with a custom classifier using the `beginClassifyDocument` method of `DocumentAnalysisClient`. Like `beginAnalyzeDocument` above, this method accepts a file or stream containing the document to be classified, and it has a `beginClassifyDocumentFromUrl` counterpart that accepts a publicly-accessible URL to a document instead.
+
+The following sample shows how to classify a document using a custom classifier:
+
+```javascript
+const { AzureKeyCredential, DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
+
+async function main() {
+  const endpoint = "<endpoint>";
+  const credential = new AzureKeyCredential("<api key>");
+
+  const documentUrl =
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";
+
+  const client = new DocumentAnalysisClient(endpoint, credential);
+
+  const poller = await client.beginClassifyDocumentFromUrl("<classifier id>", documentUrl);
+
+  const result = await poller.pollUntilDone();
+
+  if (result.documents === undefined || result.documents.length === 0) {
+    throw new Error("Failed to extract any documents.");
+  }
+
+  for (const document of result.documents) {
+    console.log(
+      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`
+    );
+  }
+}
+
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
+});
+```
+
+For information on training a custom classifier, see the [section on classifier training at the end of the next section](#build-classifier).
+
 ### Build a model
 
 The SDK also supports creating models using the `DocumentModelAdministrationClient` class. Building a model from labeled training data creates a new model that is trained on your own documents, and the resulting model will be able to recognize values from the structures of those documents. The model building operation accepts a SAS-encoded URL to an Azure Storage Blob container that holds the training documents. The Form Recognizer service's infrastructure will read the files in the container and create a model based on their contents. For more details on how to create and structure a training data container, see the [Form Recognizer service's documentation for building a model][fr-build-model].
@@ -555,6 +597,9 @@ main().catch((err) => {
 });
 ```
 
+<a id="build-classifier"></a>
+Custom classifiers are built in a similar way using the `beginBuildDocumentClassifier` method rather than `beginBuildDocumentModel`. Please see the [build classifier sample][sample-build-classifier] for more information about building a custom classifier, as the input training data are provided in a slightly different format. For information about building a training data set for a custom classifier, see [the Form Recognizer service documentation](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel).
+
 ### Manage models
 
 `DocumentModelAdministrationClient` also provides several methods for accessing and listing models. The following example shows how to iterate through the models in a Form Recognizer resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources), get a model by ID, and delete a model.
@@ -605,6 +650,8 @@ main().catch((err) => {
 });
 ```
 
+Similar methods `listDocumentClassifiers` and `getDocumentClassifier` are available for listing and getting information about custom classifiers in addition to `deleteDocumentClassifier` for deleting custom classifiers.
+
 ## Troubleshooting
 
 For assistance with troubleshooting, see the [troubleshooting guide][trouble-shooting].
@@ -647,6 +694,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [fr-studio]: https://formrecognizer.appliedai.azure.com/studio
 [fr-build-training-set]: https://aka.ms/azsdk/formrecognizer/buildtrainingset
 [fr-models]: https://aka.ms/azsdk/formrecognizer/models
+[sample-build-classifier]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildClassifier.ts
 [samples-prebuilt]: https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/
 [samples-prebuilt-businesscard]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-businessCard.ts
 [samples-prebuilt-document]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-document.ts

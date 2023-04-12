@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "4.0.0",
+  "version": "4.1.0-beta.1",
   "keywords": [
     "node",
     "azure",
@@ -133,9 +133,12 @@
     "skip": [
       "analyzeDocumentByModelId.js",
       "buildModel.js",
+      "buildClassifier.js",
       "composeModel.js",
       "copyModel.js",
-      "getModel.js"
+      "getModel.js",
+      "getClassifier.js",
+      "classifyDocument.js"
     ],
     "productName": "Azure Form Recognizer",
     "productSlugs": [

@@ -13,7 +13,7 @@ import {
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
-import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
+import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
 import {
   toBoundingPolygon,
   toBoundingRegions,
@@ -27,6 +27,8 @@ import {
   DocumentPage,
   DocumentLine,
   DocumentParagraph,
+  DocumentFormula,
+  DocumentImage,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -215,6 +217,7 @@ export function toDocumentLineFromGenerated(
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
+    kind: generated.kind ?? "document",
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
       ...mark,
@@ -224,6 +227,26 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
+    annotations: generated.annotations?.map((annotation) => ({
+      ...annotation,
+      polygon: toBoundingPolygon(annotation.polygon),
+    })),
+    barcodes: generated.barcodes?.map((barcode) => ({
+      ...barcode,
+      polygon: toBoundingPolygon(barcode.polygon),
+    })),
+    formulas: generated.formulas?.map(
+      (formula): DocumentFormula => ({
+        ...formula,
+        polygon: toBoundingPolygon(formula.polygon),
+      })
+    ),
+    images: generated.images?.map(
+      (image): DocumentImage => ({
+        ...image,
+        polygon: toBoundingPolygon(image.polygon),
+      })
+    ),
   };
 }
 
