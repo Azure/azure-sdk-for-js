@@ -43,9 +43,9 @@ export interface TrainMultivariateModelBodyParam {
 export type TrainMultivariateModelParameters = TrainMultivariateModelBodyParam & RequestParameters;
 
 export interface ListMultivariateModelsQueryParamProperties {
-  /** Skip indicates how many models will be skipped. */
+  /** The number of result items to skip. */
   skip?: number;
-  /** Top indicates how many models will be fetched. */
+  /** The number of result items to return. */
   top?: number;
 }
 
@@ -66,7 +66,7 @@ export type DetectMultivariateBatchAnomalyParameters = DetectMultivariateBatchAn
   RequestParameters;
 
 export interface DetectMultivariateLastAnomalyBodyParam {
-  /** Request of last detection. */
+  /** Request of the last detection. */
   body: MultivariateLastDetectionOptions;
 }
 

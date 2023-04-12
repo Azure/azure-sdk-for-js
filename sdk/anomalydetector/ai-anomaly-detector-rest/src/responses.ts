@@ -23,7 +23,7 @@ export interface DetectUnivariateEntireSeries200Response extends HttpResponse {
 
 export interface DetectUnivariateEntireSeriesDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
 export interface DetectUnivariateEntireSeriesDefaultResponse extends HttpResponse {
@@ -40,7 +40,7 @@ export interface DetectUnivariateLastPoint200Response extends HttpResponse {
 
 export interface DetectUnivariateLastPointDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
 export interface DetectUnivariateLastPointDefaultResponse extends HttpResponse {
@@ -57,7 +57,7 @@ export interface DetectUnivariateChangePoint200Response extends HttpResponse {
 
 export interface DetectUnivariateChangePointDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
 export interface DetectUnivariateChangePointDefaultResponse extends HttpResponse {
@@ -157,7 +157,7 @@ export interface GetMultivariateModelDefaultResponse extends HttpResponse {
 }
 
 export interface DetectMultivariateBatchAnomaly202Headers {
-  /** Id of the detection result. */
+  /** ID of the detection result. */
   "operation-id": string;
   /** Location of the detection result. */
   "operation-location": string;

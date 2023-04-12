@@ -6,21 +6,23 @@ import { KeyCredential } from "@azure/core-auth";
 import { AnomalyDetectorRestClient } from "./clientDefinitions";
 
 export interface AnomalyDetectorRestClientOptions extends ClientOptions {
-  ApiVersion?: string;
+  apiVersion?: string;
 }
 
 /**
- * Initialize a new instance of the class AnomalyDetectorRestClient class.
- * @param Endpoint type: string
- * @param credentials type: KeyCredential
+ * Initialize a new instance of `AnomalyDetectorRestClient`
+ * @param endpoint type: string, Supported Azure Cognitive Services endpoints (protocol and host name, such as
+ * https://westus2.api.cognitive.microsoft.com).
+ * @param credentials type: KeyCredential, uniquely identify client credential
+ * @param options type: AnomalyDetectorRestClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
-  Endpoint: string,
+  endpoint: string,
   credentials: KeyCredential,
   options: AnomalyDetectorRestClientOptions = {}
 ): AnomalyDetectorRestClient {
-  const ApiVersion = options.ApiVersion ?? "v1.1";
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
+  const apiVersion = options.apiVersion ?? "v1.1";
+  const baseUrl = options.baseUrl ?? `${endpoint}/anomalydetector/${apiVersion}`;
 
   options = {
     ...options,
@@ -29,7 +31,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-anomaly-detector-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

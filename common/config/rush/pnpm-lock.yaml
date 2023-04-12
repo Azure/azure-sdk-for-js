@@ -734,6 +734,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3998,7 +3999,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230406
+      typescript: 5.1.0-dev.20230410
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8855,14 +8856,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230406:
-    resolution: {integrity: sha512-FYnJSNhyGIzc9fCHcPTS/YyboOKfchGpKhrDIcNCqvODooe7BNOWGx6sjMu8xTav8E0905iuPa6TOueq/C6gxg==}
+  /typescript/5.1.0-dev.20230410:
+    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9474,7 +9475,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-kHnCIJkDmqTVMGl6WksT1axR36AFJYvEPFfpnPKxhHrr3tV2pji+YoeRWEGRAoBXrFK1ekTVu3yPrIcpXmUtYg==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-y0GAz/ZLwKMgdPsym7+vIsOhOl/EwPPF3I0CIPK9jZ6dWpnenYjAYLDzGKEJvrUgYXo8Kbz3M3QxHcktFC9t+A==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9499,7 +9500,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.4.1
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 15.1.0
@@ -16922,7 +16923,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
