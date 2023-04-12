@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all monitors under the specified subscription.
  *
  * @summary List all monitors under the specified subscription.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/Monitors_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_List.json
  */
 async function monitorsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function monitorsList() {
   console.log(resArray);
 }
 
-monitorsList().catch(console.error);
+async function main() {
+  monitorsList();
+}
+
+main().catch(console.error);
