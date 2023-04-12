@@ -33,7 +33,8 @@ import {
   AssociateTrafficFilterImpl,
   DetachAndDeleteTrafficFilterImpl,
   DetachTrafficFilterImpl,
-  TrafficFiltersImpl
+  TrafficFiltersImpl,
+  OrganizationsImpl
 } from "./operations";
 import {
   Operations,
@@ -54,7 +55,8 @@ import {
   AssociateTrafficFilter,
   DetachAndDeleteTrafficFilter,
   DetachTrafficFilter,
-  TrafficFilters
+  TrafficFilters,
+  Organizations
 } from "./operationsInterfaces";
 import { MicrosoftElasticOptionalParams } from "./models";
 
@@ -144,7 +146,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2023-02-01-preview";
     this.operations = new OperationsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.monitoredResources = new MonitoredResourcesImpl(this);
@@ -168,6 +170,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     );
     this.detachTrafficFilter = new DetachTrafficFilterImpl(this);
     this.trafficFilters = new TrafficFiltersImpl(this);
+    this.organizations = new OrganizationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -218,4 +221,5 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   detachAndDeleteTrafficFilter: DetachAndDeleteTrafficFilter;
   detachTrafficFilter: DetachTrafficFilter;
   trafficFilters: TrafficFilters;
+  organizations: Organizations;
 }

@@ -13,6 +13,7 @@ export async function createJWTTokenFromCertificate(
   clientId: string,
   certificatePath: string
 ): Promise<string> {
+  console.log("client ID =", clientId);
   const privateKeyPemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2.0`;
   const secureContext = tls.createSecureContext({

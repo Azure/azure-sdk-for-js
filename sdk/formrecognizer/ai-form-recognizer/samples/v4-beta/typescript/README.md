@@ -23,12 +23,16 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [analyzeReceipt.ts][analyzereceipt]                     | extract data from a receipt document                                                       |
 | [analyzeReceiptByModelId.ts][analyzereceiptbymodelid]   | use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed) |
 | [analyzeW2TaxForm.ts][analyzew2taxform]                 | extract data from a United States W2 tax document                                          |
+| [buildClassifier.ts][buildclassifier]                   | build a classifier from a training data set                                                |
 | [buildModel.ts][buildmodel]                             | build a model with a single document type from a training data set                         |
+| [classifyDocument.ts][classifydocument]                 | use a custom classifier to classify a document                                             |
 | [copyModel.ts][copymodel]                               | copy a model from one resource to another                                                  |
 | [extractGeneralDocument.ts][extractgeneraldocument]     | use the prebuilt (general) document model to extract key-value pairs and entities          |
 | [extractLayout.ts][extractlayout]                       | use the prebuilt layout model to extract basic document elements only                      |
+| [getClassifier.ts][getclassifier]                       | get information about a classifier by its ID                                               |
 | [getInfo.ts][getinfo]                                   | get information about the count and limit of custom models in the resource                 |
 | [getModel.ts][getmodel]                                 | get information about a model by its ID                                                    |
+| [listClassifiers.ts][listclassifiers]                   | iterate over the classifiers in a resource                                                 |
 | [listModels.ts][listmodels]                             | iterate over the models in a resource                                                      |
 | [readDocument.ts][readdocument]                         | use the prebuilt "read" model to extract information about the text content of a document  |
 
@@ -92,12 +96,16 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [analyzereceipt]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeReceipt.ts
 [analyzereceiptbymodelid]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeReceiptByModelId.ts
 [analyzew2taxform]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeW2TaxForm.ts
+[buildclassifier]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildClassifier.ts
 [buildmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildModel.ts
+[classifydocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/classifyDocument.ts
 [copymodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/copyModel.ts
 [extractgeneraldocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts
 [extractlayout]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractLayout.ts
+[getclassifier]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/getClassifier.ts
 [getinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/getInfo.ts
 [getmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/getModel.ts
+[listclassifiers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/listClassifiers.ts
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/listModels.ts
 [readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/readDocument.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer

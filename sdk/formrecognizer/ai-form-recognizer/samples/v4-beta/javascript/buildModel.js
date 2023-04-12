@@ -33,7 +33,7 @@ async function main() {
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const poller = await client.beginBuildModel(
+  const poller = await client.beginBuildDocumentModel(
     modelId,
     trainingDataSasUrl,
     DocumentModelBuildMode.Template
@@ -42,7 +42,7 @@ async function main() {
 
   console.log("Model ID:", model.modelId);
   console.log("Description:", model.description);
-  console.log("Created:", model.createdDateTime);
+  console.log("Created:", model.createdOn);
 
   // A model may contain several document types, which describe the possible object structures of fields extracted using
   // this model
