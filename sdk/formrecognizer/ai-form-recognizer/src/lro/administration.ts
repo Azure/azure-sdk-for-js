@@ -10,13 +10,24 @@ import {
   DocumentModelBuildOperationDetails,
   DocumentModelCopyToOperationDetails,
   DocumentModelComposeOperationDetails,
+  DocumentClassifierDetails,
+  DocumentClassifierBuildOperationDetails,
 } from "../generated";
 import { PollerOptions } from "../options/PollerOptions";
+import { OperationContext } from "./util/poller";
 
 /**
- * The state of a model creation operation.
+ * The possible types of all administration operation states.
+ * @internal
  */
-export interface DocumentModelOperationState extends PollOperationState<DocumentModelDetails> {
+export type AdministrationOperationState =
+  | DocumentModelOperationState
+  | DocumentClassifierOperationState;
+
+/**
+ * The set of fields common to all administration operations.
+ */
+export interface ModelAdministrationOperationStateCommon {
   /**
    * The status of the operation. One of:
    *
@@ -59,20 +70,37 @@ export interface DocumentModelOperationState extends PollOperationState<Document
   tags?: Record<string, string>;
 }
 
-// The generated type for GetOperationResult is not ideal here. This assertion is just kicking the can down the road but
-// it's about the only thing we can do to actually access the common `result` property.
+/**
+ * The state of a model creation operation.
+ */
+export interface DocumentModelOperationState
+  extends PollOperationState<DocumentModelDetails>,
+    ModelAdministrationOperationStateCommon {}
+
+/**
+ * The respones of a model creation operation.
+ * @internal
+ */
 export type DocumentModelBuildResponse =
   | DocumentModelBuildOperationDetails
   | DocumentModelCopyToOperationDetails
   | DocumentModelComposeOperationDetails;
 
 /**
+ * The possible responses of an administration operation.
+ * @internal
+ */
+export type DocumentModelAdministrationResponse =
+  | DocumentModelBuildResponse
+  | DocumentClassifierBuildOperationDetails;
+
+/**
  * Convert an operation result into a training poller state.
  * @internal
  */
 export async function toTrainingPollOperationState(
-  response: DocumentModelBuildResponse
-): Promise<DocumentModelOperationState> {
+  response: DocumentModelAdministrationResponse
+): Promise<DocumentModelOperationState | DocumentClassifierOperationState> {
   return {
     operationId: response.operationId,
     status: response.status,
@@ -85,8 +113,13 @@ export async function toTrainingPollOperationState(
     isCompleted: response.status === "succeeded",
     isStarted: response.status !== "notStarted",
     tags: response.tags,
+
+    // The following assertion is required. Technically the type of `response.result` is
+    // `DocumentModelDetails | DocumentClassifierDetails | undefined`, which isn't assignable to the type of
+    // either operation state's result. We would need some kind of dependent typing to express how the type of `result`
+    // actually _determines_ the type of the resulting return value.
     result: response.result,
-  };
+  } as DocumentModelOperationState | DocumentClassifierOperationState;
 }
 
 /**
@@ -99,13 +132,29 @@ export type DocumentModelPoller = PollerLike<DocumentModelOperationState, Docume
  * Defines a training operation.
  * @internal
  */
-export interface TrainingOperationDefinition {
+export interface TrainingOperationDefinition<State extends AdministrationOperationState> {
   /**
    * A function to start the operation, producing an operationLocation.
    */
-  start: () => Promise<{ operationLocation?: string }>;
+  start: (ctx: OperationContext) => Promise<{ operationLocation?: string }>;
   /**
    * Options for the poller and requests.
    */
-  options: PollerOptions<DocumentModelOperationState> & OperationOptions;
+  options: PollerOptions<State> & OperationOptions;
 }
+
+/**
+ * A long-running operation (poller) that tracks the state of a custom classifier creation operation, eventually
+ * producing a {@link DocumentClassifierDetails}.
+ */
+export type DocumentClassifierPoller = PollerLike<
+  DocumentClassifierOperationState,
+  DocumentClassifierDetails
+>;
+
+/**
+ * The state of a model creation operation.
+ */
+export interface DocumentClassifierOperationState
+  extends PollOperationState<DocumentClassifierDetails>,
+    ModelAdministrationOperationStateCommon {}
