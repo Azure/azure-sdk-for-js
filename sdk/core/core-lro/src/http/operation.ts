@@ -10,6 +10,7 @@ import {
   ResponseBody,
 } from "./models";
 import {
+  LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
@@ -171,6 +172,23 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
   return undefined;
 }
 
+export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
+  const error = (response.flatResponse as ResponseBody).error;
+  if (!error) {
+    logger.warning(
+      `The long-running operation failed but there is no error property in the response's body`
+    );
+    return;
+  }
+  if (!error.code || !error.message) {
+    logger.warning(
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+    );
+    return;
+  }
+  return error as LroError;
+}
+
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
   const timeNow = Math.floor(new Date().getTime());
   const retryAfterTime = retryAfterDate.getTime();
@@ -325,6 +343,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)
       : ({ flatResponse }) => flatResponse as TResult,
+    getError: getErrorFromResponse,
     updateState,
     getPollingInterval: parseRetryAfter,
     getOperationLocation,
