@@ -29,6 +29,7 @@
 ### Other Changes
 
 - `downloadBlob` will now retry from the current stream position when an error occurs.
+- Deprecated `KnownContainerRegistryAudience.AzureGermany`. Azure Germany is deprecated in favor of standard nonsovereign regions in Germany.
 
 ## 1.1.0-beta.2 (2023-02-08)
 
