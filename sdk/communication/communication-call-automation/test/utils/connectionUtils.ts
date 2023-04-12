@@ -12,6 +12,7 @@ export const CALL_SERVER_CALL_ID = "serverCallId";
 export const CALL_CALLER_ID = "callerId";
 export const CALL_CALLER_DISPLAY_NAME = "callerDisplayName";
 export const CALL_TARGET_ID = "targetId";
+export const CALL_TARGET_ID_2 = "targetId2";
 export const CALL_CONNECTION_STATE = "connected";
 export const CALL_SUBJECT = "subject";
 export const CALL_CALLBACK_URL = "https://REDACTED.com/events";

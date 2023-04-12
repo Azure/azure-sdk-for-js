@@ -38,6 +38,7 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -163,7 +164,12 @@ export class CallAutomationClient {
     request: CreateCallRequest,
     options?: CreateCallOptions
   ): Promise<CreateCallResult> {
-    const result = await this.callAutomationApiClient.createCall(request, options);
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (result?.callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -190,7 +196,6 @@ export class CallAutomationClient {
       return createCallResult;
     }
     throw "callConnectionProperties / callConnectionId is missing in createCall result";
-
   }
 
   /**
@@ -216,7 +221,7 @@ export class CallAutomationClient {
         voipHeaders: target.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
-      sourceDisplayName: target.sourceDisplayName
+      sourceDisplayName: target.sourceDisplayName,
     };
 
     return this.createCallInternal(request, options);
@@ -245,7 +250,7 @@ export class CallAutomationClient {
         voipHeaders: options.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
-      sourceDisplayName: options.sourceDisplayName
+      sourceDisplayName: options.sourceDisplayName,
     };
 
     return this.createCallInternal(request, options);
@@ -268,8 +273,12 @@ export class CallAutomationClient {
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
     };
-
-    const result = await this.callAutomationApiClient.answerCall(request, options);
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (result?.callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
@@ -318,8 +327,13 @@ export class CallAutomationClient {
           target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
       },
     };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
 
-    return this.callAutomationApiClient.redirectCall(request, options);
+    return this.callAutomationApiClient.redirectCall(request, optionsInternal);
   }
 
   /**
@@ -336,7 +350,12 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       callRejectReason: options.callRejectReason,
     };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
 
-    return this.callAutomationApiClient.rejectCall(request, options);
+    return this.callAutomationApiClient.rejectCall(request, optionsInternal);
   }
 }
