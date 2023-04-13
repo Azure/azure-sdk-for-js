@@ -133,6 +133,9 @@ export interface ChatParticipant {
 }
 
 // @public
+export type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy;
+
+// @public
 export class ChatThreadClient {
     constructor(endpoint: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
@@ -164,7 +167,7 @@ export interface ChatThreadItem {
     deletedOn?: Date;
     id: string;
     readonly lastMessageReceivedOn?: Date;
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: ChatRetentionPolicy;
     topic: string;
 }
 
@@ -174,7 +177,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: ChatRetentionPolicy;
     topic: string;
 }
 
@@ -184,7 +187,7 @@ export { ChatThreadPropertiesUpdatedEvent }
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
     participants?: ChatParticipant[];
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: ChatRetentionPolicy;
 }
 
 // @public
@@ -261,9 +264,6 @@ export interface RestListReadReceiptsOptions extends coreClient.OperationOptions
 }
 
 // @public
-export type RetentionPolicy = ThreadCreationDateRetentionPolicy;
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
@@ -295,8 +295,8 @@ export interface SendTypingNotificationOptions extends OperationOptions {
 
 // @public
 export interface ThreadCreationDateRetentionPolicy {
-    daysAfterCreation: number;
-    policyType: "threadCreationDate";
+    deleteThreadAfterDays: number;
+    kind: "threadCreationDate";
 }
 
 export { TypingIndicatorReceivedEvent }
