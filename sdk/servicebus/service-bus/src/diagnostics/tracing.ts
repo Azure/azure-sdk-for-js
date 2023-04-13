@@ -30,10 +30,12 @@ export function toSpanOptions(
   operation: MessagingOperationNames,
   spanKind?: TracingSpanKind
 ): TracingSpanOptions {
+  const propertyName = operation == "process" || operation == "receive" ? "messaging.source.name" : "messaging.destination.name";
+
   const spanOptions: TracingSpanOptions = {
     spanAttributes: {
       "messaging.system": "servicebus",
-      "messaging.source.name": serviceBusConfig.entityPath,
+      [propertyName]: serviceBusConfig.entityPath,
       "messaging.operation": operation,
       "net.peer.name": serviceBusConfig.host,
     },
