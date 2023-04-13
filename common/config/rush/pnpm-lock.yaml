@@ -8,6 +8,7 @@ specifiers:
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:./projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
@@ -216,6 +217,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
+  '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-call-automation': file:./projects/communication-call-automation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -344,6 +346,7 @@ dependencies:
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
@@ -552,6 +555,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-call-automation': file:projects/communication-call-automation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -9659,7 +9663,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-FxfCfovYvmTjcSow40Tq9KVGI/dCaAhAuQ3YBT4eVGAwzN2lbn39DC5f4a7soVVjSa2GQik2bZEfY1A2qlkp7w==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-klkC6UKOIHYQashvWmvf/2RRICvFoCeKsCP+EuPILy6r6fsYnYrdqTNPd6zHeUgzSIvQHzfW/ArOctZKfdiRFg==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9704,6 +9708,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-language-textauthoring.tgz:
+    resolution: {integrity: sha512-GTU83ToayG2z/7fIzk19QIqDMXP6vOQabzHT9uBguiCn1/Y8iz+FhvtnIpsnMyflPyl/JmejpznRZxYavSCWMw==, tarball: file:projects/ai-language-textauthoring.tgz}
+    name: '@rush-temp/ai-language-textauthoring'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      dotenv: 8.6.0
+      eslint: 8.37.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
@@ -11136,7 +11161,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-DK5ZdqF5eYbp2Zr/AiG+GuTavFBCeGB0ovWcehz4BaZXHWpbavDhVMXW2AgIIHlx6i9AUlVaGRrGbB3NPObhZQ==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-J0w6H3a4pTQt8JfPPVVuidUoZADRzjP7CweTua3ZltyvQcWhkYguiLJqHKtLMPhFKJ7n3U6pRCU+xGT1i/fOlg==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -11151,7 +11176,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15643,6 +15668,47 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-translation-text.tgz:
+    resolution: {integrity: sha512-t1vY6CnSsEovNxSSUxRia/62S0MvizhtA8sqFxpbQYqmk369JA3RcADZgFIJybT0nlOybtuI8IK7XjF33LGYdQ==, tarball: file:projects/ai-translation-text.tgz}
+    name: '@rush-temp/ai-translation-text'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.33.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.3
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
       - bufferutil
       - debug
       - supports-color

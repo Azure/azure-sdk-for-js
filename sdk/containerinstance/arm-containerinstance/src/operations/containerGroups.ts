@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerInstanceManagementClient } from "../containerInstanceManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ContainerGroup,
   ContainerGroupsListNextOptionalParams,
@@ -242,8 +246,8 @@ export class ContainerGroupsImpl implements ContainerGroups {
     containerGroup: ContainerGroup,
     options?: ContainerGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainerGroupsCreateOrUpdateResponse>,
       ContainerGroupsCreateOrUpdateResponse
     >
   > {
@@ -253,7 +257,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
     ): Promise<ContainerGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -286,13 +290,16 @@ export class ContainerGroupsImpl implements ContainerGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, containerGroupName, containerGroup, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerGroupName, containerGroup, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerGroupsCreateOrUpdateResponse,
+      OperationState<ContainerGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -352,8 +359,8 @@ export class ContainerGroupsImpl implements ContainerGroups {
     containerGroupName: string,
     options?: ContainerGroupsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ContainerGroupsDeleteResponse>,
       ContainerGroupsDeleteResponse
     >
   > {
@@ -363,7 +370,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
     ): Promise<ContainerGroupsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -396,13 +403,16 @@ export class ContainerGroupsImpl implements ContainerGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, containerGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerGroupsDeleteResponse,
+      OperationState<ContainerGroupsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -440,14 +450,14 @@ export class ContainerGroupsImpl implements ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     options?: ContainerGroupsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -480,13 +490,13 @@ export class ContainerGroupsImpl implements ContainerGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, containerGroupName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerGroupName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -542,14 +552,14 @@ export class ContainerGroupsImpl implements ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     options?: ContainerGroupsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -582,13 +592,13 @@ export class ContainerGroupsImpl implements ContainerGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, containerGroupName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerGroupName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

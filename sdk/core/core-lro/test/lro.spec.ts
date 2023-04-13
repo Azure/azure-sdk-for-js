@@ -2593,6 +2593,41 @@ matrix(
           });
           assert.equal(poller.getResult()?.properties?.provisioningState, "Canceled");
         });
+        it("prints an error message based on the error in the status monitor", async () => {
+          const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+          const code = "InvalidRequest";
+          const message = "Bad Request";
+          const body = { status: "Failed", error: { code, message } };
+          await assertDivergentBehavior({
+            op: runLro({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    "Operation-Location": pollingPath,
+                  },
+                  body: `{"status":"Running"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: JSON.stringify(body),
+                },
+              ],
+            }),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: new RegExp(
+                `The long-running operation has failed. ${code}. ${message}`
+              ),
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
+        });
       });
     });
   }
