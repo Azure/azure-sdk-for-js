@@ -2,11 +2,13 @@
 
 ## 1.3.1 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
+
+- UUID fix for older versions of Node.js
+  - #25501
+  - #25541
+  - #25538
+  - #25532
 
 ### Other Changes
 
