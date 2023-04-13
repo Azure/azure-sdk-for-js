@@ -55,8 +55,8 @@ export type RetryDiagnostics = {
  */
 export interface MetadataLookUpDiagnostic {
   id: string;
-  startTimeUTC: number;
-  endTimeUTC: number;
+  startTimeUTCInMs: number;
+  endTimeUTCInMs: number;
   metaDataType: MetadataLookUpType;
   activityId: string;
 }

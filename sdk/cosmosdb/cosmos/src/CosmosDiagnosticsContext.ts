@@ -66,8 +66,8 @@ export class CosmosDiagnosticContext {
     metaDataType: MetadataLookUpType
   ): void {
     const metaDataRequest = {
-      startTimeUTC: diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
-      endTimeUTC: diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs,
+      startTimeUTCInMs: diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
+      endTimeUTCInMs: diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs,
       activityId: diagnostics.clientSideRequestStatistics.activityId,
       metaDataType,
       id: v4(),
