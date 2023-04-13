@@ -1,16 +1,14 @@
 # Release History
 
-## 12.14.0-beta.2 (Unreleased)
+## 12.14.0 (2023-04-13)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.14.0-beta.1.
 
 ### Bugs Fixed
 
 - Fixed an issue of: StoragePipelineOptions is not passed into constructors for blob clients correctly when using undefined as credential parameter.
-
-### Other Changes
 
 ## 12.14.0-beta.1 (2023-03-29)
 
