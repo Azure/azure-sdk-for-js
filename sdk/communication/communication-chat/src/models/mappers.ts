@@ -17,7 +17,7 @@ import {
   ChatThreadProperties,
   CreateChatThreadResult,
   ChatThreadItem,
-  RetentionPolicy,
+  ChatRetentionPolicy,
 } from "./models";
 
 export const mapToCreateChatThreadOptionsRestModel = (
@@ -43,7 +43,7 @@ export const mapToChatThreadItemSdkModel = (
   if (retentionPolicy) {
     result = {
       ...result,
-      retentionPolicy: retentionPolicy as RetentionPolicy,
+      retentionPolicy: retentionPolicy as ChatRetentionPolicy,
     };
   }
 
@@ -170,7 +170,7 @@ export const mapToChatThreadPropertiesSdkModel = (
   if (retentionPolicy) {
     result = {
       ...result,
-      retentionPolicy: retentionPolicy as RetentionPolicy,
+      retentionPolicy: retentionPolicy as ChatRetentionPolicy,
     };
   }
 

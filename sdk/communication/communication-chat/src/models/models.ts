@@ -14,13 +14,13 @@ export {
 /** Thread retention policy based on thread creation date. */
 export interface ThreadCreationDateRetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  policyType: "threadCreationDate";
+  kind: "threadCreationDate";
   /** Indicates how many days after the thread creation the thread will be deleted. Only 90 is accepted for now. */
-  daysAfterCreation: number;
+  deleteThreadAfterDays: number;
 }
 
 /** Data retention policy for auto deletion. */
-export declare type RetentionPolicy = ThreadCreationDateRetentionPolicy;
+export declare type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy;
 
 /** Chat thread. */
 export interface ChatThreadProperties {
@@ -35,7 +35,7 @@ export interface ChatThreadProperties {
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
   /** Data retention policy for auto deletion. */
-  retentionPolicy?: RetentionPolicy;
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 export interface ChatThreadItem {
@@ -51,7 +51,7 @@ export interface ChatThreadItem {
    */
   readonly lastMessageReceivedOn?: Date;
   /** Data retention policy for auto deletion. */
-  retentionPolicy?: RetentionPolicy;
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /** Chat message. */

@@ -12,7 +12,7 @@ import {
   ChatThreadClient,
   SendMessageOptions,
   SendMessageRequest,
-  UpdateMessageOptions
+  UpdateMessageOptions,
 } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
