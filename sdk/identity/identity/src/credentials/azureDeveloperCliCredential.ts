@@ -90,14 +90,14 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  * service principal and executes an Azure CLI command underneath to authenticate the application against
  * Azure Active Directory.
  *
- * Configure AzureDeveloperCliCredential
+ * <h2> Configure AzureDeveloperCliCredential </h2>
  *
  * To use this credential, the developer needs to authenticate locally in Azure Developer CLI using one of the
  * commands below:
  *
  * <ol>
- *     <li>Run "azd login" in Azure Developer CLI to authenticate interactively as a user.</li>
- *     <li>Run "azd login --client-id clientID --client-secret clientSecret
+ *     <li>Run "azd auth login" in Azure Developer CLI to authenticate interactively as a user.</li>
+ *     <li>Run "azd auth login --client-id clientID --client-secret clientSecret
  *     --tenant-id tenantID" to authenticate as a service principal.</li>
  * </ol>
  *
@@ -114,7 +114,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    * Creates an instance of the {@link AzureDeveloperCliCredential}.
    *
    * To use this credential, ensure that you have already logged
-   * in via the 'azd' tool using the command "azd login" from the commandline.
+   * in via the 'azd' tool using the command "azd auth login" from the commandline.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
@@ -174,7 +174,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd login' from a command prompt to authenticate before using this credential."
+            "Please login through Azure Developer CLI. Run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
