@@ -54,8 +54,8 @@ describe("Call Automation Client Unit Tests", () => {
     // asserts
     assert.isNotNull(repeatabilityFirstSent);
     assert.isNotNull(repeatabilityRequestID);
-    assert.typeOf(repeatabilityFirstSent, 'string');
-    assert.typeOf(repeatabilityRequestID, 'string');
+    assert.typeOf(repeatabilityFirstSent, "string");
+    assert.typeOf(repeatabilityRequestID, "string");
   });
 
   it("CreateGroupCall", async () => {
@@ -82,8 +82,6 @@ describe("Call Automation Client Unit Tests", () => {
       })
       .catch((error) => console.error(error));
   });
-
-
 });
 
 describe("Call Automation Main Client Live Tests", function () {
