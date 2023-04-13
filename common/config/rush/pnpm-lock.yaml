@@ -4002,7 +4002,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230411
+      typescript: 5.1.0-dev.20230412
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8865,8 +8865,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230411:
-    resolution: {integrity: sha512-3yO7RzC4rZID1/u1alMwKKAhp/kyDkFiR+73vsvK5z99GYRVbUJIy9f3w2pGNZI3K7YI5Hv1bN2XWkPgZhB2CA==}
+  /typescript/5.1.0-dev.20230412:
+    resolution: {integrity: sha512-O7UY8wd8wEa6pd6CpVFbS9u+DArm73B4rRz8dwm6SDORvEF7rbuNzJ6GTTnBvGavlVkWT5/cYstySs5uhj0vPg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
