@@ -10,8 +10,6 @@
   - [#25538](https://github.com/Azure/azure-sdk-for-js/issues/25538)
   - [#25532](https://github.com/Azure/azure-sdk-for-js/issues/25532)
 
-### Other Changes
-
 ## 1.3.0 (2023-04-06)
 
 ### Features Added
