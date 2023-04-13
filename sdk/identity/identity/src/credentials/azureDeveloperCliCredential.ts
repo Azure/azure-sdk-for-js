@@ -159,7 +159,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           tenantId,
           this.timeout
         );
-        const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
+        const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login") || obj.stderr?.match("not logged in, run `azd auth login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
           obj.stderr?.startsWith("'azd' is not recognized");
@@ -174,7 +174,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please login through Azure Developer CLI. Run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information."
+            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
