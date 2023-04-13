@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue of: StoragePipelineOptions is not passed into constructors for blob clients correctly when using undefined as credential parameter.
+
 ### Other Changes
 
 ## 12.14.0-beta.1 (2023-03-29)

@@ -1490,7 +1490,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 //
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
+    constructor(connectionString: string, name: string, options?: ShareClientOptions);
     constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
