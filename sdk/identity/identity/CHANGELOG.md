@@ -1,19 +1,15 @@
 # Release History
 
-## 3.2.0-beta.2 (Unreleased)
+## 3.2.0-beta.2 (2023-04-13)
 
 ### Features Added
 
 - Added configurable process timeout for dev-time credentials - `AzureCLI Credential`, `AzurePowershell Credential` and `AzureDeveloperCLI Credential`.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check. Related issue [#25089](https://github.com/Azure/azure-sdk-for-js/issues/25089) with the fix [#25119](https://github.com/Azure/azure-sdk-for-js/pull/25119).
 - Exported `WorkloadIdentityDefaultCredentialOptions` which was previously not publicly exported in `index.ts`.
-
-### Other Changes
 
 ## 3.2.0-beta.1 (2023-02-28)
 
