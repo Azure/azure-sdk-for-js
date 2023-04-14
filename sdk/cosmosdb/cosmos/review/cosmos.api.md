@@ -996,13 +996,13 @@ export interface MetadataLookUpDiagnostic {
     // (undocumented)
     activityId: string;
     // (undocumented)
-    endTimeUTC: number;
+    endTimeUTCInMs: number;
     // (undocumented)
     id: string;
     // (undocumented)
     metaDataType: MetadataLookUpType;
     // (undocumented)
-    startTimeUTC: number;
+    startTimeUTCInMs: number;
 }
 
 // @public
