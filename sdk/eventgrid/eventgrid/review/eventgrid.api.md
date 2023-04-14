@@ -6,9 +6,11 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
+import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -418,6 +420,15 @@ export { AzureSASCredential }
 export type BoundaryParentType = string;
 
 // @public
+export interface BrokerProperties {
+    lockToken: LockToken;
+}
+
+// @public (undocumented)
+export interface ClientOptions extends ClientOptions_2 {
+}
+
+// @public
 export interface CloudEvent<T> {
     data?: T;
     datacontenttype?: string;
@@ -425,6 +436,20 @@ export interface CloudEvent<T> {
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
+    subject?: string;
+    time?: Date;
+    type: string;
+}
+
+// @public
+export interface CloudEventEvent {
+    data?: object;
+    dataBase64?: string;
+    datacontenttype?: string;
+    dataschema?: string;
+    id: string;
+    source: string;
+    specversion: string;
     subject?: string;
     time?: Date;
     type: string;
@@ -1232,6 +1257,31 @@ export interface DeviceTwinMetadata {
     lastUpdated: string;
 }
 
+// @public (undocumented)
+export class EventGridClient {
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: ClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "acknowledgeCloudEventsOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: acknowledgeCloudEventsOptions): Promise<LockTokensResponse>;
+    // Warning: (ae-forgotten-export) The symbol "PublishCloudEventOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    publishCloudEvent(id: string, source: string, type: string, specversion: string, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "publishCloudEventsOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    publishCloudEvents(events: CloudEventEvent[], topicName: string, options?: publishCloudEventsOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "receiveCloudEventsOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: receiveCloudEventsOptions): Promise<ReceiveResponse>;
+    // Warning: (ae-forgotten-export) The symbol "releaseCloudEventsOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    releaseCloudEvents(tokens: LockToken[], topicName: string, eventSubscriptionName: string, options?: releaseCloudEventsOptions): Promise<LockTokensResponse>;
+}
+
 // @public
 export class EventGridDeserializer {
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
@@ -1273,6 +1323,13 @@ export interface EventHubCaptureFileCreatedEventData {
     lastSequenceNumber: number;
     partitionId: string;
     sizeInBytes: number;
+}
+
+// @public
+export interface FailedLockToken {
+    errorCode: number;
+    errorDescription: string;
+    lockToken: LockToken;
 }
 
 // @public
@@ -1632,6 +1689,22 @@ export const enum KnownStampKind {
 export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 
 // @public
+export interface LockToken {
+    lockToken: string;
+}
+
+// @public
+export interface LockTokenInput {
+    lockTokens: string[];
+}
+
+// @public
+export interface LockTokensResponse {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
     baseDatasetId: string;
     dataDriftId: string;
@@ -1976,6 +2049,17 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 }
 
 // @public
+export interface ReceiveDetails {
+    brokerProperties: BrokerProperties;
+    event: CloudEventEvent;
+}
+
+// @public (undocumented)
+export interface ReceiveResponse {
+    value: ReceiveDetails[];
+}
+
+// @public
 export type RecordingChannelType = string;
 
 // @public
@@ -1983,6 +2067,18 @@ export type RecordingContentType = string;
 
 // @public
 export type RecordingFormatType = string;
+
+// @public (undocumented)
+export interface RequestOptions {
+    // (undocumented)
+    requestOptions?: {
+        headers?: RawHttpHeadersInput;
+        body?: unknown;
+        queryParameters?: Record<string, unknown>;
+        allowInsecureConnection?: boolean;
+        skipUrlEncoding?: boolean;
+    };
+}
 
 // @public
 export interface ResourceActionCancelEventData {

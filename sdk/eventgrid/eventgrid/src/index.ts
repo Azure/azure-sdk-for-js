@@ -290,3 +290,18 @@ export {
   KnownNutrientAnalysisParentType,
   NutrientAnalysisParentType,
 } from "./generated/models";
+
+export {
+  CloudEventEvent,
+  ReceiveResponse,
+  ReceiveDetails,
+  BrokerProperties,
+  LockToken,
+  LockTokensResponse,
+  FailedLockToken,
+  LockTokenInput,
+} from "./cadl-generated/api/models";
+
+export { AzureMessagingEventGrid as EventGridClient } from "./cadl-generated/AzureMessagingEventGrid";
+
+export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
