@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.1 (2023-04-13)
+
+### Bugs Fixed
+
+- UUID fix for older versions of Node.js
+  - [#25501](https://github.com/Azure/azure-sdk-for-js/issues/25501)
+  - [#25541](https://github.com/Azure/azure-sdk-for-js/issues/25541)
+  - [#25538](https://github.com/Azure/azure-sdk-for-js/issues/25538)
+  - [#25532](https://github.com/Azure/azure-sdk-for-js/issues/25532)
 
 ## 1.3.0 (2023-04-06)
 

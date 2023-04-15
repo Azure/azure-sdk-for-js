@@ -210,6 +210,18 @@ export class ClientSideMetrics {
 }
 
 // @public
+export type ClientSideRequestStatistics = {
+    requestStartTimeUTCInMs: number;
+    requestEndTimeUTCInMs: number;
+    activityId: string;
+    locationEndpointsContacted: Location_2[];
+    retryDiagnostics: RetryDiagnostics;
+    metadataDiagnostics: MetadataLookUpDiagnostics;
+    requestPayloadLength: number;
+    responsePayloadLength: number;
+};
+
+// @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
@@ -567,6 +579,16 @@ export interface CosmosClientOptions {
     userAgentSuffix?: string;
 }
 
+// @public
+export class CosmosDiagnostics {
+    // (undocumented)
+    readonly clientSideRequestStatistics: ClientSideRequestStatistics;
+    // (undocumented)
+    get getContactedRegionNames(): Set<string>;
+    // (undocumented)
+    readonly id: string;
+}
+
 // @public (undocumented)
 export interface CosmosHeaders {
     // (undocumented)
@@ -742,6 +764,20 @@ export type ExistingKeyOperation = {
 
 // @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
+
+// @public
+export interface FailedRequestAttemptDiagnostic {
+    // (undocumented)
+    attemptNumber: number;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    startTimeUTCInMs: number;
+    // (undocumented)
+    statusCode: string;
+}
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -959,6 +995,35 @@ interface Location_2 {
     unavailable?: boolean;
 }
 export { Location_2 as Location }
+
+// @public
+export interface MetadataLookUpDiagnostic {
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    metaDataType: MetadataLookUpType;
+    // (undocumented)
+    startTimeUTCInMs: number;
+}
+
+// @public
+export type MetadataLookUpDiagnostics = {
+    metadataLookups: MetadataLookUpDiagnostic[];
+};
+
+// @public
+export enum MetadataLookUpType {
+    // (undocumented)
+    DatabaseAccountLookUp = "DATABASE_ACCOUNT_LOOK_UP",
+    // (undocumented)
+    PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
+    // (undocumented)
+    ServerAddressLookUp = "SERVER_ADDRESS_LOOK_UP"
+}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
@@ -1570,6 +1635,11 @@ interface Response_2<T> {
 export { Response_2 as Response }
 
 export { RestError }
+
+// @public
+export type RetryDiagnostics = {
+    failedAttempts: FailedRequestAttemptDiagnostic[];
+};
 
 // @public
 export interface RetryOptions {

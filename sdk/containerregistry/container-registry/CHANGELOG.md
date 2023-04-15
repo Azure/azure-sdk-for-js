@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.3 (Unreleased)
+## 1.1.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,37 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0-beta.3 (2023-04-11)
+
+### Features Added
+
+- Added support for uploading and downloading manifests of a custom media type.
+  - Pass the media type of the manifest you are downloading using the `mediaType` property of `setManifest` options bag.
+  - On download, OCI image manifests will be deserialized. The deserialized manifest will be available at the `manifest` property of the result from `getManifest`.
+    - Manifests of other media types will not be deserialized, but manifests of all types will still be accessible using the `content` property of the result.
+    - The `isGetOciImageManifestResult` type guard can be used to check if the downloaded manifest is an OCI image manifest, and therefore whether the
+      `manifest` property is available on the result.
+
+### Breaking Changes
+
+- Renamed `ContainerRegistryBlobClient` to `ContainerRegistryContentClient`.
+- Renamed `downloadManifest` and `uploadManfifest` methods on `ContainerRegistryContentClient` to `getManifest` and `setManifest` respectively.
+  - Renamed `DownloadManifestOptions` and `UploadManifestOptions` types to `GetManifestOptions` and `SetManifestOptions` respectively.
+- Renamed `OciManifest` to `OciImageManifest`.
+  - Renamed `OciImageManifest.config` to `OciImageManifest.configuration`
+  - The `configuration` and `layers` parameters on `OciImageManifest` are now required.
+- Renamed `OciBlobDescriptor` type to `OciDescriptor`.
+  - Renamed property `OciBlobDescriptor.size` to `OciBlobDescriptor.sizeInBytes`.
+
+### Bugs Fixed
+
+- Fixed a bug where an unused stream was not cleaned up when calling `deleteBlob`.
+
+### Other Changes
+
+- `downloadBlob` will now retry from the current stream position when an error occurs.
+- Deprecated `KnownContainerRegistryAudience.AzureGermany`. Azure Germany is deprecated in favor of standard nonsovereign regions in Germany.
 
 ## 1.1.0-beta.2 (2023-02-08)
 
