@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import Sinon, { createSandbox } from "sinon";
 import { MsalBaseUtilities } from "../../src/msal/utils";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -12,8 +11,6 @@ import {
 } from "@azure/msal-node";
 import { PlaybackTenantId } from "../msalTestUtils";
 import { Test } from "mocha";
-
-dotenv.config({ path: ".env" });
 
 export type MsalTestCleanup = () => Promise<void>;
 
