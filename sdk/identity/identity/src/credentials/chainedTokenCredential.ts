@@ -48,7 +48,7 @@ export class ChainedTokenCredential implements TokenCredential {
    *                `TokenCredential` implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    const token = (await this.getTokenInternal(scopes, options)).token;
+    const { token } = await this.getTokenInternal(scopes, options);
     return token;
   }
 
