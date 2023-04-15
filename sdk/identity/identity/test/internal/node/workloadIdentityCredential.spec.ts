@@ -69,7 +69,6 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
-    console.log("process env IN MS", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new ManagedIdentityCredential("dummy-clientId");
     assert.equal(credential["clientId"], "dummy-clientId");
     const token = await credential.getToken(scope);
@@ -78,7 +77,6 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   it("authenticates with DefaultAzure Credential", async function (this: Context) {
-    console.log("process env IN dac", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new DefaultAzureCredential();
     const sandbox = sinon.createSandbox();
     try {
@@ -101,7 +99,6 @@ describe("WorkloadIdentityCredential", function () {
     }
   });
   it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
-    console.log("process env IN dac client id", process.env.AZURE_FEDERATED_TOKEN_FILE);
     const credential = new DefaultAzureCredential({
       managedIdentityClientId: "managedIdentityClientId",
       workloadIdentityClientId: "workloadIdentityClientId",
