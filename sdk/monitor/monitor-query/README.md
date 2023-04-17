@@ -55,7 +55,7 @@ const metricsQueryClient = new MetricsQueryClient(credential);
 
 #### Configure clients for non-public Azure clouds
 
-By default, `LogsQueryClient` and `MetricsQueryClient` are configured to connect to the public Azure cloud. These can be configured to connect to non-public Azure clouds by passing in the correct `endpoint` argument: For example:
+By default, `LogsQueryClient` and `MetricsQueryClient` are configured to connect to the public Azure cloud. These can be configured to connect to non-public Azure clouds by passing in the correct `endpoint` argument. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
