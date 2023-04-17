@@ -56,7 +56,7 @@ export async function main() {
             },
           },
           {
-            location: "1.txt",
+            location: "2.txt",
             language: "en-us",
             class: {
               category: "Civil_engineering",
