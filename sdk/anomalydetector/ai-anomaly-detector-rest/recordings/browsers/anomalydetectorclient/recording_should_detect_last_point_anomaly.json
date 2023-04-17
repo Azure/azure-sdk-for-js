@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/timeseries/last/detect",
+      "RequestUri": "https://multi-ad-test-uscx-3.cognitiveservices.azure.com/anomalydetector/v1.1/timeseries/last/detect",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,17 +10,17 @@
         "Connection": "keep-alive",
         "Content-Length": "2844",
         "Content-Type": "application/json; charset=UTF-8",
-        "ocp-apim-subscription-key": "fake_key",
+        "ocp-apim-subscription-key": "7ddbcfcdf4404521b6eaf8aad0be20fe",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "86abd251-85f7-4c02-8a3f-36820941d74c",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "8a5186cd-60a7-4bff-aa2f-2a7e558c2390",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
         "granularity": "daily",
@@ -221,15 +221,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6b9ccf6b-8e8f-46c1-8106-48da6c88593f",
+        "apim-request-id": "af3d9d61-a9b7-4f28-884d-ffd30cc57700",
         "Content-Length": "235",
         "Content-Type": "application/json",
         "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-        "Date": "Mon, 21 Nov 2022 06:58:19 GMT",
+        "Date": "Mon, 17 Apr 2023 13:49:12 GMT",
         "model-id": "10",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "34",
+        "x-envoy-upstream-service-time": "33",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {

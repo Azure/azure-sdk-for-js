@@ -1,4 +1,4 @@
-# AnomalyDetectorRest client library samples for JavaScript (Beta)
+# AnomalyDetectorRest client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for AnomalyDetectorRest in some common scenarios.
 
@@ -47,10 +47,10 @@ npx cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETE
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_detect_change_point.js
-[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_detect_entire_series_anomaly.js
-[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_detect_last_point_anomaly.js
-[sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_multivariate_detection.js
+[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1/javascript/sample_detect_change_point.js
+[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1/javascript/sample_detect_entire_series_anomaly.js
+[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1/javascript/sample_detect_last_point_anomaly.js
+[sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1/javascript/sample_multivariate_detection.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md

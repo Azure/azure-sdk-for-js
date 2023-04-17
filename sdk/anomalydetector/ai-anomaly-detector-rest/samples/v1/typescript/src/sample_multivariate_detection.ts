@@ -7,29 +7,47 @@
  * @summary detect multivaariate anomalies.
  */
 
-const AnomalyDetector = require("@azure-rest/ai-anomaly-detector").default,
-  { paginate, isUnexpected } = require("@azure-rest/ai-anomaly-detector");
-const { AzureKeyCredential } = require("@azure/core-auth");
+import AnomalyDetector, {
+  DetectMultivariateBatchAnomalyParameters,
+  TrainMultivariateModelParameters,
+  ListMultivariateModelsParameters,
+  paginate,
+  isUnexpected,
+  VariableValues,
+  DetectMultivariateLastAnomalyParameters,
+} from "@azure-rest/ai-anomaly-detector";
+import { AzureKeyCredential } from "@azure/core-auth";
+import * as fs from "fs";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const dataSource = "<your data source>";
 
-function sleep(time) {
+const sampleDataPath = "./samples-dev/example-data/multivariate_sample_data.json";
+
+function read_series_from_file(path: string): Array<VariableValues> {
+  let result = {} as { variables: Array<VariableValues> };
+  let input = fs.readFileSync(path).toString();
+  result = JSON.parse(input);
+  return result.variables;
+}
+
+function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-async function main() {
+export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
   const client = AnomalyDetector(endpoint, credential);
 
   // Already available models
-  const options = {
+  const options: ListMultivariateModelsParameters = {
     queryParameters: { skip: 0, top: 10 },
   };
   const initialResponse = await client.path(`/multivariate/models`).get(options);
@@ -41,14 +59,14 @@ async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters = {
+  const createMultivariateModelParameters: TrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",
         fillNAMethod: "Linear",
         paddingValue: 0,
       },
-      dataSchema: "MultiTable",
+      dataSchema: "OneTable",
       dataSource: dataSource,
       displayName: "Devops-MultiAD",
       endTime: "2021-01-02T05:00:00Z",
@@ -104,8 +122,27 @@ async function main() {
   // if model status is "READY"
   console.log("TRAINING FINISHED.");
 
+  // get last detection result
+  const lastDetectAnomalyParameters: DetectMultivariateLastAnomalyParameters = {
+    body: {
+      variables: read_series_from_file(sampleDataPath),
+      topContributorCount: 10,
+    },
+    headers: { "Content-Type": "application/json" },
+  };
+
+  const lastDetectionResponse = await client
+    .path("/multivariate/models/{modelId}:detect-last", modelId)
+    .post(lastDetectAnomalyParameters);
+
+  if (isUnexpected(lastDetectionResponse)) {
+    throw lastDetectionResponse.body;
+  }
+
+  console.log("Last detection result", lastDetectionResponse.body);
+
   // get result
-  const batchDetectAnomalyParameters = {
+  const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
     body: {
       dataSource: dataSource,
       endTime: "2021-01-02T05:00:00Z",
@@ -154,7 +191,7 @@ async function main() {
     return;
   }
 
-  // if result status is "READY"
+  // if batch result status is "READY"
   console.log("Result status: " + resultStatus);
   console.log("Result Id: " + getDetectionResultResponse.body.resultId);
 
@@ -169,5 +206,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

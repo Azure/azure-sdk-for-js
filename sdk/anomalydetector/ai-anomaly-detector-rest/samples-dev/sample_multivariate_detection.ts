@@ -13,8 +13,11 @@ import AnomalyDetector, {
   ListMultivariateModelsParameters,
   paginate,
   isUnexpected,
+  VariableValues,
+  DetectMultivariateLastAnomalyParameters,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
+import * as fs from "fs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -24,6 +27,15 @@ dotenv.config();
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const dataSource = "<your data source>";
+
+const sampleDataPath = "./samples-dev/example-data/multivariate_sample_data.json";
+
+function read_series_from_file(path: string): Array<VariableValues> {
+  let result = {} as { variables: Array<VariableValues> };
+  let input = fs.readFileSync(path).toString();
+  result = JSON.parse(input);
+  return result.variables;
+}
 
 function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -54,7 +66,7 @@ export async function main() {
         fillNAMethod: "Linear",
         paddingValue: 0,
       },
-      dataSchema: "MultiTable",
+      dataSchema: "OneTable",
       dataSource: dataSource,
       displayName: "Devops-MultiAD",
       endTime: "2021-01-02T05:00:00Z",
@@ -110,6 +122,25 @@ export async function main() {
   // if model status is "READY"
   console.log("TRAINING FINISHED.");
 
+  // get last detection result
+  const lastDetectAnomalyParameters: DetectMultivariateLastAnomalyParameters = {
+    body: {
+      variables: read_series_from_file(sampleDataPath),
+      topContributorCount: 10,
+    },
+    headers: { "Content-Type": "application/json" },
+  };
+
+  const lastDetectionResponse = await client
+    .path("/multivariate/models/{modelId}:detect-last", modelId)
+    .post(lastDetectAnomalyParameters);
+
+  if (isUnexpected(lastDetectionResponse)) {
+    throw lastDetectionResponse.body;
+  }
+
+  console.log("Last detection result", lastDetectionResponse.body);
+
   // get result
   const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
     body: {
@@ -160,7 +191,7 @@ export async function main() {
     return;
   }
 
-  // if result status is "READY"
+  // if batch result status is "READY"
   console.log("Result status: " + resultStatus);
   console.log("Result Id: " + getDetectionResultResponse.body.resultId);
 

@@ -1,42 +1,42 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
+      "RequestUri": "https://multi-ad-test-uscx-3.cognitiveservices.azure.com/anomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "fake_key",
+        "Ocp-Apim-Subscription-Key": "7ddbcfcdf4404521b6eaf8aad0be20fe",
         "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 Node/v16.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6e8d70a9-445c-4dc4-8bcb-31ffd396ef79"
+        "x-ms-client-request-id": "a9e1889f-c652-479a-a9f4-26a361b75705"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "0e51100f-6137-42a0-a7d5-2612e9d17b7d",
-        "Content-Length": "30914",
+        "apim-request-id": "78f3c070-4e52-4da3-8df0-e52c9d8e53a9",
+        "Content-Length": "34294",
         "Content-Type": "application/json",
-        "Date": "Wed, 12 Apr 2023 07:38:16 GMT",
+        "Date": "Mon, 17 Apr 2023 13:47:41 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "325",
+        "x-envoy-upstream-service-time": "211",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
         "models": [
           {
-            "modelId": "dd8fe3fe-7c62-11ed-9e4b-063533edcff4",
-            "createdTime": "2022-12-15T10:25:58Z",
-            "lastUpdatedTime": "2022-12-15T10:32:17Z",
+            "modelId": "39cea43c-dd1d-11ed-8b0e-6e134b5856fb",
+            "createdTime": "2023-04-17T12:41:51Z",
+            "lastUpdatedTime": "2023-04-17T12:42:20Z",
             "modelInfo": {
-              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_20_3000.csv",
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
               "dataSchema": "OneTable",
-              "startTime": "2021-01-01T00:00:00Z",
-              "endTime": "2021-01-02T12:00:00Z",
-              "displayName": "IntegrationTest",
-              "slidingWindow": 300,
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
                 "fillNAMethod": "Linear",
@@ -59,197 +59,92 @@
                     100
                   ],
                   "trainLosses": [
-                    1.0223458806673686,
-                    1.1063074866930644,
-                    0.9005691061417261,
-                    0.9030985683202744,
-                    0.9079673389593761,
-                    0.8886682043472925,
-                    0.8953424245119095,
-                    0.8840430378913879,
-                    0.8845394601424534,
-                    0.8783019930124283
+                    1.0493712276220322,
+                    0.5454281121492386,
+                    0.42524269968271255,
+                    0.38019897043704987,
+                    0.3472398854792118,
+                    0.34301353991031647,
+                    0.3219067454338074,
+                    0.3108387663960457,
+                    0.30357857793569565,
+                    0.29986055195331573
                   ],
                   "validationLosses": [
-                    1.0302869334365383,
-                    1.357443058129513,
-                    0.9349723006739761,
-                    0.9272384932546904,
-                    0.9179686055038915,
-                    0.9190903865929806,
-                    0.9187204476558801,
-                    0.9210052201242158,
-                    0.9181306434400154,
-                    0.9137825532393022
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
                   ],
                   "latenciesInSeconds": [
-                    0.9356040954589844,
-                    0.9327144622802734,
-                    0.9653143882751465,
-                    0.9396762847900391,
-                    0.922731876373291,
-                    0.9512734413146973,
-                    1.0390262603759766,
-                    1.1339161396026611,
-                    0.9771873950958252,
-                    0.922095537185669
+                    0.23979759216308594,
+                    0.23555898666381836,
+                    0.268740177154541,
+                    0.24126958847045898,
+                    0.24396038055419922,
+                    0.23871374130249023,
+                    0.24146413803100586,
+                    0.2499685287475586,
+                    0.244246244430542,
+                    0.24031901359558105
                   ]
                 },
                 "variableStates": [
                   {
                     "variable": "series_0",
                     "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
                     "variable": "series_1",
                     "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_10",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_11",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_12",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_13",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_14",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_15",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_16",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_17",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_18",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_19",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
                     "variable": "series_2",
                     "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
                     "variable": "series_3",
                     "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
                     "variable": "series_4",
                     "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_5",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_6",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_7",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_8",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
-                  },
-                  {
-                    "variable": "series_9",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 2161,
-                    "firstTimestamp": "2021-01-01T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T12:00:00Z"
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
                   }
                 ]
               }
             }
           },
           {
-            "modelId": "82badba2-7a26-11ed-b987-3671969e955f",
-            "createdTime": "2022-12-12T14:08:53Z",
-            "lastUpdatedTime": "2022-12-12T14:09:43Z",
+            "modelId": "f13967ca-dd1c-11ed-8794-9e066b475515",
+            "createdTime": "2023-04-17T12:39:49Z",
+            "lastUpdatedTime": "2023-04-17T12:40:37Z",
             "modelInfo": {
               "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
               "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "SampleRequest",
+              "displayName": "Devops-MultiAD",
               "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
@@ -297,16 +192,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.4395477771759033,
-                    0.42405033111572266,
-                    0.4343142509460449,
-                    0.41410112380981445,
-                    0.41887974739074707,
-                    0.4174811840057373,
-                    0.41088032722473145,
-                    0.4691596031188965,
-                    0.4365859031677246,
-                    0.40850400924682617
+                    0.4215888977050781,
+                    0.4184260368347168,
+                    0.44171643257141113,
+                    0.4421570301055908,
+                    0.41767358779907227,
+                    0.4337124824523926,
+                    0.4227592945098877,
+                    0.4534015655517578,
+                    0.41338539123535156,
+                    0.4361226558685303
                   ]
                 },
                 "variableStates": [
@@ -455,15 +350,15 @@
             }
           },
           {
-            "modelId": "1228cc84-7a1a-11ed-8183-b61d8b265ac3",
-            "createdTime": "2022-12-12T12:39:51Z",
-            "lastUpdatedTime": "2022-12-12T12:40:24Z",
+            "modelId": "c959dab4-dd1c-11ed-95e0-9e066b475515",
+            "createdTime": "2023-04-17T12:38:42Z",
+            "lastUpdatedTime": "2023-04-17T12:39:15Z",
             "modelInfo": {
               "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
               "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "SampleRequest",
+              "displayName": "Devops-MultiAD",
               "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
@@ -511,16 +406,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.2780423164367676,
-                    0.291412353515625,
-                    0.2960348129272461,
-                    0.297100305557251,
-                    0.278057336807251,
-                    0.28196001052856445,
-                    0.27933192253112793,
-                    0.2854766845703125,
-                    0.28327441215515137,
-                    0.2778811454772949
+                    0.2943253517150879,
+                    0.3000457286834717,
+                    0.28710365295410156,
+                    0.3069429397583008,
+                    0.2909882068634033,
+                    0.2933828830718994,
+                    0.29017210006713867,
+                    0.29337167739868164,
+                    0.2957651615142822,
+                    0.29369330406188965
                   ]
                 },
                 "variableStates": [
@@ -669,83 +564,229 @@
             }
           },
           {
-            "modelId": "44363b00-7545-11ed-837d-aa4d331fef44",
-            "createdTime": "2022-12-06T09:06:27Z",
-            "lastUpdatedTime": "2022-12-06T09:06:34Z",
-            "modelInfo": {
-              "dataSource": "\u003Cyour data source\u003E",
-              "dataSchema": "MultiTable",
-              "startTime": "2021-01-02T00:00:00Z",
-              "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "Devops-MultiAD",
-              "slidingWindow": 200,
-              "alignPolicy": {
-                "alignMode": "Outer",
-                "fillNAMethod": "Linear",
-                "paddingValue": 0.0
-              },
-              "status": "FAILED",
-              "errors": [
-                {
-                  "code": "GetDataError",
-                  "message": "InvalidBlobURLError(\u0027Parse blob url failed, url does not contain container name\u0027, inner_exception=None)"
-                }
-              ],
-              "diagnosticsInfo": {
-                "modelState": {
-                  "epochIds": [],
-                  "trainLosses": [],
-                  "validationLosses": [],
-                  "latenciesInSeconds": []
-                },
-                "variableStates": []
-              }
-            }
-          },
-          {
-            "modelId": "28b1165c-7545-11ed-b80b-32dc0062e434",
-            "createdTime": "2022-12-06T09:05:41Z",
-            "lastUpdatedTime": "2022-12-06T09:05:43Z",
-            "modelInfo": {
-              "dataSource": "\u003Cyour data source\u003E",
-              "dataSchema": "MultiTable",
-              "startTime": "2021-01-02T00:00:00Z",
-              "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "Devops-MultiAD",
-              "slidingWindow": 200,
-              "alignPolicy": {
-                "alignMode": "Outer",
-                "fillNAMethod": "Linear",
-                "paddingValue": 0.0
-              },
-              "status": "FAILED",
-              "errors": [
-                {
-                  "code": "GetDataError",
-                  "message": "InvalidBlobURLError(\u0027Parse blob url failed, url does not contain container name\u0027, inner_exception=None)"
-                }
-              ],
-              "diagnosticsInfo": {
-                "modelState": {
-                  "epochIds": [],
-                  "trainLosses": [],
-                  "validationLosses": [],
-                  "latenciesInSeconds": []
-                },
-                "variableStates": []
-              }
-            }
-          },
-          {
-            "modelId": "b17c6fde-6ef8-11ed-a1b6-8e0e9f689f05",
-            "createdTime": "2022-11-28T08:43:12Z",
-            "lastUpdatedTime": "2022-11-28T08:44:02Z",
+            "modelId": "07051daa-dd19-11ed-a747-56c4402ef22c",
+            "createdTime": "2023-04-17T12:11:48Z",
+            "lastUpdatedTime": "2023-04-17T12:12:21Z",
             "modelInfo": {
               "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
               "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "SampleRequest",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "READY",
+              "errors": [],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100
+                  ],
+                  "trainLosses": [
+                    3.024534583091736,
+                    1.6318505704402924,
+                    1.296428769826889,
+                    1.7055579721927643,
+                    1.2691728472709656,
+                    1.3463551998138428,
+                    1.2618870437145233,
+                    1.20285165309906,
+                    1.212646722793579,
+                    1.1981790661811829
+                  ],
+                  "validationLosses": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "latenciesInSeconds": [
+                    0.29230570793151855,
+                    0.2851579189300537,
+                    0.28302717208862305,
+                    0.289170503616333,
+                    0.2845759391784668,
+                    0.28169679641723633,
+                    0.29110288619995117,
+                    0.2893688678741455,
+                    0.28977012634277344,
+                    0.28922247886657715
+                  ]
+                },
+                "variableStates": [
+                  {
+                    "variable": "series_0",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_1",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_10",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_11",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_12",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_13",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_14",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_15",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_16",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_17",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_18",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_19",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_2",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_3",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_4",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_5",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_6",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_7",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_8",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_9",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "modelId": "b4be064c-dd18-11ed-8a58-9e066b475515",
+            "createdTime": "2023-04-17T12:09:30Z",
+            "lastUpdatedTime": "2023-04-17T12:10:17Z",
+            "modelInfo": {
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
               "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
@@ -793,16 +834,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.42853689193725586,
-                    0.43964076042175293,
-                    0.45970845222473145,
-                    0.4330101013183594,
-                    0.44196057319641113,
-                    0.4225285053253174,
-                    0.4233384132385254,
-                    0.4440748691558838,
-                    0.4538547992706299,
-                    0.46767330169677734
+                    0.413499116897583,
+                    0.41469907760620117,
+                    0.44419193267822266,
+                    0.4399714469909668,
+                    0.40746474266052246,
+                    0.4287869930267334,
+                    0.3915884494781494,
+                    0.41299939155578613,
+                    0.4256289005279541,
+                    0.4285314083099365
                   ]
                 },
                 "variableStates": [
@@ -951,15 +992,15 @@
             }
           },
           {
-            "modelId": "891176ac-6ef8-11ed-ba13-4eb73d6531d8",
-            "createdTime": "2022-11-28T08:42:04Z",
-            "lastUpdatedTime": "2022-11-28T08:42:54Z",
+            "modelId": "891341c0-dd17-11ed-995f-6e134b5856fb",
+            "createdTime": "2023-04-17T12:01:07Z",
+            "lastUpdatedTime": "2023-04-17T12:01:57Z",
             "modelInfo": {
               "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
               "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "SampleRequest",
+              "displayName": "Devops-MultiAD",
               "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
@@ -1007,16 +1048,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.453549861907959,
-                    0.4333963394165039,
-                    0.4394080638885498,
-                    0.43098020553588867,
-                    0.4557764530181885,
-                    0.4562366008758545,
-                    0.44606494903564453,
-                    0.4493277072906494,
-                    0.45206117630004883,
-                    0.4601428508758545
+                    0.4768249988555908,
+                    0.442899227142334,
+                    0.44800376892089844,
+                    0.4444458484649658,
+                    0.4586625099182129,
+                    0.45153212547302246,
+                    0.43941736221313477,
+                    0.4484272003173828,
+                    0.45197272300720215,
+                    0.4404411315917969
                   ]
                 },
                 "variableStates": [
@@ -1165,15 +1206,15 @@
             }
           },
           {
-            "modelId": "92f1b680-6c6b-11ed-9c84-8e0e9f689f05",
-            "createdTime": "2022-11-25T02:48:00Z",
-            "lastUpdatedTime": "2022-11-25T02:48:32Z",
+            "modelId": "6158d832-dd14-11ed-aa15-6e134b5856fb",
+            "createdTime": "2023-04-17T11:38:32Z",
+            "lastUpdatedTime": "2023-04-17T11:39:11Z",
             "modelInfo": {
-              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/data_10x2980.csv",
-              "dataSchema": "OneTable",
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_5_3000",
+              "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "",
+              "displayName": "Devops-MultiAD",
               "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
@@ -1197,16 +1238,16 @@
                     100
                   ],
                   "trainLosses": [
-                    1.839677333831787,
-                    0.8869151622056961,
-                    0.7029726356267929,
-                    0.6114895641803741,
-                    0.5834377110004425,
-                    0.5767504870891571,
-                    0.5690736025571823,
-                    0.5822867751121521,
-                    0.5535655319690704,
-                    0.5608612149953842
+                    1.0493448749184608,
+                    0.545460119843483,
+                    0.42525891214609146,
+                    0.3802287131547928,
+                    0.34711673483252525,
+                    0.34292078018188477,
+                    0.32213232666254044,
+                    0.31043966114521027,
+                    0.30313607305288315,
+                    0.30020561069250107
                   ],
                   "validationLosses": [
                     0.0,
@@ -1221,16 +1262,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.2679269313812256,
-                    0.27826929092407227,
-                    0.29019999504089355,
-                    0.25621509552001953,
-                    0.2579514980316162,
-                    0.28946995735168457,
-                    0.26665186882019043,
-                    0.28791260719299316,
-                    0.29732298851013184,
-                    0.26925158500671387
+                    0.37135767936706543,
+                    0.3337221145629883,
+                    0.3393559455871582,
+                    0.3542177677154541,
+                    0.36533546447753906,
+                    0.3444085121154785,
+                    0.3498375415802002,
+                    0.3606555461883545,
+                    0.35840320587158203,
+                    0.35779404640197754
                   ]
                 },
                 "variableStates": [
@@ -1243,6 +1284,219 @@
                   },
                   {
                     "variable": "series_1",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_2",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_3",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_4",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "modelId": "3b44db00-dd14-11ed-8b0e-6e134b5856fb",
+            "createdTime": "2023-04-17T11:37:28Z",
+            "lastUpdatedTime": "2023-04-17T11:37:30Z",
+            "modelInfo": {
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_2_1000",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "FAILED",
+              "errors": [
+                {
+                  "code": "NoData",
+                  "message": "There is no effective data."
+                }
+              ],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [],
+                  "trainLosses": [],
+                  "validationLosses": [],
+                  "latenciesInSeconds": []
+                },
+                "variableStates": []
+              }
+            }
+          },
+          {
+            "modelId": "6dd9ba8e-dd0c-11ed-bd57-6e134b5856fb",
+            "createdTime": "2023-04-17T10:41:37Z",
+            "lastUpdatedTime": "2023-04-17T10:42:26Z",
+            "modelInfo": {
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "READY",
+              "errors": [],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100
+                  ],
+                  "trainLosses": [
+                    3.024805575609207,
+                    1.6303358376026154,
+                    1.2970665097236633,
+                    1.4798658192157745,
+                    1.3931093215942383,
+                    1.2897053956985474,
+                    1.2366772890090942,
+                    1.2081778943538666,
+                    1.219917356967926,
+                    1.2086971998214722
+                  ],
+                  "validationLosses": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "latenciesInSeconds": [
+                    0.43126726150512695,
+                    0.4667198657989502,
+                    0.4427516460418701,
+                    0.438870906829834,
+                    0.4669077396392822,
+                    0.446303129196167,
+                    0.44762492179870605,
+                    0.4269702434539795,
+                    0.4375760555267334,
+                    0.4517180919647217
+                  ]
+                },
+                "variableStates": [
+                  {
+                    "variable": "series_0",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_1",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_10",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_11",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_12",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_13",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_14",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_15",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_16",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_17",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_18",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_19",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
@@ -1309,16 +1563,16 @@
             }
           },
           {
-            "modelId": "9224e49c-6ba4-11ed-bb90-42f93900d41a",
-            "createdTime": "2022-11-24T03:03:28Z",
-            "lastUpdatedTime": "2022-11-24T03:04:12Z",
+            "modelId": "d4d8b40c-dd0b-11ed-8eb8-6e134b5856fb",
+            "createdTime": "2023-04-17T10:37:20Z",
+            "lastUpdatedTime": "2023-04-17T10:37:52Z",
             "modelInfo": {
-              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/data_10x2980.csv",
-              "dataSchema": "OneTable",
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
+              "dataSchema": "MultiTable",
               "startTime": "2021-01-02T00:00:00Z",
               "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "",
-              "slidingWindow": 300,
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
               "alignPolicy": {
                 "alignMode": "Outer",
                 "fillNAMethod": "Linear",
@@ -1341,16 +1595,16 @@
                     100
                   ],
                   "trainLosses": [
-                    1.9630636274814606,
-                    0.956853061914444,
-                    0.7396448254585266,
-                    0.651467889547348,
-                    0.6004517376422882,
-                    0.5756924748420715,
-                    0.5742872953414917,
-                    0.5503498166799545,
-                    0.5622950196266174,
-                    0.5594780594110489
+                    3.024534583091736,
+                    1.6318505704402924,
+                    1.296428769826889,
+                    1.7055579721927643,
+                    1.2691728472709656,
+                    1.3463551998138428,
+                    1.2618870437145233,
+                    1.20285165309906,
+                    1.212646722793579,
+                    1.1981790661811829
                   ],
                   "validationLosses": [
                     0.0,
@@ -1365,16 +1619,16 @@
                     0.0
                   ],
                   "latenciesInSeconds": [
-                    0.40090250968933105,
-                    0.38347315788269043,
-                    0.3919196128845215,
-                    0.40604591369628906,
-                    0.38870835304260254,
-                    0.3922114372253418,
-                    0.3936889171600342,
-                    0.3716771602630615,
-                    0.38651013374328613,
-                    0.367717981338501
+                    0.3034632205963135,
+                    0.27245640754699707,
+                    0.26592493057250977,
+                    0.2885727882385254,
+                    0.2875936031341553,
+                    0.2886483669281006,
+                    0.27036190032958984,
+                    0.29152345657348633,
+                    0.27005958557128906,
+                    0.2618265151977539
                   ]
                 },
                 "variableStates": [
@@ -1393,144 +1647,70 @@
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_2",
+                    "variable": "series_10",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_3",
+                    "variable": "series_11",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_4",
+                    "variable": "series_12",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_5",
+                    "variable": "series_13",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_6",
+                    "variable": "series_14",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_7",
+                    "variable": "series_15",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_8",
+                    "variable": "series_16",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_9",
-                    "filledNARatio": 0.0,
-                    "effectiveCount": 301,
-                    "firstTimestamp": "2021-01-02T00:00:00Z",
-                    "lastTimestamp": "2021-01-02T05:00:00Z"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "modelId": "3a976f4c-6b18-11ed-a533-42f93900d41a",
-            "createdTime": "2022-11-23T10:18:52Z",
-            "lastUpdatedTime": "2022-11-23T10:19:23Z",
-            "modelInfo": {
-              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/data_10x2980.csv",
-              "dataSchema": "OneTable",
-              "startTime": "2021-01-02T00:00:00Z",
-              "endTime": "2021-01-02T05:00:00Z",
-              "displayName": "",
-              "slidingWindow": 300,
-              "alignPolicy": {
-                "alignMode": "Outer",
-                "fillNAMethod": "Linear",
-                "paddingValue": 0.0
-              },
-              "status": "READY",
-              "errors": [],
-              "diagnosticsInfo": {
-                "modelState": {
-                  "epochIds": [
-                    10,
-                    20,
-                    30,
-                    40,
-                    50,
-                    60,
-                    70,
-                    80,
-                    90,
-                    100
-                  ],
-                  "trainLosses": [
-                    1.9630669355392456,
-                    0.9567495137453079,
-                    0.7392364293336868,
-                    0.6515217274427414,
-                    0.600095734000206,
-                    0.5759434252977371,
-                    0.5743864178657532,
-                    0.5498789101839066,
-                    0.5617739260196686,
-                    0.5612641870975494
-                  ],
-                  "validationLosses": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                  ],
-                  "latenciesInSeconds": [
-                    0.2675344944000244,
-                    0.2690088748931885,
-                    0.25969386100769043,
-                    0.26529955863952637,
-                    0.26616930961608887,
-                    0.2659268379211426,
-                    0.27251243591308594,
-                    0.2690892219543457,
-                    0.2709329128265381,
-                    0.26690006256103516
-                  ]
-                },
-                "variableStates": [
-                  {
-                    "variable": "series_0",
+                    "variable": "series_17",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
                     "lastTimestamp": "2021-01-02T05:00:00Z"
                   },
                   {
-                    "variable": "series_1",
+                    "variable": "series_18",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_19",
                     "filledNARatio": 0.0,
                     "effectiveCount": 301,
                     "firstTimestamp": "2021-01-02T00:00:00Z",
@@ -1597,7 +1777,7 @@
             }
           }
         ],
-        "currentCount": 21,
+        "currentCount": 36,
         "maxCount": 1000,
         "nextLink": ""
       }
