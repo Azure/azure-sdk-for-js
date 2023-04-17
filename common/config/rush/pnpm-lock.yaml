@@ -735,20 +735,21 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@azure/ai-form-recognizer/3.1.0-beta.3:
-    resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
-    engines: {node: '>=8.0.0'}
-    deprecated: Please migrate to a supported (non-beta) version of this package
+  /@azure/ai-form-recognizer/4.0.0:
+    resolution: {integrity: sha512-D0QoRdBYHpbEWk9yEh6UFhbes33RQzNx2Kn5qxPu1YvMrhigLIrmZBgpJbxOxpirHx2vo8yoiOA8UjHMlNJV8w==}
+    engines: {node: '>=12.0.0'}
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
-      '@azure/core-http': 1.2.6
-      '@azure/core-lro': 1.0.5
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.2
       '@azure/core-paging': 1.5.0
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-rest-pipeline': 1.10.3
+      '@azure/core-tracing': 1.0.1
       '@azure/logger': 1.0.4
       tslib: 2.5.0
     transitivePeerDependencies:
-      - encoding
+      - supports-color
     dev: false
 
   /@azure/ai-metrics-advisor/1.0.0-beta.3:
@@ -2360,7 +2361,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/chai-as-promised/7.1.5:
@@ -2382,7 +2383,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2392,7 +2393,7 @@ packages:
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/debug/4.1.7:
@@ -2404,7 +2405,7 @@ packages:
   /@types/decompress/4.2.4:
     resolution: {integrity: sha512-/C8kTMRTNiNuWGl5nEyKbPiMv6HA+0RbEXzFhFBEzASM6+oa4tJro9b8nj7eRlOFfuLdzUU+DS/GPDlvvzMOhA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/eslint/8.4.10:
@@ -2425,7 +2426,7 @@ packages:
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2442,13 +2443,13 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/inquirer/8.2.6:
@@ -2461,7 +2462,7 @@ packages:
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -2475,13 +2476,13 @@ packages:
   /@types/jsonwebtoken/9.0.1:
     resolution: {integrity: sha512-c5ltxazpWabia/4UzhIoaDcIza4KViOQhdbjRlfcIGVnsE3c3brkz9Z+F/EeJIECOQP7W7US2hNE930cWWkPiw==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/jws/3.2.5:
     resolution: {integrity: sha512-xGTxZH34xOryaTN8CMsvhh9lfNqFuHiMoRvsLYWQdBJHqiECyfInXVl2eK8Jz2emxZWMIn5RBlmr3oDVPeWujw==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/linkify-it/3.0.2:
@@ -2528,7 +2529,7 @@ packages:
   /@types/node-fetch/2.6.3:
     resolution: {integrity: sha512-ETTL1mOEdq/sxUtgtOhKjyB2Irra4cjxksvcMUR5Zr4n+PxVhsCD9WS46oPbHL3et9Zde7CNRr+WUNlcHvsX+w==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
       form-data: 3.0.1
     dev: false
 
@@ -2571,7 +2572,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2586,7 +2587,7 @@ packages:
     resolution: {integrity: sha512-NUo5XNiAdULrJENtJXZZ3fHtfMolzZwczzBbnAeBbqBwG+LaG6YaJtuwzwGSQZ2wsCrxjEhNNjAkKigy3n8teQ==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/sinon/10.0.14:
@@ -2608,13 +2609,13 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/tough-cookie/4.0.2:
@@ -2628,13 +2629,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2652,19 +2653,19 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/ws/8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/xml2js/0.4.11:
     resolution: {integrity: sha512-JdigeAKmCyoJUiQljjr7tQG3if9NkqGUgwEUqBvV0N7LM4HyQk7UXCnusRa1lnvXAEYJ8mw8GtZWioagNztOwA==}
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -2681,7 +2682,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
     dev: false
     optional: true
 
@@ -3752,7 +3753,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -4041,7 +4042,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.13
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -5055,7 +5056,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -7473,7 +7474,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 14.18.42
+      '@types/node': 18.15.11
       long: 5.2.3
     dev: false
 
@@ -18434,11 +18435,11 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-ceK5MquNCCghXijmWBVEPtNM2LUgOGQmdGPb1/ZQZpc3wLk6NVrClPrOm10vtt6J/zBsGRRPxNsYlaA1fqGbdA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-xvZNoEBPTkF3dYMtEQibZ3YxdFLVciNQUEpm9Af7PlmWDuFhd1UfS954Zpww/1wp9hHA9VCFh3vz4+PF9rfBPg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure/ai-form-recognizer': 3.1.0-beta.3
+      '@azure/ai-form-recognizer': 4.0.0
       '@azure/identity': 2.1.0
       '@types/node': 14.18.42
       dotenv: 16.0.3
@@ -18451,7 +18452,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
