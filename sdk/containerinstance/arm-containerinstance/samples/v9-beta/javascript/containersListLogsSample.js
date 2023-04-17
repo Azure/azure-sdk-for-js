@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the logs for a specified container instance in a specified resource group and container group.
  *
  * @summary Get the logs for a specified container instance in a specified resource group and container group.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerListLogs.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerListLogs.json
  */
 async function containerListLogs() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";

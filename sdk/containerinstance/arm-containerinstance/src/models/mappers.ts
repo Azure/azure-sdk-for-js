@@ -133,6 +133,19 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
           }
         }
       },
+      provisioningTimeoutInSeconds: {
+        serializedName: "properties.provisioningTimeoutInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      isCustomProvisioningTimeout: {
+        serializedName: "properties.isCustomProvisioningTimeout",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       restartPolicy: {
         serializedName: "properties.restartPolicy",
         type: {
@@ -233,19 +246,6 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
               className: "DeploymentExtensionSpec"
             }
           }
-        }
-      },
-      confidentialComputeProperties: {
-        serializedName: "properties.confidentialComputeProperties",
-        type: {
-          name: "Composite",
-          className: "ConfidentialComputeProperties"
-        }
-      },
-      priority: {
-        serializedName: "properties.priority",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1417,21 +1417,6 @@ export const DeploymentExtensionSpec: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const ConfidentialComputeProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConfidentialComputeProperties",
-    modelProperties: {
-      ccePolicy: {
-        serializedName: "ccePolicy",
-        type: {
-          name: "String"
         }
       }
     }

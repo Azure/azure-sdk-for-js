@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  ConfidentialLedger as ConfidentialLedgerMapper
+  ConfidentialLedger as ConfidentialLedgerMapper,
+  ManagedCCF as ManagedCCFMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -43,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-13",
+    defaultValue: "2023-01-26-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -84,6 +85,9 @@ export const nameAvailabilityRequest: OperationParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -97,7 +101,7 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 3
+      MinLength: 1
     },
     serializedName: "resourceGroupName",
     required: true,
@@ -134,4 +138,23 @@ export const filter: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const appName: OperationURLParameter = {
+  parameterPath: "appName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]")
+    },
+    serializedName: "appName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const managedCCF: OperationParameter = {
+  parameterPath: "managedCCF",
+  mapper: ManagedCCFMapper
 };

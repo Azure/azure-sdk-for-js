@@ -19,13 +19,7 @@ export interface MSIConfiguration {
  * Represents an access token for {@link ManagedIdentity} for internal usage,
  * with an expiration time and the time in which token should refresh.
  */
-export declare interface MSIToken extends AccessToken {
-  /**
-   * The time in which token should refresh,
-   * specified in milliseconds, UNIX epoch time.
-   */
-  refreshesOn?: number;
-}
+export declare interface MSIToken extends AccessToken {}
 
 /**
  * @internal

@@ -137,6 +137,10 @@ export default {
 
 Please consult the documentation of your favorite bundler for more information on using polyfills.
 
+### React Native Support
+
+Similar to browsers, React Native does not support some JavaScript api used by this SDK library so you need to provide polyfills for them.  Please see the [Messaging React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/README.md) for more details.
+
 ### Authenticate the client
 
 Interaction with Service Bus starts with an instance of the [ServiceBusClient][sbclient] class. You can

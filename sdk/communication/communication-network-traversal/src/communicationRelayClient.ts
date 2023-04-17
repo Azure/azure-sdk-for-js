@@ -116,14 +116,13 @@ export class CommunicationRelayClient {
   public getRelayConfiguration(
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
-    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
-      options;
-
-    if (options !== "undefined") {
-      requestOptions.id = options.id;
-      requestOptions.routeType = options.routeType;
-      requestOptions.ttl = options.ttl;
-    }
+    const { id, routeType, ttl } = options;
+    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = {
+      ...options,
+      id,
+      routeType,
+      ttl,
+    };
 
     return tracingClient.withSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",

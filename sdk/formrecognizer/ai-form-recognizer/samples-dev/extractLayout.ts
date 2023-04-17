@@ -7,6 +7,7 @@
  * such as lines, words, and selection marks), tables, and text font styles.
  *
  * @summary use the prebuilt layout model to extract basic document elements only
+ * @azsdk-skip-javascript
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";

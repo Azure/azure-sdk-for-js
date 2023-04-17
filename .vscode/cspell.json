@@ -42,7 +42,8 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md"
+    "sdk/synapse/synapse-spark/review/*.md",
+    "sdk/translation/ai-translation-text-rest/review/*.md"
   ],
   "words": [
     "adfs",
@@ -240,6 +241,12 @@
       ]
     },
     {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
+      "words": [
+        "iddocument"
+      ]
+    },
+    {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
         "WDLABCD",
@@ -247,7 +254,9 @@
         "spreadsheetml",
         "wordprocessingml",
         "heif",
-        "copays"
+        "copays",
+        "Upca",
+        "Upce"
       ]
     },
     {
