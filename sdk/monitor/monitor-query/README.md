@@ -53,7 +53,9 @@ const logsQueryClient = new LogsQueryClient(credential);
 const metricsQueryClient = new MetricsQueryClient(credential);
 ```
 
-By default, the above clients will point to the Azure Public Cloud - `https://management.azure.com`. If required, the clients could be configured for non-public cloud usage as follows:
+#### Configure clients for non-public Azure clouds
+
+By default, `LogsQueryClient` and `MetricsQueryClient` are configured to connect to the public Azure cloud. These can be configured to connect to non-public Azure clouds by passing in the correct `endpoint` argument: For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -62,14 +64,16 @@ import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
 const credential = new DefaultAzureCredential();
 
 const logsQueryClient = new LogsQueryClient(credential, {
-  endpoint: "https://customEndpoint1",
+  endpoint: "https://api.loganalytics.azure.cn/v1",
 });
 
 // or
 const metricsQueryClient = new MetricsQueryClient(credential{
-  endpoint: "https://customEndpoint1",
+  endpoint: "https://management.chinacloudapi.cn",
 });
 ```
+
+**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics, so you will need the corresponding management endpoint for your cloud when using this client. This is subject to change in the future.
 
 ### Execute the query
 
