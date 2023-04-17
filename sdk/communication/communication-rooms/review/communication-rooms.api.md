@@ -6,6 +6,7 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
+import { CommunicationIdentifierKind } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -21,7 +22,7 @@ export interface CommunicationRoom {
 
 // @public
 export interface CreateRoomOptions extends OperationOptions {
-    participants?: InvitedRoomParticipant[];
+    participants?: RoomParticipantPatch[];
     validFrom?: Date;
     validUntil?: Date;
 }
@@ -30,16 +31,15 @@ export interface CreateRoomOptions extends OperationOptions {
 export type DeleteRoomOptions = OperationOptions;
 
 // @public
-export type GetParticipantsOptions = OperationOptions;
-
-// @public
 export type GetRoomOptions = OperationOptions;
 
 // @public
-export interface InvitedRoomParticipant {
-    id: CommunicationIdentifier;
-    role?: ParticipantRole;
+export interface ListPageSettings {
+    continuationToken?: string;
 }
+
+// @public
+export type ListParticipantsOptions = OperationOptions;
 
 // @public
 export type ListRoomOptions = OperationOptions;
@@ -51,27 +51,33 @@ export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
-export type RemoveParticipantsResult = Record<string, never>;
+export interface RemoveParticipantsResult {
+}
 
 // @public
 export interface RoomParticipant {
-    rawId: string;
+    id: CommunicationIdentifierKind;
     role: ParticipantRole;
+}
+
+// @public
+export interface RoomParticipantPatch {
+    id: CommunicationIdentifier;
+    role?: ParticipantRole;
 }
 
 // @public
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
-    constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
     createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
-    listParticipants(roomId: string, options?: GetParticipantsOptions): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>;
-    listRooms(options?: ListRoomOptions): Promise<PagedAsyncIterableIterator<CommunicationRoom>>;
+    listParticipants(roomId: string, options?: ListParticipantsOptions): PagedAsyncIterableIterator<RoomParticipant>;
+    listRooms(options?: ListRoomOptions): PagedAsyncIterableIterator<CommunicationRoom>;
     removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
     updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
-    upsertParticipants(roomId: string, participants: InvitedRoomParticipant[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;
+    upsertParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;
 }
 
 // @public
@@ -88,7 +94,8 @@ export interface UpdateRoomOptions extends OperationOptions {
 export type UpsertParticipantsOptions = OperationOptions;
 
 // @public
-export type UpsertParticipantsResult = Record<string, never>;
+export interface UpsertParticipantsResult {
+}
 
 // (No @packageDocumentation comment for this package)
 

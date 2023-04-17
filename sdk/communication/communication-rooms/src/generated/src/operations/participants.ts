@@ -7,24 +7,20 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
 import { Participants } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RoomsRestClient } from "../roomsRestClient";
 import {
-  RoomParticipant,
-  ParticipantsListNextOptionalParams,
   ParticipantsListOptionalParams,
   ParticipantsListResponse,
   ParticipantsUpdateOptionalParams,
   ParticipantsUpdateResponse,
+  ParticipantsListNextOptionalParams,
   ParticipantsListNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing Participants operations. */
 export class ParticipantsImpl implements Participants {
   private readonly client: RoomsRestClient;
@@ -42,70 +38,12 @@ export class ParticipantsImpl implements Participants {
    * @param roomId The id of the room to get participants from.
    * @param options The options parameters.
    */
-  public list(
-    roomId: string,
-    options?: ParticipantsListOptionalParams
-  ): PagedAsyncIterableIterator<RoomParticipant> {
-    const iter = this.listPagingAll(roomId, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(roomId, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    roomId: string,
-    options?: ParticipantsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<RoomParticipant[]> {
-    let result: ParticipantsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(roomId, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(roomId, continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    roomId: string,
-    options?: ParticipantsListOptionalParams
-  ): AsyncIterableIterator<RoomParticipant> {
-    for await (const page of this.listPagingPage(roomId, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get participants in a room.
-   * @param roomId The id of the room to get participants from.
-   * @param options The options parameters.
-   */
-  private async _list(
+  async list(
     roomId: string,
     options?: ParticipantsListOptionalParams
   ): Promise<ParticipantsListResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient._list",
+      "RoomsRestClient.list",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
@@ -143,13 +81,13 @@ export class ParticipantsImpl implements Participants {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private async _listNext(
+  async listNext(
     roomId: string,
     nextLink: string,
     options?: ParticipantsListNextOptionalParams
   ): Promise<ParticipantsListNextResponse> {
     return tracingClient.withSpan(
-      "RoomsRestClient._listNext",
+      "RoomsRestClient.listNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(

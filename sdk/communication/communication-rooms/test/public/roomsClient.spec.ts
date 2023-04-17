@@ -7,9 +7,9 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import sinon from "sinon";
 import { RoomsClient } from "../../src/roomsClient";
-import { CommunicationUserIdentifier, getIdentifierRawId } from "@azure/communication-common";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
-import { InvitedRoomParticipant } from "../../src/models/models";
+import { RoomParticipantPatch } from "../../src/models/models";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;
@@ -155,7 +155,7 @@ describe("RoomsClient", function () {
 
     it("successfully adds a participant to the room", async function () {
       testUser = (await createTestUser(recorder)).user;
-      const participants: InvitedRoomParticipant[] = [
+      const participants: RoomParticipantPatch[] = [
         {
           id: testUser,
           role: "Presenter",
@@ -171,7 +171,7 @@ describe("RoomsClient", function () {
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult);
       for await (const participant of addParticipantsResult) {
-        assert.equal(participant.rawId, getIdentifierRawId(participants[0].id));
+        assert.equal(participant.id.kind, "communicationUser");
         assert.equal(participant.role, participants[0].role);
         break;
       }
@@ -223,7 +223,7 @@ describe("RoomsClient", function () {
       assert.isDefined(createRoomResult);
       roomId = createRoomResult.id;
 
-      const participants: InvitedRoomParticipant[] = [
+      const participants: RoomParticipantPatch[] = [
         {
           id: testUser,
           role: "Presenter",
@@ -233,7 +233,7 @@ describe("RoomsClient", function () {
       const allParticipants = await client.listParticipants(roomId);
       assert.isDefined(allParticipants);
       for await (const participant of allParticipants) {
-        assert.equal(participant.rawId, getIdentifierRawId(participants[0].id));
+        assert.equal(participant.id.kind, "communicationUser");
         assert.equal(participant.role, participants[0].role);
         break;
       }

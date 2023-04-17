@@ -2,21 +2,25 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { InvitedRoomParticipant } from "./models";
+import { RoomParticipant, RoomParticipantPatch } from "./models";
 import {
   CommunicationIdentifier,
   getIdentifierKind,
   getIdentifierRawId,
 } from "@azure/communication-common";
-import { ParticipantProperties, RoomParticipant } from "../generated/src/models";
+import {
+  ParticipantProperties,
+  RoomParticipant as RESTRoomParticipant,
+} from "../generated/src/models";
+import { createIdentifierFromRawId } from "@azure/communication-common";
 
 /**
  * @internal
  * Mapping room participant customer model to room participant REST model.
  */
 export const mapToRoomParticipantRestModel = (
-  roomParticipant: InvitedRoomParticipant
-): RoomParticipant => {
+  roomParticipant: RoomParticipantPatch
+): RESTRoomParticipant => {
   const { id, role } = roomParticipant;
   if (getIdentifierKind(id).kind !== "communicationUser") {
     throwException("We currently only support CommunicationUsers");
@@ -28,11 +32,25 @@ export const mapToRoomParticipantRestModel = (
 };
 
 /**
+ * @internak
+ * Mapping room participant REST model to room participant customer model
+ */
+export const mapToRoomParticipantSDKModel = (
+  roomParticipant: RESTRoomParticipant
+): RoomParticipant => {
+  const { rawId, role } = roomParticipant;
+  return {
+    id: createIdentifierFromRawId(rawId),
+    role: role || "Attendee",
+  };
+};
+
+/**
  * @internal
  * Mapping room participant role to participants rawId.
  */
 export const mapRoomParticipantToRawId = (
-  participants?: InvitedRoomParticipant[]
+  participants?: RoomParticipantPatch[]
 ): Record<string, ParticipantProperties> => {
   participants = participants ?? [];
   const mappedParticipants: Record<string, RestModel.ParticipantProperties> = {};
@@ -48,7 +66,7 @@ export const mapRoomParticipantToRawId = (
  * @internal
  * Mapping communication identifier for removal.
  */
-export const mapCommunicationIdentifierForRemoval = (
+export const mapRoomParticipantForRemoval = (
   ids: CommunicationIdentifier[]
 ): Record<string, ParticipantProperties> => {
   const mappedParticipants: Record<string, any> = {};

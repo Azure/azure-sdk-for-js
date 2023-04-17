@@ -13,13 +13,18 @@ import {
 import { logger } from "./logger";
 import { tracingClient } from "./tracing";
 import { RoomsRestClient } from "./generated/src";
-import { mapCommunicationIdentifierForRemoval, mapRoomParticipantToRawId } from "./models/mappers";
-import { CommunicationRoom, InvitedRoomParticipant, RoomParticipant } from "./models/models";
+import {
+  mapRoomParticipantForRemoval,
+  mapRoomParticipantToRawId,
+  mapToRoomParticipantSDKModel,
+} from "./models/mappers";
+import { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models";
 import {
   CreateRoomOptions,
   DeleteRoomOptions,
-  GetParticipantsOptions,
   GetRoomOptions,
+  ListPageSettings,
+  ListParticipantsOptions,
   ListRoomOptions,
   RemoveParticipantsOptions,
   RemoveParticipantsResult,
@@ -59,20 +64,12 @@ export class RoomsClient {
   constructor(connectionString: string, options?: RoomsClientOptions);
 
   /**
-   * Initializes a new instance of the RoomsClient using an Azure KeyCredential
-   * @param endpoint - The url of the Communication Services resource
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options - Optional. Options to configure the HTTP pipeline.
-   */
-  constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
-
-  /**
    * Initializes a new instance of the RoomsClient using a TokenCredential
    * @param endpoint - The url of the Communication Services resource
-   * @param credential - An object that is used to authenticate requests to the service. Use the AzureCommunicationTokenCredential from `@azure/communication-common` to create a credential.
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential from `@azure/identity` or AzureCommunicationTokenCredential from `@azure/communication-common` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
+  constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
 
   constructor(
     connectionStringOrUrl: string,
@@ -145,16 +142,70 @@ export class RoomsClient {
     });
   }
 
+  private async *listRoomsPage(
+    pageSettings: ListPageSettings,
+    options: ListRoomOptions = {}
+  ): AsyncIterableIterator<CommunicationRoom[]> {
+    if (!pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.rooms.list(options);
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+
+    while (pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.rooms.listNext(
+        pageSettings.continuationToken,
+        options
+      );
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    } 
+  }
+
+  private async *listRoomsAll(
+    options: ListRoomOptions = {}
+  ): AsyncIterableIterator<CommunicationRoom> {
+    for await (const page of this.listRoomsPage({}, options)) {
+      yield* page;
+    }
+  }
+
   /**
    * Gets the list of rooms
    * @param options - Operational options
    */
-  public async listRooms(
+  public listRooms(
     options: ListRoomOptions = {}
-  ): Promise<PagedAsyncIterableIterator<CommunicationRoom>> {
-    return tracingClient.withSpan("RoomsClient-ListRooms", options, async (updatedOptions) => {
-      return this.client.rooms.list(updatedOptions);
-    });
+  ): PagedAsyncIterableIterator<CommunicationRoom> {
+    const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-ListRooms", options);
+    try {
+      const iter = this.listRoomsAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listRoomsPage(settings, updatedOptions);
+        }
+      }
+    } catch (e: any) {
+      span.setStatus({
+        error: e,
+        status: "error",
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -168,23 +219,76 @@ export class RoomsClient {
     });
   }
 
+  private async *listParticipantsPage(
+    roomId: string,
+    pageSettings: ListPageSettings,
+    options: ListParticipantsOptions = {}
+  ): AsyncIterableIterator<RoomParticipant[]> {
+    if (!pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.participants.list(roomId, options);
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mapToRoomParticipantSDKModel, this);
+      }
+    }
+
+    while (pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.participants.listNext(
+        roomId,
+        pageSettings.continuationToken,
+        options
+      );
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mapToRoomParticipantSDKModel, this);
+      } else {
+        break;
+      }
+    } 
+  }
+
+  private async *listParticipantsAll(
+    roomId: string,
+    options: ListParticipantsOptions = {}
+  ): AsyncIterableIterator<RoomParticipant> {
+    for await (const page of this.listParticipantsPage(roomId, {}, options)) {
+      yield* page;
+    }
+  }
+
   /**
    * Gets the participants of a room asynchronously.
    * @param roomId - ID of the room.
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
-  public async listParticipants(
+  public listParticipants(
     roomId: string,
-    options: GetParticipantsOptions = {}
-  ): Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>> {
-    return tracingClient.withSpan(
-      "RoomsClient-GetParticipants",
-      options,
-      async (updatedOptions) => {
-        return this.client.participants.list(roomId, updatedOptions);
+    options: ListParticipantsOptions = {}
+  ): PagedAsyncIterableIterator<RoomParticipant> {
+    const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-GetParticipants", options);
+    try {
+      const iter = this.listParticipantsAll(roomId, updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listParticipantsPage(roomId, settings, updatedOptions);
+        }
       }
-    );
+    } catch (e: any) {
+      span.setStatus({
+        error: e,
+        status: "error",
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -197,7 +301,7 @@ export class RoomsClient {
    */
   public async upsertParticipants(
     roomId: string,
-    participants: InvitedRoomParticipant[],
+    participants: RoomParticipantPatch[],
     options: UpsertParticipantsOptions = {}
   ): Promise<UpsertParticipantsResult> {
     return tracingClient.withSpan(
@@ -231,7 +335,7 @@ export class RoomsClient {
       async (updatedOptions) => {
         await this.client.participants.update(roomId, {
           ...updatedOptions,
-          participants: mapCommunicationIdentifierForRemoval(participants),
+          participants: mapRoomParticipantForRemoval(participants),
         });
         return EmptyResponse;
       }

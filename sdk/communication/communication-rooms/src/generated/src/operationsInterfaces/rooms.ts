@@ -6,34 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  RoomModel,
-  RoomsListOptionalParams,
   RoomsCreateOptionalParams,
   RoomsCreateResponse,
+  RoomsListOptionalParams,
+  RoomsListResponse,
   RoomsGetOptionalParams,
   RoomsGetResponse,
   RoomsUpdateOptionalParams,
   RoomsUpdateResponse,
-  RoomsDeleteOptionalParams
+  RoomsDeleteOptionalParams,
+  RoomsListNextOptionalParams,
+  RoomsListNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Rooms. */
 export interface Rooms {
-  /**
-   * Retrieves all created rooms.
-   * @param options The options parameters.
-   */
-  list(
-    options?: RoomsListOptionalParams
-  ): PagedAsyncIterableIterator<RoomModel>;
   /**
    * Creates a new room.
    * @param options The options parameters.
    */
   create(options?: RoomsCreateOptionalParams): Promise<RoomsCreateResponse>;
+  /**
+   * Retrieves all created rooms.
+   * @param options The options parameters.
+   */
+  list(options?: RoomsListOptionalParams): Promise<RoomsListResponse>;
   /**
    * Retrieves an existing room by id.
    * @param roomId The id of the room requested.
@@ -58,4 +56,13 @@ export interface Rooms {
    * @param options The options parameters.
    */
   delete(roomId: string, options?: RoomsDeleteOptionalParams): Promise<void>;
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  listNext(
+    nextLink: string,
+    options?: RoomsListNextOptionalParams
+  ): Promise<RoomsListNextResponse>;
 }

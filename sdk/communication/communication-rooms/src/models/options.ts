@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { InvitedRoomParticipant } from "./models";
+import { RoomParticipantPatch } from "./models";
 
 /**
  * Options to create rooms client.
@@ -18,7 +18,7 @@ export interface CreateRoomOptions extends OperationOptions {
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
   /** Collection of participants invited to the room. */
-  participants?: InvitedRoomParticipant[];
+  participants?: RoomParticipantPatch[];
 }
 
 /**
@@ -49,7 +49,7 @@ export type DeleteRoomOptions = OperationOptions;
 /**
  * Options to get the participants of a room.
  */
-export type GetParticipantsOptions = OperationOptions;
+export type ListParticipantsOptions = OperationOptions;
 
 /**
  * Options to update the participants of a room.
@@ -64,9 +64,20 @@ export type RemoveParticipantsOptions = OperationOptions;
 /**
  * Results of participant upsert operation
  */
-export type UpsertParticipantsResult = Record<string, never>;
+export interface UpsertParticipantsResult {}
 
 /**
  * Results of participant removal operation
  */
-export type RemoveParticipantsResult = Record<string, never>;
+export interface RemoveParticipantsResult {}
+
+/**
+ * Arguments for retrieving the next page of search results.
+ */
+export interface ListPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
+}

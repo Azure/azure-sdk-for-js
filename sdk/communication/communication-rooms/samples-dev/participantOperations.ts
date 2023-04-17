@@ -7,7 +7,7 @@
 
 import {
   RoomsClient,
-  InvitedRoomParticipant,
+  RoomParticipantPatch,
   CreateRoomOptions,
   RoomParticipant,
 } from "@azure/communication-rooms";
@@ -51,7 +51,7 @@ export async function main() {
   console.log(`Created Room with ID ${roomId}`);
 
   // request payload to add participants
-  const addParticipantsList: InvitedRoomParticipant[] = [
+  const addParticipantsList: RoomParticipantPatch[] = [
     {
       id: user2.user,
       role: "Consumer",
@@ -65,7 +65,7 @@ export async function main() {
   printParticipants(addedParticipants);
 
   // request payload to update user1 with a new role
-  const updateParticipantsList: InvitedRoomParticipant[] = [
+  const updateParticipantsList: RoomParticipantPatch[] = [
     {
       id: user1.user,
       role: "Presenter",
@@ -98,9 +98,8 @@ async function printParticipants(
   participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>
 ): Promise<void> {
   for await (const participant of participants) {
-    const rawId = participant.rawId;
     const role = participant.role;
-    console.log(`${rawId} - ${role}`);
+    console.log(role);
   }
 }
 main().catch((error) => {
