@@ -1,0 +1,940 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/operations?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "24795091-72e0-41f7-b9d3-65a698cf3e18"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 17 Apr 2023 05:54:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c2b750ad-006d-4e03-93c8-5802958875ad",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "bb8fc062-b87c-49a8-b094-ae54c769c52b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230417T055432Z:c2b750ad-006d-4e03-93c8-5802958875ad"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/registeredSubscriptions/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "registeredSubscriptions",
+              "operation": "read_registeredSubscriptions",
+              "description": "read registeredSubscriptions"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/checkNameAvailability/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "checkNameAvailability",
+              "operation": "action_checkNameAvailability",
+              "description": "action checkNameAvailability"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/Locations/operationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "Locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/Locations/operationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "Locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_ListBySubscription",
+              "description": "List FirewallResource resources by subscription ID"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_ListByResourceGroup",
+              "description": "List FirewallResource resources by resource group"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_Get",
+              "description": "Get a FirewallResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_CreateOrUpdate",
+              "description": "Create a FirewallResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_Delete",
+              "description": "Delete a FirewallResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_Update",
+              "description": "Update a FirewallResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/getGlobalRulestack/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_getGlobalRulestack",
+              "description": "Get Global Rulestack associated with the Firewall"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/getLogProfile/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_getLogProfile",
+              "description": "Log Profile for Firewall"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/firewalls/saveLogProfile/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "firewalls",
+              "operation": "Firewalls_saveLogProfile",
+              "description": "Log Profile for Firewall"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_ListBySubscription",
+              "description": "List LocalRulestackResource resources by subscription ID"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_ListByResourceGroup",
+              "description": "List LocalRulestackResource resources by resource group"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_Get",
+              "description": "Get a LocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_CreateOrUpdate",
+              "description": "Create a LocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_Delete",
+              "description": "Delete a LocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_Update",
+              "description": "Update a LocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/commit/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_commit",
+              "description": "Commit rulestack configuration"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/getChangeLog/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_getChangeLog",
+              "description": "Get changelog"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listAdvancedSecurityObjects/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listAdvancedSecurityObjects",
+              "description": "Get the list of advanced security objects"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listAppIds/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listAppIds",
+              "description": "List of AppIds for LocalRulestack ApiVersion"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listCountries/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listCountries",
+              "description": "List of countries for Rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listFirewalls/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listFirewalls",
+              "description": "List of Firewalls associated with Rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listPredefinedUrlCategories/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listPredefinedUrlCategories",
+              "description": "List predefined URL categories for rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/listSecurityServices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_listSecurityServices",
+              "description": "List the security services for rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/revert/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks",
+              "operation": "LocalRulestacks_revert",
+              "description": "Revert rulestack configuration"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_List",
+              "description": "List GlobalRulestackResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_Get",
+              "description": "Get a GlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_CreateOrUpdate",
+              "description": "Create a GlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_Delete",
+              "description": "Delete a GlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_Update",
+              "description": "Update a GlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/commit/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_commit",
+              "description": "Commit rulestack configuration"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/getChangeLog/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_getChangeLog",
+              "description": "Get changelog"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listAdvancedSecurityObjects/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listAdvancedSecurityObjects",
+              "description": "Get the list of advanced security objects"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listAppIds/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listAppIds",
+              "description": "List of AppIds for GlobalRulestack ApiVersion"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listCountries/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listCountries",
+              "description": "List of countries for Rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listFirewalls/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listFirewalls",
+              "description": "List of Firewalls associated with Rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listPredefinedUrlCategories/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listPredefinedUrlCategories",
+              "description": "List predefined URL categories for rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/listSecurityServices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_listSecurityServices",
+              "description": "List the security services for rulestack"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/revert/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks",
+              "operation": "GlobalRulestack_revert",
+              "description": "Revert rulestack configuration"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_ListByLocalRulestacks",
+              "description": "List LocalRulesResource resources by LocalRulestacks"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_Get",
+              "description": "Get a LocalRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_CreateOrUpdate",
+              "description": "Create a LocalRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_Delete",
+              "description": "Delete a LocalRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/getCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_getCounters",
+              "description": "Get counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/refreshCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_refreshCounters",
+              "description": "Refresh counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/localRules/resetCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/localRules",
+              "operation": "LocalRules_resetCounters",
+              "description": "Reset counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/fqdnlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/fqdnlists",
+              "operation": "FqdnListLocalRulestack_ListByLocalRulestacks",
+              "description": "List FqdnListLocalRulestackResource resources by LocalRulestacks"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/fqdnlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/fqdnlists",
+              "operation": "FqdnListLocalRulestack_Get",
+              "description": "Get a FqdnListLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/fqdnlists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/fqdnlists",
+              "operation": "FqdnListLocalRulestack_CreateOrUpdate",
+              "description": "Create a FqdnListLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/fqdnlists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/fqdnlists",
+              "operation": "FqdnListLocalRulestack_Delete",
+              "description": "Delete a FqdnListLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/fqdnlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/fqdnlists",
+              "operation": "FqdnListGlobalRulestack_List",
+              "description": "List FqdnListGlobalRulestackResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/fqdnlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/fqdnlists",
+              "operation": "FqdnListGlobalRulestack_Get",
+              "description": "Get a FqdnListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/fqdnlists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/fqdnlists",
+              "operation": "FqdnListGlobalRulestack_CreateOrUpdate",
+              "description": "Create a FqdnListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/fqdnlists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/fqdnlists",
+              "operation": "FqdnListGlobalRulestack_Delete",
+              "description": "Delete a FqdnListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_List",
+              "description": "List PreRulesResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_Get",
+              "description": "Get a PreRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_CreateOrUpdate",
+              "description": "Create a PreRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_Delete",
+              "description": "Delete a PreRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/getCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_getCounters",
+              "description": "Get counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/refreshCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_refreshCounters",
+              "description": "Refresh counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/preRules/resetCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/preRules",
+              "operation": "PreRules_resetCounters",
+              "description": "Reset counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_List",
+              "description": "List PostRulesResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_Get",
+              "description": "Get a PostRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_CreateOrUpdate",
+              "description": "Create a PostRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_Delete",
+              "description": "Delete a PostRulesResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/getCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_getCounters",
+              "description": "Get counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/refreshCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_refreshCounters",
+              "description": "Refresh counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/postRules/resetCounters/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/postRules",
+              "operation": "PostRules_resetCounters",
+              "description": "Reset counters"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/prefixlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/prefixlists",
+              "operation": "PrefixListGlobalRulestack_List",
+              "description": "List PrefixListGlobalRulestackResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/prefixlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/prefixlists",
+              "operation": "PrefixListGlobalRulestack_Get",
+              "description": "Get a PrefixListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/prefixlists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/prefixlists",
+              "operation": "PrefixListGlobalRulestack_CreateOrUpdate",
+              "description": "Create a PrefixListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/prefixlists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/prefixlists",
+              "operation": "PrefixListGlobalRulestack_Delete",
+              "description": "Delete a PrefixListGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/prefixlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/prefixlists",
+              "operation": "PrefixListLocalRulestack_ListByLocalRulestacks",
+              "description": "List PrefixListResource resources by LocalRulestacks"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/prefixlists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/prefixlists",
+              "operation": "PrefixListLocalRulestack_Get",
+              "description": "Get a PrefixListResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/prefixlists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/prefixlists",
+              "operation": "PrefixListLocalRulestack_CreateOrUpdate",
+              "description": "Create a PrefixListResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/prefixlists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/prefixlists",
+              "operation": "PrefixListLocalRulestack_Delete",
+              "description": "Delete a PrefixListResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/certificates",
+              "operation": "CertificateObjectGlobalRulestack_List",
+              "description": "List CertificateObjectGlobalRulestackResource resources by Tenant"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/certificates",
+              "operation": "CertificateObjectGlobalRulestack_Get",
+              "description": "Get a CertificateObjectGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/certificates/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/certificates",
+              "operation": "CertificateObjectGlobalRulestack_CreateOrUpdate",
+              "description": "Create a CertificateObjectGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/globalRulestacks/certificates/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "globalRulestacks/certificates",
+              "operation": "CertificateObjectGlobalRulestack_Delete",
+              "description": "Delete a CertificateObjectGlobalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/certificates",
+              "operation": "CertificateObjectLocalRulestack_ListByLocalRulestacks",
+              "description": "List CertificateObjectLocalRulestackResource resources by LocalRulestacks"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/certificates",
+              "operation": "CertificateObjectLocalRulestack_Get",
+              "description": "Get a CertificateObjectLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/certificates/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/certificates",
+              "operation": "CertificateObjectLocalRulestack_CreateOrUpdate",
+              "description": "Create a CertificateObjectLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/localRulestacks/certificates/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "localRulestacks/certificates",
+              "operation": "CertificateObjectLocalRulestack_Delete",
+              "description": "Delete a CertificateObjectLocalRulestackResource"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "PaloAltoNetworks.Cloudngfw",
+              "operation": "Register the PaloAltoNetworks.Cloudngfw",
+              "description": "Register the subscription for PaloAltoNetworks.Cloudngfw"
+            }
+          },
+          {
+            "name": "PaloAltoNetworks.Cloudngfw/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "PaloAltoNetworks.Cloudngfw",
+              "resource": "PaloAltoNetworks.Cloudngfw",
+              "operation": "Unregister the PaloAltoNetworks.Cloudngfw",
+              "description": "Unregister the subscription for PaloAltoNetworks.Cloudngfw"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
