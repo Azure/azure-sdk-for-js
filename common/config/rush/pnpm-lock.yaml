@@ -14355,7 +14355,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-w+RlU+Y/Bt4N6ZIFpMi2Q6Ozz6L1Y1PCy9tDox6M3ApE4DCjoKKTnAb2vlrCgtaIaYx7Y5odQWlT2wU0o+x28g==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-PClaL03qs9YHUk0aL94B3TPi69zsYeAdb+9Y5jYfVFqfwLPY+SbFPTlQbaNHsFNe2AsSANVnrj6mrZWSDSnu1Q==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14369,8 +14369,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

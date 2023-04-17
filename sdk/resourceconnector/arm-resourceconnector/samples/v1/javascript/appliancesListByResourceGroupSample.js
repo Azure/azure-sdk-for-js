@@ -13,24 +13,26 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Returns the cluster user credentials for the dedicated appliance.
+ * This sample demonstrates how to Gets a list of Appliances in the specified subscription and resource group. The operation returns properties of each Appliance.
  *
- * @summary Returns the cluster user credentials for the dedicated appliance.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListClusterUserCredential.json
+ * @summary Gets a list of Appliances in the specified subscription and resource group. The operation returns properties of each Appliance.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListByResourceGroup.json
  */
-async function listClusterUserCredentialAppliance() {
+async function listAppliancesByResourceGroup() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "appliance01";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
-  const result = await client.appliances.listClusterUserCredential(resourceGroupName, resourceName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.appliances.listByResourceGroup(resourceGroupName)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  listClusterUserCredentialAppliance();
+  listAppliancesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -13,24 +13,33 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets the details of an Appliance with a specified resource group and name.
+ * This sample demonstrates how to Creates or updates an Appliance in the specified Subscription and Resource Group.
  *
- * @summary Gets the details of an Appliance with a specified resource group and name.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesGet.json
+ * @summary Creates or updates an Appliance in the specified Subscription and Resource Group.
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesCreate_Update.json
  */
-async function getAppliance() {
+async function createOrUpdateAppliance() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "appliance01";
+  const parameters = {
+    distro: "AKSEdge",
+    infrastructureConfig: { provider: "VMWare" },
+    location: "West US",
+  };
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
-  const result = await client.appliances.get(resourceGroupName, resourceName);
+  const result = await client.appliances.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    parameters
+  );
   console.log(result);
 }
 
 async function main() {
-  getAppliance();
+  createOrUpdateAppliance();
 }
 
 main().catch(console.error);

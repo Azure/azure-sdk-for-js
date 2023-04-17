@@ -15,32 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
+ * This sample demonstrates how to Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
  *
- * @summary Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesDelete.json
+ * @summary Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListBySubscription.json
  */
-async function deleteAppliance() {
+async function listAppliancesBySubscription() {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName =
-    process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "appliance01";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.appliances.beginDeleteAndWait(
-    resourceGroupName,
-    resourceName
-  );
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.appliances.listBySubscription()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  deleteAppliance();
+  listAppliancesBySubscription();
 }
 
 main().catch(console.error);
