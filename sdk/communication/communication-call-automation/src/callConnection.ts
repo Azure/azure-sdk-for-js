@@ -31,6 +31,7 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -84,7 +85,12 @@ export class CallConnection {
    */
   public async hangUp(isForEveryOne: boolean, options: HangUpOptions = {}): Promise<void> {
     if (isForEveryOne) {
-      await this.callConnectionImpl.terminateCall(this.callConnectionId, options);
+      const optionsInternal = {
+        ...options,
+        repeatabilityFirstSent: new Date().toUTCString(),
+        repeatabilityRequestID: uuidv4(),
+      };
+      await this.callConnectionImpl.terminateCall(this.callConnectionId, optionsInternal);
     } else {
       await this.callConnectionImpl.hangupCall(this.callConnectionId, options);
     }
@@ -150,11 +156,15 @@ export class CallConnection {
         voipHeaders: participant.voipHeaders,
       },
     };
-
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
     const result = await this.callConnectionImpl.addParticipant(
       this.callConnectionId,
       addParticipantRequest,
-      options
+      optionsInternal
     );
     const addParticipantsResult: AddParticipantResult = {
       ...result,
@@ -185,11 +195,15 @@ export class CallConnection {
         voipHeaders: target.voipHeaders,
       },
     };
-
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
     const result = await this.callConnectionImpl.transferToParticipant(
       this.callConnectionId,
       transferToParticipantRequest,
-      options
+      optionsInternal
     );
     const transferCallResult: TransferCallResult = { ...result };
     return transferCallResult;
@@ -208,11 +222,15 @@ export class CallConnection {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
     };
-
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
     const result = await this.callConnectionImpl.removeParticipant(
       this.callConnectionId,
       removeParticipantRequest,
-      options
+      optionsInternal
     );
     const removeParticipantsResult: RemoveParticipantsResult = {
       ...result,
