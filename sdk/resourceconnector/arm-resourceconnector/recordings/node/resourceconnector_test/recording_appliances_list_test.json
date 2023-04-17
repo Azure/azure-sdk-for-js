@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ResourceConnector/appliances?api-version=2022-10-27",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resourceconnector/1.0.0 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8bbbbb95-60c6-4d64-833f-74da9f8d3554"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "232",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 17 Apr 2023 06:09:29 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c8c01bf6-976e-4080-8c61-b3bc9ceaffea",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "c8c01bf6-976e-4080-8c61-b3bc9ceaffea",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230417T060930Z:c8c01bf6-976e-4080-8c61-b3bc9ceaffea"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027appliances\u0027 could not be found in the namespace \u0027Microsoft.ResourceConnector\u0027 for api version \u00272022-10-27\u0027. The supported api-versions are \u00272021-10-31-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
