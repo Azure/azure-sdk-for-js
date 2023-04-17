@@ -6,7 +6,7 @@ The appliances Rest API spec.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourceconnector/arm-resourceconnector) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resourceconnector) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

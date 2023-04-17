@@ -8,15 +8,10 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Eventhub,
-  EventHubsListByNamespaceOptionalParams,
   AuthorizationRule,
   EventHubsListAuthorizationRulesOptionalParams,
-  EventHubsCreateOrUpdateOptionalParams,
-  EventHubsCreateOrUpdateResponse,
-  EventHubsDeleteOptionalParams,
-  EventHubsGetOptionalParams,
-  EventHubsGetResponse,
+  Eventhub,
+  EventHubsListByNamespaceOptionalParams,
   EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   EventHubsCreateOrUpdateAuthorizationRuleResponse,
   EventHubsGetAuthorizationRuleOptionalParams,
@@ -26,23 +21,17 @@ import {
   EventHubsListKeysResponse,
   RegenerateAccessKeyParameters,
   EventHubsRegenerateKeysOptionalParams,
-  EventHubsRegenerateKeysResponse
+  EventHubsRegenerateKeysResponse,
+  EventHubsCreateOrUpdateOptionalParams,
+  EventHubsCreateOrUpdateResponse,
+  EventHubsDeleteOptionalParams,
+  EventHubsGetOptionalParams,
+  EventHubsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EventHubs. */
 export interface EventHubs {
-  /**
-   * Gets all the Event Hubs in a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  listByNamespace(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<Eventhub>;
   /**
    * Gets the authorization rules for an Event Hub.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -57,46 +46,16 @@ export interface EventHubs {
     options?: EventHubsListAuthorizationRulesOptionalParams
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
-   * Creates or updates a new Event Hub as a nested resource within a Namespace.
+   * Gets all the Event Hubs in a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param parameters Parameters supplied to create an Event Hub resource.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    eventHubName: string,
-    parameters: Eventhub,
-    options?: EventHubsCreateOrUpdateOptionalParams
-  ): Promise<EventHubsCreateOrUpdateResponse>;
-  /**
-   * Deletes an Event Hub from the specified Namespace and resource group.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    eventHubName: string,
-    options?: EventHubsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets an Event Hubs description for the specified Event Hub.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    eventHubName: string,
-    options?: EventHubsGetOptionalParams
-  ): Promise<EventHubsGetResponse>;
+    options?: EventHubsListByNamespaceOptionalParams
+  ): PagedAsyncIterableIterator<Eventhub>;
   /**
    * Creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the
    * AuthorizationRule will take a few seconds to take effect.
@@ -178,4 +137,45 @@ export interface EventHubs {
     parameters: RegenerateAccessKeyParameters,
     options?: EventHubsRegenerateKeysOptionalParams
   ): Promise<EventHubsRegenerateKeysResponse>;
+  /**
+   * Creates or updates a new Event Hub as a nested resource within a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    parameters: Eventhub,
+    options?: EventHubsCreateOrUpdateOptionalParams
+  ): Promise<EventHubsCreateOrUpdateResponse>;
+  /**
+   * Deletes an Event Hub from the specified Namespace and resource group.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?: EventHubsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Gets an Event Hubs description for the specified Event Hub.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?: EventHubsGetOptionalParams
+  ): Promise<EventHubsGetResponse>;
 }

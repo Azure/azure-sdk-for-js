@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallConnectionProperties } from "../src/models/models";
 import { CreateCallResult } from "../src/models/responses";
-import { CALL_CALLBACK_URL, CALL_TARGET_ID } from "./utils/connectionUtils";
+import { CALL_CALLBACK_URL, CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -24,6 +24,7 @@ import {
   loadPersistedEvents,
   persistEvents,
 } from "./utils/recordedClient";
+import { v4 as uuidv4 } from "uuid";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -35,6 +36,9 @@ describe("Call Automation Client Unit Tests", () => {
       {
         communicationUserId: CALL_TARGET_ID,
       },
+      {
+        communicationUserId: CALL_TARGET_ID_2,
+      },
     ];
     // stub CallAutomationClient
     client = Sinon.createStubInstance(
@@ -42,26 +46,38 @@ describe("Call Automation Client Unit Tests", () => {
     ) as SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
   });
 
-  it("CreateCall", async () => {
+  it("RepeatabilityHeadersGeneration", async () => {
     // mocks
-    const createCallResultMock: CreateCallResult = {
+    const repeatabilityFirstSent: string = new Date().toUTCString();
+    const repeatabilityRequestID: string = uuidv4();
+
+    // asserts
+    assert.isNotNull(repeatabilityFirstSent);
+    assert.isNotNull(repeatabilityRequestID);
+    assert.typeOf(repeatabilityFirstSent, "string");
+    assert.typeOf(repeatabilityRequestID, "string");
+  });
+
+  it("CreateGroupCall", async () => {
+    // mocks
+    const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
     };
-    client.createCall.returns(
+    client.createGroupCall.returns(
       new Promise((resolve) => {
-        resolve(createCallResultMock);
+        resolve(createGroupCallResultMock);
       })
     );
 
-    const promiseResult = client.createCall(targets, CALL_CALLBACK_URL);
+    const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
 
     // asserts
     promiseResult
       .then((result: CreateCallResult) => {
         assert.isNotNull(result);
-        assert.isTrue(client.createCall.calledWith(targets, CALL_CALLBACK_URL));
-        assert.equal(result, createCallResultMock);
+        assert.isTrue(client.createGroupCall.calledWith(targets, CALL_CALLBACK_URL));
+        assert.equal(result, createGroupCallResultMock);
         return;
       })
       .catch((error) => console.error(error));
