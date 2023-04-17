@@ -796,6 +796,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-eventhub/5.1.0:
+    resolution: {integrity: sha512-yKglRlr8zbnenZKV7ERnF7b7OXZkoqr0m0ciIeJkMaJJzXETiSuw8xB3O3dAMSf9pR1npQMFngTgFKhxb26ysg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/26.0.0:
     resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
@@ -12168,7 +12183,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-aJzQRAfVvgyk0Nbu9U9HvLJPaiZl6kg4S/QIhCeu+tdfAQFrKCAIEC9ef9s+GW0lE5HFXy754TEGrFtM7xi5RQ==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-rtxJ4Prtd8pxuy3542XRTj6Wvba15pduyiNQbLtsai/c/dsbwP0Y9HM2BKIY6rjYvs8zUjefslETyuYLViA1Dw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -12184,7 +12199,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13356,10 +13372,11 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-+kZIZf57UFBgwXnvVzcfdy4T/7PaWYW5y7CDPvZDRlR/zzXN/040MHiissaJwQ41X+wf3puS0fdAIbl+Q2U7Kw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Cp0JwnEPjOgbpcjJ0FcSZnfI1jVSexkW6KxH8f9ci7UbhQis2h5Owt2/zf2LW1li5Ht3ad/IcqzkfC5ieMZmsA==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
+      '@azure/arm-eventhub': 5.1.0
       '@azure/arm-operationalinsights': 8.0.1
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
