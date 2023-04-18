@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://multi-ad-test-uscx-3.cognitiveservices.azure.com/anomalydetector/v1.1/timeseries/changepoint/detect",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/timeseries/changepoint/detect",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,9 +9,9 @@
         "Connection": "keep-alive",
         "Content-Length": "2760",
         "Content-Type": "application/json; charset=UTF-8",
-        "Ocp-Apim-Subscription-Key": "7ddbcfcdf4404521b6eaf8aad0be20fe",
+        "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 Node/v16.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "916f1c27-8e0d-4a1b-8581-3f8759ed3e15"
+        "x-ms-client-request-id": "53d3bef1-4d26-415a-b2ba-f4eedc2d2b82"
       },
       "RequestBody": {
         "series": [
@@ -208,16 +208,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6b1c2869-1e7d-4029-8a39-215d6801160b",
+        "apim-request-id": "0d20f458-5357-40ec-bf53-5a2a7cdf0dc1",
         "Content-Length": "1274",
         "Content-Type": "application/json",
         "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-        "Date": "Mon, 17 Apr 2023 13:47:40 GMT",
+        "Date": "Tue, 18 Apr 2023 05:53:01 GMT",
         "model-id": "60",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "20",
+        "x-envoy-upstream-service-time": "14",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
