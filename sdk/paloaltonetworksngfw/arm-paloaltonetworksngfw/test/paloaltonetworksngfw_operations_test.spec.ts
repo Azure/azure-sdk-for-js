@@ -40,6 +40,7 @@ describe("paloaltonetworksngfw test", () => {
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
+  let priority: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -51,18 +52,49 @@ describe("paloaltonetworksngfw test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
+    priority = "1"
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.operations.list()) {
-      resArray.push(item);
-    }
+  it("globalRulestack create test", async function () {
+
+    const res = await client.localRules.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      priority,
+      { ruleName: "localRule1" },
+      testPollingOptions);
+    assert.equal(res.name, resourcename);
   });
 
+  it("localRules get test", async function () {
+    const res = await client.localRules.get(
+      resourceGroup,
+      resourcename,
+      priority);
+    assert.equal(res.name, resourcename);
+  });
 
+  it("localRules list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.localRules.listByLocalRulestacks(resourceGroup, resourcename,)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("localRules delete test", async function () {
+    const resArray = new Array();
+    const res = await client.localRules.beginDeleteAndWait(
+      resourceGroup,
+      resourcename,
+      priority)
+    for await (let item of client.globalRulestack.list()) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 })
