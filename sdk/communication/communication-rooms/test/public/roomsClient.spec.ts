@@ -171,13 +171,21 @@ describe("RoomsClient", function () {
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult);
       for await (const participant of addParticipantsResult) {
-        assert.equal(participant.id.kind, "communicationUser");
+        // rawId is sanitized so skip this check in playback mode
+        if (!isPlaybackMode()) {
+          assert.equal(participant.id.kind, "communicationUser");
+        }
         assert.equal(participant.role, participants[0].role);
         break;
       }
     });
 
     it("successfully removes a participant from the room", async function () {
+      // skip in playback mode as rawIds are sanitized so users will not be found
+      if (isPlaybackMode()) {
+        this.skip();
+      }
+
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -200,12 +208,8 @@ describe("RoomsClient", function () {
       roomId = createRoomResult.id;
 
       const participants = [testUser, testUser2];
-      await client.removeParticipants(roomId, participants);
-      let count = 0;
-      for await (const participant of participants) {
-        if (participant) count++;
-      }
-      assert.isTrue(count === 0);
+      const removeParticipantsResults = await client.removeParticipants(roomId, participants);
+      assert.isEmpty(removeParticipantsResults);
     });
 
     it("successfully updates a participant", async function () {
@@ -233,7 +237,10 @@ describe("RoomsClient", function () {
       const allParticipants = await client.listParticipants(roomId);
       assert.isDefined(allParticipants);
       for await (const participant of allParticipants) {
-        assert.equal(participant.id.kind, "communicationUser");
+        // rawId is sanitized so skip this check in playback mode
+        if (!isPlaybackMode()) {
+          assert.equal(participant.id.kind, "communicationUser");
+        }
         assert.equal(participant.role, participants[0].role);
         break;
       }

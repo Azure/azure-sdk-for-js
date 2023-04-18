@@ -32,7 +32,7 @@ export const mapToRoomParticipantRestModel = (
 };
 
 /**
- * @internak
+ * @internal
  * Mapping room participant REST model to room participant customer model
  */
 export const mapToRoomParticipantSDKModel = (

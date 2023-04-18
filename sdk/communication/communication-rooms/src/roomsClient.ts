@@ -69,7 +69,11 @@ export class RoomsClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential from `@azure/identity` or AzureCommunicationTokenCredential from `@azure/communication-common` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
+  constructor(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: RoomsClientOptions
+  );
 
   constructor(
     connectionStringOrUrl: string,
@@ -165,7 +169,7 @@ export class RoomsClient {
       } else {
         break;
       }
-    } 
+    }
   }
 
   private async *listRoomsAll(
@@ -180,9 +184,7 @@ export class RoomsClient {
    * Gets the list of rooms
    * @param options - Operational options
    */
-  public listRooms(
-    options: ListRoomOptions = {}
-  ): PagedAsyncIterableIterator<CommunicationRoom> {
+  public listRooms(options: ListRoomOptions = {}): PagedAsyncIterableIterator<CommunicationRoom> {
     const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-ListRooms", options);
     try {
       const iter = this.listRoomsAll(updatedOptions);
@@ -195,8 +197,8 @@ export class RoomsClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listRoomsPage(settings, updatedOptions);
-        }
-      }
+        },
+      };
     } catch (e: any) {
       span.setStatus({
         error: e,
@@ -244,7 +246,7 @@ export class RoomsClient {
       } else {
         break;
       }
-    } 
+    }
   }
 
   private async *listParticipantsAll(
@@ -266,7 +268,10 @@ export class RoomsClient {
     roomId: string,
     options: ListParticipantsOptions = {}
   ): PagedAsyncIterableIterator<RoomParticipant> {
-    const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-GetParticipants", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "RoomsClient-GetParticipants",
+      options
+    );
     try {
       const iter = this.listParticipantsAll(roomId, updatedOptions);
       return {
@@ -278,8 +283,8 @@ export class RoomsClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listParticipantsPage(roomId, settings, updatedOptions);
-        }
-      }
+        },
+      };
     } catch (e: any) {
       span.setStatus({
         error: e,
