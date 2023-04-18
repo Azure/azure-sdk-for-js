@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "46d276ba-3de4-44e2-bfa3-88e76c16806f",
+        "x-ms-client-request-id": "76d27f51-f976-4290-8f56-04e56bf719e3",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -37,21 +37,21 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "apim-request-id": "d93e6312-960c-4408-8db7-3bb7599cd8e8",
+        "apim-request-id": "f848f4a7-372a-4ba7-9869-902abf8f0c7c",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:23 GMT",
-        "Location": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+        "Date": "Tue, 18 Apr 2023 05:54:30 GMT",
+        "Location": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "207",
+        "x-envoy-upstream-service-time": "91",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -79,7 +79,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -95,26 +95,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2eb7a3ea-50e2-4e13-8e63-3b28b4d29375",
+        "x-ms-client-request-id": "af10d875-bd53-4b7a-b28c-8267e7c9b54e",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "342b3ac4-bcab-42a8-8269-fa581f5000c1",
+        "apim-request-id": "fa0d6eb1-e8fa-494a-91e5-e010895ac861",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:24 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:30 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "117",
+        "x-envoy-upstream-service-time": "27",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -142,7 +142,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -158,16 +158,142 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "61a39ca6-5866-4003-ae6f-60a5c80c9e7c",
+        "x-ms-client-request-id": "05dfc525-671c-4cd9-9f21-39feb04604d6",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e99f03d5-4157-45f5-97e3-d7b92753eb1a",
+        "apim-request-id": "5e033d26-221a-4660-92ac-c34bb061502f",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:24 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:30 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "21",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "CREATED",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": []
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "b839bc85-a136-4fb4-b67a-a7c9c30a885b",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2959c81c-7ddd-419c-a108-c26a5e61b033",
+        "Content-Length": "665",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:31 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "22",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "CREATED",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": []
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "a20f0ec4-dc3d-4a57-9d48-d00b573b0828",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7bc76ad2-d7c9-4810-ad89-3981d1d12e2e",
+        "Content-Length": "665",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:31 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -175,9 +301,9 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -205,7 +331,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -221,26 +347,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "a1638757-5189-4257-aea2-24a499430038",
+        "x-ms-client-request-id": "7fa01f84-cdaa-42fd-924c-26dd31bb87b4",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "97009e73-9e6c-4214-b121-deb981aaec28",
+        "apim-request-id": "a7dcd332-b5c2-4a81-a026-2ec78c0cfd1b",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:24 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:31 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "89",
+        "x-envoy-upstream-service-time": "22",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -268,7 +394,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -284,26 +410,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "6c42b4bc-7563-443e-b7ad-16f1edfcd1c7",
+        "x-ms-client-request-id": "60dab096-90dc-4b41-b97c-10cc5669e3f7",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8018f67c-428d-4d72-aa5f-275b49030cd7",
+        "apim-request-id": "37380c1b-9c5f-4846-945e-5f78518bc715",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:25 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:32 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "65",
+        "x-envoy-upstream-service-time": "14",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:30Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -331,7 +457,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -347,16 +473,700 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "d94bd61e-864c-4939-a03d-4fb7f479fa12",
+        "x-ms-client-request-id": "b158e707-29f6-4b76-a365-dc7ebe9db5d3",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "649f7827-235d-473c-b37a-1c732db94999",
+        "apim-request-id": "fc4458ad-da6b-4052-aecf-e441bb539e6b",
         "Content-Length": "665",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:25 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:32 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:32Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": []
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "797a9f45-c630-415d-9300-13f1c27f30c6",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "4065f0aa-401e-4cea-8a50-b076dff4933a",
+        "Content-Length": "665",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:32 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "22",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:32Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": []
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "a41c0870-02f0-4115-9110-8c80f21e0c9c",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "ec46538f-1dc6-476f-aa34-72f08f0b81a7",
+        "Content-Length": "665",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:33 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:32Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": []
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "88d7e2fb-a325-4591-ac46-70bea59e794b",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "bcb69a98-9a8f-45d1-b9a9-4f71e1b0f939",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:33 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "24",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "03b2db4c-692a-4141-85dc-ca7ad16cd2b6",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "59e7ad15-9133-4dae-ba57-e3c1810eca96",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:33 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "4f945d5f-5956-4cf3-9896-d29cd6169b93",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7414ef32-4e79-4020-98d2-c1e20d15ea2b",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:34 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "15",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "fbf0f030-4ab7-4e1d-8538-5acfebf050f8",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "045807f1-4085-4ec1-844b-15ea6e5048e6",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:34 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "15",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "9ae5ff0f-fa21-4929-b7a3-f58efa3feb54",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8fc2d087-bf6c-4588-8c7d-e84a58f5d823",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:34 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "19",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
+        "modelInfo": {
+          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+          "dataSchema": "OneTable",
+          "startTime": "2021-01-02T00:00:00Z",
+          "endTime": "2021-01-02T05:00:00Z",
+          "displayName": "Devops-MultiAD",
+          "slidingWindow": 200,
+          "alignPolicy": {
+            "alignMode": "Outer",
+            "fillNAMethod": "Linear",
+            "paddingValue": 0.0
+          },
+          "status": "RUNNING",
+          "errors": [],
+          "diagnosticsInfo": {
+            "modelState": {
+              "epochIds": [],
+              "trainLosses": [],
+              "validationLosses": [],
+              "latenciesInSeconds": []
+            },
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "a9a9bafa-c1ae-4d5c-ab31-c17e1a89ec52",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "3ffd2dcf-336d-4fd5-968c-414bbcf4f355",
+        "Content-Length": "1433",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:54:34 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -364,72 +1174,9 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:23Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "CREATED",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": []
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "baeb4ca2-0bc8-47b2-9698-232d785f5d55",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "1c55654e-4686-46b6-835e-347f7b8a22e3",
-        "Content-Length": "665",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:25 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "51",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:25Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -451,13 +1198,49 @@
               "validationLosses": [],
               "latenciesInSeconds": []
             },
-            "variableStates": []
+            "variableStates": [
+              {
+                "variable": "series_0",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_1",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_2",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_3",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              },
+              {
+                "variable": "series_4",
+                "filledNARatio": 0.0,
+                "effectiveCount": 301,
+                "firstTimestamp": "2021-01-02T00:00:00Z",
+                "lastTimestamp": "2021-01-02T05:00:00Z"
+              }
+            ]
           }
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -473,142 +1256,16 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "88fd5b55-de8e-4437-83f6-91dbf5c8a5ae",
+        "x-ms-client-request-id": "b437bbc6-e723-47e7-be65-35bc58c9abed",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5e1877c6-356e-4060-ba5b-3c3ad40017e5",
-        "Content-Length": "665",
+        "apim-request-id": "89eb6f25-4edd-4357-84c9-412f3f1ef08a",
+        "Content-Length": "1433",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:26 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "21",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:25Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": []
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "824bf03d-4a15-4b1c-a51c-85a62d6826e7",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "c5b03c8f-84c9-41a6-ae44-1c5499bad507",
-        "Content-Length": "665",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:26 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:25Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": []
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "dc9e0a4a-a576-4b3e-9a56-c191c37f2a2c",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "704e71d1-db64-47a8-a876-030f81d85f04",
-        "Content-Length": "665",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:26 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:35 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -616,72 +1273,9 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:25Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": []
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "5e8b4f94-2004-4616-84a3-32a61dde6fe8",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "b8598f0f-7b65-440f-aaa2-ef5f335be1e5",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -745,7 +1339,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -761,214 +1355,16 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "21a7e4b2-2a1d-4c71-b251-02245d71125f",
+        "x-ms-client-request-id": "6a5fa480-7a0d-4c83-8020-87bdef030e3e",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "18517a33-fac4-4311-a186-8b7cce1366a2",
+        "apim-request-id": "6ec386d2-f922-4ed8-91f7-0769421be190",
         "Content-Length": "1433",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "612ea4e4-7f45-4eb6-b452-629843cfd5d8",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "26880def-9d77-4b76-bc7a-6fba5c9718c7",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "58",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "e3bba69e-9786-4f9f-baac-92911555756d",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "a28e1200-bb34-4f37-889c-977502a78032",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:27 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:35 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -976,9 +1372,9 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -1042,7 +1438,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1058,115 +1454,16 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "3f5d9526-3aec-4262-804b-656671baf6e6",
+        "x-ms-client-request-id": "52c41b06-4ac0-476f-a539-71ba414fa3a0",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4b99529c-7b72-4c2e-8542-d2af8eef8edf",
+        "apim-request-id": "09aaf9f2-a930-4061-a573-f100aa607d48",
         "Content-Length": "1433",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:28 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "17",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2073c507-642f-4c03-90d8-6895395223f0",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "4671bb8c-314c-4e49-9653-39d2ff1da45f",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:28 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:35 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -1174,9 +1471,9 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:33Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -1240,7 +1537,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1256,323 +1553,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "4dc22f5e-e649-4089-b775-2aa699c13db5",
+        "x-ms-client-request-id": "5ac023ea-bfd9-4787-bf6a-8ae2bb41b006",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7c59dd18-3a5b-4b1c-bd99-c1850caa89d2",
-        "Content-Length": "1433",
+        "apim-request-id": "9c5af272-fae7-462e-8c51-c4586960d509",
+        "Content-Length": "1474",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:28 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:36 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16",
+        "x-envoy-upstream-service-time": "15",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "7fb4076a-94b5-4d51-9dd6-3adfe8d156f1",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "e953114f-1e9e-4e0c-af7d-8cf94250aaf7",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:29 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "5a35a27e-ff9b-454d-a7e1-262b2d8ad3fa",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "d335e3fb-7afa-4120-9136-4ec0123e7d12",
-        "Content-Length": "1433",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:29 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "17",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:26Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [],
-              "trainLosses": [],
-              "validationLosses": [],
-              "latenciesInSeconds": []
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "c73fcda3-e87d-4f8b-a8e7-12a371905f44",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "b6a5711b-5f59-4d0c-87d5-2e6e5c4d386b",
-        "Content-Length": "1475",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:29 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "111",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:29Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:54:35Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -1599,7 +1599,7 @@
                 0.0
               ],
               "latenciesInSeconds": [
-                0.27704596519470215
+                0.2469010353088379
               ]
             },
             "variableStates": [
@@ -1644,7 +1644,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1660,125 +1660,18 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "b8fc6c73-90ef-45db-ab4e-8b968231eb1b",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "818d7966-ecd0-4bdf-a54d-537050a404bd",
-        "Content-Length": "1475",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:30 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:29Z",
-        "modelInfo": {
-          "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-          "dataSchema": "OneTable",
-          "startTime": "2021-01-02T00:00:00Z",
-          "endTime": "2021-01-02T05:00:00Z",
-          "displayName": "Devops-MultiAD",
-          "slidingWindow": 200,
-          "alignPolicy": {
-            "alignMode": "Outer",
-            "fillNAMethod": "Linear",
-            "paddingValue": 0.0
-          },
-          "status": "RUNNING",
-          "errors": [],
-          "diagnosticsInfo": {
-            "modelState": {
-              "epochIds": [
-                10
-              ],
-              "trainLosses": [
-                1.0493712276220322
-              ],
-              "validationLosses": [
-                0.0
-              ],
-              "latenciesInSeconds": [
-                0.27704596519470215
-              ]
-            },
-            "variableStates": [
-              {
-                "variable": "series_0",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_1",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_2",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_3",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              },
-              {
-                "variable": "series_4",
-                "filledNARatio": 0.0,
-                "effectiveCount": 301,
-                "firstTimestamp": "2021-01-02T00:00:00Z",
-                "lastTimestamp": "2021-01-02T05:00:00Z"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "36b38595-893a-4088-9634-bc07b45a0867",
+        "x-ms-client-request-id": "fcc4ce34-6f1b-4c3f-92cf-6acbe23d070a",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 429,
       "ResponseHeaders": {
-        "apim-request-id": "8050c5e4-1ac4-4618-b048-a7c8ce237523",
+        "apim-request-id": "80407f88-3fd6-4e47-9afa-fd0daaeda9b6",
         "Content-Length": "356",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:30 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:36 GMT",
         "policy-id": "ResourceRateLimitBy60s",
-        "Retry-After": "54",
+        "Retry-After": "29",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff"
@@ -1786,12 +1679,12 @@
       "ResponseBody": {
         "error": {
           "code": "429",
-          "message": "Requests to the Multivariate Anomaly Detection - Get Multivariate Model Operation under Anomaly Detector v1.1 have exceeded call rate limit of your current AnomalyDetector S0 pricing tier. Please retry after 54 seconds. Please contact Azure support service if you would like to further increase the default rate limit."
+          "message": "Requests to the Multivariate Anomaly Detection - Get Multivariate Model Operation under Anomaly Detector v1.1 have exceeded call rate limit of your current AnomalyDetector S0 pricing tier. Please retry after 29 seconds. Please contact Azure support service if you would like to further increase the default rate limit."
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1807,26 +1700,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "36b38595-893a-4088-9634-bc07b45a0867",
+        "x-ms-client-request-id": "fcc4ce34-6f1b-4c3f-92cf-6acbe23d070a",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8250548e-c2b3-41a7-8ef5-b659ce4f1dd7",
-        "Content-Length": "1922",
+        "apim-request-id": "3e8b240e-e803-49bc-b471-24b933071f9b",
+        "Content-Length": "1924",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:24 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:05 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "21",
+        "x-envoy-upstream-service-time": "22",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "modelId": "7dec79fc-ddac-11ed-95e0-9e066b475515",
-        "createdTime": "2023-04-18T05:47:23Z",
-        "lastUpdatedTime": "2023-04-18T05:47:54Z",
+        "modelId": "7c3bec04-ddad-11ed-bd57-6e134b5856fb",
+        "createdTime": "2023-04-18T05:54:30Z",
+        "lastUpdatedTime": "2023-04-18T05:55:00Z",
         "modelInfo": {
           "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
           "dataSchema": "OneTable",
@@ -1880,16 +1773,16 @@
                 0.0
               ],
               "latenciesInSeconds": [
-                0.27704596519470215,
-                0.2549121379852295,
-                0.262282133102417,
-                0.2551841735839844,
-                0.2630448341369629,
-                0.2575562000274658,
-                0.24909043312072754,
-                0.2671175003051758,
-                0.24908924102783203,
-                0.24819445610046387
+                0.2469010353088379,
+                0.2517266273498535,
+                0.25504279136657715,
+                0.24960923194885254,
+                0.2501106262207031,
+                0.25313782691955566,
+                0.2547945976257324,
+                0.25573182106018066,
+                0.2595980167388916,
+                0.24779629707336426
               ]
             },
             "variableStates": [
@@ -1934,7 +1827,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515:detect-last",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb:detect-last",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1952,7 +1845,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "0d31670f-e23b-4905-9c64-fdd7e08a0c4b",
+        "x-ms-client-request-id": "bad487c8-530c-42b1-b1c2-1eefd2ec6737",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -4007,14 +3900,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7515199d-eaaf-45a5-aedd-5d49b31b316b",
+        "apim-request-id": "0e72d6c2-39a5-4199-a8ae-6579b7a60c44",
         "Content-Length": "947",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:25 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:06 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "392",
+        "x-envoy-upstream-service-time": "382",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
@@ -4070,7 +3963,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515:detect-batch",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb:detect-batch",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4088,7 +3981,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "b684e014-9473-4f19-a4d7-f0542a4feb88",
+        "x-ms-client-request-id": "5f6746e3-c069-4fa2-89ef-4e9427ee476d",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -4099,20 +3992,20 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "6cffaa43-57eb-4266-a064-f684667563d0",
+        "apim-request-id": "ad7305dd-8ed4-45ed-b3d6-85818d3d635f",
         "Content-Length": "350",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:25 GMT",
-        "operation-id": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "Date": "Tue, 18 Apr 2023 05:55:06 GMT",
+        "operation-id": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "operation-location": "https://multi-ad-test-uscx-3.cognitiveservices.azure.com:443/anomalydetector/v1.1/multivariate/detect-batch/",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "98",
+        "x-envoy-upstream-service-time": "81",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "summary": {
           "status": "CREATED",
           "errors": [],
@@ -4128,7 +4021,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4144,24 +4037,24 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "dd8a6c1c-b8f4-436c-aa8f-be37d4ad9d98",
+        "x-ms-client-request-id": "b4ec4af1-59c6-4dee-8636-979541e5cf22",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "1a7076ec-0084-4e58-8164-f1837fe7a589",
+        "apim-request-id": "e7563c7c-4096-483c-b69c-c7ee1e80873e",
         "Content-Length": "350",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:26 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:07 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "56",
+        "x-envoy-upstream-service-time": "32",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "summary": {
           "status": "CREATED",
           "errors": [],
@@ -4177,7 +4070,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4193,24 +4086,24 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "feab5c8d-49f7-4c3a-abc8-29f4b19088a1",
+        "x-ms-client-request-id": "c2537525-2996-4d0a-8da9-4c99b696f9d9",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "79e8d82f-0613-4d7e-8213-beee1daf02b3",
+        "apim-request-id": "4cfed000-88e9-4933-96af-1bc100f0b92d",
         "Content-Length": "350",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:26 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:07 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "17",
+        "x-envoy-upstream-service-time": "30",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "summary": {
           "status": "RUNNING",
           "errors": [],
@@ -4226,7 +4119,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4242,16 +4135,199 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "3665920d-ecce-4562-816d-093df9f709b8",
+        "x-ms-client-request-id": "3137ff6f-d6af-4122-ab83-f26388bfcbcd",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "91d5e68c-6c51-4e57-bcc7-4f0ce302bb48",
+        "apim-request-id": "e5099f46-4845-4a96-a196-5ba887e91fbc",
         "Content-Length": "350",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:26 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:07 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "23",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
+        "summary": {
+          "status": "RUNNING",
+          "errors": [],
+          "variableStates": [],
+          "setupInfo": {
+            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+            "topContributorCount": 10,
+            "startTime": "2021-01-02T00:00:00Z",
+            "endTime": "2021-01-02T05:00:00Z"
+          }
+        },
+        "results": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "549eb083-5e46-46e8-893f-1e606f83d7f7",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "6881f39a-af13-482b-ab1b-e530353ae3eb",
+        "Content-Length": "350",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:55:08 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "20",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
+        "summary": {
+          "status": "RUNNING",
+          "errors": [],
+          "variableStates": [],
+          "setupInfo": {
+            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+            "topContributorCount": 10,
+            "startTime": "2021-01-02T00:00:00Z",
+            "endTime": "2021-01-02T05:00:00Z"
+          }
+        },
+        "results": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "44c4b16d-591b-4254-9994-ed438ae6cb8c",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "84f49d37-2d24-4626-ba8f-b8250bba55c5",
+        "Content-Length": "1118",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:55:08 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "31",
+        "x-ms-region": "Central US EUAP"
+      },
+      "ResponseBody": {
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
+        "summary": {
+          "status": "RUNNING",
+          "errors": [],
+          "variableStates": [
+            {
+              "variable": "series_0",
+              "filledNARatio": 0.0,
+              "effectiveCount": 301,
+              "firstTimestamp": "2021-01-02T00:00:00Z",
+              "lastTimestamp": "2021-01-02T05:00:00Z"
+            },
+            {
+              "variable": "series_1",
+              "filledNARatio": 0.0,
+              "effectiveCount": 301,
+              "firstTimestamp": "2021-01-02T00:00:00Z",
+              "lastTimestamp": "2021-01-02T05:00:00Z"
+            },
+            {
+              "variable": "series_2",
+              "filledNARatio": 0.0,
+              "effectiveCount": 301,
+              "firstTimestamp": "2021-01-02T00:00:00Z",
+              "lastTimestamp": "2021-01-02T05:00:00Z"
+            },
+            {
+              "variable": "series_3",
+              "filledNARatio": 0.0,
+              "effectiveCount": 301,
+              "firstTimestamp": "2021-01-02T00:00:00Z",
+              "lastTimestamp": "2021-01-02T05:00:00Z"
+            },
+            {
+              "variable": "series_4",
+              "filledNARatio": 0.0,
+              "effectiveCount": 301,
+              "firstTimestamp": "2021-01-02T00:00:00Z",
+              "lastTimestamp": "2021-01-02T05:00:00Z"
+            }
+          ],
+          "setupInfo": {
+            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
+            "topContributorCount": 10,
+            "startTime": "2021-01-02T00:00:00Z",
+            "endTime": "2021-01-02T05:00:00Z"
+          }
+        },
+        "results": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "7c2b6d4e-d709-40e1-8582-e3baed472215",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "15775895-2380-4486-b86d-32fe02ddacfb",
+        "Content-Length": "1118",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Apr 2023 05:55:08 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -4259,56 +4335,7 @@
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
-        "summary": {
-          "status": "RUNNING",
-          "errors": [],
-          "variableStates": [],
-          "setupInfo": {
-            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-            "topContributorCount": 10,
-            "startTime": "2021-01-02T00:00:00Z",
-            "endTime": "2021-01-02T05:00:00Z"
-          }
-        },
-        "results": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "5a704b0a-0eb1-4e77-85a1-72c26792115a",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "1b710636-1439-4cbc-8628-9a248ab03f7a",
-        "Content-Length": "1118",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "28",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "summary": {
           "status": "RUNNING",
           "errors": [],
@@ -4360,7 +4387,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/91fbd766-ddad-11ed-afb8-9e066b475515",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4376,194 +4403,24 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "1be1cbaf-ef93-4295-be93-0e065e6d9444",
+        "x-ms-client-request-id": "c42b789f-5076-4ad0-b1f8-42139b3c9613",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e8ef5966-408d-4e22-a7f7-930322991dd5",
-        "Content-Length": "1118",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "17",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
-        "summary": {
-          "status": "RUNNING",
-          "errors": [],
-          "variableStates": [
-            {
-              "variable": "series_0",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_1",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_2",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_3",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_4",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            }
-          ],
-          "setupInfo": {
-            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-            "topContributorCount": 10,
-            "startTime": "2021-01-02T00:00:00Z",
-            "endTime": "2021-01-02T05:00:00Z"
-          }
-        },
-        "results": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "e29bec73-0fbb-4d5d-b222-da7b208686db",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "24768f9d-ae7f-44f6-8048-f4896db8dfef",
-        "Content-Length": "1118",
-        "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:27 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13",
-        "x-ms-region": "Central US EUAP"
-      },
-      "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
-        "summary": {
-          "status": "RUNNING",
-          "errors": [],
-          "variableStates": [
-            {
-              "variable": "series_0",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_1",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_2",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_3",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            },
-            {
-              "variable": "series_4",
-              "filledNARatio": 0.0,
-              "effectiveCount": 301,
-              "firstTimestamp": "2021-01-02T00:00:00Z",
-              "lastTimestamp": "2021-01-02T05:00:00Z"
-            }
-          ],
-          "setupInfo": {
-            "dataSource": "https://mvaddataset.blob.core.windows.net/sample-onetable/sample_data_5_3000.csv",
-            "topContributorCount": 10,
-            "startTime": "2021-01-02T00:00:00Z",
-            "endTime": "2021-01-02T05:00:00Z"
-          }
-        },
-        "results": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/detect-batch/a30a59b6-ddac-11ed-9824-56c4402ef22c",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "fake_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "b4e12e87-5918-45d5-a0e0-c2469ae15ce2",
-        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "e7e74e2c-a2d9-4f4c-880a-39154ea5d4dc",
+        "apim-request-id": "cdb479ef-7b61-4b32-9f77-260209e8a52a",
         "Content-Length": "74593",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:48:28 GMT",
+        "Date": "Tue, 18 Apr 2023 05:55:09 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "69",
+        "x-envoy-upstream-service-time": "71",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "resultId": "a30a59b6-ddac-11ed-9824-56c4402ef22c",
+        "resultId": "91fbd766-ddad-11ed-afb8-9e066b475515",
         "summary": {
           "status": "READY",
           "errors": [],
@@ -9635,7 +9492,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7dec79fc-ddac-11ed-95e0-9e066b475515",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models/7c3bec04-ddad-11ed-bd57-6e134b5856fb",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9651,18 +9508,18 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "8b615e31-ae2c-459e-a23c-d3789af8bf30",
+        "x-ms-client-request-id": "46a70dbc-71c8-45c3-8866-dc5c755c5b5a",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "apim-request-id": "0042796a-b7b5-4830-9e43-53104e329831",
-        "Date": "Tue, 18 Apr 2023 05:48:28 GMT",
+        "apim-request-id": "792c0e5d-fa17-411a-9c0b-d9c739fe7bae",
+        "Date": "Tue, 18 Apr 2023 05:55:09 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "36",
+        "x-envoy-upstream-service-time": "37",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": null

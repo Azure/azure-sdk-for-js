@@ -17,20 +17,20 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "0df87c9f-dda4-4c0d-8f90-505de170aea7",
+        "x-ms-client-request-id": "4a680500-0f9f-44d5-b030-a1e9c211a2f0",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d98a1709-4ee4-4bf9-80f0-287d22598125",
+        "apim-request-id": "06507451-3960-40a6-ae12-895fe4b76dc4",
         "Content-Length": "31978",
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Apr 2023 05:47:22 GMT",
+        "Date": "Tue, 18 Apr 2023 05:54:29 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "209",
+        "x-envoy-upstream-service-time": "112",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
