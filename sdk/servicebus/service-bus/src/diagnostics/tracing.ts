@@ -30,7 +30,10 @@ export function toSpanOptions(
   operation: MessagingOperationNames,
   spanKind?: TracingSpanKind
 ): TracingSpanOptions {
-  const propertyName = operation == "process" || operation == "receive" ? "messaging.source.name" : "messaging.destination.name";
+  const propertyName =
+    operation === "process" || operation === "receive"
+      ? "messaging.source.name"
+      : "messaging.destination.name";
 
   const spanOptions: TracingSpanOptions = {
     spanAttributes: {
