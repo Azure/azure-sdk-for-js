@@ -12,11 +12,6 @@ stages:
       PackageName: "@azure/ai-language-text"
       ServiceDirectory: cognitivelanguage
       Location: "${{ parameters.Location }}"
-      CloudConfig:
-        Public:
-          SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
-            - $(sub-config-text-analytics-azure-cloud-test-resources)
       SupportedClouds: 'Public,UsGov,China'
       TimeoutInMinutes: "120"
       EnvVars:
