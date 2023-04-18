@@ -9,7 +9,6 @@ import {
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { getAuthority } from "./utils";
 
 const envSetupForPlayback: { [k: string]: string } = {
   LANGUAGE_API_KEY: "api_key",
@@ -62,8 +61,6 @@ export function createClient(
 ): TextAnalysisClient {
   const { resource = "Default", recorder, clientOptions = {} } = options;
   const endpoint = assertEnvironmentVariable(getEndpointEnvVarName(resource));
-  const authorityHost = getAuthority(endpoint);
-  const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
 
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
@@ -76,18 +73,7 @@ export function createClient(
       );
     }
     case "AAD": {
-      return new TextAnalysisClient(
-        endpoint,
-        createTestCredential(
-          { ...tokenCredentialOptions },
-          {
-            tenantId: assertEnvironmentVariable(""),
-            clientId: assertEnvironmentVariable(""),
-            clientSecret: assertEnvironmentVariable(""),
-          }
-        ),
-        updatedOptions
-      );
+      return new TextAnalysisClient(endpoint, createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
       return new TextAnalysisClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);

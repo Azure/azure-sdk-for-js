@@ -168,8 +168,9 @@ export class TextAnalysisClient {
 
     this._client = new GeneratedClient(endpointUrl, internalPipelineOptions);
 
+    const scopes = getAudience(endpointUrl);
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      ? bearerTokenAuthenticationPolicy({ credential, scopes })
       : textAnalyticsAzureKeyCredentialPolicy(credential);
 
     this._client.pipeline.addPolicy(authPolicy);
@@ -778,4 +779,14 @@ export class TextAnalysisClient {
       tracing: this._tracing,
     });
   }
+}
+
+function getAudience(endpoint: string): string {
+  if (endpoint.includes(".azure.us")) {
+    return "https://cognitiveservices.azure.us/.default";
+  }
+  if (endpoint.includes(".azure.cn")) {
+    return "https://cognitiveservices.azure.cn/.default";
+  }
+  return DEFAULT_COGNITIVE_SCOPE;
 }
