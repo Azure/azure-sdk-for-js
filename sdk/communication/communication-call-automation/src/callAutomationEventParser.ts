@@ -34,7 +34,7 @@ const serializer = createSerializer();
  * Helper class for parsing Acs callback events.
  */
 export class CallAutomationEventParser {
-  public async parse(encodedEvents: string): Promise<CallAutomationEvent>;
+  public async parse(encodedEvent: string): Promise<CallAutomationEvent>;
 
   public async parse(encodedEvents: Record<string, unknown>): Promise<CallAutomationEvent>;
 

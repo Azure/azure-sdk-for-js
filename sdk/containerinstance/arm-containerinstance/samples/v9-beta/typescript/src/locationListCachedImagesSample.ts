@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the list of cached images on specific OS type for a subscription in a region.
  *
  * @summary Get the list of cached images on specific OS type for a subscription in a region.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/CachedImagesList.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/CachedImagesList.json
  */
 async function cachedImages() {
   const subscriptionId =

@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-tax.us.w2
 // Description: Extract key information from IRS US W2 tax forms (year 2018-2021).
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Wed Apr 05 2023
 
 import * as fr from "../../../src";
 
@@ -268,8 +268,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.w2",
     description: "Extract key information from IRS US W2 tax forms (year 2018-2021).",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       "tax.us.w2": {
         buildMode: "template",

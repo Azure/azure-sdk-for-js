@@ -8,9 +8,11 @@ specifiers:
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:./projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
+  '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
@@ -344,9 +346,11 @@ dependencies:
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
+  '@rush-temp/ai-language-textauthoring': file:projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
+  '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
@@ -731,16 +735,15 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@azure/ai-form-recognizer/3.1.0-beta.3:
-    resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
-    engines: {node: '>=8.0.0'}
-    deprecated: Please migrate to a supported (non-beta) version of this package
+  /@azure/ai-form-recognizer/3.2.0:
+    resolution: {integrity: sha512-cIM8a8KJ4zcJInSEJpX017Su5gRiZQCpsEP2egBKnkbMcCl1+1W21xOYVBL3eJw6M7QX+tQsvZlzOKZHraZ+lQ==}
+    engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/core-auth': 1.4.0
-      '@azure/core-http': 1.2.6
-      '@azure/core-lro': 1.0.5
+      '@azure/core-http': 2.3.1
+      '@azure/core-lro': 2.5.2
       '@azure/core-paging': 1.5.0
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.4
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -9652,7 +9655,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-FxfCfovYvmTjcSow40Tq9KVGI/dCaAhAuQ3YBT4eVGAwzN2lbn39DC5f4a7soVVjSa2GQik2bZEfY1A2qlkp7w==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-klkC6UKOIHYQashvWmvf/2RRICvFoCeKsCP+EuPILy6r6fsYnYrdqTNPd6zHeUgzSIvQHzfW/ArOctZKfdiRFg==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9697,6 +9700,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-language-textauthoring.tgz:
+    resolution: {integrity: sha512-GTU83ToayG2z/7fIzk19QIqDMXP6vOQabzHT9uBguiCn1/Y8iz+FhvtnIpsnMyflPyl/JmejpznRZxYavSCWMw==, tarball: file:projects/ai-language-textauthoring.tgz}
+    name: '@rush-temp/ai-language-textauthoring'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      dotenv: 8.6.0
+      eslint: 8.38.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
@@ -9828,6 +9852,47 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-translation-text.tgz:
+    resolution: {integrity: sha512-+LZrnKC6WEXktJx5OM7vSu4A3EwsBCcnX3xS4R5x1MYKUzTkgXoC1xDrXPfX/fX/98de+6s5yKkX+bWeFoOt8Q==, tarball: file:projects/ai-translation-text.tgz}
+    name: '@rush-temp/ai-translation-text'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.42
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.38.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
       - bufferutil
       - debug
       - supports-color
@@ -11129,7 +11194,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-DK5ZdqF5eYbp2Zr/AiG+GuTavFBCeGB0ovWcehz4BaZXHWpbavDhVMXW2AgIIHlx6i9AUlVaGRrGbB3NPObhZQ==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-J0w6H3a4pTQt8JfPPVVuidUoZADRzjP7CweTua3ZltyvQcWhkYguiLJqHKtLMPhFKJ7n3U6pRCU+xGT1i/fOlg==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -11144,7 +11209,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12024,7 +12089,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-4YZs8SjIY+ze/V2cBMfGV0W7iBEDvTDPWz7anDzygsKSF71tWoG3hEUPKF2IjTdAxjfQNSJ83G+eYwTDuZhrqA==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-5xCBSoTkHMW+mjOiubcrJe81absXkwzQJOR47qfRCrzr42hBurn/EOGb8cDMGonHfcjmGLJzMh49RQnddbhvJg==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12039,7 +12104,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12136,7 +12201,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-aJzQRAfVvgyk0Nbu9U9HvLJPaiZl6kg4S/QIhCeu+tdfAQFrKCAIEC9ef9s+GW0lE5HFXy754TEGrFtM7xi5RQ==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-gV3DahTOIjhlf6WNSNaTy/ZYil0Et8lC4DmynE0fUGlNiWlHWRlHvK6VG5zbfBY5zZO8vFCKZ6dSNl6K9M0u8A==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -12153,7 +12218,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13325,7 +13390,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-+kZIZf57UFBgwXnvVzcfdy4T/7PaWYW5y7CDPvZDRlR/zzXN/040MHiissaJwQ41X+wf3puS0fdAIbl+Q2U7Kw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Cp0JwnEPjOgbpcjJ0FcSZnfI1jVSexkW6KxH8f9ci7UbhQis2h5Owt2/zf2LW1li5Ht3ad/IcqzkfC5ieMZmsA==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -14308,7 +14373,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-w+RlU+Y/Bt4N6ZIFpMi2Q6Ozz6L1Y1PCy9tDox6M3ApE4DCjoKKTnAb2vlrCgtaIaYx7Y5odQWlT2wU0o+x28g==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-PClaL03qs9YHUk0aL94B3TPi69zsYeAdb+9Y5jYfVFqfwLPY+SbFPTlQbaNHsFNe2AsSANVnrj6mrZWSDSnu1Q==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -14322,8 +14387,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16301,7 +16366,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-pWipLCUwNNpKjqh/MmLBG9lS3mgIXHq09E0+XAfodzcWd4Y1qcNqryKbK+qFLSs9objuHa9HO6t0k8x3CI7okA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-iW6S5CQK5+wHaxT4yGBXFzEkOkPQ4dS23kw1n3B+MZOltDDVe7oZXlv2Y9r0KA780hKzZ9+yVyJNIyHR+luZQA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -18368,11 +18433,11 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-ceK5MquNCCghXijmWBVEPtNM2LUgOGQmdGPb1/ZQZpc3wLk6NVrClPrOm10vtt6J/zBsGRRPxNsYlaA1fqGbdA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-tguH+yKUuclDICsJZXd8nCbV5i2DJ3fEyo/4EmQwWH57Qwcv22lDIVjrDzzjrzzECkJHdWB3AKrwoDYkczZKaw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure/ai-form-recognizer': 3.1.0-beta.3
+      '@azure/ai-form-recognizer': 3.2.0
       '@azure/identity': 2.1.0
       '@types/node': 14.18.42
       dotenv: 16.0.3

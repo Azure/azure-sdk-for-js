@@ -17,7 +17,8 @@ stages:
           SubscriptionConfigurations:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-text-analytics-azure-cloud-test-resources)
-      SupportedClouds: 'Public,UsGov,China'
+      SupportedClouds: 'Public'
+      TimeoutInMinutes: "120"
       EnvVars:
         AZURE_SUBSCRIPTION_ID: $(TEXTANALYTICS_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(TEXTANALYTICS_TENANT_ID)
