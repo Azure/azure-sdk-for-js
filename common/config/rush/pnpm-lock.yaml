@@ -735,21 +735,19 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@azure/ai-form-recognizer/4.0.0:
-    resolution: {integrity: sha512-D0QoRdBYHpbEWk9yEh6UFhbes33RQzNx2Kn5qxPu1YvMrhigLIrmZBgpJbxOxpirHx2vo8yoiOA8UjHMlNJV8w==}
+  /@azure/ai-form-recognizer/3.2.0:
+    resolution: {integrity: sha512-cIM8a8KJ4zcJInSEJpX017Su5gRiZQCpsEP2egBKnkbMcCl1+1W21xOYVBL3eJw6M7QX+tQsvZlzOKZHraZ+lQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
-      '@azure/core-client': 1.7.2
+      '@azure/core-http': 2.3.1
       '@azure/core-lro': 2.5.2
       '@azure/core-paging': 1.5.0
-      '@azure/core-rest-pipeline': 1.10.3
-      '@azure/core-tracing': 1.0.1
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.4
       tslib: 2.5.0
     transitivePeerDependencies:
-      - supports-color
+      - encoding
     dev: false
 
   /@azure/ai-metrics-advisor/1.0.0-beta.3:
@@ -18435,11 +18433,11 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-xvZNoEBPTkF3dYMtEQibZ3YxdFLVciNQUEpm9Af7PlmWDuFhd1UfS954Zpww/1wp9hHA9VCFh3vz4+PF9rfBPg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-tguH+yKUuclDICsJZXd8nCbV5i2DJ3fEyo/4EmQwWH57Qwcv22lDIVjrDzzjrzzECkJHdWB3AKrwoDYkczZKaw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure/ai-form-recognizer': 4.0.0
+      '@azure/ai-form-recognizer': 3.2.0
       '@azure/identity': 2.1.0
       '@types/node': 14.18.42
       dotenv: 16.0.3
@@ -18452,6 +18450,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
