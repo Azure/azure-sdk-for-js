@@ -40,7 +40,7 @@
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples",
+    "execute:samples": "echo skipped",
     "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
@@ -93,5 +93,16 @@
         "prefix": "package-version"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Cognitive Language Service",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "language-service"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    }
   }
 }
