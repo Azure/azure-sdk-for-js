@@ -64,8 +64,9 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
-    answerCall(incomingCallContext: string, callbackUri: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    createCall(target: CallInvite | CommunicationIdentifier[], callbackUri: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    createCall(target: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    createGroupCall(targets: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
     getSourceIdentity(): CommunicationUserIdentifier | undefined;
@@ -84,7 +85,7 @@ export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed
 // @public
 export class CallAutomationEventParser {
     // (undocumented)
-    parse(encodedEvents: string): Promise<CallAutomationEvent>;
+    parse(encodedEvent: string): Promise<CallAutomationEvent>;
     // (undocumented)
     parse(encodedEvents: Record<string, unknown>): Promise<CallAutomationEvent>;
 }

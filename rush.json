@@ -341,6 +341,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
