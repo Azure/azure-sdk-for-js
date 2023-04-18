@@ -8,7 +8,7 @@ import { packageJsonInfo } from "../util/constants";
 /**
  * The names of the operations that can be instrumented.
  */
-export type MessagingOperationNames = "publish" | "receive" | "process";
+export type MessagingOperationNames = "publish" | "receive" | "process" | "settle";
 
 /**
  * The {@link TracingClient} that is used to add tracing spans.

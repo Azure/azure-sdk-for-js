@@ -467,7 +467,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           "SessionReceiver.process",
           options ?? {},
           () => handlers.processMessage(message),
-          toProcessingSpanOptions(message, this, this._context.config, "receive")
+          toProcessingSpanOptions(message, this, this._context.config, "process")
         );
       },
       processError,
