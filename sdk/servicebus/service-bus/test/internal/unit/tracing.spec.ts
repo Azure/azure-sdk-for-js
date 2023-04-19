@@ -23,8 +23,10 @@ describe("tracing", () => {
     it("returns the initial set of attributes", () => {
       assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }, "receive"), {
         spanAttributes: {
-          "message_bus.destination": "testPath",
-          "peer.address": "testHost",
+          "messaging.operation": "receive",
+          "messaging.source.name": "testPath",
+          "messaging.system": "servicebus",
+          "net.peer.name": "testHost",
         },
       });
     });
@@ -127,8 +129,10 @@ describe("tracing", () => {
         );
         assert.equal(processingSpanOptions.spanKind, "consumer");
         assert.deepEqual(processingSpanOptions.spanAttributes, {
-          "message_bus.destination": "testPath",
-          "peer.address": "testHost",
+          "messaging.operation": "receive",
+          "messaging.source.name": "testPath",
+          "messaging.system": "servicebus",
+          "net.peer.name": "testHost",
         });
       });
 
