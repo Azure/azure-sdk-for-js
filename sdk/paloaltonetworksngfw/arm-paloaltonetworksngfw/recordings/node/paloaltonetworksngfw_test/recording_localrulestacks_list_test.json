@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "08838b49-c10f-4f02-a495-efcb7a89050b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "910",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c96afc58-bed2-4d6f-8450-9dc2372a37b2",
+        "x-ms-original-request-ids": [
+          "dc9bd6d2-d7b3-4441-9549-3397ae2355e7",
+          "c960a449-2412-4471-9f76-9add0da616b2",
+          "963286e3-65fa-4e35-bc67-10cddf51bda5",
+          "13f89971-39e6-48e3-8c10-d329ec2b00b4",
+          "39fe4789-c869-4371-9fed-4ffdd1b3da99",
+          "ce48d577-4efd-418b-9826-ea1f1220caaa"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "c96afc58-bed2-4d6f-8450-9dc2372a37b2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090532Z:c96afc58-bed2-4d6f-8450-9dc2372a37b2"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+            "name": "resourcetest",
+            "type": "paloaltonetworks.cloudngfw/localrulestacks",
+            "location": "eastus",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-04-19T09:04:59.5546569Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-04-19T09:04:59.5546569Z"
+            },
+            "properties": {
+              "scope": "LOCAL",
+              "description": "local rulestacks",
+              "provisioningState": "Succeeded",
+              "defaultMode": "NONE",
+              "panEtag": "4b24929e-de91-11ed-abf0-1a1784ec2d74",
+              "minAppIdVersion": "8595-7473",
+              "securityServices": {
+                "vulnerabilityProfile": "BestPractice",
+                "antiSpywareProfile": "BestPractice",
+                "antiVirusProfile": "BestPractice",
+                "urlFilteringProfile": "BestPractice",
+                "fileBlockingProfile": "BestPractice",
+                "dnsSubscription": "BestPractice"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

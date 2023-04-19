@@ -83,7 +83,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.8.0"
+    "typescript": "~5.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
