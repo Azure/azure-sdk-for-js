@@ -40,7 +40,6 @@ describe("paloaltonetworksngfw test", () => {
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
-  let priority: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -52,46 +51,44 @@ describe("paloaltonetworksngfw test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-    priority = "1"
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("globalRulestack create test", async function () {
+  it("localRulestacks create test", async function () {
 
-    const res = await client.localRules.beginCreateOrUpdateAndWait(
+    const res = await client.localRulestacks.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
-      priority,
-      { ruleName: "localRule1" },
+      { location },
       testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it("localRules get test", async function () {
-    const res = await client.localRules.get(
+  it("localRulestacks get test", async function () {
+    const res = await client.localRulestacks.get(
       resourceGroup,
       resourcename,
-      priority);
+    );
     assert.equal(res.name, resourcename);
   });
 
-  it("localRules list test", async function () {
+  it("localRulestacks list test", async function () {
     const resArray = new Array();
-    for await (let item of client.localRules.listByLocalRulestacks(resourceGroup, resourcename,)) {
+    for await (let item of client.localRulestacks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("localRules delete test", async function () {
+  it("localRulestacks delete test", async function () {
     const resArray = new Array();
-    const res = await client.localRules.beginDeleteAndWait(
+    const res = await client.localRulestacks.beginDeleteAndWait(
       resourceGroup,
       resourcename,
-      priority)
+    )
     for await (let item of client.globalRulestack.list()) {
       resArray.push(item);
     }

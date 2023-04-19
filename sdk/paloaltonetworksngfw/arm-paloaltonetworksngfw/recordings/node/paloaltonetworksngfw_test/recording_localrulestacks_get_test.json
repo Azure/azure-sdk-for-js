@@ -1,37 +1,31 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest/localRules/1?api-version=2022-08-29-preview",
-      "RequestMethod": "PUT",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "40",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "dfad69ab-66ff-4bc9-873f-33f601e52b57"
+        "x-ms-client-request-id": "1e96f4b2-4de7-4621-9e00-4e3acd2cdec2"
       },
-      "RequestBody": {
-        "properties": {
-          "ruleName": "localRule1"
-        }
-      },
+      "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "173",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Apr 2023 02:05:46 GMT",
+        "Date": "Wed, 19 Apr 2023 01:44:10 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "005583b5-f30a-4203-8a92-c8aa10b3d253",
+        "x-ms-correlation-request-id": "2beebd02-9c77-4bde-97e8-03efdb02a6f3",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "005583b5-f30a-4203-8a92-c8aa10b3d253",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230418T020547Z:005583b5-f30a-4203-8a92-c8aa10b3d253"
+        "x-ms-request-id": "2beebd02-9c77-4bde-97e8-03efdb02a6f3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T014410Z:2beebd02-9c77-4bde-97e8-03efdb02a6f3"
       },
       "ResponseBody": {
         "error": {

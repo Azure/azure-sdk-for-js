@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest/localRules?api-version=2022-08-29-preview",
-      "RequestMethod": "GET",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest?api-version=2022-08-29-preview",
+      "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "98cb3283-674e-4545-af32-8f3a2ac19ba6"
+        "x-ms-client-request-id": "2ed654c9-5f7b-4a6a-be56-ee802b402a6d"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -17,15 +17,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "173",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Apr 2023 02:05:47 GMT",
+        "Date": "Wed, 19 Apr 2023 01:44:11 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "de59516f-3d15-4e5b-9d3b-a427c9d39a0d",
+        "x-ms-correlation-request-id": "08ba2218-bb1e-406c-892d-708d8b538f8c",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "de59516f-3d15-4e5b-9d3b-a427c9d39a0d",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230418T020548Z:de59516f-3d15-4e5b-9d3b-a427c9d39a0d"
+        "x-ms-request-id": "08ba2218-bb1e-406c-892d-708d8b538f8c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T014412Z:08ba2218-bb1e-406c-892d-708d8b538f8c"
       },
       "ResponseBody": {
         "error": {

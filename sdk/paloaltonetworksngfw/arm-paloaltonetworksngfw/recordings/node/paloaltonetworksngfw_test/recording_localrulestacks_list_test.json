@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest/localRules/1?api-version=2022-08-29-preview",
-      "RequestMethod": "DELETE",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "69f3365c-3bb4-46ce-98b7-91d8026f69b4"
+        "x-ms-client-request-id": "707b5d8e-1535-47aa-a7b1-9bfb3d653bd6"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -17,15 +17,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "173",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Apr 2023 02:05:50 GMT",
+        "Date": "Wed, 19 Apr 2023 01:44:11 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e054c26c-848c-4f5d-9b1e-90621a2d7162",
+        "x-ms-correlation-request-id": "47c177a9-0414-4b5e-b9cd-2e407d81ad89",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "e054c26c-848c-4f5d-9b1e-90621a2d7162",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230418T020550Z:e054c26c-848c-4f5d-9b1e-90621a2d7162"
+        "x-ms-request-id": "47c177a9-0414-4b5e-b9cd-2e407d81ad89",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T014411Z:47c177a9-0414-4b5e-b9cd-2e407d81ad89"
       },
       "ResponseBody": {
         "error": {
