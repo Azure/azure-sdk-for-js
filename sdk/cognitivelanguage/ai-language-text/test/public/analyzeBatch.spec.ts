@@ -620,7 +620,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("big document causes a warning", async function () {
+        // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
+        it.skip("big document causes a warning", async function () {
             let text = "";
             for (let i = 0; i < 5121; ++i) {
               text = text + "x";
@@ -884,7 +885,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        it("whole batch input with auto language detection", async function () {
+        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
+        it.skip("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
             "Este es un document escrito en Español.",
