@@ -10,6 +10,7 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 To be able to leverage the asset-sync workflow
 
+- To push recordings to the `"azure-sdk-assets"` repo, you should be part of `azure-sdk-write` group. Request [here](https://repos.opensource.microsoft.com/orgs/Azure/teams/azure-sdk-team) to get added in the group 
 - Install [Powershell]
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
 - Add `dev-tool` to the `devDependencies` in the `package.json`.
