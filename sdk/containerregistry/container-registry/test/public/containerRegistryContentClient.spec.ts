@@ -7,7 +7,7 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import { ContainerRegistryContentClient, KnownManifestMediaType } from "../../src";
+import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
@@ -49,18 +49,18 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await recorder.stop();
     });
 
-    const manifest = {
+    const manifest: OciImageManifest = {
       schemaVersion: 2,
-      configuration: {
+      config: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
-        sizeInBytes: 171,
+        size: 171,
       },
       layers: [
         {
           mediaType: "application/vnd.oci.image.layer.v1.tar",
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
-          sizeInBytes: 28,
+          size: 28,
           annotations: {
             title: "artifact.txt",
           },
