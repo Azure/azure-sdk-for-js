@@ -28,7 +28,7 @@ import {
   RemoveParticipantsOptions,
   RoomsClientOptions,
   UpdateRoomOptions,
-  UpsertParticipantsOptions
+  UpsertParticipantsOptions,
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -312,16 +312,12 @@ export class RoomsClient {
     participants: RoomParticipantPatch[],
     options: UpsertParticipantsOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "RoomsClient-UpsertParticipants",
-      options,
-      (updatedOptions) => {
-        this.client.participants.update(roomId, {
-          ...updatedOptions,
-          participants: mapRoomParticipantToRawId(participants),
-        });
-      }
-    );
+    return tracingClient.withSpan("RoomsClient-UpsertParticipants", options, (updatedOptions) => {
+      this.client.participants.update(roomId, {
+        ...updatedOptions,
+        participants: mapRoomParticipantToRawId(participants),
+      });
+    });
   }
 
   /**
@@ -336,15 +332,11 @@ export class RoomsClient {
     participantIdentifiers: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "RoomsClient-RemoveParticipants",
-      options,
-      (updatedOptions) => {
-        this.client.participants.update(roomId, {
-          ...updatedOptions,
-          participants: mapRoomParticipantForRemoval(participantIdentifiers),
-        });
-      }
-    );
+    return tracingClient.withSpan("RoomsClient-RemoveParticipants", options, (updatedOptions) => {
+      this.client.participants.update(roomId, {
+        ...updatedOptions,
+        participants: mapRoomParticipantForRemoval(participantIdentifiers),
+      });
+    });
   }
 }
