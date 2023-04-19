@@ -21,10 +21,12 @@ import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {
     it("returns the initial set of attributes", () => {
-      assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }), {
+      assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }, "receive"), {
         spanAttributes: {
-          "message_bus.destination": "testPath",
-          "peer.address": "testHost",
+          "messaging.operation": "receive",
+          "messaging.source.name": "testPath",
+          "messaging.system": "servicebus",
+          "net.peer.name": "testHost",
         },
       });
     });
@@ -32,7 +34,7 @@ describe("tracing", () => {
     it("sets the spanKind if provided", () => {
       const expectedSpanKind = "client";
       assert.equal(
-        toSpanOptions({ entityPath: "", host: "" }, expectedSpanKind).spanKind,
+        toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
         expectedSpanKind
       );
     });
@@ -55,7 +57,8 @@ describe("tracing", () => {
         instrumentedMessage,
         {},
         "testPath",
-        "testHost"
+        "testHost",
+        "receive"
       );
       assert.notExists(spanContext);
       assert.equal(message.applicationProperties?.[TRACEPARENT_PROPERTY], "exists");
@@ -75,7 +78,8 @@ describe("tracing", () => {
         { body: "", applicationProperties: undefined },
         {},
         "testPath",
-        "testHost"
+        "testHost",
+        "receive"
       );
       assert.notExists(spanContext); // was not instrumented
       assert.notExists(message.applicationProperties?.[TRACEPARENT_PROPERTY]);
@@ -100,7 +104,8 @@ describe("tracing", () => {
           { body: "test", applicationProperties: undefined },
           {},
           "testPath",
-          "testHost"
+          "testHost",
+          "receive"
         );
 
         assert.equal(
@@ -119,12 +124,15 @@ describe("tracing", () => {
           },
           {
             host: "testHost",
-          }
+          },
+          "receive"
         );
         assert.equal(processingSpanOptions.spanKind, "consumer");
         assert.deepEqual(processingSpanOptions.spanAttributes, {
-          "message_bus.destination": "testPath",
-          "peer.address": "testHost",
+          "messaging.operation": "receive",
+          "messaging.source.name": "testPath",
+          "messaging.system": "servicebus",
+          "net.peer.name": "testHost",
         });
       });
 
@@ -153,7 +161,8 @@ describe("tracing", () => {
           },
           {
             host: "testHost",
-          }
+          },
+          "receive"
         );
 
         assert.lengthOf(processingSpanOptions.spanLinks!, 1);
@@ -172,7 +181,13 @@ describe("tracing", () => {
         },
       };
 
-      const { message, spanContext } = instrumentMessage(alreadyInstrumentedMessage, {}, "", "");
+      const { message, spanContext } = instrumentMessage(
+        alreadyInstrumentedMessage,
+        {},
+        "",
+        "",
+        "receive"
+      );
 
       assert.equal(
         message,
