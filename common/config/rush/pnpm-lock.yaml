@@ -152,6 +152,7 @@ specifiers:
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
+  '@rush-temp/arm-paloaltonetworksngfw': file:./projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:./projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid': file:./projects/arm-policy-profile-2020-09-01-hybrid.tgz
@@ -490,6 +491,7 @@ dependencies:
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
+  '@rush-temp/arm-paloaltonetworksngfw': file:projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid': file:projects/arm-policy-profile-2020-09-01-hybrid.tgz
@@ -13843,6 +13845,34 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
       typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-paloaltonetworksngfw.tgz:
+    resolution: {integrity: sha512-96L+yETa/gHNRR/AsppnHYVztMymcTsIF+8YKi/FJS0VvZFlyKrtY+ZqrHr+Tuh4QM1yVNvtP/IV8jGnZeOXnw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    name: '@rush-temp/arm-paloaltonetworksngfw'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.42
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
+      tslib: 2.5.0
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
