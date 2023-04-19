@@ -83,7 +83,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
       // list program briefs, validate test program brief is in the list
       let foundTestProgramBrief = false;
-      for await (const pb of client.listUSProgramBriefs()) {
+      for await (const pb of client.listUSProgramBriefs({ top: 1 })) {
         if (pb.id === uspb.id) {
           foundTestProgramBrief = true;
           assertEditableFieldsAreEqual(uspb, pb, "list all program briefs");

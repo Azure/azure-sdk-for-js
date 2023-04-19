@@ -57,7 +57,7 @@ async function getProgramBriefAttachment(
   programBriefId: string,
   predicate: (attachment: ProgramBriefAttachment) => boolean
 ): Promise<null | ProgramBriefAttachment> {
-  for await (const attachment of client.listUSProgramBriefAttachments(programBriefId)) {
+  for await (const attachment of client.listUSProgramBriefAttachments(programBriefId, { top: 1 })) {
     if (predicate(attachment)) {
       return attachment;
     }
