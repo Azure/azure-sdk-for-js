@@ -39,7 +39,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "rimraf": "latest"
   }
 }

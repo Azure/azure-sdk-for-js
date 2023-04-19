@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-tax.us.w2
 // Description: Extract key information from IRS US W2 tax forms (year 2018-2021).
-// API Version: 2022-06-30-preview
-// Created:     Thu Jul 14 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Apr 06 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -68,15 +68,15 @@ export interface TaxUsW2 {
  */
 export interface TaxUsW2Fields {
   /**
-   * `TaxUsW2` "W2FormVariant" field
+   * IRS W2 Form variant. This field can have the one of the following values: 'W-2', 'W-2AS', 'W-2CM', 'W-2GU' or 'W-2VI'
    */
   w2FormVariant?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "TaxYear" field
+   * Form tax year
    */
   taxYear?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "W2Copy" field
+   * W2 form copy version along with printed instruction realted to this copy
    */
   w2Copy?: fr.DocumentStringField;
   /**
@@ -84,7 +84,7 @@ export interface TaxUsW2Fields {
    */
   employee?: fr.DocumentObjectField<TaxUsW2Employee>;
   /**
-   * `TaxUsW2` "ControlNumber" field
+   * W2 Form control number. IRS W2 form field d
    */
   controlNumber?: fr.DocumentStringField;
   /**
@@ -92,75 +92,75 @@ export interface TaxUsW2Fields {
    */
   employer?: fr.DocumentObjectField<TaxUsW2Employer>;
   /**
-   * `TaxUsW2` "WagesTipsAndOtherCompensation" field
+   * Wages, tips, and other compensation amount in USD. IRS W2 form field 1
    */
   wagesTipsAndOtherCompensation?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "FederalIncomeTaxWithheld" field
+   * Federal income tax withheld amount in USD. IRS W2 form field 2
    */
   federalIncomeTaxWithheld?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "SocialSecurityWages" field
+   * Social security wages amount in USD. IRS W2 form field 3
    */
   socialSecurityWages?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "SocialSecurityTaxWithheld" field
+   * Social security tax withheld amount in USD. IRS W2 form field 4
    */
   socialSecurityTaxWithheld?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "MedicareWagesAndTips" field
+   * Medicare wages and tips amount in USD. IRS W2 form field 5
    */
   medicareWagesAndTips?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "MedicareTaxWithheld" field
+   * Medicare tax withheld amount in USD. IRS W2 form field 6
    */
   medicareTaxWithheld?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "SocialSecurityTips" field
+   * Social security tips amount in USD. IRS W2 form field 7
    */
   socialSecurityTips?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "AllocatedTips" field
+   * Allocated tips in USD. IRS W2 form field 8
    */
   allocatedTips?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "VerificationCode" field
+   * W2 form verification code. IRS W2 form field 9
    */
   verificationCode?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "DependentCareBenefits" field
+   * Dependent care benefits amount in USD. IRS W2 form field 10
    */
   dependentCareBenefits?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "NonQualifiedPlans" field
+   * Non-qualified plans amount in USD. IRS W2 form field 11
    */
   nonQualifiedPlans?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "AdditionalInfo" field
+   * Array holding W2 Codes. IRS W2 form field 12
    */
   additionalInfo?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2AdditionalInfoElement>>;
   /**
-   * `TaxUsW2` "IsStatutoryEmployee" field
+   * Part of IRS W2 form field 13. Can be 'true' or 'false'
    */
   isStatutoryEmployee?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "IsRetirementPlan" field
+   * Part of IRS W2 form field 13. Can be 'true' or 'false'
    */
   isRetirementPlan?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "IsThirdPartySickPay" field
+   * Part of IRS W2 form field 13. Can be 'true' or 'false'
    */
   isThirdPartySickPay?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Other" field
+   * Content of IRS W2 form field 14
    */
   other?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "StateTaxInfos" field
+   * State tax-related information. content of IRS W2 form field 15 to 17
    */
   stateTaxInfos?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2StateTaxInfosElement>>;
   /**
-   * `TaxUsW2` "LocalTaxInfos" field
+   * Local tax-related information. Content of IRS W2 form field 18 to 20
    */
   localTaxInfos?: fr.DocumentArrayField<fr.DocumentObjectField<TaxUsW2LocalTaxInfosElement>>;
 }
@@ -170,15 +170,15 @@ export interface TaxUsW2Fields {
  */
 export interface TaxUsW2Employee {
   /**
-   * `TaxUsW2` "SocialSecurityNumber" field
+   * Employee social security number. IRS W2 form field a. eg: '123-45-6789'
    */
   socialSecurityNumber?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Name" field
+   * Employee's first name, middle full/initials name, last name and suffix. IRS W2 form field e
    */
   name?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Address" field
+   * Employee's address. Part of IRS W2 form field f
    */
   address?: fr.DocumentAddressField;
 }
@@ -188,69 +188,75 @@ export interface TaxUsW2Employee {
  */
 export interface TaxUsW2Employer {
   /**
-   * `TaxUsW2` "IdNumber" field
+   * Employer's identification number. IRS W2 form field b
    */
   idNumber?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Name" field
+   * Employer's name. Part of IRS W2 form field c
    */
   name?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Address" field
+   * Employer's address. Part of IRS W2 form field c
    */
   address?: fr.DocumentAddressField;
 }
 
 /**
  * Describes the fields of `TaxUsW2AdditionalInfoElement`.
+ *
+ * Array holding W2 Codes. IRS W2 form field 12
  */
 export interface TaxUsW2AdditionalInfoElement {
   /**
-   * `TaxUsW2` "LetterCode" field
+   * Please refer to https://www.irs.gov/pub/irs-pdf/iw2w3.pdf for more details on IRS W2 box 12's letter code
    */
   letterCode?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "Amount" field
+   * Code amount in USD
    */
   amount?: fr.DocumentNumberField;
 }
 
 /**
  * Describes the fields of `TaxUsW2StateTaxInfosElement`.
+ *
+ * State tax-related information. content of IRS W2 form field 15 to 17
  */
 export interface TaxUsW2StateTaxInfosElement {
   /**
-   * `TaxUsW2` "State" field
+   * Two letter state code. Part of IRS W2 form field 15
    */
   state?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "EmployerStateIdNumber" field
+   * Employer state ID number. Part of IRS W2 form field 15
    */
   employerStateIdNumber?: fr.DocumentStringField;
   /**
-   * `TaxUsW2` "StateWagesTipsEtc " field
+   * State wages, tips, etc amount in USD. IRS W2 form field 16
    */
   stateWagesTipsEtc?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "StateIncomeTax " field
+   * State income tax amount in USD. IRS W2 form field 17
    */
   stateIncomeTax?: fr.DocumentNumberField;
 }
 
 /**
  * Describes the fields of `TaxUsW2LocalTaxInfosElement`.
+ *
+ * Local tax-related information. Content of IRS W2 form field 18 to 20
  */
 export interface TaxUsW2LocalTaxInfosElement {
   /**
-   * `TaxUsW2` "LocalWagesTipsEtc" field
+   * Local wages, tips, etc amount in USD. Part of IRS W2 form field 18
    */
   localWagesTipsEtc?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "LocalIncomeTax" field
+   * Local income tax amount in USD. Part of IRS W2 form field 19
    */
   localIncomeTax?: fr.DocumentNumberField;
   /**
-   * `TaxUsW2` "LocalityName" field
+   * Locality name. Part of IRS W2 form field 20
    */
   localityName?: fr.DocumentStringField;
 }
@@ -262,144 +268,219 @@ function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.w2",
     description: "Extract key information from IRS US W2 tax forms (year 2018-2021).",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       "tax.us.w2": {
         buildMode: "template",
         fieldSchema: {
           W2FormVariant: {
             type: "string",
+            description:
+              "IRS W2 Form variant. This field can have the one of the following values: 'W-2', 'W-2AS', 'W-2CM', 'W-2GU' or 'W-2VI'",
+            example: "W-2",
           },
           TaxYear: {
             type: "string",
+            description: "Form tax year",
+            example: "2021",
           },
           W2Copy: {
             type: "string",
+            description: "W2 form copy version along with printed instruction realted to this copy",
+            example: "Copy A—For Social Security Administration",
           },
           Employee: {
             type: "object",
             properties: {
               SocialSecurityNumber: {
                 type: "string",
+                description:
+                  "Employee social security number. IRS W2 form field a. eg: '123-45-6789'",
+                example: "123-45-6789",
               },
               Name: {
                 type: "string",
+                description:
+                  "Employee's first name, middle full/initials name, last name and suffix. IRS W2 form field e",
+                example: "John Contonso",
               },
               Address: {
                 type: "address",
+                description: "Employee's address. Part of IRS W2 form field f",
+                example: "123 Microsoft way, Redmond WA, 98123",
               },
             },
           },
           ControlNumber: {
             type: "string",
+            description: "W2 Form control number. IRS W2 form field d",
+            example: "0AB12 D345 7890",
           },
           Employer: {
             type: "object",
             properties: {
               IdNumber: {
                 type: "string",
+                description: "Employer's identification number. IRS W2 form field b",
+                example: "12-3456789",
               },
               Name: {
                 type: "string",
+                description: "Employer's name. Part of IRS W2 form field c",
+                example: "Fabrikam",
               },
               Address: {
                 type: "address",
+                description: "Employer's address. Part of IRS W2 form field c",
+                example: "321 Microsoft way, Redmond WA, 98123",
               },
             },
           },
           WagesTipsAndOtherCompensation: {
             type: "number",
+            description: "Wages, tips, and other compensation amount in USD. IRS W2 form field 1",
+            example: "1234567.89",
           },
           FederalIncomeTaxWithheld: {
             type: "number",
+            description: "Federal income tax withheld amount in USD. IRS W2 form field 2",
+            example: "1234567.89",
           },
           SocialSecurityWages: {
             type: "number",
+            description: "Social security wages amount in USD. IRS W2 form field 3",
+            example: "1234567.89",
           },
           SocialSecurityTaxWithheld: {
             type: "number",
+            description: "Social security tax withheld amount in USD. IRS W2 form field 4",
+            example: "1234567.89",
           },
           MedicareWagesAndTips: {
             type: "number",
+            description: "Medicare wages and tips amount in USD. IRS W2 form field 5",
+            example: "1234567.89",
           },
           MedicareTaxWithheld: {
             type: "number",
+            description: "Medicare tax withheld amount in USD. IRS W2 form field 6",
+            example: "1234567.89",
           },
           SocialSecurityTips: {
             type: "number",
+            description: "Social security tips amount in USD. IRS W2 form field 7",
+            example: "1234567.89",
           },
           AllocatedTips: {
             type: "number",
+            description: "Allocated tips in USD. IRS W2 form field 8",
+            example: "1234567.89",
           },
           VerificationCode: {
             type: "string",
+            description: "W2 form verification code. IRS W2 form field 9",
+            example: "AB123456",
           },
           DependentCareBenefits: {
             type: "number",
+            description: "Dependent care benefits amount in USD. IRS W2 form field 10",
+            example: "1234567.89",
           },
           NonQualifiedPlans: {
             type: "number",
+            description: "Non-qualified plans amount in USD. IRS W2 form field 11",
+            example: "1234567.89",
           },
           AdditionalInfo: {
             type: "array",
+            description: "Array holding W2 Codes. IRS W2 form field 12",
             items: {
               type: "object",
               properties: {
                 LetterCode: {
                   type: "string",
+                  description:
+                    "Please refer to https://www.irs.gov/pub/irs-pdf/iw2w3.pdf for more details on IRS W2 box 12's letter code",
+                  example: "A",
                 },
                 Amount: {
                   type: "number",
+                  description: "Code amount in USD",
+                  example: "1234567.89",
                 },
               },
             },
           },
           IsStatutoryEmployee: {
             type: "string",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            example: "true",
           },
           IsRetirementPlan: {
             type: "string",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            example: "true",
           },
           IsThirdPartySickPay: {
             type: "string",
+            description: "Part of IRS W2 form field 13. Can be 'true' or 'false'",
+            example: "true",
           },
           Other: {
             type: "string",
+            description: "Content of IRS W2 form field 14",
+            example: "SICK LV WAGES SBJT TO $511/DAY LIMIT 1356",
           },
           StateTaxInfos: {
             type: "array",
+            description: "State tax-related information. content of IRS W2 form field 15 to 17",
             items: {
               type: "object",
               properties: {
                 State: {
                   type: "string",
+                  description: "Two letter state code. Part of IRS W2 form field 15",
+                  example: "WA",
                 },
                 EmployerStateIdNumber: {
                   type: "string",
+                  description: "Employer state ID number. Part of IRS W2 form field 15",
+                  example: "1234567",
                 },
                 "StateWagesTipsEtc ": {
                   type: "number",
+                  description: "State wages, tips, etc amount in USD. IRS W2 form field 16",
+                  example: "1234567.89",
                 },
                 "StateIncomeTax ": {
                   type: "number",
+                  description: "State income tax amount in USD. IRS W2 form field 17",
+                  example: "1234567.89",
                 },
               },
             },
           },
           LocalTaxInfos: {
             type: "array",
+            description: "Local tax-related information. Content of IRS W2 form field 18 to 20",
             items: {
               type: "object",
               properties: {
                 LocalWagesTipsEtc: {
                   type: "number",
+                  description: "Local wages, tips, etc amount in USD. Part of IRS W2 form field 18",
+                  example: "1234567.89",
                 },
                 LocalIncomeTax: {
                   type: "number",
+                  description: "Local income tax amount in USD. Part of IRS W2 form field 19",
+                  example: "1234567.89",
                 },
                 LocalityName: {
                   type: "string",
+                  description: "Locality name. Part of IRS W2 form field 20",
+                  example: "Redmond",
                 },
               },
             },
