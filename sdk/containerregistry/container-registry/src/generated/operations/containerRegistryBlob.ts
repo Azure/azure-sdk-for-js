@@ -290,17 +290,12 @@ const deleteBlobOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
       headersMapper: Mappers.ContainerRegistryBlobDeleteBlobHeaders
     },
     404: {},
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept3],
   serializer
 };
 const mountBlobOperationSpec: coreClient.OperationSpec = {
