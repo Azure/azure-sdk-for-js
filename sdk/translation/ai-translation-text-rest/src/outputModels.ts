@@ -88,7 +88,7 @@ export interface ErrorResponseOutput {
 
 /** Error details as returned by Translator Service. */
 export interface ErrorDetailsOutput {
-  /** Number indetifier of the error. */
+  /** Number identifier of the error. */
   code: number;
   /** Human readable error description. */
   message: string;
@@ -130,19 +130,19 @@ export interface TranslationOutput {
   /** A string giving the translated text. */
   text: string;
   /** An object giving the translated text in the script specified by the toScript parameter. */
-  transliteration?: TransliterationOutput;
+  transliteration?: TransliteratedTextOutput;
   /** Alignment information. */
   alignment?: TranslatedTextAlignmentOutput;
   /** Sentence boundaries in the input and output texts. */
   sentLen?: SentenceLengthOutput;
 }
 
-/** An object giving the translated text in the script specified by the toScript parameter. */
-export interface TransliterationOutput {
-  /** A string specifying the target script. */
-  script: string;
-  /** A string giving the translated text in the target script. */
+/** Transliterated text element. */
+export interface TransliteratedTextOutput {
+  /** A string which is the result of converting the input string to the output script. */
   text: string;
+  /** A string specifying the script used in the output. */
+  script: string;
 }
 
 /** Alignment information object. */
@@ -178,15 +178,7 @@ export interface SourceTextOutput {
   text: string;
 }
 
-/** Transliterated text element. */
-export interface TransliteratedTextOutput {
-  /** A string which is the result of converting the input string to the output script. */
-  text: string;
-  /** A string specifying the script used in the output. */
-  script: string;
-}
-
-/** Elemented containing break sentence result. */
+/** Item containing break sentence result. */
 export interface BreakSentenceItemOutput {
   /** The detectedLanguage property is only present in the result object when language auto-detection is requested. */
   detectedLanguage?: DetectedLanguageOutput;

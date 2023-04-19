@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230418
+      typescript: 5.1.0-dev.20230419
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230418:
-    resolution: {integrity: sha512-BfA/KV0xddF8ZCAQZxZ0FoS8p+nWKXVaa5fctXW6WNGfcYF04cXlLB6F6uf3uCVbd0iad4YdHchz3KR0722QLg==}
+  /typescript/5.1.0-dev.20230419:
+    resolution: {integrity: sha512-J8QfDyJDC/8fpA7fzlVBx4zSR+dGVd6afEpu6nEtplA98lcW3NHA7v9KcQ0AJ8SZGoCDLIl+8BVfiI/CkFS2fg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9861,7 +9861,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-text.tgz:
-    resolution: {integrity: sha512-QJvymUqyrflOHRCahJwdx3PQ8POsQDgqu85bEOExvQPVB5hQCGjrMSsa8mkuL4cYlonWe5+UjKxxlge4Ke9IAQ==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-+LZrnKC6WEXktJx5OM7vSu4A3EwsBCcnX3xS4R5x1MYKUzTkgXoC1xDrXPfX/fX/98de+6s5yKkX+bWeFoOt8Q==, tarball: file:projects/ai-translation-text.tgz}
     name: '@rush-temp/ai-translation-text'
     version: 0.0.0
     dependencies:
@@ -9893,7 +9893,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
