@@ -620,8 +620,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-        // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
-        it.skip("big document causes a warning", async function () {
+          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
+          it.skip("big document causes a warning", async function () {
             let text = "";
             for (let i = 0; i < 5121; ++i) {
               text = text + "x";
