@@ -13,17 +13,18 @@ import {
 } from "@azure/core-client";
 import {
   Cluster as ClusterMapper,
-  ClusterQuotaConfigurationProperties as ClusterQuotaConfigurationPropertiesMapper,
   EHNamespace as EHNamespaceMapper,
   NetworkRuleSet as NetworkRuleSetMapper,
   AuthorizationRule as AuthorizationRuleMapper,
   RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
   CheckNameAvailabilityParameter as CheckNameAvailabilityParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  Eventhub as EventhubMapper,
+  ClusterQuotaConfigurationProperties as ClusterQuotaConfigurationPropertiesMapper,
   ArmDisasterRecovery as ArmDisasterRecoveryMapper,
+  Eventhub as EventhubMapper,
   ConsumerGroup as ConsumerGroupMapper,
-  SchemaGroup as SchemaGroupMapper
+  SchemaGroup as SchemaGroupMapper,
+  ApplicationGroup as ApplicationGroupMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -64,7 +65,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -134,11 +135,6 @@ export const nextLink: OperationURLParameter = {
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterQuotaConfigurationPropertiesMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
   mapper: EHNamespaceMapper
 };
 
@@ -157,12 +153,12 @@ export const namespaceName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: NetworkRuleSetMapper
 };
 
-export const parameters4: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: AuthorizationRuleMapper
 };
@@ -181,17 +177,17 @@ export const authorizationRuleName: OperationURLParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateAccessKeyParametersMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckNameAvailabilityParameterMapper
 };
 
-export const parameters7: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -200,6 +196,57 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
     serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceAssociationName: OperationURLParameter = {
+  parameterPath: "resourceAssociationName",
+  mapper: {
+    serializedName: "resourceAssociationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ClusterQuotaConfigurationPropertiesMapper
+};
+
+export const alias: OperationURLParameter = {
+  parameterPath: "alias",
+  mapper: {
+    constraints: {
+      MaxLength: 50,
+      MinLength: 1
+    },
+    serializedName: "alias",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ArmDisasterRecoveryMapper
+};
+
+export const eventHubName: OperationURLParameter = {
+  parameterPath: "eventHubName",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1
+    },
+    serializedName: "eventHubName",
     required: true,
     type: {
       name: "String"
@@ -235,44 +282,9 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EventhubMapper
-};
-
-export const eventHubName: OperationURLParameter = {
-  parameterPath: "eventHubName",
-  mapper: {
-    constraints: {
-      MaxLength: 256,
-      MinLength: 1
-    },
-    serializedName: "eventHubName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArmDisasterRecoveryMapper
-};
-
-export const alias: OperationURLParameter = {
-  parameterPath: "alias",
-  mapper: {
-    constraints: {
-      MaxLength: 50,
-      MinLength: 1
-    },
-    serializedName: "alias",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: EventhubMapper
 };
 
 export const parameters10: OperationParameter = {
@@ -308,6 +320,26 @@ export const schemaGroupName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "schemaGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApplicationGroupMapper
+};
+
+export const applicationGroupName: OperationURLParameter = {
+  parameterPath: "applicationGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1
+    },
+    serializedName: "applicationGroupName",
     required: true,
     type: {
       name: "String"

@@ -108,7 +108,7 @@ export function completeMessage(
       }),
     {
       spanLinks,
-      ...toSpanOptions({ entityPath, host: context.config.host }, "client"),
+      ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
     }
   );
 }
@@ -141,7 +141,7 @@ export function abandonMessage(
       }),
     {
       spanLinks,
-      ...toSpanOptions({ entityPath, host: context.config.host }, "client"),
+      ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
     }
   );
 }
@@ -174,7 +174,7 @@ export function deferMessage(
       }),
     {
       spanLinks,
-      ...toSpanOptions({ entityPath, host: context.config.host }, "client"),
+      ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
     }
   );
 }
@@ -229,7 +229,7 @@ export function deadLetterMessage(
       ),
     {
       spanLinks,
-      ...toSpanOptions({ entityPath, host: context.config.host }, "client"),
+      ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
     }
   );
 }

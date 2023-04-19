@@ -244,7 +244,8 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
       originalMessage,
       options,
       this._context.config.entityPath!,
-      this._context.config.host
+      this._context.config.host,
+      "publish"
     );
 
     // Convert ServiceBusMessage to AmqpMessage.
