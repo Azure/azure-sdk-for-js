@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2023-01-03.
+- Added access rights in each handles returned by ShareDirectoryClient.listHandles()/ShareFileClient.listHandles().
+
 ### Breaking Changes
 
 ### Bugs Fixed
