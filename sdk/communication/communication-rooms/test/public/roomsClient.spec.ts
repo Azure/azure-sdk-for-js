@@ -166,7 +166,7 @@ describe("RoomsClient", function () {
       assert.isDefined(createRoomResult);
       roomId = createRoomResult.id;
 
-      await client.upsertParticipants(roomId, participants);
+      await client.addOrRemoveParticipants(roomId, participants);
       const addParticipantsResult = await client.listParticipants(roomId);
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult);
@@ -208,8 +208,7 @@ describe("RoomsClient", function () {
       roomId = createRoomResult.id;
 
       const participants = [testUser, testUser2];
-      const removeParticipantsResults = await client.removeParticipants(roomId, participants);
-      assert.isEmpty(removeParticipantsResults);
+      await client.removeParticipants(roomId, participants);
     });
 
     it("successfully updates a participant", async function () {
@@ -233,7 +232,7 @@ describe("RoomsClient", function () {
           role: "Presenter",
         },
       ];
-      await client.upsertParticipants(roomId, participants);
+      await client.addOrRemoveParticipants(roomId, participants);
       const allParticipants = await client.listParticipants(roomId);
       assert.isDefined(allParticipants);
       for await (const participant of allParticipants) {

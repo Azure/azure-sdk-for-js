@@ -60,24 +60,3 @@ export type UpsertParticipantsOptions = OperationOptions;
  * Options to remove participants from a room.
  */
 export type RemoveParticipantsOptions = OperationOptions;
-
-/**
- * Results of participant upsert operation
- */
-export interface UpsertParticipantsResult {}
-
-/**
- * Results of participant removal operation
- */
-export interface RemoveParticipantsResult {}
-
-/**
- * Arguments for retrieving the next page of search results.
- */
-export interface ListPageSettings {
-  /**
-   * A token used for retrieving the next page of results when the server
-   * enforces pagination.
-   */
-  continuationToken?: string;
-}

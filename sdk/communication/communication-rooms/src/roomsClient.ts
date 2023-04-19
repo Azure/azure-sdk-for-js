@@ -23,15 +23,12 @@ import {
   CreateRoomOptions,
   DeleteRoomOptions,
   GetRoomOptions,
-  ListPageSettings,
   ListParticipantsOptions,
   ListRoomOptions,
   RemoveParticipantsOptions,
-  RemoveParticipantsResult,
   RoomsClientOptions,
   UpdateRoomOptions,
-  UpsertParticipantsOptions,
-  UpsertParticipantsResult,
+  UpsertParticipantsOptions
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -46,9 +43,15 @@ const isRoomsClientOptions = (options: any): options is RoomsClientOptions =>
 
 /**
  * @internal
- * Empty response object
+ * Arguments for retrieving the next page of search results.
  */
-const EmptyResponse = {};
+interface ListPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
+}
 
 /**
  * The Rooms service client.
@@ -304,20 +307,19 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
-  public async upsertParticipants(
+  public async addOrRemoveParticipants(
     roomId: string,
     participants: RoomParticipantPatch[],
     options: UpsertParticipantsOptions = {}
-  ): Promise<UpsertParticipantsResult> {
+  ): Promise<void> {
     return tracingClient.withSpan(
       "RoomsClient-UpsertParticipants",
       options,
-      async (updatedOptions) => {
-        await this.client.participants.update(roomId, {
+      (updatedOptions) => {
+        this.client.participants.update(roomId, {
           ...updatedOptions,
           participants: mapRoomParticipantToRawId(participants),
         });
-        return EmptyResponse;
       }
     );
   }
@@ -325,24 +327,23 @@ export class RoomsClient {
   /**
    * Removes Participants from a Room asynchronously.
    * @param roomId - ID of the room.
-   * @param participants - List of participants to remove from room.
+   * @param participantIdentifiers - List of participants' communication identifiers to remove from room.
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
   public async removeParticipants(
     roomId: string,
-    participants: CommunicationIdentifier[],
+    participantIdentifiers: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {}
-  ): Promise<RemoveParticipantsResult> {
+  ): Promise<void> {
     return tracingClient.withSpan(
       "RoomsClient-RemoveParticipants",
       options,
-      async (updatedOptions) => {
-        await this.client.participants.update(roomId, {
+      (updatedOptions) => {
+        this.client.participants.update(roomId, {
           ...updatedOptions,
-          participants: mapRoomParticipantForRemoval(participants),
+          participants: mapRoomParticipantForRemoval(participantIdentifiers),
         });
-        return EmptyResponse;
       }
     );
   }

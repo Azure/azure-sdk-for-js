@@ -34,11 +34,6 @@ export type DeleteRoomOptions = OperationOptions;
 export type GetRoomOptions = OperationOptions;
 
 // @public
-export interface ListPageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export type ListParticipantsOptions = OperationOptions;
 
 // @public
@@ -49,10 +44,6 @@ export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;
-
-// @public
-export interface RemoveParticipantsResult {
-}
 
 // @public
 export interface RoomParticipant {
@@ -70,14 +61,14 @@ export interface RoomParticipantPatch {
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
+    addOrRemoveParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<void>;
     createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
     listParticipants(roomId: string, options?: ListParticipantsOptions): PagedAsyncIterableIterator<RoomParticipant>;
     listRooms(options?: ListRoomOptions): PagedAsyncIterableIterator<CommunicationRoom>;
-    removeParticipants(roomId: string, participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
+    removeParticipants(roomId: string, participantIdentifiers: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
     updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
-    upsertParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<UpsertParticipantsResult>;
 }
 
 // @public
@@ -92,10 +83,6 @@ export interface UpdateRoomOptions extends OperationOptions {
 
 // @public
 export type UpsertParticipantsOptions = OperationOptions;
-
-// @public
-export interface UpsertParticipantsResult {
-}
 
 // (No @packageDocumentation comment for this package)
 
