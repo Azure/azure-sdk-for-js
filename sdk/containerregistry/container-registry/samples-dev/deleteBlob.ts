@@ -7,8 +7,7 @@
  */
 
 import {
-  ContainerRegistryContentClient,
-  isGetOciImageManifestResult,
+  ContainerRegistryContentClient, isOciImageManifest,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +26,7 @@ async function main() {
 
   const downloadResult = await client.getManifest("latest");
 
-  if (!isGetOciImageManifestResult(downloadResult)) {
+  if (!isOciImageManifest(downloadResult.manifest)) {
     throw new Error("Expected an OCI image manifest");
   }
 

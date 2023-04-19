@@ -83,7 +83,7 @@ export class ContainerRegistryContentClient {
     readonly endpoint: string;
     getManifest(tagOrDigest: string, options?: GetManifestOptions): Promise<GetManifestResult>;
     readonly repositoryName: string;
-    setManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: SetManifestOptions): Promise<SetManifestResult>;
+    setManifest(manifest: Buffer | NodeJS.ReadableStream | Record<string, unknown>, options?: SetManifestOptions): Promise<SetManifestResult>;
     uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
 }
 
@@ -165,13 +165,8 @@ export interface GetManifestPropertiesOptions extends OperationOptions {
 export interface GetManifestResult {
     content: Buffer;
     digest: string;
+    manifest: Record<string, unknown>;
     mediaType: string;
-}
-
-// @public
-export interface GetOciImageManifestResult extends GetManifestResult {
-    manifest: OciImageManifest;
-    mediaType: KnownManifestMediaType.OciImageManifest;
 }
 
 // @public
@@ -183,7 +178,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isGetOciImageManifestResult(downloadResult: GetManifestResult): downloadResult is GetOciImageManifestResult;
+export function isOciImageManifest(manifest: Record<string, unknown>): manifest is OciImageManifest;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -257,7 +252,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 // @public
 export interface OciAnnotations extends Record<string, unknown> {
     authors?: string;
-    createdOn?: Date;
+    created?: string;
     description?: string;
     documentation?: string;
     licenses?: string;
@@ -275,17 +270,19 @@ export interface OciDescriptor {
     annotations?: OciAnnotations;
     digest: string;
     mediaType: string;
-    sizeInBytes: number;
+    size: number;
     urls?: string[];
 }
 
 // @public
-export interface OciImageManifest {
-    annotations?: OciAnnotations;
-    configuration: OciDescriptor;
+export type OciImageManifest = {
+    schemaVersion: 2;
+    mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+    artifactType?: string;
+    config: OciDescriptor;
     layers: OciDescriptor[];
-    schemaVersion: number;
-}
+    annotations?: OciAnnotations;
+};
 
 // @public
 export interface RegistryArtifact {
