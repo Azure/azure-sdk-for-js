@@ -2,13 +2,9 @@
 
 ## 1.0.0
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- GA release
 
 ## 1.0.0-beta.2 (Unreleased)
 

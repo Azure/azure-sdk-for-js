@@ -3989,7 +3989,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230417
+      typescript: 5.1.0-dev.20230419
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8857,8 +8857,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230417:
-    resolution: {integrity: sha512-bEjKfPjxAgvrUViweybCkB++3y9qyF4hCBeXOf998QQDJpLAcaQWmub4IoPZ5yTvrkuGuNzFpy46tytA4p1fbA==}
+  /typescript/5.1.0-dev.20230419:
+    resolution: {integrity: sha512-J8QfDyJDC/8fpA7fzlVBx4zSR+dGVd6afEpu6nEtplA98lcW3NHA7v9KcQ0AJ8SZGoCDLIl+8BVfiI/CkFS2fg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9478,7 +9478,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-lIfD44U469HteTBahMTZrvTE3LgYEwU3Bh4szczo87I+A1ArimnuYLL3NxWVgYrYJvf4RGTjCV6hDv43xjf6rA==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-GXDz1bm+pvpafZb0WQeC0khkN8V7WjX3mr/hyB6/m43CxDOB2auCYfxKmAbuxhZFuji+1F8RPm5ebmdBHeaekA==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9511,7 +9511,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.8.4
+      typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
       - debug
