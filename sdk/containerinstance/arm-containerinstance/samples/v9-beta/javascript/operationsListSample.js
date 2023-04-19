@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List the operations for Azure Container Instance service.
  *
  * @summary List the operations for Azure Container Instance service.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/OperationsList.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId =
