@@ -507,9 +507,9 @@ export interface Platform {
 /** Returns the requested OCI Manifest file */
 export interface OCIManifest {
   /** V2 image config descriptor */
-  config: Descriptor;
+  configuration?: Descriptor;
   /** List of V2 image layer information */
-  layers: Descriptor[];
+  layers?: Descriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: Annotations;
   /** Schema version */
@@ -1100,22 +1100,7 @@ export interface ContainerRegistryBlobDeleteBlobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteBlob operation. */
-export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
+export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryBlobMountBlobOptionalParams

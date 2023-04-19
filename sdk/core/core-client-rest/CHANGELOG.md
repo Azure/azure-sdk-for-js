@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.2 (2023-04-06)
+
+### Bugs Fixed
+
+- fix unexpected url encoding when apiVersionPolicy applies and even if we have passed the skipUrlEncoding as true in the request.
 
 ## 1.1.1 (2023-03-02)
 

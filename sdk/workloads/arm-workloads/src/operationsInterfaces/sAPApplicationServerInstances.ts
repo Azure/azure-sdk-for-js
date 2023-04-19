@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPApplicationServerInstance,
   SAPApplicationServerInstancesListOptionalParams,
@@ -68,8 +68,8 @@ export interface SAPApplicationServerInstances {
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesCreateResponse>,
       SAPApplicationServerInstancesCreateResponse
     >
   >;
@@ -100,8 +100,8 @@ export interface SAPApplicationServerInstances {
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesUpdateResponse>,
       SAPApplicationServerInstancesUpdateResponse
     >
   >;
@@ -132,8 +132,8 @@ export interface SAPApplicationServerInstances {
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesDeleteResponse>,
       SAPApplicationServerInstancesDeleteResponse
     >
   >;
@@ -164,8 +164,8 @@ export interface SAPApplicationServerInstances {
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesStartInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesStartInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesStartInstanceResponse>,
       SAPApplicationServerInstancesStartInstanceResponse
     >
   >;
@@ -195,8 +195,8 @@ export interface SAPApplicationServerInstances {
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesStopInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPApplicationServerInstancesStopInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPApplicationServerInstancesStopInstanceResponse>,
       SAPApplicationServerInstancesStopInstanceResponse
     >
   >;

@@ -21,6 +21,8 @@ import {
   RecognizeCompleted,
   RecognizeCanceled,
   RecognizeFailed,
+  RemoveParticipantSucceeded,
+  RemoveParticipantFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -32,7 +34,7 @@ const serializer = createSerializer();
  * Helper class for parsing Acs callback events.
  */
 export class CallAutomationEventParser {
-  public async parse(encodedEvents: string): Promise<CallAutomationEvent>;
+  public async parse(encodedEvent: string): Promise<CallAutomationEvent>;
 
   public async parse(encodedEvents: Record<string, unknown>): Promise<CallAutomationEvent>;
 
@@ -52,11 +54,19 @@ export class CallAutomationEventParser {
     switch (eventType) {
       case "Microsoft.Communication.AddParticipantSucceeded":
         callbackEvent = { kind: "AddParticipantSucceeded" } as AddParticipantSucceeded;
-        data.participant = communicationIdentifierConverter(data.participant);
+        parsed.participant = communicationIdentifierConverter(data.participant);
         break;
       case "Microsoft.Communication.AddParticipantFailed":
         callbackEvent = { kind: "AddParticipantFailed" } as AddParticipantFailed;
-        data.participant = communicationIdentifierConverter(data.participant);
+        parsed.participant = communicationIdentifierConverter(data.participant);
+        break;
+      case "Microsoft.Communication.RemoveParticipantSucceeded":
+        callbackEvent = { kind: "RemoveParticipantSucceeded" } as RemoveParticipantSucceeded;
+        parsed.participant = communicationIdentifierConverter(data.participant);
+        break;
+      case "Microsoft.Communication.RemoveParticipantFailed":
+        callbackEvent = { kind: "RemoveParticipantFailed" } as RemoveParticipantFailed;
+        parsed.participant = communicationIdentifierConverter(data.participant);
         break;
       case "Microsoft.Communication.CallConnected":
         callbackEvent = { kind: "CallConnected" } as CallConnected;

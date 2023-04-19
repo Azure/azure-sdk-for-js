@@ -222,7 +222,7 @@ export class MsalBaseUtilities {
 // transformations.ts
 
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
-  const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [];
+  const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [""];
   return {
     ...account,
     localAccountId: account.homeAccountId,

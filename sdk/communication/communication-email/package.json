@@ -83,7 +83,7 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0"
   },

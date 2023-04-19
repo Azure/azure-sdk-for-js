@@ -17,6 +17,7 @@ import { camelCase, capitalize, uncapitalize, Field } from "./utils";
 const sampleHeader = `
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 `;
 
@@ -223,7 +224,12 @@ function* writeField(field: Field): Iterable<string> {
   yield "/**";
   yield* field.docContents.split(/\r?\n/).map((line) => ` * ${line}`);
   yield " */";
-  yield `${field.name}${field.optional ? "?" : ""}: ${field.type};`;
+
+  // If the field name has an illegal character, we need to quote it.
+  const needsQuotes = !/^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(field.name);
+  const printedFieldName = needsQuotes ? `"${field.name}"` : field.name;
+
+  yield `${printedFieldName}${field.optional ? "?" : ""}: ${field.type};`;
 }
 
 /**
@@ -301,7 +307,8 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
       yield* indent(
         flatMap(
           fieldEntries.map(([fieldName, schema]) => ({
-            name: uncapitalize(fieldName),
+            // Uncapitalize the field name and remove all whitespace
+            name: uncapitalize(fieldName).replace(/\s/g, ""),
             type: writeType(schema, fieldName, docType.slug),
             docContents: schema.description ?? `\`${docType.name}\` "${fieldName}" field`,
             optional: true as const,
@@ -339,6 +346,7 @@ function writeType(schema: DocumentFieldSchema, name: string, slug: string[]): s
       time: "fr.DocumentTimeField",
       date: "fr.DocumentDateField",
       number: "fr.DocumentNumberField",
+      boolean: "fr.DocumentBooleanField",
       phoneNumber: "fr.DocumentPhoneNumberField",
       selectionMark: "fr.DocumentSelectionMarkField",
       signature: "fr.DocumentSignatureField",
