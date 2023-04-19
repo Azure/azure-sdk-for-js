@@ -64,7 +64,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     const manifest: OciImageManifest = {
       schemaVersion: 2,
-      config: {
+      configuration: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
         sizeInBytes: 171,
@@ -271,6 +271,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const bigBlob = Buffer.alloc(bufferSize, 0x00);
       const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
       assert.equal(sizeInBytes, bufferSize);
+      await client.deleteBlob(digest);
+    });
+
+    it("deleteBlob should succeed when trying to delete a nonexistent blob", async function () {
+      // Digest is just the shasum of the string "i dont exist"
+      const digest = "sha256:b76ba664a289336a4af5d4e262d691dbc2940576dca60a71dfe1b6f73b44658a";
       await client.deleteBlob(digest);
     });
   });

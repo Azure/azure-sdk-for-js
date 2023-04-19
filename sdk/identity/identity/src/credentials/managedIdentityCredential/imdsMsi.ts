@@ -175,13 +175,7 @@ export const imdsMsi: MSI = {
         });
         const tokenResponse = await identityClient.sendTokenRequest(request);
 
-        return (
-          (tokenResponse && {
-            ...tokenResponse.accessToken,
-            refreshesOn: tokenResponse.refreshesIn,
-          }) ||
-          null
-        );
+        return (tokenResponse && tokenResponse.accessToken) || null;
       } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);

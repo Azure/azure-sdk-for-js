@@ -29,6 +29,8 @@ export interface CreateCallRequest {
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The identifier of the Cognitive Service resource assigned to this call. */
   azureCognitiveServicesEndpointUrl?: string;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
 }
 
 export interface CommunicationIdentifierModel {
@@ -68,6 +70,13 @@ export interface MediaStreamingConfiguration {
   contentType: MediaStreamingContentType;
   /** Audio channel type to stream, eg. unmixed audio, mixed audio */
   audioChannelType: MediaStreamingAudioChannelType;
+}
+
+export interface CustomContext {
+  /** Dictionary of <string> */
+  voipHeaders?: { [propertyName: string]: string };
+  /** Dictionary of <string> */
+  sipHeaders?: { [propertyName: string]: string };
 }
 
 /** Properties of a call connection */
@@ -128,6 +137,8 @@ export interface RedirectCallRequest {
   incomingCallContext: string;
   /** The target identity to redirect the call to. */
   target: CommunicationIdentifierModel;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
 }
 
 /** The request payload for rejecting the call. */
@@ -142,19 +153,10 @@ export interface RejectCallRequest {
 export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transferred to. */
   targetParticipant: CommunicationIdentifierModel;
-  /** The caller ID of the transferee when transferring to PSTN. */
-  transfereeCallerId?: PhoneNumberIdentifierModel;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-}
-
-export interface CustomContext {
-  /** Dictionary of <string> */
-  voipHeaders?: { [propertyName: string]: string };
-  /** Dictionary of <string> */
-  sipHeaders?: { [propertyName: string]: string };
 }
 
 /** The response payload for transferring the call. */
@@ -186,6 +188,8 @@ export interface PlaySourceInternal {
   fileSource?: FileSourceInternal;
   /** Defines the text source info to be used for play */
   textSource?: TextSource;
+  /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
+  ssmlSource?: SsmlSource;
 }
 
 export interface FileSourceInternal {
@@ -208,6 +212,11 @@ export interface TextSource {
    * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   voiceName?: string;
+}
+
+export interface SsmlSource {
+  /** Ssml string for the cognitive service to be played */
+  ssmlText: string;
 }
 
 export interface PlayOptionsInternal {
@@ -235,6 +244,8 @@ export interface RecognizeOptions {
   initialSilenceTimeoutInSeconds?: number;
   /** Target participant of DTMF tone recognition. */
   targetParticipant: CommunicationIdentifierModel;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
   /** Defines configurations for DTMF. */
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
@@ -375,10 +386,8 @@ export interface StartCallRecordingRequest {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
-  /** Recording storage mode. When set to 'BlobStorage', specify required parameter 'ExternalStorageLocation', to export recording to your own blob container. */
-  recordingStorageType?: RecordingStorageType;
-  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
-  externalStorageLocation?: string;
+  /** Optional property to specify location where recording will be stored */
+  externalStorage?: ExternalStorage;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -391,12 +400,25 @@ export interface CallLocator {
   kind?: CallLocatorKind;
 }
 
+export interface ExternalStorage {
+  /** Defines the type of external storage */
+  storageType: RecordingStorageType;
+  /** Defines the blob storage location where the recording will be stored */
+  blobStorage?: BlobStorage;
+}
+
+/** Used to specify Blob container url to recording storage */
+export interface BlobStorage {
+  /** Url of a container or a location within a container */
+  containerUri: string;
+}
+
 export interface RecordingStateResponse {
   recordingId?: string;
   recordingState?: RecordingState;
 }
 
-/** The failed to add participants event. */
+/** The failed to add participant event. */
 export interface AddParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -418,7 +440,7 @@ export interface ResultInformation {
   message?: string;
 }
 
-/** The participants successfully added event. */
+/** The participant successfully added event. */
 export interface AddParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -496,6 +518,40 @@ export interface ParticipantsUpdated {
   correlationId?: string;
   /** The list of participants in the call. */
   participants?: CallParticipantInternal[];
+  /** Sequence number to indicate order of ParticipantsUpdated events */
+  sequenceNumber?: number;
+}
+
+/** The participant removed event. */
+export interface RemoveParticipantSucceeded {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
+}
+
+/** The failed to remove participant event. */
+export interface RemoveParticipantFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
 }
 
 export interface RecordingStateChanged {
@@ -768,7 +824,9 @@ export enum KnownPlaySourceType {
   /** File */
   File = "file",
   /** Text */
-  Text = "text"
+  Text = "text",
+  /** Ssml */
+  Ssml = "ssml"
 }
 
 /**
@@ -777,7 +835,8 @@ export enum KnownPlaySourceType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **file** \
- * **text**
+ * **text** \
+ * **ssml**
  */
 export type PlaySourceType = string;
 
@@ -1047,14 +1106,14 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getCall operation. */
 export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallConnectionTerminateCallOptionalParams
@@ -1079,7 +1138,7 @@ export type CallConnectionTransferToParticipantResponse = TransferCallResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getParticipants operation. */
 export type CallConnectionGetParticipantsResponse = GetParticipantsResponse;
@@ -1134,22 +1193,22 @@ export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getParticipant operation. */
 export type CallConnectionGetParticipantResponse = CallParticipantInternal;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallMediaRecognizeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
@@ -1165,22 +1224,22 @@ export type CallRecordingStartRecordingResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingGetRecordingPropertiesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getRecordingProperties operation. */
 export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingPauseRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams

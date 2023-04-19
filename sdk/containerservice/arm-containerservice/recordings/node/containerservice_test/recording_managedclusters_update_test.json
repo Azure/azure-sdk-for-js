@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2023-02-02-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "39",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-containerservice/17.4.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5dbad773-6d07-43b3-9cc2-8e16c80aadbd"
+        "User-Agent": "azsdk-js-arm-containerservice/18.0.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "74264d29-a884-4fee-8eb2-3342b41ae0c9"
       },
       "RequestBody": {
         "tags": {
@@ -24,7 +24,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Mar 2023 08:12:55 GMT",
+        "Date": "Tue, 04 Apr 2023 08:57:19 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -32,13 +32,13 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6e7f5163-055b-4b18-80ab-d3e2b2aa4be2",
+        "x-ms-correlation-request-id": "5fc2a733-edb4-4ef1-a058-e0a98c6f8e65",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "33193c0e-7de7-45da-ba7e-7cd57b370c78",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230309T081255Z:6e7f5163-055b-4b18-80ab-d3e2b2aa4be2"
+        "x-ms-request-id": "24ba5292-490e-46a6-8bda-3f33001a33b3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230404T085719Z:5fc2a733-edb4-4ef1-a058-e0a98c6f8e65"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/czwjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
         "location": "eastus",
         "name": "myreourcexyz",
         "tags": {
@@ -51,11 +51,11 @@
           "powerState": {
             "code": "Running"
           },
-          "kubernetesVersion": "1.24.9",
-          "currentKubernetesVersion": "1.24.9",
+          "kubernetesVersion": "1.24.10",
+          "currentKubernetesVersion": "1.24.10",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-7uofgmw3.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-7uofgmw3.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-eu3el6ox.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-eu3el6ox.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -73,19 +73,19 @@
               "powerState": {
                 "code": "Running"
               },
-              "orchestratorVersion": "1.24.9",
-              "currentOrchestratorVersion": "1.24.9",
+              "orchestratorVersion": "1.24.10",
+              "currentOrchestratorVersion": "1.24.10",
               "mode": "System",
               "osType": "Linux",
               "osSKU": "Ubuntu",
-              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.02.15",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.22.0",
               "enableFIPS": false
             }
           ],
           "servicePrincipalProfile": {
             "clientId": "azure_client_id"
           },
-          "nodeResourceGroup": "MC_myjstest_myreourcexyz_eastus",
+          "nodeResourceGroup": "MC_czwjstest_myreourcexyz_eastus",
           "enableRBAC": true,
           "networkProfile": {
             "networkPlugin": "kubenet",
@@ -96,9 +96,10 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/3feda18d-e5fc-4c4e-be90-ab5af8265e41"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_czwjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/223071b7-214a-4edc-aa35-44f5efd9a959"
                 }
-              ]
+              ],
+              "backendPoolType": "nodeIPConfiguration"
             },
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",
@@ -119,7 +120,8 @@
           "securityProfile": {},
           "storageProfile": {
             "diskCSIDriver": {
-              "enabled": true
+              "enabled": true,
+              "version": "v1"
             },
             "fileCSIDriver": {
               "enabled": true
@@ -134,7 +136,7 @@
           "workloadAutoScalerProfile": {}
         },
         "sku": {
-          "name": "Basic",
+          "name": "Base",
           "tier": "Free"
         }
       }

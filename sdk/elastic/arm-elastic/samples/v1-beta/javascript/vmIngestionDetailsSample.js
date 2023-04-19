@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftElastic } = require("@azure/arm-elastic");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the vm ingestion details that will be monitored by the Elastic monitor resource.
  *
  * @summary List the vm ingestion details that will be monitored by the Elastic monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/VMIngestion_Details.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/VMIngestion_Details.json
  */
 async function vmIngestionDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function vmIngestionDetails() {
   console.log(result);
 }
 
-vmIngestionDetails().catch(console.error);
+async function main() {
+  vmIngestionDetails();
+}
+
+main().catch(console.error);

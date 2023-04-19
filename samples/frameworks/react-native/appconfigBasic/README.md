@@ -47,7 +47,7 @@ Open App.tsx and add the following code so it looks similar to following code
 
 ### Add the App Configuration sample file
 
-create a new file `appConfigSample.ts` in the sample directory as `App.tsx` with following content from [appConfigSample.ts](https://github.com/Azure/azure-sdk-for-js/samples/frameworks/react-native/appconfigBasic/appConfigSample.ts) file
+create a new file `appConfigSample.ts` in the sample directory as `App.tsx` with following content from [appConfigSample.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native/appconfigBasic/appConfigSample.ts) file
 
 ### Add dependencies
 

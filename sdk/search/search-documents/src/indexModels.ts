@@ -688,7 +688,7 @@ export interface AutocompleteRequest<Model extends object> {
   highlightPostTag?: string;
   /**
    * A string tag that is prepended to hit highlights. Must be set with highlightPostTag. If
-   * omitted, hit highlighting is disabled.availability
+   * omitted, hit highlighting is disabled.
    */
   highlightPreTag?: string;
   /**

@@ -89,7 +89,7 @@
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @alexokun @Mrayyan @shwali-msft @allchiang-msft @mikehang-msft
+/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4
@@ -144,10 +144,6 @@
 
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
-/sdk/purview/purview-sharing-rest/ @anniruddh
-
-# PRLabel: %Personalizer
-/sdk/personalizer/ @tyclintw
 
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi

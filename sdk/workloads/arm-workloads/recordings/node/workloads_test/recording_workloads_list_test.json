@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2022-11-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "211a4b0d-48f9-4350-add6-97c8d094e024"
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d1adee95-b25a-4f9d-be37-ce7e15fa62c1"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,29 +18,29 @@
         "Content-Encoding": "gzip",
         "Content-Length": "1256",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Feb 2023 06:35:56 GMT",
+        "Date": "Thu, 23 Mar 2023 03:56:13 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "93bbad0d-dcf0-465b-8286-bc873be182b3",
+        "x-ms-correlation-request-id": "7c061fb8-cfce-493c-be6a-99da01b722a6",
         "x-ms-original-request-ids": [
-          "d830aea3-d842-4a45-86ed-a3e2823572ed",
-          "bf77ced9-88d2-4fbd-97a6-0198a9ae71fa",
-          "efd5d715-1d85-43f1-9639-ca10749a16ee",
-          "baed2ada-e8f2-4286-9107-0d5ad0f9c5a4",
-          "5e1ac2d0-af51-42a9-a143-f0414af4f80d",
-          "6114f9bc-cb35-473e-92f2-0ab694041287",
-          "406c5778-a739-4fdc-8ca9-6e3af448e168",
-          "5d62493d-cae0-40f9-9fe8-66778e3d8c69",
-          "284c24bd-345f-4fd2-b43c-8721b1e26ab0",
-          "ae1f6d06-fae4-440b-8c39-65f88048e9c4",
-          "8e111b44-b0ca-4b6b-8366-3593c7b71407"
+          "c4793c37-4f50-496b-ad56-960cf5f044f5",
+          "69038224-2cbe-4318-93d4-6c179ceb8857",
+          "3bd43292-d274-4392-bc05-01120e53d74b",
+          "8fa1e2cd-e7a7-495d-b9b6-5d919dc8193a",
+          "4c8a7f1e-bb41-442b-85c8-3da5783f46d2",
+          "4929e807-3e00-4a10-8268-50c8cc1e3bf2",
+          "5132ff55-a4af-4261-9f88-889b591f259b",
+          "ffcd754a-1ff5-4ecd-aa2c-7cc7602db138",
+          "911a097e-8000-42a1-bc79-d88278fa11cf",
+          "ce55ad14-8dec-47a1-b6c9-01f883f7e541",
+          "a35db3e0-c726-4b59-bd41-ce73e228adde"
         ],
-        "x-ms-ratelimit-remaining-subscription-reads": "11916",
-        "x-ms-request-id": "93bbad0d-dcf0-465b-8286-bc873be182b3",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230221T063556Z:93bbad0d-dcf0-465b-8286-bc873be182b3"
+        "x-ms-ratelimit-remaining-subscription-reads": "11565",
+        "x-ms-request-id": "7c061fb8-cfce-493c-be6a-99da01b722a6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230323T035614Z:7c061fb8-cfce-493c-be6a-99da01b722a6"
       },
       "ResponseBody": {
         "value": [
@@ -55,10 +55,10 @@
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2023-02-21T06:32:36.0274628Z",
+              "createdAt": "2023-03-23T03:47:37.6058568Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2023-02-21T06:32:36.0274628Z"
+              "lastModifiedAt": "2023-03-23T03:47:37.6058568Z"
             },
             "properties": {
               "appLocation": "eastus2",
@@ -69,8 +69,8 @@
               "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
               "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
               "provisioningState": "Succeeded",
-              "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-ac4b81b77db40e",
-              "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapstoac4b81b77db40e"
+              "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-5f2b484b1bdf66",
+              "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapsto5f2b484b1bdf66"
             }
           }
         ]

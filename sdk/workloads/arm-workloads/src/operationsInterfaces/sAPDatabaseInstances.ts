@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPDatabaseInstance,
   SAPDatabaseInstancesListOptionalParams,
@@ -68,8 +68,8 @@ export interface SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesCreateResponse>,
       SAPDatabaseInstancesCreateResponse
     >
   >;
@@ -102,8 +102,8 @@ export interface SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesUpdateResponse>,
       SAPDatabaseInstancesUpdateResponse
     >
   >;
@@ -136,8 +136,8 @@ export interface SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesDeleteResponse>,
       SAPDatabaseInstancesDeleteResponse
     >
   >;
@@ -170,8 +170,8 @@ export interface SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesStartInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesStartInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesStartInstanceResponse>,
       SAPDatabaseInstancesStartInstanceResponse
     >
   >;
@@ -203,8 +203,8 @@ export interface SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesStopInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesStopInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesStopInstanceResponse>,
       SAPDatabaseInstancesStopInstanceResponse
     >
   >;
