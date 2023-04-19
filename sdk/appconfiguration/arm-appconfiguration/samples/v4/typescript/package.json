@@ -35,7 +35,11 @@
   },
   "devDependencies": {
     "@types/node": "^14.0.0",
+<<<<<<< HEAD:sdk/appconfiguration/arm-appconfiguration/samples/v4/typescript/package.json
     "typescript": "~4.8.0",
+=======
+    "typescript": "~5.0.0",
+>>>>>>> main:sdk/appconfiguration/arm-appconfiguration/samples/v3/typescript/package.json
     "rimraf": "latest"
   }
 }

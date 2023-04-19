@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts all containers in a container group. Compute resources will be allocated and billing will start.
  *
  * @summary Starts all containers in a container group. Compute resources will be allocated and billing will start.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsStart.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupsStart.json
  */
 async function containerStart() {
   const subscriptionId =
