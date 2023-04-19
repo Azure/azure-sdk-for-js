@@ -62,7 +62,10 @@ describe("paloaltonetworksngfw test", () => {
     const res = await client.localRulestacks.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
-      { location },
+      {
+        location,
+        description: "local rulestacks",
+      },
       testPollingOptions);
     assert.equal(res.name, resourcename);
   });

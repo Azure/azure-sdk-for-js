@@ -9,29 +9,67 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "707b5d8e-1535-47aa-a7b1-9bfb3d653bd6"
+        "x-ms-client-request-id": "cc04779e-20ee-4b3c-a019-3ea41e941887"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "173",
+        "Content-Encoding": "gzip",
+        "Content-Length": "907",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Apr 2023 01:44:11 GMT",
+        "Date": "Wed, 19 Apr 2023 07:57:48 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "47c177a9-0414-4b5e-b9cd-2e407d81ad89",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "47c177a9-0414-4b5e-b9cd-2e407d81ad89",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T014411Z:47c177a9-0414-4b5e-b9cd-2e407d81ad89"
+        "x-ms-correlation-request-id": "2eb3cb1c-4dda-4129-90d5-adeb508875ef",
+        "x-ms-original-request-ids": [
+          "50c32ac9-6a34-42f5-8279-5ba7d7486752",
+          "5a7994b1-7475-473b-bb3b-8fe2316035be",
+          "03fefe23-ee15-4d17-a573-3bb059547ed8",
+          "33067f8f-00a7-4811-86a4-0e6cc03f7191",
+          "7515d96f-2e44-4bb3-adb4-f6f89eec1fcd",
+          "d871e95b-ef5b-4227-90fd-6e6943438aa1"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "2eb3cb1c-4dda-4129-90d5-adeb508875ef",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T075749Z:2eb3cb1c-4dda-4129-90d5-adeb508875ef"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type could not be found in the namespace \u0027PaloAltoNetworks.Cloudngfw\u0027 for api version \u00272022-08-29-preview\u0027."
-        }
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+            "name": "resourcetest",
+            "type": "paloaltonetworks.cloudngfw/localrulestacks",
+            "location": "eastus",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-04-19T07:57:19.200601Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-04-19T07:57:19.200601Z"
+            },
+            "properties": {
+              "scope": "LOCAL",
+              "description": "local rulestacks",
+              "provisioningState": "Succeeded",
+              "defaultMode": "NONE",
+              "panEtag": "d6e0c244-de87-11ed-b8d7-6e00065c12b7",
+              "minAppIdVersion": "8595-7473",
+              "securityServices": {
+                "vulnerabilityProfile": "BestPractice",
+                "antiSpywareProfile": "BestPractice",
+                "antiVirusProfile": "BestPractice",
+                "urlFilteringProfile": "BestPractice",
+                "fileBlockingProfile": "BestPractice",
+                "dnsSubscription": "BestPractice"
+              }
+            }
+          }
+        ]
       }
     }
   ],
