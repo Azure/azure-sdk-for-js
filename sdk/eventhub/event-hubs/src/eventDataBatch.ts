@@ -376,8 +376,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       eventData,
       options,
       entityPath,
-      host,
-      "process"
+      host
     );
 
     // Convert EventData to RheaMessage.

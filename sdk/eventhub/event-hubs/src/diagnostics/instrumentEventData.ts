@@ -25,7 +25,7 @@ export function instrumentEventData(
   options: OperationOptions,
   entityPath: string,
   host: string,
-  operation: MessagingOperationNames
+  operation?: MessagingOperationNames
 ): { event: EventData; spanContext: TracingContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties

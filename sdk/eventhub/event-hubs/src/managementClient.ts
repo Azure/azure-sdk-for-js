@@ -33,9 +33,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { OperationOptions } from "./util/operationOptions";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { TimerLoop } from "./util/timerLoop";
-import { tracingClient } from "./diagnostics/tracing";
 import { withAuth } from "./withAuth";
 import { getRandomName } from "./util/utils";
 
@@ -226,7 +226,8 @@ export class ManagementClient {
           logErrorStackTrace(error);
           throw error;
         }
-      }
+      },
+      toSpanOptions(this._context.config)
     );
   }
 
@@ -289,7 +290,8 @@ export class ManagementClient {
           logErrorStackTrace(error);
           throw error;
         }
-      }
+      },
+      toSpanOptions(this._context.config)
     );
   }
 
