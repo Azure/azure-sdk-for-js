@@ -34,7 +34,7 @@ async function webhookCreate() {
   const webhookCreateParameters: WebhookCreateParameters = {
     actions: ["push"],
     customHeaders: {
-      authorization: "Basic 000000000000000000000000000000000000000000000000000"
+      authorization: "******"
     },
     location: "westus",
     scope: "myRepository",

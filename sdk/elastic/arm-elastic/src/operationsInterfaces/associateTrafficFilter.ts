@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import { AssociateTrafficFilterAssociateOptionalParams } from "../models";
 
 /** Interface representing a AssociateTrafficFilter. */
@@ -21,7 +21,7 @@ export interface AssociateTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: AssociateTrafficFilterAssociateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Associate traffic filter for the given deployment.
    * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.

@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups?api-version=2023-02-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerinstance/9.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "b76f605f-2177-44fc-aff4-ad3ec75a0339"
+        "User-Agent": "azsdk-js-arm-containerinstance/9.1.0-beta.2 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "52f57462-a1eb-48a3-a875-29fbb94526e0"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 13 Jan 2023 06:23:20 GMT",
+        "Date": "Mon, 10 Apr 2023 03:12:58 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -27,10 +27,10 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cfc9f204-5913-4c76-99db-a5cd24ca957c",
-        "x-ms-ratelimit-remaining-subscription-reads": "11981",
-        "x-ms-request-id": "eastus2:346b366b-0d91-4834-947e-1565a68a553a",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062321Z:cfc9f204-5913-4c76-99db-a5cd24ca957c"
+        "x-ms-correlation-request-id": "f6063054-0787-482a-937f-abd3869a2303",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "eastus2:fc4ea906-ccb7-4a8e-b1b0-cae558d58b7d",
+        "x-ms-routing-request-id": "JAPANEAST:20230410T031258Z:f6063054-0787-482a-937f-abd3869a2303"
       },
       "ResponseBody": {
         "value": [
@@ -38,6 +38,8 @@
             "properties": {
               "sku": "Standard",
               "provisioningState": "Succeeded",
+              "provisioningTimeoutInSeconds": 1800,
+              "isCustomProvisioningTimeout": false,
               "containers": [
                 {
                   "name": "my-containerinstancexx",
@@ -81,7 +83,7 @@
               }
             },
             "identity": {
-              "principalId": "23a7b989-8ec7-46f1-b163-06192fd0797a",
+              "principalId": "9fe650cb-c28e-4975-b1d7-80c3022ba4f2",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },

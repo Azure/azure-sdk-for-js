@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { StorageClient as StorageClientContext } from "./generated/src/";
+import { StorageContextClient } from "./StorageContextClient";
 import { getCoreClientOptions, getCredentialFromPipeline, PipelineLike } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -58,7 +59,7 @@ export abstract class StorageClient {
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(this.url, getCoreClientOptions(pipeline));
+    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 

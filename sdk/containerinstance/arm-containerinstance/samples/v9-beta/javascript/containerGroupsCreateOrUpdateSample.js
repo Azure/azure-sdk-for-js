@@ -16,48 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update container groups with specified configurations.
  *
  * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupCreateConfidential.json
- */
-async function confidentialContainerGroup() {
-  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
-  const containerGroupName = "demo1";
-  const containerGroup = {
-    confidentialComputeProperties: {
-      ccePolicy:
-        "eyJhbGxvd19hbGwiOiB0cnVlLCAiY29udGFpbmVycyI6IHsibGVuZ3RoIjogMCwgImVsZW1lbnRzIjogbnVsbH19",
-    },
-    containers: [
-      {
-        name: "accdemo",
-        command: [],
-        environmentVariables: [],
-        image: "confiimage",
-        ports: [{ port: 8000 }],
-        resources: { requests: { cpu: 1, memoryInGB: 1.5 } },
-      },
-    ],
-    imageRegistryCredentials: [],
-    ipAddress: { type: "Public", ports: [{ port: 8000, protocol: "TCP" }] },
-    location: "westeurope",
-    osType: "Linux",
-    sku: "Confidential",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    containerGroupName,
-    containerGroup
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Create or update container groups with specified configurations.
- *
- * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupExtensions.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupExtensions.json
  */
 async function containerGroupCreateWithExtensions() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
@@ -112,7 +71,7 @@ async function containerGroupCreateWithExtensions() {
  * This sample demonstrates how to Create or update container groups with specified configurations.
  *
  * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupEncryptionProperties.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupEncryptionProperties.json
  */
 async function containerGroupWithEncryptionProperties() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
@@ -162,7 +121,7 @@ async function containerGroupWithEncryptionProperties() {
  * This sample demonstrates how to Create or update container groups with specified configurations.
  *
  * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsCreateOrUpdate.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupsCreateOrUpdate.json
  */
 async function containerGroupsCreateOrUpdate() {
   const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
@@ -217,6 +176,7 @@ async function containerGroupsCreateOrUpdate() {
     },
     location: "west us",
     osType: "Linux",
+    provisioningTimeoutInSeconds: 600,
     subnetIds: [
       {
         id: "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]",
@@ -251,47 +211,10 @@ async function containerGroupsCreateOrUpdate() {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to Create or update container groups with specified configurations.
- *
- * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsCreatePriority.json
- */
-async function containerGroupsCreateWithPriority() {
-  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
-  const containerGroupName = "demo1";
-  const containerGroup = {
-    containers: [
-      {
-        name: "test-container-001",
-        command: ["/bin/sh", "-c", "sleep 10"],
-        image: "alpine:latest",
-        resources: { requests: { cpu: 1, memoryInGB: 1 } },
-      },
-    ],
-    location: "eastus",
-    osType: "Linux",
-    priority: "Spot",
-    restartPolicy: "Never",
-    sku: "Standard",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    containerGroupName,
-    containerGroup
-  );
-  console.log(result);
-}
-
 async function main() {
-  confidentialContainerGroup();
   containerGroupCreateWithExtensions();
   containerGroupWithEncryptionProperties();
   containerGroupsCreateOrUpdate();
-  containerGroupsCreateWithPriority();
 }
 
 main().catch(console.error);

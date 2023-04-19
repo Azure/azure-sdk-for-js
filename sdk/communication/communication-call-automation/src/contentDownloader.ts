@@ -48,10 +48,7 @@ export class ContentDownloaderImpl {
    * Deletes a recording.
    * @param recordingLocation - The recording location uri. Required.
    */
-  async deleteRecording(
-    recordingLocation: string,
-    options?: DeleteRecordingOptions
-  ): Promise<void> {
+  async deleteRecording(recordingLocation: string, options: DeleteRecordingOptions): Promise<void> {
     const fileLocation = new URL(recordingLocation);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
@@ -85,8 +82,7 @@ export class ContentDownloaderImpl {
   /**
    * Returns a stream with a call recording.
    * @param sourceLocation - The source location uri. Required.
-   * @param offset - Offset byte. Not required.
-   * @param length - how many bytes. Not required.
+   * @param options - Additional request options contains downloadRecording options.
    */
   async download(
     sourceLocation: string,

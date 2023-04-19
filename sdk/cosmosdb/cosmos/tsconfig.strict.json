@@ -69,6 +69,8 @@
     "src/queryExecutionContext/parallelQueryExecutionContext.ts",
     "src/queryExecutionContext/parallelQueryExecutionContextBase.ts",
     "src/queryExecutionContext/pipelinedQueryExecutionContext.ts",
+    "src/CosmosDiagnostics.ts",
+    "src/CosmosDiagnosticsContext.ts",
     "src/request/ErrorResponse.ts",
     "src/request/FeedOptions.ts",
     "src/request/FeedResponse.ts",

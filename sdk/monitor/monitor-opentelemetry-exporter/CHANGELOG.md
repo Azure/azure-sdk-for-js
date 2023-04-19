@@ -6,6 +6,7 @@
 
 - Use Prefix/Distro version if available.
 - Remove standard metrics custom handling.
+- Remove mapped Span attributes and remaining as properties.
 - Updated OpenTelemetry dependencies to their latest available versions.
 
 ## 1.0.0-beta.11 (2023-02-02)

@@ -1226,7 +1226,7 @@ export const OCIManifest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OCIManifest",
     modelProperties: {
-      config: {
+      configuration: {
         serializedName: "config",
         type: {
           name: "Composite",
@@ -1235,7 +1235,6 @@ export const OCIManifest: coreClient.CompositeMapper = {
       },
       layers: {
         serializedName: "layers",
-        required: true,
         type: {
           name: "Sequence",
           element: {
