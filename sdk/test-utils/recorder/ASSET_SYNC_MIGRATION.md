@@ -8,10 +8,11 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ### Prerequisites
 
-To be able to leverage the asset-sync workflow, you will need
+To be able to leverage the asset-sync workflow
 
-- [Powershell] installed
-- `dev-tool` among your `devDependencies` in the `package.json`.
+- Install [Powershell]
+  - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
+- Add `dev-tool` to the `devDependencies` in the `package.json`.
 
 _If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
 
