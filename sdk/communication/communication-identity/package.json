@@ -144,6 +144,6 @@
     "rollup": "^2.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.8.0"
+    "typescript": "~5.0.0"
   }
 }
