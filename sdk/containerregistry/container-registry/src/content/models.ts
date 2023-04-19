@@ -100,7 +100,9 @@ export interface OciDescriptor {
 /**
  * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() is an OCI image manifest.
  */
-export function isOciImageManifest(manifest: Record<string, unknown>): manifest is OciImageManifest {
+export function isOciImageManifest(
+  manifest: Record<string, unknown>
+): manifest is OciImageManifest {
   return (
     manifest.schemaVersion === 2 &&
     typeof manifest.config === "object" &&
@@ -110,7 +112,7 @@ export function isOciImageManifest(manifest: Record<string, unknown>): manifest 
 
 /**
  * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
- * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information. 
+ * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
  */
 export type OciImageManifest = {
   /** Schema version */
@@ -124,7 +126,7 @@ export type OciImageManifest = {
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
-}
+};
 
 /** Additional information provided through arbitrary metadata */
 export interface OciAnnotations extends Record<string, unknown> {

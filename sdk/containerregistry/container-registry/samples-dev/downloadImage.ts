@@ -6,10 +6,7 @@
  * @azsdk-weight 3
  */
 
-import {
-  ContainerRegistryContentClient,
-  isOciImageManifest,
-} from "@azure/container-registry";
+import { ContainerRegistryContentClient, isOciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import fs from "fs";
@@ -35,7 +32,7 @@ async function main() {
   const result = await client.getManifest("demo");
 
   const manifest = result.manifest;
-  if(!isOciImageManifest(manifest)) {
+  if (!isOciImageManifest(manifest)) {
     throw new Error("Expected an OCI image manifest");
   }
 

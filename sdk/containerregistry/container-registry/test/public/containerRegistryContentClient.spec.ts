@@ -7,10 +7,7 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import {
-  ContainerRegistryContentClient,
-  KnownManifestMediaType,
-} from "../../src";
+import { ContainerRegistryContentClient, KnownManifestMediaType } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
