@@ -19,14 +19,14 @@
   - Added Type Alias ReplicasListByConfigurationStoreNextResponse
   - Added Type Alias ReplicasListByConfigurationStoreResponse
   - Added Enum KnownReplicaProvisioningState
-
-**Breaking Changes**
-
-  - Removed operation KeyValues.listByConfigurationStore
   - Interface ConfigurationStoresListByResourceGroupNextOptionalParams no longer has parameter skipToken
   - Interface ConfigurationStoresListKeysNextOptionalParams no longer has parameter skipToken
   - Interface ConfigurationStoresListNextOptionalParams no longer has parameter skipToken
   - Interface OperationsListNextOptionalParams no longer has parameter skipToken
+
+**Breaking Changes**
+
+  - Removed operation KeyValues.listByConfigurationStore
     
     
 ## 3.1.0 (2022-11-15)
