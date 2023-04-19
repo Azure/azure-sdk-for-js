@@ -13,7 +13,7 @@ import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
+import { MessagingOperationNames, toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 
 /**
@@ -134,7 +134,7 @@ export class PartitionPump {
           "PartitionPump.process",
           {},
           () => this._partitionProcessor.processEvents(receivedEvents),
-          toProcessingSpanOptions(receivedEvents, this._context.config)
+          toProcessingSpanOptions(receivedEvents, this._context.config, "process")
         );
       } catch (err: any) {
         // check if this pump is still receiving
@@ -205,7 +205,8 @@ export class PartitionPump {
  */
 export function toProcessingSpanOptions(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
+  operation: MessagingOperationNames
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedEvent of receivedEvents) {
@@ -222,6 +223,6 @@ export function toProcessingSpanOptions(
   return {
     spanLinks,
     spanKind: "consumer",
-    ...toSpanOptions(eventHubProperties),
+    ...toSpanOptions(eventHubProperties, operation),
   };
 }

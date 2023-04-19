@@ -17,14 +17,20 @@ testWithServiceTypes(() => {
     describe("telemetry", () => {
       describe("#getProcessingSpanOptions", () => {
         it("returns basic span properties", () => {
-          const processingSpanOptions = toProcessingSpanOptions([], {
-            entityPath: "testPath",
-            host: "testHost",
-          });
+          const processingSpanOptions = toProcessingSpanOptions(
+            [],
+            {
+              entityPath: "testPath",
+              host: "testHost",
+            },
+            "process"
+          );
           assert.equal(processingSpanOptions.spanKind, "consumer");
           assert.deepEqual(processingSpanOptions.spanAttributes, {
-            "message_bus.destination": "testPath",
-            "peer.address": "testHost",
+            "messaging.operation": "process",
+            "messaging.source.name": "testPath",
+            "messaging.system": "eventhubs",
+            "net.peer.name": "testHost",
           });
         });
 
@@ -46,10 +52,14 @@ testWithServiceTypes(() => {
           const fakeContext = {} as TracingContext;
           Sinon.stub(tracingClient, "parseTraceparentHeader").returns(fakeContext);
 
-          const processingSpanOptions = toProcessingSpanOptions([requiredEventProperties], {
-            entityPath: "testPath",
-            host: "testHost",
-          });
+          const processingSpanOptions = toProcessingSpanOptions(
+            [requiredEventProperties],
+            {
+              entityPath: "testPath",
+              host: "testHost",
+            },
+            "process"
+          );
 
           assert.lengthOf(processingSpanOptions.spanLinks!, 1);
           const spanLink = processingSpanOptions.spanLinks![0];
