@@ -1,12 +1,12 @@
 # Release History
     
-## 8.0.0 (2023-04-10)
+## 7.1.0 (2023-04-10)
     
 **Features**
 
   - Enum KnownArmServerKeyType has a new value SystemManaged
 
-**Breaking Changes**
+**Bugs Fixed**
 
   - Enum KnownArmServerKeyType no longer has value SystemAssigned
   - Enum KnownReplicationRole no longer has value GeoSyncReplica
