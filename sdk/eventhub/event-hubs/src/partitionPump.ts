@@ -134,7 +134,7 @@ export class PartitionPump {
           "PartitionPump.process",
           {},
           () => this._partitionProcessor.processEvents(receivedEvents),
-          toProcessingSpanOptions(receivedEvents, this._context.config, "process")
+          toProcessingSpanOptions(receivedEvents, this._context.config)
         );
       } catch (err: any) {
         // check if this pump is still receiving
@@ -205,8 +205,7 @@ export class PartitionPump {
  */
 export function toProcessingSpanOptions(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
-  operation: MessagingOperationNames
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedEvent of receivedEvents) {
@@ -223,6 +222,6 @@ export function toProcessingSpanOptions(
   return {
     spanLinks,
     spanKind: "consumer",
-    ...toSpanOptions(eventHubProperties, operation),
+    ...toSpanOptions(eventHubProperties, "process"),
   };
 }

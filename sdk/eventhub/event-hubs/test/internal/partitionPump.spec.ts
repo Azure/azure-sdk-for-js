@@ -17,14 +17,10 @@ testWithServiceTypes(() => {
     describe("telemetry", () => {
       describe("#getProcessingSpanOptions", () => {
         it("returns basic span properties", () => {
-          const processingSpanOptions = toProcessingSpanOptions(
-            [],
-            {
-              entityPath: "testPath",
-              host: "testHost",
-            },
-            "process"
-          );
+          const processingSpanOptions = toProcessingSpanOptions([], {
+            entityPath: "testPath",
+            host: "testHost",
+          });
           assert.equal(processingSpanOptions.spanKind, "consumer");
           assert.deepEqual(processingSpanOptions.spanAttributes, {
             "messaging.operation": "process",
@@ -52,14 +48,10 @@ testWithServiceTypes(() => {
           const fakeContext = {} as TracingContext;
           Sinon.stub(tracingClient, "parseTraceparentHeader").returns(fakeContext);
 
-          const processingSpanOptions = toProcessingSpanOptions(
-            [requiredEventProperties],
-            {
-              entityPath: "testPath",
-              host: "testHost",
-            },
-            "process"
-          );
+          const processingSpanOptions = toProcessingSpanOptions([requiredEventProperties], {
+            entityPath: "testPath",
+            host: "testHost",
+          });
 
           assert.lengthOf(processingSpanOptions.spanLinks!, 1);
           const spanLink = processingSpanOptions.spanLinks![0];
