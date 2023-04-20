@@ -53,5 +53,5 @@ export interface DefaultAzureCredentialOptions
    * {@link AzureDeveloperCliCredential} and {@link AzureCliCredential}.
    * This should be provided in milliseconds.
    */
-  developerCredentialTimeOutInMs?: number;
+  credentialProcessTimeoutInMs?: number;
 }

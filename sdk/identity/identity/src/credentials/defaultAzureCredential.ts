@@ -123,7 +123,7 @@ export class DefaultWorkloadIdentityCredential extends WorkloadIdentityCredentia
 export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      processTimeoutInMs: options?.credentialProcessTimeoutInMs,
       ...options,
     });
   }
@@ -131,7 +131,7 @@ export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredent
 export class DefaultAzureCliCredential extends AzureCliCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      processTimeoutInMs: options?.credentialProcessTimeoutInMs,
       ...options,
     });
   }
@@ -140,7 +140,7 @@ export class DefaultAzureCliCredential extends AzureCliCredential {
 export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super({
-      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      processTimeoutInMs: options?.credentialProcessTimeoutInMs,
       ...options,
     });
   }
