@@ -36,13 +36,18 @@ export function toSpanOptions(
       ? "messaging.source.name"
       : "messaging.destination.name";
 
-  const spanOptions: TracingSpanOptions = {
-    spanAttributes: {
+  const spanAttributes = {
       "messaging.system": "eventhubs",
       [propertyName]: eventHubConfig.entityPath,
-      "messaging.operation": operation,
       "net.peer.name": eventHubConfig.host,
-    },
+  };
+
+  if (operation) {
+    spanAttributes["messaging.operation"] = operation;
+  }
+
+  const spanOptions: TracingSpanOptions = {
+    spanAttributes: spanAttributes,
   };
   if (spanKind) {
     spanOptions.spanKind = spanKind;
