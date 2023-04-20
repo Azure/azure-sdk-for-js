@@ -16,11 +16,11 @@ describe("RoomsClient", function () {
   let client: RoomsClient;
   const validFrom = new Date();
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
-  let roomId = "";
 
   describe("Room Operations", function () {
+    let testUser: CommunicationUserIdentifier;
+    let roomId = "";
+
     beforeEach(async function (this: Context) {
       ({ client, recorder } = await createRecordedRoomsClient(this));
     });
@@ -97,7 +97,6 @@ describe("RoomsClient", function () {
 
     it("successfully updates a room with participants", async function () {
       testUser = (await createTestUser(recorder)).user;
-      testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
         validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
@@ -138,111 +137,105 @@ describe("RoomsClient", function () {
   });
 
   describe("Participants Operations", function () {
+    let testUser: CommunicationUserIdentifier;
+    let roomId = "";
+
     beforeEach(async function (this: Context) {
       ({ client, recorder } = await createRecordedRoomsClient(this));
     });
 
     afterEach(async function () {
-      if (roomId !== "") {
-        await client.deleteRoom(roomId);
-        roomId = "";
-      }
       await recorder.stop();
       if (isPlaybackMode()) {
         sinon.restore();
       }
     });
 
-    it("successfully adds a participant to the room", async function () {
-      testUser = (await createTestUser(recorder)).user;
-      const participants: RoomParticipantPatch[] = [
-        {
-          id: testUser,
-          role: "Presenter",
-        },
-      ];
-
+    it("successfully creates the room", async function () {
       const createRoomResult = await client.createRoom({});
       assert.isDefined(createRoomResult);
       roomId = createRoomResult.id;
-
-      await client.addOrRemoveParticipants(roomId, participants);
-      const addParticipantsResult = await client.listParticipants(roomId);
-      assert.isDefined(addParticipantsResult);
-      assert.isNotEmpty(addParticipantsResult);
-      for await (const participant of addParticipantsResult) {
-        // rawId is sanitized so skip this check in playback mode
-        if (!isPlaybackMode()) {
-          assert.equal(participant.id.kind, "communicationUser");
-        }
-        assert.equal(participant.role, participants[0].role);
-        break;
-      }
     });
 
-    it("successfully removes a participant from the room", async function () {
-      // skip in playback mode as rawIds are sanitized so users will not be found
-      if (isPlaybackMode()) {
-        this.skip();
-      }
-
+    it("successfully adds participants to the room", async function () {
       testUser = (await createTestUser(recorder)).user;
-      testUser2 = (await createTestUser(recorder)).user;
-
-      const request: CreateRoomOptions = {
-        participants: [
-          {
-            id: testUser,
-            role: "Presenter",
-          },
-          {
-            id: testUser2,
-            role: "Presenter",
-          },
-        ],
-      };
-
-      const createRoomResult = await client.createRoom(request);
-      assert.isDefined(createRoomResult);
-
-      roomId = createRoomResult.id;
-
-      const participants = [testUser, testUser2];
-      await client.removeParticipants(roomId, participants);
-    });
-
-    it("successfully updates a participant", async function () {
-      testUser = (await createTestUser(recorder)).user;
-      const request: CreateRoomOptions = {
-        participants: [
-          {
-            id: testUser,
-            role: "Presenter",
-          },
-        ],
-      };
-
-      const createRoomResult = await client.createRoom(request);
-      assert.isDefined(createRoomResult);
-      roomId = createRoomResult.id;
-
       const participants: RoomParticipantPatch[] = [
         {
           id: testUser,
           role: "Presenter",
         },
       ];
-      await client.addOrRemoveParticipants(roomId, participants);
+
+      await client.addOrUpdateParticipants(roomId, participants);
+      await pause(500);
+
+      const addParticipantsResult = await client.listParticipants(roomId);
+      assert.isDefined(addParticipantsResult);
+      assert.isNotEmpty(addParticipantsResult);
+
+      let count = 0;
+      for await (const participant of addParticipantsResult) {
+        if (participant) {
+          count++;
+
+          // rawId is sanitized so skip this check in playback mode
+          if (!isPlaybackMode()) {
+            assert.equal(participant.id.kind, "communicationUser");
+          }
+        }
+      }
+
+      assert.equal(count, 1);
+    });
+
+    it("successfully updates a participant", async function () {
+      const participants: RoomParticipantPatch[] = [
+        {
+          id: testUser,
+        },
+      ];
+      await client.addOrUpdateParticipants(roomId, participants);
+      await pause(500);
+
       const allParticipants = await client.listParticipants(roomId);
       assert.isDefined(allParticipants);
+      let attendeeCount = 0;
       for await (const participant of allParticipants) {
-        // rawId is sanitized so skip this check in playback mode
-        if (!isPlaybackMode()) {
-          assert.equal(participant.id.kind, "communicationUser");
+        if (participant.role === "Attendee") {
+          attendeeCount++;
         }
-        assert.equal(participant.role, participants[0].role);
-        break;
       }
+
+      assert.equal(attendeeCount, 1);
+    });
+
+    it("successfully removes a participant from the room", async function () {
+      const participantIdentifiers = [testUser];
+      await client.removeParticipants(roomId, participantIdentifiers);
+      await pause(500);
+
+      const participants = await client.listParticipants(roomId);
+      assert.isDefined(participants);
+      assert.isNotEmpty(participants);
+
+      let count = 0;
+      for await (const participant of participants) {
+        if (participant) {
+          count++;
+        }
+      }
+
+      assert.equal(count, 0);
+    });
+
+    it("successfully cleans up", async function () {
+      await client.deleteRoom(roomId);
     });
   });
 });
+
+async function pause(time: number): Promise<void> {
+  if (!isPlaybackMode()) {
+    await new Promise((resolve) => setTimeout(resolve, time));
+  }
+}

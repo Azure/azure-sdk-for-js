@@ -61,7 +61,7 @@ export interface RoomParticipantPatch {
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
-    addOrRemoveParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<void>;
+    addOrUpdateParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<void>;
     createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;

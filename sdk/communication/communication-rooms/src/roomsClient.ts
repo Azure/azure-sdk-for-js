@@ -307,7 +307,7 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
-  public async addOrRemoveParticipants(
+  public async addOrUpdateParticipants(
     roomId: string,
     participants: RoomParticipantPatch[],
     options: UpsertParticipantsOptions = {}

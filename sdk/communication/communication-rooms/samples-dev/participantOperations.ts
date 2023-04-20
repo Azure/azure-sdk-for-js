@@ -59,7 +59,7 @@ export async function main() {
   ];
 
   // add user2 to the room with the request payload
-  await roomsClient.addOrRemoveParticipants(roomId, addParticipantsList);
+  await roomsClient.addOrUpdateParticipants(roomId, addParticipantsList);
   const addedParticipants = await roomsClient.listParticipants(roomId);
   console.log(`Added Participants`);
   printParticipants(addedParticipants);
@@ -73,7 +73,7 @@ export async function main() {
   ];
 
   // update user1 with the request payload
-  await roomsClient.addOrRemoveParticipants(roomId, updateParticipantsList);
+  await roomsClient.addOrUpdateParticipants(roomId, updateParticipantsList);
   console.log(`Updated Participants`);
   printParticipants(await roomsClient.listParticipants(roomId));
 
