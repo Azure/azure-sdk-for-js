@@ -58,7 +58,7 @@ export interface AuthenticationRequiredErrorOptions {
 
 // @public
 export interface AuthorityValidationOptions {
-    disableInstanceDiscovery?: boolean;
+    disableAuthorityValidationAndInstanceDiscovery?: boolean;
 }
 
 // @public
@@ -201,7 +201,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-    developerCredentialTimeOutInMs?: number;
+    credentialProcessTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -401,8 +401,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
 // @public
 export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
-    federatedTokenFilePath?: string;
     tenantId?: string;
+    tokenFilePath?: string;
 }
 
 // (No @packageDocumentation comment for this package)
