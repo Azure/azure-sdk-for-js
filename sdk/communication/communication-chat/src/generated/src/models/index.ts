@@ -384,20 +384,20 @@ export enum KnownAttachmentType {
  */
 export type AttachmentType = string;
 
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
+/** Known values of {@link RetentionPolicyKind} that the service accepts. */
+export enum KnownRetentionPolicyKind {
   /** Thread retention policy based on thread creation date. */
   ThreadCreationDate = "threadCreationDate"
 }
 
 /**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
+ * Defines values for RetentionPolicyKind. \
+ * {@link KnownRetentionPolicyKind} can be used interchangeably with RetentionPolicyKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **threadCreationDate**: Thread retention policy based on thread creation date.
  */
-export type Kind = string;
+export type RetentionPolicyKind = string;
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"
