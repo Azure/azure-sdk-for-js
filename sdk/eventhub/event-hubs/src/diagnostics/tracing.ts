@@ -37,9 +37,9 @@ export function toSpanOptions(
       : "messaging.destination.name";
 
   const spanAttributes = {
-      "messaging.system": "eventhubs",
-      [propertyName]: eventHubConfig.entityPath,
-      "net.peer.name": eventHubConfig.host,
+    "messaging.system": "eventhubs",
+    [propertyName]: eventHubConfig.entityPath,
+    "net.peer.name": eventHubConfig.host,
   };
 
   if (operation) {
