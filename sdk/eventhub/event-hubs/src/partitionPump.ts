@@ -13,7 +13,7 @@ import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
-import { MessagingOperationNames, toSpanOptions, tracingClient } from "./diagnostics/tracing";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 
 /**
