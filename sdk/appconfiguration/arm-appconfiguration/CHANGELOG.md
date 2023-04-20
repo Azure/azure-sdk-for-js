@@ -2,15 +2,11 @@
 
 ## 3.1.1 (Unreleased)
 
-### Features Added
+**Features**
+  - Bugs Fixed
 
-### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0 (2022-11-15)
+## 3.1.0 (2023-04-20)
     
 **Features**
 
