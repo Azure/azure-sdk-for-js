@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { QueryRequest, ResourceGraphClient } from "@azure/arm-resourcegraph";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -29,8 +32,6 @@ async function accessAPropertiesField() {
   console.log(result);
 }
 
-accessAPropertiesField().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
@@ -47,8 +48,6 @@ async function basicManagementGroupQuery() {
   const result = await client.resources(query);
   console.log(result);
 }
-
-basicManagementGroupQuery().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -67,8 +66,6 @@ async function basicQuery() {
   console.log(result);
 }
 
-basicQuery().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
@@ -84,8 +81,6 @@ async function basicTenantQuery() {
   const result = await client.resources(query);
   console.log(result);
 }
-
-basicTenantQuery().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -105,8 +100,6 @@ async function complexQuery() {
   console.log(result);
 }
 
-complexQuery().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
@@ -124,8 +117,6 @@ async function filterResources() {
   const result = await client.resources(query);
   console.log(result);
 }
-
-filterResources().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -145,8 +136,6 @@ async function firstPageQuery() {
   const result = await client.resources(query);
   console.log(result);
 }
-
-firstPageQuery().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -168,8 +157,6 @@ async function nextPageQuery() {
   const result = await client.resources(query);
   console.log(result);
 }
-
-nextPageQuery().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
@@ -208,8 +195,6 @@ async function queryWithAFacetRequest() {
   console.log(result);
 }
 
-queryWithAFacetRequest().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
@@ -229,8 +214,6 @@ async function randomPageQuery() {
   console.log(result);
 }
 
-randomPageQuery().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
@@ -249,4 +232,18 @@ async function summarizeResourcesByLocation() {
   console.log(result);
 }
 
-summarizeResourcesByLocation().catch(console.error);
+async function main() {
+  accessAPropertiesField();
+  basicManagementGroupQuery();
+  basicQuery();
+  basicTenantQuery();
+  complexQuery();
+  filterResources();
+  firstPageQuery();
+  nextPageQuery();
+  queryWithAFacetRequest();
+  randomPageQuery();
+  summarizeResourcesByLocation();
+}
+
+main().catch(console.error);

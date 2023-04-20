@@ -13,6 +13,9 @@ import {
   ResourceGraphClient
 } from "@azure/arm-resourcegraph";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all snapshots of a resource for a given time interval.
@@ -37,8 +40,6 @@ async function resourceHistoryManagementGroupScopeQuery() {
   console.log(result);
 }
 
-resourceHistoryManagementGroupScopeQuery().catch(console.error);
-
 /**
  * This sample demonstrates how to List all snapshots of a resource for a given time interval.
  *
@@ -62,4 +63,9 @@ async function resourceHistoryQuery() {
   console.log(result);
 }
 
-resourceHistoryQuery().catch(console.error);
+async function main() {
+  resourceHistoryManagementGroupScopeQuery();
+  resourceHistoryQuery();
+}
+
+main().catch(console.error);

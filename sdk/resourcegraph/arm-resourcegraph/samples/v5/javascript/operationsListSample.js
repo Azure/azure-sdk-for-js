@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ResourceGraphClient } from "@azure/arm-resourcegraph";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ResourceGraphClient } = require("@azure/arm-resourcegraph");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the available REST API operations.
@@ -27,4 +28,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-operationsList().catch(console.error);
+async function main() {
+  operationsList();
+}
+
+main().catch(console.error);

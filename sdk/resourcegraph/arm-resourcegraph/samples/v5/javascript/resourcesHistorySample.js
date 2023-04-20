@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ResourcesHistoryRequest,
-  ResourceGraphClient
-} from "@azure/arm-resourcegraph";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ResourceGraphClient } = require("@azure/arm-resourcegraph");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all snapshots of a resource for a given time interval.
@@ -21,23 +19,21 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryMgsGet.json
  */
 async function resourceHistoryManagementGroupScopeQuery() {
-  const request: ResourcesHistoryRequest = {
+  const request = {
     managementGroups: ["e927f598-c1d4-4f72-8541-95d83a6a4ac8", "ProductionMG"],
     options: {
       interval: {
         end: new Date("2020-11-12T01:25:00.0000000Z"),
-        start: new Date("2020-11-12T01:00:00.0000000Z")
-      }
+        start: new Date("2020-11-12T01:00:00.0000000Z"),
+      },
     },
-    query: "where name =~ 'cpu-utilization' | project id, name, properties"
+    query: "where name =~ 'cpu-utilization' | project id, name, properties",
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceGraphClient(credential);
   const result = await client.resourcesHistory(request);
   console.log(result);
 }
-
-resourceHistoryManagementGroupScopeQuery().catch(console.error);
 
 /**
  * This sample demonstrates how to List all snapshots of a resource for a given time interval.
@@ -46,15 +42,15 @@ resourceHistoryManagementGroupScopeQuery().catch(console.error);
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryGet.json
  */
 async function resourceHistoryQuery() {
-  const request: ResourcesHistoryRequest = {
+  const request = {
     options: {
       interval: {
         end: new Date("2020-11-12T01:25:00.0000000Z"),
-        start: new Date("2020-11-12T01:00:00.0000000Z")
-      }
+        start: new Date("2020-11-12T01:00:00.0000000Z"),
+      },
     },
     query: "where name =~ 'cpu-utilization' | project id, name, properties",
-    subscriptions: ["a7f33fdb-e646-4f15-89aa-3a360210861e"]
+    subscriptions: ["a7f33fdb-e646-4f15-89aa-3a360210861e"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceGraphClient(credential);
@@ -62,4 +58,9 @@ async function resourceHistoryQuery() {
   console.log(result);
 }
 
-resourceHistoryQuery().catch(console.error);
+async function main() {
+  resourceHistoryManagementGroupScopeQuery();
+  resourceHistoryQuery();
+}
+
+main().catch(console.error);
