@@ -105,7 +105,7 @@ export class DefaultWorkloadIdentityCredential extends WorkloadIdentityCredentia
         ...options,
         tenantId,
         clientId: workloadIdentityClientId,
-        federatedTokenFilePath: workloadFile,
+        tokenFilePath: workloadFile,
       };
       super(workloadIdentityCredentialOptions);
     } else if (tenantId) {
