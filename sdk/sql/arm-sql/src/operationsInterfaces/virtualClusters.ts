@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualCluster,
   VirtualClustersListOptionalParams,
   VirtualClustersListByResourceGroupOptionalParams,
-  VirtualClustersUpdateDnsServersOptionalParams,
-  VirtualClustersUpdateDnsServersResponse,
   VirtualClustersGetOptionalParams,
   VirtualClustersGetResponse,
   VirtualClustersDeleteOptionalParams,
   VirtualClusterUpdate,
   VirtualClustersUpdateOptionalParams,
-  VirtualClustersUpdateResponse
+  VirtualClustersUpdateResponse,
+  VirtualClustersUpdateDnsServersOptionalParams,
+  VirtualClustersUpdateDnsServersResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,18 +43,6 @@ export interface VirtualClusters {
     options?: VirtualClustersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<VirtualCluster>;
   /**
-   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param virtualClusterName The name of the virtual cluster.
-   * @param options The options parameters.
-   */
-  updateDnsServers(
-    resourceGroupName: string,
-    virtualClusterName: string,
-    options?: VirtualClustersUpdateDnsServersOptionalParams
-  ): Promise<VirtualClustersUpdateDnsServersResponse>;
-  /**
    * Gets a virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -77,7 +65,7 @@ export interface VirtualClusters {
     resourceGroupName: string,
     virtualClusterName: string,
     options?: VirtualClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -91,7 +79,7 @@ export interface VirtualClusters {
     options?: VirtualClustersDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Updates a virtual cluster.
+   * Updates an existing virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param virtualClusterName The name of the virtual cluster.
@@ -104,13 +92,13 @@ export interface VirtualClusters {
     parameters: VirtualClusterUpdate,
     options?: VirtualClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualClustersUpdateResponse>,
       VirtualClustersUpdateResponse
     >
   >;
   /**
-   * Updates a virtual cluster.
+   * Updates an existing virtual cluster.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param virtualClusterName The name of the virtual cluster.
@@ -123,4 +111,33 @@ export interface VirtualClusters {
     parameters: VirtualClusterUpdate,
     options?: VirtualClustersUpdateOptionalParams
   ): Promise<VirtualClustersUpdateResponse>;
+  /**
+   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param virtualClusterName The name of the virtual cluster.
+   * @param options The options parameters.
+   */
+  beginUpdateDnsServers(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: VirtualClustersUpdateDnsServersOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualClustersUpdateDnsServersResponse>,
+      VirtualClustersUpdateDnsServersResponse
+    >
+  >;
+  /**
+   * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param virtualClusterName The name of the virtual cluster.
+   * @param options The options parameters.
+   */
+  beginUpdateDnsServersAndWait(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: VirtualClustersUpdateDnsServersOptionalParams
+  ): Promise<VirtualClustersUpdateDnsServersResponse>;
 }

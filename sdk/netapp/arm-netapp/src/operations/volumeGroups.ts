@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VolumeGroup,
   VolumeGroupsListByNetAppAccountOptionalParams,
@@ -41,7 +45,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * List all volume groups for given account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -107,7 +111,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * List all volume groups for given account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -124,7 +128,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Get details of the specified volume group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -143,7 +147,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Create a volume group along with specified volumes
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param body Volume Group object supplied in the body of the operation.
@@ -156,8 +160,8 @@ export class VolumeGroupsImpl implements VolumeGroups {
     body: VolumeGroupDetails,
     options?: VolumeGroupsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeGroupsCreateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeGroupsCreateResponse>,
       VolumeGroupsCreateResponse
     >
   > {
@@ -167,7 +171,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     ): Promise<VolumeGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -200,13 +204,16 @@ export class VolumeGroupsImpl implements VolumeGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, volumeGroupName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, volumeGroupName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumeGroupsCreateResponse,
+      OperationState<VolumeGroupsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -215,7 +222,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Create a volume group along with specified volumes
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param body Volume Group object supplied in the body of the operation.
@@ -240,7 +247,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -250,14 +257,14 @@ export class VolumeGroupsImpl implements VolumeGroups {
     accountName: string,
     volumeGroupName: string,
     options?: VolumeGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,13 +297,13 @@ export class VolumeGroupsImpl implements VolumeGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, volumeGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, volumeGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -305,7 +312,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
 
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
@@ -388,7 +395,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body26,
+  requestBody: Parameters.body28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

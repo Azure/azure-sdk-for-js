@@ -209,7 +209,11 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.expand,
+    Parameters.filter1
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

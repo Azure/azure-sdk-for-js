@@ -12,8 +12,8 @@ import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { createMultipartDirectNotification } from "../utils/notificationUtils.js";
+import { randomUUID } from "@azure/core-util";
 import { tracingClient } from "../utils/tracing.js";
-import { v4 as uuid } from "uuid";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
@@ -53,7 +53,7 @@ export function sendNotification(
       // Check for direct batch send
       if (isDirectSendNotificationOptions(options) && Array.isArray(options.deviceHandle)) {
         endpoint.searchParams.append("direct", "true");
-        const boundary = `nh-boundary-${uuid()}`;
+        const boundary = `nh-boundary-${randomUUID()}`;
         contentType = `multipart/mixed; boundary = "${boundary}"`;
         body = createMultipartDirectNotification(boundary, notification, options.deviceHandle);
       } else if (isDirectSendNotificationOptions(options)) {

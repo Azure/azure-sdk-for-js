@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ResourceConnectorManagementClient } from "../resourceConnectorManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ApplianceOperation,
   AppliancesListOperationsNextOptionalParams,
@@ -27,6 +31,8 @@ import {
   AppliancesListByResourceGroupNextOptionalParams,
   AppliancesListByResourceGroupOptionalParams,
   AppliancesListByResourceGroupResponse,
+  AppliancesGetTelemetryConfigOptionalParams,
+  AppliancesGetTelemetryConfigResponse,
   AppliancesGetOptionalParams,
   AppliancesGetResponse,
   AppliancesCreateOrUpdateOptionalParams,
@@ -34,10 +40,10 @@ import {
   AppliancesDeleteOptionalParams,
   AppliancesUpdateOptionalParams,
   AppliancesUpdateResponse,
-  AppliancesListClusterCustomerUserCredentialOptionalParams,
-  AppliancesListClusterCustomerUserCredentialResponse,
   AppliancesListClusterUserCredentialOptionalParams,
   AppliancesListClusterUserCredentialResponse,
+  AppliancesListKeysOptionalParams,
+  AppliancesListKeysResponse,
   AppliancesGetUpgradeGraphOptionalParams,
   AppliancesGetUpgradeGraphResponse,
   AppliancesListOperationsNextResponse,
@@ -265,6 +271,19 @@ export class AppliancesImpl implements Appliances {
   }
 
   /**
+   * Gets the telemetry config.
+   * @param options The options parameters.
+   */
+  getTelemetryConfig(
+    options?: AppliancesGetTelemetryConfigOptionalParams
+  ): Promise<AppliancesGetTelemetryConfigResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getTelemetryConfigOperationSpec
+    );
+  }
+
+  /**
    * Gets a list of Appliances in the specified subscription and resource group. The operation returns
    * properties of each Appliance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -310,8 +329,8 @@ export class AppliancesImpl implements Appliances {
     parameters: Appliance,
     options?: AppliancesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppliancesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppliancesCreateOrUpdateResponse>,
       AppliancesCreateOrUpdateResponse
     >
   > {
@@ -321,7 +340,7 @@ export class AppliancesImpl implements Appliances {
     ): Promise<AppliancesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -354,15 +373,18 @@ export class AppliancesImpl implements Appliances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppliancesCreateOrUpdateResponse,
+      OperationState<AppliancesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -400,14 +422,14 @@ export class AppliancesImpl implements Appliances {
     resourceGroupName: string,
     resourceName: string,
     options?: AppliancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -440,15 +462,15 @@ export class AppliancesImpl implements Appliances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -492,23 +514,6 @@ export class AppliancesImpl implements Appliances {
   }
 
   /**
-   * Returns the cluster customer user credentials for the dedicated appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Appliances name.
-   * @param options The options parameters.
-   */
-  listClusterCustomerUserCredential(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: AppliancesListClusterCustomerUserCredentialOptionalParams
-  ): Promise<AppliancesListClusterCustomerUserCredentialResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
-      listClusterCustomerUserCredentialOperationSpec
-    );
-  }
-
-  /**
    * Returns the cluster user credentials for the dedicated appliance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName Appliances name.
@@ -522,6 +527,23 @@ export class AppliancesImpl implements Appliances {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listClusterUserCredentialOperationSpec
+    );
+  }
+
+  /**
+   * Returns the cluster customer credentials for the dedicated appliance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Appliances name.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AppliancesListKeysOptionalParams
+  ): Promise<AppliancesListKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      listKeysOperationSpec
     );
   }
 
@@ -618,6 +640,23 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplianceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getTelemetryConfigOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/telemetryconfig",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplianceGetTelemetryConfigResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -754,13 +793,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listClusterCustomerUserCredentialOperationSpec: coreClient.OperationSpec = {
+const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listClusterCustomerUserCredential",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listClusterUserCredential",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListClusterCustomerUserCredentialResults
+      bodyMapper: Mappers.ApplianceListCredentialResults
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -776,13 +815,13 @@ const listClusterCustomerUserCredentialOperationSpec: coreClient.OperationSpec =
   headerParameters: [Parameters.accept],
   serializer
 };
-const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
+const listKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listClusterUserCredential",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listkeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListCredentialResults
+      bodyMapper: Mappers.ApplianceListKeysResults
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

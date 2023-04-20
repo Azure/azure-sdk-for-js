@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SAPDatabaseInstance,
   SAPDatabaseInstancesListNextOptionalParams,
@@ -172,8 +176,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesCreateResponse>,
       SAPDatabaseInstancesCreateResponse
     >
   > {
@@ -183,7 +187,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     ): Promise<SAPDatabaseInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,18 +220,21 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPDatabaseInstancesCreateResponse,
+      OperationState<SAPDatabaseInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -272,8 +279,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesUpdateResponse>,
       SAPDatabaseInstancesUpdateResponse
     >
   > {
@@ -283,7 +290,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     ): Promise<SAPDatabaseInstancesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,18 +323,21 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPDatabaseInstancesUpdateResponse,
+      OperationState<SAPDatabaseInstancesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -372,8 +382,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesDeleteResponse>,
       SAPDatabaseInstancesDeleteResponse
     >
   > {
@@ -383,7 +393,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     ): Promise<SAPDatabaseInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -416,20 +426,23 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPDatabaseInstancesDeleteResponse,
+      OperationState<SAPDatabaseInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -490,8 +503,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesStartInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesStartInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesStartInstanceResponse>,
       SAPDatabaseInstancesStartInstanceResponse
     >
   > {
@@ -501,7 +514,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     ): Promise<SAPDatabaseInstancesStartInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -534,20 +547,23 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
         options
       },
-      startInstanceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: startInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPDatabaseInstancesStartInstanceResponse,
+      OperationState<SAPDatabaseInstancesStartInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -590,8 +606,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesStopInstanceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPDatabaseInstancesStopInstanceResponse>,
+    SimplePollerLike<
+      OperationState<SAPDatabaseInstancesStopInstanceResponse>,
       SAPDatabaseInstancesStopInstanceResponse
     >
   > {
@@ -601,7 +617,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     ): Promise<SAPDatabaseInstancesStopInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -634,20 +650,23 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
         options
       },
-      stopInstanceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: stopInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPDatabaseInstancesStopInstanceResponse,
+      OperationState<SAPDatabaseInstancesStopInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

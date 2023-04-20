@@ -6,13 +6,7 @@ import {
   CommunicationUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import {
-  CallConnectionStateModel,
-  KnownRecordingChannelType,
-  KnownRecordingContentType,
-  KnownRecordingFormatType,
-  KnownRecordingStorageType,
-} from "../generated/src";
+import { CallConnectionStateModel } from "../generated/src";
 
 export {
   CallConnectionStateModel,
@@ -60,16 +54,10 @@ export interface CallParticipant {
   isMuted?: boolean;
 }
 
-/** The locator used for joining or taking action on a server call. */
-export interface ServerCallLocator {
+/** The locator used for joining or taking action on a call. */
+export interface CallLocator {
   id: string;
-  readonly kind?: "serverCallLocator";
-}
-
-/** The locator used for joining or taking action on a group call. */
-export interface GroupCallLocator {
-  id: string;
-  readonly kind?: "groupCallLocator";
+  kind: CallLocatorType;
 }
 
 /** The PlaySource model. */
@@ -196,27 +184,17 @@ export class CallInvite {
   }
 }
 
+/** The locator type of a call. */
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+
 /** The content type of a call recording. */
-export enum RecordingContent {
-  Audio = KnownRecordingContentType.Audio,
-  AudioVideo = KnownRecordingContentType.AudioVideo,
-}
+export type RecordingContent = "audio" | "audioVideo";
 
 /** The channel type of a call recording. */
-export enum RecordingChannel {
-  Mixed = KnownRecordingChannelType.Mixed,
-  Unmixed = KnownRecordingChannelType.Unmixed,
-}
+export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
-export enum RecordingFormat {
-  Mp3 = KnownRecordingFormatType.Mp3,
-  Mp4 = KnownRecordingFormatType.Mp4,
-  Wav = KnownRecordingFormatType.Wav,
-}
+export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 /** The storage type of a call recording. */
-export enum RecordingStorage {
-  Acs = KnownRecordingStorageType.Acs,
-  BlobStorage = KnownRecordingStorageType.BlobStorage,
-}
+export type RecordingStorage = "acs" | "blobStorage";

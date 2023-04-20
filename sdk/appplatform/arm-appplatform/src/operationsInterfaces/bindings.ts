@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BindingResource,
   BindingsListOptionalParams,
@@ -71,8 +71,8 @@ export interface Bindings {
     bindingResource: BindingResource,
     options?: BindingsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsCreateOrUpdateResponse>,
       BindingsCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface Bindings {
     appName: string,
     bindingName: string,
     options?: BindingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Binding.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -144,8 +144,8 @@ export interface Bindings {
     bindingResource: BindingResource,
     options?: BindingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsUpdateResponse>,
       BindingsUpdateResponse
     >
   >;

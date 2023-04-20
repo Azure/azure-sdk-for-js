@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@azure-tools/typespec-ts": "0.11.0",
-    "@azure-tools/typespec-autorest": "0.28.0",
-    "@typespec/eslint-config-typespec": "0.6.0",
-    "@typespec/eslint-plugin": "0.42.0",
-    "@typespec/library-linter": "0.42.0"
-  }
-}

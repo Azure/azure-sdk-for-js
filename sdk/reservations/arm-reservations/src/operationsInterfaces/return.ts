@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RefundRequest,
   ReturnPostOptionalParams,
@@ -26,7 +26,7 @@ export interface Return {
     body: RefundRequest,
     options?: ReturnPostOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>
+    SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>
   >;
   /**
    * Return a reservation and get refund information.

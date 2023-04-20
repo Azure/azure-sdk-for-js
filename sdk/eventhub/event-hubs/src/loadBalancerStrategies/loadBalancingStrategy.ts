@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PartitionOwnership } from "../eventProcessor";
-import { logger } from "../log";
+import { logger } from "../logger";
 
 /**
  * Determines which partitions to claim as part of load balancing.

@@ -40,13 +40,13 @@ import {
 /** Interface representing a Caches. */
 export interface Caches {
   /**
-   * Returns all Caches the user has access to under a subscription.
+   * Returns all caches the user has access to under a subscription.
    * @param options The options parameters.
    */
   list(options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache>;
   /**
-   * Returns all Caches the user has access to under a resource group.
-   * @param resourceGroupName Target resource group.
+   * Returns all caches the user has access to under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -54,9 +54,9 @@ export interface Caches {
     options?: CachesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Cache>;
   /**
-   * Schedules a Cache for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Schedules a cache for deletion.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -66,9 +66,9 @@ export interface Caches {
     options?: CachesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Schedules a Cache for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Schedules a cache for deletion.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -78,9 +78,9 @@ export interface Caches {
     options?: CachesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Returns a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Returns a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -90,11 +90,11 @@ export interface Caches {
     options?: CachesGetOptionalParams
   ): Promise<CachesGetResponse>;
   /**
-   * Create or update a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Create or update a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
-   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   * @param cache Object containing the user-selectable properties of the new cache. If read-only
    *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
@@ -110,11 +110,11 @@ export interface Caches {
     >
   >;
   /**
-   * Create or update a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Create or update a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
-   * @param cache Object containing the user-selectable properties of the new Cache. If read-only
+   * @param cache Object containing the user-selectable properties of the new cache. If read-only
    *              properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
@@ -125,9 +125,9 @@ export interface Caches {
     options?: CachesCreateOrUpdateOptionalParams
   ): Promise<CachesCreateOrUpdateResponse>;
   /**
-   * Update a Cache instance.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Update a cache instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -139,9 +139,9 @@ export interface Caches {
     SimplePollerLike<OperationState<CachesUpdateResponse>, CachesUpdateResponse>
   >;
   /**
-   * Update a Cache instance.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Update a cache instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -151,9 +151,9 @@ export interface Caches {
     options?: CachesUpdateOptionalParams
   ): Promise<CachesUpdateResponse>;
   /**
-   * Tells a Cache to write generate debug info for support to process.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a cache to write generate debug info for support to process.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -163,9 +163,9 @@ export interface Caches {
     options?: CachesDebugInfoOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Tells a Cache to write generate debug info for support to process.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a cache to write generate debug info for support to process.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -175,10 +175,10 @@ export interface Caches {
     options?: CachesDebugInfoOptionalParams
   ): Promise<void>;
   /**
-   * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see
+   * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
    * errors returned until the flush is complete.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -188,10 +188,10 @@ export interface Caches {
     options?: CachesFlushOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see
+   * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
    * errors returned until the flush is complete.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -201,9 +201,9 @@ export interface Caches {
     options?: CachesFlushOptionalParams
   ): Promise<void>;
   /**
-   * Tells a Stopped state Cache to transition to Active state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a Stopped state cache to transition to Active state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -213,9 +213,9 @@ export interface Caches {
     options?: CachesStartOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Tells a Stopped state Cache to transition to Active state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells a Stopped state cache to transition to Active state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -225,9 +225,9 @@ export interface Caches {
     options?: CachesStartOptionalParams
   ): Promise<void>;
   /**
-   * Tells an Active Cache to transition to Stopped state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells an Active cache to transition to Stopped state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -237,9 +237,9 @@ export interface Caches {
     options?: CachesStopOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Tells an Active Cache to transition to Stopped state.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Tells an Active cache to transition to Stopped state.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -250,8 +250,8 @@ export interface Caches {
   ): Promise<void>;
   /**
    * Create a priming job. This operation is only allowed when the cache is healthy.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -267,8 +267,8 @@ export interface Caches {
   >;
   /**
    * Create a priming job. This operation is only allowed when the cache is healthy.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -279,8 +279,8 @@ export interface Caches {
   ): Promise<CachesStartPrimingJobResponse>;
   /**
    * Schedule a priming job for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -296,8 +296,8 @@ export interface Caches {
   >;
   /**
    * Schedule a priming job for deletion.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -308,8 +308,8 @@ export interface Caches {
   ): Promise<CachesStopPrimingJobResponse>;
   /**
    * Schedule a priming job to be paused.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -325,8 +325,8 @@ export interface Caches {
   >;
   /**
    * Schedule a priming job to be paused.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -337,8 +337,8 @@ export interface Caches {
   ): Promise<CachesPausePrimingJobResponse>;
   /**
    * Resumes a paused priming job.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -354,8 +354,8 @@ export interface Caches {
   >;
   /**
    * Resumes a paused priming job.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -365,9 +365,9 @@ export interface Caches {
     options?: CachesResumePrimingJobOptionalParams
   ): Promise<CachesResumePrimingJobResponse>;
   /**
-   * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -377,9 +377,9 @@ export interface Caches {
     options?: CachesUpgradeFirmwareOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -390,8 +390,8 @@ export interface Caches {
   ): Promise<void>;
   /**
    * Update cache space allocation.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -407,8 +407,8 @@ export interface Caches {
   >;
   /**
    * Update cache space allocation.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */

@@ -36,7 +36,7 @@ export function createCommunicationAccessKeyCredentialPolicy(
       const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
       const url = new URL(request.url);
-      const query = url.searchParams;
+      const query = url.searchParams.toString();
       const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
       const port = url.port;
       const hostAndPort = port ? `${url.host}:${port}` : url.host;

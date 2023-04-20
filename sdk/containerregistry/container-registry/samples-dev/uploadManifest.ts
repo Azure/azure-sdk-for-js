@@ -6,7 +6,7 @@
  * @azsdk-weight 3
  */
 
-import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
+import { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,7 +16,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()
@@ -39,7 +39,8 @@ async function main() {
   const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
   const manifest: OciImageManifest = {
-    config: {
+    schemaVersion: 2,
+    configuration: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
       sizeInBytes: configSize,
@@ -57,7 +58,7 @@ async function main() {
   };
 
   // A manifest can be given a tag when uploading.
-  await client.uploadManifest(manifest, { tag: "1.0.0" });
+  await client.setManifest(manifest, { tag: "1.0.0" });
 }
 
 main().catch((err) => {

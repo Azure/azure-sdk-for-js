@@ -5,7 +5,7 @@
  * @summary Uploads a manifest to a repository.
  */
 
-import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
+import { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -15,7 +15,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()

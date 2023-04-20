@@ -1,0 +1,194 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "14fa600e-0b41-41c9-ada4-13f92eb94808"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 09:28:10 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "10",
+        "x-ms-correlation-request-id": "dadfe63a-7ead-4307-92be-0adeba54105b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "79e86120-858c-43cb-b693-67eac3861503",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092811Z:dadfe63a-7ead-4307-92be-0adeba54105b"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
+            "type": "Microsoft.CognitiveServices/accounts/deployments",
+            "name": "test",
+            "properties": {
+              "model": {
+                "format": "OpenAI",
+                "name": "text-ada-001",
+                "version": "1"
+              },
+              "scaleSettings": {
+                "scaleType": "Standard"
+              },
+              "capabilities": {
+                "completion": "true",
+                "search": "true"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "marygao@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2023-03-30T09:13:49.390617Z",
+              "lastModifiedBy": "marygao@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2023-03-30T09:13:49.390617Z"
+            },
+            "etag": "\u00228026f20f-0922-4ce8-b58c-064d3f7588f8\u0022"
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model",
+            "type": "Microsoft.CognitiveServices/accounts/deployments",
+            "name": "text-davince-model",
+            "properties": {
+              "model": {
+                "format": "OpenAI",
+                "name": "text-davinci-003",
+                "version": "1"
+              },
+              "scaleSettings": {
+                "scaleType": "Standard"
+              },
+              "capabilities": {
+                "completion": "true",
+                "search": "true"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-30T09:19:19.4294261Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-30T09:19:19.4294261Z"
+            },
+            "etag": "\u0022bfdfd313-080f-4dfe-85b0-b76327eaf8fe\u0022"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/text-davince-model?api-version=2022-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4d914e44-d26a-412a-8d4c-976a6e8d078f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Thu, 30 Mar 2023 09:28:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "103",
+        "x-ms-correlation-request-id": "1df6de34-64ba-4fc2-a5e0-514fa2a3caa3",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "1df6de34-64ba-4fc2-a5e0-514fa2a3caa3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092812Z:1df6de34-64ba-4fc2-a5e0-514fa2a3caa3"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4c2c7679-78f1-45cc-a7c3-1715ee490530"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 09:28:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "11",
+        "x-ms-correlation-request-id": "9cf8ebea-d03c-43f4-bef0-6222cab19b52",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "413f3f01-0d32-48a5-95dc-f14d503ba2e9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T092812Z:9cf8ebea-d03c-43f4-bef0-6222cab19b52"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai/deployments/test",
+            "type": "Microsoft.CognitiveServices/accounts/deployments",
+            "name": "test",
+            "properties": {
+              "model": {
+                "format": "OpenAI",
+                "name": "text-ada-001",
+                "version": "1"
+              },
+              "scaleSettings": {
+                "scaleType": "Standard"
+              },
+              "capabilities": {
+                "completion": "true",
+                "search": "true"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "marygao@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2023-03-30T09:13:49.390617Z",
+              "lastModifiedBy": "marygao@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2023-03-30T09:13:49.390617Z"
+            },
+            "etag": "\u00228026f20f-0922-4ce8-b58c-064d3f7588f8\u0022"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

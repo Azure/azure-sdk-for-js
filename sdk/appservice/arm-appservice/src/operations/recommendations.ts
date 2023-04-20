@@ -1155,11 +1155,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1179,11 +1174,6 @@ const listHistoryForHostingEnvironmentNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expiredOnly
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1205,11 +1195,6 @@ const listRecommendedRulesForHostingEnvironmentNextOperationSpec: coreClient.Ope
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1231,11 +1216,6 @@ const listHistoryForWebAppNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expiredOnly
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1257,11 +1237,6 @@ const listRecommendedRulesForWebAppNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

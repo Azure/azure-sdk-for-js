@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AppliedReservationList {
@@ -98,7 +98,7 @@ export type BillingPlan = string;
 
 // @public
 export interface CalculateExchange {
-    beginPost(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<PollerLike<PollOperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>>;
+    beginPost(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>>;
     beginPostAndWait(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<CalculateExchangePostResponse>;
 }
 
@@ -238,6 +238,8 @@ export interface Catalog {
 // @public
 export interface CatalogMsrp {
     p1Y?: Price;
+    p3Y?: Price;
+    p5Y?: Price;
 }
 
 // @public
@@ -331,7 +333,7 @@ export interface ExceptionResponse {
 
 // @public
 export interface Exchange {
-    beginPost(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<PollerLike<PollOperationState<ExchangePostResponse>, ExchangePostResponse>>;
+    beginPost(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>>;
     beginPostAndWait(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<ExchangePostResponse>;
 }
 
@@ -867,9 +869,9 @@ export interface PurchaseRequestPropertiesReservedResourceProperties {
 
 // @public
 export interface Quota {
-    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
+    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
     beginUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
     get(subscriptionId: string, providerId: string, location: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
     list(subscriptionId: string, providerId: string, location: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
@@ -1123,13 +1125,13 @@ export interface RenewPropertiesResponsePricingCurrencyTotal {
 // @public
 export interface Reservation {
     archive(reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams): Promise<void>;
-    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<PollerLike<PollOperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
+    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<SimplePollerLike<OperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
     beginAvailableScopesAndWait(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<ReservationAvailableScopesResponse>;
-    beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<PollerLike<PollOperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
+    beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<SimplePollerLike<OperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
     beginMergeAndWait(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<ReservationMergeResponse>;
-    beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<PollerLike<PollOperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
+    beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<SimplePollerLike<OperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
     beginSplitAndWait(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<ReservationSplitResponse>;
-    beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
+    beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
     beginUpdateAndWait(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<ReservationUpdateResponse>;
     get(reservationOrderId: string, reservationId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
     list(reservationOrderId: string, options?: ReservationListOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
@@ -1240,7 +1242,7 @@ export type ReservationMergeResponse = ReservationResponse[];
 
 // @public
 export interface ReservationOrder {
-    beginPurchase(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderPurchaseResponse>, ReservationOrderPurchaseResponse>>;
+    beginPurchase(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderPurchaseResponse>, ReservationOrderPurchaseResponse>>;
     beginPurchaseAndWait(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<ReservationOrderPurchaseResponse>;
     calculate(body: PurchaseRequest, options?: ReservationOrderCalculateOptionalParams): Promise<ReservationOrderCalculateResponse>;
     changeDirectory(reservationOrderId: string, body: ChangeDirectoryRequest, options?: ReservationOrderChangeDirectoryOptionalParams): Promise<ReservationOrderChangeDirectoryResponse>;
@@ -1535,7 +1537,7 @@ export type ResourceType = string;
 
 // @public
 export interface Return {
-    beginPost(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>>;
+    beginPost(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>>;
     beginPostAndWait(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
 }
 
@@ -1552,7 +1554,7 @@ export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
+export type ReturnPostResponse = ReservationOrderResponse;
 
 // @public
 export interface SavingsPlanPurchaseRequest {

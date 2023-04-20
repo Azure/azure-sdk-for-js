@@ -37,6 +37,8 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
+import { ContentDownloaderImpl } from "./contentDownloader";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -63,6 +65,7 @@ export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly callConnectionImpl: CallConnectionImpl;
   private readonly callRecordingImpl: CallRecordingImpl;
+  private readonly contentDownloaderImpl: ContentDownloaderImpl;
   private readonly callMediaImpl: CallMediaImpl;
   private readonly sourceIdentity?: CommunicationIdentifierModel;
 
@@ -127,6 +130,7 @@ export class CallAutomationClient {
     this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
     this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
+    this.contentDownloaderImpl = new ContentDownloaderImpl(this.callAutomationApiClient);
     this.sourceIdentity = options.sourceIdentity
       ? communicationIdentifierModelConverter(options.sourceIdentity)
       : undefined;
@@ -144,7 +148,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callRecordingImpl);
+    return new CallRecording(this.callRecordingImpl, this.contentDownloaderImpl);
   }
 
   /**
@@ -156,42 +160,16 @@ export class CallAutomationClient {
       : undefined;
   }
 
-  /**
-   * Create an outgoing call from source to target identities.
-   * @param target - Either a single target or a group of target identities.
-   * @param callbackUri - The callback url.
-   * @param options - Additional request options contains createCallConnection api options.
-   */
-  public async createCall(
-    target: CallInvite | CommunicationIdentifier[],
-    callbackUri: string,
-    options: CreateCallOptions = {}
+  private async createCallInternal(
+    request: CreateCallRequest,
+    options?: CreateCallOptions
   ): Promise<CreateCallResult> {
-    const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
-      targets:
-        target instanceof CallInvite
-          ? [communicationIdentifierModelConverter(target.target)]
-          : target.map((m) => communicationIdentifierModelConverter(m)),
-      callbackUri: callbackUri,
-      operationContext: options.operationContext,
-      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      sourceCallerIdNumber:
-        target instanceof CallInvite
-          ? PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber)
-          : options.sourceCallIdNumber
-          ? PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber)
-          : undefined,
-      sourceDisplayName:
-        target instanceof CallInvite
-          ? target.sourceDisplayName
-          : options.sourceDisplayName
-          ? options.sourceDisplayName
-          : undefined,
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
     };
-
-    const result = await this.callAutomationApiClient.createCall(request, options);
+    const result = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (result?.callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -221,24 +199,86 @@ export class CallAutomationClient {
   }
 
   /**
+   * Create an outgoing call from source to a target identity.
+   * @param target - A single target.
+   * @param callbackUrl - The callback url.
+   * @param options - Additional request options contains createCallConnection api options.
+   */
+  public async createCall(
+    target: CallInvite,
+    callbackUrl: string,
+    options: CreateCallOptions = {}
+  ): Promise<CreateCallResult> {
+    const request: CreateCallRequest = {
+      sourceIdentity: this.sourceIdentity,
+      targets: [communicationIdentifierModelConverter(target.target)],
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: target.sipHeaders,
+        voipHeaders: target.voipHeaders,
+      },
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
+      sourceDisplayName: target.sourceDisplayName,
+    };
+
+    return this.createCallInternal(request, options);
+  }
+
+  /**
+   * Create an outgoing call from source to a group of targets identities.
+   * @param targets - A group of targets identities.
+   * @param callbackUrl - The callback url.
+   * @param options - Additional request options contains createCallConnection api options.
+   */
+  public async createGroupCall(
+    targets: CommunicationIdentifier[],
+    callbackUrl: string,
+    options: CreateCallOptions = {}
+  ): Promise<CreateCallResult> {
+    const request: CreateCallRequest = {
+      sourceIdentity: this.sourceIdentity,
+      targets: targets.map((target) => communicationIdentifierModelConverter(target)),
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: options.sipHeaders,
+        voipHeaders: options.voipHeaders,
+      },
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
+      sourceDisplayName: options.sourceDisplayName,
+    };
+
+    return this.createCallInternal(request, options);
+  }
+
+  /**
    * Answer the call.
    * @param incomingCallContext - The context associated with the call.
-   * @param callbackUri - The callback url.
+   * @param callbackUrl - The callback url.
    * @param options - Additional request options contains answerCall api options.
    */
   public async answerCall(
     incomingCallContext: string,
-    callbackUri: string,
+    callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      callbackUri: callbackUri,
+      callbackUri: callbackUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
     };
-
-    const result = await this.callAutomationApiClient.answerCall(request, options);
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (result?.callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
@@ -280,9 +320,20 @@ export class CallAutomationClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(target.target),
+      customContext: {
+        sipHeaders:
+          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+        voipHeaders:
+          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
+      },
+    };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
     };
 
-    return this.callAutomationApiClient.redirectCall(request, options);
+    return this.callAutomationApiClient.redirectCall(request, optionsInternal);
   }
 
   /**
@@ -299,7 +350,12 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       callRejectReason: options.callRejectReason,
     };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
 
-    return this.callAutomationApiClient.rejectCall(request, options);
+    return this.callAutomationApiClient.rejectCall(request, optionsInternal);
   }
 }

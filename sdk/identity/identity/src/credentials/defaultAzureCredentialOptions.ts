@@ -47,4 +47,11 @@ export interface DefaultAzureCredentialOptions
    * By default it may use a generic tenant ID depending on the underlying credential.
    */
   tenantId?: string;
+
+  /**
+   * Timeout configurable for making token requests for developer credentials, namely, {@link AzurePowershellCredential},
+   * {@link AzureDeveloperCliCredential} and {@link AzureCliCredential}.
+   * This should be provided in milliseconds.
+   */
+  developerCredentialTimeOutInMs?: number;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DomainResource,
   DomainsListByEmailServiceResourceOptionalParams,
@@ -69,8 +69,8 @@ export interface Domains {
     parameters: DomainResource,
     options?: DomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainsCreateOrUpdateResponse>,
       DomainsCreateOrUpdateResponse
     >
   >;
@@ -102,7 +102,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     options?: DomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Domains resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -131,7 +131,10 @@ export interface Domains {
     parameters: UpdateDomainRequestParameters,
     options?: DomainsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<DomainsUpdateResponse>, DomainsUpdateResponse>
+    SimplePollerLike<
+      OperationState<DomainsUpdateResponse>,
+      DomainsUpdateResponse
+    >
   >;
   /**
    * Operation to update an existing Domains resource.
@@ -163,8 +166,8 @@ export interface Domains {
     parameters: VerificationParameter,
     options?: DomainsInitiateVerificationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsInitiateVerificationResponse>,
+    SimplePollerLike<
+      OperationState<DomainsInitiateVerificationResponse>,
       DomainsInitiateVerificationResponse
     >
   >;
@@ -198,8 +201,8 @@ export interface Domains {
     parameters: VerificationParameter,
     options?: DomainsCancelVerificationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsCancelVerificationResponse>,
+    SimplePollerLike<
+      OperationState<DomainsCancelVerificationResponse>,
       DomainsCancelVerificationResponse
     >
   >;

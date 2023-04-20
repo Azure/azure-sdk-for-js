@@ -1,8 +1,8 @@
 {
-  "commit": "fce0b25dda01303f2c70de34031169b5d326998b",
+  "commit": "6b992c049ed7d6a95465d5c0a2234fc54c87b9bf",
   "readme": "specification/postgresql/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=F:\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\postgresql\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.6.20221226.1 --generate-sample=true --tag=package-flexibleserver-2022-12-01",
+  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\postgresql\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.10 --generate-sample=true --tag=package-flexibleserver-2022-12-01 --typescript",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.5.4",
-  "use": "@autorest/typescript@6.0.0-rc.6.20221226.1"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.6.2",
+  "use": "@autorest/typescript@6.0.0-rc.10"
 }

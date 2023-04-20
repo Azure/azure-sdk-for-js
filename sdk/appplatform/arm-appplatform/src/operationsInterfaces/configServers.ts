@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigServersGetOptionalParams,
   ConfigServersGetResponse,
@@ -48,8 +48,8 @@ export interface ConfigServers {
     configServerResource: ConfigServerResource,
     options?: ConfigServersUpdatePutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigServersUpdatePutResponse>,
+    SimplePollerLike<
+      OperationState<ConfigServersUpdatePutResponse>,
       ConfigServersUpdatePutResponse
     >
   >;
@@ -81,8 +81,8 @@ export interface ConfigServers {
     configServerResource: ConfigServerResource,
     options?: ConfigServersUpdatePatchOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigServersUpdatePatchResponse>,
+    SimplePollerLike<
+      OperationState<ConfigServersUpdatePatchResponse>,
       ConfigServersUpdatePatchResponse
     >
   >;
@@ -114,8 +114,8 @@ export interface ConfigServers {
     configServerSettings: ConfigServerSettings,
     options?: ConfigServersValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigServersValidateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigServersValidateResponse>,
       ConfigServersValidateResponse
     >
   >;

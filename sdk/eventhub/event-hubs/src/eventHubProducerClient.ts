@@ -17,7 +17,7 @@ import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import {
   idempotentAlreadyPublished,
   idempotentSomeAlreadyPublished,

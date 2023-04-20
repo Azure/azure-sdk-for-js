@@ -1,6 +1,6 @@
 # Release History
 
-## 17.0.2 (Unreleased)
+## 18.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,60 @@
 
 ### Other Changes
 
+## 18.0.0 (2023-03-08)
+    
+**Features**
+
+  - Added operation Backups.beginRestoreFiles
+  - Added operation Backups.beginRestoreFilesAndWait
+  - Added operation Volumes.beginBreakFileLocks
+  - Added operation Volumes.beginBreakFileLocksAndWait
+  - Added Interface BackupRestoreFiles
+  - Added Interface BackupsRestoreFilesHeaders
+  - Added Interface BackupsRestoreFilesOptionalParams
+  - Added Interface BreakFileLocksRequest
+  - Added Interface ManagedServiceIdentity
+  - Added Interface VolumesBreakFileLocksHeaders
+  - Added Interface VolumesBreakFileLocksOptionalParams
+  - Added Type Alias FileAccessLogs
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface ActiveDirectory has a new optional parameter preferredServersForLdapClient
+  - Interface Volume has a new optional parameter dataStoreResourceId
+  - Interface Volume has a new optional parameter fileAccessLogs
+  - Interface Volume has a new optional parameter isLargeVolume
+  - Interface Volume has a new optional parameter provisionedAvailabilityZone
+  - Interface VolumeGroupVolumeProperties has a new optional parameter dataStoreResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter fileAccessLogs
+  - Interface VolumeGroupVolumeProperties has a new optional parameter isLargeVolume
+  - Interface VolumeGroupVolumeProperties has a new optional parameter provisionedAvailabilityZone
+  - Interface VolumePropertiesDataProtection has a new optional parameter volumeRelocation
+  - Interface VolumeQuotaRulePatch has a new optional parameter tags
+  - Interface VolumeRelocationProperties has a new optional parameter readyToBeFinalized
+  - Added Enum KnownFileAccessLogs
+  - Added Enum KnownManagedServiceIdentityType
+
+**Breaking Changes**
+
+  - Removed operation group Vaults
+  - Operation NetAppResource.checkNameAvailability has a new signature
+  - Operation NetAppResource.checkQuotaAvailability has a new signature
+  - Interface Backup no longer has parameter id
+  - Interface Backup no longer has parameter name
+  - Interface Backup no longer has parameter type
+  - Interface BackupPolicyDetails no longer has parameter id
+  - Interface BackupPolicyDetails no longer has parameter name
+  - Interface BackupPolicyDetails no longer has parameter type
+  - Interface Snapshot no longer has parameter id
+  - Interface Snapshot no longer has parameter name
+  - Interface Snapshot no longer has parameter type
+  - Interface VolumeBackupProperties no longer has parameter vaultId
+  - Interface VolumeRelocationProperties no longer has parameter oldBareMetalTenantId
+  - Interface VolumeRelocationProperties no longer has parameter oldVolumeId
+  - Type of parameter identity of interface NetAppAccount is changed from Identity to ManagedServiceIdentity
+  - Class NetAppManagementClient no longer has parameter vaults
+  - Removed Enum KnownIdentityType
+    
+    
 ## 17.0.1 (2023-02-01)
     
 **Features**

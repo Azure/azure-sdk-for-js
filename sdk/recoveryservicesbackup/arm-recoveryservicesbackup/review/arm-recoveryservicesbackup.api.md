@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AcquireStorageAccountLock = string;
@@ -1280,6 +1280,7 @@ export interface BMSRefreshContainersQueryObject {
 export interface BmsrpQueryObject {
     endDate?: Date;
     extendedInfo?: boolean;
+    includeSoftDeletedRP?: boolean;
     moveReadyRPOnly?: boolean;
     restorePointQueryType?: RestorePointQueryType;
     startDate?: Date;
@@ -1595,6 +1596,12 @@ export interface ExportJobsOperationResultsGetOptionalParams extends coreClient.
 export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResource;
 
 // @public
+export interface ExtendedLocation {
+    name?: string;
+    type?: string;
+}
+
+// @public
 export interface ExtendedProperties {
     diskExclusionProperties?: DiskExclusionProperties;
     linuxVmApplicationName?: string;
@@ -1745,6 +1752,7 @@ export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassi
 export interface IaasVMRecoveryPoint extends RecoveryPoint {
     isInstantIlrSessionActive?: boolean;
     isManagedVirtualMachine?: boolean;
+    isPrivateAccessEnabledOnAnyDisk?: boolean;
     isSourceVMEncrypted?: boolean;
     keyAndSecret?: KeyAndSecretDetails;
     objectType: "IaasVMRecoveryPoint";
@@ -1759,6 +1767,7 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
     recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
     recoveryPointTime?: Date;
     recoveryPointType?: string;
+    securityType?: string;
     sourceVMStorageType?: string;
     virtualMachineSize?: string;
     zones?: string[];
@@ -1770,6 +1779,7 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
     createNewCloudService?: boolean;
     diskEncryptionSetId?: string;
     encryptionDetails?: EncryptionDetails;
+    extendedLocation?: ExtendedLocation;
     identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
     identityInfo?: IdentityInfo;
     objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
@@ -1779,9 +1789,11 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
     region?: string;
     restoreDiskLunList?: number[];
     restoreWithManagedDisks?: boolean;
+    securedVMDetails?: SecuredVMDetails;
     sourceResourceId?: string;
     storageAccountId?: string;
     subnetId?: string;
+    targetDiskNetworkAccessSettings?: TargetDiskNetworkAccessSettings;
     targetDomainNameId?: string;
     targetResourceGroupId?: string;
     targetVirtualMachineId?: string;
@@ -2908,9 +2920,9 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionReso
 
 // @public
 export interface PrivateEndpointConnectionOperations {
-    beginDelete(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
-    beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionPutResponse>, PrivateEndpointConnectionPutResponse>>;
+    beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionPutResponse>, PrivateEndpointConnectionPutResponse>>;
     beginPutAndWait(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<PrivateEndpointConnectionPutResponse>;
     get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
 }
@@ -3250,7 +3262,7 @@ export type ProtectionIntentValidateResponse = PreValidateEnableBackupResponse;
 
 // @public
 export interface ProtectionPolicies {
-    beginDelete(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<void>;
     createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams): Promise<ProtectionPoliciesCreateOrUpdateResponse>;
     get(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesGetOptionalParams): Promise<ProtectionPoliciesGetResponse>;
@@ -3363,6 +3375,7 @@ export interface RecoveryPointMoveReadinessInfo {
 // @public
 export interface RecoveryPointProperties {
     expiryTime?: string;
+    isSoftDeleted?: boolean;
     ruleName?: string;
 }
 
@@ -3490,11 +3503,11 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     backupUsageSummaries: BackupUsageSummaries;
     // (undocumented)
     backupWorkloadItems: BackupWorkloadItems;
-    beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginBMSPrepareDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<void>;
-    beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginBMSTriggerDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<void>;
-    beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMoveRecoveryPointAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<void>;
     // (undocumented)
     bMSPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResult;
@@ -3721,7 +3734,7 @@ export type RestoreRequestUnion = RestoreRequest | AzureFileShareRestoreRequest 
 
 // @public
 export interface Restores {
-    beginTrigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTrigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<void>;
 }
 
@@ -3761,6 +3774,11 @@ export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermS
 
 // @public
 export type ScheduleRunType = string;
+
+// @public
+export interface SecuredVMDetails {
+    securedVMOsDiskEncryptionSetId?: string;
+}
 
 // @public
 export interface SecurityPinBase {
@@ -3859,6 +3877,15 @@ export interface TargetAFSRestoreInfo {
 }
 
 // @public
+export type TargetDiskNetworkAccessOption = "SameAsOnSourceDisks" | "EnablePrivateAccessForAllDisks" | "EnablePublicAccessForAllDisks";
+
+// @public
+export interface TargetDiskNetworkAccessSettings {
+    targetDiskAccessId?: string;
+    targetDiskNetworkAccessOption?: TargetDiskNetworkAccessOption;
+}
+
+// @public
 export interface TargetRestoreInfo {
     containerId?: string;
     databaseName?: string;
@@ -3919,7 +3946,7 @@ export interface ValidateIaasVMRestoreOperationRequest extends ValidateRestoreOp
 
 // @public
 export interface ValidateOperation {
-    beginTrigger(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTrigger(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerAndWait(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<void>;
 }
 

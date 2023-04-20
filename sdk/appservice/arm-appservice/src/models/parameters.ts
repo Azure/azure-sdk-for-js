@@ -52,8 +52,11 @@ import {
   StaticSitePatchResource as StaticSitePatchResourceMapper,
   StaticSiteUserARMResource as StaticSiteUserARMResourceMapper,
   StringDictionary as StringDictionaryMapper,
+  DatabaseConnection as DatabaseConnectionMapper,
+  DatabaseConnectionPatchRequest as DatabaseConnectionPatchRequestMapper,
   StaticSiteUserProvidedFunctionAppARMResource as StaticSiteUserProvidedFunctionAppARMResourceMapper,
   StaticSiteZipDeploymentARMResource as StaticSiteZipDeploymentARMResourceMapper,
+  StaticSiteBasicAuthPropertiesARMResource as StaticSiteBasicAuthPropertiesARMResourceMapper,
   StaticSiteUserInvitationRequestResource as StaticSiteUserInvitationRequestResourceMapper,
   StaticSiteCustomDomainRequestPropertiesARMResource as StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
   StaticSiteResetPropertiesARMResource as StaticSiteResetPropertiesARMResourceMapper,
@@ -92,6 +95,7 @@ import {
   SnapshotRestoreRequest as SnapshotRestoreRequestMapper,
   SiteSourceControl as SiteSourceControlMapper,
   VnetInfoResource as VnetInfoResourceMapper,
+  WorkflowArtifacts as WorkflowArtifactsMapper,
   RegenerateActionParameter as RegenerateActionParameterMapper,
   Workflow as WorkflowMapper
 } from "../models/mappers";
@@ -136,7 +140,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -773,50 +777,6 @@ export const stackOsType: OperationQueryParameter = {
   }
 };
 
-export const stackOsType1: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType2: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType3: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const osTypeSelected1: OperationQueryParameter = {
-  parameterPath: ["options", "osTypeSelected"],
-  mapper: {
-    serializedName: "osTypeSelected",
-    xmlName: "osTypeSelected",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const featured: OperationQueryParameter = {
   parameterPath: ["options", "featured"],
   mapper: {
@@ -1075,6 +1035,46 @@ export const appSettings: OperationParameter = {
   mapper: StringDictionaryMapper
 };
 
+export const environmentName2: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+$")
+    },
+    serializedName: "environmentName",
+    required: true,
+    xmlName: "environmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const databaseConnectionName: OperationURLParameter = {
+  parameterPath: "databaseConnectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+$")
+    },
+    serializedName: "databaseConnectionName",
+    required: true,
+    xmlName: "databaseConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const databaseConnectionRequestEnvelope: OperationParameter = {
+  parameterPath: "databaseConnectionRequestEnvelope",
+  mapper: DatabaseConnectionMapper
+};
+
+export const databaseConnectionRequestEnvelope1: OperationParameter = {
+  parameterPath: "databaseConnectionRequestEnvelope",
+  mapper: DatabaseConnectionPatchRequestMapper
+};
+
 export const functionAppName: OperationURLParameter = {
   parameterPath: "functionAppName",
   mapper: {
@@ -1106,6 +1106,23 @@ export const isForced: OperationQueryParameter = {
 export const staticSiteZipDeploymentEnvelope: OperationParameter = {
   parameterPath: "staticSiteZipDeploymentEnvelope",
   mapper: StaticSiteZipDeploymentARMResourceMapper
+};
+
+export const basicAuthName: OperationURLParameter = {
+  parameterPath: "basicAuthName",
+  mapper: {
+    serializedName: "basicAuthName",
+    required: true,
+    xmlName: "basicAuthName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const basicAuthEnvelope: OperationParameter = {
+  parameterPath: "basicAuthEnvelope",
+  mapper: StaticSiteBasicAuthPropertiesARMResourceMapper
 };
 
 export const staticSiteUserRolesInvitationEnvelope: OperationParameter = {
@@ -1713,12 +1730,34 @@ export const connectionEnvelope4: OperationParameter = {
   mapper: VnetInfoResourceMapper
 };
 
+export const workflowArtifacts: OperationParameter = {
+  parameterPath: ["options", "workflowArtifacts"],
+  mapper: WorkflowArtifactsMapper
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "workflowName",
+    required: true,
+    xmlName: "workflowName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const keyType1: OperationParameter = {
   parameterPath: "keyType",
   mapper: RegenerateActionParameterMapper
 };
 
-export const workflowName: OperationURLParameter = {
+export const workflowName1: OperationURLParameter = {
   parameterPath: "workflowName",
   mapper: {
     serializedName: "workflowName",

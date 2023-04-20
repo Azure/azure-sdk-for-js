@@ -29,14 +29,14 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
-}; queryParametersToSkip: []
+};
 
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Cosmosdb test", () => {
+describe.only("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -52,7 +52,7 @@ describe("Cosmosdb test", () => {
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "czwjstest";
     accountName = "myaccountxxyy2";
   });
 

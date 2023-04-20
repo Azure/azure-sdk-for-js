@@ -19,8 +19,8 @@ export interface StorageTargetOperations {
   /**
    * Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to
    * this storage target's namespace will return errors until the flush operation completes.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -34,8 +34,8 @@ export interface StorageTargetOperations {
   /**
    * Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to
    * this storage target's namespace will return errors until the flush operation completes.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -48,8 +48,8 @@ export interface StorageTargetOperations {
   ): Promise<void>;
   /**
    * Suspends client access to a storage target.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -62,8 +62,8 @@ export interface StorageTargetOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Suspends client access to a storage target.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -76,8 +76,8 @@ export interface StorageTargetOperations {
   ): Promise<void>;
   /**
    * Resumes client access to a previously suspended storage target.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -90,8 +90,8 @@ export interface StorageTargetOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resumes client access to a previously suspended storage target.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -105,8 +105,8 @@ export interface StorageTargetOperations {
   /**
    * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
    * back end on the next request.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -120,8 +120,8 @@ export interface StorageTargetOperations {
   /**
    * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
    * back end on the next request.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.

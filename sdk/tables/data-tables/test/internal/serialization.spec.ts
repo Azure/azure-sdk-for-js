@@ -31,8 +31,8 @@ interface Entity {
   undefinedProp?: undefined;
 }
 
-describe("Serializer", () => {
-  it("should serialize a Boolean value", () => {
+describe("Serializer", function () {
+  it("should serialize a Boolean value", function () {
     const boolValue = true;
     const serialized: any = serialize({
       boolProp: boolValue,
@@ -43,7 +43,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["boolObjProp@odata.type"], "Edm.Boolean");
   });
 
-  it("should serialize null and undefined values", () => {
+  it("should serialize null and undefined values", function () {
     const serialized: any = serialize({
       nullProp: null,
       undefinedProp: undefined,
@@ -52,7 +52,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized.undefinedProp, undefined);
   });
 
-  it("should serialize a String value", () => {
+  it("should serialize a String value", function () {
     const strValue = "Test String";
     const serialized: any = serialize({
       strProp: strValue,
@@ -63,7 +63,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["strObjProp@odata.type"], "Edm.String");
   });
 
-  it("should serialize a Double value", () => {
+  it("should serialize a Double value", function () {
     const doubleValue = 3.1415;
     const serialized: any = serialize({
       doubleProp: doubleValue,
@@ -74,7 +74,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["doubleObjProp@odata.type"], "Edm.Double");
   });
 
-  it("should serialize an Int32 value", () => {
+  it("should serialize an Int32 value", function () {
     const int32Value = 123;
     const serialized: any = serialize({
       int32Prop: int32Value,
@@ -85,7 +85,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["int32ObjProp@odata.type"], "Edm.Int32");
   });
 
-  it("should serialize an Int64 value", () => {
+  it("should serialize an Int64 value", function () {
     const int64Value = "12345678910";
     const serialized: any = serialize({
       int64ObjProp: { value: int64Value, type: "Int64" },
@@ -94,7 +94,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["int64ObjProp@odata.type"], "Edm.Int64");
   });
 
-  it("should serialize a Date value", () => {
+  it("should serialize a Date value", function () {
     const dateValue = new Date();
     const serialized: any = serialize({
       dateProp: dateValue,
@@ -105,7 +105,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["dateObjProp@odata.type"], "Edm.DateTime");
   });
 
-  it("should serialize a Guid value", () => {
+  it("should serialize a Guid value", function () {
     const guidValue = "123e4567-e89b-12d3-a456-426614174000";
     const serialized: any = serialize({
       guidObjProp: { value: guidValue, type: "Guid" },
@@ -114,7 +114,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["guidObjProp@odata.type"], "Edm.Guid");
   });
 
-  it("should serialize a Binary value", () => {
+  it("should serialize a Binary value", function () {
     const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
     const base64Encoded = "VGVzdDEyMw==";
     const serialized: any = serialize({
@@ -127,8 +127,8 @@ describe("Serializer", () => {
   });
 });
 
-describe("Deserializer", () => {
-  it("should deserialize a null and undefined values", () => {
+describe("Deserializer", function () {
+  it("should deserialize a null and undefined values", function () {
     const deserialized: Entity = deserialize<Entity>({
       nullProp: null,
       undefinedProp: undefined,
@@ -137,7 +137,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.undefinedProp, undefined);
   });
 
-  it("should deserialize a Boolean value", () => {
+  it("should deserialize a Boolean value", function () {
     const boolValue = true;
     const deserialized: Entity = deserialize<Entity>({
       boolProp: boolValue,
@@ -145,7 +145,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.boolProp, boolValue);
   });
 
-  it("should deserialize a String value", () => {
+  it("should deserialize a String value", function () {
     const strValue = "Test String";
     const deserialized: Entity = deserialize<Entity>({
       strProp: strValue,
@@ -153,7 +153,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.strProp, strValue);
   });
 
-  it("should deserialize a Double value", () => {
+  it("should deserialize a Double value", function () {
     const doubleValue = 3.1415;
     const deserialized: Entity = deserialize<Entity>({
       doubleProp: doubleValue,
@@ -161,7 +161,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.doubleProp, doubleValue);
   });
 
-  it("should deserialize an Int32 value", () => {
+  it("should deserialize an Int32 value", function () {
     const int32Value = 123;
     const deserialized: Entity = deserialize<Entity>({
       int32Prop: int32Value,
@@ -181,7 +181,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.int64ObjProp, BigInt(int64Value));
   });
 
-  it("should not deserialize an Int64 when disableTypeConversion is true", () => {
+  it("should not deserialize an Int64 when disableTypeConversion is true", function () {
     const int64Value = "12345678910";
     const deserialized = deserialize(
       {
@@ -194,7 +194,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.int64ObjProp.type, "Int64");
   });
 
-  it("should return an EDM object for Int32 when disableTypeConversion is true", () => {
+  it("should return an EDM object for Int32 when disableTypeConversion is true", function () {
     const intValue = 123;
     const deserialized = deserialize(
       {
@@ -206,7 +206,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.intValue.type, "Int32");
   });
 
-  it("should return an EDM object for Boolean when disableTypeConversion is true", () => {
+  it("should return an EDM object for Boolean when disableTypeConversion is true", function () {
     const boolValue = true;
     const deserialized = deserialize(
       {
@@ -218,7 +218,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.boolValue.type, "Boolean");
   });
 
-  it("should return an EDM object for String when disableTypeConversion is true", () => {
+  it("should return an EDM object for String when disableTypeConversion is true", function () {
     // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
     // preserve zero decimals during parsing so 123.00 is interpreted as an integer
     const stringValue = "foo";
@@ -232,7 +232,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.stringValue.type, "String");
   });
 
-  it("should return an EDM object for Int32 when decimals are zero and disableTypeConversion is true", () => {
+  it("should return an EDM object for Int32 when decimals are zero and disableTypeConversion is true", function () {
     // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
     // preserve zero decimals during parsing so 123.00 is interpreted as an integer
     const doubleValue = 123.0;
@@ -246,7 +246,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.intValue.type, "Int32");
   });
 
-  it("should return an EDM object for Double when disableTypeConversion is true", () => {
+  it("should return an EDM object for Double when disableTypeConversion is true", function () {
     // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
     // preserve zero decimals during parsing so 123.00 is interpreted as an integer
     const doubleValue = 123.01;
@@ -260,7 +260,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.intValue.type, "Double");
   });
 
-  it("should return a number disableTypeConversion is false", () => {
+  it("should return a number disableTypeConversion is false", function () {
     const intValue = 123;
     const deserialized = deserialize(
       {
@@ -271,7 +271,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.intValue, intValue);
   });
 
-  it("should return a number when disableTypeConversion is false", () => {
+  it("should return a number when disableTypeConversion is false", function () {
     const decimalValue = 123.0;
     const deserialized = deserialize(
       {
@@ -282,7 +282,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.intValue, decimalValue);
   });
 
-  it("should deserialize a Date value", () => {
+  it("should deserialize a Date value", function () {
     const dateValue = new Date();
     const deserialized = deserialize({
       dateProp: dateValue.toJSON(),
@@ -291,7 +291,7 @@ describe("Deserializer", () => {
     assert.deepEqual(deserialized.dateProp, dateValue);
   });
 
-  it("should not deserialize a Date value", () => {
+  it("should not deserialize a Date value", function () {
     const dateValue = new Date();
     const deserialized = deserialize<{ dateProp: Edm<"DateTime"> }>(
       {
@@ -303,7 +303,7 @@ describe("Deserializer", () => {
     assert.deepEqual(deserialized.dateProp, { type: "DateTime", value: dateValue.toISOString() });
   });
 
-  it("should deserialize a Guid value", () => {
+  it("should deserialize a Guid value", function () {
     const guidValue = "123e4567-e89b-12d3-a456-426614174000";
     const deserialized: Entity = deserialize<Entity>({
       guidObjProp: guidValue,
@@ -313,7 +313,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.guidObjProp?.type, "Guid");
   });
 
-  it("should deserialize a Binary value", () => {
+  it("should deserialize a Binary value", function () {
     const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
     const base64Encoded = "VGVzdDEyMw==";
     const deserialized: Entity = deserialize<Entity>({
@@ -324,8 +324,8 @@ describe("Deserializer", () => {
   });
 });
 
-describe("SignedIdentifier serialization", () => {
-  it("should serialize to date without decimal", () => {
+describe("SignedIdentifier serialization", function () {
+  it("should serialize to date without decimal", function () {
     const date = new Date("2021-06-09T16:34:29.000Z");
     const expectedDate = "2021-06-09T16:34:29Z";
 
@@ -338,7 +338,7 @@ describe("SignedIdentifier serialization", () => {
     assert.equal(serialized[0].accessPolicy?.start, expectedDate);
   });
 
-  it("should deserialize to date", () => {
+  it("should deserialize to date", function () {
     const expectedDate = new Date("2021-06-09T16:34:29.000Z");
     const date = "2021-06-09T16:34:29Z";
 

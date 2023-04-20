@@ -191,7 +191,7 @@ export const EmailMessage: coreClient.CompositeMapper = {
           }
         }
       },
-      userEngagementTrackingDisabled: {
+      disableUserEngagementTracking: {
         serializedName: "userEngagementTrackingDisabled",
         type: {
           name: "Boolean"

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AppServiceCertificateOrder,
   AppServiceCertificateOrdersListOptionalParams,
@@ -111,8 +111,8 @@ export interface AppServiceCertificateOrders {
     certificateDistinguishedName: AppServiceCertificateOrder,
     options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
       AppServiceCertificateOrdersCreateOrUpdateResponse
     >
   >;
@@ -181,8 +181,8 @@ export interface AppServiceCertificateOrders {
     keyVaultCertificate: AppServiceCertificateResource,
     options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
       >,
       AppServiceCertificateOrdersCreateOrUpdateCertificateResponse

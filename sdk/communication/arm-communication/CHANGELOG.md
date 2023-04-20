@@ -1,22 +1,13 @@
 # Release History
-
-## 4.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.0-beta.3 (2023-01-12)
+    
+## 4.0.0 (2023-03-27)
     
 **Features**
 
   - Added operation group CommunicationServices
   - Added operation group Domains
   - Added operation group EmailServices
+  - Added operation group SenderUsernames
   - Added Interface CheckNameAvailabilityRequest
   - Added Interface CheckNameAvailabilityResponse
   - Added Interface CommunicationServiceResource
@@ -34,7 +25,6 @@
   - Added Interface CommunicationServicesListBySubscriptionOptionalParams
   - Added Interface CommunicationServicesListKeysOptionalParams
   - Added Interface CommunicationServicesRegenerateKeyOptionalParams
-  - Added Interface CommunicationServicesUpdateHeaders
   - Added Interface CommunicationServicesUpdateOptionalParams
   - Added Interface DnsRecord
   - Added Interface DomainPropertiesVerificationRecords
@@ -69,6 +59,14 @@
   - Added Interface EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams
   - Added Interface EmailServicesUpdateHeaders
   - Added Interface EmailServicesUpdateOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface SenderUsernameResource
+  - Added Interface SenderUsernameResourceCollection
+  - Added Interface SenderUsernamesCreateOrUpdateOptionalParams
+  - Added Interface SenderUsernamesDeleteOptionalParams
+  - Added Interface SenderUsernamesGetOptionalParams
+  - Added Interface SenderUsernamesListByDomainsNextOptionalParams
+  - Added Interface SenderUsernamesListByDomainsOptionalParams
   - Added Interface TrackedResource
   - Added Interface UpdateDomainRequestParameters
   - Added Interface VerificationParameter
@@ -104,6 +102,10 @@
   - Added Type Alias EmailServicesListVerifiedExchangeOnlineDomainsResponse
   - Added Type Alias EmailServicesProvisioningState
   - Added Type Alias EmailServicesUpdateResponse
+  - Added Type Alias SenderUsernamesCreateOrUpdateResponse
+  - Added Type Alias SenderUsernamesGetResponse
+  - Added Type Alias SenderUsernamesListByDomainsNextResponse
+  - Added Type Alias SenderUsernamesListByDomainsResponse
   - Added Type Alias UserEngagementTracking
   - Added Type Alias VerificationStatus
   - Added Type Alias VerificationType
@@ -122,7 +124,6 @@
 
   - Removed operation group CommunicationService
   - Class CommunicationServiceManagementClient no longer has parameter communicationService
-  - Removed Enum KnownProvisioningState
     
 ## 3.0.1 (2022-04-11)
 

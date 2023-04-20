@@ -24,9 +24,9 @@ import {
 /** Interface representing a StorageTargets. */
 export interface StorageTargets {
   /**
-   * Returns a list of Storage Targets for the specified Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Returns a list of Storage Targets for the specified cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param options The options parameters.
    */
@@ -37,8 +37,8 @@ export interface StorageTargets {
   ): PagedAsyncIterableIterator<StorageTarget>;
   /**
    * Tells a storage target to refresh its DNS information.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -51,8 +51,8 @@ export interface StorageTargets {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a storage target to refresh its DNS information.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -64,12 +64,12 @@ export interface StorageTargets {
     options?: StorageTargetsDnsRefreshOptionalParams
   ): Promise<void>;
   /**
-   * Removes a Storage Target from a Cache. This operation is allowed at any time, but if the Cache is
-   * down or unhealthy, the actual removal of the Storage Target may be delayed until the Cache is
-   * healthy again. Note that if the Cache has data to flush to the Storage Target, the data will be
+   * Removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is
+   * down or unhealthy, the actual removal of the Storage Target may be delayed until the cache is
+   * healthy again. Note that if the cache has data to flush to the Storage Target, the data will be
    * flushed before the Storage Target will be deleted.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -81,12 +81,12 @@ export interface StorageTargets {
     options?: StorageTargetsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Removes a Storage Target from a Cache. This operation is allowed at any time, but if the Cache is
-   * down or unhealthy, the actual removal of the Storage Target may be delayed until the Cache is
-   * healthy again. Note that if the Cache has data to flush to the Storage Target, the data will be
+   * Removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is
+   * down or unhealthy, the actual removal of the Storage Target may be delayed until the cache is
+   * healthy again. Note that if the cache has data to flush to the Storage Target, the data will be
    * flushed before the Storage Target will be deleted.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -98,9 +98,9 @@ export interface StorageTargets {
     options?: StorageTargetsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Returns a Storage Target from a Cache.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * Returns a Storage Target from a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -112,11 +112,11 @@ export interface StorageTargets {
     options?: StorageTargetsGetOptionalParams
   ): Promise<StorageTargetsGetResponse>;
   /**
-   * Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down
-   * or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache
+   * Create or update a Storage Target. This operation is allowed at any time, but if the cache is down
+   * or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache
    * is healthy again.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param storagetarget Object containing the definition of a Storage Target.
@@ -135,11 +135,11 @@ export interface StorageTargets {
     >
   >;
   /**
-   * Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down
-   * or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache
+   * Create or update a Storage Target. This operation is allowed at any time, but if the cache is down
+   * or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache
    * is healthy again.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param storagetarget Object containing the definition of a Storage Target.
@@ -154,8 +154,8 @@ export interface StorageTargets {
   ): Promise<StorageTargetsCreateOrUpdateResponse>;
   /**
    * Tells a storage target to restore its settings to their default values.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
@@ -168,8 +168,8 @@ export interface StorageTargets {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a storage target to restore its settings to their default values.
-   * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName Name of cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param options The options parameters.
