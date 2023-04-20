@@ -202,6 +202,104 @@ export const OSOptionProperty: coreClient.CompositeMapper = {
   }
 };
 
+export const KubernetesVersionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersionListResult",
+    modelProperties: {
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KubernetesVersion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersion",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "KubernetesVersionCapabilities"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      },
+      patchVersions: {
+        serializedName: "patchVersions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "KubernetesPatchVersion" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesVersionCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersionCapabilities",
+    modelProperties: {
+      supportPlan: {
+        serializedName: "supportPlan",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesPatchVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesPatchVersion",
+    modelProperties: {
+      upgrades: {
+        serializedName: "upgrades",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5003,6 +5101,12 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.enableRBAC",
         type: {
           name: "Boolean"
+        }
+      },
+      supportPlan: {
+        serializedName: "properties.supportPlan",
+        type: {
+          name: "String"
         }
       },
       enablePodSecurityPolicy: {
