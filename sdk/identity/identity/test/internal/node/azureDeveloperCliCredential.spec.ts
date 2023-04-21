@@ -138,7 +138,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+          "Azure Developer CLI could not be found. To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
         );
       }
     }
@@ -147,7 +147,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   it("get access token when azure cli not login in", async () => {
     stdout = "";
     stderr =
-      "Please run 'azd login' from a command prompt to authenticate before using this credential.";
+      "Please run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information.";
     const credential = new AzureDeveloperCliCredential();
     try {
       await credential.getToken("https://service/.default");
