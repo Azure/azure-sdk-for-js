@@ -15,7 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                                 | **Description**                                                                                            |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | [azureDeveloperCliCredential.ts][azuredeveloperclicredential] | Authenticates using Azure Developer CLI Credential                                                         |
-| [clientSecretCredential.ts][clientsecretcredential]           | Authenticates with an app registration’s client Id and secret.                                             |
+| [clientSecretCredential.ts][clientsecretcredential]           | Authenticates with an app registration’s client ID and secret.                                             |
 | [defaultAzureCredential.ts][defaultazurecredential]           | Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`. |
 | [environmentCredential.ts][environmentcredential]             | Authenticates as an app registration automatically using environment variables.                            |
 | [workloadIdentityCredential.ts][workloadidentitycredential]   | Authenticates using Workload Identity Credential                                                           |
