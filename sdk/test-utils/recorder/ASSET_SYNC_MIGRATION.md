@@ -136,6 +136,21 @@ There is an [open issue](https://github.com/Azure/azure-sdk-tools/issues/4652) t
 
 For more information on this topic, see the [asset sync reference documentation][asset-sync-reference].
 
+### Through VS Code [GIT Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview) UI
+
+Suppose you want to update the recording for a test, you'll re-run the test like below.
+
+<img width="779" alt="image" src="https://user-images.githubusercontent.com/10452642/233708630-0a50c185-dde7-4e6d-8977-2a49a1211ac9.png">
+
+The changes in the recordings can be seen in the GIT Source Control section in VS Code. 
+
+(Installing GIT should be enough to get this view. [VS Code Source control overview](https://code.visualstudio.com/docs/sourcecontrol/overview))
+
+Click the file on the left side to view the diff for it on the right side as shown below.
+
+<img width="1126" alt="image" src="https://user-images.githubusercontent.com/10452642/233709272-18ce109d-8f7a-488c-b5cb-74cf3636c1dc.png">
+
+
 ## Other `test-proxy` commands
 
 A few commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
