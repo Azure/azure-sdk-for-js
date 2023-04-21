@@ -11086,7 +11086,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-fCp4Nd5Z48hrQ+Qj4mxbNkqpl5MvuhQo7OaDjCmVxBEaj0bHVjpXrqXvkLJHvdRQjBMT8F4icSpmLyP18dxc1w==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11107,7 +11107,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
