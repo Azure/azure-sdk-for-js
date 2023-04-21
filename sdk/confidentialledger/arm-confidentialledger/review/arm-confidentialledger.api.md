@@ -54,9 +54,8 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
-export interface ConfidentialLedger extends TrackedResource, Tags {
+export interface ConfidentialLedger extends TrackedResource {
     properties?: LedgerProperties;
-    runningState?: RunningState;
 }
 
 // @public (undocumented)
@@ -254,6 +253,7 @@ export interface LedgerProperties {
     ledgerType?: LedgerType;
     readonly ledgerUri?: string;
     readonly provisioningState?: ProvisioningState;
+    runningState?: RunningState;
 }
 
 // @public
@@ -433,13 +433,6 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface Tags {
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public

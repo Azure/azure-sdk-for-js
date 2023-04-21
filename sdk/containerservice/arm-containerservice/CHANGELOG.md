@@ -1,12 +1,13 @@
 # Release History
     
-## 18.0.0-beta.3 (2023-04-04)
+## 18.0.0-beta.3 (2023-04-20)
     
 **Features**
 
   - Added operation group ManagedClusterSnapshots
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
+  - Added operation ManagedClusters.listKubernetesVersions
   - Added Interface AbsoluteMonthlySchedule
   - Added Interface AgentPoolNetworkProfile
   - Added Interface AgentPoolWindowsProfile
@@ -20,6 +21,10 @@
   - Added Interface IstioComponents
   - Added Interface IstioIngressGateway
   - Added Interface IstioServiceMesh
+  - Added Interface KubernetesPatchVersion
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionCapabilities
+  - Added Interface KubernetesVersionListResult
   - Added Interface MaintenanceWindow
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
@@ -28,6 +33,7 @@
   - Added Interface ManagedClusterSecurityProfileImageCleaner
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Interface ManagedClustersListKubernetesVersionsOptionalParams
   - Added Interface ManagedClusterSnapshot
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
@@ -63,7 +69,9 @@
   - Added Type Alias ControlPlaneUpgradeOverride
   - Added Type Alias IpvsScheduler
   - Added Type Alias IstioIngressGatewayMode
+  - Added Type Alias KubernetesSupportPlan
   - Added Type Alias Level
+  - Added Type Alias ManagedClustersListKubernetesVersionsResponse
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -103,6 +111,7 @@
   - Interface ManagedCluster has a new optional parameter ingressProfile
   - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
   - Interface ManagedCluster has a new optional parameter serviceMeshProfile
+  - Interface ManagedCluster has a new optional parameter supportPlan
   - Interface ManagedCluster has a new optional parameter upgradeSettings
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
@@ -126,6 +135,7 @@
   - Added Enum KnownControlPlaneUpgradeOverride
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownIstioIngressGatewayMode
+  - Added Enum KnownKubernetesSupportPlan
   - Added Enum KnownLevel
   - Added Enum KnownMode
   - Added Enum KnownNetworkDataplane
@@ -137,6 +147,7 @@
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownType
   - Added Enum KnownUpdateMode
+  - Enum KnownManagedClusterSKUTier has a new value Premium
   - Enum KnownNetworkPolicy has a new value Cilium
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter

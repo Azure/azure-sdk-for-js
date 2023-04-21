@@ -222,6 +222,6 @@ export function toProcessingSpanOptions(
   return {
     spanLinks,
     spanKind: "consumer",
-    ...toSpanOptions(eventHubProperties),
+    ...toSpanOptions(eventHubProperties, "process"),
   };
 }
