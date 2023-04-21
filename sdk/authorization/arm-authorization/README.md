@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AuthorizationManagement client.
 
-Role based access control provides you a way to apply granular level policy administration down to individual resources or resource groups. These operations enable you to manage role assignments. A role assignment grants access to Azure Active Directory users.
+Role based access control provides you a way to apply granular level policy administration down to individual resources or resource groups. These operations enable you to manage role definitions and role assignments. A role definition describes the set of actions that can be performed on resources. A role assignment grants access to Azure Active Directory users.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/authorization/arm-authorization) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-authorization) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
