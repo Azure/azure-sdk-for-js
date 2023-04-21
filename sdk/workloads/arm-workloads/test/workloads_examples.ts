@@ -43,6 +43,7 @@ describe("workloads test", () => {
   let monitorParameter: Monitor;
   let sapVirtualInstanceName: string;
   let location: string;
+  let providerInstanceName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -55,6 +56,7 @@ describe("workloads test", () => {
     monitorName = "myMonitor";
     sapVirtualInstanceName = "O13";
     location = "eastus2"
+    providerInstanceName = "myProviderInstance"
   });
 
   afterEach(async function () {
@@ -75,6 +77,28 @@ describe("workloads test", () => {
       tags: { key: "value" }
     };
     const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
+    assert.equal(res.name, monitorName);
+  });
+
+  it("providerInstances create test", async function () {
+    const res = await client.providerInstances.beginCreateAndWait(
+      resourceGroup,
+      monitorName,
+      providerInstanceName,
+      {
+        providerSettings: {
+          sslPreference: "Disabled",
+          providerType: "Db2",
+          hostname: "10.1.21.4",
+          sapSid: "OPA",
+          dbPort: "25000",
+          dbUsername: "db2admin",
+          dbPassword: "<REDACTED>",
+          dbName: "Sample"
+        }
+      },
+      testPollingOptions
+    );
     assert.equal(res.name, monitorName);
   });
 
@@ -154,6 +178,15 @@ describe("workloads test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it("providerInstances delete test", async function () {
+    const res = await client.providerInstances.beginDeleteAndWait(resourceGroup, monitorName, providerInstanceName);
+    const resArray = new Array();
+    for await (let item of client.providerInstances.list(resourceGroup, monitorName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   //delete monitors
