@@ -372,7 +372,8 @@ Once you've verified the Azure Developer CLI is using correct account, you can v
 ```bash
 azd auth token --output json --scope https://management.core.windows.net/.default
 ```
->Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
+
+> Note that output of this command will contain a valid access token. The token SHOULD NOT BE SHARED, as doing so would compromise account security.
 ## Troubleshoot Azure PowerShell authentication issues
 
 ### CredentialUnavailableError
