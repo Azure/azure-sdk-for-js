@@ -13,24 +13,24 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a security connector.
+ * This sample demonstrates how to Get a specific security operator for the requested scope.
  *
- * @summary Deletes a security connector.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/DeleteSecurityConnector_example.json
+ * @summary Get a specific security operator for the requested scope.
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-01-01-preview/examples/SecurityOperators/GetSecurityOperatorByName_example.json
  */
-async function deleteASecurityConnector() {
+async function getASpecificSecurityOperatorByScopeAndSecurityOperatorName() {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
-  const securityConnectorName = "mySecurityConnectorName";
+  const pricingName = "CloudPosture";
+  const securityOperatorName = "DefenderCSPMSecurityOperator";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securityConnectors.delete(resourceGroupName, securityConnectorName);
+  const result = await client.securityOperators.get(pricingName, securityOperatorName);
   console.log(result);
 }
 
 async function main() {
-  deleteASecurityConnector();
+  getASpecificSecurityOperatorByScopeAndSecurityOperatorName();
 }
 
 main().catch(console.error);

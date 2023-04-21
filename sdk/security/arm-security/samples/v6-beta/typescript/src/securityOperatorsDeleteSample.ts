@@ -15,29 +15,28 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieves details of a specific security connector
+ * This sample demonstrates how to Delete Microsoft Defender for Cloud securityOperator in the subscription.
  *
- * @summary Retrieves details of a specific security connector
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/GetSecurityConnectorSingleResource_example.json
+ * @summary Delete Microsoft Defender for Cloud securityOperator in the subscription.
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-01-01-preview/examples/SecurityOperators/DeleteSecurityOperatorByName_example.json
  */
-async function retrieveASecurityConnector() {
+async function deleteSecurityOperatorOnSubscription() {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName =
-    process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
-  const securityConnectorName = "exampleSecurityConnectorName";
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const pricingName = "CloudPosture";
+  const securityOperatorName = "DefenderCSPMSecurityOperator";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securityConnectors.get(
-    resourceGroupName,
-    securityConnectorName
+  const result = await client.securityOperators.delete(
+    pricingName,
+    securityOperatorName
   );
   console.log(result);
 }
 
 async function main() {
-  retrieveASecurityConnector();
+  deleteSecurityOperatorOnSubscription();
 }
 
 main().catch(console.error);
