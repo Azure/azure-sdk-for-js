@@ -530,7 +530,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 ##### Configure Azure Developer CLI
 
-Sign in using the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference?source=recommendations#azd-auth-login)
+Sign in using the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference?source=recommendations#azd-auth-login):
 
 ```bash
 # As a user:
