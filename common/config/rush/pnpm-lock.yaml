@@ -12592,7 +12592,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-LA2Dk8xTFHJw4ECV0W767EbGtNxQ/LW8wz3ulHD1mpY0A9RdGuetRgM+OT+qgN9qTvd54HUoDK3E+N5EGv/0rQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-42T2lpCefFl3PJlTcxXbhDDV9LDU5hmgL8veh39ukHYsZ+suVCShiED2/QD/IlPj0Djy9sTQdklAvVT+WThdlQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -12607,8 +12607,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
