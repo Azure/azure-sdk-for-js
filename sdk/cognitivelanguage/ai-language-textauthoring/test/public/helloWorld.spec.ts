@@ -3,7 +3,7 @@
 
 import { Suite } from "mocha";
 import { assert } from "@azure/test-utils";
-import createAuthoringClient from "../src/textAuthoringClient";
+import createAuthoringClient from "../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 describe(`Authoring Test`, function (this: Suite) {
   it("Random endpoint", async function () {

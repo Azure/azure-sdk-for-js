@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230419
+      typescript: 5.1.0-dev.20230420
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230419:
-    resolution: {integrity: sha512-J8QfDyJDC/8fpA7fzlVBx4zSR+dGVd6afEpu6nEtplA98lcW3NHA7v9KcQ0AJ8SZGoCDLIl+8BVfiI/CkFS2fg==}
+  /typescript/5.1.0-dev.20230420:
+    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9705,7 +9705,7 @@ packages:
     dev: false
 
   file:projects/ai-language-textauthoring.tgz:
-    resolution: {integrity: sha512-FK74b7UUuF2z1nxBa3Zjo0ArnVXVg7qgAaUgten6NlEpxU41F11gNTt0VXXV1JLQzWi5tb56QR6iidGJRFZTOQ==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-GzJiLITwSisEw7TGkV/m33k4ggVsCwdzS9MqJ2Gp5rQGc02fdCOyk2P6DaInnPpwBo4ZYafJgKc9pkswl6ctUQ==, tarball: file:projects/ai-language-textauthoring.tgz}
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
@@ -9716,6 +9716,7 @@ packages:
       eslint: 8.38.0
       mkdirp: 1.0.4
       mocha: 7.2.0
+      nyc: 15.1.0
       prettier: 2.8.7
       rimraf: 3.0.2
       source-map-support: 0.5.21
