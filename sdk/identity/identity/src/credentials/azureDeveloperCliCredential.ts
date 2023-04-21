@@ -176,7 +176,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information."
+            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
