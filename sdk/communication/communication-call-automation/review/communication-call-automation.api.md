@@ -64,8 +64,9 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
-    answerCall(incomingCallContext: string, callbackUri: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    createCall(target: CallInvite | CommunicationIdentifier[], callbackUri: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    createCall(target: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    createGroupCall(targets: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
     getSourceIdentity(): CommunicationUserIdentifier | undefined;
@@ -79,12 +80,12 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
 
 // @public
 export class CallAutomationEventParser {
     // (undocumented)
-    parse(encodedEvents: string): Promise<CallAutomationEvent>;
+    parse(encodedEvent: string): Promise<CallAutomationEvent>;
     // (undocumented)
     parse(encodedEvents: Record<string, unknown>): Promise<CallAutomationEvent>;
 }
@@ -262,8 +263,14 @@ export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -483,11 +490,30 @@ export interface RecordingStateResult {
 export type RecordingStorage = "acs" | "blobStorage";
 
 // @public
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantFailed_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface RemoveParticipantFailed extends Omit<RemoveParticipantFailed_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "RemoveParticipantFailed";
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -498,6 +524,18 @@ export interface RemoveParticipantsOptions extends OperationOptions {
 // @public
 export interface RemoveParticipantsResult {
     operationContext?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RemoveParticipantSucceeded_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface RemoveParticipantSucceeded extends Omit<RemoveParticipantSucceeded_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "RemoveParticipantSucceeded";
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -561,6 +599,7 @@ export interface RestParticipantsUpdated {
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
     participants?: CallParticipantInternal[];
+    sequenceNumber?: number;
     serverCallId?: string;
 }
 

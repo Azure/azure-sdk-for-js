@@ -15,6 +15,7 @@ import {
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import * as fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -46,8 +47,6 @@ export class CallRecording {
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpoint;
-    startCallRecordingRequest.recordingStorageType = options.recordingStorageType;
-    startCallRecordingRequest.externalStorageLocation = options.externalStorageLocation;
 
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
@@ -66,9 +65,14 @@ export class CallRecording {
       startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
     }
 
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
     const response = await this.callRecordingImpl.startRecording(
       startCallRecordingRequest,
-      options
+      optionsInternal
     );
 
     const result: RecordingStateResult = {

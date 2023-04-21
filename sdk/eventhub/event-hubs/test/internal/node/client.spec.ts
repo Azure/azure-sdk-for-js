@@ -88,8 +88,9 @@ testWithServiceTypes((serviceVersion) => {
       // Additional validation that we created the correct initial span options
       const expectedSpanOptions = {
         spanAttributes: {
-          "peer.address": client.fullyQualifiedNamespace,
-          "message_bus.destination": client.eventHubName,
+          "messaging.destination.name": client.eventHubName,
+          "messaging.system": "eventhubs",
+          "net.peer.name": client.fullyQualifiedNamespace,
         },
       };
 

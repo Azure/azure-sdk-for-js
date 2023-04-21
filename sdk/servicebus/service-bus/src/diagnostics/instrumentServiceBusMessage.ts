@@ -6,7 +6,7 @@ import { ConnectionContext } from "../connectionContext";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceiver } from "../receivers/receiver";
 import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
-import { toSpanOptions, tracingClient } from "./tracing";
+import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
 
 /**
  * @internal
@@ -33,7 +33,8 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   message: T,
   options: OperationOptionsBase,
   entityPath: string,
-  host: string
+  host: string,
+  operation: MessagingOperationNames
 ): {
   /**
    * If instrumentation was done, a copy of the message with
@@ -60,7 +61,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer")
   );
 
   try {
@@ -136,7 +137,8 @@ function* getReceivedMessages(
 export function toProcessingSpanOptions(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver, "entityPath">,
-  connectionConfig: Pick<ConnectionContext["config"], "host">
+  connectionConfig: Pick<ConnectionContext["config"], "host">,
+  operation: MessagingOperationNames
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {
@@ -153,6 +155,6 @@ export function toProcessingSpanOptions(
   return {
     spanLinks,
     spanKind: "consumer",
-    ...toSpanOptions({ host: connectionConfig.host, entityPath: receiver.entityPath }),
+    ...toSpanOptions({ host: connectionConfig.host, entityPath: receiver.entityPath }, operation),
   };
 }

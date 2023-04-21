@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftElastic } = require("@azure/arm-elastic");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the resources currently being monitored by the Elastic monitor resource.
  *
  * @summary List the resources currently being monitored by the Elastic monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/MonitoredResources_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/MonitoredResources_List.json
  */
 async function monitoredResourcesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function monitoredResourcesList() {
   console.log(resArray);
 }
 
-monitoredResourcesList().catch(console.error);
+async function main() {
+  monitoredResourcesList();
+}
+
+main().catch(console.error);

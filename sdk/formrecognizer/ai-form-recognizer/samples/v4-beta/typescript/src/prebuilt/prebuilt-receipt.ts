@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2022-06-30-preview
-// Created:     Thu Jul 14 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Apr 06 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -189,45 +189,49 @@ export interface ReceiptHotel {
  */
 export interface ReceiptFields {
   /**
-   * `Receipt` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `Receipt` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `Receipt` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `Receipt` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `Receipt` "TransactionDate" field
+   * Date the receipt was issued
    */
   transactionDate?: fr.DocumentDateField;
   /**
-   * `Receipt` "TransactionTime" field
+   * Time the receipt was issued
    */
   transactionTime?: fr.DocumentTimeField;
   /**
-   * `Receipt` "Subtotal" field
+   * Subtotal of receipt, often before taxes are applied
    */
   subtotal?: fr.DocumentNumberField;
   /**
-   * `Receipt` "TotalTax" field
+   * Tax on receipt, often sales tax or equivalent
    */
   totalTax?: fr.DocumentNumberField;
   /**
-   * `Receipt` "Tip" field
+   * Tip included by buyer
    */
   tip?: fr.DocumentNumberField;
   /**
    * `Receipt` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptItemsElement>>;
+  /**
+   * `Receipt` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptTaxDetailsElement>>;
 }
 
 /**
@@ -235,21 +239,39 @@ export interface ReceiptFields {
  */
 export interface ReceiptItemsElement {
   /**
-   * `Receipt` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `Receipt` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `Receipt` "Quantity" field
+   * Quantity of each item
    */
   quantity?: fr.DocumentNumberField;
   /**
-   * `Receipt` "Price" field
+   * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptTaxDetailsElement`.
+ */
+export interface ReceiptTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -257,45 +279,49 @@ export interface ReceiptItemsElement {
  */
 export interface ReceiptRetailMealFields {
   /**
-   * `ReceiptRetailMeal` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `ReceiptRetailMeal` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `ReceiptRetailMeal` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `ReceiptRetailMeal` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `ReceiptRetailMeal` "TransactionDate" field
+   * Date the receipt was issued
    */
   transactionDate?: fr.DocumentDateField;
   /**
-   * `ReceiptRetailMeal` "TransactionTime" field
+   * Time the receipt was issued
    */
   transactionTime?: fr.DocumentTimeField;
   /**
-   * `ReceiptRetailMeal` "Subtotal" field
+   * Subtotal of receipt, often before taxes are applied
    */
   subtotal?: fr.DocumentNumberField;
   /**
-   * `ReceiptRetailMeal` "TotalTax" field
+   * Tax on receipt, often sales tax or equivalent
    */
   totalTax?: fr.DocumentNumberField;
   /**
-   * `ReceiptRetailMeal` "Tip" field
+   * Tip included by buyer
    */
   tip?: fr.DocumentNumberField;
   /**
    * `ReceiptRetailMeal` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
+  /**
+   * `ReceiptRetailMeal` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>>;
 }
 
 /**
@@ -303,21 +329,39 @@ export interface ReceiptRetailMealFields {
  */
 export interface ReceiptRetailMealItemsElement {
   /**
-   * `ReceiptRetailMeal` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `ReceiptRetailMeal` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `ReceiptRetailMeal` "Quantity" field
+   * Quantity of each item
    */
   quantity?: fr.DocumentNumberField;
   /**
-   * `ReceiptRetailMeal` "Price" field
+   * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptRetailMealTaxDetailsElement`.
+ */
+export interface ReceiptRetailMealTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -325,45 +369,49 @@ export interface ReceiptRetailMealItemsElement {
  */
 export interface ReceiptCreditCardFields {
   /**
-   * `ReceiptCreditCard` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `ReceiptCreditCard` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `ReceiptCreditCard` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `ReceiptCreditCard` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `ReceiptCreditCard` "TransactionDate" field
+   * Date the receipt was issued
    */
   transactionDate?: fr.DocumentDateField;
   /**
-   * `ReceiptCreditCard` "TransactionTime" field
+   * Time the receipt was issued
    */
   transactionTime?: fr.DocumentTimeField;
   /**
-   * `ReceiptCreditCard` "Subtotal" field
+   * Subtotal of receipt, often before taxes are applied
    */
   subtotal?: fr.DocumentNumberField;
   /**
-   * `ReceiptCreditCard` "TotalTax" field
+   * Tax on receipt, often sales tax or equivalent
    */
   totalTax?: fr.DocumentNumberField;
   /**
-   * `ReceiptCreditCard` "Tip" field
+   * Tip included by buyer
    */
   tip?: fr.DocumentNumberField;
   /**
    * `ReceiptCreditCard` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
+  /**
+   * `ReceiptCreditCard` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>>;
 }
 
 /**
@@ -371,21 +419,39 @@ export interface ReceiptCreditCardFields {
  */
 export interface ReceiptCreditCardItemsElement {
   /**
-   * `ReceiptCreditCard` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `ReceiptCreditCard` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `ReceiptCreditCard` "Quantity" field
+   * Quantity of each item
    */
   quantity?: fr.DocumentNumberField;
   /**
-   * `ReceiptCreditCard` "Price" field
+   * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptCreditCardTaxDetailsElement`.
+ */
+export interface ReceiptCreditCardTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -393,45 +459,49 @@ export interface ReceiptCreditCardItemsElement {
  */
 export interface ReceiptGasFields {
   /**
-   * `ReceiptGas` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `ReceiptGas` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `ReceiptGas` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `ReceiptGas` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `ReceiptGas` "TransactionDate" field
+   * Date the receipt was issued
    */
   transactionDate?: fr.DocumentDateField;
   /**
-   * `ReceiptGas` "TransactionTime" field
+   * Time the receipt was issued
    */
   transactionTime?: fr.DocumentTimeField;
   /**
-   * `ReceiptGas` "Subtotal" field
+   * Subtotal of receipt, often before taxes are applied
    */
   subtotal?: fr.DocumentNumberField;
   /**
-   * `ReceiptGas` "TotalTax" field
+   * Tax on receipt, often sales tax or equivalent
    */
   totalTax?: fr.DocumentNumberField;
   /**
-   * `ReceiptGas` "Tip" field
+   * Tip included by buyer
    */
   tip?: fr.DocumentNumberField;
   /**
    * `ReceiptGas` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasItemsElement>>;
+  /**
+   * `ReceiptGas` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasTaxDetailsElement>>;
 }
 
 /**
@@ -439,21 +509,39 @@ export interface ReceiptGasFields {
  */
 export interface ReceiptGasItemsElement {
   /**
-   * `ReceiptGas` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `ReceiptGas` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `ReceiptGas` "Quantity" field
+   * Quantity of each item
    */
   quantity?: fr.DocumentNumberField;
   /**
-   * `ReceiptGas` "Price" field
+   * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptGasTaxDetailsElement`.
+ */
+export interface ReceiptGasTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -461,45 +549,49 @@ export interface ReceiptGasItemsElement {
  */
 export interface ReceiptParkingFields {
   /**
-   * `ReceiptParking` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `ReceiptParking` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `ReceiptParking` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `ReceiptParking` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `ReceiptParking` "TransactionDate" field
+   * Date the receipt was issued
    */
   transactionDate?: fr.DocumentDateField;
   /**
-   * `ReceiptParking` "TransactionTime" field
+   * Time the receipt was issued
    */
   transactionTime?: fr.DocumentTimeField;
   /**
-   * `ReceiptParking` "Subtotal" field
+   * Subtotal of receipt, often before taxes are applied
    */
   subtotal?: fr.DocumentNumberField;
   /**
-   * `ReceiptParking` "TotalTax" field
+   * Tax on receipt, often sales tax or equivalent
    */
   totalTax?: fr.DocumentNumberField;
   /**
-   * `ReceiptParking` "Tip" field
+   * Tip included by buyer
    */
   tip?: fr.DocumentNumberField;
   /**
    * `ReceiptParking` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
+  /**
+   * `ReceiptParking` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>>;
 }
 
 /**
@@ -507,21 +599,39 @@ export interface ReceiptParkingFields {
  */
 export interface ReceiptParkingItemsElement {
   /**
-   * `ReceiptParking` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `ReceiptParking` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `ReceiptParking` "Quantity" field
+   * Quantity of each item
    */
   quantity?: fr.DocumentNumberField;
   /**
-   * `ReceiptParking` "Price" field
+   * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptParkingTaxDetailsElement`.
+ */
+export interface ReceiptParkingTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -529,31 +639,31 @@ export interface ReceiptParkingItemsElement {
  */
 export interface ReceiptHotelFields {
   /**
-   * `ReceiptHotel` "MerchantName" field
+   * Name of the merchant issuing the receipt
    */
   merchantName?: fr.DocumentStringField;
   /**
-   * `ReceiptHotel` "MerchantPhoneNumber" field
+   * Listed phone number of merchant
    */
   merchantPhoneNumber?: fr.DocumentPhoneNumberField;
   /**
-   * `ReceiptHotel` "MerchantAddress" field
+   * Listed address of merchant
    */
-  merchantAddress?: fr.DocumentStringField;
+  merchantAddress?: fr.DocumentAddressField;
   /**
-   * `ReceiptHotel` "Total" field
+   * Full transaction total of receipt
    */
   total?: fr.DocumentNumberField;
   /**
-   * `ReceiptHotel` "ArrivalDate" field
+   * Date of arrival
    */
   arrivalDate?: fr.DocumentDateField;
   /**
-   * `ReceiptHotel` "DepartureDate" field
+   * Date of departure
    */
   departureDate?: fr.DocumentDateField;
   /**
-   * `ReceiptHotel` "Currency" field
+   * Currency unit of receipt amounts (ISO 4217), or 'MIXED' if multiple values are found
    */
   currency?: fr.DocumentStringField;
   /**
@@ -571,19 +681,19 @@ export interface ReceiptHotelFields {
  */
 export interface ReceiptHotelItemsElement {
   /**
-   * `ReceiptHotel` "TotalPrice" field
+   * Total price of line item
    */
   totalPrice?: fr.DocumentNumberField;
   /**
-   * `ReceiptHotel` "Description" field
+   * Item description
    */
   description?: fr.DocumentStringField;
   /**
-   * `ReceiptHotel` "Date" field
+   * Item date
    */
   date?: fr.DocumentDateField;
   /**
-   * `ReceiptHotel` "Category" field
+   * Item category
    */
   category?: fr.DocumentStringField;
 }
@@ -595,55 +705,108 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       receipt: {
         buildMode: "template",
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           TransactionDate: {
             type: "date",
+            description: "Date the receipt was issued",
+            example: "June 06, 2019",
           },
           TransactionTime: {
             type: "time",
+            description: "Time the receipt was issued",
+            example: "4:49 PM",
           },
           Subtotal: {
             type: "number",
+            description: "Subtotal of receipt, often before taxes are applied",
+            example: "$12.34",
           },
           TotalTax: {
             type: "number",
+            description: "Tax on receipt, often sales tax or equivalent",
+            example: "$2.00",
           },
           Tip: {
             type: "number",
+            description: "Tip included by buyer",
+            example: "$1.00",
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Surface Pro 6",
                 },
                 Quantity: {
                   type: "number",
+                  description: "Quantity of each item",
+                  example: "1",
                 },
                 Price: {
                   type: "number",
+                  description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
                 },
               },
             },
@@ -655,47 +818,100 @@ function modelInfo() {
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           TransactionDate: {
             type: "date",
+            description: "Date the receipt was issued",
+            example: "June 06, 2019",
           },
           TransactionTime: {
             type: "time",
+            description: "Time the receipt was issued",
+            example: "4:49 PM",
           },
           Subtotal: {
             type: "number",
+            description: "Subtotal of receipt, often before taxes are applied",
+            example: "$12.34",
           },
           TotalTax: {
             type: "number",
+            description: "Tax on receipt, often sales tax or equivalent",
+            example: "$2.00",
           },
           Tip: {
             type: "number",
+            description: "Tip included by buyer",
+            example: "$1.00",
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Surface Pro 6",
                 },
                 Quantity: {
                   type: "number",
+                  description: "Quantity of each item",
+                  example: "1",
                 },
                 Price: {
                   type: "number",
+                  description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
                 },
               },
             },
@@ -707,47 +923,100 @@ function modelInfo() {
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           TransactionDate: {
             type: "date",
+            description: "Date the receipt was issued",
+            example: "June 06, 2019",
           },
           TransactionTime: {
             type: "time",
+            description: "Time the receipt was issued",
+            example: "4:49 PM",
           },
           Subtotal: {
             type: "number",
+            description: "Subtotal of receipt, often before taxes are applied",
+            example: "$12.34",
           },
           TotalTax: {
             type: "number",
+            description: "Tax on receipt, often sales tax or equivalent",
+            example: "$2.00",
           },
           Tip: {
             type: "number",
+            description: "Tip included by buyer",
+            example: "$1.00",
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Surface Pro 6",
                 },
                 Quantity: {
                   type: "number",
+                  description: "Quantity of each item",
+                  example: "1",
                 },
                 Price: {
                   type: "number",
+                  description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
                 },
               },
             },
@@ -759,47 +1028,100 @@ function modelInfo() {
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           TransactionDate: {
             type: "date",
+            description: "Date the receipt was issued",
+            example: "June 06, 2019",
           },
           TransactionTime: {
             type: "time",
+            description: "Time the receipt was issued",
+            example: "4:49 PM",
           },
           Subtotal: {
             type: "number",
+            description: "Subtotal of receipt, often before taxes are applied",
+            example: "$12.34",
           },
           TotalTax: {
             type: "number",
+            description: "Tax on receipt, often sales tax or equivalent",
+            example: "$2.00",
           },
           Tip: {
             type: "number",
+            description: "Tip included by buyer",
+            example: "$1.00",
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Surface Pro 6",
                 },
                 Quantity: {
                   type: "number",
+                  description: "Quantity of each item",
+                  example: "1",
                 },
                 Price: {
                   type: "number",
+                  description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
                 },
               },
             },
@@ -811,47 +1133,100 @@ function modelInfo() {
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           TransactionDate: {
             type: "date",
+            description: "Date the receipt was issued",
+            example: "June 06, 2019",
           },
           TransactionTime: {
             type: "time",
+            description: "Time the receipt was issued",
+            example: "4:49 PM",
           },
           Subtotal: {
             type: "number",
+            description: "Subtotal of receipt, often before taxes are applied",
+            example: "$12.34",
           },
           TotalTax: {
             type: "number",
+            description: "Tax on receipt, often sales tax or equivalent",
+            example: "$2.00",
           },
           Tip: {
             type: "number",
+            description: "Tip included by buyer",
+            example: "$1.00",
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Surface Pro 6",
                 },
                 Quantity: {
                   type: "number",
+                  description: "Quantity of each item",
+                  example: "1",
                 },
                 Price: {
                   type: "number",
+                  description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
                 },
               },
             },
@@ -863,47 +1238,74 @@ function modelInfo() {
         fieldSchema: {
           MerchantName: {
             type: "string",
+            description: "Name of the merchant issuing the receipt",
+            example: "Contoso",
           },
           MerchantPhoneNumber: {
             type: "phoneNumber",
+            description: "Listed phone number of merchant",
+            example: "987-654-3210",
           },
           MerchantAddress: {
-            type: "string",
+            type: "address",
+            description: "Listed address of merchant",
+            example: "123 Main St Redmond WA 98052",
           },
           Total: {
             type: "number",
+            description: "Full transaction total of receipt",
+            example: "$14.34",
           },
           ArrivalDate: {
             type: "date",
+            description: "Date of arrival",
+            example: "27Mar21",
           },
           DepartureDate: {
             type: "date",
+            description: "Date of departure",
+            example: "28Mar21",
           },
           Currency: {
             type: "string",
+            description:
+              "Currency unit of receipt amounts (ISO 4217), or 'MIXED' if multiple values are found",
+            example: "USD",
           },
           MerchantAliases: {
             type: "array",
             items: {
               type: "string",
+              description: "Alternative name of merchant",
+              example: "Contoso (R)",
             },
           },
           Items: {
             type: "array",
             items: {
               type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
               properties: {
                 TotalPrice: {
                   type: "number",
+                  description: "Total price of line item",
+                  example: "$999.00",
                 },
                 Description: {
                   type: "string",
+                  description: "Item description",
+                  example: "Room Charge",
                 },
                 Date: {
                   type: "date",
+                  description: "Item date",
+                  example: "27Mar21",
                 },
                 Category: {
                   type: "string",
+                  description: "Item category",
+                  example: "Room",
                 },
               },
             },

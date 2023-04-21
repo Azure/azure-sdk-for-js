@@ -503,7 +503,7 @@ export class StreamingReceiver extends MessageReceiver {
             "StreamReceiver.process",
             operationOptions ?? {},
             () => userHandlers.processMessage(message),
-            toProcessingSpanOptions(message, this, this._context.config)
+            toProcessingSpanOptions(message, this, this._context.config, "process")
           );
         } catch (err: any) {
           this._messageHandlers().processError({

@@ -92,6 +92,11 @@ export interface ElasticMonitorResource {
   properties?: MonitorProperties;
   /** Identity properties of the monitor resource. */
   identity?: IdentityProperties;
+  /**
+   * Flag to determine if User API Key has to be generated and shared.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly generateApiKey?: boolean;
   /** The tags of the monitor resource. */
   tags?: { [propertyName: string]: string };
   /** The location of the monitor resource */
@@ -302,6 +307,32 @@ export interface DeploymentInfoResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskCapacity?: string;
+  /**
+   * Deployment URL of the elasticsearch in Elastic cloud deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentUrl?: string;
+  /**
+   * Marketplace SaaS Info of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription Id */
+  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
+  /** Subscription Details: Marketplace SAAS Name */
+  marketplaceName?: string;
+  /** Subscription Details: Marketplace Resource URI */
+  marketplaceResourceId?: string;
+}
+
+/** Marketplace Subscription Id */
+export interface MarketplaceSaaSInfoMarketplaceSubscription {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  id?: string;
 }
 
 /** The properties of the request required for creating user on elastic side */
@@ -471,6 +502,18 @@ export interface ElasticTrafficFilterRule {
   azureEndpointName?: string;
   /** Id of the elastic filter rule */
   id?: string;
+}
+
+/** Email Id of the User Organization, of which the API Key must be returned */
+export interface UserEmailId {
+  /** The User email Id */
+  emailId?: string;
+}
+
+/** The User Api Key created for the Organization associated with the User Email Id that was passed in the request */
+export interface UserApiKeyResponse {
+  /** The User Api Key Generated based on ReturnApiKey flag. This is applicable for non-Portal clients only. */
+  apiKey?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -676,33 +719,6 @@ export enum KnownType {
  * **azure_private_endpoint**
  */
 export type Type = string;
-
-/** Known values of {@link ApiVersionParameter} that the service accepts. */
-export enum KnownApiVersionParameter {
-  /** TwoThousandTwenty0701Preview */
-  TwoThousandTwenty0701Preview = "2020-07-01-preview",
-  /** TwoThousandTwenty0701 */
-  TwoThousandTwenty0701 = "2020-07-01",
-  /** TwoThousandTwentyOne0901Preview */
-  TwoThousandTwentyOne0901Preview = "2021-09-01-preview",
-  /** TwoThousandTwentyOne1001Preview */
-  TwoThousandTwentyOne1001Preview = "2021-10-01-preview",
-  /** TwoThousandTwentyTwo0505Preview */
-  TwoThousandTwentyTwo0505Preview = "2022-05-05-preview"
-}
-
-/**
- * Defines values for ApiVersionParameter. \
- * {@link KnownApiVersionParameter} can be used interchangeably with ApiVersionParameter,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2020-07-01-preview** \
- * **2020-07-01** \
- * **2021-09-01-preview** \
- * **2021-10-01-preview** \
- * **2022-05-05-preview**
- */
-export type ApiVersionParameter = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -979,6 +995,16 @@ export interface TrafficFiltersDeleteOptionalParams
   /** Ruleset Id of the filter */
   rulesetId?: string;
 }
+
+/** Optional parameters. */
+export interface OrganizationsGetApiKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Email Id parameter of the User Organization, of which the API Key must be returned */
+  body?: UserEmailId;
+}
+
+/** Contains response data for the getApiKey operation. */
+export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
 
 /** Optional parameters. */
 export interface MicrosoftElasticOptionalParams

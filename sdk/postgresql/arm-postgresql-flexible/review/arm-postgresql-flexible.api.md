@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ActiveDirectoryAdministrator extends ProxyResource {
@@ -36,9 +36,9 @@ export interface AdministratorListResult {
 
 // @public
 export interface Administrators {
-    beginCreate(resourceGroupName: string, serverName: string, objectId: string, parameters: ActiveDirectoryAdministratorAdd, options?: AdministratorsCreateOptionalParams): Promise<PollerLike<PollOperationState<AdministratorsCreateResponse>, AdministratorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, serverName: string, objectId: string, parameters: ActiveDirectoryAdministratorAdd, options?: AdministratorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AdministratorsCreateResponse>, AdministratorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, serverName: string, objectId: string, parameters: ActiveDirectoryAdministratorAdd, options?: AdministratorsCreateOptionalParams): Promise<AdministratorsCreateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsGetOptionalParams): Promise<AdministratorsGetResponse>;
     listByServer(resourceGroupName: string, serverName: string, options?: AdministratorsListByServerOptionalParams): PagedAsyncIterableIterator<ActiveDirectoryAdministrator>;
@@ -237,9 +237,9 @@ export interface ConfigurationListResult {
 
 // @public
 export interface Configurations {
-    beginPut(resourceGroupName: string, serverName: string, configurationName: string, parameters: Configuration, options?: ConfigurationsPutOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationsPutResponse>, ConfigurationsPutResponse>>;
+    beginPut(resourceGroupName: string, serverName: string, configurationName: string, parameters: Configuration, options?: ConfigurationsPutOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsPutResponse>, ConfigurationsPutResponse>>;
     beginPutAndWait(resourceGroupName: string, serverName: string, configurationName: string, parameters: Configuration, options?: ConfigurationsPutOptionalParams): Promise<ConfigurationsPutResponse>;
-    beginUpdate(resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationsUpdateResponse>, ConfigurationsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsUpdateResponse>, ConfigurationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsUpdateOptionalParams): Promise<ConfigurationsUpdateResponse>;
     get(resourceGroupName: string, serverName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
     listByServer(resourceGroupName: string, serverName: string, options?: ConfigurationsListByServerOptionalParams): PagedAsyncIterableIterator<Configuration>;
@@ -319,9 +319,9 @@ export interface DatabaseListResult {
 
 // @public
 export interface Databases {
-    beginCreate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
+    beginCreate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<DatabasesCreateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
     listByServer(resourceGroupName: string, serverName: string, options?: DatabasesListByServerOptionalParams): PagedAsyncIterableIterator<Database>;
@@ -432,9 +432,9 @@ export interface FirewallRuleListResult {
 
 // @public
 export interface FirewallRules {
-    beginCreateOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FirewallRulesCreateOrUpdateResponse>, FirewallRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FirewallRulesCreateOrUpdateResponse>, FirewallRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<FirewallRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams): Promise<FirewallRulesGetResponse>;
     listByServer(resourceGroupName: string, serverName: string, options?: FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<FirewallRule>;
@@ -547,7 +547,7 @@ export enum KnownActiveDirectoryAuthEnum {
 // @public
 export enum KnownArmServerKeyType {
     AzureKeyVault = "AzureKeyVault",
-    SystemAssigned = "SystemAssigned"
+    SystemManaged = "SystemManaged"
 }
 
 // @public
@@ -646,12 +646,8 @@ export enum KnownPrincipalType {
 export enum KnownReplicationRole {
     AsyncReplica = "AsyncReplica",
     GeoAsyncReplica = "GeoAsyncReplica",
-    GeoSyncReplica = "GeoSyncReplica",
     None = "None",
-    Primary = "Primary",
-    Secondary = "Secondary",
-    SyncReplica = "SyncReplica",
-    WalReplica = "WalReplica"
+    Primary = "Primary"
 }
 
 // @public
@@ -940,17 +936,17 @@ export type ServerPublicNetworkAccessState = string;
 
 // @public
 export interface Servers {
-    beginCreate(resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOptionalParams): Promise<PollerLike<PollOperationState<ServersCreateResponse>, ServersCreateResponse>>;
+    beginCreate(resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServersCreateResponse>, ServersCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOptionalParams): Promise<ServersCreateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, serverName: string, parameters: ServerForUpdate, options?: ServersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, serverName: string, parameters: ServerForUpdate, options?: ServersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serverName: string, parameters: ServerForUpdate, options?: ServersUpdateOptionalParams): Promise<ServersUpdateResponse>;
     get(resourceGroupName: string, serverName: string, options?: ServersGetOptionalParams): Promise<ServersGetResponse>;
     list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server>;

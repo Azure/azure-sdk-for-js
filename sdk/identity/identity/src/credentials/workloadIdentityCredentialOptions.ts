@@ -8,24 +8,18 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  * Options for the {@link WorkloadIdentityCredential}
  */
 export interface WorkloadIdentityCredentialOptions
-  extends WorkloadIdentityDefaultCredentialOptions {
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {
   /**
    * ID of the application's Azure Active Directory tenant. Also called its directory ID.
    */
-  tenantId: string;
+  tenantId?: string;
   /**
    * The client ID of an Azure AD app registration.
    */
-  clientId: string;
+  clientId?: string;
   /**
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
    */
-  federatedTokenFilePath: string;
+  federatedTokenFilePath?: string;
 }
-
-/**
- * Internal Options for the {@link WorkloadIdentityCredential}, not meant to be used directly.
- */
-export interface WorkloadIdentityDefaultCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
-    AuthorityValidationOptions {}
