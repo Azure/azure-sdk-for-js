@@ -17,10 +17,12 @@ import Sinon from "sinon";
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {
     it("returns the initial set of attributes", () => {
-      assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }), {
+      assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }, "receive"), {
         spanAttributes: {
-          "message_bus.destination": "testPath",
-          "peer.address": "testHost",
+          "messaging.operation": "receive",
+          "messaging.source.name": "testPath",
+          "messaging.system": "eventhubs",
+          "net.peer.name": "testHost",
         },
       });
     });
@@ -28,7 +30,7 @@ describe("tracing", () => {
     it("sets the spanKind if provided", () => {
       const expectedSpanKind = "client";
       assert.equal(
-        toSpanOptions({ entityPath: "", host: "" }, expectedSpanKind).spanKind,
+        toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
         expectedSpanKind
       );
     });
@@ -51,7 +53,8 @@ describe("tracing", () => {
         instrumentedEventData,
         {},
         "testPath",
-        "testHost"
+        "testHost",
+        "receive"
       );
       assert.notExists(spanContext);
       assert.equal(event.properties?.[TRACEPARENT_PROPERTY], "exists");
@@ -67,7 +70,13 @@ describe("tracing", () => {
         span: nonRecordingSpan,
         updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
-      const { event, spanContext } = instrumentEventData({ body: "" }, {}, "testPath", "testHost");
+      const { event, spanContext } = instrumentEventData(
+        { body: "" },
+        {},
+        "testPath",
+        "testHost",
+        "receive"
+      );
       assert.notExists(spanContext); // was not instrumented
       assert.notExists(event.properties?.[TRACEPARENT_PROPERTY]);
     });
@@ -87,7 +96,13 @@ describe("tracing", () => {
           traceparent: "fake-traceparent-header",
         });
 
-        const { event } = instrumentEventData({ body: "test" }, {}, "testPath", "testHost");
+        const { event } = instrumentEventData(
+          { body: "test" },
+          {},
+          "testPath",
+          "testHost",
+          "receive"
+        );
 
         assert.equal(event.properties?.[TRACEPARENT_PROPERTY], "fake-traceparent-header");
       });

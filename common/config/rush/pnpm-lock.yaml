@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230418
+      typescript: 5.1.0-dev.20230420
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230418:
-    resolution: {integrity: sha512-BfA/KV0xddF8ZCAQZxZ0FoS8p+nWKXVaa5fctXW6WNGfcYF04cXlLB6F6uf3uCVbd0iad4YdHchz3KR0722QLg==}
+  /typescript/5.1.0-dev.20230420:
+    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9705,7 +9705,7 @@ packages:
     dev: false
 
   file:projects/ai-language-textauthoring.tgz:
-    resolution: {integrity: sha512-FK74b7UUuF2z1nxBa3Zjo0ArnVXVg7qgAaUgten6NlEpxU41F11gNTt0VXXV1JLQzWi5tb56QR6iidGJRFZTOQ==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-GzJiLITwSisEw7TGkV/m33k4ggVsCwdzS9MqJ2Gp5rQGc02fdCOyk2P6DaInnPpwBo4ZYafJgKc9pkswl6ctUQ==, tarball: file:projects/ai-language-textauthoring.tgz}
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
@@ -9716,6 +9716,7 @@ packages:
       eslint: 8.38.0
       mkdirp: 1.0.4
       mocha: 7.2.0
+      nyc: 15.1.0
       prettier: 2.8.7
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -10175,7 +10176,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-uyP2Ke4OnJuzr9Kt/b/20dTdk+DORj6XhAWRDOVp9ff6j49iZq8VPPCc0mXjbOmi99HA2uyUNeZZQvok4DCbRQ==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-vbxE6qSzBeI3MF63NHW5Hd+40qzXzzGqIq+cvDfB+WwoB1WZ5ExG1JzhhBAajhSYnNbLp9SaiC32fbZ7zmYccQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -10189,7 +10190,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -11085,7 +11087,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-fCp4Nd5Z48hrQ+Qj4mxbNkqpl5MvuhQo7OaDjCmVxBEaj0bHVjpXrqXvkLJHvdRQjBMT8F4icSpmLyP18dxc1w==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-F+Czh6HWdVqE05c0r8MoFo4++sWGtrTZjWKIvEqH/9+9VQ5GeypFs7F3474NWzaHHtPn5mZXcs4DLAUd5ibnhA==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -11106,7 +11108,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -11252,7 +11254,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-epUopDZF/h2mskn1cp+bG2R4hH4MWvGcLc7rnMbYLB9K3s5FhbJmc7RG+jVGZLUWZQOxMTn/IFwe3itoz3nW5w==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-9pvYZGlEjkxECFsQR+85oXAp4AId/RmdRbOaKxLLvveT8xg8/PqanUjfziILdNnJbSCdKK1Sk2zqhrLxQaWKXQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -11273,7 +11275,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -12591,7 +12593,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-LA2Dk8xTFHJw4ECV0W767EbGtNxQ/LW8wz3ulHD1mpY0A9RdGuetRgM+OT+qgN9qTvd54HUoDK3E+N5EGv/0rQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-42T2lpCefFl3PJlTcxXbhDDV9LDU5hmgL8veh39ukHYsZ+suVCShiED2/QD/IlPj0Djy9sTQdklAvVT+WThdlQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -12606,8 +12608,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14017,7 +14019,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-9tfUIsmSUEH8PvZxQLFScOkCkv9RnRpfzGmR+io9OwNHy2RmemwCu/e9slwjryh/MeeR68dwSEsrD9m+kvIcgA==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-5czznuHClDlfg5EPkaWGV2EaRM7GSickIdkl9CNNKeMn6h1FBocdEDFFCSXfZmC5S6OTMDSGN+4scr5Z/dKmqQ==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
@@ -14032,7 +14034,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14320,7 +14322,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-okDkr+7nvR32KGfw50mdJM5cwq0e1nsL5akyil2uWfMHi7krh9fvoNI2cOTAgYa8ErWIGCSmc7/N7i8MnEsiOA==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-pBnXYmOd17hcFGUnh1LhY3N5RSlPNXJwEWcnQQTw+y7atGMLKR0MosQkFhzDuEuMSHPiWM+NxBDjm/B/IdThFg==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -14334,7 +14336,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

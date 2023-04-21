@@ -33,6 +33,8 @@ import {
   ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
+  ManagedClustersListKubernetesVersionsOptionalParams,
+  ManagedClustersListKubernetesVersionsResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
   ManagedClustersGetUpgradeProfileResponse,
   ManagedClustersGetAccessProfileOptionalParams,
@@ -309,6 +311,22 @@ export class ManagedClustersImpl implements ManagedClusters {
     return this.client.sendOperationRequest(
       { location, options },
       getOSOptionsOperationSpec
+    );
+  }
+
+  /**
+   * Contains extra metadata on the version, including supported patch versions, capabilities, available
+   * upgrades, and details on preview status of the version
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listKubernetesVersions(
+    location: string,
+    options?: ManagedClustersListKubernetesVersionsOptionalParams
+  ): Promise<ManagedClustersListKubernetesVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listKubernetesVersionsOperationSpec
     );
   }
 
@@ -1581,6 +1599,27 @@ const getOSOptionsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.resourceType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listKubernetesVersionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KubernetesVersionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
