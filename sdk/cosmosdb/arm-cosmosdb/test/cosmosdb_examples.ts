@@ -36,7 +36,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("Cosmosdb test", () => {
+describe("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
