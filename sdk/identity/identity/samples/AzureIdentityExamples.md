@@ -557,7 +557,7 @@ function withAzureDeveloperCliCredential() {
 
 #### Authenticating in Azure with Workload Identity
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `WorkloadIdentityCredential` in AKS environment.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `WorkloadIdentityCredential` in an AKS environment.
 
 ```ts
 /**
