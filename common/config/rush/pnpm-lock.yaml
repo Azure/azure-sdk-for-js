@@ -104,6 +104,7 @@ specifiers:
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridcloud': file:./projects/arm-hybridcloud.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridcontainerservice': file:./projects/arm-hybridcontainerservice.tgz
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
@@ -443,6 +444,7 @@ dependencies:
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridcloud': file:projects/arm-hybridcloud.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridcontainerservice': file:projects/arm-hybridcontainerservice.tgz
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
@@ -3991,7 +3993,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230420
+      typescript: 5.1.0-dev.20230421
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8861,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230420:
-    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
+  /typescript/5.1.0-dev.20230421:
+    resolution: {integrity: sha512-/1iQqWMPGKPeLDDo7yRXIf7b1pisezXm0gvVI9t4UrtD6j3itaV/WzB7CNWJjhi4oElPFjkY1KzDOqqsTZD+TQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12503,6 +12505,34 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
       typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-hybridcloud.tgz:
+    resolution: {integrity: sha512-7HT9aPksdxtCB0HHFM5F1B5LPZEqsqz0qabMiWwInnCgpPge/8tX5i4fv5+qFhrSlf5ABzGG+pKq8DAhBrswgw==, tarball: file:projects/arm-hybridcloud.tgz}
+    name: '@rush-temp/arm-hybridcloud'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.42
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
+      tslib: 2.5.0
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
