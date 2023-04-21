@@ -154,7 +154,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     } catch (error: any) {
       assert.equal(
         error.message,
-        "Please run 'azd login' from a command prompt to authenticate before using this credential."
+        stderr
       );
     }
   });
