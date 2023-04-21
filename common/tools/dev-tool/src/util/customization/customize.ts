@@ -7,6 +7,7 @@ import {
   InterfaceDeclaration,
   TypeAliasDeclaration,
   SourceFile,
+  ImportDeclaration,
 } from "ts-morph";
 import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
@@ -15,9 +16,12 @@ import { sortSourceFileContents } from "./helpers/preformat";
 import { resolveProject } from "../resolveProject";
 
 let outputProject = new Project();
+let _originalFolderName = "generated";
 export async function customize(originalDir: string, customDir: string, outDir: string) {
   // Bring everything from original into the output
   await fs.copy(originalDir, outDir);
+
+  _originalFolderName = customDir.split("/").pop() ?? _originalFolderName;
 
   // Bring files only present in custom into the output
   copyFilesInCustom(originalDir, customDir, outDir);
@@ -40,8 +44,6 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
     (file) =>
       !filesInOriginal.some((f) => f.replace(originalDir, "").includes(file.replace(customDir, "")))
   );
-
-  console.log(filesToCopy);
 
   for (const file of filesToCopy) {
     const sourcePath = file;
@@ -191,8 +193,25 @@ export function mergeModuleDeclarations(
   return originalVirtualSourceFile.getFullText();
 }
 
+function isGeneratedImport(importDeclaration: ImportDeclaration) {
+  const regex = new RegExp(`^\.\.\/(?:\.\.\/)*${_originalFolderName}(?:\/.*)?$`);
+
+  return regex.test(importDeclaration.getModuleSpecifierValue());
+}
+
+function transformGeneratedImport(moduleSpecifier: string) {
+  const regex = new RegExp(`^(\.\.\/)+(?:\.\.\/)*${_originalFolderName}(?:\/(.*))?$`);
+  return moduleSpecifier.replace(regex, "./$2");
+}
+
 function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
   for (const customImport of customFile.getImportDeclarations()) {
+    if (isGeneratedImport(customImport)) {
+      const newModuleSpecifier = transformGeneratedImport(customImport.getModuleSpecifierValue());
+      customImport.setModuleSpecifier(newModuleSpecifier);
+      originalFile.addImportDeclaration(customImport.getStructure());
+    }
+
     if (customImport.isModuleSpecifierRelative()) {
       continue;
     }

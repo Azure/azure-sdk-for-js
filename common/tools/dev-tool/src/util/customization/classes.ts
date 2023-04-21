@@ -236,6 +236,9 @@ function addConstructorsToClass(
     originalClass.addConstructor(
       customConstructor.getStructure() as ConstructorDeclarationStructure
     );
+  } else {
+    originalConstructor?.remove();
+    originalClass.addConstructor(customConstructor.getStructure()  as ConstructorDeclarationStructure);
   }
 }
 
@@ -247,14 +250,7 @@ export function addMethodToClass(
 
   // We need to replace the augmentation call with the private method call
   if (isAugmentingMethod(customMethod) && !isOverload(customMethod.getStructure())) {
-    console.log("Augmenting !!!!!")
-
     const regex = new RegExp(`this\\.${AUGMENT_CLASS_TOKEN}\\.`, "g");
-    console.log(customMethod
-      .getBodyText())
-
-    console.log(customMethod
-      .getBodyText()?.match(regex));
     const modifiedMethodContent = customMethod
       .getBodyText()
       ?.replace(regex, `this._`);
