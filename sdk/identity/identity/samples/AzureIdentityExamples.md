@@ -560,7 +560,6 @@ function withAzureDeveloperCliCredential() {
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `WorkloadIdentityCredential` in AKS environment.
 
 ```ts
-
 /**
  * Authenticate with workload identity.
  */
@@ -571,14 +570,13 @@ function withWorkloadIdentityCredential() {
 }
 
 /**
- * Authenticate with default azure identity.
+ * Authenticate with default Azure identity.
  */ 
 function withDefaultAzureCredential() {
   const credential = new DefaultAzureCredential({workloadIdentityClientId: "<WORKLOAD_IDENTITY_CLIENT_ID>"})
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
-
 ```
 
 #### Authenticating in Azure with managed identity
