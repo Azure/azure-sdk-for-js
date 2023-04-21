@@ -10176,7 +10176,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-uyP2Ke4OnJuzr9Kt/b/20dTdk+DORj6XhAWRDOVp9ff6j49iZq8VPPCc0mXjbOmi99HA2uyUNeZZQvok4DCbRQ==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-vbxE6qSzBeI3MF63NHW5Hd+40qzXzzGqIq+cvDfB+WwoB1WZ5ExG1JzhhBAajhSYnNbLp9SaiC32fbZ7zmYccQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -10190,7 +10190,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
