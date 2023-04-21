@@ -526,7 +526,7 @@ function withAzurePowerShellCredential() {
 
 #### Authenticating a User Account with Azure Developer CLI
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AzureDeveloperCliCredential` on a workstation with Azure Developer CLI installed and signed in.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AzureDeveloperCliCredential` on a workstation with the Azure Developer CLI installed and signed in.
 
 ##### Configure Azure Developer CLI
 
