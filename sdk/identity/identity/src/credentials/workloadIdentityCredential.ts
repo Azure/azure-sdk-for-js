@@ -48,8 +48,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
     this.federatedTokenFilePath =
-      workloadIdentityCredentialOptions.tokenFilePath ||
-      process.env.AZURE_FEDERATED_TOKEN_FILE;
+      workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
