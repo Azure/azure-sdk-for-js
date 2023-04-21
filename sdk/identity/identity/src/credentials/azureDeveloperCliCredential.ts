@@ -86,7 +86,7 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  * to Azure developers. It allows users to authenticate as a user and/or a service principal against
  * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Azure Active Directory (Azure AD)
  * </a>. The AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
- * the logged-in user or service principal in Azure Developer CLI. It acts as the Azure Developer CLI logged in user or
+ * the logged-in user or service principal in the Azure Developer CLI. It acts as the Azure Developer CLI logged in user or
  * service principal and executes an Azure CLI command underneath to authenticate the application against
  * Azure Active Directory.
  *
