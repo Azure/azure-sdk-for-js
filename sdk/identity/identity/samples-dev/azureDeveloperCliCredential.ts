@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates using Azure Developer Cli Credential
+ * @summary Authenticates using Azure Developer CLI Credential
  */
 
 import { AzureDeveloperCliCredential, DefaultAzureCredential } from "@azure/identity";

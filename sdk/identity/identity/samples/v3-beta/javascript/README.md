@@ -12,13 +12,13 @@ urlFragment: identity-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                                 | **Description**                                                                                            |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [azureDeveloperCliCredential.js][azuredeveloperclicredential] | Authenticates using Azure Developer CLI Credential                                                         |
-| [clientSecretCredential.js][clientsecretcredential]           | Authenticates with an app registration’s client ID and secret.                                             |
+| **File Name**                                                 | **Description**                                                                                                     |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [azureDeveloperCliCredential.js][azuredeveloperclicredential] | Authenticates using Azure Developer CLI Credential                                                                  |
+| [clientSecretCredential.js][clientsecretcredential]           | Authenticates with an app registration’s client ID and secret.                                                      |
 | [defaultAzureCredential.js][defaultazurecredential]           | Tries several authentication methods using a single credential, which is the simplest way to use `@azure/identity`. |
-| [environmentCredential.js][environmentcredential]             | Authenticates as an app registration automatically using environment variables.                            |
-| [workloadIdentityCredential.js][workloadidentitycredential]   | Authenticates using Workload Identity Credential                                                           |
+| [environmentCredential.js][environmentcredential]             | Authenticates as an app registration automatically using environment variables.                                     |
+| [workloadIdentityCredential.js][workloadidentitycredential]   | Authenticates using Workload Identity Credential                                                                    |
 
 ## Prerequisites
 
