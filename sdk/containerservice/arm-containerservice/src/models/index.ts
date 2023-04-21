@@ -98,6 +98,35 @@ export interface OSOptionProperty {
   enableFipsImage: boolean;
 }
 
+/** Hold values properties, which is array of KubernetesVersion */
+export interface KubernetesVersionListResult {
+  /** Array of AKS supported Kubernetes versions. */
+  values?: KubernetesVersion[];
+}
+
+/** Kubernetes version profile for given major.minor release. */
+export interface KubernetesVersion {
+  /** major.minor version of Kubernetes release */
+  version?: string;
+  /** Capabilities on this Kubernetes version. */
+  capabilities?: KubernetesVersionCapabilities;
+  /** Whether this version is in preview mode. */
+  isPreview?: boolean;
+  /** Patch versions of Kubernetes release */
+  patchVersions?: { [propertyName: string]: KubernetesPatchVersion };
+}
+
+/** Capabilities on this Kubernetes version. */
+export interface KubernetesVersionCapabilities {
+  supportPlan?: KubernetesSupportPlan[];
+}
+
+/** Kubernetes patch version profile */
+export interface KubernetesPatchVersion {
+  /** Possible upgrade path for given patch version */
+  upgrades?: string[];
+}
+
 /** The response from the List Managed Clusters operation. */
 export interface ManagedClusterListResult {
   /** The list of managed clusters. */
@@ -1818,6 +1847,8 @@ export interface ManagedCluster extends TrackedResource {
   nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
+  /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
+  supportPlan?: KubernetesSupportPlan;
   /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
   enablePodSecurityPolicy?: boolean;
   /** The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
@@ -2001,6 +2032,24 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Known values of {@link KubernetesSupportPlan} that the service accepts. */
+export enum KnownKubernetesSupportPlan {
+  /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
+  KubernetesOfficial = "KubernetesOfficial",
+  /** Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support. */
+  AKSLongTermSupport = "AKSLongTermSupport"
+}
+
+/**
+ * Defines values for KubernetesSupportPlan. \
+ * {@link KnownKubernetesSupportPlan} can be used interchangeably with KubernetesSupportPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KubernetesOfficial**: Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. \
+ * **AKSLongTermSupport**: Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support.
+ */
+export type KubernetesSupportPlan = string;
+
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
   /** Base option for the AKS control plane. */
@@ -2018,6 +2067,8 @@ export type ManagedClusterSKUName = string;
 
 /** Known values of {@link ManagedClusterSKUTier} that the service accepts. */
 export enum KnownManagedClusterSKUTier {
+  /** Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. */
+  Premium = "Premium",
   /** Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. */
   Standard = "Standard",
   /** The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases. */
@@ -2029,6 +2080,7 @@ export enum KnownManagedClusterSKUTier {
  * {@link KnownManagedClusterSKUTier} can be used interchangeably with ManagedClusterSKUTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Premium**: Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. \
  * **Standard**: Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. \
  * **Free**: The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases.
  */
@@ -2394,7 +2446,7 @@ export type NetworkPlugin = string;
 /** Known values of {@link NetworkPluginMode} that the service accepts. */
 export enum KnownNetworkPluginMode {
   /** Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge. */
-  Overlay = "Overlay"
+  Overlay = "overlay"
 }
 
 /**
@@ -2402,7 +2454,7 @@ export enum KnownNetworkPluginMode {
  * {@link KnownNetworkPluginMode} can be used interchangeably with NetworkPluginMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Overlay**: Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge.
+ * **overlay**: Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge.
  */
 export type NetworkPluginMode = string;
 
@@ -3021,6 +3073,13 @@ export interface ManagedClustersGetOSOptionsOptionalParams
 
 /** Contains response data for the getOSOptions operation. */
 export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
+
+/** Optional parameters. */
+export interface ManagedClustersListKubernetesVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKubernetesVersions operation. */
+export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOptionalParams
