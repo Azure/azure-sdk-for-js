@@ -152,10 +152,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(
-        error.message,
-        stderr
-      );
+      assert.equal(error.message, stderr);
     }
   });
 
