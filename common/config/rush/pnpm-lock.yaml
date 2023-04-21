@@ -276,6 +276,7 @@ specifiers:
   '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-ingestion': file:./projects/monitor-ingestion.tgz
+  '@rush-temp/monitor-opentelemetry': file:./projects/monitor-opentelemetry.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
@@ -612,6 +613,7 @@ dependencies:
   '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-ingestion': file:projects/monitor-ingestion.tgz
+  '@rush-temp/monitor-opentelemetry': file:projects/monitor-opentelemetry.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
@@ -734,6 +736,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -965,6 +968,28 @@ packages:
       tunnel: 0.0.6
       uuid: 8.3.2
       xml2js: 0.4.23
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/core-http/3.0.1:
+    resolution: {integrity: sha512-A3x+um3cAPgQe42Lu7Iv/x8/fNjhL/nIoEfqFxfn30EyxK6zC13n+OUxzZBRC0IzQqssqIbt4INf5YG7lYYFtw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-util': 1.2.0
+      '@azure/logger': 1.0.4
+      '@types/node-fetch': 2.6.3
+      '@types/tunnel': 0.0.3
+      form-data: 4.0.0
+      node-fetch: 2.6.9
+      process: 0.11.10
+      tslib: 2.5.0
+      tunnel: 0.0.6
+      uuid: 8.3.2
+      xml2js: 0.5.0
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -3998,7 +4023,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230405
+      typescript: 5.1.0-dev.20230421
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8855,15 +8880,15 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230405:
-    resolution: {integrity: sha512-4unWRVmR6URHndao/lK2XCSabqveeczgOSGNNQbfZW7Hu4b+YND5DlpVQOL/Yaz9olB1FgeZidZwYnTQbOXc6w==}
-    engines: {node: '>=12.20'}
+  /typescript/5.1.0-dev.20230421:
+    resolution: {integrity: sha512-/1iQqWMPGKPeLDDo7yRXIf7b1pisezXm0gvVI9t4UrtD6j3itaV/WzB7CNWJjhi4oElPFjkY1KzDOqqsTZD+TQ==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -9220,6 +9245,14 @@ packages:
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
     engines: {node: '>=4.0.0'}
     dependencies:
       sax: 1.2.4
@@ -16923,7 +16956,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.0.4
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -17171,7 +17204,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-55L6D3Zr5nZu7iJ/bEuLzhKZ2AG4xeZ3aqkU2H9n3h1/bCp8g9Z4IhCZ3zBj5tSyZolhXot3cbINTIHlvDZZtA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/v2/2q6QmBLAy9IctuvCXDMjEedZw7eU0nNBrsQYr1zZqFHDyQRVJXLYYZVsIjWpuYTb6c/o7fkUhfe8YIuFAg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -18217,6 +18250,43 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/monitor-opentelemetry.tgz:
+    resolution: {integrity: sha512-hpAgTVXGB4wVhJtoEMWYg9Nj9ZeTpTynTyqQXfb8crLxI5cQyU3wGvA/V/X1YBvipvKcQxNjy0JJ2o+Y96ZxHA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    name: '@rush-temp/monitor-opentelemetry'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-http': 3.0.1
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/core': 1.11.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation': 0.35.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-http': 0.37.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/resources': 1.11.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-metrics': 1.11.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-base': 1.11.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-node': 1.11.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/semantic-conventions': 1.11.0
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.42
+      dotenv: 16.0.3
+      eslint: 8.37.0
+      eslint-plugin-node: 11.1.0_eslint@8.37.0
+      mocha: 7.2.0
+      nock: 12.0.3
+      nyc: 15.1.0
+      prettier: 2.8.7
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      ts-node: 10.9.1_aq37bc3qk5xfrwr2rvto6geisu
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/monitor-query.tgz:
     resolution: {integrity: sha512-56agQ8+QajDRZ82yz9/qAjUIv0csk8/1mh2vZdogUl+OOJwz73r8MdFaHIH8xd+ipL5taAojq6SSxpGaYN+snQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
@@ -18744,7 +18814,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X1NvwwnX9KW680X8qYAvWSab7HtqQCZXw/alWYUXwIV5glv3ivLmPYQ5Piid4yK4GyhBRMmd1zmgHk+MHPXiOQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:

@@ -864,6 +864,8 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query/ @KarishmaGhiya
 
 # ServiceLabel: %AAD %Service Attention
