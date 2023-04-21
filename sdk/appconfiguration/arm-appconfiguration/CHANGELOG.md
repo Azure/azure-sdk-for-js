@@ -1,12 +1,35 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 4.0.0 (2023-04-21)
+    
 **Features**
-  - Bugs Fixed
 
+  - Added operation group Replicas
+  - Added Interface Replica
+  - Added Interface ReplicaListResult
+  - Added Interface ReplicasCreateOptionalParams
+  - Added Interface ReplicasDeleteHeaders
+  - Added Interface ReplicasDeleteOptionalParams
+  - Added Interface ReplicasGetOptionalParams
+  - Added Interface ReplicasListByConfigurationStoreNextOptionalParams
+  - Added Interface ReplicasListByConfigurationStoreOptionalParams
+  - Added Type Alias ReplicaProvisioningState
+  - Added Type Alias ReplicasCreateResponse
+  - Added Type Alias ReplicasGetResponse
+  - Added Type Alias ReplicasListByConfigurationStoreNextResponse
+  - Added Type Alias ReplicasListByConfigurationStoreResponse
+  - Added Enum KnownReplicaProvisioningState
 
-## 3.1.0 (2023-04-20)
+**Breaking Changes**
+
+  - Removed operation KeyValues.listByConfigurationStore
+  - Interface ConfigurationStoresListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListKeysNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListNextOptionalParams no longer has parameter skipToken
+  - Interface OperationsListNextOptionalParams no longer has parameter skipToken
+    
+    
+## 3.1.0 (2022-11-15)
     
 **Features**
 

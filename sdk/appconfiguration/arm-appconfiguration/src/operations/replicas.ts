@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { Replicas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByConfigurationStoreNextOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreNextResponse
+  Replica,
+  ReplicasListByConfigurationStoreNextOptionalParams,
+  ReplicasListByConfigurationStoreOptionalParams,
+  ReplicasListByConfigurationStoreResponse,
+  ReplicasGetOptionalParams,
+  ReplicasGetResponse,
+  ReplicasCreateOptionalParams,
+  ReplicasCreateResponse,
+  ReplicasDeleteOptionalParams,
+  ReplicasListByConfigurationStoreNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+/** Class containing Replicas operations. */
+export class ReplicasImpl implements Replicas {
   private readonly client: AppConfigurationManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class Replicas class.
    * @param client Reference to the service client
    */
   constructor(client: AppConfigurationManagementClient) {
@@ -47,7 +46,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all private endpoint connections for a configuration store.
+   * Lists the replicas for a given configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
@@ -55,8 +54,8 @@ export class PrivateEndpointConnectionsImpl
   public listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: ReplicasListByConfigurationStoreOptionalParams
+  ): PagedAsyncIterableIterator<Replica> {
     const iter = this.listByConfigurationStorePagingAll(
       resourceGroupName,
       configStoreName,
@@ -86,10 +85,10 @@ export class PrivateEndpointConnectionsImpl
   private async *listByConfigurationStorePagingPage(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
+    options?: ReplicasListByConfigurationStoreOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByConfigurationStoreResponse;
+  ): AsyncIterableIterator<Replica[]> {
+    let result: ReplicasListByConfigurationStoreResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByConfigurationStore(
@@ -119,8 +118,8 @@ export class PrivateEndpointConnectionsImpl
   private async *listByConfigurationStorePagingAll(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: ReplicasListByConfigurationStoreOptionalParams
+  ): AsyncIterableIterator<Replica> {
     for await (const page of this.listByConfigurationStorePagingPage(
       resourceGroupName,
       configStoreName,
@@ -131,7 +130,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all private endpoint connections for a configuration store.
+   * Lists the replicas for a given configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
@@ -139,8 +138,8 @@ export class PrivateEndpointConnectionsImpl
   private _listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): Promise<PrivateEndpointConnectionsListByConfigurationStoreResponse> {
+    options?: ReplicasListByConfigurationStoreOptionalParams
+  ): Promise<ReplicasListByConfigurationStoreResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, options },
       listByConfigurationStoreOperationSpec
@@ -148,55 +147,48 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the configuration store.
+   * Gets the properties of the specified replica.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    replicaName: string,
+    options?: ReplicasGetOptionalParams
+  ): Promise<ReplicasGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        configStoreName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, configStoreName, replicaName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of the specified private endpoint connection associated with the configuration
-   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
-   * connections must be created with the Network resource provider.
+   * Creates a replica with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
-   * @param privateEndpointConnection The private endpoint connection properties.
+   * @param replicaName The name of the replica.
+   * @param replicaCreationParameters The parameters for creating a replica.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    replicaName: string,
+    replicaCreationParameters: Replica,
+    options?: ReplicasCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      OperationState<ReplicasCreateResponse>,
+      ReplicasCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<ReplicasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -237,62 +229,61 @@ export class PrivateEndpointConnectionsImpl
       args: {
         resourceGroupName,
         configStoreName,
-        privateEndpointConnectionName,
-        privateEndpointConnection,
+        replicaName,
+        replicaCreationParameters,
         options
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+      ReplicasCreateResponse,
+      OperationState<ReplicasCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the state of the specified private endpoint connection associated with the configuration
-   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
-   * connections must be created with the Network resource provider.
+   * Creates a replica with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
-   * @param privateEndpointConnection The private endpoint connection properties.
+   * @param replicaName The name of the replica.
+   * @param replicaCreationParameters The parameters for creating a replica.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    replicaName: string,
+    replicaCreationParameters: Replica,
+    options?: ReplicasCreateOptionalParams
+  ): Promise<ReplicasCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       configStoreName,
-      privateEndpointConnectionName,
-      privateEndpointConnection,
+      replicaName,
+      replicaCreationParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a private endpoint connection.
+   * Deletes a replica.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    replicaName: string,
+    options?: ReplicasDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -335,39 +326,35 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        configStoreName,
-        privateEndpointConnectionName,
-        options
-      },
+      args: { resourceGroupName, configStoreName, replicaName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a private endpoint connection.
+   * Deletes a replica.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    replicaName: string,
+    options?: ReplicasDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       configStoreName,
-      privateEndpointConnectionName,
+      replicaName,
       options
     );
     return poller.pollUntilDone();
@@ -385,8 +372,8 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     configStoreName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreNextOptionalParams
-  ): Promise<PrivateEndpointConnectionsListByConfigurationStoreNextResponse> {
+    options?: ReplicasListByConfigurationStoreNextOptionalParams
+  ): Promise<ReplicasListByConfigurationStoreNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
       listByConfigurationStoreNextOperationSpec
@@ -398,17 +385,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ReplicaListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -420,11 +407,11 @@ const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Replica
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -436,40 +423,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Replica
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Replica
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Replica
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Replica
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.privateEndpointConnection,
+  requestBody: Parameters.replicaCreationParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.replicaName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -477,7 +464,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -494,7 +481,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.replicaName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -504,7 +491,7 @@ const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ReplicaListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
