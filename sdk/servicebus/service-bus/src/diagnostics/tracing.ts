@@ -23,6 +23,7 @@ export const tracingClient = createTracingClient({
  * Creates {@link TracingSpanOptions} from the provided data.
  * @param serviceBusConfig - The configuration object containing initial attributes to set on the span.
  * @param spanKind - The {@link TracingSpanKind} for the newly created span.
+ * @param operation - The operation type.
  * @returns a {@link TracingSpanOptions} that can be passed to a {@link TracingClient}
  */
 export function toSpanOptions(

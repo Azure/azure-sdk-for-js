@@ -582,6 +582,12 @@ export enum KnownKubeletDiskType {
 }
 
 // @public
+export enum KnownKubernetesSupportPlan {
+    AKSLongTermSupport = "AKSLongTermSupport",
+    KubernetesOfficial = "KubernetesOfficial"
+}
+
+// @public
 export enum KnownLevel {
     Enforcement = "Enforcement",
     Off = "Off",
@@ -618,6 +624,7 @@ export enum KnownManagedClusterSKUName {
 // @public
 export enum KnownManagedClusterSKUTier {
     Free = "Free",
+    Premium = "Premium",
     Standard = "Standard"
 }
 
@@ -648,7 +655,7 @@ export enum KnownNetworkPlugin {
 
 // @public
 export enum KnownNetworkPluginMode {
-    Overlay = "Overlay"
+    Overlay = "overlay"
 }
 
 // @public
@@ -825,6 +832,35 @@ export interface KubeletConfig {
 export type KubeletDiskType = string;
 
 // @public
+export interface KubernetesPatchVersion {
+    upgrades?: string[];
+}
+
+// @public
+export type KubernetesSupportPlan = string;
+
+// @public
+export interface KubernetesVersion {
+    capabilities?: KubernetesVersionCapabilities;
+    isPreview?: boolean;
+    patchVersions?: {
+        [propertyName: string]: KubernetesPatchVersion;
+    };
+    version?: string;
+}
+
+// @public
+export interface KubernetesVersionCapabilities {
+    // (undocumented)
+    supportPlan?: KubernetesSupportPlan[];
+}
+
+// @public
+export interface KubernetesVersionListResult {
+    values?: KubernetesVersion[];
+}
+
+// @public
 export type Level = string;
 
 // @public
@@ -953,6 +989,7 @@ export interface ManagedCluster extends TrackedResource {
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
+    supportPlan?: KubernetesSupportPlan;
     upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
@@ -1293,6 +1330,7 @@ export interface ManagedClusters {
     listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterAdminCredentialsOptionalParams): Promise<ManagedClustersListClusterAdminCredentialsResponse>;
     listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
     listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterUserCredentialsOptionalParams): Promise<ManagedClustersListClusterUserCredentialsResponse>;
+    listKubernetesVersions(location: string, options?: ManagedClustersListKubernetesVersionsOptionalParams): Promise<ManagedClustersListKubernetesVersionsResponse>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
@@ -1469,6 +1507,13 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams extends
 
 // @public
 export type ManagedClustersListClusterUserCredentialsResponse = CredentialResults;
+
+// @public
+export interface ManagedClustersListKubernetesVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
 
 // @public
 export interface ManagedClustersListNextOptionalParams extends coreClient.OperationOptions {
