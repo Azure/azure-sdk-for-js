@@ -6,7 +6,9 @@ import "./polyfill.worker";
 import { ContainerClient } from "@azure/storage-blob";
 
 async function uploadToStorageBlob() {
-  const containerSasUrl = "<your container SAS url>";
+  // For example, in Azure public cloud, a container SAS URL has the form of
+  // `https://${account}.blob.core.windows.net/${containerName}?${sasToken}`
+  const containerSasUrl = "<container SAS url>";
 
   const data = "Hello, Web Workers!";
 
