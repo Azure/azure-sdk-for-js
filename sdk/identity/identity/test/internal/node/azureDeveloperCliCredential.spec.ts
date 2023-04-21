@@ -7,7 +7,7 @@ import { GetTokenOptions } from "@azure/core-auth";
 import { assert } from "chai";
 import child_process from "child_process";
 
-describe.only("AzureDeveloperCliCredential (internal)", function () {
+describe("AzureDeveloperCliCredential (internal)", function () {
   let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
