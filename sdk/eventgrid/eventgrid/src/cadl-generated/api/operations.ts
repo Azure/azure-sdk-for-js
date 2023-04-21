@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestOptions } from "../common/interfaces.js";
-import { isUnexpected } from "../rest/index.js";
-import { CloudEventEvent, ReceiveResponse, LockToken, LockTokensResponse } from "./models.js";
+import { RequestOptions } from "../common/interfaces";
+import { isUnexpected } from "../rest/index";
+import { CloudEventEvent, ReceiveResponse, LockToken, LockTokensResponse } from "./models";
 import { Client } from "@azure-rest/core-client";
 
 export interface PublishCloudEventOptions extends RequestOptions {

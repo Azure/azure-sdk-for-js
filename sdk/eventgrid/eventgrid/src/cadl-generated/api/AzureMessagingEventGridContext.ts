@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { TokenCredential } from "@azure/core-auth";
-import getClient from "../rest/index.js";
-import { ClientOptions } from "../common/interfaces.js";
+import getClient from "../rest";
+import { ClientOptions } from "../common/interfaces";
 import { Client } from "@azure-rest/core-client";
 
 export type AzureMessagingEventGridContext = Client;

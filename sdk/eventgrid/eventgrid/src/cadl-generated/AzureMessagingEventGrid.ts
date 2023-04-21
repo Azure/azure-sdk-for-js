@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
-import { ClientOptions } from "./common/interfaces.js";
+import { ClientOptions } from "./common/interfaces";
 import {
   createAzureMessagingEventGrid,
   AzureMessagingEventGridContext,
@@ -20,7 +20,7 @@ import {
   receiveCloudEventsOptions,
   acknowledgeCloudEventsOptions,
   releaseCloudEventsOptions,
-} from "./api/index.js";
+} from "./api/index";
 
 export class AzureMessagingEventGrid {
   private _client: AzureMessagingEventGridContext;

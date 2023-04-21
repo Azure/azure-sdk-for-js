@@ -10,9 +10,9 @@ export {
   LockTokensResponse,
   FailedLockToken,
   LockTokenInput,
-} from "./api/models.js";
+} from "./api/models";
 
-export { AzureMessagingEventGrid as EventGridClient } from "./AzureMessagingEventGrid.js";
+export { AzureMessagingEventGrid as EventGridClient } from "./AzureMessagingEventGrid";
 
 export {
   publishCloudEvent,
@@ -25,5 +25,5 @@ export {
   receiveCloudEventsOptions,
   acknowledgeCloudEventsOptions,
   releaseCloudEventsOptions,
-} from "./api/operations.js";
-export { ClientOptions, RequestOptions } from "./common/interfaces.js";
+} from "./api/operations";
+export { ClientOptions, RequestOptions } from "./common/interfaces";

@@ -4,7 +4,7 @@
 export {
   createAzureMessagingEventGrid,
   AzureMessagingEventGridContext,
-} from "./AzureMessagingEventGridContext.js";
+} from "./AzureMessagingEventGridContext";
 export {
   CloudEventEvent,
   ReceiveResponse,
@@ -14,7 +14,7 @@ export {
   LockTokensResponse,
   FailedLockToken,
   LockTokenInput,
-} from "./models.js";
+} from "./models";
 export {
   publishCloudEvent,
   publishCloudEvents,
@@ -26,4 +26,4 @@ export {
   receiveCloudEventsOptions,
   acknowledgeCloudEventsOptions,
   releaseCloudEventsOptions,
-} from "./operations.js";
+} from "./operations";
