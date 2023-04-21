@@ -367,7 +367,7 @@ You can manually verify that the Azure Developer CLI is properly authenticated a
 azd config list
 ```
 
-Once you've verified the Azure Developer CLI is using correct account, you can validate that it's able to obtain tokens for this account.
+Once you've verified the Azure Developer CLI is using the correct account, validate that it's able to obtain tokens for this account.
 
 ```bash
 azd auth token --output json --scope https://management.core.windows.net/.default
