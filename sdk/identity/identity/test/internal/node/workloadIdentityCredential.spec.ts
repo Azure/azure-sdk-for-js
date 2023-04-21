@@ -24,7 +24,7 @@ describe("WorkloadIdentityCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
   const clientId = env.AZURE_CLIENT_ID ?? "clientId";
-  const federatedTokenFilePath =
+  const tokenFilePath =
     env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
   const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
@@ -57,14 +57,14 @@ describe("WorkloadIdentityCredential", function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
-      federatedTokenFilePath,
+      tokenFilePath,
     } as WorkloadIdentityCredentialOptions);
     const token = await credential.getToken(scope);
     assert.isNotNull(token);
     await validateWorkloadIdentityCredential(credential, token!, {
       clientId,
       tenantId,
-      federatedTokenFilePath,
+      tokenFilePath,
     });
   });
 
@@ -89,7 +89,7 @@ describe("WorkloadIdentityCredential", function () {
         {
           clientId,
           tenantId,
-          federatedTokenFilePath,
+          tokenFilePath,
         }
       );
     } catch (e) {
@@ -114,7 +114,7 @@ describe("WorkloadIdentityCredential", function () {
         {
           clientId: "workloadIdentityClientId",
           tenantId,
-          federatedTokenFilePath,
+          tokenFilePath,
         }
       );
     } catch (e) {
@@ -128,14 +128,14 @@ describe("WorkloadIdentityCredential", function () {
 async function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
-  options: { clientId: string; tenantId: string; federatedTokenFilePath: string }
+  options: { clientId: string; tenantId: string; tokenFilePath: string }
 ) {
   const {
     clientId: expectedClientId,
     tenantId: expectedTenantId,
-    federatedTokenFilePath: expectedFederatedTokenFilePath,
+    tokenFilePath: expectedFederatedTokenFilePath,
   } = options;
-  const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
+  const actualFederatedTokenFilePath = credential["tokenFilePath"];
   const clientAssertionCredential = credential["client"];
   const actualClientId = clientAssertionCredential
     ? clientAssertionCredential["clientId"]
