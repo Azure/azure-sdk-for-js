@@ -147,7 +147,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   it("get access token when azure cli not login in", async () => {
     stdout = "";
     stderr =
-      "Please run 'azd auth login' from a command prompt to authenticate before using this credential. Refer to the troubleshooting guidelines here at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot for more information.";
+      "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.";
     const credential = new AzureDeveloperCliCredential();
     try {
       await credential.getToken("https://service/.default");
