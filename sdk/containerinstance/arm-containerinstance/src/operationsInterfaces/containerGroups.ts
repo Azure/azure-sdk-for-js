@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ContainerGroup,
   ContainerGroupsListOptionalParams,
@@ -77,8 +77,8 @@ export interface ContainerGroups {
     containerGroup: ContainerGroup,
     options?: ContainerGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainerGroupsCreateOrUpdateResponse>,
       ContainerGroupsCreateOrUpdateResponse
     >
   >;
@@ -120,8 +120,8 @@ export interface ContainerGroups {
     containerGroupName: string,
     options?: ContainerGroupsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ContainerGroupsDeleteResponse>,
       ContainerGroupsDeleteResponse
     >
   >;
@@ -148,7 +148,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     options?: ContainerGroupsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
@@ -184,7 +184,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     options?: ContainerGroupsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
    * start.

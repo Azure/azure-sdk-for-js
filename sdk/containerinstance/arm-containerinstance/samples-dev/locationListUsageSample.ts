@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the usage for a subscription
  *
  * @summary Get the usage for a subscription
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupUsage.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerGroupUsage.json
  */
 async function containerUsage() {
   const subscriptionId =

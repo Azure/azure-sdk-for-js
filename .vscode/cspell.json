@@ -2,7 +2,11 @@
   "version": "0.1",
   "language": "en",
   "languageId": "typescript,javascript",
-  "dictionaries": ["powershell", "typescript", "node"],
+  "dictionaries": [
+    "powershell",
+    "typescript",
+    "node"
+  ],
   "ignorePaths": [
     "**/node_modules/**",
     "**/recordings/**",
@@ -19,6 +23,7 @@
     "*.crt",
     "*.key",
     ".vscode/cspell.json",
+    ".github/CODEOWNERS",
     "sdk/**/arm-*/**",
     "sdk/test-utils/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
@@ -38,7 +43,8 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md"
+    "sdk/synapse/synapse-spark/review/*.md",
+    "sdk/translation/ai-translation-text-rest/review/*.md"
   ],
   "words": [
     "adfs",
@@ -134,15 +140,31 @@
   "overrides": [
     {
       "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "policheck", "gdnbaselines"]
+      "words": [
+        "azuresdkartifacts",
+        "policheck",
+        "gdnbaselines"
+      ]
     },
     {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
-      "words": ["abgr", "Abgr", "argb", "Argb", "bgra", "Bgra", "Grpc", "onvif", "Onvif"]
+      "words": [
+        "abgr",
+        "Abgr",
+        "argb",
+        "Argb",
+        "bgra",
+        "Bgra",
+        "Grpc",
+        "onvif",
+        "Onvif"
+      ]
     },
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": ["RAGRS"]
+      "words": [
+        "RAGRS"
+      ]
     },
     {
       "filename": "sdk/search/search-documents/review/**/*.md",
@@ -170,15 +192,28 @@
     },
     {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
+      "words": [
+        "ECHSM",
+        "OKPHSM",
+        "RSAHSM",
+        "RSNULL",
+        "Rsnull"
+      ]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
-      "words": ["ECHSM", "ekus", "RSAHSM", "upns"]
+      "words": [
+        "ECHSM",
+        "ekus",
+        "RSAHSM",
+        "upns"
+      ]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": ["dtdl"]
+      "words": [
+        "dtdl"
+      ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
@@ -207,96 +242,168 @@
       ]
     },
     {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
+      "words": ["iddocument"]
+    },
+    {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-      "words": ["WDLABCD", "presentationml", "spreadsheetml", "wordprocessingml", "heif", "copays"]
+      "words": [
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays",
+        "Upca",
+        "Upce"
+      ]
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
-      "words": ["EHOSTDOWN", "ENONET", "sastoken"]
+      "words": [
+        "EHOSTDOWN",
+        "ENONET",
+        "sastoken"
+      ]
     },
     {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
-      "words": ["illumos", "Illumos", "mipsle", "riscv"]
+      "words": [
+        "illumos",
+        "Illumos",
+        "mipsle",
+        "riscv"
+      ]
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",
-      "words": ["gcch"]
+      "words": [
+        "gcch"
+      ]
     },
     {
       "filename": "sdk/communication/communication-email/review/**/*.md",
-      "words": ["rpmsg", "xlsb"]
+      "words": [
+        "rpmsg",
+        "xlsb"
+      ]
     },
     {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
-      "words": ["Dicom"]
+      "words": [
+        "Dicom"
+      ]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
-      "words": ["Dtmi", "dtmis"]
+      "words": [
+        "Dtmi",
+        "dtmis"
+      ]
     },
     {
       "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
-      "words": ["Uncommited"]
+      "words": [
+        "Uncommited"
+      ]
     },
     {
       "filename": "sdk/search/search-documents/review/search-documents.api.md",
-      "words": ["Createor"]
+      "words": [
+        "Createor"
+      ]
     },
     {
       "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
-      "words": ["fourty"]
+      "words": [
+        "fourty"
+      ]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
-      "words": ["dependecies"]
+      "words": [
+        "dependecies"
+      ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
-      "words": ["Funtion"]
+      "words": [
+        "Funtion"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": ["scaffolder", "APIM"]
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
-      "words": ["MSAPIM", "APIM"]
+      "words": [
+        "MSAPIM",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/maps/maps-common/review/maps-common.api.md",
-      "words": ["bbox"]
+      "words": [
+        "bbox"
+      ]
     },
     {
       "filename": "sdk/maps/maps-search/review/maps-search.api.md",
-      "words": ["bbox", "Neighbourhood", "Xstr"]
+      "words": [
+        "bbox",
+        "Neighbourhood",
+        "Xstr"
+      ]
     },
     {
       "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
-      "words": ["bbox", "UTURN", "Hundredkm"]
+      "words": [
+        "bbox",
+        "UTURN",
+        "Hundredkm"
+      ]
     },
     {
       "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
-      "words": ["bbox"]
+      "words": [
+        "bbox"
+      ]
     },
     {
       "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
-      "words": ["Neighbourhood", "Xstr"]
+      "words": [
+        "Neighbourhood",
+        "Xstr"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": ["scaffolder", "APIM"]
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
-      "words": ["vusers"]
+      "words": [
+        "vusers"
+      ]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
-      "words": ["protobuf"]
+      "words": [
+        "protobuf"
+      ]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
-      "words": ["protobuf"]
+      "words": [
+        "protobuf"
+      ]
     }
   ]
 }

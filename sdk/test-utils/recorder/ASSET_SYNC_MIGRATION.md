@@ -1,6 +1,6 @@
 # Migrating recordings to the `azure-sdk-assets` repository
 
-## Some background
+# Background
 
 Recordings take up a large amount of space in our repository and generate a lot of churn. The asset sync project, owned by our Engineering System team, is a solution to this problem. Leveraging and extending the existing test proxy, the asset sync extension adds support for moving the recordings outside of the main azure-sdk-for-js repo.
 
@@ -8,16 +8,20 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ### Prerequisites
 
-To be able to leverage the asset-sync workflow, you will need
+To be able to leverage the asset-sync workflow
 
-- [Powershell] installed
-- `dev-tool` among your `devDependencies` in the `package.json`.
+- To push recordings to the `"azure-sdk-assets"` repo, you should be part of `azure-sdk-write` group. Request [here](https://repos.opensource.microsoft.com/orgs/Azure/teams/azure-sdk-team) to get added in the group 
+- Install [Powershell]
+  - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
+- Add `dev-tool` to the `devDependencies` in the `package.json`.
 
 _If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
 
 The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). If you're on an older version, follow [recorder 3.0 migration guide] first.
 
-### Migration
+## Migration
+
+If your package is new with no recorded tests, skip to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
 
 Run the following command to migrate the recordings.
 
@@ -44,7 +48,7 @@ Example `assets.json` from "keyvault-certificates" SDK.
 
 And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3
 
-### New Package - No Recorded Tests
+## New Package - No Recorded Tests
 
 _If you already have an `assets.json` file, skip to [Workflow with asset sync enabled](#workflow-with-asset-sync-enabled)._
 
@@ -120,7 +124,7 @@ graph TD
     class p3 blue
 ```
 
-### Inspecting recordings with asset sync enabled
+## Inspecting recordings with asset sync enabled
 
 Often, when re-recording tests, you will want to inspect the recordings that have been made, either to debug something or to make sure secrets have been sanitized properly. With asset sync workflow enabled, the recordings are no longer stored in the same place as your SDK. You'll need to follow the following process to find them:
 
@@ -132,7 +136,22 @@ There is an [open issue](https://github.com/Azure/azure-sdk-tools/issues/4652) t
 
 For more information on this topic, see the [asset sync reference documentation][asset-sync-reference].
 
-### Other `test-proxy` commands
+### Through VS Code [GIT Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview) UI
+
+Suppose you want to update the recording for a test, you'll re-run the test like below.
+
+<img width="779" alt="image" src="https://user-images.githubusercontent.com/10452642/233708630-0a50c185-dde7-4e6d-8977-2a49a1211ac9.png">
+
+The changes in the recordings can be seen in the GIT Source Control section in VS Code. 
+
+(Installing GIT should be enough to get this view. [VS Code Source control overview](https://code.visualstudio.com/docs/sourcecontrol/overview))
+
+Click the file on the left side to view the diff for it on the right side as shown below.
+
+<img width="1126" alt="image" src="https://user-images.githubusercontent.com/10452642/233709272-18ce109d-8f7a-488c-b5cb-74cf3636c1dc.png">
+
+
+## Other `test-proxy` commands
 
 A few commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
 
@@ -143,7 +162,7 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 
 **Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) guide if you need help on the commands to run during testing.**
 
-### Working offline
+## Working offline
 
 Offline work is supported out-of-the-box. Of course, however, you won't be able to push or pull from the assets repo while offline. You can fetch recordings from the assets repo by running `npx dev-tool test-proxy restore`. This will download the recordings (and the test proxy executable, if you haven't got that already), making them ready for you to run tests with.
 

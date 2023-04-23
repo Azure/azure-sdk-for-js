@@ -223,6 +223,7 @@ export enum KnownArtifactOperatingSystem {
 // @public
 export enum KnownContainerRegistryAudience {
     AzureResourceManagerChina = "https://management.chinacloudapi.cn",
+    // @deprecated
     AzureResourceManagerGermany = "https://management.microsoftazure.de",
     AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
     AzureResourceManagerPublicCloud = "https://management.azure.com"

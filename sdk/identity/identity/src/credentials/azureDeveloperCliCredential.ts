@@ -81,10 +81,29 @@ export const developerCliCredentialInternals = {
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
- * This credential will use the currently logged-in user login information
- * via the Azure Developer CLI ('az') commandline tool.
- * To do so, it will read the user access token and expire time
- * with Azure Developer CLI command "azd auth token".
+ * Azure Developer CLI is a command-line interface tool that allows developers to create, manage, and deploy
+ * resources in Azure. It's built on top of the Azure CLI and provides additional functionality specific
+ * to Azure developers. It allows users to authenticate as a user and/or a service principal against
+ * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Azure Active Directory (Azure AD)
+ * </a>. The AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
+ * the logged-in user or service principal in the Azure Developer CLI. It acts as the Azure Developer CLI logged in user or
+ * service principal and executes an Azure CLI command underneath to authenticate the application against
+ * Azure Active Directory.
+ *
+ * <h2> Configure AzureDeveloperCliCredential </h2>
+ *
+ * To use this credential, the developer needs to authenticate locally in Azure Developer CLI using one of the
+ * commands below:
+ *
+ * <ol>
+ *     <li>Run "azd auth login" in Azure Developer CLI to authenticate interactively as a user.</li>
+ *     <li>Run "azd auth login --client-id clientID --client-secret clientSecret
+ *     --tenant-id tenantID" to authenticate as a service principal.</li>
+ * </ol>
+ *
+ * You may need to repeat this process after a certain time period, depending on the refresh token validity in your
+ * organization. Generally, the refresh token validity period is a few weeks to a few months.
+ * AzureDeveloperCliCredential will prompt you to sign in again.
  */
 export class AzureDeveloperCliCredential implements TokenCredential {
   private tenantId?: string;
@@ -95,7 +114,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    * Creates an instance of the {@link AzureDeveloperCliCredential}.
    *
    * To use this credential, ensure that you have already logged
-   * in via the 'azd' tool using the command "azd login" from the commandline.
+   * in via the 'azd' tool using the command "azd auth login" from the commandline.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
@@ -140,14 +159,16 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           tenantId,
           this.timeout
         );
-        const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
+        const isNotLoggedInError =
+          obj.stderr?.match("not logged in, run `azd login` to login") ||
+          obj.stderr?.match("not logged in, run `azd auth login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
           obj.stderr?.startsWith("'azd' is not recognized");
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -155,7 +176,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd login' from a command prompt to authenticate before using this credential."
+            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
