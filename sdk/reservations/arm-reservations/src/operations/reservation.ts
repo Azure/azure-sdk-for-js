@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReservationResponse,
   ReservationListNextOptionalParams,
@@ -275,8 +279,8 @@ export class ReservationImpl implements Reservation {
     body: AvailableScopeRequest,
     options?: ReservationAvailableScopesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationAvailableScopesResponse>,
+    SimplePollerLike<
+      OperationState<ReservationAvailableScopesResponse>,
       ReservationAvailableScopesResponse
     >
   > {
@@ -286,7 +290,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationAvailableScopesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,13 +323,16 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, reservationId, body, options },
-      availableScopesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, reservationId, body, options },
+      spec: availableScopesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationAvailableScopesResponse,
+      OperationState<ReservationAvailableScopesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -366,8 +373,8 @@ export class ReservationImpl implements Reservation {
     body: SplitRequest,
     options?: ReservationSplitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationSplitResponse>,
+    SimplePollerLike<
+      OperationState<ReservationSplitResponse>,
       ReservationSplitResponse
     >
   > {
@@ -377,7 +384,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationSplitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -410,15 +417,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      splitOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: splitOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationSplitResponse,
+      OperationState<ReservationSplitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -451,8 +461,8 @@ export class ReservationImpl implements Reservation {
     body: MergeRequest,
     options?: ReservationMergeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationMergeResponse>,
+    SimplePollerLike<
+      OperationState<ReservationMergeResponse>,
       ReservationMergeResponse
     >
   > {
@@ -462,7 +472,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationMergeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -495,15 +505,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      mergeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: mergeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationMergeResponse,
+      OperationState<ReservationMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -570,8 +583,8 @@ export class ReservationImpl implements Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationUpdateResponse>,
       ReservationUpdateResponse
     >
   > {
@@ -581,7 +594,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -614,15 +627,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, reservationId, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, reservationId, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationUpdateResponse,
+      OperationState<ReservationUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

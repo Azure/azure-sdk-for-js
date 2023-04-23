@@ -1,0 +1,109 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0f6900f9-69e9-4264-9d14-316ca0c6646e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fd541a12-de0e-4d60-80e8-68155b2c3a03",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "fd541a12-de0e-4d60-80e8-68155b2c3a03",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020526Z:fd541a12-de0e-4d60-80e8-68155b2c3a03"
+      },
+      "ResponseBody": {
+        "nextLink": null,
+        "value": [
+          {
+            "location": "westus2",
+            "tags": null,
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles/resourcetest",
+            "name": "resourcetest",
+            "type": "Microsoft.Orbital/contactProfiles",
+            "properties": {
+              "thirdPartyConfigurations": null,
+              "provisioningState": "succeeded",
+              "minimumViableContactDuration": "PT0S",
+              "minimumElevationDegrees": 0.0,
+              "autoTrackingConfiguration": "disabled",
+              "eventHubUri": null,
+              "networkConfiguration": {
+                "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/testsubnets"
+              },
+              "links": [
+                {
+                  "name": "contoso-uplink",
+                  "polarization": "LHCP",
+                  "direction": "Uplink",
+                  "gainOverTemperature": 0.0,
+                  "eirpdBW": 45.0,
+                  "channels": [
+                    {
+                      "name": "contoso-uplink-channel",
+                      "centerFrequencyMHz": 2250.0,
+                      "bandwidthMHz": 2.0,
+                      "endPoint": {
+                        "ipAddress": "10.1.0.4",
+                        "endPointName": "ContosoTest_Uplink",
+                        "port": "50000",
+                        "protocol": "TCP"
+                      },
+                      "modulationConfiguration": null,
+                      "demodulationConfiguration": null,
+                      "encodingConfiguration": null,
+                      "decodingConfiguration": null
+                    }
+                  ]
+                },
+                {
+                  "name": "contoso-downlink",
+                  "polarization": "RHCP",
+                  "direction": "Downlink",
+                  "gainOverTemperature": 25.0,
+                  "eirpdBW": 0.0,
+                  "channels": [
+                    {
+                      "name": "contoso-downlink-channel",
+                      "centerFrequencyMHz": 8160.0,
+                      "bandwidthMHz": 15.0,
+                      "endPoint": {
+                        "ipAddress": "10.1.0.5",
+                        "endPointName": "ContosoTest_Downlink",
+                        "port": "50001",
+                        "protocol": "UDP"
+                      },
+                      "modulationConfiguration": null,
+                      "demodulationConfiguration": null,
+                      "encodingConfiguration": null,
+                      "decodingConfiguration": null
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

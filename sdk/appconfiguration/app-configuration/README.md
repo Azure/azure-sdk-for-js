@@ -189,6 +189,10 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+### React Native support
+
+React Native does not support some JavaScript API used by this SDK library so you need to provide polyfills for them.  Please see our [React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native/appconfigBasic/README.md#add-polyfills) for more details.
+
 ## Next steps
 
 The following samples show you the various ways you can interact with App Configuration:

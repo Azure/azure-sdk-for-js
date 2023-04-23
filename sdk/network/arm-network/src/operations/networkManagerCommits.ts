@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkManagerCommit,
   NetworkManagerCommitsPostOptionalParams,
@@ -44,8 +48,8 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
     parameters: NetworkManagerCommit,
     options?: NetworkManagerCommitsPostOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkManagerCommitsPostResponse>,
+    SimplePollerLike<
+      OperationState<NetworkManagerCommitsPostResponse>,
       NetworkManagerCommitsPostResponse
     >
   > {
@@ -55,7 +59,7 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
     ): Promise<NetworkManagerCommitsPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -88,15 +92,18 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkManagerName, parameters, options },
-      postOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkManagerName, parameters, options },
+      spec: postOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkManagerCommitsPostResponse,
+      OperationState<NetworkManagerCommitsPostResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

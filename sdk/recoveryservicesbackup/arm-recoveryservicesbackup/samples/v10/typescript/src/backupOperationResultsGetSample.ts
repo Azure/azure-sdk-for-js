@@ -24,7 +24,7 @@ part of the Location header of the operation response.
 status code in the response would be Accepted. It will continue to be in this state till it reaches completion. On
 successful completion, the status code will be OK. This method expects OperationID as an argument. OperationID is
 part of the Location header of the operation response.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/ProtectedItem_Delete_OperationResult.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/Common/ProtectedItem_Delete_OperationResult.json
  */
 async function getResultForProtectedItemDeleteOperation() {
   const subscriptionId =

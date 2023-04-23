@@ -14,19 +14,14 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
-  Eventhub,
-  EventHubsListByNamespaceNextOptionalParams,
-  EventHubsListByNamespaceOptionalParams,
-  EventHubsListByNamespaceResponse,
   AuthorizationRule,
   EventHubsListAuthorizationRulesNextOptionalParams,
   EventHubsListAuthorizationRulesOptionalParams,
   EventHubsListAuthorizationRulesResponse,
-  EventHubsCreateOrUpdateOptionalParams,
-  EventHubsCreateOrUpdateResponse,
-  EventHubsDeleteOptionalParams,
-  EventHubsGetOptionalParams,
-  EventHubsGetResponse,
+  Eventhub,
+  EventHubsListByNamespaceNextOptionalParams,
+  EventHubsListByNamespaceOptionalParams,
+  EventHubsListByNamespaceResponse,
   EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   EventHubsCreateOrUpdateAuthorizationRuleResponse,
   EventHubsGetAuthorizationRuleOptionalParams,
@@ -37,8 +32,13 @@ import {
   RegenerateAccessKeyParameters,
   EventHubsRegenerateKeysOptionalParams,
   EventHubsRegenerateKeysResponse,
-  EventHubsListByNamespaceNextResponse,
-  EventHubsListAuthorizationRulesNextResponse
+  EventHubsCreateOrUpdateOptionalParams,
+  EventHubsCreateOrUpdateResponse,
+  EventHubsDeleteOptionalParams,
+  EventHubsGetOptionalParams,
+  EventHubsGetResponse,
+  EventHubsListAuthorizationRulesNextResponse,
+  EventHubsListByNamespaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,90 +52,6 @@ export class EventHubsImpl implements EventHubs {
    */
   constructor(client: EventHubManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets all the Event Hubs in a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  public listByNamespace(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<Eventhub> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByNamespacePagingPage(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Eventhub[]> {
-    let result: EventHubsListByNamespaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByNamespaceNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByNamespacePagingAll(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
-  ): AsyncIterableIterator<Eventhub> {
-    for await (const page of this.listByNamespacePagingPage(
-      resourceGroupName,
-      namespaceName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -237,74 +153,82 @@ export class EventHubsImpl implements EventHubs {
    * @param namespaceName The Namespace name
    * @param options The options parameters.
    */
-  private _listByNamespace(
+  public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
     options?: EventHubsListByNamespaceOptionalParams
-  ): Promise<EventHubsListByNamespaceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+  ): PagedAsyncIterableIterator<Eventhub> {
+    const iter = this.listByNamespacePagingAll(
+      resourceGroupName,
+      namespaceName,
+      options
     );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByNamespacePagingPage(
+          resourceGroupName,
+          namespaceName,
+          options,
+          settings
+        );
+      }
+    };
   }
 
-  /**
-   * Creates or updates a new Event Hub as a nested resource within a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param parameters Parameters supplied to create an Event Hub resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
+  private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    eventHubName: string,
-    parameters: Eventhub,
-    options?: EventHubsCreateOrUpdateOptionalParams
-  ): Promise<EventHubsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, eventHubName, parameters, options },
-      createOrUpdateOperationSpec
-    );
+    options?: EventHubsListByNamespaceOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Eventhub[]> {
+    let result: EventHubsListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByNamespaceNext(
+        resourceGroupName,
+        namespaceName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
-  /**
-   * Deletes an Event Hub from the specified Namespace and resource group.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The options parameters.
-   */
-  delete(
+  private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    eventHubName: string,
-    options?: EventHubsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, eventHubName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Gets an Event Hubs description for the specified Event Hub.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    eventHubName: string,
-    options?: EventHubsGetOptionalParams
-  ): Promise<EventHubsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, eventHubName, options },
-      getOperationSpec
-    );
+    options?: EventHubsListByNamespaceOptionalParams
+  ): AsyncIterableIterator<Eventhub> {
+    for await (const page of this.listByNamespacePagingPage(
+      resourceGroupName,
+      namespaceName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -470,21 +394,78 @@ export class EventHubsImpl implements EventHubs {
   }
 
   /**
-   * ListByNamespaceNext
+   * Gets all the Event Hubs in a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
-   * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
    * @param options The options parameters.
    */
-  private _listByNamespaceNext(
+  private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    nextLink: string,
-    options?: EventHubsListByNamespaceNextOptionalParams
-  ): Promise<EventHubsListByNamespaceNextResponse> {
+    options?: EventHubsListByNamespaceOptionalParams
+  ): Promise<EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      { resourceGroupName, namespaceName, options },
+      listByNamespaceOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates a new Event Hub as a nested resource within a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    parameters: Eventhub,
+    options?: EventHubsCreateOrUpdateOptionalParams
+  ): Promise<EventHubsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, eventHubName, parameters, options },
+      createOrUpdateOperationSpec
+    );
+  }
+
+  /**
+   * Deletes an Event Hub from the specified Namespace and resource group.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?: EventHubsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, eventHubName, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
+   * Gets an Event Hubs description for the specified Event Hub.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?: EventHubsGetOptionalParams
+  ): Promise<EventHubsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, eventHubName, options },
+      getOperationSpec
     );
   }
 
@@ -508,102 +489,29 @@ export class EventHubsImpl implements EventHubs {
       listAuthorizationRulesNextOperationSpec
     );
   }
+
+  /**
+   * ListByNamespaceNext
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
+   * @param options The options parameters.
+   */
+  private _listByNamespaceNext(
+    resourceGroupName: string,
+    namespaceName: string,
+    nextLink: string,
+    options?: EventHubsListByNamespaceNextOptionalParams
+  ): Promise<EventHubsListByNamespaceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, nextLink, options },
+      listByNamespaceNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EventHubListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Eventhub
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Eventhub
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules",
@@ -639,7 +547,7 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -736,7 +644,7 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -750,8 +658,9 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByNamespaceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
   httpMethod: "GET",
   responses: {
     200: {
@@ -766,8 +675,77 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.namespaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Eventhub
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Eventhub
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -783,7 +761,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -791,6 +768,27 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.namespaceName,
     Parameters.eventHubName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventHubListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.namespaceName
   ],
   headerParameters: [Parameters.accept],
   serializer

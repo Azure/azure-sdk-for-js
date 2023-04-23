@@ -15,14 +15,14 @@ import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
 import { isNode } from "@azure/test-utils";
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 
-describe("TablesSharedKeyCredential", () => {
+describe("TablesSharedKeyCredential", function () {
   let originalToUTCString: () => string;
-  beforeEach(() => {
+  beforeEach(function () {
     originalToUTCString = Date.prototype.toUTCString;
     Date.prototype.toUTCString = () => "Thu, 03 Sep 2020 18:50:45 GMT";
   });
 
-  afterEach(() => {
+  afterEach(function () {
     Date.prototype.toUTCString = originalToUTCString;
   });
 

@@ -200,6 +200,10 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
 
+  if (options.populateIndexMetrics) {
+    headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
+  }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageSpaces,
   StorageSpacesListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface StorageSpacesOperations {
     storageSpaces: StorageSpaces,
     options?: StorageSpacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSpacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSpacesCreateOrUpdateResponse>,
       StorageSpacesCreateOrUpdateResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface StorageSpacesOperations {
     storageSpaces: StorageSpacesPatch,
     options?: StorageSpacesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSpacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSpacesUpdateResponse>,
       StorageSpacesUpdateResponse
     >
   >;

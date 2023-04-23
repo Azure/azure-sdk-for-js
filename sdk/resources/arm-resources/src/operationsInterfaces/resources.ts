@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GenericResourceExpanded,
   ResourcesListByResourceGroupOptionalParams,
@@ -69,7 +69,7 @@ export interface Resources {
     sourceResourceGroupName: string,
     parameters: ResourcesMoveInfo,
     options?: ResourcesMoveResourcesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The resources to be moved must be in the same source resource group in the source subscription being
    * used. The target resource group may be in a different subscription. When moving resources, both the
@@ -101,7 +101,7 @@ export interface Resources {
     sourceResourceGroupName: string,
     parameters: ResourcesMoveInfo,
     options?: ResourcesValidateMoveResourcesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation checks whether the specified resources can be moved to the target. The resources to
    * be moved must be in the same source resource group in the source subscription being used. The target
@@ -158,7 +158,7 @@ export interface Resources {
     resourceName: string,
     apiVersion: string,
     options?: ResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a resource.
    * @param resourceGroupName The name of the resource group that contains the resource to delete. The
@@ -201,8 +201,8 @@ export interface Resources {
     parameters: GenericResource,
     options?: ResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourcesCreateOrUpdateResponse>,
       ResourcesCreateOrUpdateResponse
     >
   >;
@@ -250,8 +250,8 @@ export interface Resources {
     parameters: GenericResource,
     options?: ResourcesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourcesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourcesUpdateResponse>,
       ResourcesUpdateResponse
     >
   >;
@@ -322,7 +322,7 @@ export interface Resources {
     resourceId: string,
     apiVersion: string,
     options?: ResourcesDeleteByIdOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a resource by ID.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
@@ -351,8 +351,8 @@ export interface Resources {
     parameters: GenericResource,
     options?: ResourcesCreateOrUpdateByIdOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourcesCreateOrUpdateByIdResponse>,
+    SimplePollerLike<
+      OperationState<ResourcesCreateOrUpdateByIdResponse>,
       ResourcesCreateOrUpdateByIdResponse
     >
   >;
@@ -386,8 +386,8 @@ export interface Resources {
     parameters: GenericResource,
     options?: ResourcesUpdateByIdOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourcesUpdateByIdResponse>,
+    SimplePollerLike<
+      OperationState<ResourcesUpdateByIdResponse>,
       ResourcesUpdateByIdResponse
     >
   >;

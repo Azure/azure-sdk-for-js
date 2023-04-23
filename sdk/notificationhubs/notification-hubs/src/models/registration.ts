@@ -17,6 +17,8 @@ export type RegistrationType =
   | "GcmTemplate"
   | "Mpns"
   | "MpnsTemplate"
+  | "Xiaomi"
+  | "XiaomiTemplate"
   | "Windows"
   | "WindowsTemplate";
 
@@ -559,6 +561,72 @@ export function createWindowsTemplateRegistrationDescription(
 }
 
 /**
+ * Represents a Xiaomi registration description.
+ */
+export interface XiaomiRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+  /**
+   * The Xiaomi registration ID.
+   */
+  xiaomiRegistrationId: string;
+}
+
+/**
+ * Represents a Xiaomi registration description.
+ */
+export interface XiaomiRegistrationDescription extends XiaomiRegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "Xiaomi";
+}
+
+/**
+ * Creates a Xiaomi registration description.
+ * @param description - A partial Xiaomi registration description.
+ * @returns A created Xiaomi registration description.
+ */
+export function createXiaomiRegistrationDescription(
+  description: XiaomiRegistrationDescriptionCommon
+): XiaomiRegistrationDescription {
+  return {
+    ...description,
+    kind: "Xiaomi",
+  };
+}
+
+/**
+ * Represents a Xiaomi template registration.
+ */
+export interface XiaomiTemplateRegistrationDescriptionCommon
+  extends XiaomiRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents a Windows Notification Services (WNS) template registration.
+ */
+export interface XiaomiTemplateRegistrationDescription
+  extends XiaomiTemplateRegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "XiaomiTemplate";
+}
+
+/**
+ * Creates a Xiaomi template registration description.
+ * @param description - A partial Xiaomi template registration description.
+ * @returns A created Xiaomi template registration description.
+ */
+export function createXiaomiTemplateRegistrationDescription(
+  description: XiaomiTemplateRegistrationDescriptionCommon
+): XiaomiTemplateRegistrationDescription {
+  return {
+    ...description,
+    kind: "XiaomiTemplate",
+  };
+}
+
+/**
  * Describes the types of registration descriptions.
  */
 export type RegistrationDescription =
@@ -574,6 +642,8 @@ export type RegistrationDescription =
   | GcmTemplateRegistrationDescription
   | MpnsRegistrationDescription
   | MpnsTemplateRegistrationDescription
+  | XiaomiRegistrationDescription
+  | XiaomiTemplateRegistrationDescription
   | WindowsRegistrationDescription
   | WindowsTemplateRegistrationDescription;
 
@@ -674,6 +744,20 @@ export interface WindowsRegistrationChannel {
 }
 
 /**
+ * Describes an Xiaomi Registration channel query.
+ */
+export interface XiaomiRegistrationChannel {
+  /**
+   * The Xiaomi registration ID.
+   */
+  xiaomiRegistrationId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "xiaomi";
+}
+
+/**
  * Describes a Registration query.
  */
 export type RegistrationChannel =
@@ -682,4 +766,5 @@ export type RegistrationChannel =
   | BaiduRegistrationChannel
   | BrowserRegistrationChannel
   | FirebaseLegacyRegistrationChannel
+  | XiaomiRegistrationChannel
   | WindowsRegistrationChannel;

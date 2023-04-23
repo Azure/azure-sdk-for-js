@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GetVpnSitesConfigurationRequest,
   VpnSitesConfigurationDownloadOptionalParams
@@ -26,7 +26,7 @@ export interface VpnSitesConfiguration {
     virtualWANName: string,
     request: GetVpnSitesConfigurationRequest,
     options?: VpnSitesConfigurationDownloadOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Gives the sas-url to download the configurations for vpn-sites in a resource group.
    * @param resourceGroupName The resource group name.

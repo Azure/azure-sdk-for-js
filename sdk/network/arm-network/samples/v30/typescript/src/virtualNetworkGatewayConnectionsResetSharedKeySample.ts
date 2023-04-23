@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
  * @summary The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
  */
 async function resetVirtualNetworkGatewayConnectionSharedKey() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "conn1";
   const parameters: ConnectionResetSharedKey = { keyLength: 128 };
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function resetVirtualNetworkGatewayConnectionSharedKey() {
   console.log(result);
 }
 
-resetVirtualNetworkGatewayConnectionSharedKey().catch(console.error);
+async function main() {
+  resetVirtualNetworkGatewayConnectionSharedKey();
+}
+
+main().catch(console.error);

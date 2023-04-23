@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { SipConfigurationPatch as SipConfigurationPatchMapper } from "../models/mappers";
+import { SipConfigurationUpdate as SipConfigurationUpdateMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -40,7 +40,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01-preview",
+    defaultValue: "2023-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,10 +63,10 @@ export const contentType: OperationParameter = {
 
 export const trunks: OperationParameter = {
   parameterPath: ["options", "trunks"],
-  mapper: SipConfigurationPatchMapper
+  mapper: SipConfigurationUpdateMapper
 };
 
 export const routes: OperationParameter = {
   parameterPath: ["options", "routes"],
-  mapper: SipConfigurationPatchMapper
+  mapper: SipConfigurationUpdateMapper
 };

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestoreRequestResource,
   RestoresTriggerOptionalParams
@@ -37,7 +37,7 @@ export interface Restores {
     recoveryPointId: string,
     parameters: RestoreRequestResource,
     options?: RestoresTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restores the specified backed up data. This is an asynchronous operation. To know the status of this
    * API call, use

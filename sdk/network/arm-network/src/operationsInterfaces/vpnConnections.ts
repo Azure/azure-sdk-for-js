@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnConnection,
   VpnConnectionsListByVpnGatewayOptionalParams,
@@ -65,8 +65,8 @@ export interface VpnConnections {
     vpnConnectionParameters: VpnConnection,
     options?: VpnConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VpnConnectionsCreateOrUpdateResponse>,
       VpnConnectionsCreateOrUpdateResponse
     >
   >;
@@ -98,7 +98,7 @@ export interface VpnConnections {
     gatewayName: string,
     connectionName: string,
     options?: VpnConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a vpn connection.
    * @param resourceGroupName The resource group name of the VpnGateway.
@@ -125,8 +125,8 @@ export interface VpnConnections {
     vpnConnectionName: string,
     options?: VpnConnectionsStartPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnConnectionsStartPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnConnectionsStartPacketCaptureResponse>,
       VpnConnectionsStartPacketCaptureResponse
     >
   >;
@@ -156,8 +156,8 @@ export interface VpnConnections {
     vpnConnectionName: string,
     options?: VpnConnectionsStopPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnConnectionsStopPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnConnectionsStopPacketCaptureResponse>,
       VpnConnectionsStopPacketCaptureResponse
     >
   >;

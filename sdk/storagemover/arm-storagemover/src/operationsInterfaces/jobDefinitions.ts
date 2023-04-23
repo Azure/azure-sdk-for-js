@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobDefinition,
   JobDefinitionsListOptionalParams,
@@ -106,7 +106,7 @@ export interface JobDefinitions {
     projectName: string,
     jobDefinitionName: string,
     options?: JobDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Job Definition resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

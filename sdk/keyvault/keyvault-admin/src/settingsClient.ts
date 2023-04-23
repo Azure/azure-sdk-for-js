@@ -14,21 +14,30 @@ import {
   ListSettingsResponse,
   KeyVaultSetting,
   SettingsClientOptions,
+  BooleanKeyVaultSetting,
 } from "./settingsClientModels";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
   if (generatedSetting.type === "boolean") {
     return {
+      kind: "boolean",
       name: generatedSetting.name,
       value: generatedSetting.value === "true" ? true : false,
-      kind: "boolean",
     };
   } else {
     return {
+      kind: generatedSetting.type,
       name: generatedSetting.name,
       value: generatedSetting.value,
     };
   }
+}
+
+/**
+ * Determines whether a given {@link KeyVaultSetting} is a {@link BooleanKeyVaultSetting}, i.e. has a boolean value.
+ */
+export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting {
+  return setting.kind === "boolean" && typeof setting.value === "boolean";
 }
 
 /**
@@ -94,17 +103,15 @@ export class KeyVaultSettingsClient {
   /**
    * Updates the named account setting.
    *
-   * @param settingName - the name of the account setting. Must be a valid settings option.
-   * @param value - the value of the pool setting.
+   * @param setting - the setting to update. The name of the setting must be a valid settings option.
    * @param options - the optional parameters.
    */
   async updateSetting(
-    settingName: string,
-    value: boolean,
+    setting: KeyVaultSetting,
     options: UpdateSettingOptions = {}
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, settingName, String(value), options)
+      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options)
     );
   }
 

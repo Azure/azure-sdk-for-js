@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
@@ -26,8 +26,16 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
+export interface Capability {
+    name?: string;
+    value?: boolean;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
+    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -47,8 +55,27 @@ export interface ClusterList {
 }
 
 // @public
+export interface ClusterPropertiesEncryption {
+    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+}
+
+// @public
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+    identityType?: CmkIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface ClusterUpdate {
+    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -59,6 +86,12 @@ export interface ClusterUpdate {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type CmkIdentityType = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface Database extends ProxyResource {
@@ -87,19 +120,21 @@ export interface DatabasePropertiesGeoReplication {
 
 // @public
 export interface Databases {
-    beginCreate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams): Promise<DatabasesCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
-    beginExport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<void>;
-    beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlush(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginFlushAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<void>;
+    beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
-    beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginImportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<void>;
-    beginRegenerateKey(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>>;
+    beginRegenerateKey(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<DatabasesRegenerateKeyResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: DatabasesListByClusterOptionalParams): PagedAsyncIterableIterator<Database>;
@@ -123,6 +158,18 @@ export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesFlushHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface DatabasesFlushOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -227,6 +274,11 @@ export interface ExportClusterParameters {
 }
 
 // @public
+export interface FlushParameters {
+    ids?: string[];
+}
+
+// @public
 export interface ForceUnlinkParameters {
     ids: string[];
 }
@@ -257,6 +309,20 @@ export enum KnownClusteringPolicy {
 }
 
 // @public
+export enum KnownCmkIdentityType {
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownEvictionPolicy {
     AllKeysLFU = "AllKeysLFU",
     AllKeysLRU = "AllKeysLRU",
@@ -275,6 +341,14 @@ export enum KnownLinkState {
     Linking = "Linking",
     UnlinkFailed = "UnlinkFailed",
     Unlinking = "Unlinking"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -364,6 +438,25 @@ export interface LinkedDatabase {
 
 // @public
 export type LinkState = string;
+
+// @public
+export interface LocationInfo {
+    capabilities?: Capability[];
+    location?: string;
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Module {
@@ -469,7 +562,7 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginPut(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
+    beginPut(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
     beginPutAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PrivateEndpointConnectionsPutResponse>;
     delete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
@@ -552,11 +645,11 @@ export type RdbFrequency = string;
 
 // @public
 export interface RedisEnterprise {
-    beginCreate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<SimplePollerLike<OperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams): Promise<RedisEnterpriseCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<RedisEnterpriseUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseGetOptionalParams): Promise<RedisEnterpriseGetResponse>;
     list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -633,6 +726,8 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     redisEnterprise: RedisEnterprise;
     // (undocumented)
+    skus: Skus;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -658,9 +753,22 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface RegionSkuDetail {
+    locationInfo?: LocationInfo;
+    resourceType?: string;
+    skuDetails?: SkuDetail;
+}
+
+// @public
+export interface RegionSkuDetails {
+    value?: RegionSkuDetail[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -674,7 +782,34 @@ export interface Sku {
 }
 
 // @public
+export interface SkuDetail {
+    name?: SkuName;
+}
+
+// @public
 export type SkuName = string;
+
+// @public
+export interface Skus {
+    list(location: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<RegionSkuDetail>;
+}
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = RegionSkuDetails;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type TlsVersion = string;
@@ -685,6 +820,12 @@ export interface TrackedResource extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

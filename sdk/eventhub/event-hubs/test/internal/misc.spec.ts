@@ -20,9 +20,9 @@ import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
 import debugModule from "debug";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { v4 as uuid } from "uuid";
 import { tracingClient } from "../../src/diagnostics/tracing";
 import Sinon from "sinon";
+import { getRandomName } from "../../src/util/utils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -174,7 +174,7 @@ testWithServiceTypes((serviceVersion) => {
         20,
         "some string",
       ];
-      const obj: EventData = { body: msgBody, properties: { message_id: uuid() } };
+      const obj: EventData = { body: msgBody, properties: { message_id: getRandomName() } };
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
       debug("Sending one message %O", obj);
       await producerClient.sendBatch([obj], { partitionId });
@@ -299,7 +299,7 @@ testWithServiceTypes((serviceVersion) => {
             ],
           },
           properties: {
-            message_id: uuid(),
+            message_id: getRandomName(),
           },
         };
         d.push(obj);

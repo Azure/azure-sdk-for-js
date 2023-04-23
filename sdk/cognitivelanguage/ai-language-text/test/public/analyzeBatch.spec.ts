@@ -14,11 +14,10 @@ import {
 } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
-  expectation1,
   expectation10,
   expectation11,
   expectation12,
@@ -29,7 +28,6 @@ import {
   expectation17,
   expectation18,
   expectation19,
-  expectation2,
   expectation20,
   expectation21,
   expectation22,
@@ -41,7 +39,6 @@ import {
   expectation28,
   expectation29,
   expectation3,
-  expectation4,
   expectation5,
   expectation6,
   expectation7,
@@ -66,7 +63,9 @@ const FIXME2 = {
 };
 
 const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
-
+const excludedSummarizationProperties = {
+  excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
+};
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -369,16 +368,22 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation27);
+
+            await assertActionsResults(
+              await poller.pollUntilDone(),
+              expectation27,
+              excludedSummarizationProperties
+            );
           });
 
           it("extractive summarization with maxSentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const maxSentenceCount = 2;
             const poller = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  maxSentenceCount: 2,
+                  maxSentenceCount,
                 },
               ],
               docs,
@@ -387,7 +392,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation28);
+            const results = await poller.pollUntilDone();
+
+            // The max sentence count is 2, so the number of sentences should be 2 or less
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isAtMost(
+                      result.sentences.length,
+                      maxSentenceCount,
+                      `Exceeded maximum sentence count, expected ${maxSentenceCount}`
+                    );
+                  }
+                }
+              }
+            }
+
+            await assertActionsResults(results, expectation28, excludedSummarizationProperties);
           });
 
           it("extractive summarization with orderBy", async function () {
@@ -405,7 +427,25 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation29);
+            const results = await poller.pollUntilDone();
+
+            // Assert that the sentences are in descending rankScore order
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isTrue(
+                      result.sentences.every(
+                        (sentence, i) =>
+                          i === 0 || sentence.rankScore <= result.sentences[i - 1].rankScore
+                      ),
+                      "Expected the sentences to be in descending order"
+                    );
+                  }
+                }
+              }
+            }
+            await assertActionsResults(results, expectation29, excludedSummarizationProperties);
           });
 
           it("abstractive summarization", async function () {
@@ -422,16 +462,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation30, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation30, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
           });
 
-          it("abstractive summarization with maxSentenceCont", async function () {
+          it("abstractive summarization with sentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.AbstractiveSummarization,
-                  maxSentenceCount: 1,
+                  sentenceCount: 1,
                 },
               ],
               docs,
@@ -440,7 +483,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation31, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation31, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
           });
         });
       });
@@ -574,7 +620,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("big document causes a warning", async function () {
+          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
+          it.skip("big document causes a warning", async function () {
             let text = "";
             for (let i = 0; i < 5121; ++i) {
               text = text + "x";
@@ -785,7 +832,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch language hint", async function () {
+        it("whole batch with a language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
@@ -812,34 +859,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
-        it("whole batch with no language hint", async function () {
-          const docs = [
-            "This was the best day of my life.",
-            "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped.",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation14);
-        });
-
-        it("whole batch input with a language hint", async function () {
+        it("whole batch input with no language hint", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
@@ -865,7 +885,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        it("whole batch input with auto language detection", async function () {
+        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
+        it.skip("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
             "Este es un document escrito en Español.",
@@ -896,7 +917,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "auto",
             {
               updateIntervalInMs: pollingInterval,
-              defaultLanguage: "en",
             }
           );
           await assertActionsResults(await poller.pollUntilDone(), expectation71);
@@ -1118,98 +1138,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation23);
-          });
-        });
-      });
-    });
-  });
-});
-
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
-    let recorder: Recorder;
-    let client: TextAnalysisClient;
-
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
-      client = createClient(authMethod, {
-        resource: "CustomText",
-        recorder,
-      });
-    });
-
-    afterEach(async function () {
-      await recorder.stop();
-    });
-
-    describe("analyzeBatch", function () {
-      const pollingInterval = isPlaybackMode() ? 0 : 2000;
-
-      describe("actions", function () {
-        describe("custom", function () {
-          it("entity recognition", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
-                  deploymentName: assertEnvironmentVariable("CUSTOM_ENTITIES_DEPLOYMENT_NAME"),
-                  projectName: assertEnvironmentVariable("CUSTOM_ENTITIES_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation1);
-          });
-
-          it("single label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable("SINGLE_LABEL_CLASSIFY_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation2);
-          });
-
-          it("multi label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
-                  deploymentName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"),
-                  projectName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });

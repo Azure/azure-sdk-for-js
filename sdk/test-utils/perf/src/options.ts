@@ -284,8 +284,9 @@ function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOption
   for (const key in options) {
     const defaultValue = options[key].defaultValue;
     if (typeof defaultValue === "boolean") {
-      booleanProps.boolean.push(key);
-      booleanProps.default[key] = defaultValue;
+      const optionName = options[key].longName ?? options[key].shortName ?? key;
+      booleanProps.boolean.push(optionName);
+      booleanProps.default[optionName] = defaultValue;
     }
   }
   return booleanProps;

@@ -64,7 +64,7 @@ describe("purview catalog glossary test", () => {
 
     console.log("LRO init resp: ", initialResponse);
     const poller = getLongRunningPoller(client, initialResponse, {
-      intervalInMs: 0,
+      intervalInMs: 100,
     });
 
     const result = await poller.pollUntilDone();

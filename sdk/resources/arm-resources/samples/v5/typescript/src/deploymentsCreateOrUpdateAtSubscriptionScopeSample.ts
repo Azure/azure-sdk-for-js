@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Deployment, ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentSubscriptionTemplateSpecsWithId.json
  */
 async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000001";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000001";
   const deploymentName = "my-deployment";
   const parameters: Deployment = {
     location: "eastus",
@@ -40,6 +45,8 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
   console.log(result);
 }
 
-createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId().catch(
-  console.error
-);
+async function main() {
+  createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
+}
+
+main().catch(console.error);

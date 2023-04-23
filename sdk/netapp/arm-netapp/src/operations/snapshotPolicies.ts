@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SnapshotPolicy,
   SnapshotPoliciesListOptionalParams,
@@ -45,7 +49,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * List snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -103,7 +107,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * List snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -120,7 +124,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Get a snapshot Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -139,7 +143,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Create a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -160,7 +164,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -173,8 +177,8 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
     body: SnapshotPolicyPatch,
     options?: SnapshotPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotPoliciesUpdateResponse>,
       SnapshotPoliciesUpdateResponse
     >
   > {
@@ -184,7 +188,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
     ): Promise<SnapshotPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -217,15 +221,24 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, snapshotPolicyName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        body,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotPoliciesUpdateResponse,
+      OperationState<SnapshotPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -233,7 +246,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param body Snapshot policy object supplied in the body of the operation.
@@ -258,7 +271,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -268,14 +281,14 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
     accountName: string,
     snapshotPolicyName: string,
     options?: SnapshotPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,15 +321,15 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, snapshotPolicyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, snapshotPolicyName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -324,7 +337,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Delete snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -346,7 +359,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
   /**
    * Get volumes associated with snapshot policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param snapshotPolicyName The name of the snapshot policy
    * @param options The options parameters.
@@ -420,7 +433,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -452,7 +465,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

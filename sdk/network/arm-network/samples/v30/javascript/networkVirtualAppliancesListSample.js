@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all Network Virtual Appliances in a subscription.
  *
  * @summary Gets all Network Virtual Appliances in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkVirtualApplianceListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualApplianceListBySubscription.json
  */
 async function listAllNetworkVirtualAppliancesForAGivenSubscription() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listAllNetworkVirtualAppliancesForAGivenSubscription() {
   console.log(resArray);
 }
 
-listAllNetworkVirtualAppliancesForAGivenSubscription().catch(console.error);
+async function main() {
+  listAllNetworkVirtualAppliancesForAGivenSubscription();
+}
+
+main().catch(console.error);

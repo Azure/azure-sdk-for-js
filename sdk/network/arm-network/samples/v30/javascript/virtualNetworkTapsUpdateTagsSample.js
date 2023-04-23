@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates an VirtualNetworkTap tags.
  *
  * @summary Updates an VirtualNetworkTap tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkTapUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkTapUpdateTags.json
  */
 async function updateVirtualNetworkTapTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const tapName = "test-vtap";
   const tapParameters = {
     tags: { tag1: "value1", tag2: "value2" },
@@ -34,4 +35,8 @@ async function updateVirtualNetworkTapTags() {
   console.log(result);
 }
 
-updateVirtualNetworkTapTags().catch(console.error);
+async function main() {
+  updateVirtualNetworkTapTags();
+}
+
+main().catch(console.error);

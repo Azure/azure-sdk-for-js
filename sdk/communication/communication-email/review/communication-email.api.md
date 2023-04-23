@@ -41,15 +41,14 @@ export type EmailContent = HtmlEmailContent | PlainTextEmailContent;
 // @public
 export interface EmailMessage {
     attachments?: EmailAttachment[];
-    // Warning: (ae-forgotten-export) The symbol "EmailContent_2" needs to be exported by the entry point index.d.ts
-    content: EmailContent_2;
+    content: EmailContent;
+    disableUserEngagementTracking?: boolean;
     headers?: {
         [propertyName: string]: string;
     };
     recipients: EmailRecipients;
     replyTo?: EmailAddress[];
     senderAddress: string;
-    userEngagementTrackingDisabled?: boolean;
 }
 
 // @public

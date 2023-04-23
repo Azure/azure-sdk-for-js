@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CurrentQuotaLimitBase,
   QuotaListOptionalParams,
@@ -77,8 +77,8 @@ export interface Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<QuotaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<QuotaCreateOrUpdateResponse>,
       QuotaCreateOrUpdateResponse
     >
   >;
@@ -129,7 +129,7 @@ export interface Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
+    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   >;
   /**
    * Update the quota (service limits) of this resource to the requested value.

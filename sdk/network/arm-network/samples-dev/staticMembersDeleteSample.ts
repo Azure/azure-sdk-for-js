@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a static member.
  *
  * @summary Deletes a static member.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerStaticMemberDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerStaticMemberDelete.json
  */
 async function staticMembersDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "SampleRG";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "SampleRG";
   const networkManagerName = "TestNM";
   const networkGroupName = "testNetworkGroup";
   const staticMemberName = "testStaticMember";
@@ -34,4 +39,8 @@ async function staticMembersDelete() {
   console.log(result);
 }
 
-staticMembersDelete().catch(console.error);
+async function main() {
+  staticMembersDelete();
+}
+
+main().catch(console.error);

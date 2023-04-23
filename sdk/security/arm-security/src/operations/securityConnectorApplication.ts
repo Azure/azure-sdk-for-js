@@ -116,13 +116,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.securityConnectorName,
-    Parameters.applicationId
+    Parameters.applicationId,
+    Parameters.securityConnectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -143,13 +143,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.securityConnectorName,
-    Parameters.applicationId
+    Parameters.applicationId,
+    Parameters.securityConnectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -160,13 +160,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.securityConnectorName,
-    Parameters.applicationId
+    Parameters.applicationId,
+    Parameters.securityConnectorName
   ],
   serializer
 };

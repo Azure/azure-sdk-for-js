@@ -3,8 +3,8 @@
 
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { assert } from "chai";
-import { checkOnInterval } from "../../src/eventHubReceiver";
+import { assert } from "@azure/test-utils";
+import { checkOnInterval } from "../../src/partitionReceiver";
 
 describe("checkOnInterval", function () {
   it("should resolve when the check function returns true", async function () {
@@ -12,11 +12,12 @@ describe("checkOnInterval", function () {
     const delayTime = 2500;
     const callCount = 3;
     let curCallCount = 0;
-    const delayPromise = checkOnInterval(delayTime, () => ++curCallCount === callCount);
-    const time = await clock.runAllAsync();
-    clock.restore();
+    const [_, time] = await Promise.all([
+      checkOnInterval(delayTime, () => ++curCallCount === callCount),
+      clock.runAllAsync(),
+    ]);
     assert.strictEqual(time, delayTime * callCount);
-    await delayPromise;
+    clock.restore();
   });
 
   it("should return when the abort signal is called", async function () {

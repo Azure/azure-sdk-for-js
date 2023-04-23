@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create and start a packet capture on the specified VM.
  *
  * @summary Create and start a packet capture on the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherPacketCaptureCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const packetCaptureName = "pc1";
   const parameters = {
@@ -47,4 +48,8 @@ async function createPacketCapture() {
   console.log(result);
 }
 
-createPacketCapture().catch(console.error);
+async function main() {
+  createPacketCapture();
+}
+
+main().catch(console.error);

@@ -16,7 +16,7 @@
 import * as dotenv from "dotenv";
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 import { createFcmLegacyInstallation } from "@azure/notification-hubs/models";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -33,7 +33,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const installation = createFcmLegacyInstallation({
-    installationId: uuid(),
+    installationId: randomUUID(),
     pushChannel: gcmRegistrationId,
     tags: ["likes_hockey", "likes_football"],
   });

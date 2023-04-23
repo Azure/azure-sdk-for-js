@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the specified private endpoint connection on application gateway.
  *
  * @summary Updates the specified private endpoint connection on application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayPrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationGatewayPrivateEndpointConnectionUpdate.json
  */
 async function updateApplicationGatewayPrivateEndpointConnection() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationGatewayName = "appgw";
   const connectionName = "connection1";
   const parameters = {
@@ -43,4 +44,8 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
   console.log(result);
 }
 
-updateApplicationGatewayPrivateEndpointConnection().catch(console.error);
+async function main() {
+  updateApplicationGatewayPrivateEndpointConnection();
+}
+
+main().catch(console.error);

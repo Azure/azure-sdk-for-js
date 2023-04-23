@@ -5,6 +5,7 @@ stages:
     parameters:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
+      Clouds: 'Public,Canary'
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:

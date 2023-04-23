@@ -1,0 +1,404 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "RecipientVerificationClient",
+    "description": "The recipient verification client library allows users to verify the phone number of recipients before sending messages or making calls to the phone number.",
+    "version": "2022-11-15"
+  },
+  "paths": {
+    "/verifications": {
+      "get": {
+        "tags": [
+          "ACS Verifications"
+        ],
+        "summary": "Gets the array of verified phone numbers for the current resource.",
+        "operationId": "AcsVerification_GetVerifications",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AcsVerification"
+              }
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List verified numbers": {
+            "$ref": "./examples/GetACSVerifications.json"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ACS Verifications"
+        ],
+        "summary": "Request the identity for the verification.",
+        "operationId": "ACSVerification_RequestVerification",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data that contains the number and verification channel.",
+            "schema": {
+              "$ref": "#/definitions/VerificationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/VerificationResponse"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Request identity verification": {
+            "$ref": "./examples/RequestVerification.json"
+          }
+        }
+      }
+    },
+    "/verifications/{verificationId}/check": {
+      "post": {
+        "tags": [
+          "ACS Verifications"
+        ],
+        "summary": "Verify that the user received the correct verification code.",
+        "operationId": "ACSVerification_VerifyIdentity",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "verificationId",
+            "description": "Verification Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data that contains the verification code.",
+            "schema": {
+              "$ref": "#/definitions/VerificationCodeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/VerificationResponse"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Validate verification code": {
+            "$ref": "./examples/VerifyIdentity.json"
+          }
+        }
+      }
+    },
+    "/verifications/{verificationId}/": {
+      "delete": {
+        "tags": [
+          "ACS Verifications"
+        ],
+        "summary": "Deleting a verification.",
+        "operationId": "AcsVerification_DeleteVerification",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "verificationId",
+            "description": "Verification Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete verified number": {
+            "$ref": "./examples/DeleteVerificationAsync.json"
+          }
+        }
+      }
+    },
+    "/verifications/configuration": {
+      "get": {
+        "tags": [
+          "ACS Verifications"
+        ],
+        "summary": "Getting all the constants for the resource.",
+        "operationId": "ACSVerification_GetVerificationConstants",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/VerificationConstantsResponse"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Getting resource constants": {
+            "$ref": "./examples/GetVerifiedRecipientsConstants.json"
+          }
+        }
+      }
+    }
+    },
+  "definitions": {
+    "AcsVerification": {
+      "description": "Model response returned for users.",
+      "type": "object",
+      "properties": {
+        "ImmutableId": {
+          "description": "Immutable Id of the resource.",
+          "type": "string"
+        },
+        "VerificationId": {
+          "description": "VerificationId of the number assigned to the verified recipient.",
+          "type": "string"
+        },
+        "Status": {
+          "description": "Status of the Verification (Pending or Verified). ",
+          "type": "string"
+        },
+        "SubscriptionId": {
+          "description": "Subscription Id of the resource.",
+          "type": "string"
+        },
+        "Identity": {
+          "description": "The phone number that was used to verify.",
+          "type": "string"
+        },
+        "ChallengeId": {
+          "description": "Verification Id for the 3rd party verification service.",
+          "type": "string"
+        },
+        "Retries": {
+          "description": "Number of times the verification code has been sent.",
+          "type": "integer"
+        },
+        "Attempts": {
+          "description": "Number of times the user has tried to validate the code.",
+          "type": "integer"
+        }
+      }
+    },
+    "VerificationCodeRequest":{
+      "description": "Model that contains the verification code.",
+      "type": "object",
+      "properties": {
+        "VerificationCode": {
+          "description": "The verification code returned.",
+          "type": "string"
+        }
+      }
+    },
+    "VerificationResponse":{
+      "description": "Model that contains the verification code.",
+      "type": "object",
+      "properties": {
+        "VerificationId": {
+          "description": "VerificationId of the number assigned to the verified recipient.",
+          "type": "string"
+        },
+        "IsVerified": {
+          "description": "Verification status of the number.",
+          "type": "boolean"
+        }
+      }
+    },
+    "VerificationRequest":{
+      "description": "Model to get the verification code.",
+      "type": "object",
+      "properties": {
+        "Identity": {
+          "description": "The phone number that was used to verify.",
+          "type": "string"
+        },
+        "Channel": {
+          "description": "Prefered verification channel.",
+          "type": "string"
+        }
+      }
+    },
+    "VerificationConstantsResponse":{
+      "description": "Model verified recipients.",
+      "type": "object",
+      "properties": {
+        "MaxRetriesAllowed": {
+          "description": "Max retries allowed for resource.",
+          "type": "integer"
+        },
+        "MaxVerificationsAllowed": {
+          "description": "Max verified numbers allowed for resource.",
+          "type": "integer"
+        },
+        "CurrentNumberOfVerifications": {
+          "description": "Current number of verified numbers for the resource.",
+          "type": "integer"
+        }
+      }
+    },
+    "CommunicationErrorResponse": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "description": "The Communication Services error.",
+          "$ref": "#/definitions/CommunicationError"
+        }
+      }
+    },
+    "CommunicationError": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error target."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommunicationError"
+          },
+          "readOnly": true,
+          "description": "Further details about specific errors that led to this error."
+        },
+        "innererror": {
+          "x-ms-client-name": "innerError",
+          "readOnly": true,
+          "$ref": "#/definitions/CommunicationError",
+          "description": "The inner error if any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "in": "query",
+      "name": "api-version",
+      "description": "Version of API to invoke",
+      "required": true,
+      "type": "string"
+    },
+    "Endpoint": {
+      "in": "path",
+      "name": "endpoint",
+      "description": "The communication resource, for example https://resourcename.communication.azure.com",
+      "required": true,
+      "type": "string",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "client"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  }
+}

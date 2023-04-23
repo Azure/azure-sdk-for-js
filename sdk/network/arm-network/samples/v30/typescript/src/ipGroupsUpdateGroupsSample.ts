@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { TagsObject, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates tags of an IpGroups resource.
  *
  * @summary Updates tags of an IpGroups resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/IpGroupsUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/IpGroupsUpdateTags.json
  */
 async function updateIPGroups() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "myResourceGroup";
   const ipGroupsName = "ipGroups1";
   const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +36,8 @@ async function updateIPGroups() {
   console.log(result);
 }
 
-updateIPGroups().catch(console.error);
+async function main() {
+  updateIPGroups();
+}
+
+main().catch(console.error);

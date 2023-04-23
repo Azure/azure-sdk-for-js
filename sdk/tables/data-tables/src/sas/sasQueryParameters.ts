@@ -132,6 +132,30 @@ export class SasQueryParameters {
   public readonly correlationId?: string;
 
   /**
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  public readonly startPartitionKey?: string;
+
+  /**
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  public readonly startRowKey?: string;
+
+  /**
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  public readonly endPartitionKey?: string;
+
+  /**
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  public readonly endRowKey?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -166,6 +190,10 @@ export class SasQueryParameters {
     this.ipRangeInner = options.ipRange;
     this.identifier = options.identifier;
     this.tableName = options.tableName;
+    this.endPartitionKey = options.endPartitionKey;
+    this.endRowKey = options.endRowKey;
+    this.startPartitionKey = options.startPartitionKey;
+    this.startRowKey = options.startRowKey;
 
     if (options.userDelegationKey) {
       this.signedOid = options.userDelegationKey.signedObjectId;
@@ -186,31 +214,35 @@ export class SasQueryParameters {
    */
   public toString(): string {
     const params: string[] = [
-      "sv",
-      "ss",
-      "srt",
-      "spr",
-      "st",
-      "se",
-      "sip",
-      "si",
+      "sv", // SignedVersion
+      "ss", // SignedServices
+      "srt", // SignedResourceTypes
+      "spr", // SignedProtocol
+      "st", // SignedStart
+      "se", // SignedExpiry
+      "sip", // SignedIP
+      "si", // SignedIdentifier
       "skoid", // Signed object ID
       "sktid", // Signed tenant ID
       "skt", // Signed key start time
       "ske", // Signed key expiry time
       "sks", // Signed key service
       "skv", // Signed key version
-      "sr",
-      "sp",
-      "sig",
-      "rscc",
-      "rscd",
-      "rsce",
-      "rscl",
-      "rsct",
-      "saoid",
-      "scid",
-      "tn", // TableName
+      "sr", // signedResource
+      "sp", // SignedPermission
+      "sig", // Signature
+      "rscc", // Cache-Control
+      "rscd", // Content-Disposition
+      "rsce", // Content-Encoding
+      "rscl", // Content-Language
+      "rsct", // Content-Type
+      "saoid", // signedAuthorizedObjectId
+      "scid", // signedCorrelationId
+      "tn", // TableName,
+      "srk", // StartRowKey
+      "spk", // StartPartitionKey
+      "epk", // EndPartitionKey
+      "erk", // EndRowKey
     ];
     const queries: string[] = [];
 
@@ -292,6 +324,18 @@ export class SasQueryParameters {
           break;
         case "tn":
           this.tryAppendQueryParameter(queries, param, this.tableName);
+          break;
+        case "spk":
+          this.tryAppendQueryParameter(queries, param, this.startPartitionKey);
+          break;
+        case "srk":
+          this.tryAppendQueryParameter(queries, param, this.startRowKey);
+          break;
+        case "epk":
+          this.tryAppendQueryParameter(queries, param, this.endPartitionKey);
+          break;
+        case "erk":
+          this.tryAppendQueryParameter(queries, param, this.endRowKey);
           break;
       }
     }
@@ -386,4 +430,28 @@ export interface SasQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+
+  /**
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  startPartitionKey?: string;
+
+  /**
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  startRowKey?: string;
+
+  /**
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  endPartitionKey?: string;
+
+  /**
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  endRowKey?: string;
 }

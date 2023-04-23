@@ -23,19 +23,19 @@ export interface HybridIdentityMetadataOperations {
   /**
    * Lists the hybrid identity metadata proxy resource in a cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param options The options parameters.
    */
   listByCluster(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
    * provisioning.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
    *                                           resource.
    * @param body Defines the hybridIdentityMetadata.
@@ -43,7 +43,7 @@ export interface HybridIdentityMetadataOperations {
    */
   put(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     hybridIdentityMetadataResourceName: string,
     body: HybridIdentityMetadata,
     options?: HybridIdentityMetadataPutOptionalParams
@@ -51,28 +51,28 @@ export interface HybridIdentityMetadataOperations {
   /**
    * Get the hybrid identity metadata proxy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
    *                                           resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     hybridIdentityMetadataResourceName: string,
     options?: HybridIdentityMetadataGetOptionalParams
   ): Promise<HybridIdentityMetadataGetResponse>;
   /**
    * Deletes the hybrid identity metadata proxy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param provisionedClustersName Parameter for the name of the provisioned cluster
+   * @param resourceName Parameter for the name of the provisioned cluster
    * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
    *                                           resource.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    provisionedClustersName: string,
+    resourceName: string,
     hybridIdentityMetadataResourceName: string,
     options?: HybridIdentityMetadataDeleteOptionalParams
   ): Promise<void>;

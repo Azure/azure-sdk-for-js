@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
  *
  * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteTableCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/RouteTableCreate.json
  */
 async function createRouteTable() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const routeTableName = "testrt";
   const parameters = { location: "westus" };
   const credential = new DefaultAzureCredential();
@@ -32,17 +33,15 @@ async function createRouteTable() {
   console.log(result);
 }
 
-createRouteTable().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
  *
  * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteTableCreateWithRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/RouteTableCreateWithRoute.json
  */
 async function createRouteTableWithRoute() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const routeTableName = "testrt";
   const parameters = {
     disableBgpRoutePropagation: true,
@@ -65,4 +64,9 @@ async function createRouteTableWithRoute() {
   console.log(result);
 }
 
-createRouteTableWithRoute().catch(console.error);
+async function main() {
+  createRouteTable();
+  createRouteTableWithRoute();
+}
+
+main().catch(console.error);

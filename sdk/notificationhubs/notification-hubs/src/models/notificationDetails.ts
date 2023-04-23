@@ -112,6 +112,11 @@ export interface NotificationDetails {
    * Web Push outcome counts per state.
    */
   browserOutcomeCounts?: NotificationOutcome[];
+
+  /**
+   * Xiaomi outcome counts per state.
+   */
+  xiaomiOutcomeCounts?: NotificationOutcome[];
 }
 
 /**

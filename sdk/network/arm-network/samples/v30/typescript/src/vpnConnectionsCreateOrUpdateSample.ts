@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { VpnConnection, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
  *
  * @summary Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnConnectionPut.json
  */
 async function vpnConnectionPut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const connectionName = "vpnConnection1";
   const vpnConnectionParameters: VpnConnection = {
@@ -85,4 +88,8 @@ async function vpnConnectionPut() {
   console.log(result);
 }
 
-vpnConnectionPut().catch(console.error);
+async function main() {
+  vpnConnectionPut();
+}
+
+main().catch(console.error);

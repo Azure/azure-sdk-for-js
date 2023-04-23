@@ -23,10 +23,7 @@ import {
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
   ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
-  TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
-  Fleet as FleetMapper,
-  FleetPatch as FleetPatchMapper,
-  FleetMember as FleetMemberMapper
+  TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -56,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-02-preview",
+    defaultValue: "2023-03-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -335,83 +332,4 @@ export const trustedAccessRoleBindingName: OperationURLParameter = {
 export const trustedAccessRoleBinding: OperationParameter = {
   parameterPath: "trustedAccessRoleBinding",
   mapper: TrustedAccessRoleBindingMapper
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FleetMapper
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-09-02-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fleetName: OperationURLParameter = {
-  parameterPath: "fleetName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
-      MaxLength: 63,
-      MinLength: 1
-    },
-    serializedName: "fleetName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
-  mapper: {
-    serializedName: "If-None-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters11: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: FleetPatchMapper
-};
-
-export const parameters12: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FleetMemberMapper
-};
-
-export const fleetMemberName: OperationURLParameter = {
-  parameterPath: "fleetMemberName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
-      MaxLength: 50,
-      MinLength: 1
-    },
-    serializedName: "fleetMemberName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

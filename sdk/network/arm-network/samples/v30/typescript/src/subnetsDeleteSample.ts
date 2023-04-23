@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified subnet.
  *
  * @summary Deletes the specified subnet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/SubnetDelete.json
  */
 async function deleteSubnet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "subnet-test";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
   const subnetName = "subnet1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +36,8 @@ async function deleteSubnet() {
   console.log(result);
 }
 
-deleteSubnet().catch(console.error);
+async function main() {
+  deleteSubnet();
+}
+
+main().catch(console.error);

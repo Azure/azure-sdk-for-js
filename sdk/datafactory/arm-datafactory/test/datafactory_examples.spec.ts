@@ -17,7 +17,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { DataFactoryManagementClient } from "../src/dataFactoryManagementClient";
-import { Factory } from "../src/models";
+import { Factory, PipelineResource } from "../src/models";
+import { dataFlow } from "../src/models/parameters";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -44,6 +45,10 @@ describe("Datafactory test", () => {
   let factoryName: string;
   let factory: Factory;
   let sessionId: string;
+  let pipelineName: string;
+  let datasetName: string;
+  let linkedServiceName: string;
+  let dataFlowName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -53,8 +58,12 @@ describe("Datafactory test", () => {
     const credential = createTestCredential();
     client = new DataFactoryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "marytest";
     factoryName = "examplefactorytest";
+    pipelineName = "examplePipeline";
+    datasetName = "exampleDataset";
+    linkedServiceName = "exampleLinkedService";
+    dataFlowName = "exampleDataFlow";
   });
 
   afterEach(async function () {
@@ -98,6 +107,172 @@ describe("Datafactory test", () => {
     return sessionId = String(res.sessionId)
   });
 
+  it("linkedService create test", async function () {
+    const res = await client.linkedServices.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      linkedServiceName,
+      {
+        properties: {
+          type: "AzureStorage",
+          connectionString: {
+            type: "SecureString",
+            value:
+              "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>"
+          }
+        }
+      }
+    );
+    assert.equal(res.name, linkedServiceName);
+  });
+
+  it("dataset create test", async function () {
+    const res = await client.datasets.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      datasetName,
+      {
+        properties: {
+          type: "AzureBlob",
+          format: { type: "TextFormat" },
+          fileName: { type: "Expression", value: "@dataset().MyFileName" },
+          folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+          linkedServiceName: {
+            type: "LinkedServiceReference",
+            referenceName: "exampleLinkedService"
+          },
+          parameters: {
+            myFileName: { type: "String" },
+            myFolderPath: { type: "String" }
+          }
+        }
+      }
+    );
+    assert.equal(res.name, datasetName);
+  });
+
+  it("dataflow create test", async function () {
+    const res1 = await client.datasets.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      "CurrencyDatasetUSD",
+      {
+        properties: {
+          type: "AzureBlob",
+          format: { type: "TextFormat" },
+          fileName: { type: "Expression", value: "@dataset().MyFileName" },
+          folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+          linkedServiceName: {
+            type: "LinkedServiceReference",
+            referenceName: "exampleLinkedService"
+          },
+          parameters: {
+            myFileName: { type: "String" },
+            myFolderPath: { type: "String" }
+          }
+        }
+      }
+    );
+    const res2 = await client.datasets.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      "CurrencyDatasetCAD",
+      {
+        properties: {
+          type: "AzureBlob",
+          format: { type: "TextFormat" },
+          fileName: { type: "Expression", value: "@dataset().MyFileName" },
+          folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+          linkedServiceName: {
+            type: "LinkedServiceReference",
+            referenceName: "exampleLinkedService"
+          },
+          parameters: {
+            myFileName: { type: "String" },
+            myFolderPath: { type: "String" }
+          }
+        }
+      }
+    );
+    const res = await client.dataFlows.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      dataFlowName,
+      {
+        properties: {
+          type: "MappingDataFlow",
+          description:
+            "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          scriptLines: [
+            "source(output(",
+            "PreviousConversionRate as double,",
+            "Country as string,",
+            "DateTime1 as string,",
+            "CurrentConversionRate as double",
+            "),",
+            "allowSchemaDrift: false,",
+            "validateSchema: false) ~> USDCurrency",
+            "source(output(",
+            "PreviousConversionRate as double,",
+            "Country as string,",
+            "DateTime1 as string,",
+            "CurrentConversionRate as double",
+            "),",
+            "allowSchemaDrift: true,",
+            "validateSchema: false) ~> CADSource",
+            "USDCurrency, CADSource union(byName: true)~> Union",
+            "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn",
+            "NewCurrencyColumn split(Country == 'USD',",
+            "Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)",
+            "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink",
+            "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+          ],
+          sources: [
+            {
+              name: "USDCurrency",
+              dataset: {
+                type: "DatasetReference",
+                referenceName: "CurrencyDatasetUSD"
+              }
+            },
+            {
+              name: "CADSource",
+              dataset: {
+                type: "DatasetReference",
+                referenceName: "CurrencyDatasetCAD"
+              }
+            }
+          ]
+        }
+      }
+    );
+    assert.equal(res.name, dataFlowName);
+  });
+
+  it("pipeline create test", async function () {
+    const res = await client.pipelines.createOrUpdate(
+      resourceGroup,
+      factoryName,
+      pipelineName,
+      {
+        description: "Example description",
+        activities: [
+          {
+            name: "ExampleCopyActivity1",
+            type: "ExecuteWranglingDataflow",
+            dataFlow: {
+              referenceName: dataFlowName,
+              type: "DataFlowReference"
+            }
+          }
+        ],
+        parameters: { outputBlobNameList: { type: "Array" } },
+        policy: { elapsedTimeMetric: { duration: "0.00:10:00" } }
+      }
+    );
+    assert.equal(res.name, pipelineName);
+  });
+
   it("datafactory get test", async function () {
     const res = await client.factories.get(resourceGroup, factoryName);
     assert.equal(res.name, factoryName);
@@ -111,6 +286,17 @@ describe("Datafactory test", () => {
     assert.equal(resArray.length, 1);
   });
 
+  it("pipeline list test", async function () {
+    const resArray = new Array<PipelineResource>();
+    for await (let item of client.pipelines.listByFactory(resourceGroup, factoryName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+    assert.equal(resArray[0].activities?.length, 1);
+    assert.equal(resArray[0].activities![0].type, "ExecuteWranglingDataflow");
+    assert.equal(resArray[0].activities![0].dataFlow.type, "DataFlowReference");
+  });
+
   it("dataFlowDebugSession delete test", async function () {
     const result = await client.dataFlowDebugSession.delete(
       resourceGroup,
@@ -119,6 +305,35 @@ describe("Datafactory test", () => {
         sessionId
       }
     );
+  });
+
+  it("pipeline delete test", async function () {
+    const resArray = new Array();
+    const res = await client.pipelines.delete(resourceGroup, factoryName, pipelineName)
+    for await (let item of client.pipelines.listByFactory(resourceGroup, factoryName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it("dataflow delete test", async function () {
+    const resArray = new Array();
+    const res = await client.dataFlows.delete(resourceGroup, factoryName, dataFlowName)
+    for await (let item of client.dataFlows.listByFactory(resourceGroup, factoryName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it("datasets delete test", async function () {
+    const resArray = new Array();
+    const res = await client.datasets.delete(resourceGroup, factoryName, datasetName)
+    const res1 = await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetUSD")
+    const res2 = await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetCAD")
+    for await (let item of client.datasets.listByFactory(resourceGroup, factoryName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   it("datafactory delete test", async function () {

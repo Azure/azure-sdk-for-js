@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -18,4 +19,11 @@ export function createDisableKeepAlivePolicy(): PipelinePolicy {
       return next(request);
     },
   };
+}
+
+/**
+ * @internal
+ */
+export function pipelineContainsDisableKeepAlivePolicy(pipeline: Pipeline): boolean {
+  return pipeline.getOrderedPolicies().some((policy) => policy.name === disableKeepAlivePolicyName);
 }

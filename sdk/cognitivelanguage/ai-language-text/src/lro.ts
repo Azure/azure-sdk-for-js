@@ -132,7 +132,7 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
         opOptions: addOnResponse(options, (_, response) => {
           const castResponse = response as AnalyzeTextJobStatusResponse;
           if (castResponse.status.toLowerCase() === "partiallysucceeded") {
-            castResponse.status = "failed";
+            castResponse.status = "succeeded";
           }
         }),
         path,
@@ -273,7 +273,7 @@ export function processAnalyzeResult(options: {
         });
         const flatResponse = response.flatResponse as AnalyzeTextJobStatusResponse;
         return {
-          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items),
+          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items, flatResponse.errors),
           nextPageLink: flatResponse.nextLink,
         };
       },

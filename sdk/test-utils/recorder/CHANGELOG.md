@@ -1,6 +1,16 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.0.0 (2023-03-07)
 
 ### Features Added
 
@@ -12,6 +22,8 @@
 - Added support for the asset sync tool. If an `assets.json` exists in the package directory, the recorder will fetch recordings from the external repo.
 
 ### Breaking Changes
+
+- Support for `@azure/core-http` has been removed. Using the test recorder now requires depending on `@azure/core-rest-pipeline`.
 
 ### Bugs Fixed
 

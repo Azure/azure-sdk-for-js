@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionGetOptionalParams,
   PrivateEndpointConnectionGetResponse,
@@ -48,8 +48,8 @@ export interface PrivateEndpointConnectionOperations {
     parameters: PrivateEndpointConnectionResource,
     options?: PrivateEndpointConnectionPutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionPutResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionPutResponse>,
       PrivateEndpointConnectionPutResponse
     >
   >;
@@ -82,7 +82,7 @@ export interface PrivateEndpointConnectionOperations {
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Private Endpoint requests. This call is made by Backup Admin.
    * @param vaultName The name of the recovery services vault.

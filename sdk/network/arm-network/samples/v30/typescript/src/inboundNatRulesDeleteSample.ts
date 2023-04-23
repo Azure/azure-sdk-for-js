@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified load balancer inbound NAT rule.
  *
  * @summary Deletes the specified load balancer inbound NAT rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/InboundNatRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/InboundNatRuleDelete.json
  */
 async function inboundNatRuleDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb1";
   const inboundNatRuleName = "natRule1.1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function inboundNatRuleDelete() {
   console.log(result);
 }
 
-inboundNatRuleDelete().catch(console.error);
+async function main() {
+  inboundNatRuleDelete();
+}
+
+main().catch(console.error);

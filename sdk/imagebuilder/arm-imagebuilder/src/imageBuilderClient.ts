@@ -14,9 +14,14 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { VirtualMachineImageTemplatesImpl, OperationsImpl } from "./operations";
+import {
+  VirtualMachineImageTemplatesImpl,
+  TriggersImpl,
+  OperationsImpl
+} from "./operations";
 import {
   VirtualMachineImageTemplates,
+  Triggers,
   Operations
 } from "./operationsInterfaces";
 import { ImageBuilderClientOptionalParams } from "./models";
@@ -54,7 +59,7 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-imagebuilder/2.1.1`;
+    const packageDetails = `azsdk-js-arm-imagebuilder/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -107,10 +112,11 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-14";
+    this.apiVersion = options.apiVersion || "2022-07-01";
     this.virtualMachineImageTemplates = new VirtualMachineImageTemplatesImpl(
       this
     );
+    this.triggers = new TriggersImpl(this);
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -144,5 +150,6 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
   }
 
   virtualMachineImageTemplates: VirtualMachineImageTemplates;
+  triggers: Triggers;
   operations: Operations;
 }

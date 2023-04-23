@@ -3,7 +3,7 @@
 
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { EventHubReceiver } from "../../src/eventHubReceiver";
+import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -77,9 +77,9 @@ testWithServiceTypes((serviceVersion) => {
     ];
 
     describe("EventHubReceiver", () => {
-      let client: EventHubReceiver;
+      let client: PartitionReceiver;
       beforeEach("instantiate EventHubReceiver", () => {
-        client = new EventHubReceiver(
+        client = createReceiver(
           context,
           "$default", // consumer group
           "0", // partition id
@@ -97,7 +97,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`initialize supports cancellation (${caseType})`, async () => {
           const abortSignal = getSignal();
           try {
-            await client.initialize({ abortSignal, timeoutInMs: 60000 });
+            await client.connect({ abortSignal, timeoutInMs: 60000 });
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
@@ -118,7 +118,7 @@ testWithServiceTypes((serviceVersion) => {
 
         it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async () => {
           // Open the connection.
-          await client.initialize({ abortSignal: undefined, timeoutInMs: 60000 });
+          await client.connect({ abortSignal: undefined, timeoutInMs: 60000 });
           try {
             const abortSignal = getSignal();
             await client.receiveBatch(10, undefined, abortSignal);

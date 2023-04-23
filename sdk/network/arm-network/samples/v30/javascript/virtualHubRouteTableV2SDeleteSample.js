@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a VirtualHubRouteTableV2.
  *
  * @summary Deletes a VirtualHubRouteTableV2.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualHubRouteTableV2Delete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualHubRouteTableV2Delete.json
  */
 async function virtualHubRouteTableV2Delete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
   const routeTableName = "virtualHubRouteTable1a";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function virtualHubRouteTableV2Delete() {
   console.log(result);
 }
 
-virtualHubRouteTableV2Delete().catch(console.error);
+async function main() {
+  virtualHubRouteTableV2Delete();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BuilderResource,
   BuildServiceBuilderListOptionalParams,
@@ -71,8 +71,8 @@ export interface BuildServiceBuilder {
     builderResource: BuilderResource,
     options?: BuildServiceBuilderCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BuildServiceBuilderCreateOrUpdateResponse>,
       BuildServiceBuilderCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface BuildServiceBuilder {
     buildServiceName: string,
     builderName: string,
     options?: BuildServiceBuilderDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a KPack builder.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExpressRouteCircuitConnection,
   ExpressRouteCircuitConnectionsListOptionalParams,
@@ -48,7 +48,7 @@ export interface ExpressRouteCircuitConnections {
     peeringName: string,
     connectionName: string,
     options?: ExpressRouteCircuitConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
    * @param resourceGroupName The name of the resource group.
@@ -97,8 +97,8 @@ export interface ExpressRouteCircuitConnections {
     expressRouteCircuitConnectionParameters: ExpressRouteCircuitConnection,
     options?: ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitConnectionsCreateOrUpdateResponse>,
       ExpressRouteCircuitConnectionsCreateOrUpdateResponse
     >
   >;

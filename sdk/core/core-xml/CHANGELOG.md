@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.3.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.3 (2023-03-02)
+
+### Other Changes
+
+- port https://github.com/Azure/ms-rest-js/pull/475 [PR # 24962](https://github.com/Azure/azure-sdk-for-js/pull/24962)
 
 ## 1.3.2 (2023-01-05)
 

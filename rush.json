@@ -326,8 +326,23 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-sharing",
+      "projectFolder": "sdk/purview/purview-sharing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-workflow",
+      "projectFolder": "sdk/purview/purview-workflow-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
       "versionPolicyName": "client"
     },
     {
@@ -361,6 +376,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -383,6 +403,11 @@
     {
       "packageName": "@azure/quantum-jobs",
       "projectFolder": "sdk/quantum/quantum-jobs",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
       "versionPolicyName": "client"
     },
     {
@@ -418,6 +443,11 @@
     {
       "packageName": "@azure-tools/communication-short-codes",
       "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-recipient-verification",
+      "projectFolder": "sdk/communication/communication-recipient-verification",
       "versionPolicyName": "client"
     },
     {
@@ -751,11 +781,6 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
     {
@@ -1921,6 +1946,31 @@
     {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-voiceservices",
+      "projectFolder": "sdk/voiceservices/arm-voiceservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client-protobuf",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-newrelicobservability",
+      "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-paloaltonetworksngfw",
+      "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
       "versionPolicyName": "management"
     }
   ]

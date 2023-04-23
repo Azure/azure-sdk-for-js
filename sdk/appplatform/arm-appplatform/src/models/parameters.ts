@@ -21,6 +21,8 @@ import {
   ConfigurationServiceSettings as ConfigurationServiceSettingsMapper,
   ApplicationLiveViewResource as ApplicationLiveViewResourceMapper,
   DevToolPortalResource as DevToolPortalResourceMapper,
+  ContainerRegistryResource as ContainerRegistryResourceMapper,
+  BuildService as BuildServiceMapper,
   Build as BuildMapper,
   BuildpackBindingResource as BuildpackBindingResourceMapper,
   BuilderResource as BuilderResourceMapper,
@@ -37,6 +39,7 @@ import {
   RemoteDebuggingPayload as RemoteDebuggingPayloadMapper,
   DiagnosticParameters as DiagnosticParametersMapper,
   GatewayResource as GatewayResourceMapper,
+  SkuObject as SkuObjectMapper,
   GatewayRouteConfigResource as GatewayRouteConfigResourceMapper,
   GatewayCustomDomainResource as GatewayCustomDomainResourceMapper,
   ApiPortalResource as ApiPortalResourceMapper,
@@ -73,7 +76,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01-preview",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -107,6 +110,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const serviceName: OperationURLParameter = {
   parameterPath: "serviceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
     serializedName: "serviceName",
     required: true,
     type: {
@@ -239,6 +245,25 @@ export const devToolPortalResource: OperationParameter = {
   mapper: DevToolPortalResourceMapper
 };
 
+export const containerRegistryName: OperationURLParameter = {
+  parameterPath: "containerRegistryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
+    serializedName: "containerRegistryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const containerRegistryResource: OperationParameter = {
+  parameterPath: "containerRegistryResource",
+  mapper: ContainerRegistryResourceMapper
+};
+
 export const buildServiceName: OperationURLParameter = {
   parameterPath: "buildServiceName",
   mapper: {
@@ -248,6 +273,11 @@ export const buildServiceName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const buildService: OperationParameter = {
+  parameterPath: "buildService",
+  mapper: BuildServiceMapper
 };
 
 export const buildName: OperationURLParameter = {
@@ -497,6 +527,9 @@ export const diagnosticParameters: OperationParameter = {
 export const gatewayName: OperationURLParameter = {
   parameterPath: "gatewayName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
     serializedName: "gatewayName",
     required: true,
     type: {
@@ -508,6 +541,11 @@ export const gatewayName: OperationURLParameter = {
 export const gatewayResource: OperationParameter = {
   parameterPath: "gatewayResource",
   mapper: GatewayResourceMapper
+};
+
+export const gatewayCapacityResource: OperationParameter = {
+  parameterPath: "gatewayCapacityResource",
+  mapper: SkuObjectMapper
 };
 
 export const routeConfigName: OperationURLParameter = {

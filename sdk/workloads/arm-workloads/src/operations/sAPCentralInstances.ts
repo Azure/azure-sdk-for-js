@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SAPCentralInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SAPCentralServerInstance,
   SAPCentralInstancesListNextOptionalParams,
   SAPCentralInstancesListOptionalParams,
+  SAPCentralInstancesListResponse,
   SAPCentralInstancesGetOptionalParams,
   SAPCentralInstancesGetResponse,
   SAPCentralInstancesCreateOptionalParams,
@@ -26,7 +32,10 @@ import {
   SAPCentralInstancesUpdateResponse,
   SAPCentralInstancesDeleteOptionalParams,
   SAPCentralInstancesDeleteResponse,
-  SAPCentralInstancesListResponse,
+  SAPCentralInstancesStartInstanceOptionalParams,
+  SAPCentralInstancesStartInstanceResponse,
+  SAPCentralInstancesStopInstanceOptionalParams,
+  SAPCentralInstancesStopInstanceResponse,
   SAPCentralInstancesListNextResponse
 } from "../models";
 
@@ -44,9 +53,10 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Lists the SAP Central Instances in an SVI.
+   * Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   public list(
@@ -66,11 +76,15 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           sapVirtualInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +93,22 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   private async *listPagingPage(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPCentralInstancesListOptionalParams
+    options?: SAPCentralInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SAPCentralServerInstance[]> {
-    let result = await this._list(
-      resourceGroupName,
-      sapVirtualInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SAPCentralInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        sapVirtualInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -96,7 +117,9 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,11 +138,11 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Gets the SAP Central Instance.
+   * Gets the SAP Central Services Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   get(
@@ -140,12 +163,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -154,8 +177,8 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesCreateResponse>,
       SAPCentralInstancesCreateResponse
     >
   > {
@@ -165,7 +188,7 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     ): Promise<SAPCentralInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,18 +221,21 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         centralInstanceName,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPCentralInstancesCreateResponse,
+      OperationState<SAPCentralInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -217,12 +243,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -241,11 +267,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -254,8 +281,8 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesUpdateResponse>,
       SAPCentralInstancesUpdateResponse
     >
   > {
@@ -265,7 +292,7 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     ): Promise<SAPCentralInstancesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -298,18 +325,21 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         centralInstanceName,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPCentralInstancesUpdateResponse,
+      OperationState<SAPCentralInstancesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -317,11 +347,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -340,12 +371,14 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -354,8 +387,8 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPCentralInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesDeleteResponse>,
       SAPCentralInstancesDeleteResponse
     >
   > {
@@ -365,7 +398,7 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
     ): Promise<SAPCentralInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -398,32 +431,37 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapVirtualInstanceName,
         centralInstanceName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPCentralInstancesDeleteResponse,
+      OperationState<SAPCentralInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -442,9 +480,10 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Lists the SAP Central Instances in an SVI.
+   * Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   private _list(
@@ -459,9 +498,215 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
+   * Starts the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  async beginStartInstance(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStartInstanceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesStartInstanceResponse>,
+      SAPCentralInstancesStartInstanceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SAPCentralInstancesStartInstanceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options
+      },
+      spec: startInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPCentralInstancesStartInstanceResponse,
+      OperationState<SAPCentralInstancesStartInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  async beginStartInstanceAndWait(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStartInstanceOptionalParams
+  ): Promise<SAPCentralInstancesStartInstanceResponse> {
+    const poller = await this.beginStartInstance(
+      resourceGroupName,
+      sapVirtualInstanceName,
+      centralInstanceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Stops the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  async beginStopInstance(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStopInstanceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SAPCentralInstancesStopInstanceResponse>,
+      SAPCentralInstancesStopInstanceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SAPCentralInstancesStopInstanceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options
+      },
+      spec: stopInstanceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPCentralInstancesStopInstanceResponse,
+      OperationState<SAPCentralInstancesStopInstanceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Stops the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  async beginStopInstanceAndWait(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStopInstanceOptionalParams
+  ): Promise<SAPCentralInstancesStopInstanceResponse> {
+    const poller = await this.beginStopInstance(
+      resourceGroupName,
+      sapVirtualInstanceName,
+      centralInstanceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -533,7 +778,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.sapVirtualInstanceName,
     Parameters.centralInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -567,7 +812,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.sapVirtualInstanceName,
     Parameters.centralInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -625,6 +870,72 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const startInstanceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapVirtualInstanceName,
+    Parameters.centralInstanceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const stopInstanceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapVirtualInstanceName,
+    Parameters.centralInstanceName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -636,13 +947,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.sapVirtualInstanceName
+    Parameters.sapVirtualInstanceName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

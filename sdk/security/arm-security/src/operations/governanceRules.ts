@@ -6,26 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GovernanceRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  GovernanceRule,
+  GovernanceRulesListNextOptionalParams,
+  GovernanceRulesListOptionalParams,
+  GovernanceRulesListResponse,
   GovernanceRulesGetOptionalParams,
   GovernanceRulesGetResponse,
-  GovernanceRule,
   GovernanceRulesCreateOrUpdateOptionalParams,
   GovernanceRulesCreateOrUpdateResponse,
   GovernanceRulesDeleteOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSubscriptionResponse,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams,
-  GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
+  GovernanceRulesExecuteOptionalParams,
+  GovernanceRulesExecuteResponse,
+  GovernanceRulesOperationResultsOptionalParams,
+  GovernanceRulesOperationResultsResponse,
+  GovernanceRulesListNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing GovernanceRules operations. */
 export class GovernanceRulesImpl implements GovernanceRules {
   private readonly client: SecurityCenter;
@@ -39,238 +50,367 @@ export class GovernanceRulesImpl implements GovernanceRules {
   }
 
   /**
-   * Get a specific governanceRule for the requested scope by ruleId
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Get a list of all relevant governance rules over a scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param options The options parameters.
+   */
+  public list(
+    scope: string,
+    options?: GovernanceRulesListOptionalParams
+  ): PagedAsyncIterableIterator<GovernanceRule> {
+    const iter = this.listPagingAll(scope, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    scope: string,
+    options?: GovernanceRulesListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<GovernanceRule[]> {
+    let result: GovernanceRulesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(scope, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    scope: string,
+    options?: GovernanceRulesListOptionalParams
+  ): AsyncIterableIterator<GovernanceRule> {
+    for await (const page of this.listPagingPage(scope, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get a list of all relevant governance rules over a scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param options The options parameters.
+   */
+  private _list(
+    scope: string,
+    options?: GovernanceRulesListOptionalParams
+  ): Promise<GovernanceRulesListResponse> {
+    return this.client.sendOperationRequest(
+      { scope, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get a specific governance rule for the requested scope by ruleId
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
   get(
+    scope: string,
     ruleId: string,
     options?: GovernanceRulesGetOptionalParams
   ): Promise<GovernanceRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { ruleId, options },
+      { scope, ruleId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or update a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param governanceRule GovernanceRule over a subscription scope
+   * Creates or updates a governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param governanceRule Governance rule over a given scope
    * @param options The options parameters.
    */
   createOrUpdate(
+    scope: string,
     ruleId: string,
     governanceRule: GovernanceRule,
     options?: GovernanceRulesCreateOrUpdateOptionalParams
   ): Promise<GovernanceRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { ruleId, governanceRule, options },
+      { scope, ruleId, governanceRule, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Delete a GovernanceRule over a given scope
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * Delete a Governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    scope: string,
+    ruleId: string,
+    options?: GovernanceRulesDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { scope, ruleId, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Governance rule over a given scope
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    scope: string,
     ruleId: string,
     options?: GovernanceRulesDeleteOptionalParams
   ): Promise<void> {
+    const poller = await this.beginDelete(scope, ruleId, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Execute a governance rule
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  async beginExecute(
+    scope: string,
+    ruleId: string,
+    options?: GovernanceRulesExecuteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GovernanceRulesExecuteResponse>,
+      GovernanceRulesExecuteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GovernanceRulesExecuteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { scope, ruleId, options },
+      spec: executeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GovernanceRulesExecuteResponse,
+      OperationState<GovernanceRulesExecuteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Execute a governance rule
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param options The options parameters.
+   */
+  async beginExecuteAndWait(
+    scope: string,
+    ruleId: string,
+    options?: GovernanceRulesExecuteOptionalParams
+  ): Promise<GovernanceRulesExecuteResponse> {
+    const poller = await this.beginExecute(scope, ruleId, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get governance rules long run operation result for the requested scope by ruleId and operationId
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
+   * @param operationId The governance rule long running operation unique key
+   * @param options The options parameters.
+   */
+  operationResults(
+    scope: string,
+    ruleId: string,
+    operationId: string,
+    options?: GovernanceRulesOperationResultsOptionalParams
+  ): Promise<GovernanceRulesOperationResultsResponse> {
     return this.client.sendOperationRequest(
-      { ruleId, options },
-      deleteOperationSpec
+      { scope, ruleId, operationId, options },
+      operationResultsOperationSpec
     );
   }
 
   /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
+   * ListNext
+   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  async beginRuleIdExecuteSingleSubscription(
-    ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
-      >,
-      GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { ruleId, options },
-      ruleIdExecuteSingleSubscriptionOperationSpec
+  private _listNext(
+    scope: string,
+    nextLink: string,
+    options?: GovernanceRulesListNextOptionalParams
+  ): Promise<GovernanceRulesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { scope, nextLink, options },
+      listNextOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Execute a security GovernanceRule on the given subscription.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param options The options parameters.
-   */
-  async beginRuleIdExecuteSingleSubscriptionAndWait(
-    ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
-  ): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse> {
-    const poller = await this.beginRuleIdExecuteSingleSubscription(
-      ruleId,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Execute a security GovernanceRule on the given security connector.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param options The options parameters.
-   */
-  async beginRuleIdExecuteSingleSecurityConnector(
-    resourceGroupName: string,
-    securityConnectorName: string,
-    ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
-      >,
-      GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, securityConnectorName, ruleId, options },
-      ruleIdExecuteSingleSecurityConnectorOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Execute a security GovernanceRule on the given security connector.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param ruleId The security GovernanceRule key - unique key for the standard GovernanceRule
-   * @param options The options parameters.
-   */
-  async beginRuleIdExecuteSingleSecurityConnectorAndWait(
-    resourceGroupName: string,
-    securityConnectorName: string,
-    ruleId: string,
-    options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
-  ): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse> {
-    const poller = await this.beginRuleIdExecuteSingleSecurityConnector(
-      resourceGroupName,
-      securityConnectorName,
-      ruleId,
-      options
-    );
-    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Security/governanceRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GovernanceRuleList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion16],
+  urlParameters: [Parameters.$host, Parameters.scope1],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}",
+  path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -280,18 +420,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ruleId
-  ],
+  queryParameters: [Parameters.apiVersion16],
+  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}",
+  path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -305,100 +440,85 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.governanceRule,
-  queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ruleId
-  ],
+  queryParameters: [Parameters.apiVersion16],
+  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}",
+  path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ruleId
-  ],
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion16],
+  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   serializer
 };
-const ruleIdExecuteSingleSubscriptionOperationSpec: coreClient.OperationSpec = {
+const executeOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
+    "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders
     },
     201: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders
     },
     202: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders
     },
     204: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.executeGovernanceRuleParams,
-  queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ruleId
-  ],
+  queryParameters: [Parameters.apiVersion16],
+  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const ruleIdExecuteSingleSecurityConnectorOperationSpec: coreClient.OperationSpec = {
+const operationResultsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
-  httpMethod: "POST",
+    "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
-    },
-    201: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
+      bodyMapper: Mappers.OperationResultAutoGenerated
     },
     202: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
-    },
-    204: {
-      headersMapper:
-        Mappers.GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
+      headersMapper: Mappers.GovernanceRulesOperationResultsHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.executeGovernanceRuleParams,
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.scope1,
     Parameters.ruleId,
-    Parameters.securityConnectorName
+    Parameters.operationId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GovernanceRuleList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope1],
+  headerParameters: [Parameters.accept],
   serializer
 };

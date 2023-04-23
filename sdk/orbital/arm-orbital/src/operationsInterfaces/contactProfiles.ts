@@ -7,13 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ContactProfile,
   ContactProfilesListBySubscriptionOptionalParams,
   ContactProfilesListOptionalParams,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
+  ContactProfilesPropertiesNetworkConfiguration,
+  ContactProfileLink,
   ContactProfilesCreateOrUpdateOptionalParams,
   ContactProfilesCreateOrUpdateResponse,
   ContactProfilesDeleteOptionalParams,
@@ -26,14 +28,14 @@ import {
 /** Interface representing a ContactProfiles. */
 export interface ContactProfiles {
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   listBySubscription(
     options?: ContactProfilesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -42,9 +44,9 @@ export interface ContactProfiles {
     options?: ContactProfilesListOptionalParams
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
-   * Gets the specified contact Profile in a specified resource group
+   * Gets the specified contact Profile in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   get(
@@ -53,51 +55,59 @@ export interface ContactProfiles {
     options?: ContactProfilesGetOptionalParams
   ): Promise<ContactProfilesGetResponse>;
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesCreateOrUpdateResponse>,
       ContactProfilesCreateOrUpdateResponse
     >
   >;
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<ContactProfilesCreateOrUpdateResponse>;
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     contactProfileName: string,
     options?: ContactProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -108,7 +118,7 @@ export interface ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -118,15 +128,15 @@ export interface ContactProfiles {
     parameters: TagsObject,
     options?: ContactProfilesUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesUpdateTagsResponse>,
       ContactProfilesUpdateTagsResponse
     >
   >;
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */

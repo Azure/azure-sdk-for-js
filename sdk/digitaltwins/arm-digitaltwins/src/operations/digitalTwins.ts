@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DigitalTwinsDescription,
   DigitalTwinsListNextOptionalParams,
@@ -207,8 +211,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     digitalTwinsCreate: DigitalTwinsDescription,
     options?: DigitalTwinsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsCreateOrUpdateResponse>,
       DigitalTwinsCreateOrUpdateResponse
     >
   > {
@@ -218,7 +222,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -251,13 +255,16 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, digitalTwinsCreate, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, digitalTwinsCreate, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsCreateOrUpdateResponse,
+      OperationState<DigitalTwinsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -301,8 +308,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
     options?: DigitalTwinsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsUpdateResponse>,
       DigitalTwinsUpdateResponse
     >
   > {
@@ -312,7 +319,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -345,18 +352,21 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         digitalTwinsPatchDescription,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsUpdateResponse,
+      OperationState<DigitalTwinsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -396,8 +406,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceName: string,
     options?: DigitalTwinsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsDeleteResponse>,
       DigitalTwinsDeleteResponse
     >
   > {
@@ -407,7 +417,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -440,13 +450,16 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsDeleteResponse,
+      OperationState<DigitalTwinsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -741,7 +754,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -761,7 +773,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

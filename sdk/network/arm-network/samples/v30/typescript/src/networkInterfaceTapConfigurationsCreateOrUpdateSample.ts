@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a Tap configuration in the specified NetworkInterface.
  *
  * @summary Creates or updates a Tap configuration in the specified NetworkInterface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceTapConfigurationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkInterfaceTapConfigurationCreate.json
  */
 async function createNetworkInterfaceTapConfigurations() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const networkInterfaceName = "mynic";
   const tapConfigurationName = "tapconfiguration1";
   const tapConfigurationParameters: NetworkInterfaceTapConfiguration = {
@@ -42,4 +45,8 @@ async function createNetworkInterfaceTapConfigurations() {
   console.log(result);
 }
 
-createNetworkInterfaceTapConfigurations().catch(console.error);
+async function main() {
+  createNetworkInterfaceTapConfigurations();
+}
+
+main().catch(console.error);

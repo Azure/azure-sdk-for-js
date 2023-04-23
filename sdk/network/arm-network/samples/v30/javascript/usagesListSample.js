@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/UsageList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/UsageList.json
  */
 async function listUsages() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -29,16 +30,14 @@ async function listUsages() {
   console.log(resArray);
 }
 
-listUsages().catch(console.error);
-
 /**
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/UsageListSpacedLocation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "West US";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -49,4 +48,9 @@ async function listUsagesSpacedLocation() {
   console.log(resArray);
 }
 
-listUsagesSpacedLocation().catch(console.error);
+async function main() {
+  listUsages();
+  listUsagesSpacedLocation();
+}
+
+main().catch(console.error);

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReservationOrderResponse,
   ReservationOrderListNextOptionalParams,
@@ -136,8 +140,8 @@ export class ReservationOrderImpl implements ReservationOrder {
     body: PurchaseRequest,
     options?: ReservationOrderPurchaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderPurchaseResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderPurchaseResponse>,
       ReservationOrderPurchaseResponse
     >
   > {
@@ -147,7 +151,7 @@ export class ReservationOrderImpl implements ReservationOrder {
     ): Promise<ReservationOrderPurchaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -180,15 +184,18 @@ export class ReservationOrderImpl implements ReservationOrder {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      purchaseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: purchaseOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationOrderPurchaseResponse,
+      OperationState<ReservationOrderPurchaseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

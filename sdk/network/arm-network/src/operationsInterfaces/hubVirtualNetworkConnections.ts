@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HubVirtualNetworkConnection,
   HubVirtualNetworkConnectionsListOptionalParams,
@@ -48,8 +48,8 @@ export interface HubVirtualNetworkConnections {
     hubVirtualNetworkConnectionParameters: HubVirtualNetworkConnection,
     options?: HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<HubVirtualNetworkConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<HubVirtualNetworkConnectionsCreateOrUpdateResponse>,
       HubVirtualNetworkConnectionsCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface HubVirtualNetworkConnections {
     virtualHubName: string,
     connectionName: string,
     options?: HubVirtualNetworkConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a HubVirtualNetworkConnection.
    * @param resourceGroupName The resource group name of the VirtualHub.

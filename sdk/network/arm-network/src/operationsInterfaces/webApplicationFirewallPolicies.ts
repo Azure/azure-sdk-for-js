@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebApplicationFirewallPolicy,
   WebApplicationFirewallPoliciesListOptionalParams,
@@ -72,7 +72,7 @@ export interface WebApplicationFirewallPolicies {
     resourceGroupName: string,
     policyName: string,
     options?: WebApplicationFirewallPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes Policy.
    * @param resourceGroupName The name of the resource group.

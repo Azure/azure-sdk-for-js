@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { SipRoutingImpl } from "./operations";
+import { SipRouting } from "./operationsInterfaces";
 import { SipRoutingClientContext } from "./sipRoutingClientContext";
-import {
-  SipRoutingClientOptionalParams,
-  GetSipConfigurationOptionalParams,
-  GetSipConfigurationResponse,
-  PatchSipConfigurationOptionalParams,
-  PatchSipConfigurationResponse
-} from "./models";
+import { SipRoutingClientOptionalParams } from "./models";
 
 export class SipRoutingClient extends SipRoutingClientContext {
   /**
@@ -26,74 +19,8 @@ export class SipRoutingClient extends SipRoutingClientContext {
    */
   constructor(endpoint: string, options?: SipRoutingClientOptionalParams) {
     super(endpoint, options);
+    this.sipRouting = new SipRoutingImpl(this);
   }
 
-  /**
-   * Gets SIP configuration for resource.
-   * @param options The options parameters.
-   */
-  getSipConfiguration(
-    options?: GetSipConfigurationOptionalParams
-  ): Promise<GetSipConfigurationResponse> {
-    return this.sendOperationRequest(
-      { options },
-      getSipConfigurationOperationSpec
-    );
-  }
-
-  /**
-   * Patches SIP configuration for resource.
-   * @param options The options parameters.
-   */
-  patchSipConfiguration(
-    options?: PatchSipConfigurationOptionalParams
-  ): Promise<PatchSipConfigurationResponse> {
-    return this.sendOperationRequest(
-      { options },
-      patchSipConfigurationOperationSpec
-    );
-  }
+  sipRouting: SipRouting;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const getSipConfigurationOperationSpec: coreClient.OperationSpec = {
-  path: "/sip",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SipConfiguration
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const patchSipConfigurationOperationSpec: coreClient.OperationSpec = {
-  path: "/sip",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SipConfiguration
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      trunks: ["options", "trunks"],
-      routes: ["options", "routes"]
-    },
-    mapper: Mappers.SipConfigurationPatch
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};

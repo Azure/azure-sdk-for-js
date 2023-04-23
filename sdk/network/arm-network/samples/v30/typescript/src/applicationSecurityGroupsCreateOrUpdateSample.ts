@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an application security group.
  *
  * @summary Creates or updates an application security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationSecurityGroupCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationSecurityGroupCreate.json
  */
 async function createApplicationSecurityGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationSecurityGroupName = "test-asg";
   const parameters: ApplicationSecurityGroup = { location: "westus" };
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function createApplicationSecurityGroup() {
   console.log(result);
 }
 
-createApplicationSecurityGroup().catch(console.error);
+async function main() {
+  createApplicationSecurityGroup();
+}
+
+main().catch(console.error);

@@ -11,5 +11,5 @@ export * from "./hybridIdentityMetadataOperations";
 export * from "./agentPoolOperations";
 export * from "./hybridContainerService";
 export * from "./operations";
-export * from "./virtualNetworksOperations";
 export * from "./storageSpacesOperations";
+export * from "./virtualNetworksOperations";

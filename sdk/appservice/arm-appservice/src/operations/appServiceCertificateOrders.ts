@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebSiteManagementClient } from "../webSiteManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AppServiceCertificateOrder,
   AppServiceCertificateOrdersListNextOptionalParams,
@@ -355,8 +359,8 @@ export class AppServiceCertificateOrdersImpl
     certificateDistinguishedName: AppServiceCertificateOrder,
     options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
       AppServiceCertificateOrdersCreateOrUpdateResponse
     >
   > {
@@ -366,7 +370,7 @@ export class AppServiceCertificateOrdersImpl
     ): Promise<AppServiceCertificateOrdersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -399,18 +403,21 @@ export class AppServiceCertificateOrdersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         certificateOrderName,
         certificateDistinguishedName,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceCertificateOrdersCreateOrUpdateResponse,
+      OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -531,8 +538,8 @@ export class AppServiceCertificateOrdersImpl
     keyVaultCertificate: AppServiceCertificateResource,
     options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
       >,
       AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
@@ -544,7 +551,7 @@ export class AppServiceCertificateOrdersImpl
     ): Promise<AppServiceCertificateOrdersCreateOrUpdateCertificateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -577,19 +584,24 @@ export class AppServiceCertificateOrdersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         certificateOrderName,
         name,
         keyVaultCertificate,
         options
       },
-      createOrUpdateCertificateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateCertificateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceCertificateOrdersCreateOrUpdateCertificateResponse,
+      OperationState<
+        AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1364,7 +1376,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1384,7 +1395,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1405,7 +1415,6 @@ const listCertificatesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

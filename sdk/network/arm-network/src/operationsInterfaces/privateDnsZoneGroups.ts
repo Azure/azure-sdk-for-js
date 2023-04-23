@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateDnsZoneGroup,
   PrivateDnsZoneGroupsListOptionalParams,
@@ -44,7 +44,7 @@ export interface PrivateDnsZoneGroups {
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
     options?: PrivateDnsZoneGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private dns zone group.
    * @param resourceGroupName The name of the resource group.
@@ -86,8 +86,8 @@ export interface PrivateDnsZoneGroups {
     parameters: PrivateDnsZoneGroup,
     options?: PrivateDnsZoneGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateDnsZoneGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateDnsZoneGroupsCreateOrUpdateResponse>,
       PrivateDnsZoneGroupsCreateOrUpdateResponse
     >
   >;

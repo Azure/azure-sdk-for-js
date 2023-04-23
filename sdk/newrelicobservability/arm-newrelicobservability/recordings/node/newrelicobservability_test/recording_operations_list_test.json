@@ -1,0 +1,282 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/NewRelic.Observability/operations?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-newrelicobservability/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5331f479-3bfc-4a5d-96d7-8ffa1ec2acc1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 24 Mar 2023 03:08:04 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "cdd26872-fbe1-4860-9f54-e57fecbb2feb",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "391c7706-dfb4-4e40-8d73-11cc6201ff77",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230324T030805Z:cdd26872-fbe1-4860-9f54-e57fecbb2feb"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "NewRelic.Observability/monitors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "Monitors",
+              "operation": "Get/List monitor resources",
+              "description": "Read monitors"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "Monitors",
+              "operation": "Create/Update monitor resources",
+              "description": "Write monitors"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "Monitors",
+              "operation": "Delete monitor resources",
+              "description": "Delete monitors"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/tagRules/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "TagRules",
+              "operation": "Get tag rules resource",
+              "description": "Read tag rules"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/tagRules/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "TagRules",
+              "operation": "Create/Update tag rules resource",
+              "description": "Write tag rules"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/monitoredResources/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "ListMonitoredResources",
+              "operation": "List monitored resources",
+              "description": "List all resources that are being monitored by the monitor resource"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/registeredSubscriptions/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "RegisteredSubscriptions",
+              "operation": "Get registered subscriptions",
+              "description": "Get registered subscription details"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/locations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "Locations",
+              "operation": "Get locations",
+              "description": "Get locations"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/locations/operationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "OperationStatuses",
+              "operation": "Get operation statuses",
+              "description": "Get operation statuses"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/locations/operationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "OperationStatuses",
+              "operation": "Write operation statuses",
+              "description": "Write operation statuses"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "operations",
+              "operation": "List available Operations in NewRelic.Observability",
+              "description": "List available Operations in NewRelic.Observability"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "register",
+              "operation": "Registers NewRelic.Observability Resource provider",
+              "description": "Registers NewRelic.Observability Resource provider"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "unregister",
+              "operation": "Unregisters NewRelic.Observability Resource provider",
+              "description": "Unregisters NewRelic.Observability Resource provider"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/vmHostPayloads/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "VMHostPayload",
+              "operation": "Payload for VM Host",
+              "description": "The payload to be sent for installing NewRelic agent on VM"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/listAppServices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "listAppServices",
+              "operation": "List App services",
+              "description": "List all the app services that have NewRelic agent installed"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/listHosts/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "ListHosts",
+              "operation": "List VM Hosts",
+              "description": "List all VMs that are sending compute logs for a monitor"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/getMetricRules/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "getMetricRules",
+              "operation": "Get Metric Rules",
+              "description": "Get Metric rules for a NewRelic resource"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/getMetricStatus/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "getMetricStatus",
+              "operation": "Get Metric Status",
+              "description": "Get Metric status for resources"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/accounts/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "ListAccounts",
+              "operation": "List Accounts",
+              "description": "List all Accounts that for a user"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/organizations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "Listorganizations",
+              "operation": "List organizations",
+              "description": "List all organizations for a user"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/monitors/switchBilling/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "switchBilling",
+              "operation": "Switch Billing",
+              "description": "Switches billing for NewRelic monitor resource to Azure"
+            },
+            "properties": null
+          },
+          {
+            "name": "NewRelic.Observability/plans/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "NewRelic.Observability",
+              "resource": "ListPlandata",
+              "operation": "List plandata",
+              "description": "List plan data for a account or organization"
+            },
+            "properties": null
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -228,7 +228,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -251,7 +251,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -273,7 +273,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -290,14 +290,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top1, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept],
   serializer

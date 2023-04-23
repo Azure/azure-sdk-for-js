@@ -435,6 +435,41 @@ export interface ProvisionedClustersResponseListResult {
   nextLink?: string;
 }
 
+/** The list of available upgrade versions. */
+export interface ProvisionedClusterPoolUpgradeProfile {
+  /**
+   * The Kubernetes version (major.minor.patch).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The Agent Pool name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * OsType - OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osType?: OsType;
+  /** List of orchestrator types and versions available for upgrade. */
+  upgrades?: ProvisionedClusterPoolUpgradeProfileProperties[];
+}
+
+/** The upgrade properties. */
+export interface ProvisionedClusterPoolUpgradeProfileProperties {
+  /**
+   * The Kubernetes version (major.minor.patch).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * Whether the Kubernetes version is currently in preview.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isPreview?: boolean;
+}
+
 /** List of hybridIdentityMetadata. */
 export interface HybridIdentityMetadataList {
   /** Url to follow for getting next page of hybridIdentityMetadata. */
@@ -664,130 +699,6 @@ export interface ResourceProviderOperationDisplay {
   description?: string;
 }
 
-/** HybridAKSNetworkSpec defines the desired state of HybridAKSNetwork */
-export interface VirtualNetworksProperties {
-  infraVnetProfile?: VirtualNetworksPropertiesInfraVnetProfile;
-  /** Virtual IP Pool for Kubernetes */
-  vipPool?: VirtualNetworksPropertiesVipPoolItem[];
-  /** IP Pool for Virtual Machines */
-  vmipPool?: VirtualNetworksPropertiesVmipPoolItem[];
-  /**
-   * Address of the DHCP servers associated with the network
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dhcpServers?: string[];
-  /**
-   * Address of the DNS servers associated with the network
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dnsServers?: string[];
-  /**
-   * Address of the Gateway associated with the network
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly gateway?: string;
-  /**
-   * IP Address Prefix of the network
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddressPrefix?: string;
-  /**
-   * VLAN Id used by the network
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vlanID?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * HybridAKSNetworkStatus defines the observed state of HybridAKSNetwork
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: VirtualNetworksPropertiesStatus;
-}
-
-export interface VirtualNetworksPropertiesInfraVnetProfile {
-  /** Infra network profile for HCI platform */
-  hci?: VirtualNetworksPropertiesInfraVnetProfileHci;
-  /** Infra network profile for KubeVirt platform */
-  kubevirt?: VirtualNetworksPropertiesInfraVnetProfileKubevirt;
-  /** Infra network profile for VMware platform */
-  vmware?: VirtualNetworksPropertiesInfraVnetProfileVmware;
-}
-
-/** Infra network profile for HCI platform */
-export interface VirtualNetworksPropertiesInfraVnetProfileHci {
-  /** Resource group in MOC(Microsoft On-premises Cloud) */
-  mocGroup?: string;
-  /** Location in MOC(Microsoft On-premises Cloud) */
-  mocLocation?: string;
-  /** Virtual Network name in MOC(Microsoft On-premises Cloud) */
-  mocVnetName?: string;
-}
-
-/** Infra network profile for KubeVirt platform */
-export interface VirtualNetworksPropertiesInfraVnetProfileKubevirt {
-  /** Name of the network in KubeVirt */
-  vnetName?: string;
-}
-
-/** Infra network profile for VMware platform */
-export interface VirtualNetworksPropertiesInfraVnetProfileVmware {
-  /** Name of the network segment in VSphere */
-  segmentName?: string;
-}
-
-export interface VirtualNetworksPropertiesVipPoolItem {
-  /** Ending IP address for the IP Pool */
-  endIP?: string;
-  /** Starting IP address for the IP Pool */
-  startIP?: string;
-}
-
-export interface VirtualNetworksPropertiesVmipPoolItem {
-  /** Ending IP address for the IP Pool */
-  endIP?: string;
-  /** Starting IP address for the IP Pool */
-  startIP?: string;
-}
-
-/** HybridAKSNetworkStatus defines the observed state of HybridAKSNetwork */
-export interface VirtualNetworksPropertiesStatus {
-  /** Contains Provisioning errors */
-  provisioningStatus?: VirtualNetworksPropertiesStatusProvisioningStatus;
-}
-
-/** Contains Provisioning errors */
-export interface VirtualNetworksPropertiesStatusProvisioningStatus {
-  error?: VirtualNetworksPropertiesStatusProvisioningStatusError;
-  operationId?: string;
-  /** Phase represents the current phase of cluster actuation. E.g. Pending, Running, Terminating, Failed etc. */
-  phase?: string;
-  status?: string;
-}
-
-export interface VirtualNetworksPropertiesStatusProvisioningStatusError {
-  code?: string;
-  message?: string;
-}
-
-export interface VirtualNetworksExtendedLocation {
-  /** The extended location type. */
-  type?: string;
-  /** The extended location name. */
-  name?: string;
-}
-
-/** The virtualNetworks resource patch definition. */
-export interface VirtualNetworksPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-export interface VirtualNetworksListResult {
-  value?: VirtualNetworks[];
-  nextLink?: string;
-}
-
 /** HybridAKSStorageSpec defines the desired state of HybridAKSStorage */
 export interface StorageSpacesProperties {
   hciStorageProfile?: StorageSpacesPropertiesHciStorageProfile;
@@ -853,6 +764,121 @@ export interface StorageSpacesPatch {
 
 export interface StorageSpacesListResult {
   value?: StorageSpaces[];
+  nextLink?: string;
+}
+
+/** HybridAKSNetworkSpec defines the desired state of HybridAKSNetwork */
+export interface VirtualNetworksProperties {
+  infraVnetProfile?: VirtualNetworksPropertiesInfraVnetProfile;
+  /** Virtual IP Pool for Kubernetes */
+  vipPool?: VirtualNetworksPropertiesVipPoolItem[];
+  /** IP Pool for Virtual Machines */
+  vmipPool?: VirtualNetworksPropertiesVmipPoolItem[];
+  /**
+   * Address of the DHCP servers associated with the network
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dhcpServers?: string[];
+  /** Address of the DNS servers associated with the network */
+  dnsServers?: string[];
+  /** Address of the Gateway associated with the network */
+  gateway?: string;
+  /** IP Address Prefix of the network */
+  ipAddressPrefix?: string;
+  /**
+   * VLAN Id used by the network
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vlanID?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * HybridAKSNetworkStatus defines the observed state of HybridAKSNetwork
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: VirtualNetworksPropertiesStatus;
+}
+
+export interface VirtualNetworksPropertiesInfraVnetProfile {
+  /** Infra network profile for HCI platform */
+  hci?: VirtualNetworksPropertiesInfraVnetProfileHci;
+  /** Infra network profile for the NetworkCloud platform */
+  networkCloud?: VirtualNetworksPropertiesInfraVnetProfileNetworkCloud;
+  /** Infra network profile for VMware platform */
+  vmware?: VirtualNetworksPropertiesInfraVnetProfileVmware;
+}
+
+/** Infra network profile for HCI platform */
+export interface VirtualNetworksPropertiesInfraVnetProfileHci {
+  /** Resource group in MOC(Microsoft On-premises Cloud) */
+  mocGroup?: string;
+  /** Location in MOC(Microsoft On-premises Cloud) */
+  mocLocation?: string;
+  /** Virtual Network name in MOC(Microsoft On-premises Cloud) */
+  mocVnetName?: string;
+}
+
+/** Infra network profile for the NetworkCloud platform */
+export interface VirtualNetworksPropertiesInfraVnetProfileNetworkCloud {
+  /** The ARM ID of Network Cloud Network Resource to Associate with this VirtualNetwork */
+  networkId?: string;
+}
+
+/** Infra network profile for VMware platform */
+export interface VirtualNetworksPropertiesInfraVnetProfileVmware {
+  /** Name of the network segment in VSphere */
+  segmentName?: string;
+}
+
+export interface VirtualNetworksPropertiesVipPoolItem {
+  /** Ending IP address for the IP Pool */
+  endIP?: string;
+  /** Starting IP address for the IP Pool */
+  startIP?: string;
+}
+
+export interface VirtualNetworksPropertiesVmipPoolItem {
+  /** Ending IP address for the IP Pool */
+  endIP?: string;
+  /** Starting IP address for the IP Pool */
+  startIP?: string;
+}
+
+/** HybridAKSNetworkStatus defines the observed state of HybridAKSNetwork */
+export interface VirtualNetworksPropertiesStatus {
+  /** Contains Provisioning errors */
+  provisioningStatus?: VirtualNetworksPropertiesStatusProvisioningStatus;
+}
+
+/** Contains Provisioning errors */
+export interface VirtualNetworksPropertiesStatusProvisioningStatus {
+  error?: VirtualNetworksPropertiesStatusProvisioningStatusError;
+  operationId?: string;
+  /** Phase represents the current phase of cluster actuation. E.g. Pending, Running, Terminating, Failed etc. */
+  phase?: string;
+  status?: string;
+}
+
+export interface VirtualNetworksPropertiesStatusProvisioningStatusError {
+  code?: string;
+  message?: string;
+}
+
+export interface VirtualNetworksExtendedLocation {
+  /** The extended location type. */
+  type?: string;
+  /** The extended location name. */
+  name?: string;
+}
+
+/** The virtualNetworks resource patch definition. */
+export interface VirtualNetworksPatch {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface VirtualNetworksListResult {
+  value?: VirtualNetworks[];
   nextLink?: string;
 }
 
@@ -936,6 +962,18 @@ export interface ProvisionedClusters extends TrackedResource {
   extendedLocation?: ProvisionedClustersExtendedLocation;
 }
 
+/** The storageSpaces resource definition. */
+export interface StorageSpaces extends TrackedResource {
+  /** HybridAKSStorageSpec defines the desired state of HybridAKSStorage */
+  properties?: StorageSpacesProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  extendedLocation?: StorageSpacesExtendedLocation;
+}
+
 /** The virtualNetworks resource definition. */
 export interface VirtualNetworks extends TrackedResource {
   /** HybridAKSNetworkSpec defines the desired state of HybridAKSNetwork */
@@ -948,16 +986,14 @@ export interface VirtualNetworks extends TrackedResource {
   extendedLocation?: VirtualNetworksExtendedLocation;
 }
 
-/** The storageSpaces resource definition. */
-export interface StorageSpaces extends TrackedResource {
-  /** HybridAKSStorageSpec defines the desired state of HybridAKSStorage */
-  properties?: StorageSpacesProperties;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  extendedLocation?: StorageSpacesExtendedLocation;
+/** The list of available upgrades for compute pools. */
+export interface ProvisionedClusterUpgradeProfile extends ProxyResource {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: string;
+  /** The list of available upgrade versions for the control plane. */
+  controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
+  /** The list of available upgrade versions for agent pools. */
+  agentPoolProfiles: ProvisionedClusterPoolUpgradeProfile[];
 }
 
 /** Defines the hybridIdentityMetadata. */
@@ -1266,6 +1302,22 @@ export interface ProvisionedClustersListBySubscriptionOptionalParams
 export type ProvisionedClustersListBySubscriptionResponse = ProvisionedClustersResponseListResult;
 
 /** Optional parameters. */
+export interface ProvisionedClustersGetUpgradeProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUpgradeProfile operation. */
+export type ProvisionedClustersGetUpgradeProfileResponse = ProvisionedClusterUpgradeProfile;
+
+/** Optional parameters. */
+export interface ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ProvisionedClustersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1377,69 +1429,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = ResourceProviderOperationList;
 
 /** Optional parameters. */
-export interface VirtualNetworksRetrieveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the retrieve operation. */
-export type VirtualNetworksRetrieveResponse = VirtualNetworks;
-
-/** Optional parameters. */
-export interface VirtualNetworksCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type VirtualNetworksCreateOrUpdateResponse = VirtualNetworks;
-
-/** Optional parameters. */
-export interface VirtualNetworksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface VirtualNetworksUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type VirtualNetworksUpdateResponse = VirtualNetworks;
-
-/** Optional parameters. */
-export interface VirtualNetworksListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type VirtualNetworksListByResourceGroupResponse = VirtualNetworksListResult;
-
-/** Optional parameters. */
-export interface VirtualNetworksListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type VirtualNetworksListBySubscriptionResponse = VirtualNetworksListResult;
-
-/** Optional parameters. */
-export interface VirtualNetworksListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualNetworksListByResourceGroupNextResponse = VirtualNetworksListResult;
-
-/** Optional parameters. */
-export interface VirtualNetworksListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type VirtualNetworksListBySubscriptionNextResponse = VirtualNetworksListResult;
-
-/** Optional parameters. */
 export interface StorageSpacesRetrieveOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1501,6 +1490,69 @@ export interface StorageSpacesListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type StorageSpacesListBySubscriptionNextResponse = StorageSpacesListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworksRetrieveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the retrieve operation. */
+export type VirtualNetworksRetrieveResponse = VirtualNetworks;
+
+/** Optional parameters. */
+export interface VirtualNetworksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualNetworksCreateOrUpdateResponse = VirtualNetworks;
+
+/** Optional parameters. */
+export interface VirtualNetworksDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VirtualNetworksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualNetworksUpdateResponse = VirtualNetworks;
+
+/** Optional parameters. */
+export interface VirtualNetworksListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type VirtualNetworksListByResourceGroupResponse = VirtualNetworksListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworksListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type VirtualNetworksListBySubscriptionResponse = VirtualNetworksListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworksListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type VirtualNetworksListByResourceGroupNextResponse = VirtualNetworksListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworksListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type VirtualNetworksListBySubscriptionNextResponse = VirtualNetworksListResult;
 
 /** Optional parameters. */
 export interface HybridContainerServiceClientOptionalParams

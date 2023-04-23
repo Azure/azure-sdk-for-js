@@ -1,0 +1,426 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest?api-version=2022-08-29-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "69",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "fc5de3ad-7a1a-40c5-8c41-6ed780cdeda7"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "description": "local rulestacks"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "582",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:03 GMT",
+        "ETag": "\u0022330090cd-0000-0100-0000-643faebd0000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+        "mise-correlation-id": "c7ac7c94-c9ed-416d-8569-7a052c7c01a0",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:4aa06bd6-38f4-4944-9612-cd84d39b5e90",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "13f9ce40-a88a-4826-8128-0373341a36f2",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "bbd256a0-b69a-4740-b73a-55c6126d0926",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090503Z:13f9ce40-a88a-4826-8128-0373341a36f2"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "name": "resourcetest",
+        "type": "paloaltonetworks.cloudngfw/localrulestacks",
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-04-19T09:04:59.5546569Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-04-19T09:04:59.5546569Z"
+        },
+        "properties": {
+          "scope": "LOCAL",
+          "description": "local rulestacks",
+          "provisioningState": "Accepted",
+          "defaultMode": "NONE"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7249f484-229b-4262-bea3-50e2e99d0f47"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:03 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "712166ed-a725-4724-9bbf-e59fccec63e2",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "e1e9c13f-960a-48ac-b004-4dfd314f69ab",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090503Z:712166ed-a725-4724-9bbf-e59fccec63e2"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "51ca4e50-0436-4789-935b-8e57526bb2c4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:04 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3f21c651-acdb-4f40-896c-a6370f67fff0",
+        "x-ms-ratelimit-remaining-tenant-reads": "11998",
+        "x-ms-request-id": "1681848c-98d4-4276-aab3-ebdb67f31ce8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090504Z:3f21c651-acdb-4f40-896c-a6370f67fff0"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "87a93316-c558-47a3-b645-48617d05ea4f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:07 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7a6adbbf-4a80-4e4b-b8ce-46498afab540",
+        "x-ms-ratelimit-remaining-tenant-reads": "11997",
+        "x-ms-request-id": "aac8896e-418f-43c6-8e35-f5206111e8e7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090507Z:7a6adbbf-4a80-4e4b-b8ce-46498afab540"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4d1a29b5-ef5e-4c40-8990-94a685be0b9b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:09 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5babb515-dcce-4bc5-9a8d-9f5c84e5a381",
+        "x-ms-ratelimit-remaining-tenant-reads": "11996",
+        "x-ms-request-id": "3a61a8fa-f892-4420-84cb-bf23396cc47f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090509Z:5babb515-dcce-4bc5-9a8d-9f5c84e5a381"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "82a26985-1309-4d77-b825-5a712b3d0dfd"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:12 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6ecc2bb8-80f2-49db-8d43-1a98668235d3",
+        "x-ms-ratelimit-remaining-tenant-reads": "11995",
+        "x-ms-request-id": "0a7bafa5-6217-4adb-8735-0c0e077b702f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090512Z:6ecc2bb8-80f2-49db-8d43-1a98668235d3"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bb638679-0e33-45ec-b8ad-c4b90f4dd2ed"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:14 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e4b288de-e888-46b5-983c-ef08e13a3892",
+        "x-ms-ratelimit-remaining-tenant-reads": "11994",
+        "x-ms-request-id": "2ec980c1-9afa-410f-8348-5852230432fe",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090514Z:e4b288de-e888-46b5-983c-ef08e13a3892"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e1abae1d-23c9-49ab-af66-9d0cf890ebf8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:17 GMT",
+        "ETag": "\u00225c006c45-0000-0100-0000-643faebc0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "77c40c17-d847-46e0-a4eb-2bef87851e00",
+        "x-ms-ratelimit-remaining-tenant-reads": "11993",
+        "x-ms-request-id": "9566af33-7a37-4a9d-b199-b7491f879ec0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090517Z:77c40c17-d847-46e0-a4eb-2bef87851e00"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Accepted",
+        "startTime": "2023-04-19T09:05:00.6969211Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "62f44d09-b126-4806-a030-41d7f66b55ad"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "571",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:19 GMT",
+        "ETag": "\u00225c006e45-0000-0100-0000-643faecd0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1d9b893f-1c5f-4d71-9a24-d8d4d859f1fc",
+        "x-ms-ratelimit-remaining-tenant-reads": "11992",
+        "x-ms-request-id": "b8096603-a90f-4165-a373-eeffd551e444",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090520Z:1d9b893f-1c5f-4d71-9a24-d8d4d859f1fc"
+      },
+      "ResponseBody": {
+        "id": "/providers/PaloAltoNetworks.Cloudngfw/locations/EASTUS/operationStatuses/bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "name": "bbd256a0-b69a-4740-b73a-55c6126d0926*2C5BB3E3178833B2EC7C9832E97520F3D5F3352D64E1127D0AF625461FE358FD",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "status": "Succeeded",
+        "startTime": "2023-04-19T09:05:00.6969211Z",
+        "endTime": "2023-04-19T09:05:17.9939776Z",
+        "error": {},
+        "properties": null
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cc1d9888-60f3-4d73-90ba-2851f33c37d0"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "898",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:20 GMT",
+        "ETag": "\u002233009bcd-0000-0100-0000-643faece0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "41d21c31-cd3a-4d6f-aa7c-de3256b658b9",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "1dd0b97d-4bb2-428e-9230-e7b3f124c531",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090521Z:41d21c31-cd3a-4d6f-aa7c-de3256b658b9"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "name": "resourcetest",
+        "type": "paloaltonetworks.cloudngfw/localrulestacks",
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-04-19T09:04:59.5546569Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-04-19T09:04:59.5546569Z"
+        },
+        "properties": {
+          "scope": "LOCAL",
+          "description": "local rulestacks",
+          "provisioningState": "Succeeded",
+          "defaultMode": "NONE",
+          "panEtag": "4b24929e-de91-11ed-abf0-1a1784ec2d74",
+          "minAppIdVersion": "8595-7473",
+          "securityServices": {
+            "vulnerabilityProfile": "BestPractice",
+            "antiSpywareProfile": "BestPractice",
+            "antiVirusProfile": "BestPractice",
+            "urlFilteringProfile": "BestPractice",
+            "fileBlockingProfile": "BestPractice",
+            "dnsSubscription": "BestPractice"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

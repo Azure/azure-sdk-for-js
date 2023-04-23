@@ -39,9 +39,17 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
+    classicAdministrators: ClassicAdministrators;
+    // (undocumented)
+    denyAssignments: DenyAssignments;
     // (undocumented)
     eligibleChildResources: EligibleChildResources;
+    // (undocumented)
+    globalAdministrator: GlobalAdministrator;
+    // (undocumented)
+    permissions: Permissions_2;
+    // (undocumented)
+    providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
     // (undocumented)
     roleAssignments: RoleAssignments;
     // (undocumented)
@@ -50,6 +58,8 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
     // (undocumented)
     roleAssignmentSchedules: RoleAssignmentSchedules;
+    // (undocumented)
+    roleDefinitions: RoleDefinitions;
     // (undocumented)
     roleEligibilityScheduleInstances: RoleEligibilityScheduleInstances;
     // (undocumented)
@@ -67,9 +77,42 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
 // @public
 export interface AuthorizationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export interface ClassicAdministrator {
+    emailAddress?: string;
+    id?: string;
+    name?: string;
+    role?: string;
+    type?: string;
+}
+
+// @public
+export interface ClassicAdministratorListResult {
+    nextLink?: string;
+    value?: ClassicAdministrator[];
+}
+
+// @public
+export interface ClassicAdministrators {
+    list(options?: ClassicAdministratorsListOptionalParams): PagedAsyncIterableIterator<ClassicAdministrator>;
+}
+
+// @public
+export interface ClassicAdministratorsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClassicAdministratorsListNextResponse = ClassicAdministratorListResult;
+
+// @public
+export interface ClassicAdministratorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClassicAdministratorsListResponse = ClassicAdministratorListResult;
 
 // @public
 export interface CloudError {
@@ -81,6 +124,134 @@ export interface CloudErrorBody {
     code?: string;
     message?: string;
 }
+
+// @public
+export interface DenyAssignment {
+    condition?: string;
+    conditionVersion?: string;
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    denyAssignmentName?: string;
+    description?: string;
+    doNotApplyToChildScopes?: boolean;
+    excludePrincipals?: Principal[];
+    readonly id?: string;
+    isSystemProtected?: boolean;
+    readonly name?: string;
+    permissions?: DenyAssignmentPermission[];
+    principals?: Principal[];
+    scope?: string;
+    readonly type?: string;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
+}
+
+// @public
+export interface DenyAssignmentFilter {
+    denyAssignmentName?: string;
+    gdprExportPrincipalId?: string;
+    principalId?: string;
+}
+
+// @public
+export interface DenyAssignmentListResult {
+    nextLink?: string;
+    value?: DenyAssignment[];
+}
+
+// @public
+export interface DenyAssignmentPermission {
+    actions?: string[];
+    condition?: string;
+    conditionVersion?: string;
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface DenyAssignments {
+    get(scope: string, denyAssignmentId: string, options?: DenyAssignmentsGetOptionalParams): Promise<DenyAssignmentsGetResponse>;
+    getById(denyAssignmentId: string, options?: DenyAssignmentsGetByIdOptionalParams): Promise<DenyAssignmentsGetByIdResponse>;
+    list(options?: DenyAssignmentsListOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: DenyAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForResourceGroup(resourceGroupName: string, options?: DenyAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForScope(scope: string, options?: DenyAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+}
+
+// @public
+export interface DenyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsGetByIdResponse = DenyAssignment;
+
+// @public
+export interface DenyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsGetResponse = DenyAssignment;
+
+// @public
+export interface DenyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsListForResourceGroupNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceGroupResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsListForResourceNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsListForScopeNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForScopeResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsListNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListResponse = DenyAssignmentListResult;
 
 // @public
 export interface EligibleChildResource {
@@ -171,6 +342,15 @@ export interface ExpandedPropertiesScope {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GlobalAdministrator {
+    elevateAccess(options?: GlobalAdministratorElevateAccessOptionalParams): Promise<void>;
+}
+
+// @public
+export interface GlobalAdministratorElevateAccessOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export enum KnownApprovalMode {
     NoApproval = "NoApproval",
     Parallel = "Parallel",
@@ -212,16 +392,10 @@ export enum KnownNotificationLevel {
 
 // @public
 export enum KnownPrincipalType {
-    Application = "Application",
     Device = "Device",
-    DirectoryObjectOrGroup = "DirectoryObjectOrGroup",
-    DirectoryRoleTemplate = "DirectoryRoleTemplate",
-    Everyone = "Everyone",
     ForeignGroup = "ForeignGroup",
     Group = "Group",
-    MSI = "MSI",
     ServicePrincipal = "ServicePrincipal",
-    Unknown = "Unknown",
     User = "User"
 }
 
@@ -302,7 +476,56 @@ export type NotificationDeliveryMechanism = string;
 // @public
 export type NotificationLevel = string;
 
-// @public (undocumented)
+// @public
+export interface Permission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface PermissionGetResult {
+    nextLink?: string;
+    value?: Permission[];
+}
+
+// @public
+interface Permissions_2 {
+    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PermissionsListForResourceOptionalParams): PagedAsyncIterableIterator<Permission>;
+    listForResourceGroup(resourceGroupName: string, options?: PermissionsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Permission>;
+}
+export { Permissions_2 as Permissions }
+
+// @public
+export interface PermissionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceGroupNextResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceGroupResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceNextResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceResponse = PermissionGetResult;
+
+// @public
 export interface PolicyAssignmentProperties {
     policy?: PolicyAssignmentPropertiesPolicy;
     roleDefinition?: PolicyAssignmentPropertiesRoleDefinition;
@@ -330,7 +553,7 @@ export interface PolicyAssignmentPropertiesScope {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PolicyProperties {
     readonly scope?: PolicyPropertiesScope;
 }
@@ -354,10 +577,72 @@ export interface Principal {
 export type PrincipalType = string;
 
 // @public
+export interface ProviderOperation {
+    description?: string;
+    displayName?: string;
+    isDataAction?: boolean;
+    name?: string;
+    origin?: string;
+    properties?: Record<string, unknown>;
+}
+
+// @public
+export interface ProviderOperationsMetadata {
+    displayName?: string;
+    id?: string;
+    name?: string;
+    operations?: ProviderOperation[];
+    resourceTypes?: ResourceType[];
+    type?: string;
+}
+
+// @public
+export interface ProviderOperationsMetadataGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata;
+
+// @public
+export interface ProviderOperationsMetadataListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult;
+
+// @public
+export interface ProviderOperationsMetadataListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataListResult;
+
+// @public
+export interface ProviderOperationsMetadataListResult {
+    nextLink?: string;
+    value?: ProviderOperationsMetadata[];
+}
+
+// @public
+export interface ProviderOperationsMetadataOperations {
+    get(resourceProviderNamespace: string, options?: ProviderOperationsMetadataGetOptionalParams): Promise<ProviderOperationsMetadataGetResponse>;
+    list(options?: ProviderOperationsMetadataListOptionalParams): PagedAsyncIterableIterator<ProviderOperationsMetadata>;
+}
+
+// @public
 export type RecipientType = string;
 
 // @public
 export type RequestType = string;
+
+// @public
+export interface ResourceType {
+    displayName?: string;
+    name?: string;
+    operations?: ProviderOperation[];
+}
 
 // @public
 export interface RoleAssignment {
@@ -417,8 +702,6 @@ export interface RoleAssignments {
     listForResourceGroup(resourceGroupName: string, options?: RoleAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
     listForScope(scope: string, options?: RoleAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
     listForSubscription(options?: RoleAssignmentsListForSubscriptionOptionalParams): PagedAsyncIterableIterator<RoleAssignment>;
-    validate(scope: string, roleAssignmentName: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsValidateOptionalParams): Promise<RoleAssignmentsValidateResponse>;
-    validateById(roleAssignmentId: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsValidateByIdOptionalParams): Promise<RoleAssignmentsValidateByIdResponse>;
 }
 
 // @public
@@ -587,6 +870,7 @@ export interface RoleAssignmentScheduleRequests {
     create(scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsCreateOptionalParams): Promise<RoleAssignmentScheduleRequestsCreateResponse>;
     get(scope: string, roleAssignmentScheduleRequestName: string, options?: RoleAssignmentScheduleRequestsGetOptionalParams): Promise<RoleAssignmentScheduleRequestsGetResponse>;
     listForScope(scope: string, options?: RoleAssignmentScheduleRequestsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleAssignmentScheduleRequest>;
+    validate(scope: string, roleAssignmentScheduleRequestName: string, parameters: RoleAssignmentScheduleRequest, options?: RoleAssignmentScheduleRequestsValidateOptionalParams): Promise<RoleAssignmentScheduleRequestsValidateResponse>;
 }
 
 // @public
@@ -621,6 +905,13 @@ export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams extend
 
 // @public
 export type RoleAssignmentScheduleRequestsListForScopeResponse = RoleAssignmentScheduleRequestListResult;
+
+// @public
+export interface RoleAssignmentScheduleRequestsValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleAssignmentScheduleRequestsValidateResponse = RoleAssignmentScheduleRequest;
 
 // @public
 export interface RoleAssignmentSchedules {
@@ -738,6 +1029,7 @@ export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
 // @public
 export interface RoleAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
     filter?: string;
+    skipToken?: string;
     tenantId?: string;
 }
 
@@ -761,18 +1053,84 @@ export interface RoleAssignmentsListForSubscriptionOptionalParams extends coreCl
 export type RoleAssignmentsListForSubscriptionResponse = RoleAssignmentListResult;
 
 // @public
-export interface RoleAssignmentsValidateByIdOptionalParams extends coreClient.OperationOptions {
+export interface RoleDefinition {
+    assignableScopes?: string[];
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    description?: string;
+    readonly id?: string;
+    readonly name?: string;
+    permissions?: Permission[];
+    roleName?: string;
+    roleType?: string;
+    readonly type?: string;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
 }
 
 // @public
-export type RoleAssignmentsValidateByIdResponse = ValidationResponse;
-
-// @public
-export interface RoleAssignmentsValidateOptionalParams extends coreClient.OperationOptions {
+export interface RoleDefinitionFilter {
+    roleName?: string;
+    type?: string;
 }
 
 // @public
-export type RoleAssignmentsValidateResponse = ValidationResponse;
+export interface RoleDefinitionListResult {
+    nextLink?: string;
+    value?: RoleDefinition[];
+}
+
+// @public
+export interface RoleDefinitions {
+    createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: RoleDefinition, options?: RoleDefinitionsCreateOrUpdateOptionalParams): Promise<RoleDefinitionsCreateOrUpdateResponse>;
+    delete(scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams): Promise<RoleDefinitionsDeleteResponse>;
+    get(scope: string, roleDefinitionId: string, options?: RoleDefinitionsGetOptionalParams): Promise<RoleDefinitionsGetResponse>;
+    getById(roleId: string, options?: RoleDefinitionsGetByIdOptionalParams): Promise<RoleDefinitionsGetByIdResponse>;
+    list(scope: string, options?: RoleDefinitionsListOptionalParams): PagedAsyncIterableIterator<RoleDefinition>;
+}
+
+// @public
+export interface RoleDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsDeleteResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsGetByIdResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsGetResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsListNextResponse = RoleDefinitionListResult;
+
+// @public
+export interface RoleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type RoleDefinitionsListResponse = RoleDefinitionListResult;
 
 // @public
 export interface RoleEligibilitySchedule {
@@ -933,6 +1291,7 @@ export interface RoleEligibilityScheduleRequests {
     create(scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsCreateOptionalParams): Promise<RoleEligibilityScheduleRequestsCreateResponse>;
     get(scope: string, roleEligibilityScheduleRequestName: string, options?: RoleEligibilityScheduleRequestsGetOptionalParams): Promise<RoleEligibilityScheduleRequestsGetResponse>;
     listForScope(scope: string, options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams): PagedAsyncIterableIterator<RoleEligibilityScheduleRequest>;
+    validate(scope: string, roleEligibilityScheduleRequestName: string, parameters: RoleEligibilityScheduleRequest, options?: RoleEligibilityScheduleRequestsValidateOptionalParams): Promise<RoleEligibilityScheduleRequestsValidateResponse>;
 }
 
 // @public
@@ -967,6 +1326,13 @@ export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams exten
 
 // @public
 export type RoleEligibilityScheduleRequestsListForScopeResponse = RoleEligibilityScheduleRequestListResult;
+
+// @public
+export interface RoleEligibilityScheduleRequestsValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleEligibilityScheduleRequestsValidateResponse = RoleEligibilityScheduleRequest;
 
 // @public
 export interface RoleEligibilitySchedules {
@@ -1060,6 +1426,7 @@ export interface RoleManagementPolicyApprovalRule extends RoleManagementPolicyRu
 
 // @public
 export interface RoleManagementPolicyAssignment {
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
     readonly id?: string;
     readonly name?: string;
     readonly policyAssignmentProperties?: PolicyAssignmentProperties;

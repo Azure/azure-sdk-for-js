@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   TimeSeriesDatabaseConnection,
   TimeSeriesDatabaseConnectionsListNextOptionalParams,
@@ -175,8 +179,8 @@ export class TimeSeriesDatabaseConnectionsImpl
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
     options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
       TimeSeriesDatabaseConnectionsCreateOrUpdateResponse
     >
   > {
@@ -186,7 +190,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     ): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,19 +223,22 @@ export class TimeSeriesDatabaseConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
         timeSeriesDatabaseConnectionDescription,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TimeSeriesDatabaseConnectionsCreateOrUpdateResponse,
+      OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -276,8 +283,8 @@ export class TimeSeriesDatabaseConnectionsImpl
     timeSeriesDatabaseConnectionName: string,
     options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
       TimeSeriesDatabaseConnectionsDeleteResponse
     >
   > {
@@ -287,7 +294,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     ): Promise<TimeSeriesDatabaseConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -320,18 +327,21 @@ export class TimeSeriesDatabaseConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TimeSeriesDatabaseConnectionsDeleteResponse,
+      OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -482,7 +492,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.cleanupConnectionArtifacts
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -504,7 +517,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

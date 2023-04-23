@@ -1,16 +1,18 @@
 {
   "name": "@azure/core-util",
-  "version": "1.2.0",
+  "version": "1.3.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js",
-    "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js"
+    "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js",
+    "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.browser.js"
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
+    "./dist/index.js": "./dist-esm/src/index.js",
+    "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.native.js"
   },
   "types": "types/latest/core-util.d.ts",
   "typesVersions": {
@@ -90,10 +92,8 @@
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
@@ -103,7 +103,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "util": "^0.12.1"
   }
 }

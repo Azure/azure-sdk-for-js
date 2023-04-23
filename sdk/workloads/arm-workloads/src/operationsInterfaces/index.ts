@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./phpWorkloads";
-export * from "./wordpressInstances";
 export * from "./sAPVirtualInstances";
 export * from "./sAPCentralInstances";
 export * from "./sAPDatabaseInstances";
 export * from "./sAPApplicationServerInstances";
-export * from "./operations";
 export * from "./monitors";
 export * from "./providerInstances";
-export * from "./skus";
+export * from "./sapLandscapeMonitorOperations";
+export * from "./operations";

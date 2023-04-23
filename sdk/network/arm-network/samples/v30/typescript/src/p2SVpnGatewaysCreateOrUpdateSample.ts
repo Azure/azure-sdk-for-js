@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { P2SVpnGateway, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
  *
  * @summary Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/P2SVpnGatewayPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/P2SVpnGatewayPut.json
  */
 async function p2SVpnGatewayPut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "p2sVpnGateway1";
   const p2SVpnGatewayParameters: P2SVpnGateway = {
     customDnsServers: ["1.1.1.1", "2.2.2.2"],
@@ -78,4 +81,8 @@ async function p2SVpnGatewayPut() {
   console.log(result);
 }
 
-p2SVpnGatewayPut().catch(console.error);
+async function main() {
+  p2SVpnGatewayPut();
+}
+
+main().catch(console.error);

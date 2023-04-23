@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageMover,
   StorageMoversListBySubscriptionOptionalParams,
@@ -90,7 +90,7 @@ export interface StorageMovers {
     resourceGroupName: string,
     storageMoverName: string,
     options?: StorageMoversDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Storage Mover resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

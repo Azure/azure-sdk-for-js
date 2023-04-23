@@ -17,7 +17,7 @@ import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import {
   idempotentAlreadyPublished,
   idempotentSomeAlreadyPublished,
@@ -415,7 +415,8 @@ export class EventHubProducerClient {
           batch[i],
           options,
           this._context.config.entityPath,
-          this._context.config.host
+          this._context.config.host,
+          "publish"
         ).event;
         eventDataTracingProperties[i] = batch[i].properties;
       }
@@ -455,7 +456,7 @@ export class EventHubProducerClient {
         spanLinks: spanContextsToLink.map<TracingSpanLink>((tracingContext) => {
           return { tracingContext };
         }),
-        ...toSpanOptions(this._context.config, "client"),
+        ...toSpanOptions(this._context.config, "publish", "client"),
       }
     );
   }

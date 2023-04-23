@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ResourceManagementClient } = require("@azure/arm-resources");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified resource provider.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetProvider.json
  */
 async function getProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceProviderNamespace = "Microsoft.TestRP1";
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function getProvider() {
   console.log(result);
 }
 
-getProvider().catch(console.error);
+async function main() {
+  getProvider();
+}
+
+main().catch(console.error);

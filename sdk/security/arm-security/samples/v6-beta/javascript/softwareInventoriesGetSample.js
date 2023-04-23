@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a single software data of the virtual machine.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-05-01-preview/examples/SoftwareInventories/GetSoftware_example.json
  */
 async function getsASingleSoftwareDataOfTheVirtualMachine() {
-  const subscriptionId = "e5d1b86c-3051-44d5-8802-aa65d45a279b";
-  const resourceGroupName = "EITAN-TESTS";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "e5d1b86c-3051-44d5-8802-aa65d45a279b";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "EITAN-TESTS";
   const resourceNamespace = "Microsoft.Compute";
   const resourceType = "virtualMachines";
   const resourceName = "Eitan-Test1";
@@ -36,4 +38,8 @@ async function getsASingleSoftwareDataOfTheVirtualMachine() {
   console.log(result);
 }
 
-getsASingleSoftwareDataOfTheVirtualMachine().catch(console.error);
+async function main() {
+  getsASingleSoftwareDataOfTheVirtualMachine();
+}
+
+main().catch(console.error);
