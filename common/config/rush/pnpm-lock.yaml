@@ -3991,7 +3991,7 @@ packages:
     dependencies:
       semver: 7.4.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230420
+      typescript: 5.1.0-dev.20230422
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8859,8 +8859,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230420:
-    resolution: {integrity: sha512-ytvKM7THT08QHjFP6v8kF3RtJWMQ/wWeQTIbe3kveVDcmstVrS5IZ47c9Y9GIYI2WaFVVjNu2YNLwSwIt82Fzg==}
+  /typescript/5.1.0-dev.20230422:
+    resolution: {integrity: sha512-3pQCIFhapbpICodEvGKtTBNNnshj77dMDKYeqnjJSZXM2CZ4tWX0eAxDLdzrRG2tXHcqrTFXG3hFaYeYEOvVJw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11323,7 +11323,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-GhMeA9zGlCN6kjlilaQeXtjhC8JA1lZdFu1sE2qkfdUyTjYbIxzp4+djfZJWdv1zv2fPuIVlsAAsJP29c0ZWrg==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-/cXAXd6ZDWA/sgZVwJSyEG2UdHr2R6yonrsI/ffxgZ5hE0yajoVkjKxvkKjcnoykCP107tSxF20gdoCtqJ6/zQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -11344,7 +11344,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
       tslib: 2.5.0
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -18508,7 +18508,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-W+4bDz+P9sQyIAoCpexjQEi5ojYMCroT9iQzznP0ikqajy0gPIxYpzFYjVu7ebeq+Xi4k+Uo8TihjfGiTVF2sw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-f8UQv7K6vv7GvgXMrU6c4bAQ2ZbQiYPX/qUUrBBpzEVN70FT/oAwjCWzXKgT1S9qbZihbWv88DxUu6rm11nrPQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -18524,7 +18524,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
