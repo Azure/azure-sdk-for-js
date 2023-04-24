@@ -64,8 +64,100 @@ export interface ApplicationsListHeaderParam {
 export type ApplicationsListParameters = ApplicationsListQueryParam &
   ApplicationsListHeaderParam &
   RequestParameters;
-export type ApplicationsGetParameters = RequestParameters;
-export type PoolListUsageMetricsParameters = RequestParameters;
+
+export interface ApplicationsGetHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+}
+
+export interface ApplicationsGetQueryParamProperties {
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000
+   * applications can be returned.
+   */
+  timeOut?: number;
+}
+
+export interface ApplicationsGetQueryParam {
+  queryParameters?: ApplicationsGetQueryParamProperties;
+}
+
+export interface ApplicationsGetHeaderParam {
+  headers?: RawHttpHeadersInput & ApplicationsGetHeaders;
+}
+
+export type ApplicationsGetParameters = ApplicationsGetQueryParam &
+  ApplicationsGetHeaderParam &
+  RequestParameters;
+
+export interface PoolListUsageMetricsHeaders {
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+}
+
+export interface PoolListUsageMetricsQueryParamProperties {
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000
+   * applications can be returned.
+   */
+  maxresults?: number;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000
+   * applications can be returned.
+   */
+  timeOut?: number;
+  /**
+   * The earliest time from which to include metrics. This must be at least two and
+   * a half hours before the current time. If not specified this defaults to the
+   * start time of the last aggregation interval currently available.
+   */
+  starttime?: string;
+  /**
+   * The latest time from which to include metrics. This must be at least two hours
+   * before the current time. If not specified this defaults to the end time of the
+   * last aggregation interval currently available.
+   */
+  endtime?: string;
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
+   */
+  $filter?: string;
+}
+
+export interface PoolListUsageMetricsQueryParam {
+  queryParameters?: PoolListUsageMetricsQueryParamProperties;
+}
+
+export interface PoolListUsageMetricsHeaderParam {
+  headers?: RawHttpHeadersInput & PoolListUsageMetricsHeaders;
+}
+
+export type PoolListUsageMetricsParameters = PoolListUsageMetricsQueryParam &
+  PoolListUsageMetricsHeaderParam &
+  RequestParameters;
 
 export interface PoolGetAllLifetimeStatisticsHeaders {
   /**
@@ -142,6 +234,7 @@ export interface PoolAddHeaderParam {
 }
 
 export interface PoolAddMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -447,6 +540,7 @@ export interface PoolPatchHeaderParam {
 }
 
 export interface PoolPatchMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -554,6 +648,7 @@ export interface PoolEnableAutoScaleHeaderParam {
 }
 
 export interface PoolEnableAutoScaleMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -601,6 +696,7 @@ export interface PoolEvaluateAutoScaleHeaderParam {
 }
 
 export interface PoolEvaluateAutoScaleMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -672,6 +768,7 @@ export interface PoolResizeHeaderParam {
 }
 
 export interface PoolResizeMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -779,6 +876,7 @@ export interface PoolUpdatePropertiesHeaderParam {
 }
 
 export interface PoolUpdatePropertiesMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -850,6 +948,7 @@ export interface PoolRemoveNodesHeaderParam {
 }
 
 export interface PoolRemoveNodesMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -1176,6 +1275,7 @@ export interface JobPatchHeaderParam {
 }
 
 export interface JobPatchMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -1247,6 +1347,7 @@ export interface JobUpdateHeaderParam {
 }
 
 export interface JobUpdateMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -1318,6 +1419,7 @@ export interface JobDisableHeaderParam {
 }
 
 export interface JobDisableMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -1491,6 +1593,7 @@ export interface JobAddHeaderParam {
 }
 
 export interface JobAddMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -1724,6 +1827,7 @@ export interface CertificatesAddHeaderParam {
 }
 
 export interface CertificatesAddMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -2530,6 +2634,7 @@ export interface JobSchedulePatchHeaderParam {
 }
 
 export interface JobSchedulePatchMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -2601,6 +2706,7 @@ export interface JobScheduleUpdateHeaderParam {
 }
 
 export interface JobScheduleUpdateMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -2828,6 +2934,7 @@ export interface JobScheduleAddHeaderParam {
 }
 
 export interface JobScheduleAddMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -2925,6 +3032,7 @@ export interface TaskAddHeaderParam {
 }
 
 export interface TaskAddMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3022,6 +3130,7 @@ export interface TaskAddCollectionHeaderParam {
 }
 
 export interface TaskAddCollectionMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3217,6 +3326,7 @@ export interface TaskUpdateHeaderParam {
 }
 
 export interface TaskUpdateMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3422,6 +3532,7 @@ export interface ComputeNodesAddUserHeaderParam {
 }
 
 export interface ComputeNodesAddUserMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3506,6 +3617,7 @@ export interface ComputeNodesUpdateUserHeaderParam {
 }
 
 export interface ComputeNodesUpdateUserMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3592,6 +3704,7 @@ export interface ComputeNodesRebootHeaderParam {
 }
 
 export interface ComputeNodesRebootMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3639,6 +3752,7 @@ export interface ComputeNodesReimageHeaderParam {
 }
 
 export interface ComputeNodesReimageMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 
@@ -3840,6 +3954,7 @@ export interface ComputeNodesUploadBatchServiceLogsHeaderParam {
 }
 
 export interface ComputeNodesUploadBatchServiceLogsMediaTypesParam {
+  /** Type of content */
   contentType: "application/json; odata=minimalmetadata";
 }
 

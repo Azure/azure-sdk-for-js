@@ -6,7 +6,8 @@
   "dependencies": {
     "@azure-tools/typespec-ts": "latest",
     "@typespec/openapi": "latest",
-    "@azure-tools/typespec-autorest": "latest"
+    "@azure-tools/typespec-autorest": "latest",
+    "@azure-tools/typespec-client-generator-core": "latest"
   },
   "private": true
 }

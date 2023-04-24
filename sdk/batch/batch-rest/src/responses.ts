@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import { HttpResponse } from "@azure-rest/core-client";
 import {
   ApplicationListResultOutput,
   BatchErrorOutput,
   ApplicationOutput,
-  PoolUsageMetricsListOutput,
+  PoolListUsageMetricsResultOutput,
   PoolStatisticsOutput,
   BatchPoolListResultOutput,
   BatchPoolOutput,
@@ -59,38 +59,50 @@ export interface ApplicationsListDefaultResponse extends HttpResponse {
   body: BatchErrorOutput;
 }
 
+export interface ApplicationsGet200Headers {
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+}
+
 /** The request has succeeded. */
 export interface ApplicationsGet200Response extends HttpResponse {
   status: "200";
   body: ApplicationOutput;
-}
-
-export interface ApplicationsGetDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
+  headers: RawHttpHeaders & ApplicationsGet200Headers;
 }
 
 export interface ApplicationsGetDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ApplicationsGetDefaultHeaders;
+  body: BatchErrorOutput;
+}
+
+export interface PoolListUsageMetrics200Headers {
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
 }
 
 /** The request has succeeded. */
 export interface PoolListUsageMetrics200Response extends HttpResponse {
   status: "200";
-  body: PoolUsageMetricsListOutput;
-}
-
-export interface PoolListUsageMetricsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
+  body: PoolListUsageMetricsResultOutput;
+  headers: RawHttpHeaders & PoolListUsageMetrics200Headers;
 }
 
 export interface PoolListUsageMetricsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & PoolListUsageMetricsDefaultHeaders;
+  body: BatchErrorOutput;
 }
 
 export interface PoolGetAllLifetimeStatistics200Headers {
@@ -126,7 +138,7 @@ export interface PoolAdd201Headers {
   etag?: string;
   /** The time at which the resource was last modified. */
   "last-modified"?: string;
-  /** The OData ID of the resource to which the request applied. */
+  /** The OData ID of the resource to which the request applied */
   dataserviceid: string;
 }
 

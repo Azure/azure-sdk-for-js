@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Paged } from "@azure/core-paging";
-
 /** The result of listing the applications available in an Account. */
 export interface ApplicationListResultOutput {
   /** The list of applications available in the Account. */
@@ -14,7 +12,7 @@ export interface ApplicationListResultOutput {
 /** Contains information about an application in an Azure Batch Account. */
 export interface ApplicationOutput {
   /** A string that uniquely identifies the application within the Account. */
-  readonly id: string;
+  id: string;
   /** The display name for the application. */
   displayName: string;
   /** The list of available versions of the application. */
@@ -50,25 +48,18 @@ export interface BatchErrorDetailOutput {
   value?: string;
 }
 
-/** The parameters for a widget status request */
-export interface BatchClientRequestHeadersOutput {}
-
-/** The parameters for a widget status request */
-export interface BatchApplicationListHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
-
-/** Common header parms for Job related File operartions */
-export interface BatchJobFileClientRequestHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
-
-/** Common header parms for Pool related File operartions */
-export interface BatchPoolFileClientRequestHeadersOutput
-  extends BatchClientRequestHeadersOutput {}
+/** The result of a listing the usage metrics for an Account. */
+export interface PoolListUsageMetricsResultOutput {
+  /** The Pool usage metrics data. */
+  value?: Array<PoolUsageMetricsOutput>;
+  /** The URL to get the next set of results. */
+  "odata.nextLink"?: string;
+}
 
 /** Usage metrics for a Pool across an aggregation interval. */
 export interface PoolUsageMetricsOutput {
   /** The ID of the Pool whose metrics are aggregated in this entry. */
-  readonly poolId: string;
+  poolId: string;
   /** The start time of the aggregation interval covered by this entry. */
   startTime: string;
   /** The end time of the aggregation interval covered by this entry. */
@@ -86,7 +77,7 @@ export interface PoolUsageMetricsOutput {
 /** Contains utilization and resource usage statistics for the lifetime of a Pool. */
 export interface PoolStatisticsOutput {
   /** The URL for the statistics. */
-  readonly url: string;
+  url: string;
   /** The start time of the time range covered by the statistics. */
   startTime: string;
   /**
@@ -166,12 +157,7 @@ export interface ResourceStatisticsOutput {
 
 /** A Pool in the Azure Batch service. */
 export interface BatchPoolOutput {
-  /**
-   * The ID can contain any combination of alphanumeric characters including hyphens
-   * and underscores, and cannot contain more than 64 characters. The ID is
-   * case-preserving and case-insensitive (that is, you may not have two IDs within
-   * an Account that differ only by case).
-   */
+  /** The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within an Account that differ only by case). */
   id?: string;
   /**
    * The display name need not be unique and can contain any Unicode characters up
@@ -217,12 +203,7 @@ export interface BatchPoolOutput {
    * (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize?: string;
-  /**
-   * This property and virtualMachineConfiguration are mutually exclusive and one of
-   * the properties must be specified. This property cannot be specified if the
-   * Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
+  /** This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
   cloudServiceConfiguration?: CloudServiceConfigurationOutput;
   /**
    * This property and cloudServiceConfiguration are mutually exclusive and one of
@@ -311,11 +292,7 @@ export interface BatchPoolOutput {
    * reimaged. There is a maximum of 10 Package references on any given Pool.
    */
   applicationPackageReferences?: Array<ApplicationPackageReferenceOutput>;
-  /**
-   * The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool
-   * creation will fail.
-   */
+  /** The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, Pool creation will fail. */
   applicationLicenses?: string[];
   /**
    * The default value is 1. The maximum value is the smaller of 4 times the number
@@ -350,7 +327,7 @@ export interface BatchPoolOutput {
    */
   targetNodeCommunicationMode?: string;
   /**
-   * Determines how a pool communicates with the Batch service.
+   * The current state of the pool communication mode.
    *
    * Possible values: default, classic, simplified
    */
@@ -652,12 +629,7 @@ export interface OSDiskOutput {
  */
 export interface DiffDiskSettingsOutput {
   /**
-   * This property can be used by user in the request to choose the location e.g.,
-   * cache disk space for Ephemeral OS disk provisioning. For more information on
-   * Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size
-   * requirements for Windows VMs at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
-   * and Linux VMs at
+   *   This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at
    * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
    * Possible values: cachedisk
@@ -692,7 +664,7 @@ export interface NameValuePairOutput {
 /** The results and errors from an execution of a Pool autoscale formula. */
 export interface AutoScaleRunOutput {
   /** The time at which the autoscale formula was last evaluated. */
-  readonly timestamp: string;
+  timestamp: string;
   /**
    * Each variable value is returned in the form $variable=value, and variables are
    * separated by semicolons.
@@ -721,26 +693,16 @@ export interface AutoScaleRunErrorOutput {
 /** The network configuration for a Pool. */
 export interface NetworkConfigurationOutput {
   /**
-   * The virtual network must be in the same region and subscription as the Azure
-   * Batch Account. The specified subnet should have enough free IP addresses to
-   * accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have
-   * enough free IP addresses, the Pool will partially allocate Nodes and a resize
-   * error will occur. The 'MicrosoftAzureBatch' service principal must have the
-   * 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for
-   * the specified VNet. The specified subnet must allow communication from the
-   * Azure Batch service to be able to schedule Tasks on the Nodes. This can be
-   * verified by checking if the specified VNet has any associated Network Security
-   * Groups (NSG). If communication to the Nodes in the specified subnet is denied
-   * by an NSG, then the Batch service will set the state of the Compute Nodes to
-   * unusable. For Pools created with virtualMachineConfiguration only ARM virtual
-   * networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools
-   * created with cloudServiceConfiguration both ARM and classic virtual networks
-   * are supported. If the specified VNet has any associated Network Security Groups
-   * (NSG), then a few reserved system ports must be enabled for inbound
-   * communication. For Pools created with a virtual machine configuration, enable
-   * ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows.
-   * For Pools created with a cloud service configuration, enable ports 10100,
-   * 20100, and 30100. Also enable outbound connections to Azure Storage on port
+   * The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to
+   * accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize
+   * error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for
+   * the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be
+   * verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied
+   * by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM virtual
+   * networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created with cloudServiceConfiguration both ARM and classic virtual networks
+   * are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound
+   * communication. For Pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows.
+   * For Pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port
    * 443. For more details see:
    * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
@@ -1346,7 +1308,7 @@ export interface AccountListSupportedImagesResultOutput {
  */
 export interface ImageInformationOutput {
   /** The ID of the Compute Node agent SKU which the Image supports. */
-  readonly nodeAgentSKUId: string;
+  nodeAgentSKUId: string;
   /**
    * A reference to an Azure Virtual Machines Marketplace Image or a Shared Image
    * Gallery Image. To get the list of all Azure Marketplace Image references
@@ -1390,7 +1352,7 @@ export interface PoolNodeCountsListResultOutput {
 /** The number of Compute Nodes in each state for a Pool. */
 export interface PoolNodeCountsOutput {
   /** The ID of the Pool. */
-  readonly poolId: string;
+  poolId: string;
   /** The number of Compute Nodes in each Compute Node state. */
   dedicated?: NodeCountsOutput;
   /** The number of Compute Nodes in each Compute Node state. */
@@ -1432,7 +1394,7 @@ export interface NodeCountsOutput {
 /** Resource usage statistics for a Job. */
 export interface JobStatisticsOutput {
   /** The URL of the statistics. */
-  readonly url: string;
+  url: string;
   /** The start time of the time range covered by the statistics. */
   startTime: string;
   /**
@@ -1676,10 +1638,7 @@ export interface JobConstraintsOutput {
  * checkpointing.
  */
 export interface JobManagerTaskOutput {
-  /**
-   * The ID can contain any combination of alphanumeric characters including hyphens
-   * and underscores and cannot contain more than 64 characters.
-   */
+  /** The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. */
   id: string;
   /**
    * It need not be unique and can contain any Unicode characters up to a maximum
@@ -1780,11 +1739,7 @@ export interface JobManagerTaskOutput {
   allowLowPriorityNode?: boolean;
 }
 
-/**
- * On every file uploads, Batch service writes two log files to the compute node,
- * 'fileuploadout.txt' and 'fileuploaderr.txt'. These log files are used to learn
- * more about a specific failure.
- */
+/** On every file uploads, Batch service writes two log files to the compute node, 'fileuploadout.txt' and 'fileuploaderr.txt'. These log files are used to learn more about a specific failure. */
 export interface OutputFileOutput {
   /**
    * Both relative and absolute paths are supported. Relative paths are relative to
@@ -1894,12 +1849,7 @@ export interface TaskConstraintsOutput {
  * service operations.
  */
 export interface AuthenticationTokenSettingsOutput {
-  /**
-   * The authentication token grants access to a limited set of Batch service
-   * operations. Currently the only supported value for the access property is
-   * 'job', which grants access to all operations related to the Job which contains
-   * the Task.
-   */
+  /** The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the Job which contains the Task. */
   access?: string[];
 }
 
@@ -1931,15 +1881,7 @@ export interface AuthenticationTokenSettingsOutput {
  * running Tasks is to use some form of checkpointing.
  */
 export interface JobPreparationTaskOutput {
-  /**
-   * The ID can contain any combination of alphanumeric characters including hyphens
-   * and underscores and cannot contain more than 64 characters. If you do not
-   * specify this property, the Batch service assigns a default value of
-   * 'jobpreparation'. No other Task in the Job can have the same ID as the Job
-   * Preparation Task. If you try to submit a Task with the same id, the Batch
-   * service rejects the request with error code TaskIdSameAsJobPreparationTask; if
-   * you are calling the REST API directly, the HTTP status code is 409 (Conflict).
-   */
+  /** The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobpreparation'. No other Task in the Job can have the same ID as the Job Preparation Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobPreparationTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
   /**
    * The command line does not run under a shell, and therefore cannot take
@@ -2022,15 +1964,7 @@ export interface JobPreparationTaskOutput {
  * specified on the Pool.
  */
 export interface JobReleaseTaskOutput {
-  /**
-   * The ID can contain any combination of alphanumeric characters including hyphens
-   * and underscores and cannot contain more than 64 characters. If you do not
-   * specify this property, the Batch service assigns a default value of
-   * 'jobrelease'. No other Task in the Job can have the same ID as the Job Release
-   * Task. If you try to submit a Task with the same id, the Batch service rejects
-   * the request with error code TaskIdSameAsJobReleaseTask; if you are calling the
-   * REST API directly, the HTTP status code is 409 (Conflict).
-   */
+  /** The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobrelease'. No other Task in the Job can have the same ID as the Job Release Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobReleaseTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
   /**
    * The command line does not run under a shell, and therefore cannot take
@@ -2142,15 +2076,7 @@ export interface PoolSpecificationOutput {
    * (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize: string;
-  /**
-   * This property must be specified if the Pool needs to be created with Azure PaaS
-   * VMs. This property and virtualMachineConfiguration are mutually exclusive and
-   * one of the properties must be specified. If neither is specified then the Batch
-   * service returns an error; if you are calling the REST API directly, the HTTP
-   * status code is 400 (Bad Request). This property cannot be specified if the
-   * Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
+  /** This property must be specified if the Pool needs to be created with Azure PaaS VMs. This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). This property cannot be specified if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
   cloudServiceConfiguration?: CloudServiceConfigurationOutput;
   /**
    * This property must be specified if the Pool needs to be created with Azure IaaS
@@ -2250,13 +2176,7 @@ export interface PoolSpecificationOutput {
    * reimaged. There is a maximum of 10 Package references on any given Pool.
    */
   applicationPackageReferences?: Array<ApplicationPackageReferenceOutput>;
-  /**
-   * The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool
-   * creation will fail. The permitted licenses available on the Pool are 'maya',
-   * 'vray', '3dsmax', 'arnold'. An additional charge applies for each application
-   * license added to the Pool.
-   */
+  /** The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, Pool creation will fail. The permitted licenses available on the Pool are 'maya', 'vray', '3dsmax', 'arnold'. An additional charge applies for each application license added to the Pool. */
   applicationLicenses?: string[];
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   userAccounts?: Array<UserAccountOutput>;
@@ -2278,25 +2198,10 @@ export interface PoolSpecificationOutput {
 /** The network configuration for the Job. */
 export interface JobNetworkConfigurationOutput {
   /**
-   * The virtual network must be in the same region and subscription as the Azure
-   * Batch Account. The specified subnet should have enough free IP addresses to
-   * accommodate the number of Compute Nodes which will run Tasks from the Job. This
-   * can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch'
-   * service principal must have the 'Classic Virtual Machine Contributor'
-   * Role-Based Access Control (RBAC) role for the specified VNet so that Azure
-   * Batch service can schedule Tasks on the Nodes. This can be verified by checking
-   * if the specified VNet has any associated Network Security Groups (NSG). If
-   * communication to the Nodes in the specified subnet is denied by an NSG, then
-   * the Batch service will set the state of the Compute Nodes to unusable. This is
-   * of the form
-   * /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
-   * If the specified VNet has any associated Network Security Groups (NSG), then a
-   * few reserved system ports must be enabled for inbound communication from the
-   * Azure Batch service. For Pools created with a Virtual Machine configuration,
-   * enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for
-   * Windows. Port 443 is also required to be open for outbound connections for
-   * communications to Azure Storage. For more details see:
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
+   * The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor'
+   * Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is
+   * of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a
+   * few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId: string;
 }
@@ -2547,7 +2452,7 @@ export interface JobReleaseTaskExecutionInformationOutput {
 /** The Task and TaskSlot counts for a Job. */
 export interface TaskCountsResultOutput {
   /** The Task counts for a Job. */
-  readonly taskCounts: TaskCountsOutput;
+  taskCounts: TaskCountsOutput;
   /** The TaskSlot counts for a Job. */
   taskSlotCounts: TaskSlotCountsOutput;
 }
@@ -2621,7 +2526,7 @@ export interface CertificateOutput {
   /** This property is set only if the Certificate is in the DeleteFailed state. */
   readonly deleteCertificateError?: DeleteCertificateErrorOutput;
   /** The base64-encoded contents of the Certificate. The maximum size is 10KB. */
-  data?: string;
+  data: string;
   /**
    * The format of the Certificate data.
    *
@@ -3019,10 +2924,7 @@ export interface BatchJobScheduleListResultOutput {
  * for long running Tasks is to use some form of checkpointing.
  */
 export interface BatchTaskOutput {
-  /**
-   * The ID can contain any combination of alphanumeric characters including hyphens
-   * and underscores, and cannot contain more than 64 characters.
-   */
+  /** The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. */
   id?: string;
   /**
    * The display name need not be unique and can contain any Unicode characters up
@@ -3211,9 +3113,7 @@ export interface ExitOptionsOutput {
    */
   jobAction?: string;
   /**
-   * Possible values are 'satisfy' (allowing dependent tasks to progress) and
-   * 'block' (dependent tasks continue to wait). Batch does not yet support
-   * cancellation of dependent tasks.
+   * Possible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks.
    *
    * Possible values: satisfy, block
    */
@@ -3451,7 +3351,7 @@ export interface TaskAddResultOutput {
   /**
    * The status of the add Task request.
    *
-   * Possible values: Success, clienterror, servererror
+   * Possible values: success, clienterror, servererror
    */
   status: string;
   /** The ID of the Task for which this is the result. */
@@ -3813,7 +3713,7 @@ export interface VirtualMachineInfoOutput {
 /** The remote login settings for a Compute Node. */
 export interface ComputeNodeGetRemoteLoginSettingsResultOutput {
   /** The IP address used for remote login to the Compute Node. */
-  readonly remoteLoginIPAddress: string;
+  remoteLoginIPAddress: string;
   /** The port used for remote login to the Compute Node. */
   remoteLoginPort: number;
 }
@@ -3824,7 +3724,7 @@ export interface UploadBatchServiceLogsResultOutput {
    * The virtual directory name is part of the blob name for each log file uploaded,
    * and it is built based poolId, nodeId and a unique identifier.
    */
-  readonly virtualDirectoryName: string;
+  virtualDirectoryName: string;
   /** The number of log files which will be uploaded. */
   numberOfFilesUploaded: number;
 }
@@ -3882,6 +3782,3 @@ export interface NodeVMExtensionListOutput {
   /** The URL to get the next set of results. */
   "odata.nextLink"?: string;
 }
-
-/** Paged collection of PoolUsageMetrics items */
-export type PoolUsageMetricsListOutput = Paged<PoolUsageMetricsOutput>;
