@@ -12,12 +12,13 @@ urlFragment: identity-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                               | **Description**                                                                                            |
-| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [clientSecretCredential.ts][clientsecretcredential]         | Authenticates with an app registration’s client Id and secret.                                             |
-| [defaultAzureCredential.ts][defaultazurecredential]         | Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`. |
-| [environmentCredential.ts][environmentcredential]           | Authenticates as an app registration automatically using environment variables.                            |
-| [workloadIdentityCredential.ts][workloadidentitycredential] | Authenticates using Workload Identity Credential                                                           |
+| **File Name**                                                 | **Description**                                                                                                     |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [azureDeveloperCliCredential.ts][azuredeveloperclicredential] | Authenticates using Azure Developer CLI Credential                                                                  |
+| [clientSecretCredential.ts][clientsecretcredential]           | Authenticates with an app registration’s client ID and secret.                                                      |
+| [defaultAzureCredential.ts][defaultazurecredential]           | Tries several authentication methods using a single credential, which is the simplest way to use `@azure/identity`. |
+| [environmentCredential.ts][environmentcredential]             | Authenticates as an app registration automatically using environment variables.                                     |
+| [workloadIdentityCredential.ts][workloadidentitycredential]   | Authenticates using Workload Identity Credential                                                                    |
 
 ## Prerequisites
 
@@ -59,19 +60,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/clientSecretCredential.js
+node dist/azureDeveloperCliCredential.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_CLIENT_ID="<azure client id>" AZURE_CLIENT_SECRET="<azure client secret>" node dist/clientSecretCredential.js
+npx cross-env AZURE_TENANT_ID="<azure tenant id>" node dist/azureDeveloperCliCredential.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[azuredeveloperclicredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/typescript/src/azureDeveloperCliCredential.ts
 [clientsecretcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/typescript/src/clientSecretCredential.ts
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/typescript/src/defaultAzureCredential.ts
 [environmentcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/typescript/src/environmentCredential.ts

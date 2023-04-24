@@ -7,10 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import {
-  ApiVersion20210430Preview,
-  SearchServiceClientOptionalParams
-} from "./models";
+import { ApiVersion20210430Preview, SearchServiceClientOptionalParams } from "./models";
 
 /** @internal */
 export class SearchServiceClientContext extends coreClient.ServiceClient {
@@ -40,10 +37,10 @@ export class SearchServiceClientContext extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: SearchServiceClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/11.3.0-beta.7`;
+    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -53,9 +50,9 @@ export class SearchServiceClientContext extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint || "{endpoint}"
+      baseUri: options.endpoint || "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments

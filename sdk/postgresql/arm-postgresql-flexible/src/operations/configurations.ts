@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Configuration,
   ConfigurationsListByServerNextOptionalParams,
@@ -174,8 +178,8 @@ export class ConfigurationsImpl implements Configurations {
     parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsUpdateResponse>,
       ConfigurationsUpdateResponse
     >
   > {
@@ -185,7 +189,7 @@ export class ConfigurationsImpl implements Configurations {
     ): Promise<ConfigurationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -218,15 +222,24 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, configurationName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        configurationName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsUpdateResponse,
+      OperationState<ConfigurationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -272,8 +285,8 @@ export class ConfigurationsImpl implements Configurations {
     parameters: Configuration,
     options?: ConfigurationsPutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsPutResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsPutResponse>,
       ConfigurationsPutResponse
     >
   > {
@@ -283,7 +296,7 @@ export class ConfigurationsImpl implements Configurations {
     ): Promise<ConfigurationsPutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,15 +329,24 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, configurationName, parameters, options },
-      putOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        configurationName,
+        parameters,
+        options
+      },
+      spec: putOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsPutResponse,
+      OperationState<ConfigurationsPutResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

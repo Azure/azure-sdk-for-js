@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a Data Transfer Job.
  *
  * @summary Creates a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-11-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-01-preview/examples/data-transfer-service/CosmosDBDataTransferJobCreate.json
  */
 async function cosmosDbDataTransferJobCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

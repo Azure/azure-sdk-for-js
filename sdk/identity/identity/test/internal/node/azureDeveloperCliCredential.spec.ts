@@ -125,7 +125,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
         );
       }
     } else {
@@ -138,7 +138,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
         );
       }
     }
@@ -147,15 +147,12 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   it("get access token when azure cli not login in", async () => {
     stdout = "";
     stderr =
-      "Please run 'azd login' from a command prompt to authenticate before using this credential.";
+      "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.";
     const credential = new AzureDeveloperCliCredential();
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(
-        error.message,
-        "Please run 'azd login' from a command prompt to authenticate before using this credential."
-      );
+      assert.equal(error.message, stderr);
     }
   });
 
