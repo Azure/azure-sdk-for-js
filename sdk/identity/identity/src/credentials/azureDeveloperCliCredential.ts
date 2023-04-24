@@ -160,7 +160,6 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           this.timeout
         );
         const isNotLoggedInError =
-          obj.stderr?.match("not logged in, run `azd login` to login") ||
           obj.stderr?.match("not logged in, run `azd auth login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
