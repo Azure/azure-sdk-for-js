@@ -158,7 +158,7 @@ export async function createCustomTestProject(
 }
 
 export function isSovereignClouds(endpoint: string): boolean {
-  if (endpoint.includes(".us") && endpoint.includes(".cn")) {
+  if (endpoint.includes(".us") || endpoint.includes(".cn")) {
     return true;
   }
   return false;
