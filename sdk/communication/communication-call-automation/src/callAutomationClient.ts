@@ -78,20 +78,16 @@ export class CallAutomationClient {
   constructor(connectionString: string, options?: CallAutomationClientOptions);
 
   /**
-   * Initializes a new instance of the CallAutomationClient class using an Azure KeyCredential.
+   * Initializes a new instance of the CallAutomationClient class using a TokenCredential or KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param credential - TokenCredential or KeyCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
-
-  /**
-   * Initializes a new instance of the CallAutomationClient class using a TokenCredential.
-   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - TokenCredential that is used to authenticate requests to the service.
-   * @param options - Optional. Options to configure the HTTP pipeline.
-   */
-  constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
+  constructor(
+    endpoint: string,
+    credential: TokenCredential | KeyCredential,
+    options?: CallAutomationClientOptions
+  );
 
   constructor(
     connectionStringOrUrl: string,
