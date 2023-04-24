@@ -12,7 +12,7 @@ Token caching, via the Azure Identity library, allows the app to store this acce
 
 ### In-memory token caching
 
-*In-memory token caching* is the default option provided by the Azure Identity library. This caching approach allows apps to store access tokens in memory. With in-memory token caching, the library first determines if a valid access token for the requested resource is already stored in memory. If a valid token is found, it's returned to the app without the need to make another request to Azure AD. If a valid token is not found, the library will automatically acquire a token by sending a request to Azure AD.
+*In-memory token caching* is the default option provided by the Azure Identity library. This caching approach allows apps to store access tokens in memory. With in-memory token caching, the library first determines if a valid access token for the requested resource is already stored in memory. If a valid token is found, it's returned to the app without the need to make another request to Azure AD. If a valid token isn't found, the library will automatically acquire a token by sending a request to Azure AD.
 
 The in-memory token cache provided by the Azure Identity library:
 
