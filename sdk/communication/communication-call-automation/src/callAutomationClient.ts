@@ -177,7 +177,7 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((returnedTarget) =>
+        targetParticipants: result.targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
         ),
         sourceCallerIdNumber: result.sourceCallerIdNumber
@@ -200,28 +200,28 @@ export class CallAutomationClient {
 
   /**
    * Create an outgoing call from source to a target identity.
-   * @param target - A single target.
+   * @param targetParticipant - A single target.
    * @param callbackUrl - The callback url.
    * @param options - Additional request options contains createCallConnection api options.
    */
   public async createCall(
-    target: CallInvite,
+    targetParticipant: CallInvite,
     callbackUrl: string,
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       sourceIdentity: this.sourceIdentity,
-      targets: [communicationIdentifierModelConverter(target.target)],
+      targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: target.sipHeaders,
-        voipHeaders: target.voipHeaders,
+        sipHeaders: targetParticipant.sipHeaders,
+        voipHeaders: targetParticipant.voipHeaders,
       },
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
-      sourceDisplayName: target.sourceDisplayName,
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(targetParticipant.sourceCallIdNumber),
+      sourceDisplayName: targetParticipant.sourceDisplayName,
     };
 
     return this.createCallInternal(request, options);
@@ -229,18 +229,18 @@ export class CallAutomationClient {
 
   /**
    * Create an outgoing call from source to a group of targets identities.
-   * @param targets - A group of targets identities.
+   * @param targetParticipants - A group of targets identities.
    * @param callbackUrl - The callback url.
    * @param options - Additional request options contains createCallConnection api options.
    */
   public async createGroupCall(
-    targets: CommunicationIdentifier[],
+    targetParticipants: CommunicationIdentifier[],
     callbackUrl: string,
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       sourceIdentity: this.sourceIdentity,
-      targets: targets.map((target) => communicationIdentifierModelConverter(target)),
+      targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
@@ -286,7 +286,7 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+        targetParticipants: result.targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,
@@ -309,22 +309,22 @@ export class CallAutomationClient {
    * Redirect the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param target - The target identity to redirect the call to.
+   * @param targetParticipant - The target identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    target: CallInvite,
+    targetParticipant: CallInvite,
     options: RedirectCallOptions = {}
   ): Promise<void> {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      target: communicationIdentifierModelConverter(target.target),
+      target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
         sipHeaders:
-          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+          targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
         voipHeaders:
-          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
+          targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined
       },
     };
     const optionsInternal = {

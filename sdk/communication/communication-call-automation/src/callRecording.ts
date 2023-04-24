@@ -34,19 +34,15 @@ export class CallRecording {
    * @param startCallRecordingRequest - options to start the call recording
    * @param options - Operation options.
    */
-  public async startRecording(options: StartRecordingOptions): Promise<RecordingStateResult> {
+  public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
       callLocator: options.callLocator,
     };
 
-    if (options.recordingStorageType === "blobStorage" && !options.externalStorageLocation) {
-      throw new Error("externalStorageLocation required for recordingStorageType blobStorage");
-    }
-
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
-    startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpoint;
+    startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
 
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
@@ -88,7 +84,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains getRecordingProperties api options.
    */
-  public async getRecordingState(
+  public async getState(
     recordingId: string,
     options: GetRecordingPropertiesOptions = {}
   ): Promise<RecordingStateResult> {
@@ -107,7 +103,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains stopRecording api options.
    */
-  public async stopRecording(
+  public async stop(
     recordingId: string,
     options: StopRecordingOptions = {}
   ): Promise<void> {
@@ -119,7 +115,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains pauseRecording api options.
    */
-  public async pauseRecording(
+  public async pause(
     recordingId: string,
     options: PauseRecordingOptions = {}
   ): Promise<void> {
@@ -131,7 +127,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains resumeRecording api options.
    */
-  public async resumeRecording(
+  public async resume(
     recordingId: string,
     options: ResumeRecordingOptions = {}
   ): Promise<void> {
@@ -140,26 +136,26 @@ export class CallRecording {
 
   /**
    * Deletes a recording.
-   * @param recordingLocation - The recording location uri. Required.
+   * @param recordingLocationUrl - The recording location url. Required.
    * @param options - Additional request options contains deleteRecording api options.
    */
-  public async deleteRecording(
-    recordingLocation: string,
+  public async delete(
+    recordingLocationUrl: string,
     options: DeleteRecordingOptions = {}
   ): Promise<void> {
-    await this.contentDownloader.deleteRecording(recordingLocation, options);
+    await this.contentDownloader.deleteRecording(recordingLocationUrl, options);
   }
 
   /**
    * Returns a stream with a call recording.
-   * @param sourceLocation - The source location uri. Required.
+   * @param sourceLocationUrl - The source location url. Required.
    * @param options - Additional request options contains downloadRecording api options.
    */
   public async downloadStreaming(
-    sourceLocation: string,
+    sourceLocationUrl: string,
     options: DownloadRecordingOptions = {}
   ): Promise<NodeJS.ReadableStream> {
-    const result = this.contentDownloader.download(sourceLocation, options);
+    const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       return recordingStream;
@@ -170,16 +166,16 @@ export class CallRecording {
 
   /**
    * Downloads a call recording file to the specified stream.
-   * @param sourceLocation - The source location uri. Required.
+   * @param sourceLocationUrl - The source location url. Required.
    * @param destinationStream - The destination stream. Required.
    * @param options - Additional request options contains downloadRecording api options.
    */
   public async downloadToStream(
-    sourceLocation: string,
+    sourceLocationUrl: string,
     destinationStream: NodeJS.WritableStream,
     options: DownloadRecordingOptions = {}
   ): Promise<void> {
-    const result = this.contentDownloader.download(sourceLocation, options);
+    const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(destinationStream);
@@ -190,16 +186,16 @@ export class CallRecording {
 
   /**
    * Downloads a call recording file to the specified path.
-   * @param sourceLocation - The source location uri. Required.
+   * @param sourceLocationUrl - The source location url. Required.
    * @param destinationPath - The destination path. Required.
    * @param options - Additional request options contains downloadRecording api options.
    */
   public async downloadToPath(
-    sourceLocation: string,
+    sourceLocationUrl: string,
     destinationPath: string,
     options: DownloadRecordingOptions = {}
   ): Promise<void> {
-    const result = this.contentDownloader.download(sourceLocation, options);
+    const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(fs.createWriteStream(destinationPath));

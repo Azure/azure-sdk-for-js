@@ -126,7 +126,7 @@ describe("Call Automation Main Client Live Tests", function () {
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
@@ -153,7 +153,7 @@ describe("Call Automation Main Client Live Tests", function () {
     testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "reject_call";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 

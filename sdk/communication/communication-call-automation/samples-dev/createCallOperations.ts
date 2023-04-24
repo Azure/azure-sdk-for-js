@@ -25,7 +25,7 @@ export async function main() {
   const callAutomationClient = new CallAutomationClient(connectionString);
 
   // create invitation
-  const callInvite = new CallInvite(user);
+  const callInvite: CallInvite = { targetParticipant: user };
 
   // Create Call
   console.log("Creating call...");

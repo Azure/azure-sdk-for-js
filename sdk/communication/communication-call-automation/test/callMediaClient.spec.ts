@@ -7,7 +7,7 @@ import {
 } from "@azure/communication-common";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallMedia } from "../src/callMedia";
-import { FileSource, RecognizeInputType } from "../src/models/models";
+import { FileSource } from "../src/models/models";
 import { assert } from "chai";
 import { CallMediaImpl } from "../src/generated/src/operations";
 import { CallMediaRecognizeDtmfOptions } from "../src";
@@ -25,7 +25,7 @@ describe("CallMedia Unit Tests", () => {
 
   it("Play", async () => {
     const playSource: FileSource = {
-      uri: "https://example.com/audio.mp3",
+      url: "https://example.com/audio.mp3",
     };
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: "user1" }];
     // Call the play function
@@ -36,7 +36,7 @@ describe("CallMedia Unit Tests", () => {
       callMediaImpl.play.calledWith(callConnectionId, {
         playSourceInfo: {
           sourceType: "file",
-          fileSource: { uri: playSource.uri },
+          fileSource: { uri: playSource.url },
           playSourceId: playSource.playSourceId,
         },
         playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
@@ -46,7 +46,7 @@ describe("CallMedia Unit Tests", () => {
 
   it("PlayToAll", async () => {
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      url: "https://example.com/audio/test.wav",
     };
     const playTo: CommunicationIdentifier[] = [];
 
@@ -58,7 +58,7 @@ describe("CallMedia Unit Tests", () => {
       callMediaImpl.play.calledWith(callConnectionId, {
         playSourceInfo: {
           sourceType: "file",
-          fileSource: { uri: playSource.uri },
+          fileSource: { uri: playSource.url },
           playSourceId: playSource.playSourceId,
         },
         playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
@@ -68,13 +68,13 @@ describe("CallMedia Unit Tests", () => {
 
   it("StartRecognizing", async () => {
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
-      maxTonesToCollect: 5,
-      targetParticipant: { communicationUserId: "user1" },
-      recognizeInputType: RecognizeInputType.Dtmf,
     };
 
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: "user1" }
+    const maxTonesToCollect = 5
+
     // Call the startRecognizing function
-    await callMedia.startRecognizing(recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
 
     // Check if the callMediaImpl.recognize was called with the correct arguments
     assert.isTrue(
@@ -87,7 +87,7 @@ describe("CallMedia Unit Tests", () => {
           recognizeOptions: {
             interruptPrompt: undefined,
             initialSilenceTimeoutInSeconds: 5, // Set default value here
-            targetParticipant: serializeCommunicationIdentifier(recognizeOptions.targetParticipant),
+            targetParticipant: serializeCommunicationIdentifier(targetParticipant),
             dtmfOptions: {
               interToneTimeoutInSeconds: 2, // Set default value here
               maxTonesToCollect: 5,
@@ -102,7 +102,7 @@ describe("CallMedia Unit Tests", () => {
   });
 
   it("CancelAllMediaOperations", async () => {
-    await callMedia.cancelAllMediaOperations();
+    await callMedia.cancelAllOperations();
 
     assert.isTrue(callMediaImpl.cancelAllMediaOperations.calledOnceWith(callConnectionId, {}));
   });

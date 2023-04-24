@@ -6,32 +6,27 @@ import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
   CallRejectReason,
-  RecognizeInputType,
   FileSource,
   DtmfTone,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
-  RecordingStorage,
   CallLocator,
 } from "./models";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  recognizeInputType: RecognizeInputType;
   playPrompt?: FileSource;
   interruptCallMediaOperation?: boolean;
   stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
-  targetParticipant: CommunicationIdentifier;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
   interToneTimeoutInSeconds?: number;
-  maxTonesToCollect: number;
   stopDtmfTones?: DtmfTone[];
   readonly kind?: "callMediaRecognizeDtmfOptions";
 }
@@ -143,8 +138,8 @@ export type GetParticipantOptions = OperationOptions;
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. */
   callLocator: CallLocator;
-  /** The uri to send notifications to. */
-  recordingStateCallbackEndpoint?: string;
+  /** The url to send notifications to. */
+  recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
   recordingContent?: RecordingContent;
   /** The channel type of call recording. */
@@ -158,10 +153,6 @@ export interface StartRecordingOptions extends OperationOptions {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
-  /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: RecordingStorage;
-  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
-  externalStorageLocation?: string;
 }
 
 /**

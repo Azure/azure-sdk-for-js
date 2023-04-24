@@ -32,14 +32,14 @@ describe("CallRecording Unit Tests", () => {
     );
 
     const recOptions: StartRecordingOptions = {
-      recordingStateCallbackEndpoint: "https://contoso.com/download",
+      recordingStateCallbackEndpointUrl: "https://contoso.com/download",
       callLocator: { id: "testCallId", kind: "serverCallLocator" },
       recordingChannel: "unmixed",
       recordingFormat: "wav",
       recordingContent: "audio",
     };
 
-    await callRecording.startRecording(recOptions);
+    await callRecording.start(recOptions);
 
     // Check if the callRecordingImpl.startRecording was called with the correct arguments
     assert.isTrue(
@@ -59,7 +59,7 @@ describe("CallRecording Unit Tests", () => {
   it("Sends correct args to stop a recording", async () => {
     const testRecordingID = "testRecordingId";
 
-    await callRecording.stopRecording(testRecordingID);
+    await callRecording.stop(testRecordingID);
 
     // Check if the callRecordingImpl.stopRecording was called with the correct arguments
     assert.isTrue(callRecordingImpl.stopRecording.calledWith(testRecordingID));
@@ -68,7 +68,7 @@ describe("CallRecording Unit Tests", () => {
   it("Sends correct args to pause a recording", async () => {
     const testRecordingID = "testRecordingId";
 
-    await callRecording.pauseRecording(testRecordingID);
+    await callRecording.pause(testRecordingID);
 
     // Check if the callRecordingImpl.pauseRecording was called with the correct arguments
     assert.isTrue(callRecordingImpl.pauseRecording.calledWith(testRecordingID));
@@ -77,7 +77,7 @@ describe("CallRecording Unit Tests", () => {
   it("Sends correct args to resume a recording", async () => {
     const testRecordingID = "testRecordingId";
 
-    await callRecording.resumeRecording(testRecordingID);
+    await callRecording.resume(testRecordingID);
 
     // Check if the callRecordingImpl.resumeRecording was called with the correct arguments
     assert.isTrue(callRecordingImpl.resumeRecording.calledWith(testRecordingID));
@@ -98,7 +98,7 @@ describe("CallRecording Unit Tests", () => {
 
     const testRecordingID = "testRecordingId";
 
-    await callRecording.getRecordingState(testRecordingID);
+    await callRecording.getState(testRecordingID);
 
     // Check if the callRecordingImpl.getRecordingProperties was called with the correct arguments
     assert.isTrue(callRecordingImpl.getRecordingProperties.calledWith(testRecordingID));

@@ -38,7 +38,7 @@ export class CallMedia {
   private createPlaySourceInternal(playSource: FileSource): PlaySourceInternal {
     if (playSource.kind === "fileSource" || playSource.kind === undefined) {
       const fileSource: FileSourceInternal = {
-        uri: playSource.uri,
+        uri: playSource.url,
       };
       return {
         sourceType: KnownPlaySourceType.File,
@@ -80,12 +80,14 @@ export class CallMedia {
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
-      playTo: [],
+      playTo: []
     };
     return this.callMediaImpl.play(this.callConnectionId, playRequest, playOptions);
   }
 
   private createRecognizeRequest(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
     recognizeOptions: CallMediaRecognizeDtmfOptions
   ): RecognizeRequest {
     if (
@@ -96,7 +98,7 @@ export class CallMedia {
         interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
           ? recognizeOptions.interToneTimeoutInSeconds
           : 2,
-        maxTonesToCollect: recognizeOptions.maxTonesToCollect,
+        maxTonesToCollect: maxTonesToCollect,
         stopTones: recognizeOptions.stopDtmfTones,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -104,7 +106,7 @@ export class CallMedia {
         initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
           ? recognizeOptions.initialSilenceTimeoutInSeconds
           : 5,
-        targetParticipant: serializeCommunicationIdentifier(recognizeOptions.targetParticipant),
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         dtmfOptions: dtmfOptionsInternal,
       };
       return {
@@ -125,10 +127,10 @@ export class CallMedia {
    *  Recognize participant input.
    *  @param recognizeOptions - Different attributes for recognize.
    * */
-  public async startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
+  public async startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
     return this.callMediaImpl.recognize(
       this.callConnectionId,
-      this.createRecognizeRequest(recognizeOptions),
+      this.createRecognizeRequest(targetParticipant, maxTonesToCollect, recognizeOptions),
       {}
     );
   }
@@ -136,7 +138,7 @@ export class CallMedia {
   /**
    * Cancels all the queued media operations.
    */
-  public async cancelAllMediaOperations(): Promise<void> {
+  public async cancelAllOperations(): Promise<void> {
     return this.callMediaImpl.cancelAllMediaOperations(this.callConnectionId, {});
   }
 }

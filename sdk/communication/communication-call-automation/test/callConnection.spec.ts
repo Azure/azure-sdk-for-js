@@ -64,7 +64,7 @@ describe("CallConnection Live Tests", function () {
       : "list_all_participants";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
@@ -90,7 +90,7 @@ describe("CallConnection Live Tests", function () {
       : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
@@ -106,7 +106,7 @@ describe("CallConnection Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
-    const participantInvite = new CallInvite(testUser3);
+    const participantInvite: CallInvite = { targetParticipant: testUser3 };
     const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
     const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
 
@@ -134,7 +134,7 @@ describe("CallConnection Live Tests", function () {
       : "remove_a_participant";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
