@@ -62,7 +62,8 @@ export type AnswerCallResult = CallResult;
 // @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
     createCall(targetParticipant: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     createGroupCall(targetParticipants: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
@@ -156,10 +157,10 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 // @public
 export class CallMedia {
     constructor(callConnectionId: string, callMediaImpl: CallMediaImpl);
-    cancelAllMediaOperations(): Promise<void>;
-    playMedia(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playMediaToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
-    startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    cancelAllOperations(): Promise<void>;
+    play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
 }
 
 // @public
@@ -168,8 +169,6 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind?: "callMediaRecognizeDtmfOptions";
-    // (undocumented)
-    maxTonesToCollect: number;
     // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
@@ -187,11 +186,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     playPrompt?: FileSource;
     // (undocumented)
-    recognizeInputType: RecognizeInputType;
-    // (undocumented)
     stopCurrentOperations?: boolean;
-    // (undocumented)
-    targetParticipant: CommunicationIdentifier;
 }
 
 // @public
@@ -205,15 +200,15 @@ export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContentDownloaderImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl);
-    deleteRecording(recordingLocationUrl: string, options?: DeleteRecordingOptions): Promise<void>;
+    delete(recordingLocationUrl: string, options?: DeleteRecordingOptions): Promise<void>;
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     downloadToStream(sourceLocationUrl: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
-    getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
-    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
-    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
-    startRecording(options: StartRecordingOptions): Promise<RecordingStateResult>;
-    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<void>;
+    getState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
+    pause(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
+    resume(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
+    start(options: StartRecordingOptions): Promise<RecordingStateResult>;
+    stop(recordingId: string, options?: StopRecordingOptions): Promise<void>;
 }
 
 // @public
