@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
-
+ * @summary Demonstrates how to run generate custom metrics that will be sent to Azure Monitor
  */
 
 import {

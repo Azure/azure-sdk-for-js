@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 /**
-
+ * @summary Demonstrates how to run generate custom traces that will be sent to Azure Monitor
  */
+
 
 import * as opentelemetry from "@opentelemetry/api";
 import {
