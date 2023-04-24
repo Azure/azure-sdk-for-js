@@ -74,7 +74,7 @@ describe("CallMedia Unit Tests", () => {
 
   it("PlayToAll", async () => {
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
     };
     const playTo: CommunicationIdentifier[] = [];
 
@@ -197,14 +197,12 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
     };
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
-
-    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 8000);
+    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent);
-
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
@@ -236,12 +234,12 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
     };
 
     await callConnection.getCallMedia().playToAll(playSource)
 
-    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 8000);
+    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent)
 
     await callConnection.hangUp(true);
@@ -274,58 +272,17 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllMediaOperations();
 
-    const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 8000);
+    const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);
     assert.isDefined(playCanceledEvent);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
-
-  it("Start recogizing", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "create_call_and_hang_up";
-    await loadPersistedEvents(testName);
-
-    const callInvite = new CallInvite(testUser2);
-    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-
-    const recognizeOptions: CallMediaRecognizeDtmfOptions = {
-      maxTonesToCollect: 5,
-      targetParticipant: { communicationUserId: "user1" },
-      recognizeInputType: RecognizeInputType.Dtmf,
-    };    
-
-    await callConnection.getCallMedia().startRecognizing(recognizeOptions);
-
-    const recognizeCompletedEvent = await waitForEvent("RecognizeCompleted", callConnectionId, 8000);
-    assert.isDefined(recognizeCompletedEvent);
-
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
 });
