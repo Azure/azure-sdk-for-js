@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the operations for Azure Container Instance service.
@@ -22,13 +20,9 @@ dotenv.config();
  */
 async function operationsList() {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.operations.list()) {
     resArray.push(item);
