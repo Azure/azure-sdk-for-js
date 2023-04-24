@@ -298,7 +298,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
 
-## Token Caching
+## Token caching
 Token caching is a feature provided by the Azure Identity library that allows apps to:
 - Cache tokens.
 - Improve resilience and performance.
