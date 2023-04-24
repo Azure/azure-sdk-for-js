@@ -8,7 +8,7 @@
 
 When an app needs to access a protected Azure resource, it typically needs to obtain an access token from Azure AD. Obtaining that token typically involves sending a request to Azure AD and may also involve prompting the user. Azure AD then validates the credentials provided in the request and issues an access token.
 
-Token caching, via the Azure Identity library, allows the app to store this access token [in memory](#in-memory-token-caching), where it is accessible to the current process, or [on disk](#persistent-token-caching) where it can be accessed across application or process invocations. The token can then be retrieved quickly and easily the next time the app needs to access the same resource. The app can avoid making another request to Azure AD, which reduces network traffic and improves resilience. Additionally, in scenarios where the app is authenticating users, token caching also avoids prompting the user each time new tokens are requested.
+Token caching, via the Azure Identity library, allows the app to store this access token [in memory](#in-memory-token-caching), where it's accessible to the current process, or [on disk](#persistent-token-caching) where it can be accessed across application or process invocations. The token can then be retrieved quickly and easily the next time the app needs to access the same resource. The app can avoid making another request to Azure AD, which reduces network traffic and improves resilience. Additionally, in scenarios where the app is authenticating users, token caching avoids prompting the user each time new tokens are requested.
 
 ### In-memory token caching
 
