@@ -106,16 +106,10 @@ export class CallConnection {
     targetParticipant: CommunicationIdentifier,
     options: GetParticipantOptions = {}
   ): Promise<CallParticipant> {
+    const rawId: string = communicationIdentifierModelConverter(targetParticipant).rawId || "";
+    if (!rawId) throw Error("Invalid targetParticipant");
 
-    const rawId: string = communicationIdentifierModelConverter(targetParticipant).rawId || '';
-    if (!rawId)
-      throw Error("Invalid targetParticipant");
-
-    const result = await this.callConnection.getParticipant(
-      this.callConnectionId,
-      rawId,
-      options
-    );
+    const result = await this.callConnection.getParticipant(this.callConnectionId, rawId, options);
     const callParticipant: CallParticipant = {
       identifier: result.identifier
         ? communicationIdentifierConverter(result.identifier)
@@ -152,7 +146,9 @@ export class CallConnection {
   ): Promise<AddParticipantResult> {
     const addParticipantRequest: AddParticipantRequest = {
       participantToAdd: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(targetParticipant.sourceCallIdNumber),
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
+        targetParticipant.sourceCallIdNumber
+      ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,

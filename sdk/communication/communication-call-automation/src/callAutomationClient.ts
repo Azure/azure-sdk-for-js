@@ -220,7 +220,9 @@ export class CallAutomationClient {
         sipHeaders: targetParticipant.sipHeaders,
         voipHeaders: targetParticipant.voipHeaders,
       },
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(targetParticipant.sourceCallIdNumber),
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
+        targetParticipant.sourceCallIdNumber
+      ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
     };
 
@@ -286,7 +288,9 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targetParticipants: result.targets?.map((target) => communicationIdentifierConverter(target)),
+        targetParticipants: result.targets?.map((target) =>
+          communicationIdentifierConverter(target)
+        ),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,
@@ -321,10 +325,8 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
-        sipHeaders:
-          targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders:
-          targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined
+        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
       },
     };
     const optionsInternal = {

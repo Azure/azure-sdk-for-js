@@ -80,7 +80,7 @@ export class CallMedia {
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
-      playTo: []
+      playTo: [],
     };
     return this.callMediaImpl.play(this.callConnectionId, playRequest, playOptions);
   }
@@ -127,7 +127,11 @@ export class CallMedia {
    *  Recognize participant input.
    *  @param recognizeOptions - Different attributes for recognize.
    * */
-  public async startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
+  public async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
+    recognizeOptions: CallMediaRecognizeDtmfOptions
+  ): Promise<void> {
     return this.callMediaImpl.recognize(
       this.callConnectionId,
       this.createRecognizeRequest(targetParticipant, maxTonesToCollect, recognizeOptions),

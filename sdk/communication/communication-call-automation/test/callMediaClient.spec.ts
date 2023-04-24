@@ -67,11 +67,10 @@ describe("CallMedia Unit Tests", () => {
   });
 
   it("StartRecognizing", async () => {
-    const recognizeOptions: CallMediaRecognizeDtmfOptions = {
-    };
+    const recognizeOptions: CallMediaRecognizeDtmfOptions = {};
 
-    const targetParticipant: CommunicationIdentifier = { communicationUserId: "user1" }
-    const maxTonesToCollect = 5
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: "user1" };
+    const maxTonesToCollect = 5;
 
     // Call the startRecognizing function
     await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);

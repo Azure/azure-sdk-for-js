@@ -103,10 +103,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains stopRecording api options.
    */
-  public async stop(
-    recordingId: string,
-    options: StopRecordingOptions = {}
-  ): Promise<void> {
+  public async stop(recordingId: string, options: StopRecordingOptions = {}): Promise<void> {
     return this.callRecordingImpl.stopRecording(recordingId, options);
   }
 
@@ -115,10 +112,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains pauseRecording api options.
    */
-  public async pause(
-    recordingId: string,
-    options: PauseRecordingOptions = {}
-  ): Promise<void> {
+  public async pause(recordingId: string, options: PauseRecordingOptions = {}): Promise<void> {
     return this.callRecordingImpl.pauseRecording(recordingId, options);
   }
 
@@ -127,10 +121,7 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains resumeRecording api options.
    */
-  public async resume(
-    recordingId: string,
-    options: ResumeRecordingOptions = {}
-  ): Promise<void> {
+  public async resume(recordingId: string, options: ResumeRecordingOptions = {}): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
   }
 
