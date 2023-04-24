@@ -57,7 +57,7 @@ The credential created in [this example](https://github.com/Azure/azure-sdk-for-
 
 The following table indicates the state of in-memory and persistent caching in each credential type.
 
-**Note:** In-memory caching is activated by default. Persistent token caching needs to be enabled as shown in [Code sample](#code-sample).
+**Note:** In-memory caching is activated by default. Persistent token caching needs to be enabled as shown in [this code sample](#code-sample).
 
 | Credential                     | In-memory token caching                                                | Persistent disk token caching |
 |--------------------------------|------------------------------------------------------------------------|-------------------------------|
