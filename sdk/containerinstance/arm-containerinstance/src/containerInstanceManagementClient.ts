@@ -63,7 +63,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/9.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +116,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.containerGroups = new ContainerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);

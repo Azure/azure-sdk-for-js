@@ -12,12 +12,13 @@ urlFragment: identity-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                               | **Description**                                                                                            |
-| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [clientSecretCredential.js][clientsecretcredential]         | Authenticates with an app registration’s client Id and secret.                                             |
-| [defaultAzureCredential.js][defaultazurecredential]         | Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`. |
-| [environmentCredential.js][environmentcredential]           | Authenticates as an app registration automatically using environment variables.                            |
-| [workloadIdentityCredential.js][workloadidentitycredential] | Authenticates using Workload Identity Credential                                                           |
+| **File Name**                                                 | **Description**                                                                                                     |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [azureDeveloperCliCredential.js][azuredeveloperclicredential] | Authenticates using Azure Developer CLI Credential                                                                  |
+| [clientSecretCredential.js][clientsecretcredential]           | Authenticates with an app registration’s client ID and secret.                                                      |
+| [defaultAzureCredential.js][defaultazurecredential]           | Tries several authentication methods using a single credential, which is the simplest way to use `@azure/identity`. |
+| [environmentCredential.js][environmentcredential]             | Authenticates as an app registration automatically using environment variables.                                     |
+| [workloadIdentityCredential.js][workloadidentitycredential]   | Authenticates using Workload Identity Credential                                                                    |
 
 ## Prerequisites
 
@@ -47,19 +48,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node clientSecretCredential.js
+node azureDeveloperCliCredential.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_CLIENT_ID="<azure client id>" AZURE_CLIENT_SECRET="<azure client secret>" node clientSecretCredential.js
+npx cross-env AZURE_TENANT_ID="<azure tenant id>" node azureDeveloperCliCredential.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[azuredeveloperclicredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/javascript/azureDeveloperCliCredential.js
 [clientsecretcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/javascript/clientSecretCredential.js
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/javascript/defaultAzureCredential.js
 [environmentcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3-beta/javascript/environmentCredential.js

@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Authorization/roleDefinitions/resourcetest?api-version=2022-04-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-authorization/9.0.0 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c4607a24-1279-4eb9-8752-3552777047c4"
+      },
+      "RequestBody": null,
+      "StatusCode": 403,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Length": "478",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Apr 2023 02:48:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d3c76448-fa86-4ab4-81d4-28403176dd09",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "d3c76448-fa86-4ab4-81d4-28403176dd09",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230424T024814Z:d3c76448-fa86-4ab4-81d4-28403176dd09"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "AuthorizationFailed",
+          "message": "The client \u0027c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf\u0027 with object id \u0027c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf\u0027 does not have authorization to perform action \u0027Microsoft.Authorization/roleDefinitions/delete\u0027 over scope \u0027/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Authorization/roleDefinitions/resourcetest\u0027 or the scope is invalid. If access was recently granted, please refresh your credentials."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
