@@ -13,71 +13,82 @@ import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { Tracer } from '@opentelemetry/sdk-trace-base';
 import { TracerProvider } from '@opentelemetry/api';
 
-// @public (undocumented)
+// @public
 export class AzureMonitorOpenTelemetryClient {
     constructor(config?: AzureMonitorOpenTelemetryConfig);
     flush(): Promise<void>;
-    // (undocumented)
     getConfig(): AzureMonitorOpenTelemetryConfig;
-    // Warning: (ae-forgotten-export) The symbol "MetricHandler" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     getMetricHandler(): MetricHandler;
-    // Warning: (ae-forgotten-export) The symbol "TraceHandler" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     getTraceHandler(): TraceHandler;
-    // (undocumented)
     shutdown(): Promise<void>;
-    // (undocumented)
     start(): void;
 }
 
-// Warning: (ae-forgotten-export) The symbol "IConfig" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export class AzureMonitorOpenTelemetryConfig implements IConfig {
     constructor();
-    // (undocumented)
     aadTokenCredential?: azureCore.TokenCredential;
-    set connectionString(connectionString: string);
-    // (undocumented)
     get connectionString(): string;
-    // (undocumented)
     disableOfflineStorage: boolean;
-    // (undocumented)
-    enableAutoCollectExceptions: boolean;
-    // (undocumented)
-    enableAutoCollectHeartbeat: boolean;
-    // (undocumented)
     enableAutoCollectPerformance: boolean;
-    // (undocumented)
     enableAutoCollectStandardMetrics: boolean;
-    // (undocumented)
     extendedMetrics: {
         [type: string]: boolean;
     };
-    // (undocumented)
-    getDisableStatsbeat(): boolean;
-    // (undocumented)
-    getIngestionEndpoint(): string;
-    // (undocumented)
-    getInstrumentationKey(): string;
-    // Warning: (ae-forgotten-export) The symbol "IInstrumentationsConfig" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     instrumentations: IInstrumentationsConfig;
-    // Warning: (ae-forgotten-export) The symbol "ILogInstrumentationsConfig" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    logInstrumentations: ILogInstrumentationsConfig;
     set resource(resource: Resource);
-    // (undocumented)
     get resource(): Resource;
-    // (undocumented)
     samplingRatio: number;
-    // (undocumented)
     storageDirectory: string;
+}
+
+// @public
+export interface IConfig {
+    aadTokenCredential?: azureCore.TokenCredential;
+    connectionString: string;
+    disableOfflineStorage: boolean;
+    enableAutoCollectPerformance: boolean;
+    enableAutoCollectStandardMetrics: boolean;
+    extendedMetrics: {
+        [type: string]: boolean;
+    };
+    instrumentations: IInstrumentationsConfig;
+    resource?: Resource;
+    samplingRatio: number;
+    storageDirectory: string;
+}
+
+// @public
+export interface IInstrumentationsConfig {
+    azureSdk?: InstrumentationConfig;
+    http?: InstrumentationConfig;
+    mongoDb?: InstrumentationConfig;
+    mySql?: InstrumentationConfig;
+    postgreSql?: InstrumentationConfig;
+    redis?: InstrumentationConfig;
+    redis4?: InstrumentationConfig;
+}
+
+// @public
+export class MetricHandler {
+    constructor(_config: AzureMonitorOpenTelemetryConfig);
+    flush(): Promise<void>;
+    getMeter(): Meter;
+    shutdown(): Promise<void>;
+    start(): void;
+}
+
+// @public
+export class TraceHandler {
+    constructor(_config: AzureMonitorOpenTelemetryConfig, _metricHandler?: MetricHandler | undefined);
+    addInstrumentation(instrumentation: Instrumentation): void;
+    addSpanProcessor(spanProcessor: SpanProcessor): void;
+    disableInstrumentations(): void;
+    flush(): Promise<void>;
+    getTracer(): Tracer;
+    getTracerProvider(): TracerProvider;
+    shutdown(): Promise<void>;
+    start(): void;
 }
 
 // (No @packageDocumentation comment for this package)

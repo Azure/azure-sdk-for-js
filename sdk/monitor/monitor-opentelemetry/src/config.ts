@@ -4,6 +4,9 @@ import * as azureCore from "@azure/core-http";
 import { Resource } from "@opentelemetry/resources";
 import { ExtendedMetricType, IConfig, IInstrumentationsConfig } from "./types";
 
+/**
+ * Azure Monitor OpenTelemetry Client Configuration
+ */
 export class AzureMonitorOpenTelemetryConfig implements IConfig {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
@@ -39,21 +42,13 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
   private _connectionString: string;
   private _resource: Resource;
 
-  /** Set Connection String used to send telemetry payloads to */
-  public set connectionString(connectionString: string) {
-    this._connectionString = connectionString;
-  }
-
   /**
-   * Get Connection String
+   * Get Connection String used to send telemetry payloads to
    */
   public get connectionString(): string {
     return this._connectionString;
   }
 
-  /**
-   *Set OpenTelemetry Resource
-   */
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
   }

@@ -5,6 +5,9 @@ import { AzureMonitorOpenTelemetryConfig } from "./config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
 
+/**
+ * Azure Monitor OpenTelemetry Client
+ */
 export class AzureMonitorOpenTelemetryClient {
   private _config: AzureMonitorOpenTelemetryConfig;
   private _traceHandler: TraceHandler;
