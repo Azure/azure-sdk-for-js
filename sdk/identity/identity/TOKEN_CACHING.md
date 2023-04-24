@@ -43,7 +43,7 @@ With persistent disk token caching enabled, the library first determines if a va
 
 #### Persist user authentication record
 
-When authenticating a user via `InteractiveBrowserCredential`, `DeviceCodeCredential` or `UsernamePasswordCredential` an `AuthenticationRecord` can be persisted as well. It is returned from the `authenticate` API and contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state.
+When authenticating a user via `InteractiveBrowserCredential`, `DeviceCodeCredential`, or `UsernamePasswordCredential`, an `AuthenticationRecord` can be persisted as well. It's returned from the `authenticate` API and contains data identifying an authenticated account. It's needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There's no sensitive data in the `AuthenticationRecord`, so it can be persisted in a non-protected state.
 
 [Here is an example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-authentication-record) of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
 
