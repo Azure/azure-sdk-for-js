@@ -62,8 +62,7 @@ export type AnswerCallResult = CallResult;
 // @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
-    constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
     createCall(targetParticipant: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     createGroupCall(targetParticipants: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
