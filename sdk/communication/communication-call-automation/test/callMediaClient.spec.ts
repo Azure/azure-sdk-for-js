@@ -208,7 +208,6 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-
   it("Play audio to all participants", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
@@ -237,10 +236,10 @@ describe("Call Media Client Live Tests", function () {
       uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
     };
 
-    await callConnection.getCallMedia().playToAll(playSource)
+    await callConnection.getCallMedia().playToAll(playSource);
 
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
-    assert.isDefined(playCompletedEvent)
+    assert.isDefined(playCompletedEvent);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
