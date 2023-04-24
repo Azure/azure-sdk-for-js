@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2023-01-03.
+- Added owner, group and permissions properties for response of DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeFileClient,read(), and DataLakeDirectoryClient.getProperties().
+
 ### Breaking Changes
 
 ### Bugs Fixed

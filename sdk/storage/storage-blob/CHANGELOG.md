@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for service version 2023-01-03.
+
 ### Breaking Changes
 
 ### Bugs Fixed

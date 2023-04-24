@@ -96,7 +96,7 @@ import {
   ensureCpkIfSpecified,
   EscapePath,
   getURLPathAndQuery,
-  ParseEncryptionContextHeaderValue,
+  ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common";
@@ -738,7 +738,7 @@ export class DataLakePathClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       })) as PathGetPropertiesResponse;
 
-      return ParseEncryptionContextHeaderValue(response);
+      return ParsePathGetPropertiesExtraHeaderValues(response);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1355,7 +1355,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
       });
 
-      const response = ParseEncryptionContextHeaderValue(
+      const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse
       ) as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
