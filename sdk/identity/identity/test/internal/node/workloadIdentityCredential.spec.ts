@@ -135,7 +135,7 @@ async function validateWorkloadIdentityCredential(
     tenantId: expectedTenantId,
     tokenFilePath: expectedFederatedTokenFilePath,
   } = options;
-  const actualFederatedTokenFilePath = credential["tokenFilePath"];
+  const actualFederatedTokenFilePath = credential["federatedTokenFilePath"]
   const clientAssertionCredential = credential["client"];
   const actualClientId = clientAssertionCredential
     ? clientAssertionCredential["clientId"]
