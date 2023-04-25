@@ -172,13 +172,13 @@ export interface LogPolicyOptions {
     logger?: Debugger;
 }
 
-// @public (undocumented)
+// @public
 export function multiTenantAuthenticationPolicy(options: MultiTenantAuthenticationPolicyOptions): PipelinePolicy;
 
-// @public (undocumented)
+// @public
 export const multiTenantAuthenticationPolicyName = "multiTenantAuthenticationPolicy";
 
-// @public (undocumented)
+// @public
 export interface MultiTenantAuthenticationPolicyOptions {
     credentials?: TokenCredential[];
     logger?: AzureLogger;

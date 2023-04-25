@@ -9,17 +9,23 @@ import { AccessTokenGetter, createTokenCycler } from "../util/tokenCycler";
 import { logger as coreLogger } from "../log";
 import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
+/**
+ * The programmatic identifier of the multiTenantAuthenticationPolicy.
+ */
 export const multiTenantAuthenticationPolicyName = "multiTenantAuthenticationPolicy";
 const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
 
-
+/**
+ * Options to configure the multiTenantAuthenticationPolicy
+ */
 export interface MultiTenantAuthenticationPolicyOptions {
   /**
-   * The TokenCredential list that can supply the multi tenant authentication token.
+   * TokenCredential list used to get token from auxiliary tenants and 
+   * one credential for each tenant the client may need to access
    */
   credentials?: TokenCredential[];
   /**
-   * The scopes for which the Multi tenant token applies.
+   * Scopes depend on the cloud your application runs in
    */
   scopes: string | string[];
   /**
@@ -40,6 +46,11 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<N
   return (await getAccessToken(scopes, getTokenOptions))?.token;
 }
 
+/**
+ * A policy that can request tokens from TokenCredential list implementation of auxiliary tenants and
+ * then apply them to every request's x-ms-authorization-auxiliary header.
+ * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
+ */
 export function multiTenantAuthenticationPolicy(
   options: MultiTenantAuthenticationPolicyOptions
 ): PipelinePolicy {
