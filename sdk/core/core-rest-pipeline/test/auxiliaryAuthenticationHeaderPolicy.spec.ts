@@ -45,8 +45,8 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const auxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [mockCredential]);
-    await auxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
+    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [mockCredential]);
+    await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken.calledWith(tokenScopes, {
