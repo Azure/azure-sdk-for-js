@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { IotHubClient } = require("@azure/arm-iothub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get all the IoT hubs in a subscription.
  *
  * @summary Get all the IoT hubs in a subscription.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_listbysubscription.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_listbysubscription.json
  */
 async function iotHubResourceListBySubscription() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function iotHubResourceListBySubscription() {
   console.log(resArray);
 }
 
-iotHubResourceListBySubscription().catch(console.error);
+async function main() {
+  iotHubResourceListBySubscription();
+}
+
+main().catch(console.error);

@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { IotHubClient } = require("@azure/arm-iothub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Test all routes configured in this Iot Hub
  *
  * @summary Test all routes configured in this Iot Hub
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_testallroutes.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_testallroutes.json
  */
 async function iotHubResourceTestAllRoutes() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const iotHubName = "testHub";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const input = {
     message: {
       appProperties: { key1: "value1" },
@@ -35,4 +37,8 @@ async function iotHubResourceTestAllRoutes() {
   console.log(result);
 }
 
-iotHubResourceTestAllRoutes().catch(console.error);
+async function main() {
+  iotHubResourceTestAllRoutes();
+}
+
+main().catch(console.error);

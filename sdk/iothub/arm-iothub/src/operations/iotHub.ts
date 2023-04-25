@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { IotHubClient } from "../iotHubClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import { FailoverInput, IotHubManualFailoverOptionalParams } from "../models";
 
 /** Class containing IotHub operations. */
@@ -42,14 +46,14 @@ export class IotHubImpl implements IotHub {
     resourceGroupName: string,
     failoverInput: FailoverInput,
     options?: IotHubManualFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -82,13 +86,13 @@ export class IotHubImpl implements IotHub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { iotHubName, resourceGroupName, failoverInput, options },
-      manualFailoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { iotHubName, resourceGroupName, failoverInput, options },
+      spec: manualFailoverOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
