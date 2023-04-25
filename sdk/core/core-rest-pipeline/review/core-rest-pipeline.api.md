@@ -49,19 +49,6 @@ export interface AuthorizeRequestOptions {
 }
 
 // @public
-export function auxiliaryAuthenticationPolicy(options: AuxiliaryAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export const auxiliaryAuthenticationPolicyName = "auxiliaryAuthenticationPolicy";
-
-// @public
-export interface AuxiliaryAuthenticationPolicyOptions {
-    credentials?: TokenCredential[];
-    logger?: AzureLogger;
-    scopes: string | string[];
-}
-
-// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -183,6 +170,19 @@ export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
+}
+
+// @public (undocumented)
+export function multiTenantAuthenticationPolicy(options: MultiTenantAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public (undocumented)
+export const multiTenantAuthenticationPolicyName = "multiTenantAuthenticationPolicy";
+
+// @public (undocumented)
+export interface MultiTenantAuthenticationPolicyOptions {
+    credentials?: TokenCredential[];
+    logger?: AzureLogger;
+    scopes: string | string[];
 }
 
 // @public

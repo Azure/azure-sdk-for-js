@@ -84,11 +84,11 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const multiTenantAuthenticationPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [
+    const mockMultiTenantAuthenticationPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [
       mockCredential1,
       mockCredential2,
     ]);
-    await multiTenantAuthenticationPolicy.sendRequest(request, next);
+    await mockMultiTenantAuthenticationPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken1.calledWith(tokenScopes, {
@@ -99,7 +99,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
     );
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer ${mockToken1},Bearer ${mockToken2}`
+      `Bearer ${mockToken1}, Bearer ${mockToken2}`
     );
   });
 
@@ -127,7 +127,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
     assert.strictEqual(longCredential.authCount, 1);
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer mock-token,Bearer mock-token`
+      `Bearer mock-token, Bearer mock-token`
     );
 
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
@@ -202,7 +202,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Multi tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Multi-tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
     );
   });
 
