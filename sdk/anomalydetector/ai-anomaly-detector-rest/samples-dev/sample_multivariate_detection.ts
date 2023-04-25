@@ -25,7 +25,7 @@ const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const dataSource = "<your data source>";
 
-function sleep(time: number): Promise<NodeJS.Timer> {
+function sleep(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 

@@ -8,13 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ClassicAdministratorsImpl,
+  GlobalAdministratorImpl,
+  DenyAssignmentsImpl,
+  ProviderOperationsMetadataOperationsImpl,
+  RoleAssignmentsImpl,
+  PermissionsImpl,
+  RoleDefinitionsImpl,
+  EligibleChildResourcesImpl,
   RoleAssignmentSchedulesImpl,
   RoleAssignmentScheduleInstancesImpl,
   RoleAssignmentScheduleRequestsImpl,
@@ -22,11 +25,17 @@ import {
   RoleEligibilityScheduleInstancesImpl,
   RoleEligibilityScheduleRequestsImpl,
   RoleManagementPoliciesImpl,
-  RoleManagementPolicyAssignmentsImpl,
-  EligibleChildResourcesImpl,
-  RoleAssignmentsImpl
+  RoleManagementPolicyAssignmentsImpl
 } from "./operations";
 import {
+  ClassicAdministrators,
+  GlobalAdministrator,
+  DenyAssignments,
+  ProviderOperationsMetadataOperations,
+  RoleAssignments,
+  Permissions,
+  RoleDefinitions,
+  EligibleChildResources,
   RoleAssignmentSchedules,
   RoleAssignmentScheduleInstances,
   RoleAssignmentScheduleRequests,
@@ -34,15 +43,12 @@ import {
   RoleEligibilityScheduleInstances,
   RoleEligibilityScheduleRequests,
   RoleManagementPolicies,
-  RoleManagementPolicyAssignments,
-  EligibleChildResources,
-  RoleAssignments
+  RoleManagementPolicyAssignments
 } from "./operationsInterfaces";
 import { AuthorizationManagementClientOptionalParams } from "./models";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -72,7 +78,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-authorization/9.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +131,16 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-10-01-preview";
+    this.classicAdministrators = new ClassicAdministratorsImpl(this);
+    this.globalAdministrator = new GlobalAdministratorImpl(this);
+    this.denyAssignments = new DenyAssignmentsImpl(this);
+    this.providerOperationsMetadataOperations = new ProviderOperationsMetadataOperationsImpl(
+      this
+    );
+    this.roleAssignments = new RoleAssignmentsImpl(this);
+    this.permissions = new PermissionsImpl(this);
+    this.roleDefinitions = new RoleDefinitionsImpl(this);
+    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
     this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
     this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
       this
@@ -144,39 +159,16 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
       this
     );
-    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
-    this.roleAssignments = new RoleAssignmentsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
-  }
-
+  classicAdministrators: ClassicAdministrators;
+  globalAdministrator: GlobalAdministrator;
+  denyAssignments: DenyAssignments;
+  providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
+  roleAssignments: RoleAssignments;
+  permissions: Permissions;
+  roleDefinitions: RoleDefinitions;
+  eligibleChildResources: EligibleChildResources;
   roleAssignmentSchedules: RoleAssignmentSchedules;
   roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
   roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
@@ -185,6 +177,4 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
   roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
   roleManagementPolicies: RoleManagementPolicies;
   roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-  eligibleChildResources: EligibleChildResources;
-  roleAssignments: RoleAssignments;
 }

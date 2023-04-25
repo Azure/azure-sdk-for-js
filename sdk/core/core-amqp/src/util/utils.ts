@@ -122,14 +122,12 @@ export const defaultCancellableLock: CancellableAsyncLock = new CancellableAsync
  * the promise with the given value.
  */
 export class Timeout {
-  // Node and browsers return different types from setTimeout
-  // Any is the easiest way to avoid type errors in either platform
-  private _timer?: any;
+  private _timer?: ReturnType<typeof setTimeout>;
 
   set<T>(t: number, value?: T): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.clear();
-      const callback = value ? () => reject(new Error(`${value}`)) : resolve;
+      const callback: (args: any) => void = value ? () => reject(new Error(`${value}`)) : resolve;
       this._timer = setTimeout(callback, t);
     });
   }
