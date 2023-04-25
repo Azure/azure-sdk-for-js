@@ -1,5 +1,5 @@
 import { delay } from "@azure/core-util";
-import { EventHubsStressTester, createEventHubsConsumerClient, createEventHubsProducerClient } from "./eventHubsStressTester";
+import { EventHubsStressTester, createEventHubsConsumerClient, createEventHubsProducerClient, defaultClientAppInsights } from "./eventHubsStressTester";
 import parsedArgs from "minimist";
 import { Subscription } from "@azure/event-hubs";
 
@@ -24,7 +24,7 @@ export async function scenarioNoActivity() {
 
   const consumerClient = createEventHubsConsumerClient()
   const producer = createEventHubsProducerClient();
-
+  let terminalCase = false
   const startedAt = new Date();
 
   const stressBase = new EventHubsStressTester({
@@ -35,18 +35,26 @@ export async function scenarioNoActivity() {
 
   const partitionIds = await consumerClient.getPartitionIds();
   console.log(`partitionIds ===============> ${partitionIds}`);
-  const subscribers: Subscription[] = [];
+  let subscribers: Record<string, Subscription> = {};
   for (let partitionId of partitionIds) {
     console.log(`subscribe to partitionId : ${partitionId}`);
-    subscribers.push(consumerClient.subscribe(
+    subscribers[partitionId] = consumerClient.subscribe(
       partitionId,
       {
-        processEvents: async (_events, _context) => {
-          stressBase.eventsReceivedCount += _events.length;
+        processEvents: async (events, context) => {
+          stressBase.eventsReceivedCount += events.length;
+          defaultClientAppInsights.trackMetric({ name: "eventsReceived", value: events.length, contextObjects: context, time: new Date() })
         },
         processError: async (err) => {
           console.log(`Error : ${JSON.stringify(err)}`);
           stressBase._numErrors += 1
+          defaultClientAppInsights.trackException({ exception: err, time: new Date() })
+          terminalCase = true
+        }, processInitialize: async (context) => {
+          defaultClientAppInsights.trackEvent({ name: "processInitialize", contextObjects: context, time: new Date() })
+        },
+        processClose: async () => {
+          defaultClientAppInsights.trackEvent({ name: "processClose", contextObjects: context, time: new Date() })
         }
       },
       {
@@ -54,16 +62,18 @@ export async function scenarioNoActivity() {
         maxWaitTimeInSeconds: 0.1,
         startPosition: { enqueuedOn: Date.now(), isInclusive: true }
       }
-    ));
+    );
   }
-
-  while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
+  // another version of the test to update event-hub prop to make the event-hub force detach and attach
+  while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
     await delay(Math.max(5000, testDurationInMs / 1000))
-    const activeSubscribers = subscribers.reduce((accumulator, object) => {
-      return accumulator + (object.isRunning ? 1 : 0);
-    }, 0)
-    stressBase.eventProperties["subscribers.active"] = activeSubscribers
-    stressBase.eventProperties["subscribers.closed"] = subscribers.length - activeSubscribers
+    for (const id in subscribers) {
+      if (!subscribers[id].isRunning) {
+        terminalCase = true
+        defaultClientAppInsights.trackEvent({ name: "subscriberClosed", contextObjects: { partitionId: id }, time: new Date() })
+        break
+      }
+    }
   }
   await consumerClient.close()
   await stressBase.endTest()

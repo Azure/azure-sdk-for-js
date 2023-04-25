@@ -16,7 +16,7 @@ dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
 appInsights.setup().setAutoCollectConsole(true).setUseDiskRetryCaching(true).start();
 
-const defaultClient = appInsights.defaultClient;
+export const defaultClientAppInsights = appInsights.defaultClient;
 
 export interface StressTestInitOptions {
   /**
@@ -32,7 +32,7 @@ export function captureConsoleOutputToAppInsights() {
   debug.log = (...args: any[]) => {
     // for some reason the appinsights console.log hook doesn't seem to be firing for me (or at least
     // it's inconsistent). For now I'll just add a hook in here and send the events myself.
-    defaultClient.trackTrace({
+    defaultClientAppInsights.trackTrace({
       message: util.format(...args),
     });
   };
@@ -56,12 +56,12 @@ export class EventHubsStressTester {
   }
 
   public async init(options?: StressTestInitOptions) {
-    defaultClient.commonProperties = {
+    defaultClientAppInsights.commonProperties = {
       // these will be reported with each event
       testName: this.snapshotOptions.testName,
     };
 
-    defaultClient.trackEvent({
+    defaultClientAppInsights.trackEvent({
       name: "start",
       properties: {
         ...options?.additionalEventProperties,
@@ -79,12 +79,11 @@ export class EventHubsStressTester {
     this.eventProperties["errorCount"] = this._numErrors;
     this._numErrors = 0;
 
-    defaultClient.trackEvent({
+    defaultClientAppInsights.trackEvent({
       name: "summary",
-      properties: this.eventProperties,
+      properties: this.eventProperties
     });
-
-    defaultClient.flush();
+    defaultClientAppInsights.flush();
 
     if (this.snapshotOptions.writeSnapshotInfoToConsole) {
       console.log(JSON.stringify(this.eventProperties, undefined, 2));

@@ -6,6 +6,7 @@ appVersion: v0.1
 annotations:
   stressTest: 'true'
   namespace: 'javascript'
+  service: "event-hubs"
 
 dependencies:
 - name: stress-test-addons
