@@ -133,10 +133,11 @@ describe("AlphaIdsClient - headers", function () {
     const testPipeline = createEmptyPipeline();
     const customPolicyName = "custom-header-policy";
     const customHeader = "alphaidsclient-headers-test-additional";
+    const customApiVersion = "alphaids-custom-api-version";
     testPipeline.addPolicy(userAgentPolicy(customHeader, customPolicyName));
     client = new AlphaIdsClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: configurationHttpClient,
-      apiVersion: "custom-api-version",
+      apiVersion: customApiVersion,
       pipeline: testPipeline,
     } as never);
 
@@ -147,5 +148,6 @@ describe("AlphaIdsClient - headers", function () {
 
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(request.headers.get(userAgentHeader) as string, new RegExp(customHeader, "g"));
+    assert.match(request.url, new RegExp(customApiVersion, "g"));
   });
 });
