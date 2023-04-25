@@ -10,15 +10,15 @@ import { logger as coreLogger } from "../log";
 import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
 /**
- * The programmatic identifier of the multiTenantAuthenticationPolicy.
+ * The programmatic identifier of the auxiliaryAuthenticationHeaderPolicy.
  */
-export const multiTenantAuthenticationPolicyName = "multiTenantAuthenticationPolicy";
+export const auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
 const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
 
 /**
- * Options to configure the multiTenantAuthenticationPolicy
+ * Options to configure the auxiliaryAuthenticationHeaderPolicy
  */
-export interface MultiTenantAuthenticationPolicyOptions {
+export interface AuxiliaryAuthenticationHeaderPolicyOptions {
   /**
    * TokenCredential list used to get token from auxiliary tenants and 
    * one credential for each tenant the client may need to access
@@ -47,23 +47,24 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<N
 }
 
 /**
- * A policy that can request tokens from TokenCredential list implementation of auxiliary tenants and
- * then apply them to every request's x-ms-authorization-auxiliary header.
+ * A policy for external tokens to `x-ms-authorization-auxiliary` header.
+ * This header will be used when creating a cross-tenant application we may need to handle authentication requests 
+ * for resources that are in different tenants.
  * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
  */
-export function multiTenantAuthenticationPolicy(
-  options: MultiTenantAuthenticationPolicyOptions
+export function auxiliaryAuthenticationHeaderPolicy(
+  options: AuxiliaryAuthenticationHeaderPolicyOptions
 ): PipelinePolicy {
   const { credentials, scopes } = options;
   const logger = options.logger || coreLogger;
   const tokenCyclerMap = new WeakMap<TokenCredential, AccessTokenGetter>();
 
   return {
-    name: multiTenantAuthenticationPolicyName,
+    name: auxiliaryAuthenticationHeaderPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Multi-tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
+          "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
         );
       }
       if (!credentials || credentials.length === 0) {

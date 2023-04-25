@@ -8,7 +8,7 @@ import {
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
-  multiTenantAuthenticationPolicy,
+  auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
 } from "../src";
@@ -16,7 +16,7 @@ import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
-describe("MultiTenantAuthenticationPolicy", function () {
+describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -45,8 +45,8 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const multiTenantTokenAuthPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [mockCredential]);
-    await multiTenantTokenAuthPolicy.sendRequest(request, next);
+    const auxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [mockCredential]);
+    await auxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken.calledWith(tokenScopes, {
@@ -84,11 +84,11 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const mockMultiTenantAuthenticationPolicy = createMultiTenantAuthenticationPolicy(tokenScopes, [
+    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [
       mockCredential1,
       mockCredential2,
     ]);
-    await mockMultiTenantAuthenticationPolicy.sendRequest(request, next);
+    await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
     assert(
       fakeGetToken1.calledWith(tokenScopes, {
@@ -118,7 +118,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const policy = createMultiTenantAuthenticationPolicy("test-scope", [shortCredential, longCredential]);
+    const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [shortCredential, longCredential]);
 
     // The token is cached and remains cached for a bit.
     await policy.sendRequest(request, next);
@@ -165,7 +165,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const policy = createMultiTenantAuthenticationPolicy("test-scope", [credential]);
+    const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
 
     credential.shouldThrow = true;
 
@@ -190,7 +190,7 @@ describe("MultiTenantAuthenticationPolicy", function () {
     const credential = new MockRefreshAzureCredential(tokenExpiration);
 
     const request = createPipelineRequest({ url: "http://example.com" });
-    const policy = createMultiTenantAuthenticationPolicy("test-scope", [credential]);
+    const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     let error: Error | undefined;
@@ -202,15 +202,15 @@ describe("MultiTenantAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Multi-tenant token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
     );
   });
 
-  function createMultiTenantAuthenticationPolicy(
+  function createAuxiliaryAuthenticationHeaderPolicy(
     scopes: string | string[],
     credentials: TokenCredential[]
   ): PipelinePolicy {
-    return multiTenantAuthenticationPolicy({
+    return auxiliaryAuthenticationHeaderPolicy({
       scopes,
       credentials,
     });
