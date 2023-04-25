@@ -45,7 +45,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [mockCredential]);
+    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
+      tokenScopes,
+      [mockCredential]
+    );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
     assert(
@@ -84,10 +87,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(tokenScopes, [
-      mockCredential1,
-      mockCredential2,
-    ]);
+    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
+      tokenScopes,
+      [mockCredential1, mockCredential2]
+    );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
     assert(
@@ -118,7 +121,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [shortCredential, longCredential]);
+    const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [
+      shortCredential,
+      longCredential,
+    ]);
 
     // The token is cached and remains cached for a bit.
     await policy.sendRequest(request, next);
@@ -225,7 +231,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
     public clock?: sinon.SinonFakeTimers
-  ) { }
+  ) {}
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;

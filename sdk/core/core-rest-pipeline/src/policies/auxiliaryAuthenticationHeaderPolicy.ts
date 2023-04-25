@@ -20,7 +20,7 @@ const AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
  */
 export interface AuxiliaryAuthenticationHeaderPolicyOptions {
   /**
-   * TokenCredential list used to get token from auxiliary tenants and 
+   * TokenCredential list used to get token from auxiliary tenants and
    * one credential for each tenant the client may need to access
    */
   credentials?: TokenCredential[];
@@ -48,7 +48,7 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<N
 
 /**
  * A policy for external tokens to `x-ms-authorization-auxiliary` header.
- * This header will be used when creating a cross-tenant application we may need to handle authentication requests 
+ * This header will be used when creating a cross-tenant application we may need to handle authentication requests
  * for resources that are in different tenants.
  * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
  */
@@ -76,17 +76,22 @@ export function auxiliaryAuthenticationHeaderPolicy(
         if (!tokenCyclerMap.has(credential)) {
           tokenCyclerMap.set(credential, createTokenCycler(credential));
         }
-        tokenPromises.push(sendAuthorizeRequest({
-          scopes: Array.isArray(scopes) ? scopes : [scopes],
-          request,
-          getAccessToken: tokenCyclerMap.get(credential)!,
-          logger,
-        }));
+        tokenPromises.push(
+          sendAuthorizeRequest({
+            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            request,
+            getAccessToken: tokenCyclerMap.get(credential)!,
+            logger,
+          })
+        );
       }
       const auxiliaryTokens: NullableString[] = await Promise.all(tokenPromises);
       request.headers.set(
         AUTHORIZATION_AUXILIARY_HEADER,
-        auxiliaryTokens.filter(token => Boolean(token)).map((token) => `Bearer ${token}`).join(", ")
+        auxiliaryTokens
+          .filter((token) => Boolean(token))
+          .map((token) => `Bearer ${token}`)
+          .join(", ")
       );
 
       return next(request);
