@@ -10,8 +10,7 @@ interface ScenarioNoActivityOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   const options = parsedArgs<ScenarioNoActivityOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || //20 * 24 * 60 *
-      60 * 1000, // Default = 20 days
+    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 20 days
   };
 }
 
@@ -30,9 +29,6 @@ export async function scenarioNoActivity() {
   const stressBase = new EventHubsStressTester({
     testName: "noActivity"
   });
-  await producer.sendBatch([{ body: "abcd" }, { body: "abcd2" }])
-  stressBase.eventsSentCount += 2;
-
   const partitionIds = await consumerClient.getPartitionIds();
   console.log(`partitionIds ===============> ${partitionIds}`);
   let subscribers: Record<string, Subscription> = {};
@@ -64,6 +60,9 @@ export async function scenarioNoActivity() {
       }
     );
   }
+  await producer.sendBatch([{ body: "abcd" }, { body: "abcd2" }])
+  stressBase.eventsSentCount += 2;
+
   // another version of the test to update event-hub prop to make the event-hub force detach and attach
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
     await delay(Math.max(5000, testDurationInMs / 1000))

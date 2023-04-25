@@ -106,12 +106,12 @@ export class EventHubsStressTester {
 export function createEventHubsConsumerClient(options?: EventHubConsumerClientOptions): EventHubConsumerClient {
   const consumerGroup = process.env.EVENTHUBS_CONSUMER_GROUP || "$Default";
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
-
-  if (!connectionString || !consumerGroup) {
-    throw new Error("EVENTHUBS_CONNECTION_STRING and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!");
+  const hubName = process.env.EVENTHUB_NAME;
+  if (!connectionString || !consumerGroup || !hubName) {
+    throw new Error("EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!");
   }
-
-  return new EventHubConsumerClient(consumerGroup, connectionString, options);
+  console.log(consumerGroup, connectionString, hubName)
+  return new EventHubConsumerClient(consumerGroup, connectionString, hubName, options);
 }
 
 export function createEventHubsProducerClient(options?: EventHubClientOptions): EventHubProducerClient {
@@ -122,7 +122,7 @@ export function createEventHubsProducerClient(options?: EventHubClientOptions): 
     throw new Error("EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!");
   }
 
-  return new EventHubProducerClient(connectionString, options);
+  return new EventHubProducerClient(connectionString, eventHubName, options);
 }
 
 /**
