@@ -91,4 +91,4 @@ export {
   auxiliaryAuthenticationHeaderPolicy,
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
-} from "./policies/multiTenantAuthenticationPolicy";
+} from "./policies/auxiliaryAuthenticationHeaderPolicy";
