@@ -12555,7 +12555,7 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-K0DFISB2emK3oKyjMZee5eVoZdISOJmlQvxXNr8mL89xZZ9j6XHisrFTkefSq+Iua92cPTDhy3O5xVeaUKW+rQ==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-dqVp/cNWQcLDxLIOrQMaVaCzU1mmbba82eB95Oi6RcKtTdBT3h60IqDD8kWhpoQpgclpssbWIO+XhNUOWWrZ2Q==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
@@ -12569,7 +12569,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
