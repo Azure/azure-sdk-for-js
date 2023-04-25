@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerInstanceManagementClient.",
-  "version": "9.1.0-beta.2",
+  "version": "9.1.1",
   "engines": {
     "node": ">=14.0.0"
   },

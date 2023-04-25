@@ -1,6 +1,6 @@
 # Release History
     
-## 1.3.0-beta.1 (2023-04-07)
+## 1.3.0-beta.1 (2023-04-19)
     
 **Features**
 
@@ -28,7 +28,7 @@
   - Added Type Alias ManagedCCFListBySubscriptionNextResponse
   - Added Type Alias ManagedCCFListBySubscriptionResponse
   - Added Type Alias RunningState
-  - Interface ConfidentialLedger has a new optional parameter runningState
+  - Interface LedgerProperties has a new optional parameter runningState
   - Added Enum KnownLanguageRuntime
   - Added Enum KnownRunningState
     
