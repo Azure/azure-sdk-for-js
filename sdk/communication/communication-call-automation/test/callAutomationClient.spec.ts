@@ -5,7 +5,12 @@ import { Recorder } from "@azure-tools/test-recorder";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallConnectionProperties } from "../src/models/models";
 import { AnswerCallResult, CreateCallResult } from "../src/models/responses";
-import { CALL_CALLBACK_URL, CALL_INCOMING_CALL_CONTEXT, CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
+import {
+  CALL_CALLBACK_URL,
+  CALL_INCOMING_CALL_CONTEXT,
+  CALL_TARGET_ID,
+  CALL_TARGET_ID_2,
+} from "./utils/connectionUtils";
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -42,7 +47,7 @@ describe("Call Automation Client Unit Tests", () => {
       },
     ];
     target = {
-      targetParticipant: { communicationUserId: CALL_TARGET_ID }
+      targetParticipant: { communicationUserId: CALL_TARGET_ID },
     };
     // stub CallAutomationClient
     client = Sinon.createStubInstance(
@@ -174,7 +179,6 @@ describe("Call Automation Client Unit Tests", () => {
       })
       .catch((error) => console.error(error));
   });
-
 });
 
 describe("Call Automation Main Client Live Tests", function () {

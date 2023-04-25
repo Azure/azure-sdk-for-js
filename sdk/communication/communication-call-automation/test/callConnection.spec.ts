@@ -5,7 +5,17 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { CallAutomationClient, CallInvite, CallConnection, CallConnectionProperties, CallParticipant, ListParticipantsResult, AddParticipantResult, TransferCallResult, RemoveParticipantResult } from "../src";
+import {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CallConnectionProperties,
+  CallParticipant,
+  ListParticipantsResult,
+  AddParticipantResult,
+  TransferCallResult,
+  RemoveParticipantResult,
+} from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID } from "./utils/connectionUtils";
 import {
@@ -30,7 +40,7 @@ describe("CallConnection Unit Tests", () => {
   beforeEach(() => {
     // set up
     target = {
-      targetParticipant: { communicationUserId: CALL_TARGET_ID }
+      targetParticipant: { communicationUserId: CALL_TARGET_ID },
     };
 
     // stub CallConnection
@@ -41,8 +51,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("GetCallConnectionProperties", async () => {
     // mocks
-    const callConnectionPropertiesMock: CallConnectionProperties = {
-    };
+    const callConnectionPropertiesMock: CallConnectionProperties = {};
     callConnection.getCallConnectionProperties.returns(
       new Promise((resolve) => {
         resolve(callConnectionPropertiesMock);
@@ -102,8 +111,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("GetParticipant", async () => {
     // mocks
-    const callParticipantMock: CallParticipant = {
-    };
+    const callParticipantMock: CallParticipant = {};
     callConnection.getParticipant.returns(
       new Promise((resolve) => {
         resolve(callParticipantMock);
@@ -125,8 +133,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("ListParticipants", async () => {
     // mocks
-    const listParticipantsResultMock: ListParticipantsResult = {
-    };
+    const listParticipantsResultMock: ListParticipantsResult = {};
     callConnection.listParticipants.returns(
       new Promise((resolve) => {
         resolve(listParticipantsResultMock);
@@ -148,8 +155,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {
-    };
+    const addParticipantResultMock: AddParticipantResult = {};
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -171,8 +177,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -194,8 +199,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {
-    };
+    const removeParticipantResultMock: RemoveParticipantResult = {};
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);

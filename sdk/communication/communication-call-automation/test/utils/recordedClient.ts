@@ -11,7 +11,6 @@ import {
   assertEnvironmentVariable,
   isRecordMode,
   isPlaybackMode,
-  relativeRecordingsPath,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
