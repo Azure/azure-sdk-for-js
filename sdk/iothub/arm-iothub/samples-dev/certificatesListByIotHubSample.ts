@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the list of certificates.
  *
  * @summary Returns the list of certificates.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_listcertificates.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_listcertificates.json
  */
 async function certificatesListByIotHub() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testhub";
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function certificatesListByIotHub() {
   console.log(result);
 }
 
-certificatesListByIotHub().catch(console.error);
+async function main() {
+  certificatesListByIotHub();
+}
+
+main().catch(console.error);
