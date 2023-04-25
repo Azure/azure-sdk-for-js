@@ -10,9 +10,9 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { ModelGetPatternAnyEntityInfoResponse } from "../../src/models";
 
 
-describe("Model Patters Tests", () => {
+describe("Model Patters Tests", function () {
 
-  it("should list entities", async () => {
+  it("should list entities", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any entity", explicitList: ["item"] });
       const results = await client.model.listPatternAnyEntityInfos(BaseTest.GlobalAppId, "0.1");
@@ -29,7 +29,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should get entity", async () => {
+  it("should get entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item"] });
       const result = await client.model.getPatternAnyEntityInfo(BaseTest.GlobalAppId, "0.1", entityId.body);
@@ -41,7 +41,7 @@ describe("Model Patters Tests", () => {
     });
   });
 
-  it("should add entity", async () => {
+  it("should add entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item"] });
 
@@ -55,7 +55,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should update entity", async () => {
+  it("should update entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item"] });
       await client.model.updatePatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", entityId.body, {
@@ -71,7 +71,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should delete entity", async () => {
+  it("should delete entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item"] });
       await client.model.deletePatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", entityId.body);
@@ -80,7 +80,7 @@ describe("Model Patters Tests", () => {
     });
   });
 
-  it("should get explicit list", async () => {
+  it("should get explicit list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item1", "item2"] });
       const result = await client.model.getExplicitList(BaseTest.GlobalAppId, "0.1", entityId.body);
@@ -92,7 +92,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should add explicit list item", async () => {
+  it("should add explicit list item", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: ["item1"] });
       const itemId = await client.model.addExplicitListItem(BaseTest.GlobalAppId, "0.1", entityId.body, { explicitListItem: "item2" });
@@ -104,7 +104,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should get explicit list item", async () => {
+  it("should get explicit list item", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: [] });
       const itemId = await client.model.addExplicitListItem(BaseTest.GlobalAppId, "0.1", entityId.body, { explicitListItem: "item" });
@@ -115,7 +115,7 @@ describe("Model Patters Tests", () => {
     });
   });
 
-  it("should update explicit list item", async () => {
+  it("should update explicit list item", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: [] });
       const itemId = await client.model.addExplicitListItem(BaseTest.GlobalAppId, "0.1", entityId.body, { explicitListItem: "item" });
@@ -128,7 +128,7 @@ describe("Model Patters Tests", () => {
   });
 
 
-  it("should delete explicit list item", async () => {
+  it("should delete explicit list item", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test", explicitList: [] });
       const itemId = await client.model.addExplicitListItem(BaseTest.GlobalAppId, "0.1", entityId.body, { explicitListItem: "item" });

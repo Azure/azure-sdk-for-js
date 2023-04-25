@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { InboundEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   InboundEndpoint,
   InboundEndpointsListNextOptionalParams,
   InboundEndpointsListOptionalParams,
+  InboundEndpointsListResponse,
   InboundEndpointsCreateOrUpdateOptionalParams,
   InboundEndpointsCreateOrUpdateResponse,
   InboundEndpointPatch,
@@ -26,7 +28,6 @@ import {
   InboundEndpointsDeleteOptionalParams,
   InboundEndpointsGetOptionalParams,
   InboundEndpointsGetResponse,
-  InboundEndpointsListResponse,
   InboundEndpointsListNextResponse
 } from "../models";
 
@@ -66,8 +67,16 @@ export class InboundEndpointsImpl implements InboundEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, dnsResolverName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          dnsResolverName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -75,11 +84,18 @@ export class InboundEndpointsImpl implements InboundEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: InboundEndpointsListOptionalParams
+    options?: InboundEndpointsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InboundEndpoint[]> {
-    let result = await this._list(resourceGroupName, dnsResolverName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InboundEndpointsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, dnsResolverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -88,7 +104,9 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -614,7 +632,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

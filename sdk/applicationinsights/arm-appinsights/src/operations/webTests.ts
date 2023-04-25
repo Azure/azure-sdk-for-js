@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WebTests } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,11 +17,13 @@ import {
   WebTest,
   WebTestsListByResourceGroupNextOptionalParams,
   WebTestsListByResourceGroupOptionalParams,
+  WebTestsListByResourceGroupResponse,
   WebTestsListNextOptionalParams,
   WebTestsListOptionalParams,
+  WebTestsListResponse,
   WebTestsListByComponentNextOptionalParams,
   WebTestsListByComponentOptionalParams,
-  WebTestsListByResourceGroupResponse,
+  WebTestsListByComponentResponse,
   WebTestsGetOptionalParams,
   WebTestsGetResponse,
   WebTestsCreateOrUpdateOptionalParams,
@@ -29,8 +32,6 @@ import {
   WebTestsUpdateTagsOptionalParams,
   WebTestsUpdateTagsResponse,
   WebTestsDeleteOptionalParams,
-  WebTestsListResponse,
-  WebTestsListByComponentResponse,
   WebTestsListByResourceGroupNextResponse,
   WebTestsListNextResponse,
   WebTestsListByComponentNextResponse
@@ -66,19 +67,33 @@ export class WebTestsImpl implements WebTests {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: WebTestsListByResourceGroupOptionalParams
+    options?: WebTestsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WebTest[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WebTestsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -86,7 +101,9 @@ export class WebTestsImpl implements WebTests {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,22 +134,34 @@ export class WebTestsImpl implements WebTests {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: WebTestsListOptionalParams
+    options?: WebTestsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WebTest[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WebTestsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -167,11 +196,15 @@ export class WebTestsImpl implements WebTests {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByComponentPagingPage(
           componentName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -180,15 +213,22 @@ export class WebTestsImpl implements WebTests {
   private async *listByComponentPagingPage(
     componentName: string,
     resourceGroupName: string,
-    options?: WebTestsListByComponentOptionalParams
+    options?: WebTestsListByComponentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WebTest[]> {
-    let result = await this._listByComponent(
-      componentName,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WebTestsListByComponentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByComponent(
+        componentName,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByComponentNext(
         componentName,
@@ -197,7 +237,9 @@ export class WebTestsImpl implements WebTests {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

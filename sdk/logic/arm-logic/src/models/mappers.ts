@@ -321,15 +321,13 @@ export const WorkflowParameter: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       metadata: {
         serializedName: "metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       description: {
@@ -964,8 +962,7 @@ export const ContentLink: coreClient.CompositeMapper = {
         serializedName: "metadata",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -1036,8 +1033,7 @@ export const WorkflowRunTrigger: coreClient.CompositeMapper = {
         serializedName: "inputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       inputsLink: {
@@ -1051,8 +1047,7 @@ export const WorkflowRunTrigger: coreClient.CompositeMapper = {
         serializedName: "outputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       outputsLink: {
@@ -1115,16 +1110,14 @@ export const WorkflowRunTrigger: coreClient.CompositeMapper = {
         serializedName: "error",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       trackedProperties: {
         serializedName: "trackedProperties",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -1472,8 +1465,7 @@ export const Request: coreClient.CompositeMapper = {
       headers: {
         serializedName: "headers",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       uri: {
@@ -1500,8 +1492,7 @@ export const Response: coreClient.CompositeMapper = {
       headers: {
         serializedName: "headers",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       statusCode: {
@@ -1846,8 +1837,7 @@ export const TrackingEvent: coreClient.CompositeMapper = {
       record: {
         serializedName: "record",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       error: {
@@ -5152,8 +5142,7 @@ export const ExtendedErrorInfo: coreClient.CompositeMapper = {
       innerError: {
         serializedName: "innerError",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -5220,9 +5209,7 @@ export const ApiResourceProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       },
       metadata: {
@@ -5757,8 +5744,7 @@ export const SwaggerSchema: coreClient.CompositeMapper = {
       additionalProperties: {
         serializedName: "additionalProperties",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       required: {
@@ -5825,8 +5811,7 @@ export const SwaggerSchema: coreClient.CompositeMapper = {
       example: {
         serializedName: "example",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       notificationUrlExtension: {
@@ -5906,9 +5891,7 @@ export const SwaggerXml: coreClient.CompositeMapper = {
         serializedName: "extensions",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -5936,9 +5919,7 @@ export const SwaggerExternalDocumentation: coreClient.CompositeMapper = {
         serializedName: "extensions",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -5966,9 +5947,7 @@ export const SwaggerCustomDynamicSchema: coreClient.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -6187,8 +6166,7 @@ export const SwaggerCustomDynamicTreeParameter: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       parameterReference: {
@@ -6261,8 +6239,7 @@ export const Operation: coreClient.CompositeMapper = {
       properties: {
         serializedName: "properties",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -6554,8 +6531,7 @@ export const ApiReference: coreClient.CompositeMapper = {
       swagger: {
         serializedName: "swagger",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       brandColor: {
@@ -6591,8 +6567,7 @@ export const WorkflowOutputParameter: coreClient.CompositeMapper = {
         serializedName: "error",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -6691,8 +6666,7 @@ export const Workflow: coreClient.CompositeMapper = {
       definition: {
         serializedName: "properties.definition",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       parameters: {
@@ -6784,8 +6758,7 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
       definition: {
         serializedName: "properties.definition",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       parameters: {
@@ -6853,8 +6826,7 @@ export const WorkflowRunActionRepetitionDefinition: coreClient.CompositeMapper =
         serializedName: "properties.inputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       inputsLink: {
@@ -6868,8 +6840,7 @@ export const WorkflowRunActionRepetitionDefinition: coreClient.CompositeMapper =
         serializedName: "properties.outputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       outputsLink: {
@@ -6883,8 +6854,7 @@ export const WorkflowRunActionRepetitionDefinition: coreClient.CompositeMapper =
         serializedName: "properties.trackedProperties",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       retryHistory: {
@@ -7050,8 +7020,7 @@ export const IntegrationAccountSchema: coreClient.CompositeMapper = {
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       content: {
@@ -7133,8 +7102,7 @@ export const IntegrationAccountMap: coreClient.CompositeMapper = {
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -7171,8 +7139,7 @@ export const IntegrationAccountPartner: coreClient.CompositeMapper = {
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       content: {
@@ -7209,8 +7176,7 @@ export const IntegrationAccountAgreement: coreClient.CompositeMapper = {
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       agreementType: {
@@ -7283,8 +7249,7 @@ export const IntegrationAccountCertificate: coreClient.CompositeMapper = {
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       key: {
@@ -7327,8 +7292,7 @@ export const IntegrationAccountSession: coreClient.CompositeMapper = {
       content: {
         serializedName: "properties.content",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -7384,9 +7348,7 @@ export const IntegrationServiceEnvironmentManagedApi: coreClient.CompositeMapper
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       },
       metadata: {
@@ -7668,8 +7630,7 @@ export const WorkflowTriggerHistory: coreClient.CompositeMapper = {
         serializedName: "properties.error",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       trackingId: {
@@ -7777,8 +7738,7 @@ export const WorkflowRun: coreClient.CompositeMapper = {
         serializedName: "properties.error",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       correlationId: {
@@ -7882,8 +7842,7 @@ export const WorkflowRunAction: coreClient.CompositeMapper = {
         serializedName: "properties.error",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       trackingId: {
@@ -7918,8 +7877,7 @@ export const WorkflowRunAction: coreClient.CompositeMapper = {
         serializedName: "properties.trackedProperties",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       retryHistory: {
@@ -8016,8 +7974,7 @@ export const OperationResult: coreClient.CompositeMapper = {
         serializedName: "inputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       inputsLink: {
@@ -8031,8 +7988,7 @@ export const OperationResult: coreClient.CompositeMapper = {
         serializedName: "outputs",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       outputsLink: {
@@ -8046,8 +8002,7 @@ export const OperationResult: coreClient.CompositeMapper = {
         serializedName: "trackedProperties",
         readOnly: true,
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       retryHistory: {

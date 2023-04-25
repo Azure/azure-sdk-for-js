@@ -8,7 +8,6 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import { isObjectWithProperties } from "@azure/core-util";
 import jssha from "jssha";
 
 /**
@@ -44,7 +43,7 @@ export function createSasTokenProvider(
 ): SasTokenProvider {
   if (isNamedKeyCredential(data) || isSASCredential(data)) {
     return new SasTokenProviderImpl(data);
-  } else if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
+  } else if ("sharedAccessKeyName" in data && "sharedAccessKey" in data) {
     return new SasTokenProviderImpl({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
   } else {
     return new SasTokenProviderImpl({ signature: data.sharedAccessSignature });

@@ -131,7 +131,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.prefer
@@ -153,7 +152,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.synonymMapName],
   headerParameters: [
     Parameters.accept,
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -172,7 +170,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.synonymMapName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
@@ -188,7 +186,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
@@ -205,11 +203,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.synonymMap,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.xMsClientRequestId
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

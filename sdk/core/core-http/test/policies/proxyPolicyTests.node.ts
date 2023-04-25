@@ -9,11 +9,12 @@ import {
   loadNoProxy,
   proxyPolicy,
 } from "../../src/policies/proxyPolicy";
-import { Constants } from "../../src/coreHttp";
+import { Constants } from "../../src";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { ProxySettings } from "../../src/serviceClient";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 import { should } from "chai";
 
 describe("ProxyPolicy (node)", function () {
@@ -21,7 +22,7 @@ describe("ProxyPolicy (node)", function () {
     host: "https://example.com",
     port: 3030,
     username: "admin",
-    password: "SecretPlaceholder",
+    password: fakeTestSecretPlaceholder,
   };
 
   const emptyRequestPolicy = {

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about a server.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerGet.json
  */
 async function getAServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
@@ -29,8 +34,6 @@ async function getAServer() {
   const result = await client.servers.get(resourceGroupName, serverName);
   console.log(result);
 }
-
-getAServer().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets information about a server.
@@ -39,8 +42,10 @@ getAServer().catch(console.error);
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerGetWithVnet.json
  */
 async function getAServerWithVnet() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
@@ -51,4 +56,9 @@ async function getAServerWithVnet() {
   console.log(result);
 }
 
-getAServerWithVnet().catch(console.error);
+async function main() {
+  getAServer();
+  getAServerWithVnet();
+}
+
+main().catch(console.error);

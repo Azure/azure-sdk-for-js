@@ -1,6 +1,6 @@
 # Release History
 
-## 16.1.1 (Unreleased)
+## 18.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,117 @@
 
 ### Other Changes
 
+## 18.0.0 (2023-03-08)
+    
+**Features**
+
+  - Added operation Backups.beginRestoreFiles
+  - Added operation Backups.beginRestoreFilesAndWait
+  - Added operation Volumes.beginBreakFileLocks
+  - Added operation Volumes.beginBreakFileLocksAndWait
+  - Added Interface BackupRestoreFiles
+  - Added Interface BackupsRestoreFilesHeaders
+  - Added Interface BackupsRestoreFilesOptionalParams
+  - Added Interface BreakFileLocksRequest
+  - Added Interface ManagedServiceIdentity
+  - Added Interface VolumesBreakFileLocksHeaders
+  - Added Interface VolumesBreakFileLocksOptionalParams
+  - Added Type Alias FileAccessLogs
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface ActiveDirectory has a new optional parameter preferredServersForLdapClient
+  - Interface Volume has a new optional parameter dataStoreResourceId
+  - Interface Volume has a new optional parameter fileAccessLogs
+  - Interface Volume has a new optional parameter isLargeVolume
+  - Interface Volume has a new optional parameter provisionedAvailabilityZone
+  - Interface VolumeGroupVolumeProperties has a new optional parameter dataStoreResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter fileAccessLogs
+  - Interface VolumeGroupVolumeProperties has a new optional parameter isLargeVolume
+  - Interface VolumeGroupVolumeProperties has a new optional parameter provisionedAvailabilityZone
+  - Interface VolumePropertiesDataProtection has a new optional parameter volumeRelocation
+  - Interface VolumeQuotaRulePatch has a new optional parameter tags
+  - Interface VolumeRelocationProperties has a new optional parameter readyToBeFinalized
+  - Added Enum KnownFileAccessLogs
+  - Added Enum KnownManagedServiceIdentityType
+
+**Breaking Changes**
+
+  - Removed operation group Vaults
+  - Operation NetAppResource.checkNameAvailability has a new signature
+  - Operation NetAppResource.checkQuotaAvailability has a new signature
+  - Interface Backup no longer has parameter id
+  - Interface Backup no longer has parameter name
+  - Interface Backup no longer has parameter type
+  - Interface BackupPolicyDetails no longer has parameter id
+  - Interface BackupPolicyDetails no longer has parameter name
+  - Interface BackupPolicyDetails no longer has parameter type
+  - Interface Snapshot no longer has parameter id
+  - Interface Snapshot no longer has parameter name
+  - Interface Snapshot no longer has parameter type
+  - Interface VolumeBackupProperties no longer has parameter vaultId
+  - Interface VolumeRelocationProperties no longer has parameter oldBareMetalTenantId
+  - Interface VolumeRelocationProperties no longer has parameter oldVolumeId
+  - Type of parameter identity of interface NetAppAccount is changed from Identity to ManagedServiceIdentity
+  - Class NetAppManagementClient no longer has parameter vaults
+  - Removed Enum KnownIdentityType
+    
+    
+## 17.0.1 (2023-02-01)
+    
+**Features**
+
+  - Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+    
+## 17.0.0 (2022-09-21)
+    
+**Features**
+
+  - Added operation Accounts.beginRenewCredentials
+  - Added operation Accounts.beginRenewCredentialsAndWait
+  - Added operation NetAppResource.queryRegionInfo
+  - Added Interface AccountsRenewCredentialsOptionalParams
+  - Added Interface EncryptionIdentity
+  - Added Interface Identity
+  - Added Interface KeyVaultProperties
+  - Added Interface NetAppResourceQueryRegionInfoOptionalParams
+  - Added Interface RegionInfo
+  - Added Interface RegionInfoAvailabilityZoneMappingsItem
+  - Added Interface RelocateVolumeRequest
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias IdentityType
+  - Added Type Alias KeySource
+  - Added Type Alias KeyVaultStatus
+  - Added Type Alias NetAppResourceQueryRegionInfoResponse
+  - Added Type Alias RegionStorageToNetworkProximity
+  - Added Type Alias SmbAccessBasedEnumeration
+  - Added Type Alias SmbNonBrowsable
+  - Interface AccountEncryption has a new optional parameter identity
+  - Interface AccountEncryption has a new optional parameter keyVaultProperties
+  - Interface NetAppAccount has a new optional parameter disableShowmount
+  - Interface NetAppAccount has a new optional parameter identity
+  - Interface NetAppAccountPatch has a new optional parameter disableShowmount
+  - Interface Volume has a new optional parameter deleteBaseSnapshot
+  - Interface Volume has a new optional parameter smbAccessBasedEnumeration
+  - Interface Volume has a new optional parameter smbNonBrowsable
+  - Interface VolumeGroupVolumeProperties has a new optional parameter deleteBaseSnapshot
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbNonBrowsable
+  - Interface VolumesRelocateOptionalParams has a new optional parameter body
+  - Added Enum KnownIdentityType
+  - Added Enum KnownKeySource
+  - Added Enum KnownKeyVaultStatus
+  - Added Enum KnownRegionStorageToNetworkProximity
+  - Added Enum KnownSmbAccessBasedEnumeration
+  - Added Enum KnownSmbNonBrowsable
+
+**Breaking Changes**
+
+  - Interface Vault no longer has parameter location
+    
+    
 ## 16.1.0 (2022-07-21)
     
 **Features**

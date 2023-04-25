@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageImportExport } = require("@azure/arm-storageimportexport");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
@@ -18,9 +19,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/UpdateExportJob.json
  */
 async function updateExportJob() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myExportJob";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName = process.env["STORAGEIMPORTEXPORT_RESOURCE_GROUP"] || "myResourceGroup";
   const body = {
     backupDriveManifest: true,
     logLevel: "Verbose",
@@ -31,8 +33,6 @@ async function updateExportJob() {
   const result = await client.jobs.update(jobName, resourceGroupName, body);
   console.log(result);
 }
-
-updateExportJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
@@ -41,9 +41,10 @@ updateExportJob().catch(console.error);
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/UpdateJob.json
  */
 async function updateImportJob() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myJob";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName = process.env["STORAGEIMPORTEXPORT_RESOURCE_GROUP"] || "myResourceGroup";
   const body = {
     backupDriveManifest: true,
     logLevel: "Verbose",
@@ -55,4 +56,9 @@ async function updateImportJob() {
   console.log(result);
 }
 
-updateImportJob().catch(console.error);
+async function main() {
+  updateExportJob();
+  updateImportJob();
+}
+
+main().catch(console.error);

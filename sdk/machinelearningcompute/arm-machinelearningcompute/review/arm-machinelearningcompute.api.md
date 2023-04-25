@@ -96,6 +96,9 @@ export interface ErrorResponseWrapper {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GlobalServiceConfiguration {
     [property: string]: any;
     autoScale?: AutoScaleConfiguration;
@@ -106,159 +109,94 @@ export interface GlobalServiceConfiguration {
 
 // @public
 export enum KnownAgentVMSizeTypes {
-    // (undocumented)
     StandardA0 = "Standard_A0",
-    // (undocumented)
     StandardA1 = "Standard_A1",
-    // (undocumented)
     StandardA10 = "Standard_A10",
-    // (undocumented)
     StandardA11 = "Standard_A11",
-    // (undocumented)
     StandardA2 = "Standard_A2",
-    // (undocumented)
     StandardA3 = "Standard_A3",
-    // (undocumented)
     StandardA4 = "Standard_A4",
-    // (undocumented)
     StandardA5 = "Standard_A5",
-    // (undocumented)
     StandardA6 = "Standard_A6",
-    // (undocumented)
     StandardA7 = "Standard_A7",
-    // (undocumented)
     StandardA8 = "Standard_A8",
-    // (undocumented)
     StandardA9 = "Standard_A9",
-    // (undocumented)
     StandardD1 = "Standard_D1",
-    // (undocumented)
     StandardD11 = "Standard_D11",
-    // (undocumented)
     StandardD11V2 = "Standard_D11_v2",
-    // (undocumented)
     StandardD12 = "Standard_D12",
-    // (undocumented)
     StandardD12V2 = "Standard_D12_v2",
-    // (undocumented)
     StandardD13 = "Standard_D13",
-    // (undocumented)
     StandardD13V2 = "Standard_D13_v2",
-    // (undocumented)
     StandardD14 = "Standard_D14",
-    // (undocumented)
     StandardD14V2 = "Standard_D14_v2",
-    // (undocumented)
     StandardD1V2 = "Standard_D1_v2",
-    // (undocumented)
     StandardD2 = "Standard_D2",
-    // (undocumented)
     StandardD2V2 = "Standard_D2_v2",
-    // (undocumented)
     StandardD3 = "Standard_D3",
-    // (undocumented)
     StandardD3V2 = "Standard_D3_v2",
-    // (undocumented)
     StandardD4 = "Standard_D4",
-    // (undocumented)
     StandardD4V2 = "Standard_D4_v2",
-    // (undocumented)
     StandardD5V2 = "Standard_D5_v2",
-    // (undocumented)
     StandardDS1 = "Standard_DS1",
-    // (undocumented)
     StandardDS11 = "Standard_DS11",
-    // (undocumented)
     StandardDS12 = "Standard_DS12",
-    // (undocumented)
     StandardDS13 = "Standard_DS13",
-    // (undocumented)
     StandardDS14 = "Standard_DS14",
-    // (undocumented)
     StandardDS2 = "Standard_DS2",
-    // (undocumented)
     StandardDS3 = "Standard_DS3",
-    // (undocumented)
     StandardDS4 = "Standard_DS4",
-    // (undocumented)
     StandardG1 = "Standard_G1",
-    // (undocumented)
     StandardG2 = "Standard_G2",
-    // (undocumented)
     StandardG3 = "Standard_G3",
-    // (undocumented)
     StandardG4 = "Standard_G4",
-    // (undocumented)
     StandardG5 = "Standard_G5",
-    // (undocumented)
     StandardGS1 = "Standard_GS1",
-    // (undocumented)
     StandardGS2 = "Standard_GS2",
-    // (undocumented)
     StandardGS3 = "Standard_GS3",
-    // (undocumented)
     StandardGS4 = "Standard_GS4",
-    // (undocumented)
     StandardGS5 = "Standard_GS5"
 }
 
 // @public
 export enum KnownClusterType {
-    // (undocumented)
     ACS = "ACS",
-    // (undocumented)
     Local = "Local"
 }
 
 // @public
 export enum KnownOperationStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownOrchestratorType {
-    // (undocumented)
     Kubernetes = "Kubernetes",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSystemServiceType {
-    // (undocumented)
     BatchFrontEnd = "BatchFrontEnd",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ScoringFrontEnd = "ScoringFrontEnd"
 }
 
 // @public
 export enum KnownUpdatesAvailable {
-    // (undocumented)
     No = "No",
-    // (undocumented)
     Yes = "Yes"
 }
 
@@ -302,19 +240,19 @@ export interface MachineLearningComputeManagementClientOptionalParams extends co
 }
 
 // @public
-export type OperationalizationCluster = Resource & {
-    description?: string;
-    readonly createdOn?: Date;
-    readonly modifiedOn?: Date;
-    readonly provisioningState?: OperationStatus;
-    readonly provisioningErrors?: ErrorResponseWrapper[];
+export interface OperationalizationCluster extends Resource {
+    appInsights?: AppInsightsProperties;
     clusterType?: ClusterType;
-    storageAccount?: StorageAccountProperties;
     containerRegistry?: ContainerRegistryProperties;
     containerService?: AcsClusterProperties;
-    appInsights?: AppInsightsProperties;
+    readonly createdOn?: Date;
+    description?: string;
     globalServiceConfiguration?: GlobalServiceConfiguration;
-};
+    readonly modifiedOn?: Date;
+    readonly provisioningErrors?: ErrorResponseWrapper[];
+    readonly provisioningState?: OperationStatus;
+    storageAccount?: StorageAccountProperties;
+}
 
 // @public
 export interface OperationalizationClusterCredentials {

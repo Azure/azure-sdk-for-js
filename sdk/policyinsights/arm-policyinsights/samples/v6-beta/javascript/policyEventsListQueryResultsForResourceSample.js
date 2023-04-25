@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy events for the resource.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryNestedResourceScope.json
  */
 async function queryAtNestedResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication";
@@ -34,8 +36,6 @@ async function queryAtNestedResourceScope() {
   console.log(resArray);
 }
 
-queryAtNestedResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -43,7 +43,8 @@ queryAtNestedResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceScope.json
  */
 async function queryAtResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
@@ -59,8 +60,6 @@ async function queryAtResourceScope() {
   console.log(resArray);
 }
 
-queryAtResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -68,7 +67,8 @@ queryAtResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceScopeNextLink.json
  */
 async function queryAtResourceScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
@@ -89,8 +89,6 @@ async function queryAtResourceScopeWithNextLink() {
   console.log(resArray);
 }
 
-queryAtResourceScopeWithNextLink().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -98,7 +96,8 @@ queryAtResourceScopeWithNextLink().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionLevelNestedResourceScope.json
  */
 async function queryAtSubscriptionLevelNestedResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource";
@@ -114,8 +113,6 @@ async function queryAtSubscriptionLevelNestedResourceScope() {
   console.log(resArray);
 }
 
-queryAtSubscriptionLevelNestedResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -123,7 +120,8 @@ queryAtSubscriptionLevelNestedResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionLevelResourceScope.json
  */
 async function queryAtSubscriptionLevelResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName";
@@ -139,8 +137,6 @@ async function queryAtSubscriptionLevelResourceScope() {
   console.log(resArray);
 }
 
-queryAtSubscriptionLevelResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -148,7 +144,8 @@ queryAtSubscriptionLevelResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceScopeExpandComponentsGroupByWithAggregate.json
  */
 async function queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilteredByGivenAssignment() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -172,10 +169,6 @@ async function queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForReso
   console.log(resArray);
 }
 
-queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilteredByGivenAssignment().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
@@ -183,7 +176,8 @@ queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilter
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryResourceScopeExpandComponents.json
  */
 async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignment() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -206,4 +200,14 @@ async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignm
   console.log(resArray);
 }
 
-queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignment().catch(console.error);
+async function main() {
+  queryAtNestedResourceScope();
+  queryAtResourceScope();
+  queryAtResourceScopeWithNextLink();
+  queryAtSubscriptionLevelNestedResourceScope();
+  queryAtSubscriptionLevelResourceScope();
+  queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilteredByGivenAssignment();
+  queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignment();
+}
+
+main().catch(console.error);

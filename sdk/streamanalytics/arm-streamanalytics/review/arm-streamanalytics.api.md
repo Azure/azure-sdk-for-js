@@ -14,51 +14,51 @@ import { PollOperationState } from '@azure/core-lro';
 export type AuthenticationMode = string;
 
 // @public
-export type AvroSerialization = Serialization & {
-    type: "Avro";
+export interface AvroSerialization extends Serialization {
     properties?: Record<string, unknown>;
-};
+    type: "Avro";
+}
 
 // @public
-export type AzureDataLakeStoreOutputDataSource = OutputDataSource & {
-    type: "Microsoft.DataLake/Accounts";
+export interface AzureDataLakeStoreOutputDataSource extends OutputDataSource {
+    accountName?: string;
+    authenticationMode?: AuthenticationMode;
+    dateFormat?: string;
+    filePathPrefix?: string;
     refreshToken?: string;
-    tokenUserPrincipalName?: string;
+    tenantId?: string;
+    timeFormat?: string;
     tokenUserDisplayName?: string;
-    accountName?: string;
-    tenantId?: string;
-    filePathPrefix?: string;
-    dateFormat?: string;
-    timeFormat?: string;
-    authenticationMode?: AuthenticationMode;
-};
+    tokenUserPrincipalName?: string;
+    type: "Microsoft.DataLake/Accounts";
+}
 
 // @public
-export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceProperties & {
+export interface AzureDataLakeStoreOutputDataSourceProperties extends OAuthBasedDataSourceProperties {
     accountName?: string;
-    tenantId?: string;
-    filePathPrefix?: string;
-    dateFormat?: string;
-    timeFormat?: string;
     authenticationMode?: AuthenticationMode;
-};
+    dateFormat?: string;
+    filePathPrefix?: string;
+    tenantId?: string;
+    timeFormat?: string;
+}
 
 // @public
-export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
-    type: "Microsoft.MachineLearning/WebService";
-    endpoint?: string;
+export interface AzureMachineLearningWebServiceFunctionBinding extends FunctionBinding {
     apiKey?: string;
+    batchSize?: number;
+    endpoint?: string;
     inputs?: AzureMachineLearningWebServiceInputs;
     outputs?: AzureMachineLearningWebServiceOutputColumn[];
-    batchSize?: number;
-};
+    type: "Microsoft.MachineLearning/WebService";
+}
 
 // @public
-export type AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
+export interface AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
     bindingType: "Microsoft.MachineLearning/WebService";
     executeEndpoint?: string;
     udfType?: "Scalar";
-};
+}
 
 // @public
 export interface AzureMachineLearningWebServiceInputColumn {
@@ -92,34 +92,35 @@ export interface AzureSqlDatabaseDataSourceProperties {
 }
 
 // @public
-export type AzureSqlDatabaseOutputDataSource = OutputDataSource & {
-    type: "Microsoft.Sql/Server/Database";
-    server?: string;
+export interface AzureSqlDatabaseOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
     database?: string;
-    user?: string;
-    password?: string;
-    table?: string;
     maxBatchCount?: number;
     maxWriterCount?: number;
-    authenticationMode?: AuthenticationMode;
-};
-
-// @public
-export type AzureSqlDatabaseOutputDataSourceProperties = AzureSqlDatabaseDataSourceProperties & {};
-
-// @public
-export type AzureSqlReferenceInputDataSource = ReferenceInputDataSource & {
-    type: "Microsoft.Sql/Server/Database";
-    server?: string;
-    database?: string;
-    user?: string;
     password?: string;
+    server?: string;
     table?: string;
-    refreshType?: RefreshType;
-    refreshRate?: string;
-    fullSnapshotQuery?: string;
+    type: "Microsoft.Sql/Server/Database";
+    user?: string;
+}
+
+// @public
+export interface AzureSqlDatabaseOutputDataSourceProperties extends AzureSqlDatabaseDataSourceProperties {
+}
+
+// @public
+export interface AzureSqlReferenceInputDataSource extends ReferenceInputDataSource {
+    database?: string;
     deltaSnapshotQuery?: string;
-};
+    fullSnapshotQuery?: string;
+    password?: string;
+    refreshRate?: string;
+    refreshType?: RefreshType;
+    server?: string;
+    table?: string;
+    type: "Microsoft.Sql/Server/Database";
+    user?: string;
+}
 
 // @public
 export interface AzureSynapseDataSourceProperties {
@@ -131,29 +132,30 @@ export interface AzureSynapseDataSourceProperties {
 }
 
 // @public
-export type AzureSynapseOutputDataSource = OutputDataSource & {
-    type: "Microsoft.Sql/Server/DataWarehouse";
-    server?: string;
+export interface AzureSynapseOutputDataSource extends OutputDataSource {
     database?: string;
-    table?: string;
-    user?: string;
     password?: string;
-};
-
-// @public
-export type AzureSynapseOutputDataSourceProperties = AzureSynapseDataSourceProperties & {};
-
-// @public
-export type AzureTableOutputDataSource = OutputDataSource & {
-    type: "Microsoft.Storage/Table";
-    accountName?: string;
-    accountKey?: string;
+    server?: string;
     table?: string;
+    type: "Microsoft.Sql/Server/DataWarehouse";
+    user?: string;
+}
+
+// @public
+export interface AzureSynapseOutputDataSourceProperties extends AzureSynapseDataSourceProperties {
+}
+
+// @public
+export interface AzureTableOutputDataSource extends OutputDataSource {
+    accountKey?: string;
+    accountName?: string;
+    batchSize?: number;
+    columnsToRemove?: string[];
     partitionKey?: string;
     rowKey?: string;
-    columnsToRemove?: string[];
-    batchSize?: number;
-};
+    table?: string;
+    type: "Microsoft.Storage/Table";
+}
 
 // @public
 export interface BlobDataSourceProperties {
@@ -165,60 +167,61 @@ export interface BlobDataSourceProperties {
 }
 
 // @public
-export type BlobOutputDataSource = OutputDataSource & {
-    type: "Microsoft.Storage/Blob";
-    storageAccounts?: StorageAccount[];
-    container?: string;
-    pathPattern?: string;
-    dateFormat?: string;
-    timeFormat?: string;
+export interface BlobOutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
-};
+    container?: string;
+    dateFormat?: string;
+    pathPattern?: string;
+    storageAccounts?: StorageAccount[];
+    timeFormat?: string;
+    type: "Microsoft.Storage/Blob";
+}
 
 // @public
-export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {
+export interface BlobOutputDataSourceProperties extends BlobDataSourceProperties {
     authenticationMode?: AuthenticationMode;
-};
+}
 
 // @public
-export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
-    type: "Microsoft.Storage/Blob";
-    storageAccounts?: StorageAccount[];
+export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
     container?: string;
-    pathPattern?: string;
     dateFormat?: string;
-    timeFormat?: string;
-};
-
-// @public
-export type BlobReferenceInputDataSourceProperties = BlobDataSourceProperties & {};
-
-// @public
-export type BlobStreamInputDataSource = StreamInputDataSource & {
-    type: "Microsoft.Storage/Blob";
+    pathPattern?: string;
     storageAccounts?: StorageAccount[];
-    container?: string;
-    pathPattern?: string;
-    dateFormat?: string;
     timeFormat?: string;
-    sourcePartitionCount?: number;
-};
+    type: "Microsoft.Storage/Blob";
+}
 
 // @public
-export type BlobStreamInputDataSourceProperties = BlobDataSourceProperties & {
-    sourcePartitionCount?: number;
-};
+export interface BlobReferenceInputDataSourceProperties extends BlobDataSourceProperties {
+}
 
 // @public
-export type Cluster = TrackedResource & {
-    sku?: ClusterSku;
-    readonly etag?: string;
-    readonly createdDate?: Date;
-    readonly clusterId?: string;
-    readonly provisioningState?: ClusterProvisioningState;
+export interface BlobStreamInputDataSource extends StreamInputDataSource {
+    container?: string;
+    dateFormat?: string;
+    pathPattern?: string;
+    sourcePartitionCount?: number;
+    storageAccounts?: StorageAccount[];
+    timeFormat?: string;
+    type: "Microsoft.Storage/Blob";
+}
+
+// @public
+export interface BlobStreamInputDataSourceProperties extends BlobDataSourceProperties {
+    sourcePartitionCount?: number;
+}
+
+// @public
+export interface Cluster extends TrackedResource {
     readonly capacityAllocated?: number;
     readonly capacityAssigned?: number;
-};
+    readonly clusterId?: string;
+    readonly createdDate?: Date;
+    readonly etag?: string;
+    readonly provisioningState?: ClusterProvisioningState;
+    sku?: ClusterSku;
+}
 
 // @public
 export interface ClusterInfo {
@@ -361,11 +364,11 @@ export type CompressionType = string;
 export type ContentStoragePolicy = string;
 
 // @public
-export type CsvSerialization = Serialization & {
-    type: "Csv";
-    fieldDelimiter?: string;
+export interface CsvSerialization extends Serialization {
     encoding?: Encoding;
-};
+    fieldDelimiter?: string;
+    type: "Csv";
+}
 
 // @public
 export interface DiagnosticCondition {
@@ -380,15 +383,15 @@ export interface Diagnostics {
 }
 
 // @public
-export type DocumentDbOutputDataSource = OutputDataSource & {
-    type: "Microsoft.Storage/DocumentDB";
+export interface DocumentDbOutputDataSource extends OutputDataSource {
     accountId?: string;
     accountKey?: string;
-    database?: string;
     collectionNamePattern?: string;
-    partitionKey?: string;
+    database?: string;
     documentId?: string;
-};
+    partitionKey?: string;
+    type: "Microsoft.Storage/DocumentDB";
+}
 
 // @public
 export type Encoding = string;
@@ -420,66 +423,66 @@ export interface ErrorResponse {
 }
 
 // @public
-export type EventHubDataSourceProperties = ServiceBusDataSourceProperties & {
+export interface EventHubDataSourceProperties extends ServiceBusDataSourceProperties {
     eventHubName?: string;
-};
+}
 
 // @public
-export type EventHubOutputDataSource = OutputDataSource & {
+export interface EventHubOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
+    eventHubName?: string;
+    partitionKey?: string;
+    propertyColumns?: string[];
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
     type: "Microsoft.ServiceBus/EventHub";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
+}
+
+// @public
+export interface EventHubOutputDataSourceProperties extends EventHubDataSourceProperties {
+    partitionKey?: string;
+    propertyColumns?: string[];
+}
+
+// @public
+export interface EventHubStreamInputDataSource extends StreamInputDataSource {
     authenticationMode?: AuthenticationMode;
+    consumerGroupName?: string;
     eventHubName?: string;
-    partitionKey?: string;
-    propertyColumns?: string[];
-};
-
-// @public
-export type EventHubOutputDataSourceProperties = EventHubDataSourceProperties & {
-    partitionKey?: string;
-    propertyColumns?: string[];
-};
-
-// @public
-export type EventHubStreamInputDataSource = StreamInputDataSource & {
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
     type: "Microsoft.ServiceBus/EventHub";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
-    authenticationMode?: AuthenticationMode;
-    eventHubName?: string;
-    consumerGroupName?: string;
-};
+}
 
 // @public
-export type EventHubStreamInputDataSourceProperties = EventHubDataSourceProperties & {
+export interface EventHubStreamInputDataSourceProperties extends EventHubDataSourceProperties {
     consumerGroupName?: string;
-};
+}
 
 // @public
-export type EventHubV2OutputDataSource = OutputDataSource & {
-    type: "Microsoft.EventHub/EventHub";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
+export interface EventHubV2OutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
     eventHubName?: string;
     partitionKey?: string;
     propertyColumns?: string[];
-};
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
+    type: "Microsoft.EventHub/EventHub";
+}
 
 // @public
-export type EventHubV2StreamInputDataSource = StreamInputDataSource & {
-    type: "Microsoft.EventHub/EventHub";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
+export interface EventHubV2StreamInputDataSource extends StreamInputDataSource {
     authenticationMode?: AuthenticationMode;
-    eventHubName?: string;
     consumerGroupName?: string;
-};
+    eventHubName?: string;
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
+    type: "Microsoft.EventHub/EventHub";
+}
 
 // @public
 export type EventSerializationType = string;
@@ -508,9 +511,9 @@ export interface FunctionListResult {
 }
 
 // @public
-export type FunctionModel = SubResource & {
+export interface FunctionModel extends SubResource {
     properties?: FunctionPropertiesUnion;
-};
+}
 
 // @public
 export interface FunctionOutput {
@@ -578,7 +581,6 @@ export type FunctionsGetResponse = FunctionsGetHeaders & FunctionModel;
 
 // @public
 export interface FunctionsListByStreamingJobNextOptionalParams extends coreClient.OperationOptions {
-    select?: string;
 }
 
 // @public
@@ -624,6 +626,9 @@ export interface FunctionsUpdateOptionalParams extends coreClient.OperationOptio
 export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     principalId?: string;
     tenantId?: string;
@@ -631,9 +636,9 @@ export interface Identity {
 }
 
 // @public
-export type Input = SubResource & {
+export interface Input extends SubResource {
     properties?: InputPropertiesUnion;
-};
+}
 
 // @public
 export interface InputListResult {
@@ -697,7 +702,6 @@ export type InputsGetResponse = InputsGetHeaders & Input;
 
 // @public
 export interface InputsListByStreamingJobNextOptionalParams extends coreClient.OperationOptions {
-    select?: string;
 }
 
 // @public
@@ -735,35 +739,35 @@ export interface InputsUpdateOptionalParams extends coreClient.OperationOptions 
 export type InputsUpdateResponse = InputsUpdateHeaders & Input;
 
 // @public
-export type IoTHubStreamInputDataSource = StreamInputDataSource & {
-    type: "Microsoft.Devices/IotHubs";
-    iotHubNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
+export interface IoTHubStreamInputDataSource extends StreamInputDataSource {
     consumerGroupName?: string;
     endpoint?: string;
-};
+    iotHubNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
+    type: "Microsoft.Devices/IotHubs";
+}
 
 // @public
-export type JavaScriptFunctionBinding = FunctionBinding & {
-    type: "Microsoft.StreamAnalytics/JavascriptUdf";
+export interface JavaScriptFunctionBinding extends FunctionBinding {
     script?: string;
-};
+    type: "Microsoft.StreamAnalytics/JavascriptUdf";
+}
 
 // @public
-export type JavaScriptFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
+export interface JavaScriptFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
     bindingType: "Microsoft.StreamAnalytics/JavascriptUdf";
     script?: string;
     udfType?: "Scalar";
-};
+}
 
 // @public
 export type JobState = string;
 
 // @public
-export type JobStorageAccount = StorageAccount & {
+export interface JobStorageAccount extends StorageAccount {
     authenticationMode?: AuthenticationMode;
-};
+}
 
 // @public
 export type JobType = string;
@@ -772,19 +776,16 @@ export type JobType = string;
 export type JsonOutputSerializationFormat = string;
 
 // @public
-export type JsonSerialization = Serialization & {
-    type: "Json";
+export interface JsonSerialization extends Serialization {
     encoding?: Encoding;
     format?: JsonOutputSerializationFormat;
-};
+    type: "Json";
+}
 
 // @public
 export enum KnownAuthenticationMode {
-    // (undocumented)
     ConnectionString = "ConnectionString",
-    // (undocumented)
     Msi = "Msi",
-    // (undocumented)
     UserToken = "UserToken"
 }
 
@@ -803,53 +804,39 @@ export enum KnownClusterSkuName {
 
 // @public
 export enum KnownCompatibilityLevel {
-    // (undocumented)
     One0 = "1.0",
-    // (undocumented)
     One2 = "1.2"
 }
 
 // @public
 export enum KnownCompressionType {
-    // (undocumented)
     Deflate = "Deflate",
-    // (undocumented)
     GZip = "GZip",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownContentStoragePolicy {
-    // (undocumented)
     JobStorageAccount = "JobStorageAccount",
-    // (undocumented)
     SystemAccount = "SystemAccount"
 }
 
 // @public
 export enum KnownEncoding {
-    // (undocumented)
     UTF8 = "UTF8"
 }
 
 // @public
 export enum KnownEventSerializationType {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     Csv = "Csv",
-    // (undocumented)
     Json = "Json",
-    // (undocumented)
     Parquet = "Parquet"
 }
 
 // @public
 export enum KnownEventsOutOfOrderPolicy {
-    // (undocumented)
     Adjust = "Adjust",
-    // (undocumented)
     Drop = "Drop"
 }
 
@@ -869,51 +856,38 @@ export enum KnownJobState {
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     Cloud = "Cloud",
-    // (undocumented)
     Edge = "Edge"
 }
 
 // @public
 export enum KnownJsonOutputSerializationFormat {
-    // (undocumented)
     Array = "Array",
-    // (undocumented)
     LineSeparated = "LineSeparated"
 }
 
 // @public
 export enum KnownOutputErrorPolicy {
-    // (undocumented)
     Drop = "Drop",
-    // (undocumented)
     Stop = "Stop"
 }
 
 // @public
 export enum KnownOutputStartMode {
-    // (undocumented)
     CustomTime = "CustomTime",
-    // (undocumented)
     JobStartTime = "JobStartTime",
-    // (undocumented)
     LastOutputEventTime = "LastOutputEventTime"
 }
 
 // @public
 export enum KnownRefreshType {
-    // (undocumented)
     RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta",
-    // (undocumented)
     RefreshPeriodicallyWithFull = "RefreshPeriodicallyWithFull",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -965,14 +939,14 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type Output = SubResource & {
+export interface Output extends SubResource {
     datasource?: OutputDataSourceUnion;
-    timeWindow?: string;
-    sizeWindow?: number;
-    serialization?: SerializationUnion;
     readonly diagnostics?: Diagnostics;
     readonly etag?: string;
-};
+    serialization?: SerializationUnion;
+    sizeWindow?: number;
+    timeWindow?: string;
+}
 
 // @public
 export interface OutputDataSource {
@@ -1034,7 +1008,6 @@ export type OutputsGetResponse = OutputsGetHeaders & Output;
 
 // @public
 export interface OutputsListByStreamingJobNextOptionalParams extends coreClient.OperationOptions {
-    select?: string;
 }
 
 // @public
@@ -1075,39 +1048,39 @@ export interface OutputsUpdateOptionalParams extends coreClient.OperationOptions
 export type OutputsUpdateResponse = OutputsUpdateHeaders & Output;
 
 // @public
-export type ParquetSerialization = Serialization & {
-    type: "Parquet";
+export interface ParquetSerialization extends Serialization {
     properties?: Record<string, unknown>;
-};
+    type: "Parquet";
+}
 
 // @public
-export type PowerBIOutputDataSource = OutputDataSource & {
-    type: "PowerBI";
+export interface PowerBIOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
+    dataset?: string;
+    groupId?: string;
+    groupName?: string;
     refreshToken?: string;
-    tokenUserPrincipalName?: string;
+    table?: string;
     tokenUserDisplayName?: string;
-    dataset?: string;
-    table?: string;
-    groupId?: string;
-    groupName?: string;
-    authenticationMode?: AuthenticationMode;
-};
+    tokenUserPrincipalName?: string;
+    type: "PowerBI";
+}
 
 // @public
-export type PowerBIOutputDataSourceProperties = OAuthBasedDataSourceProperties & {
+export interface PowerBIOutputDataSourceProperties extends OAuthBasedDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
     dataset?: string;
-    table?: string;
     groupId?: string;
     groupName?: string;
-    authenticationMode?: AuthenticationMode;
-};
+    table?: string;
+}
 
 // @public
-export type PrivateEndpoint = ProxyResource & {
-    readonly etag?: string;
+export interface PrivateEndpoint extends ProxyResource {
     readonly createdDate?: string;
+    readonly etag?: string;
     manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
-};
+}
 
 // @public
 export interface PrivateEndpointListResult {
@@ -1176,7 +1149,8 @@ export interface PrivateLinkServiceConnection {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface ReferenceInputDataSource {
@@ -1187,10 +1161,10 @@ export interface ReferenceInputDataSource {
 export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 // @public
-export type ReferenceInputProperties = InputProperties & {
-    type: "Reference";
+export interface ReferenceInputProperties extends InputProperties {
     datasource?: ReferenceInputDataSourceUnion;
-};
+    type: "Reference";
+}
 
 // @public
 export type RefreshType = string;
@@ -1209,12 +1183,12 @@ export interface ResourceTestStatus {
 }
 
 // @public
-export type ScalarFunctionProperties = FunctionProperties & {
-    type: "Scalar";
+export interface ScalarFunctionProperties extends FunctionProperties {
+    binding?: FunctionBindingUnion;
     inputs?: FunctionInput[];
     output?: FunctionOutput;
-    binding?: FunctionBindingUnion;
-};
+    type: "Scalar";
+}
 
 // @public
 export interface ScaleStreamingJobParameters {
@@ -1238,46 +1212,46 @@ export interface ServiceBusDataSourceProperties {
 }
 
 // @public
-export type ServiceBusQueueOutputDataSource = OutputDataSource & {
+export interface ServiceBusQueueOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
+    propertyColumns?: string[];
+    queueName?: string;
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
+    systemPropertyColumns?: Record<string, unknown>;
     type: "Microsoft.ServiceBus/Queue";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
+}
+
+// @public
+export interface ServiceBusQueueOutputDataSourceProperties extends ServiceBusDataSourceProperties {
+    propertyColumns?: string[];
+    queueName?: string;
+    systemPropertyColumns?: Record<string, unknown>;
+}
+
+// @public
+export interface ServiceBusTopicOutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
-    queueName?: string;
     propertyColumns?: string[];
-    systemPropertyColumns?: Record<string, unknown>;
-};
-
-// @public
-export type ServiceBusQueueOutputDataSourceProperties = ServiceBusDataSourceProperties & {
-    queueName?: string;
-    propertyColumns?: string[];
-    systemPropertyColumns?: Record<string, unknown>;
-};
-
-// @public
-export type ServiceBusTopicOutputDataSource = OutputDataSource & {
+    serviceBusNamespace?: string;
+    sharedAccessPolicyKey?: string;
+    sharedAccessPolicyName?: string;
+    systemPropertyColumns?: {
+        [propertyName: string]: string;
+    };
+    topicName?: string;
     type: "Microsoft.ServiceBus/Topic";
-    serviceBusNamespace?: string;
-    sharedAccessPolicyName?: string;
-    sharedAccessPolicyKey?: string;
-    authenticationMode?: AuthenticationMode;
-    topicName?: string;
-    propertyColumns?: string[];
-    systemPropertyColumns?: {
-        [propertyName: string]: string;
-    };
-};
+}
 
 // @public
-export type ServiceBusTopicOutputDataSourceProperties = ServiceBusDataSourceProperties & {
-    topicName?: string;
+export interface ServiceBusTopicOutputDataSourceProperties extends ServiceBusDataSourceProperties {
     propertyColumns?: string[];
     systemPropertyColumns?: {
         [propertyName: string]: string;
     };
-};
+    topicName?: string;
+}
 
 // @public
 export interface Sku {
@@ -1336,32 +1310,32 @@ export interface StreamAnalyticsManagementClientOptionalParams extends coreClien
 }
 
 // @public
-export type StreamingJob = TrackedResource & {
+export interface StreamingJob extends TrackedResource {
+    cluster?: ClusterInfo;
+    compatibilityLevel?: CompatibilityLevel;
+    contentStoragePolicy?: ContentStoragePolicy;
+    readonly createdDate?: Date;
+    dataLocale?: string;
+    readonly etag?: string;
+    eventsLateArrivalMaxDelayInSeconds?: number;
+    eventsOutOfOrderMaxDelayInSeconds?: number;
+    eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy;
+    functions?: FunctionModel[];
     identity?: Identity;
-    sku?: Sku;
+    inputs?: Input[];
     readonly jobId?: string;
-    readonly provisioningState?: string;
     readonly jobState?: string;
+    jobStorageAccount?: JobStorageAccount;
     jobType?: JobType;
+    readonly lastOutputEventTime?: Date;
+    outputErrorPolicy?: OutputErrorPolicy;
+    outputs?: Output[];
     outputStartMode?: OutputStartMode;
     outputStartTime?: Date;
-    readonly lastOutputEventTime?: Date;
-    eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy;
-    outputErrorPolicy?: OutputErrorPolicy;
-    eventsOutOfOrderMaxDelayInSeconds?: number;
-    eventsLateArrivalMaxDelayInSeconds?: number;
-    dataLocale?: string;
-    compatibilityLevel?: CompatibilityLevel;
-    readonly createdDate?: Date;
-    inputs?: Input[];
+    readonly provisioningState?: string;
+    sku?: Sku;
     transformation?: Transformation;
-    outputs?: Output[];
-    functions?: FunctionModel[];
-    readonly etag?: string;
-    jobStorageAccount?: JobStorageAccount;
-    contentStoragePolicy?: ContentStoragePolicy;
-    cluster?: ClusterInfo;
-};
+}
 
 // @public
 export interface StreamingJobListResult {
@@ -1424,7 +1398,6 @@ export type StreamingJobsGetResponse = StreamingJobsGetHeaders & StreamingJob;
 
 // @public
 export interface StreamingJobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1440,7 +1413,6 @@ export type StreamingJobsListByResourceGroupResponse = StreamingJobListResult;
 
 // @public
 export interface StreamingJobsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1496,10 +1468,10 @@ export interface StreamInputDataSource {
 export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
 
 // @public
-export type StreamInputProperties = InputProperties & {
-    type: "Stream";
+export interface StreamInputProperties extends InputProperties {
     datasource?: StreamInputDataSourceUnion;
-};
+    type: "Stream";
+}
 
 // @public
 export interface SubResource {
@@ -1509,10 +1481,10 @@ export interface SubResource {
 }
 
 // @public
-export type SubscriptionQuota = SubResource & {
-    readonly maxCount?: number;
+export interface SubscriptionQuota extends SubResource {
     readonly currentCount?: number;
-};
+    readonly maxCount?: number;
+}
 
 // @public
 export interface SubscriptionQuotasListResult {
@@ -1532,20 +1504,20 @@ export interface SubscriptionsListQuotasOptionalParams extends coreClient.Operat
 export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-};
+}
 
 // @public
-export type Transformation = SubResource & {
+export interface Transformation extends SubResource {
+    readonly etag?: string;
+    query?: string;
     streamingUnits?: number;
     validStreamingUnits?: number[];
-    query?: string;
-    readonly etag?: string;
-};
+}
 
 // @public
 export interface Transformations {

@@ -15,14 +15,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves all the backups in a manager.
  *
  * @summary Retrieves all the backups in a manager.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/BackupsListByManager.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/BackupsListByManager.json
  */
 async function backupsListByManager() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "hAzureSDKOperations";
   const filter =
-    "createdTime ge '2018-08-10T17:30:03Z' and createdTime le '2018-08-14T17:30:03Z' and initiatedBy eq 'Manual'";
+    "createdTime%20ge%20'2018-08-10T17:30:03Z'%20and%20createdTime%20le%20'2018-08-14T17:30:03Z'%20and%20initiatedBy%20eq%20'Manual'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);

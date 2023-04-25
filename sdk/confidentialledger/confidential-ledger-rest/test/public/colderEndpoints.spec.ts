@@ -3,12 +3,12 @@
 import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Context } from "mocha";
-import { EnclaveQuoteOutput } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
+import { EnclaveQuoteOutput } from "../../src";
 
-describe("Colder endpoints", () => {
+describe("Colder endpoints", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 

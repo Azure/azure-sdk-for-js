@@ -4,8 +4,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                                                 | **Description**                                                                                                   |
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [multiSlotRankActionsAndrewardEvents.js][multislotrankactionsandrewardevents] | Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action. |
-| [rankActionsAndrewardEvents.js][rankactionsandrewardevents]                   | Demonstrates the use of a Personalizer client to rank actions and reward the presented action.                    |
+| [multiSlotRankActionsAndRewardEvents.js][multislotrankactionsandrewardevents] | Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action. |
+| [rankActionsAndRewardEvents.js][rankactionsandrewardevents]                   | Demonstrates the use of a Personalizer client to rank actions and reward the presented action.                    |
 
 ## Prerequisites
 
@@ -32,21 +32,21 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node multiSlotRankActionsAndrewardEvents.js
+node multiSlotRankActionsAndRewardEvents.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env PERSONALIZER_ENDPOINT="<personalizer endpoint>" PERSONALIZER_API_KEY="<personalizer api key>" node multiSlotRankActionsAndrewardEvents.js
+npx cross-env PERSONALIZER_ENDPOINT="<personalizer endpoint>" PERSONALIZER_API_KEY="<personalizer api key>" node multiSlotRankActionsAndRewardEvents.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[multislotrankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk
-[rankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk
+[multislotrankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples/v1-beta/javascript/multiSlotRankActionsAndRewardEvents.js
+[rankactionsandrewardevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples/v1-beta/javascript/rankActionsAndRewardEvents.js
 [apiref]: https://docs.microsoft.com/azure/cognitive-services/personalizer/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/personalizer/ai-personalizer-rest/README.md

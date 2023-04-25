@@ -469,21 +469,21 @@ export interface VirtualNetworkPeeringList {
 }
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The group information for creating a private endpoint on a workspace */
-export type GroupIdInformation = Resource & {
+export interface GroupIdInformation extends Resource {
   /** The group id properties. */
   properties: GroupIdInformationProperties;
-};
+}
 
 /** Information about workspace. */
-export type Workspace = TrackedResource & {
+export interface Workspace extends TrackedResource {
   /** The SKU of the resource. */
   sku?: Sku;
   /**
@@ -536,12 +536,15 @@ export type Workspace = TrackedResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Gets or sets a value indicating whether data plane (clusters) to control plane communication happen over private endpoint. Supported values are 'AllRules' and 'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. */
   requiredNsgRules?: RequiredNsgRules;
-};
+}
 
 /** Known values of {@link CustomParameterType} that the service accepts. */
 export enum KnownCustomParameterType {
+  /** Bool */
   Bool = "Bool",
+  /** Object */
   Object = "Object",
+  /** String */
   String = "String"
 }
 
@@ -558,7 +561,9 @@ export type CustomParameterType = string;
 
 /** Known values of {@link KeySource} that the service accepts. */
 export enum KnownKeySource {
+  /** Default */
   Default = "Default",
+  /** MicrosoftKeyvault */
   MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
@@ -574,16 +579,27 @@ export type KeySource = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -608,6 +624,7 @@ export type ProvisioningState = string;
 
 /** Known values of {@link EncryptionKeySource} that the service accepts. */
 export enum KnownEncryptionKeySource {
+  /** MicrosoftKeyvault */
   MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
@@ -622,9 +639,13 @@ export type EncryptionKeySource = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -642,10 +663,15 @@ export type PrivateLinkServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -664,7 +690,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -680,8 +708,11 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link RequiredNsgRules} that the service accepts. */
 export enum KnownRequiredNsgRules {
+  /** AllRules */
   AllRules = "AllRules",
+  /** NoAzureDatabricksRules */
   NoAzureDatabricksRules = "NoAzureDatabricksRules",
+  /** NoAzureServiceRules */
   NoAzureServiceRules = "NoAzureServiceRules"
 }
 
@@ -698,9 +729,13 @@ export type RequiredNsgRules = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -718,8 +753,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link PeeringState} that the service accepts. */
 export enum KnownPeeringState {
+  /** Initiated */
   Initiated = "Initiated",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -736,9 +774,13 @@ export type PeeringState = string;
 
 /** Known values of {@link PeeringProvisioningState} that the service accepts. */
 export enum KnownPeeringProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 

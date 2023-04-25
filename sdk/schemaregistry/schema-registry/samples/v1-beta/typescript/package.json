@@ -1,0 +1,39 @@
+{
+  "name": "@azure-samples/schema-registry-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Schema Registry client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/schemaregistry/schema-registry"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry",
+  "dependencies": {
+    "@azure/schema-registry": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "typescript": "~5.0.0",
+    "rimraf": "latest"
+  }
+}

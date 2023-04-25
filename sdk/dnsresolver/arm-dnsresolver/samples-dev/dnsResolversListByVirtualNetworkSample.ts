@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists DNS resolver resource IDs linked to a virtual network.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DnsResolver_ListByVirtualNetwork.json
  */
 async function listDnsResolversByVirtualNetwork() {
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const resourceGroupName = "sampleResourceGroup";
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
   const virtualNetworkName = "sampleVirtualNetwork";
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function listDnsResolversByVirtualNetwork() {
   console.log(resArray);
 }
 
-listDnsResolversByVirtualNetwork().catch(console.error);
+async function main() {
+  listDnsResolversByVirtualNetwork();
+}
+
+main().catch(console.error);

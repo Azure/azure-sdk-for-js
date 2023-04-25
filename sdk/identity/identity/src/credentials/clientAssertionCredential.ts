@@ -11,6 +11,7 @@ import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
+import { CredentialUnavailableError } from "../errors";
 
 const logger = credentialLogger("ClientAssertionCredential");
 
@@ -77,7 +78,8 @@ export class ClientAssertionCredential implements TokenCredential {
         newOptions.tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
+          logger
         );
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

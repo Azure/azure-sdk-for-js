@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of the policy metadata resources.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyMetadata_List.json
  */
 async function getCollectionOfPolicyMetadataResources() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,8 +36,6 @@ async function getCollectionOfPolicyMetadataResources() {
   console.log(resArray);
 }
 
-getCollectionOfPolicyMetadataResources().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a list of the policy metadata resources.
  *
@@ -40,7 +43,9 @@ getCollectionOfPolicyMetadataResources().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyMetadata_List_WithTop.json
  */
 async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const top = 1;
   const options: PolicyMetadataListOptionalParams = { queryOptions: { top: top } };
   const credential = new DefaultAzureCredential();
@@ -52,6 +57,9 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   console.log(resArray);
 }
 
-getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter().catch(
-  console.error
-);
+async function main() {
+  getCollectionOfPolicyMetadataResources();
+  getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
+}
+
+main().catch(console.error);

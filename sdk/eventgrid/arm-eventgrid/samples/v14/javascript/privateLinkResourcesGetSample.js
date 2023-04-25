@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get properties of a private link resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PrivateLinkResources_Get.json
  */
 async function privateLinkResourcesGet() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const parentType = "topics";
   const parentName = "exampletopic1";
   const privateLinkResourceName = "topic";
@@ -34,4 +36,8 @@ async function privateLinkResourcesGet() {
   console.log(result);
 }
 
-privateLinkResourcesGet().catch(console.error);
+async function main() {
+  privateLinkResourcesGet();
+}
+
+main().catch(console.error);

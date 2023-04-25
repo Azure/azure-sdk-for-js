@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MetricAttributes } from "@opentelemetry/api-metrics";
+import { Attributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
-import { createTagsFromResource } from "./resourceUtils";
+import { createTagsFromResource } from "./common";
 
-function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
+function createPropertiesFromMetricAttributes(attributes?: Attributes): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
@@ -22,11 +22,22 @@ function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
  * Metric to Azure envelope parsing.
  * @internal
  */
-export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string): Envelope[] {
+export function resourceMetricsToEnvelope(
+  metrics: ResourceMetrics,
+  ikey: string,
+  isStatsbeat?: boolean
+): Envelope[] {
   let envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
   const tags = createTagsFromResource(metrics.resource);
+  let envelopeName: string;
+
+  if (isStatsbeat) {
+    envelopeName = "Microsoft.ApplicationInsights.Statsbeat";
+  } else {
+    envelopeName = "Microsoft.ApplicationInsights.Metric";
+  }
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
@@ -56,9 +67,9 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         }
         baseData.metrics.push(metricDataPoint);
         let envelope: Envelope = {
-          name: "Microsoft.ApplicationInsights.Metric",
+          name: envelopeName,
           time: time,
-          sampleRate: 100,
+          sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
           version: 1,

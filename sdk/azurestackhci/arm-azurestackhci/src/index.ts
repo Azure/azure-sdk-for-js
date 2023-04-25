@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AzureStackHCIClient } from "./azureStackHCIClient";
 export * from "./operationsInterfaces";

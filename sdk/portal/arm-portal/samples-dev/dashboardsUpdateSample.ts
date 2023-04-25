@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PatchableDashboard, Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an existing Dashboard.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/updateDashboard.json
  */
 async function updateADashboard() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "testRG";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["PORTAL_RESOURCE_GROUP"] || "testRG";
   const dashboardName = "testDashboard";
   const dashboard: PatchableDashboard = {
     tags: { aKey: "bValue", anotherKey: "anotherValue2" }
@@ -34,4 +39,8 @@ async function updateADashboard() {
   console.log(result);
 }
 
-updateADashboard().catch(console.error);
+async function main() {
+  updateADashboard();
+}
+
+main().catch(console.error);

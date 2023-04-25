@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JoinRequests } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -63,12 +64,16 @@ export class JoinRequestsImpl implements JoinRequests {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           billingAccountName,
           billingProfileName,
           invoiceSectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,16 +83,23 @@ export class JoinRequestsImpl implements JoinRequests {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: JoinRequestsListOptionalParams
+    options?: JoinRequestsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JoinRequestDetails[]> {
-    let result = await this._list(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JoinRequestsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         billingAccountName,
@@ -97,7 +109,9 @@ export class JoinRequestsImpl implements JoinRequests {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -345,7 +359,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.includeDenied],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

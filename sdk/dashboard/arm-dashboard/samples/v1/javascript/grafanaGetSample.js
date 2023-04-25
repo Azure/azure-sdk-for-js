@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DashboardManagementClient } = require("@azure/arm-dashboard");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the properties of a specific workspace for Grafana resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Get.json
  */
 async function grafanaGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function grafanaGet() {
   console.log(result);
 }
 
-grafanaGet().catch(console.error);
+async function main() {
+  grafanaGet();
+}
+
+main().catch(console.error);

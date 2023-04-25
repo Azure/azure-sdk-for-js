@@ -25,6 +25,7 @@ pr:
   paths:
     include:
       - sdk/keyvault/
+      - eng/common/testproxy/
     exclude:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault
@@ -42,3 +43,5 @@ extends:
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin
         safeName: azurekeyvaultadmin
+      - name: azure-keyvault-common
+        safeName: azurekeyvaultcommon

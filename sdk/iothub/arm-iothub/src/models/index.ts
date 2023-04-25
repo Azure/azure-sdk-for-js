@@ -134,8 +134,12 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
+  /** The device streams properties of iothub. */
+  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
+  /** The encryption properties for the IoT hub. */
+  encryption?: EncryptionPropertiesDescription;
   /**
    * Primary and secondary location for iot hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -143,6 +147,8 @@ export interface IotHubProperties {
   readonly locations?: IotHubLocationDescription[];
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
   enableDataResidency?: boolean;
+  /** This property store root certificate related information */
+  rootCertificate?: RootCertificateProperties;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -280,6 +286,8 @@ export interface RoutingEndpoints {
   eventHubs?: RoutingEventHubProperties[];
   /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
   storageContainers?: RoutingStorageContainerProperties[];
+  /** The list of Cosmos DB collection endpoints that IoT hub routes messages to, based on the routing rules. */
+  cosmosDBSqlCollections?: RoutingCosmosDBSqlApiProperties[];
 }
 
 /** The properties related to service bus queue endpoint types. */
@@ -384,6 +392,36 @@ export interface RoutingStorageContainerProperties {
   encoding?: RoutingStorageContainerPropertiesEncoding;
 }
 
+/** The properties related to a cosmos DB sql collection endpoint. */
+export interface RoutingCosmosDBSqlApiProperties {
+  /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved:  events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
+  name: string;
+  /** Id of the cosmos DB sql collection endpoint */
+  id?: string;
+  /** The subscription identifier of the cosmos DB account. */
+  subscriptionId?: string;
+  /** The name of the resource group of the cosmos DB account. */
+  resourceGroup?: string;
+  /** The url of the cosmos DB account. It must include the protocol https:// */
+  endpointUri: string;
+  /** Method used to authenticate against the cosmos DB sql collection endpoint */
+  authenticationType?: AuthenticationType;
+  /** Managed identity properties of routing cosmos DB collection endpoint. */
+  identity?: ManagedIdentity;
+  /** The primary key of the cosmos DB account. */
+  primaryKey?: string;
+  /** The secondary key of the cosmos DB account. */
+  secondaryKey?: string;
+  /** The name of the cosmos DB database in the cosmos DB account. */
+  databaseName: string;
+  /** The name of the cosmos DB sql collection in the cosmos DB database. */
+  collectionName: string;
+  /** The name of the partition key associated with this cosmos DB sql collection if one exists. This is an optional parameter. */
+  partitionKeyName?: string;
+  /** The template for generating a synthetic partition key value for use with this cosmos DB sql collection. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
+  partitionKeyTemplate?: string;
+}
+
 /** The properties of a routing rule that your IoT hub uses to route messages to endpoints. */
 export interface RouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
@@ -466,12 +504,45 @@ export interface FeedbackProperties {
   maxDeliveryCount?: number;
 }
 
+/** The device streams properties of iothub. */
+export interface IotHubPropertiesDeviceStreams {
+  /** List of Device Streams Endpoints. */
+  streamingEndpoints?: string[];
+}
+
+/** The encryption properties for the IoT hub. */
+export interface EncryptionPropertiesDescription {
+  /** The source of the key. */
+  keySource?: string;
+  /** The properties of the KeyVault key. */
+  keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+/** The properties of the KeyVault key. */
+export interface KeyVaultKeyProperties {
+  /** The identifier of the key. */
+  keyIdentifier?: string;
+  /** Managed identity properties of KeyVault Key. */
+  identity?: ManagedIdentity;
+}
+
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
   location?: string;
   /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
   role?: IotHubReplicaRoleType;
+}
+
+/** This property store root certificate related information */
+export interface RootCertificateProperties {
+  /** This property when set to true, hub will use G2 cert; while it's set to false, hub uses Baltimore Cert. */
+  enableRootCertificateV2?: boolean;
+  /**
+   * the last update time to root certificate flag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimeUtc?: Date;
 }
 
 /** Information about the SKU of the IoT hub. */
@@ -498,7 +569,7 @@ export interface ArmIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type?: ResourceIdentityType;
   /** Dictionary of <ArmUserIdentity> */
   userAssignedIdentities?: { [propertyName: string]: ArmUserIdentity };
@@ -1202,6 +1273,36 @@ export interface IotHubDescription extends Resource {
   readonly systemData?: SystemData;
 }
 
+/** Defines headers for IotHubResource_createOrUpdate operation. */
+export interface IotHubResourceCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for IotHubResource_update operation. */
+export interface IotHubResourceUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for IotHubResource_delete operation. */
+export interface IotHubResourceDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_update operation. */
+export interface PrivateEndpointConnectionsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
   /** Enabled */
@@ -1328,8 +1429,12 @@ export enum KnownRoutingSource {
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
+  /** DigitalTwinChangeEvents */
+  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
   /** DeviceConnectionStateEvents */
-  DeviceConnectionStateEvents = "DeviceConnectionStateEvents"
+  DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
+  /** MqttBrokerMessages */
+  MqttBrokerMessages = "MqttBrokerMessages"
 }
 
 /**
@@ -1342,7 +1447,9 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents** \
  * **DeviceLifecycleEvents** \
  * **DeviceJobLifecycleEvents** \
- * **DeviceConnectionStateEvents**
+ * **DigitalTwinChangeEvents** \
+ * **DeviceConnectionStateEvents** \
+ * **MqttBrokerMessages**
  */
 export type RoutingSource = string;
 
@@ -1631,7 +1738,8 @@ export interface IotHubResourceUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type IotHubResourceUpdateResponse = IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders &
+  IotHubDescription;
 
 /** Optional parameters. */
 export interface IotHubResourceDeleteOptionalParams

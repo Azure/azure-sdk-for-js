@@ -39,8 +39,6 @@ export type AvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 
 // @public
 export interface AvailabilityStatusesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -57,8 +55,6 @@ export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatus
 
 // @public
 export interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -75,8 +71,6 @@ export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatu
 
 // @public
 export interface AvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -141,8 +135,6 @@ export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 
 // @public
 export interface ChildAvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -164,8 +156,6 @@ export interface ChildResources {
 
 // @public
 export interface ChildResourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -233,6 +223,9 @@ export interface ErrorResponse {
     readonly details?: string;
     readonly message?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface ImpactedRegion {

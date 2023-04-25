@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a managed private endpoint.
  *
  * @summary Deletes a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoManagedPrivateEndpointsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoManagedPrivateEndpointsDelete.json
  */
 async function managedPrivateEndpointsDelete() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const managedPrivateEndpointName = "managedPrivateEndpointTest";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function managedPrivateEndpointsDelete() {
   console.log(result);
 }
 
-managedPrivateEndpointsDelete().catch(console.error);
+async function main() {
+  managedPrivateEndpointsDelete();
+}
+
+main().catch(console.error);

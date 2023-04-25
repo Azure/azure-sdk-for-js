@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CompositeMapper, OperationParameter } from "../src/coreHttp";
+import { CompositeMapper, OperationParameter } from "../src";
 
 const QueueDescription: CompositeMapper = {
   serializedName: "QueueDescription",

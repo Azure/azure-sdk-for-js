@@ -6,12 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./servers";
-export * from "./firewallRules";
-export * from "./configurations";
-export * from "./checkNameAvailability";
+export * from "./administrators";
+export * from "./backups";
 export * from "./locationBasedCapabilities";
-export * from "./virtualNetworkSubnetUsage";
-export * from "./operations";
+export * from "./checkNameAvailability";
+export * from "./checkNameAvailabilityWithLocation";
+export * from "./configurations";
 export * from "./databases";
+export * from "./firewallRules";
+export * from "./servers";
+export * from "./operations";
 export * from "./getPrivateDnsZoneSuffix";
+export * from "./replicas";
+export * from "./virtualNetworkSubnetUsage";

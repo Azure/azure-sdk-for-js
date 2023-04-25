@@ -162,7 +162,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
         case "EventGrid": {
-          return this.client.publishEvents(
+          return this.client.publishEventGridEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["EventGrid"][]).map(
               convertEventGridEventToModelType

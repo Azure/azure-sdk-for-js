@@ -1,0 +1,40 @@
+{
+  "name": "@azure-samples/web-pubsub-client-samples-browser",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Web PubSub Client client library browser samples for JavaScript",
+  "engine": {
+    "node": ">=14.0.0"
+  },
+  "main": "server.js",
+  "scripts": {
+    "build": "webpack-cli --mode=development",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "dotenv": "latest",
+    "events": "latest",
+    "@azure/web-pubsub": "^1.0.0",
+    "@azure/web-pubsub-client": "file:../"
+  },
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "copy-webpack-plugin": "^8.1.1"
+  }
+}

@@ -31,6 +31,9 @@ export interface CompanyInformation {
     url?: string;
 }
 
+// @public (undocumented)
+export const CompanyInformationMapper: coreClient.CompositeMapper;
+
 // @public
 export interface ContactInformation {
     email?: string;
@@ -60,7 +63,7 @@ export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalPa
 }
 
 // @public
-export interface ListUSProgramBriefsOptions extends OperationOptions {
+export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {
 }
 
 // @public
@@ -80,6 +83,9 @@ export interface MessageDetails {
     supportedProtocol?: MessageProtocol;
     useCases?: UseCase[];
 }
+
+// @public (undocumented)
+export const MessageDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type MessageDirection = "toUser" | "fromUser";
@@ -140,6 +146,9 @@ export interface ProgramDetails {
     termsOfServiceUrl?: string;
     url?: string;
 }
+
+// @public (undocumented)
+export const ProgramDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type Recurrence = "subscription" | "transaction";
@@ -223,6 +232,12 @@ export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams extends co
 }
 
 // @public
+export interface ShortCodesGetUSProgramBriefsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
 export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreClient.OperationOptions {
     body?: USProgramBrief;
 }
@@ -240,6 +255,9 @@ export interface TrafficDetails {
     spikeDetails?: string;
     totalMonthlyVolume?: number;
 }
+
+// @public (undocumented)
+export const TrafficDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export interface UseCase {

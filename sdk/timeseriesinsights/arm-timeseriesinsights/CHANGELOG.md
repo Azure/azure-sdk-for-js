@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.0-beta.2 (Unreleased)
+## 2.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,41 +10,68 @@
 
 ### Other Changes
 
-## 2.1.0-beta.1 (2022-05-05)
+## 2.1.0-beta.2 (2022-12-15)
     
 **Features**
 
   - Added operation group PrivateEndpointConnections
   - Added operation group PrivateLinkResources
+  - Added Interface AccessPolicyResource
+  - Added Interface AzureEventSourceProperties
+  - Added Interface EnvironmentCreateOrUpdateParameters
+  - Added Interface EnvironmentResource
+  - Added Interface EnvironmentResourceProperties
+  - Added Interface EventHubEventSourceCommonProperties
+  - Added Interface EventHubEventSourceCreateOrUpdateParameters
+  - Added Interface EventHubEventSourceCreationProperties
+  - Added Interface EventHubEventSourceMutableProperties
+  - Added Interface EventHubEventSourceResource
+  - Added Interface EventHubEventSourceResourceProperties
+  - Added Interface EventHubEventSourceUpdateParameters
+  - Added Interface EventSourceCommonProperties
+  - Added Interface EventSourceCreateOrUpdateParameters
+  - Added Interface EventSourceResource
+  - Added Interface Gen1EnvironmentCreateOrUpdateParameters
+  - Added Interface Gen1EnvironmentResource
+  - Added Interface Gen1EnvironmentResourceProperties
+  - Added Interface Gen1EnvironmentUpdateParameters
+  - Added Interface Gen2EnvironmentCreateOrUpdateParameters
+  - Added Interface Gen2EnvironmentResource
+  - Added Interface Gen2EnvironmentResourceProperties
+  - Added Interface Gen2EnvironmentUpdateParameters
+  - Added Interface IoTHubEventSourceCommonProperties
+  - Added Interface IoTHubEventSourceCreateOrUpdateParameters
+  - Added Interface IoTHubEventSourceCreationProperties
+  - Added Interface IoTHubEventSourceMutableProperties
+  - Added Interface IoTHubEventSourceResource
+  - Added Interface IoTHubEventSourceResourceProperties
+  - Added Interface IoTHubEventSourceUpdateParameters
   - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionListResult
   - Added Interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
   - Added Interface PrivateEndpointConnectionsGetOptionalParams
   - Added Interface PrivateEndpointConnectionsListByEnvironmentOptionalParams
+  - Added Interface PrivateLinkResource
   - Added Interface PrivateLinkResourceListResult
   - Added Interface PrivateLinkResourcesListSupportedOptionalParams
   - Added Interface PrivateLinkServiceConnectionState
-  - Added Type Alias PrivateEndpointConnection
+  - Added Interface ReferenceDataSetCreateOrUpdateParameters
+  - Added Interface ReferenceDataSetResource
+  - Added Interface ReferenceDataSetResourceProperties
+  - Added Interface TrackedResource
   - Added Type Alias PrivateEndpointConnectionProvisioningState
   - Added Type Alias PrivateEndpointConnectionsCreateOrUpdateResponse
   - Added Type Alias PrivateEndpointConnectionsGetResponse
   - Added Type Alias PrivateEndpointConnectionsListByEnvironmentResponse
   - Added Type Alias PrivateEndpointServiceConnectionStatus
-  - Added Type Alias PrivateLinkResource
   - Added Type Alias PrivateLinkResourcesListSupportedResponse
   - Added Type Alias PublicNetworkAccess
-  - Class TimeSeriesInsightsClient has a new parameter privateEndpointConnections
-  - Class TimeSeriesInsightsClient has a new parameter privateLinkResources
-  - Type Alias Gen2EnvironmentCreateOrUpdateParameters has a new parameter publicNetworkAccess
-  - Type Alias Gen2EnvironmentCreateOrUpdateParameters has a new parameter privateEndpointConnections
-  - Type Alias Gen2EnvironmentResource has a new parameter publicNetworkAccess
-  - Type Alias Gen2EnvironmentResource has a new parameter privateEndpointConnections
-  - Type Alias Gen2EnvironmentResourceProperties has a new parameter publicNetworkAccess
-  - Type Alias Gen2EnvironmentResourceProperties has a new parameter privateEndpointConnections
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
   - Added Enum KnownPublicNetworkAccess
+  - Added function getContinuationToken
     
     
 ## 2.0.0 (2022-01-21)

@@ -9,7 +9,6 @@ v3: true
 package-name: "@azure/mixed-reality-remote-rendering"
 title: RemoteRenderingRestClient
 description: Azure Remote Rendering Client
-generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
@@ -18,7 +17,17 @@ add-credentials: false
 package-version: 1.0.0-beta.2
 disable-async-iterators: true
 hide-clients: true
-typescript: true
+
+tracing-info:
+  namespace: "Microsoft.MixedReality"
+  packagePrefix: "Azure.mixed-reality-remote-rendering"
+
+use-extension:
+  "@autorest/typescript": "latest"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ```yaml

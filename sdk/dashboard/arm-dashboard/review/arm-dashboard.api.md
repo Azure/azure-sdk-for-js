@@ -77,6 +77,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Grafana {
     beginCreate(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<PollerLike<PollOperationState<GrafanaCreateResponse>, GrafanaCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<GrafanaCreateResponse>;

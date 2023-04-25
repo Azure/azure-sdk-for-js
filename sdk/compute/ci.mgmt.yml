@@ -11,6 +11,7 @@ trigger:
       - sdk/compute/ci.mgmt.yml
       - sdk/compute/arm-compute
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
+      - sdk/compute/arm-compute-rest
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/compute/ci.mgmt.yml
       - sdk/compute/arm-compute
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
+      - sdk/compute/arm-compute-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +36,5 @@ extends:
         safeName: azurearmcompute
       - name: azure-arm-compute-profile-2020-09-01-hybrid
         safeName: azurearmcomputeprofile20200901hybrid
+      - name: azure-rest-arm-compute
+        safeName: azurerestarmcompute

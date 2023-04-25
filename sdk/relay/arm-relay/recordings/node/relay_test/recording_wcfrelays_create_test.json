@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "105",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-relay/3.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "1783c753-e6b3-4c6a-a9fb-09727ee13dd3"
+        "User-Agent": "azsdk-js-arm-relay/3.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "0ab4b217-8c06-4451-b08f-645f34284059"
       },
       "RequestBody": {
         "properties": {
@@ -23,27 +23,29 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "454",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 07:39:48 GMT",
+        "Date": "Wed, 01 Feb 2023 02:22:12 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "05440db0-3309-4f7a-83c3-7e67b6763e6e",
+        "x-ms-correlation-request-id": "35f5890e-dd67-433f-83a6-35054a84eadc",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "05440db0-3309-4f7a-83c3-7e67b6763e6e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T073949Z:05440db0-3309-4f7a-83c3-7e67b6763e6e"
+        "x-ms-request-id": "35f5890e-dd67-433f-83a6-35054a84eadc",
+        "x-ms-routing-request-id": "KOREASOUTH:20230201T022212Z:35f5890e-dd67-433f-83a6-35054a84eadc"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx/wcfRelays/myrelayxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx/wcfrelays/myrelayxxx",
         "name": "myrelayxxx",
-        "type": "Microsoft.Relay/Namespaces/WcfRelays",
+        "type": "Microsoft.Relay/namespaces/wcfrelays",
         "location": "eastus",
         "properties": {
-          "createdAt": "2022-07-08T07:39:48.6275824Z",
-          "updatedAt": "2022-07-08T07:39:48.6275824Z",
+          "createdAt": "2023-02-01T02:22:11.9417647Z",
+          "updatedAt": "2023-02-01T02:22:11.9417647Z",
           "listenerCount": 0,
           "requiresClientAuthorization": true,
           "relayType": "NetTcp",

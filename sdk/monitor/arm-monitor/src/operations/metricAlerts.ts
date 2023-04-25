@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MetricAlerts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,8 +15,8 @@ import { MonitorClient } from "../monitorClient";
 import {
   MetricAlertResource,
   MetricAlertsListBySubscriptionOptionalParams,
-  MetricAlertsListByResourceGroupOptionalParams,
   MetricAlertsListBySubscriptionResponse,
+  MetricAlertsListByResourceGroupOptionalParams,
   MetricAlertsListByResourceGroupResponse,
   MetricAlertsGetOptionalParams,
   MetricAlertsGetResponse,
@@ -56,16 +56,21 @@ export class MetricAlertsImpl implements MetricAlerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MetricAlertsListBySubscriptionOptionalParams
+    options?: MetricAlertsListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: MetricAlertsListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -94,17 +99,26 @@ export class MetricAlertsImpl implements MetricAlerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams
+    options?: MetricAlertsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: MetricAlertsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

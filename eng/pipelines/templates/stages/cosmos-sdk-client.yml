@@ -15,6 +15,9 @@ parameters:
   type: string
   default: azure-docs-sdk-node
 
+variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+
 stages:
   - stage: Build
     jobs:
@@ -35,8 +38,8 @@ stages:
       MatrixFilters:
         - TestType=node
         - DependencyVersion=^$
-        - NodeTestVersion=10.x
-        - Pool=.*mms-win-2019.*
+        - NodeTestVersion=14.x
+        - Pool=.*mms-win-2022.*
       PreSteps:
         - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml
       PostSteps:

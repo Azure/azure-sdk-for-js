@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import { AppConfigurationClient } from "../../../src";
 import { AbortController } from "@azure/abort-controller";
-import nock from "nock";
-import { v4 as generateUuid } from "uuid";
+import { AppConfigurationClient } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
+import chai from "chai";
+import { v4 as generateUuid } from "uuid";
+import nock from "nock";
 
 describe("Should not retry forever", () => {
   let client: AppConfigurationClient;

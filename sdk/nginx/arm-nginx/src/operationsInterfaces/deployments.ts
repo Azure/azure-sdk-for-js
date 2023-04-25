@@ -14,8 +14,8 @@ import {
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
-  DeploymentsCreateOptionalParams,
-  DeploymentsCreateResponse,
+  DeploymentsCreateOrUpdateOptionalParams,
+  DeploymentsCreateOrUpdateResponse,
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams
@@ -57,14 +57,14 @@ export interface Deployments {
    * @param deploymentName The name of targeted Nginx deployment
    * @param options The options parameters.
    */
-  beginCreate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DeploymentsCreateResponse>,
-      DeploymentsCreateResponse
+      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+      DeploymentsCreateOrUpdateResponse
     >
   >;
   /**
@@ -73,11 +73,11 @@ export interface Deployments {
    * @param deploymentName The name of targeted Nginx deployment
    * @param options The options parameters.
    */
-  beginCreateAndWait(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOptionalParams
-  ): Promise<DeploymentsCreateResponse>;
+    options?: DeploymentsCreateOrUpdateOptionalParams
+  ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
    * Update the Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

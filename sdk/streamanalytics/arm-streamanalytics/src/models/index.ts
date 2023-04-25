@@ -643,65 +643,65 @@ export interface AzureMachineLearningWebServiceOutputColumn {
 }
 
 /** The properties that are associated with an input containing stream data. */
-export type StreamInputProperties = InputProperties & {
+export interface StreamInputProperties extends InputProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Stream";
   /** Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests. */
   datasource?: StreamInputDataSourceUnion;
-};
+}
 
 /** The properties that are associated with an input containing reference data. */
-export type ReferenceInputProperties = InputProperties & {
+export interface ReferenceInputProperties extends InputProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Reference";
   /** Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests. */
   datasource?: ReferenceInputDataSourceUnion;
-};
+}
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format. */
-export type ParquetSerialization = Serialization & {
+export interface ParquetSerialization extends Serialization {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Parquet";
   /** The properties that are associated with the Parquet serialization type. Required on PUT (CreateOrReplace) requests. */
   properties?: Record<string, unknown>;
-};
+}
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output in CSV format. */
-export type CsvSerialization = Serialization & {
+export interface CsvSerialization extends Serialization {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Csv";
   /** Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests. */
   fieldDelimiter?: string;
   /** Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests. */
   encoding?: Encoding;
-};
+}
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output in JSON format. */
-export type JsonSerialization = Serialization & {
+export interface JsonSerialization extends Serialization {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Json";
   /** Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests. */
   encoding?: Encoding;
   /** This property only applies to JSON serialization of outputs only. It is not applicable to inputs. This property specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects. Default value is 'lineSeparated' if left null. */
   format?: JsonOutputSerializationFormat;
-};
+}
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output in Avro format. */
-export type AvroSerialization = Serialization & {
+export interface AvroSerialization extends Serialization {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Avro";
   /** The properties that are associated with the Avro serialization type. Required on PUT (CreateOrReplace) requests. */
   properties?: Record<string, unknown>;
-};
+}
 
 /** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
-export type Input = SubResource & {
+export interface Input extends SubResource {
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
   properties?: InputPropertiesUnion;
-};
+}
 
 /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
-export type Transformation = SubResource & {
+export interface Transformation extends SubResource {
   /** Specifies the number of streaming units that the streaming job uses. */
   streamingUnits?: number;
   /** Specifies the valid streaming units a streaming job can scale to. */
@@ -713,10 +713,10 @@ export type Transformation = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-};
+}
 
 /** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
-export type Output = SubResource & {
+export interface Output extends SubResource {
   /** Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests. */
   datasource?: OutputDataSourceUnion;
   /** The time frame for filtering Stream Analytics job outputs. */
@@ -735,16 +735,16 @@ export type Output = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-};
+}
 
 /** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
-export type FunctionModel = SubResource & {
+export interface FunctionModel extends SubResource {
   /** The properties that are associated with a function. */
   properties?: FunctionPropertiesUnion;
-};
+}
 
 /** Describes the current quota for the subscription. */
-export type SubscriptionQuota = SubResource & {
+export interface SubscriptionQuota extends SubResource {
   /**
    * The max permitted usage of this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -755,10 +755,10 @@ export type SubscriptionQuota = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentCount?: number;
-};
+}
 
 /** Describes a blob output data source. */
-export type BlobOutputDataSource = OutputDataSource & {
+export interface BlobOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Storage/Blob";
   /** A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests. */
@@ -773,10 +773,10 @@ export type BlobOutputDataSource = OutputDataSource & {
   timeFormat?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** Describes an Azure Table output data source. */
-export type AzureTableOutputDataSource = OutputDataSource & {
+export interface AzureTableOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Storage/Table";
   /** The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
@@ -793,10 +793,10 @@ export type AzureTableOutputDataSource = OutputDataSource & {
   columnsToRemove?: string[];
   /** The number of rows to write to the Azure Table at a time. */
   batchSize?: number;
-};
+}
 
 /** Describes an Event Hub output data source. */
-export type EventHubOutputDataSource = OutputDataSource & {
+export interface EventHubOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.ServiceBus/EventHub";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -813,10 +813,10 @@ export type EventHubOutputDataSource = OutputDataSource & {
   partitionKey?: string;
   /** The properties associated with this Event Hub output. */
   propertyColumns?: string[];
-};
+}
 
 /** Describes an Event Hub output data source. */
-export type EventHubV2OutputDataSource = OutputDataSource & {
+export interface EventHubV2OutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.EventHub/EventHub";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -833,10 +833,10 @@ export type EventHubV2OutputDataSource = OutputDataSource & {
   partitionKey?: string;
   /** The properties associated with this Event Hub output. */
   propertyColumns?: string[];
-};
+}
 
 /** Describes an Azure SQL database output data source. */
-export type AzureSqlDatabaseOutputDataSource = OutputDataSource & {
+export interface AzureSqlDatabaseOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Sql/Server/Database";
   /** The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
@@ -855,10 +855,10 @@ export type AzureSqlDatabaseOutputDataSource = OutputDataSource & {
   maxWriterCount?: number;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** Describes an Azure Synapse output data source. */
-export type AzureSynapseOutputDataSource = OutputDataSource & {
+export interface AzureSynapseOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Sql/Server/DataWarehouse";
   /** The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
@@ -871,10 +871,10 @@ export type AzureSynapseOutputDataSource = OutputDataSource & {
   user?: string;
   /** The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
   password?: string;
-};
+}
 
 /** Describes a DocumentDB output data source. */
-export type DocumentDbOutputDataSource = OutputDataSource & {
+export interface DocumentDbOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Storage/DocumentDB";
   /** The DocumentDB account name or ID. Required on PUT (CreateOrReplace) requests. */
@@ -889,10 +889,10 @@ export type DocumentDbOutputDataSource = OutputDataSource & {
   partitionKey?: string;
   /** The name of the field in output events used to specify the primary key which insert or update operations are based on. */
   documentId?: string;
-};
+}
 
 /** Describes a Service Bus Queue output data source. */
-export type ServiceBusQueueOutputDataSource = OutputDataSource & {
+export interface ServiceBusQueueOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.ServiceBus/Queue";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -909,10 +909,10 @@ export type ServiceBusQueueOutputDataSource = OutputDataSource & {
   propertyColumns?: string[];
   /** The system properties associated with the Service Bus Queue. The following system properties are supported: ReplyToSessionId, ContentType, To, Subject, CorrelationId, TimeToLive, PartitionKey, SessionId, ScheduledEnqueueTime, MessageId, ReplyTo, Label, ScheduledEnqueueTimeUtc. */
   systemPropertyColumns?: Record<string, unknown>;
-};
+}
 
 /** Describes a Service Bus Topic output data source. */
-export type ServiceBusTopicOutputDataSource = OutputDataSource & {
+export interface ServiceBusTopicOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.ServiceBus/Topic";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -929,10 +929,10 @@ export type ServiceBusTopicOutputDataSource = OutputDataSource & {
   propertyColumns?: string[];
   /** The system properties associated with the Service Bus Topic Output. The following system properties are supported: ReplyToSessionId, ContentType, To, Subject, CorrelationId, TimeToLive, PartitionKey, SessionId, ScheduledEnqueueTime, MessageId, ReplyTo, Label, ScheduledEnqueueTimeUtc. */
   systemPropertyColumns?: { [propertyName: string]: string };
-};
+}
 
 /** Describes a Power BI output data source. */
-export type PowerBIOutputDataSource = OutputDataSource & {
+export interface PowerBIOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PowerBI";
   /** A refresh token that can be used to obtain a valid access token that can then be used to authenticate with the data source. A valid refresh token is currently only obtainable via the Azure Portal. It is recommended to put a dummy string value here when creating the data source and then going to the Azure Portal to authenticate the data source which will update this property with a valid refresh token. Required on PUT (CreateOrReplace) requests. */
@@ -951,10 +951,10 @@ export type PowerBIOutputDataSource = OutputDataSource & {
   groupName?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** Describes an Azure Data Lake Store output data source. */
-export type AzureDataLakeStoreOutputDataSource = OutputDataSource & {
+export interface AzureDataLakeStoreOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.DataLake/Accounts";
   /** A refresh token that can be used to obtain a valid access token that can then be used to authenticate with the data source. A valid refresh token is currently only obtainable via the Azure Portal. It is recommended to put a dummy string value here when creating the data source and then going to the Azure Portal to authenticate the data source which will update this property with a valid refresh token. Required on PUT (CreateOrReplace) requests. */
@@ -975,10 +975,10 @@ export type AzureDataLakeStoreOutputDataSource = OutputDataSource & {
   timeFormat?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** The properties that are associated with a scalar function. */
-export type ScalarFunctionProperties = FunctionProperties & {
+export interface ScalarFunctionProperties extends FunctionProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Scalar";
   /** A list of inputs describing the parameters of the function. */
@@ -987,47 +987,49 @@ export type ScalarFunctionProperties = FunctionProperties & {
   output?: FunctionOutput;
   /** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
   binding?: FunctionBindingUnion;
-};
+}
 
 /** The properties that are associated with an Azure Storage account with MSI */
-export type JobStorageAccount = StorageAccount & {
+export interface JobStorageAccount extends StorageAccount {
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location?: string;
-};
+}
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The parameters needed to retrieve the default function definition for an Azure Machine Learning web service function. */
-export type AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
+export interface AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   bindingType: "Microsoft.MachineLearning/WebService";
   /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
   executeEndpoint?: string;
   /** The function type. */
   udfType?: "Scalar";
-};
+}
 
 /** The parameters needed to retrieve the default function definition for a JavaScript function. */
-export type JavaScriptFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
+export interface JavaScriptFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   bindingType: "Microsoft.StreamAnalytics/JavascriptUdf";
   /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'. */
   script?: string;
   /** The function type. */
   udfType?: "Scalar";
-};
+}
 
 /** Describes a blob input data source that contains stream data. */
-export type BlobStreamInputDataSource = StreamInputDataSource & {
+export interface BlobStreamInputDataSource extends StreamInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Storage/Blob";
   /** A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests. */
@@ -1042,10 +1044,10 @@ export type BlobStreamInputDataSource = StreamInputDataSource & {
   timeFormat?: string;
   /** The partition count of the blob input data source. Range 1 - 256. */
   sourcePartitionCount?: number;
-};
+}
 
 /** Describes an Event Hub input data source that contains stream data. */
-export type EventHubStreamInputDataSource = StreamInputDataSource & {
+export interface EventHubStreamInputDataSource extends StreamInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.ServiceBus/EventHub";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -1060,10 +1062,10 @@ export type EventHubStreamInputDataSource = StreamInputDataSource & {
   eventHubName?: string;
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
-};
+}
 
 /** Describes an Event Hub input data source that contains stream data. */
-export type EventHubV2StreamInputDataSource = StreamInputDataSource & {
+export interface EventHubV2StreamInputDataSource extends StreamInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.EventHub/EventHub";
   /** The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests. */
@@ -1078,10 +1080,10 @@ export type EventHubV2StreamInputDataSource = StreamInputDataSource & {
   eventHubName?: string;
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
-};
+}
 
 /** Describes an IoT Hub input data source that contains stream data. */
-export type IoTHubStreamInputDataSource = StreamInputDataSource & {
+export interface IoTHubStreamInputDataSource extends StreamInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Devices/IotHubs";
   /** The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests. */
@@ -1094,10 +1096,10 @@ export type IoTHubStreamInputDataSource = StreamInputDataSource & {
   consumerGroupName?: string;
   /** The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.). */
   endpoint?: string;
-};
+}
 
 /** Describes a blob input data source that contains reference data. */
-export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
+export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Storage/Blob";
   /** A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests. */
@@ -1110,10 +1112,11 @@ export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
-};
+}
 
 /** Describes an Azure SQL database reference input data source. */
-export type AzureSqlReferenceInputDataSource = ReferenceInputDataSource & {
+export interface AzureSqlReferenceInputDataSource
+  extends ReferenceInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.Sql/Server/Database";
   /** This element is associated with the datasource element. This is the name of the server that contains the database that will be written to. */
@@ -1134,57 +1137,66 @@ export type AzureSqlReferenceInputDataSource = ReferenceInputDataSource & {
   fullSnapshotQuery?: string;
   /** This element is associated with the datasource element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database. */
   deltaSnapshotQuery?: string;
-};
+}
 
 /** The properties that are associated with a blob input containing stream data. */
-export type BlobStreamInputDataSourceProperties = BlobDataSourceProperties & {
+export interface BlobStreamInputDataSourceProperties
+  extends BlobDataSourceProperties {
   /** The partition count of the blob input data source. Range 1 - 256. */
   sourcePartitionCount?: number;
-};
+}
 
 /** The properties that are associated with a blob input containing reference data. */
-export type BlobReferenceInputDataSourceProperties = BlobDataSourceProperties & {};
+export interface BlobReferenceInputDataSourceProperties
+  extends BlobDataSourceProperties {}
 
 /** The properties that are associated with a blob output. */
-export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {
+export interface BlobOutputDataSourceProperties
+  extends BlobDataSourceProperties {
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** The common properties that are associated with Event Hub data sources. */
-export type EventHubDataSourceProperties = ServiceBusDataSourceProperties & {
+export interface EventHubDataSourceProperties
+  extends ServiceBusDataSourceProperties {
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
-};
+}
 
 /** The properties that are associated with a Service Bus Queue output. */
-export type ServiceBusQueueOutputDataSourceProperties = ServiceBusDataSourceProperties & {
+export interface ServiceBusQueueOutputDataSourceProperties
+  extends ServiceBusDataSourceProperties {
   /** The name of the Service Bus Queue. Required on PUT (CreateOrReplace) requests. */
   queueName?: string;
   /** A string array of the names of output columns to be attached to Service Bus messages as custom properties. */
   propertyColumns?: string[];
   /** The system properties associated with the Service Bus Queue. The following system properties are supported: ReplyToSessionId, ContentType, To, Subject, CorrelationId, TimeToLive, PartitionKey, SessionId, ScheduledEnqueueTime, MessageId, ReplyTo, Label, ScheduledEnqueueTimeUtc. */
   systemPropertyColumns?: Record<string, unknown>;
-};
+}
 
 /** The properties that are associated with a Service Bus Topic output. */
-export type ServiceBusTopicOutputDataSourceProperties = ServiceBusDataSourceProperties & {
+export interface ServiceBusTopicOutputDataSourceProperties
+  extends ServiceBusDataSourceProperties {
   /** The name of the Service Bus Topic. Required on PUT (CreateOrReplace) requests. */
   topicName?: string;
   /** A string array of the names of output columns to be attached to Service Bus messages as custom properties. */
   propertyColumns?: string[];
   /** The system properties associated with the Service Bus Topic Output. The following system properties are supported: ReplyToSessionId, ContentType, To, Subject, CorrelationId, TimeToLive, PartitionKey, SessionId, ScheduledEnqueueTime, MessageId, ReplyTo, Label, ScheduledEnqueueTimeUtc. */
   systemPropertyColumns?: { [propertyName: string]: string };
-};
+}
 
 /** The properties that are associated with an Azure SQL database output. */
-export type AzureSqlDatabaseOutputDataSourceProperties = AzureSqlDatabaseDataSourceProperties & {};
+export interface AzureSqlDatabaseOutputDataSourceProperties
+  extends AzureSqlDatabaseDataSourceProperties {}
 
 /** The properties that are associated with an Azure Synapse output. */
-export type AzureSynapseOutputDataSourceProperties = AzureSynapseDataSourceProperties & {};
+export interface AzureSynapseOutputDataSourceProperties
+  extends AzureSynapseDataSourceProperties {}
 
 /** The properties that are associated with a Power BI output. */
-export type PowerBIOutputDataSourceProperties = OAuthBasedDataSourceProperties & {
+export interface PowerBIOutputDataSourceProperties
+  extends OAuthBasedDataSourceProperties {
   /** The name of the Power BI dataset. Required on PUT (CreateOrReplace) requests. */
   dataset?: string;
   /** The name of the Power BI table under the specified dataset. Required on PUT (CreateOrReplace) requests. */
@@ -1195,10 +1207,11 @@ export type PowerBIOutputDataSourceProperties = OAuthBasedDataSourceProperties &
   groupName?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** The properties that are associated with an Azure Data Lake Store. */
-export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceProperties & {
+export interface AzureDataLakeStoreOutputDataSourceProperties
+  extends OAuthBasedDataSourceProperties {
   /** The name of the Azure Data Lake Store account. Required on PUT (CreateOrReplace) requests. */
   accountName?: string;
   /** The tenant id of the user used to obtain the refresh token. Required on PUT (CreateOrReplace) requests. */
@@ -1211,10 +1224,11 @@ export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceP
   timeFormat?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
+}
 
 /** The binding to an Azure Machine Learning web service. */
-export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
+export interface AzureMachineLearningWebServiceFunctionBinding
+  extends FunctionBinding {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.MachineLearning/WebService";
   /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
@@ -1227,18 +1241,18 @@ export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
   outputs?: AzureMachineLearningWebServiceOutputColumn[];
   /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
   batchSize?: number;
-};
+}
 
 /** The binding to a JavaScript function. */
-export type JavaScriptFunctionBinding = FunctionBinding & {
+export interface JavaScriptFunctionBinding extends FunctionBinding {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Microsoft.StreamAnalytics/JavascriptUdf";
   /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }' */
   script?: string;
-};
+}
 
 /** A streaming job object, containing all information associated with the named streaming job. */
-export type StreamingJob = TrackedResource & {
+export interface StreamingJob extends TrackedResource {
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
   identity?: Identity;
   /** Describes the SKU of the streaming job. Required on PUT (CreateOrReplace) requests. */
@@ -1305,10 +1319,10 @@ export type StreamingJob = TrackedResource & {
   contentStoragePolicy?: ContentStoragePolicy;
   /** The cluster which streaming jobs will run on. */
   cluster?: ClusterInfo;
-};
+}
 
 /** A Stream Analytics Cluster object */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT (CreateOrUpdate) requests. */
   sku?: ClusterSku;
   /**
@@ -1341,10 +1355,10 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capacityAssigned?: number;
-};
+}
 
 /** Complete information about the private endpoint. */
-export type PrivateEndpoint = ProxyResource & {
+export interface PrivateEndpoint extends ProxyResource {
   /**
    * Unique opaque string (generally a GUID) that represents the metadata state of the resource (private endpoint) and changes whenever the resource is updated. Required on PUT (CreateOrUpdate) requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1357,21 +1371,23 @@ export type PrivateEndpoint = ProxyResource & {
   readonly createdDate?: string;
   /** A list of connections to the remote resource. Immutable after it is set. */
   manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
-};
+}
 
 /** The properties that are associated with a Event Hub input containing stream data. */
-export type EventHubStreamInputDataSourceProperties = EventHubDataSourceProperties & {
+export interface EventHubStreamInputDataSourceProperties
+  extends EventHubDataSourceProperties {
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
-};
+}
 
 /** The properties that are associated with an Event Hub output. */
-export type EventHubOutputDataSourceProperties = EventHubDataSourceProperties & {
+export interface EventHubOutputDataSourceProperties
+  extends EventHubDataSourceProperties {
   /** The key/column that is used to determine to which partition to send event data. */
   partitionKey?: string;
   /** The properties associated with this Event Hub output. */
   propertyColumns?: string[];
-};
+}
 
 /** Defines headers for StreamingJobs_createOrReplace operation. */
 export interface StreamingJobsCreateOrReplaceHeaders {
@@ -1465,6 +1481,7 @@ export interface FunctionsGetHeaders {
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -1479,7 +1496,9 @@ export type SkuName = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
+  /** Cloud */
   Cloud = "Cloud",
+  /** Edge */
   Edge = "Edge"
 }
 
@@ -1495,8 +1514,11 @@ export type JobType = string;
 
 /** Known values of {@link OutputStartMode} that the service accepts. */
 export enum KnownOutputStartMode {
+  /** JobStartTime */
   JobStartTime = "JobStartTime",
+  /** CustomTime */
   CustomTime = "CustomTime",
+  /** LastOutputEventTime */
   LastOutputEventTime = "LastOutputEventTime"
 }
 
@@ -1513,7 +1535,9 @@ export type OutputStartMode = string;
 
 /** Known values of {@link EventsOutOfOrderPolicy} that the service accepts. */
 export enum KnownEventsOutOfOrderPolicy {
+  /** Adjust */
   Adjust = "Adjust",
+  /** Drop */
   Drop = "Drop"
 }
 
@@ -1529,7 +1553,9 @@ export type EventsOutOfOrderPolicy = string;
 
 /** Known values of {@link OutputErrorPolicy} that the service accepts. */
 export enum KnownOutputErrorPolicy {
+  /** Stop */
   Stop = "Stop",
+  /** Drop */
   Drop = "Drop"
 }
 
@@ -1545,7 +1571,9 @@ export type OutputErrorPolicy = string;
 
 /** Known values of {@link CompatibilityLevel} that the service accepts. */
 export enum KnownCompatibilityLevel {
+  /** One0 */
   One0 = "1.0",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -1561,9 +1589,13 @@ export type CompatibilityLevel = string;
 
 /** Known values of {@link EventSerializationType} that the service accepts. */
 export enum KnownEventSerializationType {
+  /** Csv */
   Csv = "Csv",
+  /** Avro */
   Avro = "Avro",
+  /** Json */
   Json = "Json",
+  /** Parquet */
   Parquet = "Parquet"
 }
 
@@ -1581,8 +1613,11 @@ export type EventSerializationType = string;
 
 /** Known values of {@link CompressionType} that the service accepts. */
 export enum KnownCompressionType {
+  /** None */
   None = "None",
+  /** GZip */
   GZip = "GZip",
+  /** Deflate */
   Deflate = "Deflate"
 }
 
@@ -1599,8 +1634,11 @@ export type CompressionType = string;
 
 /** Known values of {@link AuthenticationMode} that the service accepts. */
 export enum KnownAuthenticationMode {
+  /** Msi */
   Msi = "Msi",
+  /** UserToken */
   UserToken = "UserToken",
+  /** ConnectionString */
   ConnectionString = "ConnectionString"
 }
 
@@ -1617,7 +1655,9 @@ export type AuthenticationMode = string;
 
 /** Known values of {@link ContentStoragePolicy} that the service accepts. */
 export enum KnownContentStoragePolicy {
+  /** SystemAccount */
   SystemAccount = "SystemAccount",
+  /** JobStorageAccount */
   JobStorageAccount = "JobStorageAccount"
 }
 
@@ -1714,6 +1754,7 @@ export type JobState = string;
 
 /** Known values of {@link Encoding} that the service accepts. */
 export enum KnownEncoding {
+  /** UTF8 */
   UTF8 = "UTF8"
 }
 
@@ -1728,7 +1769,9 @@ export type Encoding = string;
 
 /** Known values of {@link JsonOutputSerializationFormat} that the service accepts. */
 export enum KnownJsonOutputSerializationFormat {
+  /** LineSeparated */
   LineSeparated = "LineSeparated",
+  /** Array */
   Array = "Array"
 }
 
@@ -1744,8 +1787,11 @@ export type JsonOutputSerializationFormat = string;
 
 /** Known values of {@link RefreshType} that the service accepts. */
 export enum KnownRefreshType {
+  /** Static */
   Static = "Static",
+  /** RefreshPeriodicallyWithFull */
   RefreshPeriodicallyWithFull = "RefreshPeriodicallyWithFull",
+  /** RefreshPeriodicallyWithDelta */
   RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta"
 }
 
@@ -1874,20 +1920,14 @@ export interface StreamingJobsScaleOptionalParams
 
 /** Optional parameters. */
 export interface StreamingJobsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type StreamingJobsListByResourceGroupNextResponse = StreamingJobListResult;
 
 /** Optional parameters. */
 export interface StreamingJobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StreamingJobsListNextResponse = StreamingJobListResult;
@@ -1950,10 +1990,7 @@ export type InputsTestResponse = ResourceTestStatus;
 
 /** Optional parameters. */
 export interface InputsListByStreamingJobNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByStreamingJobNext operation. */
 export type InputsListByStreamingJobNextResponse = InputListResult;
@@ -2016,10 +2053,7 @@ export type OutputsTestResponse = ResourceTestStatus;
 
 /** Optional parameters. */
 export interface OutputsListByStreamingJobNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByStreamingJobNext operation. */
 export type OutputsListByStreamingJobNextResponse = OutputListResult;
@@ -2126,10 +2160,7 @@ export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel;
 
 /** Optional parameters. */
 export interface FunctionsListByStreamingJobNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByStreamingJobNext operation. */
 export type FunctionsListByStreamingJobNextResponse = FunctionListResult;

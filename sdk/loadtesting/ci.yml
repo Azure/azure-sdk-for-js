@@ -1,0 +1,34 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/loadtesting/
+    exclude:
+      - sdk/loadtesting/ci.mgmt.yml
+      - sdk/loadtesting/arm-loadtesting
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/loadtesting/
+    exclude:
+      - sdk/loadtesting/ci.mgmt.yml
+      - sdk/loadtesting/arm-loadtesting
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: loadtesting
+    Artifacts:
+      - name: azure-rest-load-testing
+        safeName: azurerestloadtesting

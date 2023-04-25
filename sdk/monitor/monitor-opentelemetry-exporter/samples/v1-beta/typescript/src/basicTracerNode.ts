@@ -13,13 +13,17 @@ import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { ApplicationInsightsSampler, AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
+// Sampler expects a sample rate of between 0 and 1 inclusive
+// A rate of 0.75 means approximately 75 % of your traces will be sent
+const aiSampler = new ApplicationInsightsSampler(0.75);
 const provider = new BasicTracerProvider({
+  sampler: aiSampler,
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),

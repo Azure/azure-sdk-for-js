@@ -6,26 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CassandraResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CassandraKeyspaceGetResults,
   CassandraResourcesListCassandraKeyspacesOptionalParams,
+  CassandraResourcesListCassandraKeyspacesResponse,
   CassandraTableGetResults,
   CassandraResourcesListCassandraTablesOptionalParams,
-  CassandraResourcesListCassandraKeyspacesResponse,
+  CassandraResourcesListCassandraTablesResponse,
+  CassandraViewGetResults,
+  CassandraResourcesListCassandraViewsOptionalParams,
+  CassandraResourcesListCassandraViewsResponse,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceResponse,
   CassandraKeyspaceCreateUpdateParameters,
   CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   CassandraResourcesCreateUpdateCassandraKeyspaceResponse,
   CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
+  CassandraResourcesDeleteCassandraKeyspaceResponse,
   CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams,
   CassandraResourcesGetCassandraKeyspaceThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -35,13 +44,13 @@ import {
   CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse,
   CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams,
   CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse,
-  CassandraResourcesListCassandraTablesResponse,
   CassandraResourcesGetCassandraTableOptionalParams,
   CassandraResourcesGetCassandraTableResponse,
   CassandraTableCreateUpdateParameters,
   CassandraResourcesCreateUpdateCassandraTableOptionalParams,
   CassandraResourcesCreateUpdateCassandraTableResponse,
   CassandraResourcesDeleteCassandraTableOptionalParams,
+  CassandraResourcesDeleteCassandraTableResponse,
   CassandraResourcesGetCassandraTableThroughputOptionalParams,
   CassandraResourcesGetCassandraTableThroughputResponse,
   CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
@@ -49,7 +58,21 @@ import {
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+  CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
+  CassandraResourcesGetCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewResponse,
+  CassandraViewCreateUpdateParameters,
+  CassandraResourcesCreateUpdateCassandraViewOptionalParams,
+  CassandraResourcesCreateUpdateCassandraViewResponse,
+  CassandraResourcesDeleteCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputResponse,
+  CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
+  CassandraResourcesUpdateCassandraViewThroughputResponse,
+  CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
+  CassandraResourcesMigrateCassandraViewToAutoscaleResponse,
+  CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
+  CassandraResourcesMigrateCassandraViewToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -88,11 +111,15 @@ export class CassandraResourcesImpl implements CassandraResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCassandraKeyspacesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -101,9 +128,11 @@ export class CassandraResourcesImpl implements CassandraResources {
   private async *listCassandraKeyspacesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: CassandraResourcesListCassandraKeyspacesOptionalParams
+    options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CassandraKeyspaceGetResults[]> {
-    let result = await this._listCassandraKeyspaces(
+    let result: CassandraResourcesListCassandraKeyspacesResponse;
+    result = await this._listCassandraKeyspaces(
       resourceGroupName,
       accountName,
       options
@@ -151,12 +180,16 @@ export class CassandraResourcesImpl implements CassandraResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCassandraTablesPagingPage(
           resourceGroupName,
           accountName,
           keyspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -166,9 +199,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraTablesOptionalParams
+    options?: CassandraResourcesListCassandraTablesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CassandraTableGetResults[]> {
-    let result = await this._listCassandraTables(
+    let result: CassandraResourcesListCassandraTablesResponse;
+    result = await this._listCassandraTables(
       resourceGroupName,
       accountName,
       keyspaceName,
@@ -184,6 +219,80 @@ export class CassandraResourcesImpl implements CassandraResources {
     options?: CassandraResourcesListCassandraTablesOptionalParams
   ): AsyncIterableIterator<CassandraTableGetResults> {
     for await (const page of this.listCassandraTablesPagingPage(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The options parameters.
+   */
+  public listCassandraViews(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): PagedAsyncIterableIterator<CassandraViewGetResults> {
+    const iter = this.listCassandraViewsPagingAll(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCassandraViewsPagingPage(
+          resourceGroupName,
+          accountName,
+          keyspaceName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listCassandraViewsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<CassandraViewGetResults[]> {
+    let result: CassandraResourcesListCassandraViewsResponse;
+    result = await this._listCassandraViews(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listCassandraViewsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): AsyncIterableIterator<CassandraViewGetResults> {
+    for await (const page of this.listCassandraViewsPagingPage(
       resourceGroupName,
       accountName,
       keyspaceName,
@@ -246,10 +355,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesCreateUpdateCassandraKeyspaceResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
       CassandraResourcesCreateUpdateCassandraKeyspaceResponse
     >
   > {
@@ -259,7 +366,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesCreateUpdateCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -292,19 +399,22 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         keyspaceName,
         createUpdateCassandraKeyspaceParameters,
         options
       },
-      createUpdateCassandraKeyspaceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateCassandraKeyspaceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesCreateUpdateCassandraKeyspaceResponse,
+      OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -349,14 +459,19 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
+      CassandraResourcesDeleteCassandraKeyspaceResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -389,13 +504,16 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, options },
-      deleteCassandraKeyspaceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, options },
+      spec: deleteCassandraKeyspaceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesDeleteCassandraKeyspaceResponse,
+      OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -414,7 +532,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
-  ): Promise<void> {
+  ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse> {
     const poller = await this.beginDeleteCassandraKeyspace(
       resourceGroupName,
       accountName,
@@ -460,8 +578,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
       >,
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
@@ -473,7 +591,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -506,19 +624,24 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         keyspaceName,
         updateThroughputParameters,
         options
       },
-      updateCassandraKeyspaceThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateCassandraKeyspaceThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesUpdateCassandraKeyspaceThroughputResponse,
+      OperationState<
+        CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -564,8 +687,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
@@ -577,7 +700,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -610,13 +733,18 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, options },
-      migrateCassandraKeyspaceToAutoscaleOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, options },
+      spec: migrateCassandraKeyspaceToAutoscaleOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse,
+      OperationState<
+        CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -658,8 +786,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
@@ -671,7 +799,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -704,13 +832,18 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, options },
-      migrateCassandraKeyspaceToManualThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, options },
+      spec: migrateCassandraKeyspaceToManualThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse,
+      OperationState<
+        CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -799,8 +932,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
     options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
       CassandraResourcesCreateUpdateCassandraTableResponse
     >
   > {
@@ -810,7 +943,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesCreateUpdateCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -843,9 +976,9 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         keyspaceName,
@@ -853,10 +986,13 @@ export class CassandraResourcesImpl implements CassandraResources {
         createUpdateCassandraTableParameters,
         options
       },
-      createUpdateCassandraTableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateCassandraTableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesCreateUpdateCassandraTableResponse,
+      OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -906,14 +1042,19 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesDeleteCassandraTableResponse>,
+      CassandraResourcesDeleteCassandraTableResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CassandraResourcesDeleteCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -946,13 +1087,22 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, tableName, options },
-      deleteCassandraTableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      spec: deleteCassandraTableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesDeleteCassandraTableResponse,
+      OperationState<CassandraResourcesDeleteCassandraTableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -973,7 +1123,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     options?: CassandraResourcesDeleteCassandraTableOptionalParams
-  ): Promise<void> {
+  ): Promise<CassandraResourcesDeleteCassandraTableResponse> {
     const poller = await this.beginDeleteCassandraTable(
       resourceGroupName,
       accountName,
@@ -1024,10 +1174,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        CassandraResourcesUpdateCassandraTableThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>,
       CassandraResourcesUpdateCassandraTableThroughputResponse
     >
   > {
@@ -1037,7 +1185,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesUpdateCassandraTableThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1070,9 +1218,9 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         keyspaceName,
@@ -1080,10 +1228,13 @@ export class CassandraResourcesImpl implements CassandraResources {
         updateThroughputParameters,
         options
       },
-      updateCassandraTableThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateCassandraTableThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesUpdateCassandraTableThroughputResponse,
+      OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1134,8 +1285,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraTableToAutoscaleResponse
       >,
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse
@@ -1147,7 +1298,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraTableToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1180,13 +1331,22 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, tableName, options },
-      migrateCassandraTableToAutoscaleOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      spec: migrateCassandraTableToAutoscaleOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
+      OperationState<CassandraResourcesMigrateCassandraTableToAutoscaleResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1233,8 +1393,8 @@ export class CassandraResourcesImpl implements CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         CassandraResourcesMigrateCassandraTableToManualThroughputResponse
       >,
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse
@@ -1246,7 +1406,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     ): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1279,13 +1439,24 @@ export class CassandraResourcesImpl implements CassandraResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyspaceName, tableName, options },
-      migrateCassandraTableToManualThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      spec: migrateCassandraTableToManualThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
+      OperationState<
+        CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1314,6 +1485,590 @@ export class CassandraResourcesImpl implements CassandraResources {
       accountName,
       keyspaceName,
       tableName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The options parameters.
+   */
+  private _listCassandraViews(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): Promise<CassandraResourcesListCassandraViewsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, options },
+      listCassandraViewsOperationSpec
+    );
+  }
+
+  /**
+   * Gets the Cassandra view under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      getCassandraViewOperationSpec
+    );
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesCreateUpdateCassandraViewResponse>,
+      CassandraResourcesCreateUpdateCassandraViewResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesCreateUpdateCassandraViewResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        viewName,
+        createUpdateCassandraViewParameters,
+        options
+      },
+      spec: createUpdateCassandraViewOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesCreateUpdateCassandraViewResponse,
+      OperationState<CassandraResourcesCreateUpdateCassandraViewResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<CassandraResourcesCreateUpdateCassandraViewResponse> {
+    const poller = await this.beginCreateUpdateCassandraView(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      createUpdateCassandraViewParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginDeleteCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, viewName, options },
+      spec: deleteCassandraViewOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginDeleteCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteCassandraView(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account
+   * with the provided name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewThroughputResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      getCassandraViewThroughputOperationSpec
+    );
+  }
+
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  async beginUpdateCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesUpdateCassandraViewThroughputResponse>,
+      CassandraResourcesUpdateCassandraViewThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        viewName,
+        updateThroughputParameters,
+        options
+      },
+      spec: updateCassandraViewThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesUpdateCassandraViewThroughputResponse,
+      OperationState<CassandraResourcesUpdateCassandraViewThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  async beginUpdateCassandraViewThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse> {
+    const poller = await this.beginUpdateCassandraViewThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      updateThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>,
+      CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, viewName, options },
+      spec: migrateCassandraViewToAutoscaleOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraViewToAutoscaleResponse,
+      OperationState<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToAutoscaleAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse> {
+    const poller = await this.beginMigrateCassandraViewToAutoscale(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+      >,
+      CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyspaceName, viewName, options },
+      spec: migrateCassandraViewToManualThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraResourcesMigrateCassandraViewToManualThroughputResponse,
+      OperationState<
+        CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToManualThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse> {
+    const poller = await this.beginMigrateCassandraViewToManualThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
       options
     );
     return poller.pollUntilDone();
@@ -1396,7 +2151,20 @@ const deleteCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+    },
+    201: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+    },
+    202: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+    },
+    204: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1599,7 +2367,20 @@ const deleteCassandraTableOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+    },
+    201: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+    },
+    202: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+    },
+    204: {
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1726,6 +2507,214 @@ const migrateCassandraTableToManualThroughputOperationSpec: coreClient.Operation
     Parameters.accountName,
     Parameters.tableName,
     Parameters.keyspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCassandraViewsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createUpdateCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    201: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    202: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    204: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    }
+  },
+  requestBody: Parameters.createUpdateCassandraViewParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  serializer
+};
+const getCassandraViewThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateCassandraViewThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    }
+  },
+  requestBody: Parameters.updateThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const migrateCassandraViewToAutoscaleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToAutoscale",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const migrateCassandraViewToManualThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToManualThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
   ],
   headerParameters: [Parameters.accept],
   serializer

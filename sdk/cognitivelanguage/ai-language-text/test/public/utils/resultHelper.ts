@@ -5,37 +5,11 @@ import {
   AnalyzeBatchResult,
   KnownTextAnalysisErrorCode,
   PagedAnalyzeBatchResult,
-  TextAnalysisErrorResult,
-  TextAnalysisSuccessResult,
 } from "../../../src/";
 import { assert } from "@azure/test-utils";
 import { isRestError } from "@azure/core-rest-pipeline";
 
-export function assertAllSuccess<TSuccess extends TextAnalysisSuccessResult>(
-  results: (TextAnalysisErrorResult | TSuccess)[]
-): void {
-  for (const result of results) {
-    assert.ok(isSuccess(result));
-  }
-}
-
-export function isSuccess<TSuccess extends TextAnalysisSuccessResult>(
-  res: TextAnalysisErrorResult | TSuccess
-): res is TSuccess {
-  return res.error === undefined;
-}
-
-export function getSuccRes<TSuccess extends TextAnalysisSuccessResult>(
-  res: TextAnalysisErrorResult | TSuccess
-): TSuccess {
-  if (!res.error) {
-    return res;
-  } else {
-    throw new Error(`Unexpected error: ${JSON.stringify(res.error)}`);
-  }
-}
-
-export async function assertActionResults(
+export async function assertActionsResults(
   actions: PagedAnalyzeBatchResult,
   expectations: AnalyzeBatchResult[],
   options: {
@@ -52,6 +26,9 @@ export async function assertActionResults(
         "modelVersion",
         "deploymentName",
         "projectName",
+        "confidenceScore",
+        "confidenceScores",
+        "failedOn",
         ...excludedAdditionalProps,
       ] as any);
     }
@@ -85,4 +62,15 @@ export async function assertRestError(
       assert.fail(`Unexpected error: ${JSON.stringify(e)}`);
     }
   }
+}
+
+export function assertActionResults<T>(
+  result: T[],
+  expectation: T[],
+  options: {
+    excludedAdditionalProps?: string[];
+  } = {}
+): void {
+  const { excludedAdditionalProps = ["confidenceScore", "confidenceScores"] } = options;
+  assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);
 }

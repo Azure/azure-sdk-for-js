@@ -197,18 +197,25 @@ export interface SubscriptionFeatureRegistrationList {
 }
 
 /** Subscription feature registration details */
-export type SubscriptionFeatureRegistration = ProxyResource & {
+export interface SubscriptionFeatureRegistration extends ProxyResource {
   properties?: SubscriptionFeatureRegistrationProperties;
-};
+}
 
 /** Known values of {@link SubscriptionFeatureRegistrationState} that the service accepts. */
 export enum KnownSubscriptionFeatureRegistrationState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** NotRegistered */
   NotRegistered = "NotRegistered",
+  /** Pending */
   Pending = "Pending",
+  /** Registering */
   Registering = "Registering",
+  /** Registered */
   Registered = "Registered",
+  /** Unregistering */
   Unregistering = "Unregistering",
+  /** Unregistered */
   Unregistered = "Unregistered"
 }
 
@@ -229,8 +236,11 @@ export type SubscriptionFeatureRegistrationState = string;
 
 /** Known values of {@link SubscriptionFeatureRegistrationApprovalType} that the service accepts. */
 export enum KnownSubscriptionFeatureRegistrationApprovalType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** ApprovalRequired */
   ApprovalRequired = "ApprovalRequired",
+  /** AutoApproval */
   AutoApproval = "AutoApproval"
 }
 

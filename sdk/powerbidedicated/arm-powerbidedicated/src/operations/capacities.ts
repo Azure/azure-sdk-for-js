@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Capacities } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,7 +17,9 @@ import { LroImpl } from "../lroImpl";
 import {
   DedicatedCapacity,
   CapacitiesListByResourceGroupOptionalParams,
+  CapacitiesListByResourceGroupResponse,
   CapacitiesListOptionalParams,
+  CapacitiesListResponse,
   CapacitiesGetDetailsOptionalParams,
   CapacitiesGetDetailsResponse,
   CapacitiesCreateOptionalParams,
@@ -28,8 +30,6 @@ import {
   CapacitiesUpdateResponse,
   CapacitiesSuspendOptionalParams,
   CapacitiesResumeOptionalParams,
-  CapacitiesListByResourceGroupResponse,
-  CapacitiesListResponse,
   CapacitiesListSkusOptionalParams,
   CapacitiesListSkusResponse,
   CapacitiesListSkusForCapacityOptionalParams,
@@ -70,17 +70,26 @@ export class CapacitiesImpl implements Capacities {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
+    options?: CapacitiesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DedicatedCapacity[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: CapacitiesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -111,16 +120,21 @@ export class CapacitiesImpl implements Capacities {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: CapacitiesListOptionalParams
+    options?: CapacitiesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DedicatedCapacity[]> {
-    let result = await this._list(options);
+    let result: CapacitiesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 

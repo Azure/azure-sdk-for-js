@@ -25,28 +25,24 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   headerSanitizers: [
-    { key: "repeatability-first-sent", value: "Sanitized" },
-    { key: "repeatability-request-id", value: "Sanitized" },
-    { key: "x-ms-client-request-id", value: "Sanitized" },
-    { key: "x-ms-date", value: "Sanitized" },
-    { key: "Date", value: "Sanitized" },
-    { key: "Date", value: "Sanitized" },
-    { key: "X-Azure-Ref", value: "Sanitized" },
-    { key: "x-ms-request-id", value: "Sanitized" },
-    { key: "Operation-Location", value: "https://someEndpoint/emails/someMessageId/status" },
+    { key: "x-ms-content-sha256", value: "Sanitized" },
+    {
+      key: "Operation-Location",
+      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
+    },
   ],
   uriSanitizers: [
     {
       regex: true,
-      target: `emails/.*/status`,
-      value: "emails/Sanitized/status",
+      target: `emails/operations/.*?api`,
+      value: "emails/operations/someId?api",
     },
   ],
   bodySanitizers: [
     {
       regex: true,
-      target: `"messageId"\\s?:\\s?"[^"]*"`,
-      value: `"messageId":"Sanitized"`,
+      target: `"id"\\s?:\\s?"[^"]*"`,
+      value: `"id":"someId"`,
     },
   ],
 };

@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ExpressRouteGatewaysListBySubscriptionOptionalParams,
   ExpressRouteGatewaysListBySubscriptionResponse,
@@ -83,8 +87,8 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
     putExpressRouteGatewayParameters: ExpressRouteGateway,
     options?: ExpressRouteGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteGatewaysCreateOrUpdateResponse>,
       ExpressRouteGatewaysCreateOrUpdateResponse
     >
   > {
@@ -94,7 +98,7 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
     ): Promise<ExpressRouteGatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -127,20 +131,23 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         expressRouteGatewayName,
         putExpressRouteGatewayParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteGatewaysCreateOrUpdateResponse,
+      OperationState<ExpressRouteGatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -183,8 +190,8 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
     expressRouteGatewayParameters: TagsObject,
     options?: ExpressRouteGatewaysUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteGatewaysUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteGatewaysUpdateTagsResponse>,
       ExpressRouteGatewaysUpdateTagsResponse
     >
   > {
@@ -194,7 +201,7 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
     ): Promise<ExpressRouteGatewaysUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -227,20 +234,23 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         expressRouteGatewayName,
         expressRouteGatewayParameters,
         options
       },
-      updateTagsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateTagsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteGatewaysUpdateTagsResponse,
+      OperationState<ExpressRouteGatewaysUpdateTagsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -297,14 +307,14 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
     resourceGroupName: string,
     expressRouteGatewayName: string,
     options?: ExpressRouteGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -337,15 +347,15 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, expressRouteGatewayName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, expressRouteGatewayName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

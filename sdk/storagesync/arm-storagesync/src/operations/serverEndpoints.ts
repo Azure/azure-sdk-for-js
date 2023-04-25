@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ServerEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +17,7 @@ import { LroImpl } from "../lroImpl";
 import {
   ServerEndpoint,
   ServerEndpointsListBySyncGroupOptionalParams,
+  ServerEndpointsListBySyncGroupResponse,
   ServerEndpointCreateParameters,
   ServerEndpointsCreateOptionalParams,
   ServerEndpointsCreateResponse,
@@ -26,7 +27,6 @@ import {
   ServerEndpointsGetResponse,
   ServerEndpointsDeleteOptionalParams,
   ServerEndpointsDeleteResponse,
-  ServerEndpointsListBySyncGroupResponse,
   RecallActionParameters,
   ServerEndpointsRecallActionOptionalParams,
   ServerEndpointsRecallActionResponse
@@ -71,12 +71,16 @@ export class ServerEndpointsImpl implements ServerEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySyncGroupPagingPage(
           resourceGroupName,
           storageSyncServiceName,
           syncGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -86,9 +90,11 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: ServerEndpointsListBySyncGroupOptionalParams
+    options?: ServerEndpointsListBySyncGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ServerEndpoint[]> {
-    let result = await this._listBySyncGroup(
+    let result: ServerEndpointsListBySyncGroupResponse;
+    result = await this._listBySyncGroup(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,

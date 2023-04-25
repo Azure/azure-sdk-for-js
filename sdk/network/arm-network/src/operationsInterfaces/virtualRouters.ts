@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualRouter,
   VirtualRoutersListByResourceGroupOptionalParams,
@@ -48,7 +48,7 @@ export interface VirtualRouters {
     resourceGroupName: string,
     virtualRouterName: string,
     options?: VirtualRoutersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Virtual Router.
    * @param resourceGroupName The name of the resource group.
@@ -84,8 +84,8 @@ export interface VirtualRouters {
     parameters: VirtualRouter,
     options?: VirtualRoutersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualRoutersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualRoutersCreateOrUpdateResponse>,
       VirtualRoutersCreateOrUpdateResponse
     >
   >;

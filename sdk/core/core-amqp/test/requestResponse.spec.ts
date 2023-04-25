@@ -23,17 +23,6 @@ import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
 import { isError } from "@azure/core-util";
 
-interface Window {}
-declare let self: Window & typeof globalThis;
-
-function getGlobal(): NodeJS.Global | (Window & typeof globalThis) {
-  if (typeof global !== "undefined") {
-    return global;
-  } else {
-    return self;
-  }
-}
-
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
   expectedNumberOfItems: number
@@ -103,6 +92,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -148,6 +140,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -216,6 +211,9 @@ describe("RequestResponseLink", function () {
           send: (request: RheaMessage) => {
             reqs.push(request);
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -259,6 +257,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -341,6 +342,9 @@ describe("RequestResponseLink", function () {
             count++;
             messageId = request.message_id;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -419,6 +423,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -478,6 +485,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -550,6 +560,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -598,20 +611,19 @@ describe("RequestResponseLink", function () {
   });
 
   describe("sendRequest clears timeout", () => {
-    const _global = getGlobal();
     const originalClearTimeout = clearTimeout;
     let clearTimeoutCalledCount = 0;
 
     beforeEach(() => {
       clearTimeoutCalledCount = 0;
-      _global.clearTimeout = (tid: any) => {
+      globalThis.clearTimeout = (tid: any) => {
         clearTimeoutCalledCount++;
         return originalClearTimeout(tid);
       };
     });
 
     afterEach(() => {
-      _global.clearTimeout = originalClearTimeout;
+      globalThis.clearTimeout = originalClearTimeout;
     });
 
     it("sendRequest clears timeout after error message", async function () {
@@ -626,6 +638,9 @@ describe("RequestResponseLink", function () {
           return Promise.resolve({
             send: (request: any) => {
               req = request;
+            },
+            on: () => {
+              /* no_op */
             },
           });
         },
@@ -681,6 +696,9 @@ describe("RequestResponseLink", function () {
             send: (request: any) => {
               req = request;
             },
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {
@@ -730,6 +748,9 @@ describe("RequestResponseLink", function () {
               /* no op */
             },
             close: fake(),
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {

@@ -23,7 +23,10 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `run` (execute a sample or all samples within a directory)
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 - `test-proxy`
-  - `start` (start the test-proxy tool. This requires docker.)
+  - `init` (initializes `assets.json` in your package folder)
+  - `push` (pushes the assets, referenced by assets.json, into git)
+  - `reset` (reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes)
+  - `restore` (restore the assets, referenced by assets.json, from git)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
 - `run`
 
@@ -38,6 +41,7 @@ It provides a place to centralize scripts, resources, and processes for developm
       ```bash
       dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
       ```
+
   - `test:node-js-input` (runs the node tests with JS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
 
     - Mocha settings added by default
@@ -90,8 +94,8 @@ export const commandInfo = makeCommandInfo("hello-world", "print a lovely messag
   echo: {
     kind: "string",
     description: "override the message to be printed",
-    default: "Hello world!"
-  }
+    default: "Hello world!",
+  },
 });
 
 export default leafCommand(commandInfo, async (options) => {
@@ -117,7 +121,7 @@ As a last step, add a mapping for the `"hello-world"` command to the sub-command
 // ...
 
 export default subCommand(commandInfo, {
-  "hello-world": () => import("./hello-world")
+  "hello-world": () => import("./hello-world"),
   // ... rest of the sub-commands still here
 });
 ```
@@ -149,7 +153,7 @@ import { subCommand, makeCommandInfo } from "../../framework/command";
 export const commandInfo = makeCommandInfo("hello", "commands for printing some lovely messages");
 
 export default subCommand(commandInfo, {
-  world: () => import("./world")
+  world: () => import("./world"),
 });
 ```
 
@@ -172,8 +176,8 @@ export const commandInfo = makeCommandInfo("world", "print a lovely message", {
   echo: {
     kind: "string",
     description: "override the message to be printed",
-    default: "Hello world!"
-  }
+    default: "Hello world!",
+  },
 });
 
 export default leafCommand(commandInfo, async (options) => {
@@ -200,7 +204,7 @@ The final step is to add a mapping to our new subcommand to the`baseCommands` ma
  * All of dev-tool's base commands and the modules that define them
  */
 export const baseCommands = {
-  hello: () => import("./hello")
+  hello: () => import("./hello"),
   // ... all other sub-commands still here
 } as const;
 

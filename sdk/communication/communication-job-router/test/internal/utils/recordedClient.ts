@@ -12,7 +12,7 @@ if (isNode) {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
 const fakeToken = generateToken();
@@ -22,11 +22,11 @@ export const recorderOptions: RecorderStartOptions = {
     connectionStringSanitizers: [
       {
         fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING"],
-        actualConnString: env["COMMUNICATION_CONNECTION_STRING"] || undefined
-      }
+        actualConnString: env["COMMUNICATION_CONNECTION_STRING"] || undefined,
+      },
     ],
-    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }]
-  }
+    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+  },
 };
 
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {

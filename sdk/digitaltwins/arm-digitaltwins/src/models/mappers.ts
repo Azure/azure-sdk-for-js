@@ -281,6 +281,39 @@ export const DigitalTwinsIdentity: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -462,6 +495,35 @@ export const DigitalTwinsEndpointResourceProperties: coreClient.CompositeMapper 
       },
       deadLetterUri: {
         serializedName: "deadLetterUri",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityReference"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
         nullable: true,
         type: {
           name: "String"
@@ -876,6 +938,13 @@ export const TimeSeriesDatabaseConnectionProperties: coreClient.CompositeMapper 
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityReference"
+        }
       }
     }
   }
@@ -1136,7 +1205,22 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
         }
       },
       adxTableName: {
+        defaultValue: "AdtPropertyEvents",
         serializedName: "adxTableName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxTwinLifecycleEventsTableName: {
+        serializedName: "adxTwinLifecycleEventsTableName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxRelationshipLifecycleEventsTableName: {
+        serializedName: "adxRelationshipLifecycleEventsTableName",
         nullable: true,
         type: {
           name: "String"
@@ -1164,7 +1248,16 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
         }
       },
       eventHubConsumerGroup: {
+        defaultValue: "$Default",
         serializedName: "eventHubConsumerGroup",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      recordPropertyAndItemRemovals: {
+        defaultValue: "false",
+        serializedName: "recordPropertyAndItemRemovals",
         nullable: true,
         type: {
           name: "String"

@@ -9,18 +9,18 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type Account = Resource & {
-    vsoAccountId?: string;
+export interface Account extends Resource {
     readonly accountId?: string;
+    readonly creationDate?: Date;
     description?: string;
+    readonly discoveryUri?: string;
     friendlyName?: string;
     keyVaultId?: string;
-    seats?: string;
-    readonly discoveryUri?: string;
-    readonly creationDate?: Date;
-    storageAccount?: StorageAccountProperties;
     readonly provisioningState?: ProvisioningState;
-};
+    seats?: string;
+    storageAccount?: StorageAccountProperties;
+    vsoAccountId?: string;
+}
 
 // @public
 export interface AccountListResult {
@@ -108,6 +108,9 @@ export interface ErrorResponse {
     message: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class MLTeamAccountManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -166,16 +169,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type Project = Resource & {
-    description?: string;
+export interface Project extends Resource {
     readonly accountId?: string;
-    readonly workspaceId?: string;
-    readonly projectId?: string;
-    gitrepo?: string;
-    friendlyName?: string;
     readonly creationDate?: Date;
+    description?: string;
+    friendlyName?: string;
+    gitrepo?: string;
+    readonly projectId?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    readonly workspaceId?: string;
+}
 
 // @public
 export interface ProjectListResult {
@@ -262,14 +265,14 @@ export interface StorageAccountProperties {
 }
 
 // @public
-export type Workspace = Resource & {
-    description?: string;
+export interface Workspace extends Resource {
     readonly accountId?: string;
-    readonly workspaceId?: string;
-    friendlyName?: string;
     readonly creationDate?: Date;
+    description?: string;
+    friendlyName?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    readonly workspaceId?: string;
+}
 
 // @public
 export interface WorkspaceListResult {

@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ConfigurationServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ConfigurationServiceResource,
   ConfigurationServicesListNextOptionalParams,
   ConfigurationServicesListOptionalParams,
+  ConfigurationServicesListResponse,
   ConfigurationServicesGetOptionalParams,
   ConfigurationServicesGetResponse,
   ConfigurationServicesCreateOrUpdateOptionalParams,
   ConfigurationServicesCreateOrUpdateResponse,
   ConfigurationServicesDeleteOptionalParams,
-  ConfigurationServicesListResponse,
   ConfigurationServiceSettings,
   ConfigurationServicesValidateOptionalParams,
   ConfigurationServicesValidateResponse,
@@ -63,8 +68,16 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serviceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +85,18 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigurationServicesListOptionalParams
+    options?: ConfigurationServicesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationServiceResource[]> {
-    let result = await this._list(resourceGroupName, serviceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationServicesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +105,9 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,8 +162,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     configurationServiceResource: ConfigurationServiceResource,
     options?: ConfigurationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesCreateOrUpdateResponse>,
       ConfigurationServicesCreateOrUpdateResponse
     >
   > {
@@ -151,7 +173,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     ): Promise<ConfigurationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -184,19 +206,22 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationServiceName,
         configurationServiceResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationServicesCreateOrUpdateResponse,
+      OperationState<ConfigurationServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -243,14 +268,14 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     options?: ConfigurationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -283,13 +308,18 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, configurationServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        configurationServiceName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -353,8 +383,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     settings: ConfigurationServiceSettings,
     options?: ConfigurationServicesValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesValidateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesValidateResponse>,
       ConfigurationServicesValidateResponse
     >
   > {
@@ -364,7 +394,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     ): Promise<ConfigurationServicesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -397,21 +427,24 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationServiceName,
         settings,
         options
       },
-      validateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: validateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationServicesValidateResponse,
+      OperationState<ConfigurationServicesValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -614,7 +647,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

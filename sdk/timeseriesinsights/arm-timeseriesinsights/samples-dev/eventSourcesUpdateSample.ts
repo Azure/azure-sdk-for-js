@@ -9,10 +9,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  EventSourceUpdateParameters,
+  EventSourceUpdateParametersUnion,
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates the event source with the specified name in the specified subscription, resource group, and environment.
@@ -21,11 +24,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesPatchTags.json
  */
 async function updateEventSource() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const eventSourceName = "es1";
-  const eventSourceUpdateParameters: EventSourceUpdateParameters = {
+  const eventSourceUpdateParameters: EventSourceUpdateParametersUnion = {
     kind: "Microsoft.EventHub",
     tags: { someKey: "someValue" }
   };
@@ -40,4 +45,8 @@ async function updateEventSource() {
   console.log(result);
 }
 
-updateEventSource().catch(console.error);
+async function main() {
+  updateEventSource();
+}
+
+main().catch(console.error);

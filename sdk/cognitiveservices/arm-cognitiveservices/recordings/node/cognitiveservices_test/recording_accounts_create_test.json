@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxx?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxxx?api-version=2022-12-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "105",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-cognitiveservices/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "c64aa445-b7af-4c28-9da1-0b4096e3f82b"
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "96ec6c51-d97c-4a29-94e0-43baa693cb32"
       },
       "RequestBody": {
         "kind": "CognitiveServices",
@@ -26,26 +26,26 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "14696",
+        "Content-Length": "15692",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Jun 2022 06:41:44 GMT",
-        "ETag": "\u002229015a71-0000-0100-0000-62a2e7a70000\u0022",
+        "Date": "Mon, 06 Feb 2023 09:35:30 GMT",
+        "ETag": "\u0022f306ee37-0000-0100-0000-63e0c9e10000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "485",
-        "x-ms-correlation-request-id": "3d8403bd-d54c-4c73-9d73-40543d6af399",
+        "x-envoy-upstream-service-time": "611",
+        "x-ms-correlation-request-id": "95744f84-57e3-4d97-8fb9-6c7556a38bd7",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "971a2794-da5d-40ff-b572-f204f66dbc2e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220610T064144Z:3d8403bd-d54c-4c73-9d73-40543d6af399"
+        "x-ms-request-id": "b2fb4092-12a3-43e3-add6-619c1c9b955a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T093531Z:95744f84-57e3-4d97-8fb9-6c7556a38bd7"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxx",
-        "name": "myaccountxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxxx",
+        "name": "myaccountxxxx",
         "type": "Microsoft.CognitiveServices/accounts",
-        "etag": "\u002229015a71-0000-0100-0000-62a2e7a70000\u0022",
+        "etag": "\u0022f306ee37-0000-0100-0000-63e0c9e10000\u0022",
         "location": "eastus",
         "sku": {
           "name": "S0"
@@ -53,8 +53,8 @@
         "kind": "CognitiveServices",
         "properties": {
           "endpoint": "https://eastus.api.cognitive.microsoft.com/",
-          "internalId": "944b07d3acaa4149b8d65757ea6bf5ca",
-          "dateCreated": "2022-06-10T06:41:42.5590615Z",
+          "internalId": "fdb417541855401fa086d63783c355c0",
+          "dateCreated": "2023-02-06T09:35:29.0718431Z",
           "apiProperties": {},
           "callRateLimit": {
             "rules": [
@@ -62,7 +62,6 @@
                 "key": "formrecognizer.custom.train",
                 "renewalPeriod": 60,
                 "count": 1,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "formrecognizer/custom/train",
@@ -74,7 +73,6 @@
                 "key": "formrecognizer.custom.copymodels",
                 "renewalPeriod": 60,
                 "count": 1,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "formrecognizer/custom/models/{modelId}/copy",
@@ -86,7 +84,6 @@
                 "key": "formrecognizer.custom.models.get",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "formrecognizer/custom/models",
@@ -119,10 +116,20 @@
                 ]
               },
               {
+                "key": "formrecognizer",
+                "renewalPeriod": 1,
+                "count": 100,
+                "matchPatterns": [
+                  {
+                    "path": "formrecognizer/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
                 "key": "customvision.training",
                 "renewalPeriod": 1,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "customvision/v3.0/training/*",
@@ -150,7 +157,7 @@
                 "key": "customvision.prediction",
                 "renewalPeriod": 1,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "customvision/v3.0/prediction/*",
@@ -166,7 +173,6 @@
                 "key": "speech.synthesize",
                 "renewalPeriod": 1,
                 "count": 200,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speech/synthesize",
@@ -178,7 +184,6 @@
                 "key": "speech.customvoicesynthesize",
                 "renewalPeriod": 1,
                 "count": 200,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speech/customvoicesynthesize",
@@ -190,7 +195,6 @@
                 "key": "speech.neuralvoicesynthesize",
                 "renewalPeriod": 1,
                 "count": 200,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speech/neuralvoicesynthesize",
@@ -202,7 +206,6 @@
                 "key": "speech.customneuralvoicesynthesize",
                 "renewalPeriod": 1,
                 "count": 200,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speech/customneuralvoicesynthesize",
@@ -214,7 +217,6 @@
                 "key": "speech.conversationtranscription",
                 "renewalPeriod": 1,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speech/singlechannelaudioconversationtranscription",
@@ -234,7 +236,6 @@
                 "key": "speech.speechtotext",
                 "renewalPeriod": 10,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speechtotext/*",
@@ -246,7 +247,6 @@
                 "key": "speech.texttospeech",
                 "renewalPeriod": 10,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "texttospeech/*",
@@ -258,7 +258,6 @@
                 "key": "speech.speakerrecognitionv2",
                 "renewalPeriod": 1,
                 "count": 20,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "speaker/*",
@@ -274,7 +273,6 @@
                 "key": "speech.speakerrecognitionv1",
                 "renewalPeriod": 1,
                 "count": 5,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "spid/*",
@@ -283,10 +281,31 @@
                 ]
               },
               {
-                "key": "docmentTranslation",
+                "key": "documentTranslation.post",
                 "renewalPeriod": 1,
                 "count": 20,
-                "dynamicThrottlingEnabled": false,
+                "matchPatterns": [
+                  {
+                    "path": "translator/text/batch/*",
+                    "method": "POST"
+                  }
+                ]
+              },
+              {
+                "key": "documentTranslation.get",
+                "renewalPeriod": 1,
+                "count": 20,
+                "matchPatterns": [
+                  {
+                    "path": "translator/text/batch/*",
+                    "method": "GET"
+                  }
+                ]
+              },
+              {
+                "key": "documentTranslation.default",
+                "renewalPeriod": 1,
+                "count": 20,
                 "matchPatterns": [
                   {
                     "path": "translator/text/batch/*",
@@ -298,7 +317,6 @@
                 "key": "textTranslation",
                 "renewalPeriod": 1,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "translator/text/*",
@@ -310,7 +328,6 @@
                 "key": "token",
                 "renewalPeriod": 1,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "sts/v1.0/*",
@@ -322,7 +339,7 @@
                 "key": "ListManagement",
                 "renewalPeriod": 1,
                 "count": 15,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "contentmoderator/lists/v1.0/*",
@@ -334,7 +351,7 @@
                 "key": "Moderate",
                 "renewalPeriod": 1,
                 "count": 20,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "contentmoderator/moderate/v1.0/*",
@@ -343,10 +360,22 @@
                 ]
               },
               {
+                "key": "ModeratePreview20220930",
+                "renewalPeriod": 1,
+                "count": 10,
+                "dynamicThrottlingEnabled": true,
+                "matchPatterns": [
+                  {
+                    "path": "contentmoderator/moderate/text/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
                 "key": "Review",
                 "renewalPeriod": 1,
                 "count": 20,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "contentmoderator/review/v1.0/*",
@@ -355,10 +384,46 @@
                 ]
               },
               {
+                "key": "ContentModerator.CarnegieList",
+                "renewalPeriod": 1,
+                "count": 10,
+                "dynamicThrottlingEnabled": true,
+                "matchPatterns": [
+                  {
+                    "path": "contentmoderator/text/lists/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "ContentModerator.CarnegieText",
+                "renewalPeriod": 1,
+                "count": 10,
+                "dynamicThrottlingEnabled": true,
+                "matchPatterns": [
+                  {
+                    "path": "contentmoderator/text*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "ContentModerator.CarnegieImage",
+                "renewalPeriod": 1,
+                "count": 10,
+                "dynamicThrottlingEnabled": true,
+                "matchPatterns": [
+                  {
+                    "path": "contentmoderator/image*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
                 "key": "luis.endpoint",
                 "renewalPeriod": 1,
                 "count": 50,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "luis/*",
@@ -374,10 +439,31 @@
                 "key": "workflow.endpoint.postcalls",
                 "renewalPeriod": 60,
                 "count": 1000,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
-                    "path": "/language/:analyze-conversations",
+                    "path": "language/:analyze-conversations",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "textAnalytics.conversations.jobs.getcalls",
+                "renewalPeriod": 60,
+                "count": 1000,
+                "matchPatterns": [
+                  {
+                    "path": "language/analyze-conversations/jobs/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "textAnalytics.conversations.jobs.postcalls",
+                "renewalPeriod": 60,
+                "count": 1000,
+                "matchPatterns": [
+                  {
+                    "path": "language/analyze-conversations/jobs",
                     "method": "*"
                   }
                 ]
@@ -386,7 +472,6 @@
                 "key": "textAnalytics.authoring.customtext.getcalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-text/projects/*",
@@ -398,7 +483,6 @@
                 "key": "textAnalytics.unifiedAuthoring.updatecalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-text/projects/*",
@@ -410,7 +494,6 @@
                 "key": "textAnalytics.authoring.customtext.march.getcalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/authoring/analyze-text/projects/*",
@@ -422,7 +505,6 @@
                 "key": "textAnalytics.unifiedAuthoring.march.updatecalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/authoring/analyze-text/projects/*",
@@ -434,7 +516,6 @@
                 "key": "textAnalytics.authoring.customtext.internal.getcalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-text/internal/projects/*",
@@ -446,7 +527,6 @@
                 "key": "textAnalytics.unifiedAuthoring.internal.updatecalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-text/internal/projects/*",
@@ -458,7 +538,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.getCalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-conversations/projects/*",
@@ -470,7 +549,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.updateCalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-conversations/projects/*",
@@ -482,7 +560,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.march.getCalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/authoring/analyze-conversations/projects/*",
@@ -494,7 +571,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.march.updateCalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/authoring/analyze-conversations/projects/*",
@@ -506,7 +582,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.internal.getCalls",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-conversations/internal/projects/*",
@@ -518,7 +593,6 @@
                 "key": "textAnalytics.unifiedAuthoring.clu.internal.updateCalls",
                 "renewalPeriod": 60,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/analyze-conversations/internal/projects/*",
@@ -530,7 +604,6 @@
                 "key": "textAnalytics.customText",
                 "renewalPeriod": 60,
                 "count": 100,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "text/analytics/v3.1-preview.ct.1/analyze/*",
@@ -562,7 +635,6 @@
                 "key": "textAnalytics.healthcare",
                 "renewalPeriod": 60,
                 "count": 300,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "text/analytics/v3.1/entities/health/*",
@@ -574,6 +646,17 @@
                   },
                   {
                     "path": "text/analytics/v3.2-preview.2/health/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "textAnalytics.languagedetection",
+                "renewalPeriod": 60,
+                "count": 1000,
+                "matchPatterns": [
+                  {
+                    "path": "text/analytics/v3.1/languages/*",
                     "method": "*"
                   }
                 ]
@@ -594,7 +677,6 @@
                 "key": "questionanswering",
                 "renewalPeriod": 60,
                 "count": 600,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "qnamaker/*",
@@ -606,7 +688,6 @@
                 "key": "unifiedlanguage.questionanswering",
                 "renewalPeriod": 60,
                 "count": 600,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "language/query-knowledgebases/*",
@@ -622,10 +703,20 @@
                 "key": "textAnalytics.analyze.internal.autoTagging",
                 "renewalPeriod": 60,
                 "count": 150,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "TextAnalytics/ct-auto-tagging",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "textAnalytics.analyze.internal.evaluation",
+                "renewalPeriod": 60,
+                "count": 150,
+                "matchPatterns": [
+                  {
+                    "path": "TextAnalytics/ct-evaluation",
                     "method": "*"
                   }
                 ]
@@ -665,8 +756,7 @@
               {
                 "key": "face",
                 "renewalPeriod": 1,
-                "count": 15,
-                "dynamicThrottlingEnabled": true,
+                "count": 10,
                 "matchPatterns": [
                   {
                     "path": "face/*",
@@ -678,7 +768,6 @@
                 "key": "bingVisualSearch",
                 "renewalPeriod": 1,
                 "count": 30,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "bing/v7.0/images/visualsearch/*",
@@ -690,7 +779,6 @@
                 "key": "bingSearch",
                 "renewalPeriod": 1,
                 "count": 250,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "bing/*",
@@ -702,7 +790,6 @@
                 "key": "bingCustomSearch",
                 "renewalPeriod": 1,
                 "count": 150,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "bingcustomsearch/*",
@@ -714,7 +801,6 @@
                 "key": "container.billing",
                 "renewalPeriod": 10,
                 "count": 500,
-                "dynamicThrottlingEnabled": false,
                 "matchPatterns": [
                   {
                     "path": "billing/*",
@@ -726,7 +812,7 @@
                 "key": "default",
                 "renewalPeriod": 1,
                 "count": 20,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "*",
@@ -737,8 +823,19 @@
             ]
           },
           "isMigrated": false,
+          "privateEndpointConnections": [],
           "publicNetworkAccess": "Enabled",
           "capabilities": [
+            {
+              "name": "DynamicThrottling"
+            },
+            {
+              "name": "Scenario",
+              "value": "Face.Legacy"
+            },
+            {
+              "name": "VirtualNetworks"
+            },
             {
               "name": "Container",
               "value": "Face.*,Face.Face,ComputerVision.*,ComputerVision.VideoAnalytics,TextAnalytics.*,TextAnalytics.Healthcare,TextAnalytics.Keyphrase,TextAnalytics.KeyphraseV2,TextAnalytics.KeyPhraseONNX,TextAnalytics.LanguageFastText,TextAnalytics.Language,TextAnalytics.LanguageV2,TextAnalytics.Sentiment,TextAnalytics.SentimentV2,TextAnalytics.SentimentV3,TextAnalytics.SentimentV3Preview,LUIS.LUIS,ContentModerator.*,TextTranslation.*,SpeechServices.*,FormRecognizer.*"
@@ -760,9 +857,12 @@
             "Bing Custom Search": "https://eastus.api.cognitive.microsoft.com/",
             "Face": "https://eastus.api.cognitive.microsoft.com/",
             "Computer Vision": "https://eastus.api.cognitive.microsoft.com/",
+            "Container": "https://eastus.api.cognitive.microsoft.com/",
             "Text Analytics": "https://eastus.api.cognitive.microsoft.com/",
             "Custom Text Authoring": "https://eastus.api.cognitive.microsoft.com/",
             "Conversational Language Understanding Authoring": "https://eastus.api.cognitive.microsoft.com/",
+            "Custom Question Answering Authoring": "https://eastus.api.cognitive.microsoft.com/",
+            "Custom Question Answering": "https://eastus.api.cognitive.microsoft.com/",
             "ConversationalLURuntime": "https://eastus.api.cognitive.microsoft.com/",
             "Language": "https://eastus.api.cognitive.microsoft.com/",
             "Language-2022-05-01": "https://eastus.api.cognitive.microsoft.com/",
@@ -772,25 +872,28 @@
             "QuestionAnswering": "https://eastus.api.cognitive.microsoft.com/",
             "QuestionAnsweringBizQA": "https://eastus.api.cognitive.microsoft.com/",
             "QuestionAnsweringQnAGen": "https://eastus.api.cognitive.microsoft.com/",
+            "QuestionAnswering Generate": "https://eastus.api.cognitive.microsoft.com/",
             "LUIS.Authoring": "https://eastus.api.cognitive.microsoft.com/",
             "LUIS": "https://eastus.api.cognitive.microsoft.com/",
             "Unified Speech": "https://eastus.api.cognitive.microsoft.com/",
             "Content Moderator - Review": "https://eastus.api.cognitive.microsoft.com/",
             "Content Moderator - Moderate": "https://eastus.api.cognitive.microsoft.com/",
+            "Content Moderator Client": "https://eastus.api.cognitive.microsoft.com/",
             "Content Moderator - List Management": "https://eastus.api.cognitive.microsoft.com/",
             "TextTranslation-Global": "https://api.cognitive.microsofttranslator.com/",
             "TextTranslation": "https://eastus.api.cognitive.microsoft.com/",
             "DocumentTranslation": "https://eastus.api.cognitive.microsoft.com/",
             "DocumentTranslation-V1-1": "https://eastus.api.cognitive.microsoft.com/",
             "Token": "https://eastus.api.cognitive.microsoft.com/",
-            "Container": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speech to Text v2.0": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speech to Text v3.0": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speech to Text v3.1-preview.1": "https://eastus.api.cognitive.microsoft.com/",
+            "Speech Services Speech to Text v3.1": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Custom Voice": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Audio Content Creation": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speaker Verification": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speaker Identification": "https://eastus.api.cognitive.microsoft.com/",
+            "Model Distribution Service": "https://eastus.api.cognitive.microsoft.com/",
             "Custom_Vision_Prediction_3.0": "https://eastus.api.cognitive.microsoft.com/",
             "Custom_Vision_Prediction_3.1": "https://eastus.api.cognitive.microsoft.com/",
             "Custom_Vision_Training_3.1": "https://eastus.api.cognitive.microsoft.com/",
@@ -801,17 +904,17 @@
           "provisioningState": "Succeeded"
         },
         "identity": {
-          "principalId": "c9ea2a42-b5c4-47fd-8f18-d11ddf3e162f",
+          "principalId": "f2c47714-9104-4d38-9375-62553c5ad5a3",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-06-10T06:41:39.6934663Z",
+          "createdAt": "2023-02-06T09:35:26.5945758Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-06-10T06:41:39.6934663Z"
+          "lastModifiedAt": "2023-02-06T09:35:26.5945758Z"
         }
       }
     }

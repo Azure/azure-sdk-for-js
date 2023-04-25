@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PolicyStates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,45 +20,45 @@ import {
   PolicyStatesResource,
   PolicyStatesListQueryResultsForManagementGroupNextOptionalParams,
   PolicyStatesListQueryResultsForManagementGroupOptionalParams,
+  PolicyStatesListQueryResultsForManagementGroupResponse,
   PolicyStatesListQueryResultsForSubscriptionNextOptionalParams,
   PolicyStatesListQueryResultsForSubscriptionOptionalParams,
+  PolicyStatesListQueryResultsForSubscriptionResponse,
   PolicyStatesListQueryResultsForResourceGroupNextOptionalParams,
   PolicyStatesListQueryResultsForResourceGroupOptionalParams,
+  PolicyStatesListQueryResultsForResourceGroupResponse,
   PolicyStatesListQueryResultsForResourceNextOptionalParams,
   PolicyStatesListQueryResultsForResourceOptionalParams,
+  PolicyStatesListQueryResultsForResourceResponse,
   PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams,
   PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
+  PolicyStatesListQueryResultsForPolicySetDefinitionResponse,
   PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams,
   PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
+  PolicyStatesListQueryResultsForPolicyDefinitionResponse,
   PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams,
   PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-  PolicyStatesListQueryResultsForManagementGroupResponse,
+  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
   PolicyStatesSummaryResourceType,
   PolicyStatesSummarizeForManagementGroupOptionalParams,
   PolicyStatesSummarizeForManagementGroupResponse,
-  PolicyStatesListQueryResultsForSubscriptionResponse,
   PolicyStatesSummarizeForSubscriptionOptionalParams,
   PolicyStatesSummarizeForSubscriptionResponse,
-  PolicyStatesListQueryResultsForResourceGroupResponse,
   PolicyStatesSummarizeForResourceGroupOptionalParams,
   PolicyStatesSummarizeForResourceGroupResponse,
-  PolicyStatesListQueryResultsForResourceResponse,
   PolicyStatesSummarizeForResourceOptionalParams,
   PolicyStatesSummarizeForResourceResponse,
   PolicyStatesTriggerSubscriptionEvaluationOptionalParams,
   PolicyStatesTriggerResourceGroupEvaluationOptionalParams,
-  PolicyStatesListQueryResultsForPolicySetDefinitionResponse,
   PolicyStatesSummarizeForPolicySetDefinitionOptionalParams,
   PolicyStatesSummarizeForPolicySetDefinitionResponse,
-  PolicyStatesListQueryResultsForPolicyDefinitionResponse,
   PolicyStatesSummarizeForPolicyDefinitionOptionalParams,
   PolicyStatesSummarizeForPolicyDefinitionResponse,
-  PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams,
   PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse,
-  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
   PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
   PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse,
   PolicyStatesListQueryResultsForManagementGroupNextResponse,
@@ -108,11 +109,15 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForManagementGroupPagingPage(
           policyStatesResource,
           managementGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -121,15 +126,22 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForManagementGroupPagingPage(
     policyStatesResource: PolicyStatesResource,
     managementGroupName: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForManagementGroup(
-      policyStatesResource,
-      managementGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForManagementGroup(
+        policyStatesResource,
+        managementGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForManagementGroupNext(
         policyStatesResource,
@@ -138,7 +150,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -181,11 +195,15 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForSubscriptionPagingPage(
           policyStatesResource,
           subscriptionId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -194,15 +212,22 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForSubscriptionPagingPage(
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForSubscription(
-      policyStatesResource,
-      subscriptionId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForSubscription(
+        policyStatesResource,
+        subscriptionId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionNext(
         policyStatesResource,
@@ -211,7 +236,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -257,12 +284,16 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourceGroupPagingPage(
           policyStatesResource,
           subscriptionId,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -272,16 +303,23 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForResourceGroup(
-      policyStatesResource,
-      subscriptionId,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResourceGroup(
+        policyStatesResource,
+        subscriptionId,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupNext(
         policyStatesResource,
@@ -291,7 +329,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -336,11 +376,15 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourcePagingPage(
           policyStatesResource,
           resourceId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -349,15 +393,22 @@ export class PolicyStatesImpl implements PolicyStates {
   private async *listQueryResultsForResourcePagingPage(
     policyStatesResource: PolicyStatesResource,
     resourceId: string,
-    options?: PolicyStatesListQueryResultsForResourceOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForResource(
-      policyStatesResource,
-      resourceId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResource(
+        policyStatesResource,
+        resourceId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceNext(
         policyStatesResource,
@@ -366,7 +417,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -412,12 +465,16 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForPolicySetDefinitionPagingPage(
           policyStatesResource,
           subscriptionId,
           policySetDefinitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -427,16 +484,23 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForPolicySetDefinition(
-      policyStatesResource,
-      subscriptionId,
-      policySetDefinitionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForPolicySetDefinitionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForPolicySetDefinition(
+        policyStatesResource,
+        subscriptionId,
+        policySetDefinitionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForPolicySetDefinitionNext(
         policyStatesResource,
@@ -446,7 +510,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -494,12 +560,16 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForPolicyDefinitionPagingPage(
           policyStatesResource,
           subscriptionId,
           policyDefinitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -509,16 +579,23 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForPolicyDefinition(
-      policyStatesResource,
-      subscriptionId,
-      policyDefinitionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForPolicyDefinitionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForPolicyDefinition(
+        policyStatesResource,
+        subscriptionId,
+        policyDefinitionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForPolicyDefinitionNext(
         policyStatesResource,
@@ -528,7 +605,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -576,12 +655,16 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
           policyStatesResource,
           subscriptionId,
           policyAssignmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -591,16 +674,23 @@ export class PolicyStatesImpl implements PolicyStates {
     policyStatesResource: PolicyStatesResource,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForSubscriptionLevelPolicyAssignment(
-      policyStatesResource,
-      subscriptionId,
-      policyAssignmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForSubscriptionLevelPolicyAssignment(
+        policyStatesResource,
+        subscriptionId,
+        policyAssignmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
         policyStatesResource,
@@ -610,7 +700,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -661,13 +753,17 @@ export class PolicyStatesImpl implements PolicyStates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
           policyStatesResource,
           subscriptionId,
           resourceGroupName,
           policyAssignmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -678,17 +774,24 @@ export class PolicyStatesImpl implements PolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyState[]> {
-    let result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
-      policyStatesResource,
-      subscriptionId,
-      resourceGroupName,
-      policyAssignmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
+        policyStatesResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
         policyStatesResource,
@@ -699,7 +802,9 @@ export class PolicyStatesImpl implements PolicyStates {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1499,7 +1604,7 @@ const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec 
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1529,7 +1634,7 @@ const summarizeForManagementGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1559,7 +1664,7 @@ const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1588,7 +1693,7 @@ const summarizeForSubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1617,7 +1722,7 @@ const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = 
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1647,7 +1752,7 @@ const summarizeForResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1677,7 +1782,7 @@ const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken,
@@ -1707,7 +1812,7 @@ const summarizeForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1776,7 +1881,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationS
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1807,7 +1912,7 @@ const summarizeForPolicySetDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1838,7 +1943,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1869,7 +1974,7 @@ const summarizeForPolicyDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1900,7 +2005,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreCli
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1931,7 +2036,7 @@ const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: coreClient.Ope
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -1962,7 +2067,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreCl
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1994,7 +2099,7 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.Op
     Parameters.top,
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to
   ],
   urlParameters: [
@@ -2019,17 +2124,6 @@ const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
@@ -2051,17 +2145,6 @@ const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2082,17 +2165,6 @@ const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -2114,18 +2186,6 @@ const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken,
-    Parameters.expand
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -2146,17 +2206,6 @@ const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.Operat
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2179,17 +2228,6 @@ const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.Operation
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2212,17 +2250,6 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: cor
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2245,17 +2272,6 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: co
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

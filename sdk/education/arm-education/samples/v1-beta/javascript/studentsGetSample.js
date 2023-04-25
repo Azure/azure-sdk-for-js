@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the details for a specific student in the specified lab by student alias
@@ -33,4 +34,8 @@ async function student() {
   console.log(result);
 }
 
-student().catch(console.error);
+async function main() {
+  student();
+}
+
+main().catch(console.error);

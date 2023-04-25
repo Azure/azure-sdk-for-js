@@ -1,0 +1,511 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.DataLakeAnalytics/operations?api-version=2019-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-datalake-analytics/2.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "490b1be3-1065-45b8-922f-e320d2e4bd28"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 06 Dec 2022 09:20:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b3a4880d-a824-40b6-8de5-e13586beda15",
+        "x-ms-ratelimit-remaining-tenant-reads": "11998",
+        "x-ms-request-id": "94e63502-de84-4c30-9345-a56c9996cdf4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221206T092024Z:b3a4880d-a824-40b6-8de5-e13586beda15",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.DataLakeAnalytics/operations/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Available Operations",
+              "operation": "Get Available Operations",
+              "description": "Get available operations of DataLakeAnalytics."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/register/action",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Registration",
+              "operation": "Register to DataLakeAnalytics",
+              "description": "Register subscription to DataLakeAnalytics."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Account",
+              "operation": "Get DataLakeAnalytics Account",
+              "description": "Get information about an existing DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Account",
+              "operation": "Create or Update DataLakeAnalytics Account",
+              "description": "Create or update a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Account",
+              "operation": "Delete DataLakeAnalytics Account",
+              "description": "Delete a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/operationResults/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Operation Result",
+              "operation": "Get DataLakeAnalytics Account OperationResult",
+              "description": "Get result of a DataLakeAnalytics account operation."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/transferAnalyticsUnits/action",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Account",
+              "operation": "Transfer AnalyticsUnits",
+              "description": "Transfer SystemMaxAnalyticsUnits among DataLakeAnalytics accounts."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/firewallRules/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Firewall Rule",
+              "operation": "Get Firewall Rule",
+              "description": "Get information about a firewall rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/firewallRules/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Firewall Rule",
+              "operation": "Create or Update Firewall Rule",
+              "description": "Create or update a firewall rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/firewallRules/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Firewall Rule",
+              "operation": "Delete Firewall Rule",
+              "description": "Delete a firewall rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/virtualNetworkRules/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Virtual Network Rule",
+              "operation": "Get Virtual Network Rule",
+              "description": "Get information about a virtual network rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/virtualNetworkRules/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Virtual Network Rule",
+              "operation": "Create or Update Virtual Network Rule",
+              "description": "Create or update a virtual network rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/virtualNetworkRules/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Virtual Network Rule",
+              "operation": "Delete Virtual Network Rule",
+              "description": "Delete a virtual network rule."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreAccounts/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStore Account",
+              "operation": "Get Linked DataLakeStore Account",
+              "description": "Get information about a linked DataLakeStore account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreAccounts/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStore Account",
+              "operation": "Create or Update Linked DataLakeStore Account",
+              "description": "Create or update a linked DataLakeStore account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreAccounts/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStore Account",
+              "operation": "Unlink DataLakeStore Account",
+              "description": "Unlink a DataLakeStore account from a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreGen2Accounts/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStoreGen2 Account",
+              "operation": "Get Linked DataLakeStoreGen2 Account",
+              "description": "Get information about a linked DataLakeStoreGen2 account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreGen2Accounts/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStoreGen2 Account",
+              "operation": "Create or Update Linked DataLakeStoreGen2 Account",
+              "description": "Create or update a linked DataLakeStoreGen2 account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/dataLakeStoreGen2Accounts/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "DataLakeStoreGen2 Account",
+              "operation": "Unlink DataLakeStoreGen2 Account",
+              "description": "Unlink a DataLakeStoreGen2 account from a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/storageAccounts/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Storage Account",
+              "operation": "Get Linked Storage Account",
+              "description": "Get information about a linked Storage account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/storageAccounts/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Storage Account",
+              "operation": "Create or Update Linked Storage Account",
+              "description": "Create or update a linked Storage account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/storageAccounts/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Storage Account",
+              "operation": "Unlink Storage Account",
+              "description": "Unlink a Storage account from a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/storageAccounts/Containers/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Container",
+              "operation": "Get Storage Container",
+              "description": "Get containers of a linked Storage account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/storageAccounts/Containers/listSasTokens/action",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "SAS Token",
+              "operation": "List SAS Tokens",
+              "description": "List SAS tokens for storage containers of a linked Storage account of a DataLakeAnalytics account."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/computePolicies/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Compute Policy",
+              "operation": "Get Compute Policy",
+              "description": "Get information about a compute policy."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/computePolicies/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Compute Policy",
+              "operation": "Create or Update Compute Policy",
+              "description": "Create or update a compute policy."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/computePolicies/delete",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Compute Policy",
+              "operation": "Delete Compute Policy",
+              "description": "Delete a compute policy."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/TakeOwnership/action",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Job Ownership",
+              "operation": "Take Ownership of DataLakeAnalytics Job",
+              "description": "Grant permissions to cancel jobs submitted by other users."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/locations/capability/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Subscription Capability",
+              "operation": "Get DataLakeAnalytics Subscription Capability",
+              "description": "Get capability information of a subscription regarding using DataLakeAnalytics."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/locations/usages/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Subscription Quota Usages",
+              "operation": "Get DataLakeAnalytics Subscription Quota Usages",
+              "description": "Get quota usages information of a subscription regarding using DataLakeAnalytics."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/locations/checkNameAvailability/action",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Name Availability",
+              "operation": "Check DataLakeAnalytics Account Name Availability",
+              "description": "Check availability of a DataLakeAnalytics account name."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/locations/operationResults/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Operation Result",
+              "operation": "Get DataLakeAnalytics Account OperationResult",
+              "description": "Get result of a DataLakeAnalytics account operation."
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/providers/Microsoft.Insights/metricDefinitions/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Metric Definition",
+              "operation": "Get DataLakeAnalytics Account metric definitions",
+              "description": "Get the available metrics for the DataLakeAnalytics account."
+            },
+            "origin": "system",
+            "properties": {
+              "serviceSpecification": {
+                "metricSpecifications": [
+                  {
+                    "name": "JobEndedSuccess",
+                    "displayName": "Successful Jobs",
+                    "displayDescription": "Count of successful jobs.",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobEndedFailure",
+                    "displayName": "Failed Jobs",
+                    "displayDescription": "Count of failed jobs.",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobEndedCancelled",
+                    "displayName": "Cancelled Jobs",
+                    "displayDescription": "Count of cancelled jobs.",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobAUEndedSuccess",
+                    "displayName": "Successful AU Time",
+                    "displayDescription": "Total AU time for successful jobs.",
+                    "unit": "Seconds",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobAUEndedFailure",
+                    "displayName": "Failed AU Time",
+                    "displayDescription": "Total AU time for failed jobs.",
+                    "unit": "Seconds",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobAUEndedCancelled",
+                    "displayName": "Cancelled AU Time",
+                    "displayDescription": "Total AU time for cancelled jobs.",
+                    "unit": "Seconds",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "JobStage",
+                    "displayName": "Jobs in Stage",
+                    "displayDescription": "Number of jobs in each stage.",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "availabilities": [
+                      {
+                        "timeGrain": "PT1M",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "timeGrain": "PT1H",
+                        "blobDuration": "P1D"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/providers/Microsoft.Insights/logDefinitions/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Log Definition",
+              "operation": "Get DataLakeAnalytics Account log definitions",
+              "description": "Get the available logs for the DataLakeAnalytics account."
+            },
+            "origin": "system",
+            "properties": {
+              "serviceSpecification": {
+                "logSpecifications": [
+                  {
+                    "name": "Audit",
+                    "displayName": "Audit Logs",
+                    "blobDuration": "PT1H"
+                  },
+                  {
+                    "name": "Requests",
+                    "displayName": "Request Logs",
+                    "blobDuration": "PT1H"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/providers/Microsoft.Insights/diagnosticSettings/read",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Diagnostic Setting",
+              "operation": "Get DataLakeAnalytics Account diagnostic settings",
+              "description": "Get the diagnostic settings for the DataLakeAnalytics account."
+            },
+            "origin": "system"
+          },
+          {
+            "name": "Microsoft.DataLakeAnalytics/accounts/providers/Microsoft.Insights/diagnosticSettings/write",
+            "display": {
+              "provider": "Microsoft DataLakeAnalytics",
+              "resource": "Diagnostic Setting",
+              "operation": "Create or update DataLakeAnalytics Account diagnostic settings",
+              "description": "Create or update the diagnostic settings for the DataLakeAnalytics account."
+            },
+            "origin": "system"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

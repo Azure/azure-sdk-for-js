@@ -17,7 +17,7 @@ export type NotificationOutcomeState =
 /**
  * The per platform count per state.
  */
-export interface NotificationOutcomeCollectionItem {
+export interface NotificationOutcome {
   /**
    * The state of the notification.
    */
@@ -86,32 +86,37 @@ export interface NotificationDetails {
   /**
    * APNs outcomes counts per state.
    */
-  apnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  apnsOutcomeCounts?: NotificationOutcome[];
 
   /**
    * WNS outcomes counts per state.
    */
-  wnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  wnsOutcomeCounts?: NotificationOutcome[];
 
   /**
    * FCM outcome counts per state.
    */
-  fcmOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  fcmOutcomeCounts?: NotificationOutcome[];
 
   /**
    * ADM outcome counts per state.
    */
-  admOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  admOutcomeCounts?: NotificationOutcome[];
 
   /**
    * Baidu outcome counts per state.
    */
-  baiduOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  baiduOutcomeCounts?: NotificationOutcome[];
 
   /**
    * Web Push outcome counts per state.
    */
-  browserOutcomeCounts?: NotificationOutcomeCollectionItem[];
+  browserOutcomeCounts?: NotificationOutcome[];
+
+  /**
+   * Xiaomi outcome counts per state.
+   */
+  xiaomiOutcomeCounts?: NotificationOutcome[];
 }
 
 /**
@@ -171,12 +176,12 @@ export interface NotificationHubsMessageResponse extends NotificationHubsRespons
   /**
    * The number of devices that successfully received the notification.
    */
-  success: number;
+  successCount: number;
 
   /**
    * The number of devices that failed to receive a notification.
    */
-  failure: number;
+  failureCount: number;
 
   /**
    * The list of notification outcome results for each device registered with the hub, to which this notification was sent.

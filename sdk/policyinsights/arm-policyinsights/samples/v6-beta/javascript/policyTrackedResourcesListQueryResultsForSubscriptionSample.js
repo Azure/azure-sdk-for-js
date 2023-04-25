@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QuerySubscriptionScope.json
  */
 async function queryAtSubscriptionScope() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyTrackedResourcesResource = "default";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -31,8 +33,6 @@ async function queryAtSubscriptionScope() {
   console.log(resArray);
 }
 
-queryAtSubscriptionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the subscription.
  *
@@ -40,7 +40,8 @@ queryAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QuerySubscriptionScopeWithFilterAndTop.json
  */
 async function queryAtSubscriptionScopeUsingQueryParameters() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyTrackedResourcesResource = "default";
   const top = 1;
   const filter =
@@ -60,4 +61,9 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtSubscriptionScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtSubscriptionScope();
+  queryAtSubscriptionScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

@@ -95,6 +95,9 @@ export interface GetBitLockerKeysResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IdentityDetails {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -169,8 +172,6 @@ export type JobsGetResponse = JobResponse;
 
 // @public
 export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -187,8 +188,6 @@ export type JobsListByResourceGroupResponse = ListJobsResponse;
 
 // @public
 export interface JobsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public

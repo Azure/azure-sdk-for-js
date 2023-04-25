@@ -887,7 +887,7 @@ export interface CrmConnectorEntities {
 }
 
 /** Hub resource. */
-export type Hub = Resource & {
+export interface Hub extends Resource {
   /**
    * API endpoint URL of the hub.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -907,10 +907,10 @@ export type Hub = Resource & {
   tenantFeatures?: number;
   /** Billing settings of the hub. */
   hubBillingInfo?: HubBillingInfoFormat;
-};
+}
 
 /** Describes an entity. */
-export type EntityTypeDefinition = MetadataDefinitionBase & {
+export interface EntityTypeDefinition extends MetadataDefinitionBase {
   /** The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object. */
   apiEntitySetName?: string;
   /** Type of entity. */
@@ -940,10 +940,10 @@ export type EntityTypeDefinition = MetadataDefinitionBase & {
   timestampFieldName?: string;
   /** The name of the entity. */
   typeName?: string;
-};
+}
 
 /** The profile resource format. */
-export type ProfileResourceFormat = ProxyResource & {
+export interface ProfileResourceFormat extends ProxyResource {
   /** The attributes for the Type. */
   attributes?: { [propertyName: string]: string[] };
   /** Localized descriptions for the property. */
@@ -991,10 +991,10 @@ export type ProfileResourceFormat = ProxyResource & {
   typeName?: string;
   /** The strong IDs. */
   strongIds?: StrongId[];
-};
+}
 
 /** The interaction resource format. */
-export type InteractionResourceFormat = ProxyResource & {
+export interface InteractionResourceFormat extends ProxyResource {
   /** The attributes for the Type. */
   attributes?: { [propertyName: string]: string[] };
   /** Localized descriptions for the property. */
@@ -1078,10 +1078,10 @@ export type InteractionResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataSourceReferenceId?: string;
-};
+}
 
 /** The relationship resource format. */
-export type RelationshipResourceFormat = ProxyResource & {
+export interface RelationshipResourceFormat extends ProxyResource {
   /** The Relationship Cardinality. */
   cardinality?: CardinalityTypes;
   /** Localized display name for the Relationship. */
@@ -1118,10 +1118,10 @@ export type RelationshipResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-};
+}
 
 /** The relationship link resource format. */
-export type RelationshipLinkResourceFormat = ProxyResource & {
+export interface RelationshipLinkResourceFormat extends ProxyResource {
   /** Localized display name for the Relationship Link. */
   displayName?: { [propertyName: string]: string };
   /** Localized descriptions for the Relationship Link. */
@@ -1156,10 +1156,10 @@ export type RelationshipLinkResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-};
+}
 
 /** The authorization policy resource format. */
-export type AuthorizationPolicyResourceFormat = ProxyResource & {
+export interface AuthorizationPolicyResourceFormat extends ProxyResource {
   /**
    * Name of the policy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1171,10 +1171,10 @@ export type AuthorizationPolicyResourceFormat = ProxyResource & {
   primaryKey?: string;
   /** Secondary key associated with the policy. */
   secondaryKey?: string;
-};
+}
 
 /** The connector resource format. */
-export type ConnectorResourceFormat = ProxyResource & {
+export interface ConnectorResourceFormat extends ProxyResource {
   /**
    * ID of the connector.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1212,10 +1212,10 @@ export type ConnectorResourceFormat = ProxyResource & {
   readonly tenantId?: string;
   /** If this is an internal connector. */
   isInternal?: boolean;
-};
+}
 
 /** The connector mapping resource format. */
-export type ConnectorMappingResourceFormat = ProxyResource & {
+export interface ConnectorMappingResourceFormat extends ProxyResource {
   /**
    * The connector name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1273,10 +1273,10 @@ export type ConnectorMappingResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-};
+}
 
 /** The KPI resource format. */
-export type KpiResourceFormat = ProxyResource & {
+export interface KpiResourceFormat extends ProxyResource {
   /** The mapping entity type. */
   entityType?: EntityTypes;
   /** The mapping entity name. */
@@ -1330,10 +1330,10 @@ export type KpiResourceFormat = ProxyResource & {
   aliases?: KpiAlias[];
   /** The KPI extracts. */
   extracts?: KpiExtract[];
-};
+}
 
 /** The WidgetTypeResourceFormat */
-export type WidgetTypeResourceFormat = ProxyResource & {
+export interface WidgetTypeResourceFormat extends ProxyResource {
   /**
    * Name of the widget type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1364,10 +1364,10 @@ export type WidgetTypeResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly created?: Date;
-};
+}
 
 /** The view resource format. */
-export type ViewResourceFormat = ProxyResource & {
+export interface ViewResourceFormat extends ProxyResource {
   /**
    * Name of the view.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1394,10 +1394,10 @@ export type ViewResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly created?: Date;
-};
+}
 
 /** The link resource format. */
-export type LinkResourceFormat = ProxyResource & {
+export interface LinkResourceFormat extends ProxyResource {
   /**
    * The hub name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1433,18 +1433,18 @@ export type LinkResourceFormat = ProxyResource & {
   referenceOnly?: boolean;
   /** Determines whether this link is supposed to create or delete instances if Link is NOT Reference Only. */
   operationType?: InstanceOperationType;
-};
+}
 
 /** The role resource format. */
-export type RoleResourceFormat = ProxyResource & {
+export interface RoleResourceFormat extends ProxyResource {
   /** The role name. */
   roleName?: string;
   /** The description of the role. */
   description?: string;
-};
+}
 
 /** The Role Assignment resource format. */
-export type RoleAssignmentResourceFormat = ProxyResource & {
+export interface RoleAssignmentResourceFormat extends ProxyResource {
   /**
    * The hub name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1494,10 +1494,10 @@ export type RoleAssignmentResourceFormat = ProxyResource & {
   conflationPolicies?: ResourceSetDescription;
   /** The Role assignments set for the assignment. */
   segments?: ResourceSetDescription;
-};
+}
 
 /** The prediction resource format. */
-export type PredictionResourceFormat = ProxyResource & {
+export interface PredictionResourceFormat extends ProxyResource {
   /** Description of the prediction. */
   description?: { [propertyName: string]: string };
   /** Display name of the prediction. */
@@ -1541,19 +1541,19 @@ export type PredictionResourceFormat = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemGeneratedEntities?: PredictionSystemGeneratedEntities;
-};
+}
 
 /** The enriching KPI definition. */
-export type EnrichingKpi = KpiDefinition & {};
+export interface EnrichingKpi extends KpiDefinition {}
 
 /** The profile type definition. */
-export type ProfileTypeDefinition = EntityTypeDefinition & {
+export interface ProfileTypeDefinition extends EntityTypeDefinition {
   /** The strong IDs. */
   strongIds?: StrongId[];
-};
+}
 
 /** The Interaction Type Definition */
-export type InteractionTypeDefinition = EntityTypeDefinition & {
+export interface InteractionTypeDefinition extends EntityTypeDefinition {
   /** The id property names. Properties which uniquely identify an interaction instance. */
   idPropertyNames?: string[];
   /** Profiles that participated in the interaction. */
@@ -1592,12 +1592,15 @@ export type InteractionTypeDefinition = EntityTypeDefinition & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataSourceReferenceId?: string;
-};
+}
 
 /** Known values of {@link DataSourceType} that the service accepts. */
 export enum KnownDataSourceType {
+  /** Connector */
   Connector = "Connector",
+  /** LinkInteraction */
   LinkInteraction = "LinkInteraction",
+  /** SystemDefault */
   SystemDefault = "SystemDefault"
 }
 
@@ -1614,8 +1617,11 @@ export type DataSourceType = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** None */
   None = "None",
+  /** Active */
   Active = "Active",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -1632,11 +1638,17 @@ export type Status = string;
 
 /** Known values of {@link ProvisioningStates} that the service accepts. */
 export enum KnownProvisioningStates {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Expiring */
   Expiring = "Expiring",
+  /** Deleting */
   Deleting = "Deleting",
+  /** HumanIntervention */
   HumanIntervention = "HumanIntervention",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1656,11 +1668,17 @@ export type ProvisioningStates = string;
 
 /** Known values of {@link ConnectorTypes} that the service accepts. */
 export enum KnownConnectorTypes {
+  /** None */
   None = "None",
+  /** CRM */
   CRM = "CRM",
+  /** AzureBlob */
   AzureBlob = "AzureBlob",
+  /** Salesforce */
   Salesforce = "Salesforce",
+  /** ExchangeOnline */
   ExchangeOnline = "ExchangeOnline",
+  /** Outbound */
   Outbound = "Outbound"
 }
 
@@ -1680,9 +1698,13 @@ export type ConnectorTypes = string;
 
 /** Known values of {@link CanonicalPropertyValueType} that the service accepts. */
 export enum KnownCanonicalPropertyValueType {
+  /** Numeric */
   Numeric = "Numeric",
+  /** Categorical */
   Categorical = "Categorical",
+  /** DerivedCategorical */
   DerivedCategorical = "DerivedCategorical",
+  /** DerivedNumeric */
   DerivedNumeric = "DerivedNumeric"
 }
 
@@ -1700,23 +1722,41 @@ export type CanonicalPropertyValueType = string;
 
 /** Known values of {@link PredictionModelLifeCycle} that the service accepts. */
 export enum KnownPredictionModelLifeCycle {
+  /** New */
   New = "New",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** ProvisioningFailed */
   ProvisioningFailed = "ProvisioningFailed",
+  /** PendingDiscovering */
   PendingDiscovering = "PendingDiscovering",
+  /** Discovering */
   Discovering = "Discovering",
+  /** PendingFeaturing */
   PendingFeaturing = "PendingFeaturing",
+  /** Featuring */
   Featuring = "Featuring",
+  /** FeaturingFailed */
   FeaturingFailed = "FeaturingFailed",
+  /** PendingTraining */
   PendingTraining = "PendingTraining",
+  /** Training */
   Training = "Training",
+  /** TrainingFailed */
   TrainingFailed = "TrainingFailed",
+  /** Evaluating */
   Evaluating = "Evaluating",
+  /** EvaluatingFailed */
   EvaluatingFailed = "EvaluatingFailed",
+  /** PendingModelConfirmation */
   PendingModelConfirmation = "PendingModelConfirmation",
+  /** Active */
   Active = "Active",
+  /** Deleted */
   Deleted = "Deleted",
+  /** HumanIntervention */
   HumanIntervention = "HumanIntervention",
+  /** Failed */
   Failed = "Failed"
 }
 

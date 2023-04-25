@@ -6,24 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Service } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   ServiceListFileSystemsOptionalParams,
   ServiceListFileSystemsResponse
 } from "../models";
 
-/** Class representing a Service. */
-export class Service {
-  private readonly client: StorageClientContext;
+/** Class containing Service operations. */
+export class ServiceImpl implements Service {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Service class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -34,19 +35,16 @@ export class Service {
   listFileSystems(
     options?: ServiceListFileSystemsOptionalParams
   ): Promise<ServiceListFileSystemsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listFileSystemsOperationSpec
-    ) as Promise<ServiceListFileSystemsResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listFileSystemsOperationSpec: coreHttp.OperationSpec = {
+const listFileSystemsOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {

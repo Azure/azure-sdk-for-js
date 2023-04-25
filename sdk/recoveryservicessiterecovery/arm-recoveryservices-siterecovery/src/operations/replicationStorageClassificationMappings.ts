@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationStorageClassificationMappings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,16 +19,16 @@ import {
   StorageClassificationMapping,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextOptionalParams,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
+  ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse,
   ReplicationStorageClassificationMappingsListNextOptionalParams,
   ReplicationStorageClassificationMappingsListOptionalParams,
-  ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse,
+  ReplicationStorageClassificationMappingsListResponse,
   ReplicationStorageClassificationMappingsGetOptionalParams,
   ReplicationStorageClassificationMappingsGetResponse,
   StorageClassificationMappingInput,
   ReplicationStorageClassificationMappingsCreateOptionalParams,
   ReplicationStorageClassificationMappingsCreateResponse,
   ReplicationStorageClassificationMappingsDeleteOptionalParams,
-  ReplicationStorageClassificationMappingsListResponse,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse,
   ReplicationStorageClassificationMappingsListNextResponse
 } from "../models";
@@ -48,16 +49,23 @@ export class ReplicationStorageClassificationMappingsImpl
 
   /**
    * Lists the storage classification mappings for the fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param options The options parameters.
    */
   public listByReplicationStorageClassifications(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
   ): PagedAsyncIterableIterator<StorageClassificationMapping> {
     const iter = this.listByReplicationStorageClassificationsPagingAll(
+      resourceName,
+      resourceGroupName,
       fabricName,
       storageClassificationName,
       options
@@ -69,46 +77,71 @@ export class ReplicationStorageClassificationMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationStorageClassificationsPagingPage(
+          resourceName,
+          resourceGroupName,
           fabricName,
           storageClassificationName,
-          options
+          options,
+          settings
         );
       }
     };
   }
 
   private async *listByReplicationStorageClassificationsPagingPage(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
-    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
+    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageClassificationMapping[]> {
-    let result = await this._listByReplicationStorageClassifications(
-      fabricName,
-      storageClassificationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationStorageClassifications(
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        storageClassificationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationStorageClassificationsNext(
+        resourceName,
+        resourceGroupName,
         fabricName,
         storageClassificationName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByReplicationStorageClassificationsPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
   ): AsyncIterableIterator<StorageClassificationMapping> {
     for await (const page of this.listByReplicationStorageClassificationsPagingPage(
+      resourceName,
+      resourceGroupName,
       fabricName,
       storageClassificationName,
       options
@@ -119,12 +152,17 @@ export class ReplicationStorageClassificationMappingsImpl
 
   /**
    * Lists the storage classification mappings in the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   public list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationStorageClassificationMappingsListOptionalParams
   ): PagedAsyncIterableIterator<StorageClassificationMapping> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -132,40 +170,75 @@ export class ReplicationStorageClassificationMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationStorageClassificationMappingsListOptionalParams
+    resourceName: string,
+    resourceGroupName: string,
+    options?: ReplicationStorageClassificationMappingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageClassificationMapping[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+    let result: ReplicationStorageClassificationMappingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceName, resourceGroupName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceName,
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationStorageClassificationMappingsListOptionalParams
   ): AsyncIterableIterator<StorageClassificationMapping> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(
+      resourceName,
+      resourceGroupName,
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
    * Lists the storage classification mappings for the fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param options The options parameters.
    */
   private _listByReplicationStorageClassifications(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
@@ -173,19 +246,30 @@ export class ReplicationStorageClassificationMappingsImpl
     ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse
   > {
     return this.client.sendOperationRequest(
-      { fabricName, storageClassificationName, options },
+      {
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        storageClassificationName,
+        options
+      },
       listByReplicationStorageClassificationsOperationSpec
     );
   }
 
   /**
    * Gets the details of the specified storage classification mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
@@ -193,6 +277,8 @@ export class ReplicationStorageClassificationMappingsImpl
   ): Promise<ReplicationStorageClassificationMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         storageClassificationName,
         storageClassificationMappingName,
@@ -204,6 +290,9 @@ export class ReplicationStorageClassificationMappingsImpl
 
   /**
    * The operation to create a storage classification mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
@@ -211,6 +300,8 @@ export class ReplicationStorageClassificationMappingsImpl
    * @param options The options parameters.
    */
   async beginCreate(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
@@ -266,6 +357,8 @@ export class ReplicationStorageClassificationMappingsImpl
     const lro = new LroImpl(
       sendOperation,
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         storageClassificationName,
         storageClassificationMappingName,
@@ -274,14 +367,19 @@ export class ReplicationStorageClassificationMappingsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * The operation to create a storage classification mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
@@ -289,6 +387,8 @@ export class ReplicationStorageClassificationMappingsImpl
    * @param options The options parameters.
    */
   async beginCreateAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
@@ -296,6 +396,8 @@ export class ReplicationStorageClassificationMappingsImpl
     options?: ReplicationStorageClassificationMappingsCreateOptionalParams
   ): Promise<ReplicationStorageClassificationMappingsCreateResponse> {
     const poller = await this.beginCreate(
+      resourceName,
+      resourceGroupName,
       fabricName,
       storageClassificationName,
       storageClassificationMappingName,
@@ -307,12 +409,17 @@ export class ReplicationStorageClassificationMappingsImpl
 
   /**
    * The operation to delete a storage classification mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
    * @param options The options parameters.
    */
   async beginDelete(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
@@ -360,6 +467,8 @@ export class ReplicationStorageClassificationMappingsImpl
     const lro = new LroImpl(
       sendOperation,
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         storageClassificationName,
         storageClassificationMappingName,
@@ -367,26 +476,35 @@ export class ReplicationStorageClassificationMappingsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * The operation to delete a storage classification mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
     options?: ReplicationStorageClassificationMappingsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
+      resourceName,
+      resourceGroupName,
       fabricName,
       storageClassificationName,
       storageClassificationMappingName,
@@ -397,16 +515,27 @@ export class ReplicationStorageClassificationMappingsImpl
 
   /**
    * Lists the storage classification mappings in the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   private _list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationStorageClassificationMappingsListOptionalParams
   ): Promise<ReplicationStorageClassificationMappingsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { resourceName, resourceGroupName, options },
+      listOperationSpec
+    );
   }
 
   /**
    * ListByReplicationStorageClassificationsNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -414,6 +543,8 @@ export class ReplicationStorageClassificationMappingsImpl
    * @param options The options parameters.
    */
   private _listByReplicationStorageClassificationsNext(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     nextLink: string,
@@ -422,22 +553,34 @@ export class ReplicationStorageClassificationMappingsImpl
     ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse
   > {
     return this.client.sendOperationRequest(
-      { fabricName, storageClassificationName, nextLink, options },
+      {
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        storageClassificationName,
+        nextLink,
+        options
+      },
       listByReplicationStorageClassificationsNextOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceName: string,
+    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationStorageClassificationMappingsListNextOptionalParams
   ): Promise<ReplicationStorageClassificationMappingsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceName, resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -565,7 +708,6 @@ const listByReplicationStorageClassificationsNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.StorageClassificationMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -586,7 +728,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageClassificationMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataCollectionRuleAssociations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   DataCollectionRuleAssociationProxyOnlyResource,
   DataCollectionRuleAssociationsListByResourceNextOptionalParams,
   DataCollectionRuleAssociationsListByResourceOptionalParams,
+  DataCollectionRuleAssociationsListByResourceResponse,
   DataCollectionRuleAssociationsListByRuleNextOptionalParams,
   DataCollectionRuleAssociationsListByRuleOptionalParams,
+  DataCollectionRuleAssociationsListByRuleResponse,
   DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams,
   DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
-  DataCollectionRuleAssociationsListByResourceResponse,
-  DataCollectionRuleAssociationsListByRuleResponse,
   DataCollectionRuleAssociationsListByDataCollectionEndpointResponse,
   DataCollectionRuleAssociationsGetOptionalParams,
   DataCollectionRuleAssociationsGetResponse,
@@ -66,19 +67,29 @@ export class DataCollectionRuleAssociationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourcePagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourcePagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listByResourcePagingPage(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
-    let result = await this._listByResource(resourceUri, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataCollectionRuleAssociationsListByResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResource(resourceUri, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceNext(
         resourceUri,
@@ -86,7 +97,9 @@ export class DataCollectionRuleAssociationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -127,11 +140,15 @@ export class DataCollectionRuleAssociationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRulePagingPage(
           resourceGroupName,
           dataCollectionRuleName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -140,15 +157,22 @@ export class DataCollectionRuleAssociationsImpl
   private async *listByRulePagingPage(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
-    let result = await this._listByRule(
-      resourceGroupName,
-      dataCollectionRuleName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataCollectionRuleAssociationsListByRuleResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRule(
+        resourceGroupName,
+        dataCollectionRuleName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRuleNext(
         resourceGroupName,
@@ -157,7 +181,9 @@ export class DataCollectionRuleAssociationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -201,11 +227,15 @@ export class DataCollectionRuleAssociationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDataCollectionEndpointPagingPage(
           resourceGroupName,
           dataCollectionEndpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -214,15 +244,22 @@ export class DataCollectionRuleAssociationsImpl
   private async *listByDataCollectionEndpointPagingPage(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
-    let result = await this._listByDataCollectionEndpoint(
-      resourceGroupName,
-      dataCollectionEndpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataCollectionRuleAssociationsListByDataCollectionEndpointResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDataCollectionEndpoint(
+        resourceGroupName,
+        dataCollectionEndpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDataCollectionEndpointNext(
         resourceGroupName,
@@ -231,7 +268,9 @@ export class DataCollectionRuleAssociationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -557,7 +596,6 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -578,7 +616,6 @@ const listByRuleNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -601,7 +638,6 @@ const listByDataCollectionEndpointNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

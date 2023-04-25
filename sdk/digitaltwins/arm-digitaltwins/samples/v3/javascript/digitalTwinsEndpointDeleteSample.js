@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureDigitalTwinsManagementClient } = require("@azure/arm-digitaltwins");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a DigitalTwinsInstance endpoint.
  *
  * @summary Delete a DigitalTwinsInstance endpoint.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsEndpointDelete_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsEndpointDelete_example.json
  */
 async function deleteADigitalTwinsInstanceEndpoint() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName = process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const endpointName = "myendpoint";
   const credential = new DefaultAzureCredential();
@@ -31,18 +33,17 @@ async function deleteADigitalTwinsInstanceEndpoint() {
   );
   console.log(result);
 }
-
-deleteADigitalTwinsInstanceEndpoint().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete a DigitalTwinsInstance endpoint.
  *
  * @summary Delete a DigitalTwinsInstance endpoint.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsEndpointDelete_WithIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsEndpointDelete_WithIdentity_example.json
  */
 async function deleteADigitalTwinsInstanceEndpointWithIdentity() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName = process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const endpointName = "myendpoint";
   const credential = new DefaultAzureCredential();
@@ -55,4 +56,9 @@ async function deleteADigitalTwinsInstanceEndpointWithIdentity() {
   console.log(result);
 }
 
-deleteADigitalTwinsInstanceEndpointWithIdentity().catch(console.error);
+async function main() {
+  deleteADigitalTwinsInstanceEndpoint();
+  deleteADigitalTwinsInstanceEndpointWithIdentity();
+}
+
+main().catch(console.error);

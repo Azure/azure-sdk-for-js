@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create Or Update resourcePool.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/CreateResourcePool.json
  */
 async function createResourcePool() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const resourcePoolName = "HRPool";
   const body = {
     extendedLocation: {
@@ -42,4 +44,8 @@ async function createResourcePool() {
   console.log(result);
 }
 
-createResourcePool().catch(console.error);
+async function main() {
+  createResourcePool();
+}
+
+main().catch(console.error);

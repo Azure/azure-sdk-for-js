@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReservationsSummaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,15 +15,15 @@ import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
   ReservationSummary,
-  Datagrain,
   ReservationsSummariesListByReservationOrderNextOptionalParams,
+  Datagrain,
   ReservationsSummariesListByReservationOrderOptionalParams,
+  ReservationsSummariesListByReservationOrderResponse,
   ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams,
   ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
+  ReservationsSummariesListByReservationOrderAndReservationResponse,
   ReservationsSummariesListNextOptionalParams,
   ReservationsSummariesListOptionalParams,
-  ReservationsSummariesListByReservationOrderResponse,
-  ReservationsSummariesListByReservationOrderAndReservationResponse,
   ReservationsSummariesListResponse,
   ReservationsSummariesListByReservationOrderNextResponse,
   ReservationsSummariesListByReservationOrderAndReservationNextResponse,
@@ -65,11 +66,15 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReservationOrderPagingPage(
           reservationOrderId,
           grain,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,24 +83,32 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private async *listByReservationOrderPagingPage(
     reservationOrderId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderOptionalParams
+    options?: ReservationsSummariesListByReservationOrderOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationSummary[]> {
-    let result = await this._listByReservationOrder(
-      reservationOrderId,
-      grain,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationsSummariesListByReservationOrderResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReservationOrder(
+        reservationOrderId,
+        grain,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReservationOrderNext(
         reservationOrderId,
-        grain,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -139,12 +152,16 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReservationOrderAndReservationPagingPage(
           reservationOrderId,
           reservationId,
           grain,
-          options
+          options,
+          settings
         );
       }
     };
@@ -154,26 +171,34 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     reservationId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams
+    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationSummary[]> {
-    let result = await this._listByReservationOrderAndReservation(
-      reservationOrderId,
-      reservationId,
-      grain,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationsSummariesListByReservationOrderAndReservationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReservationOrderAndReservation(
+        reservationOrderId,
+        reservationId,
+        grain,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReservationOrderAndReservationNext(
         reservationOrderId,
         reservationId,
-        grain,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -216,8 +241,11 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(scope, grain, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, grain, options, settings);
       }
     };
   }
@@ -225,15 +253,24 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private async *listPagingPage(
     scope: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListOptionalParams
+    options?: ReservationsSummariesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationSummary[]> {
-    let result = await this._list(scope, grain, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(scope, grain, continuationToken, options);
+    let result: ReservationsSummariesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, grain, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(scope, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -309,18 +346,16 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   /**
    * ListByReservationOrderNext
    * @param reservationOrderId Order Id of the reservation
-   * @param grain Can be daily or monthly
    * @param nextLink The nextLink from the previous successful call to the ListByReservationOrder method.
    * @param options The options parameters.
    */
   private _listByReservationOrderNext(
     reservationOrderId: string,
-    grain: Datagrain,
     nextLink: string,
     options?: ReservationsSummariesListByReservationOrderNextOptionalParams
   ): Promise<ReservationsSummariesListByReservationOrderNextResponse> {
     return this.client.sendOperationRequest(
-      { reservationOrderId, grain, nextLink, options },
+      { reservationOrderId, nextLink, options },
       listByReservationOrderNextOperationSpec
     );
   }
@@ -329,7 +364,6 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
    * ListByReservationOrderAndReservationNext
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
-   * @param grain Can be daily or monthly
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListByReservationOrderAndReservation method.
    * @param options The options parameters.
@@ -337,14 +371,13 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private _listByReservationOrderAndReservationNext(
     reservationOrderId: string,
     reservationId: string,
-    grain: Datagrain,
     nextLink: string,
     options?: ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams
   ): Promise<
     ReservationsSummariesListByReservationOrderAndReservationNextResponse
   > {
     return this.client.sendOperationRequest(
-      { reservationOrderId, reservationId, grain, nextLink, options },
+      { reservationOrderId, reservationId, nextLink, options },
       listByReservationOrderAndReservationNextOperationSpec
     );
   }
@@ -356,18 +389,16 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
    *              and
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for BillingProfile scope (modern).
-   * @param grain Can be daily or monthly
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     scope: string,
-    grain: Datagrain,
     nextLink: string,
     options?: ReservationsSummariesListNextOptionalParams
   ): Promise<ReservationsSummariesListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, grain, nextLink, options },
+      { scope, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -448,7 +479,6 @@ const listByReservationOrderNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion, Parameters.grain],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -468,7 +498,6 @@ const listByReservationOrderAndReservationNextOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion, Parameters.grain],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -489,15 +518,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
-    Parameters.grain,
-    Parameters.reservationId1,
-    Parameters.reservationOrderId1
-  ],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

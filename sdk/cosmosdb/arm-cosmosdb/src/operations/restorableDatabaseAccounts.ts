@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestorableDatabaseAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,8 +15,8 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableDatabaseAccountGetResult,
   RestorableDatabaseAccountsListByLocationOptionalParams,
-  RestorableDatabaseAccountsListOptionalParams,
   RestorableDatabaseAccountsListByLocationResponse,
+  RestorableDatabaseAccountsListOptionalParams,
   RestorableDatabaseAccountsListResponse,
   RestorableDatabaseAccountsGetByLocationOptionalParams,
   RestorableDatabaseAccountsGetByLocationResponse
@@ -55,17 +55,22 @@ export class RestorableDatabaseAccountsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
-    options?: RestorableDatabaseAccountsListByLocationOptionalParams
+    options?: RestorableDatabaseAccountsListByLocationOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RestorableDatabaseAccountGetResult[]> {
-    let result = await this._listByLocation(location, options);
+    let result: RestorableDatabaseAccountsListByLocationResponse;
+    result = await this._listByLocation(location, options);
     yield result.value || [];
   }
 
@@ -94,16 +99,21 @@ export class RestorableDatabaseAccountsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RestorableDatabaseAccountsListOptionalParams
+    options?: RestorableDatabaseAccountsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RestorableDatabaseAccountGetResult[]> {
-    let result = await this._list(options);
+    let result: RestorableDatabaseAccountsListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 

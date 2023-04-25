@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WorkflowRunActionRepetitionsRequestHistories } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -71,7 +72,10 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           name,
@@ -79,7 +83,8 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
           runName,
           actionName,
           repetitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -92,19 +97,26 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RequestHistory[]> {
-    let result = await this._list(
-      resourceGroupName,
-      name,
-      workflowName,
-      runName,
-      actionName,
-      repetitionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkflowRunActionRepetitionsRequestHistoriesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        name,
+        workflowName,
+        runName,
+        actionName,
+        repetitionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -117,7 +129,9 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -269,7 +283,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName,
     Parameters.repetitionName
@@ -295,7 +309,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName,
     Parameters.repetitionName,
@@ -315,14 +329,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName,
     Parameters.repetitionName

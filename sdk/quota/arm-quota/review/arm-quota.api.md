@@ -68,38 +68,31 @@ export interface ExceptionResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownLimitType {
-    // (undocumented)
     LimitValue = "LimitValue"
 }
 
 // @public
 export enum KnownQuotaLimitTypes {
-    // (undocumented)
     Independent = "Independent",
-    // (undocumented)
     Shared = "Shared"
 }
 
 // @public
 export enum KnownQuotaRequestState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownUsagesTypes {
-    // (undocumented)
     Combined = "Combined",
-    // (undocumented)
     Individual = "Individual"
 }
 
@@ -112,11 +105,11 @@ export interface LimitJsonObject {
 export type LimitJsonObjectUnion = LimitJsonObject | LimitObject;
 
 // @public
-export type LimitObject = LimitJsonObject & {
+export interface LimitObject extends LimitJsonObject {
     limitObjectType: "LimitValue";
-    value: number;
     limitType?: QuotaLimitTypes;
-};
+    value: number;
+}
 
 // @public
 export type LimitType = string;

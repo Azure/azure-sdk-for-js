@@ -375,8 +375,8 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         readOnly: true,
         type: {
           name: "String"
@@ -1813,8 +1813,8 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      dynamicVNetAssignmentScope: {
-        serializedName: "dynamicVNetAssignmentScope",
+      dynamicVnetAssignmentScope: {
+        serializedName: "dynamicVnetAssignmentScope",
         type: {
           name: "Enum",
           allowedValues: ["none", "job"]
@@ -2614,8 +2614,8 @@ export const CifsMountConfiguration: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CifsMountConfiguration",
     modelProperties: {
-      username: {
-        serializedName: "username",
+      userName: {
+        serializedName: "userName",
         required: true,
         type: {
           name: "String"
@@ -3358,6 +3358,22 @@ export const Pool: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "properties.targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
+      },
+      currentNodeCommunicationMode: {
+        serializedName: "properties.currentNodeCommunicationMode",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
       }
     }
   }
@@ -3518,6 +3534,7 @@ export const BatchAccount: coreClient.CompositeMapper = {
       allowedAuthenticationModes: {
         serializedName: "properties.allowedAuthenticationModes",
         readOnly: true,
+        nullable: true,
         type: {
           name: "Sequence",
           element: {

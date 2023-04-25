@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a virtual machine by id in a private cloud cluster
  *
  * @summary Get a virtual machine by id in a private cloud cluster
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/VirtualMachines_Get.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/VirtualMachines_Get.json
  */
 async function getVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const virtualMachineId = "vm-209";
@@ -34,4 +39,8 @@ async function getVirtualMachine() {
   console.log(result);
 }
 
-getVirtualMachine().catch(console.error);
+async function main() {
+  getVirtualMachine();
+}
+
+main().catch(console.error);

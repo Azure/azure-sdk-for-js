@@ -1,0 +1,52 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx?api-version=2017-04-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "21",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-notificationhubs/2.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a7e4a28c-aa1c-47bb-a1c3-1eb5b80e4833"
+      },
+      "RequestBody": {
+        "location": "eastus"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx/operations/Q3JlYXRlTmFtZXNwYWNlLTkyZjk1ZDhmLTNjNjctNDEyNC05MWM3LThjZjA3Y2RiZjI0MS1teW5hbWVzcGFjZXh4eDtuaHByb2RibDIwMDEtMi1mYWJyaWM=?api-version=2017-04-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "264",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 01 Dec 2022 06:24:56 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx?api-version=2017-04-01",
+        "Pragma": "no-cache",
+        "Retry-After": "10",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "TrackingId": "207fadf4-ab86-4fc5-932f-8217da811a78",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "bec3c7cc-be66-466c-8a9c-33dab61598c2",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "bec3c7cc-be66-466c-8a9c-33dab61598c2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221201T062457Z:bec3c7cc-be66-466c-8a9c-33dab61598c2"
+      },
+      "ResponseBody": {
+        "properties": {
+          "provisioningState": "Unknown",
+          "enabled": false
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx",
+        "name": "mynamespacexxx",
+        "type": "Microsoft.NotificationHubs/namespaces"
+      }
+    }
+  ],
+  "Variables": {}
+}

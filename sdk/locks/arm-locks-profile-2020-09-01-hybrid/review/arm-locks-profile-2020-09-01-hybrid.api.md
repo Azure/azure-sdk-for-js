@@ -28,12 +28,12 @@ export interface AuthorizationOperationsListOptionalParams extends coreClient.Op
 export type AuthorizationOperationsListResponse = OperationListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownLockLevel {
-    // (undocumented)
     CanNotDelete = "CanNotDelete",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     ReadOnly = "ReadOnly"
 }
 
@@ -177,7 +177,6 @@ export type ManagementLocksGetByScopeResponse = ManagementLockObject;
 
 // @public
 export interface ManagementLocksListAtResourceGroupLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -193,7 +192,6 @@ export type ManagementLocksListAtResourceGroupLevelResponse = ManagementLockList
 
 // @public
 export interface ManagementLocksListAtResourceLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -209,7 +207,6 @@ export type ManagementLocksListAtResourceLevelResponse = ManagementLockListResul
 
 // @public
 export interface ManagementLocksListAtSubscriptionLevelNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -225,7 +222,6 @@ export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListR
 
 // @public
 export interface ManagementLocksListByScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

@@ -6,7 +6,7 @@
  * excess messages are sent to a dead letter queue. The sample then goes through the dead letter
  * queue and processes the extra messages.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates exceeding the max delivery count, then processing the messages sent to the
  * dead letter queue

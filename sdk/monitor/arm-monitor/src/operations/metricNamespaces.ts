@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MetricNamespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -48,17 +48,22 @@ export class MetricNamespacesImpl implements MetricNamespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
-    options?: MetricNamespacesListOptionalParams
+    options?: MetricNamespacesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricNamespace[]> {
-    let result = await this._list(resourceUri, options);
+    let result: MetricNamespacesListResponse;
+    result = await this._list(resourceUri, options);
     yield result.value || [];
   }
 

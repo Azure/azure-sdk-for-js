@@ -1,6 +1,6 @@
-import { AccessControlRestClient } from "../../src/accessControl";
+import { AccessControlRestClient, isUnexpected } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
-import { RoleAssignmentDetails } from "../../src";
+import { RoleAssignmentDetailsOutput } from "../../src";
 import { assert } from "chai";
 import { createClient } from "./utils/recordedClient";
 import { isNode } from "@azure/core-util";
@@ -32,7 +32,7 @@ describe("Access Control smoke", () => {
   it("should list roles", async () => {
     const result = await client.path("/roleDefinitions").get();
 
-    if (result.status !== "200") {
+    if (isUnexpected(result)) {
       assert.fail(`Unexpected status ${result.status}`);
     }
 
@@ -42,7 +42,7 @@ describe("Access Control smoke", () => {
   it("should list RBAC scopes", async () => {
     const result = await client.path("/rbacScopes").get();
 
-    if (result.status !== "200") {
+    if (isUnexpected(result)) {
       assert.fail(`Unexpected status ${result.status}`);
     }
 
@@ -55,7 +55,7 @@ describe("Access Control smoke", () => {
         .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
         .put({ body: { principalId, roleId, scope } });
 
-      if (result.status !== "200") {
+      if (isUnexpected(result)) {
         assert.fail(`Unexpected status ${result.status}\n ${JSON.stringify(result.body)}`);
       }
 
@@ -67,7 +67,7 @@ describe("Access Control smoke", () => {
         .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
         .get();
 
-      if (result.status !== "200") {
+      if (isUnexpected(result)) {
         assert.fail(`Unexpected status ${result.status}`);
       }
 
@@ -77,13 +77,13 @@ describe("Access Control smoke", () => {
     it("should list Role Assignments", async () => {
       const initialResponse = await client.path("/roleAssignments").get();
 
-      if (initialResponse.status !== "200") {
+      if (isUnexpected(initialResponse)) {
         assert.fail(`Unexpected status ${initialResponse.status}`);
       }
 
       const assignments = paginate(client, initialResponse);
 
-      let testAssignment: RoleAssignmentDetails | undefined;
+      let testAssignment: RoleAssignmentDetailsOutput | undefined;
 
       for await (const assignment of assignments) {
         if (assignment.id === roleAssignmentId) {

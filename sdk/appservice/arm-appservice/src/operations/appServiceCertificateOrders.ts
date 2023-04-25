@@ -6,26 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AppServiceCertificateOrders } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebSiteManagementClient } from "../webSiteManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AppServiceCertificateOrder,
   AppServiceCertificateOrdersListNextOptionalParams,
   AppServiceCertificateOrdersListOptionalParams,
+  AppServiceCertificateOrdersListResponse,
   AppServiceCertificateOrdersListByResourceGroupNextOptionalParams,
   AppServiceCertificateOrdersListByResourceGroupOptionalParams,
+  AppServiceCertificateOrdersListByResourceGroupResponse,
   AppServiceCertificateResource,
   AppServiceCertificateOrdersListCertificatesNextOptionalParams,
   AppServiceCertificateOrdersListCertificatesOptionalParams,
-  AppServiceCertificateOrdersListResponse,
+  AppServiceCertificateOrdersListCertificatesResponse,
   AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
-  AppServiceCertificateOrdersListByResourceGroupResponse,
   AppServiceCertificateOrdersGetOptionalParams,
   AppServiceCertificateOrdersGetResponse,
   AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
@@ -34,7 +40,6 @@ import {
   AppServiceCertificateOrderPatchResource,
   AppServiceCertificateOrdersUpdateOptionalParams,
   AppServiceCertificateOrdersUpdateResponse,
-  AppServiceCertificateOrdersListCertificatesResponse,
   AppServiceCertificateOrdersGetCertificateOptionalParams,
   AppServiceCertificateOrdersGetCertificateResponse,
   AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
@@ -92,22 +97,34 @@ export class AppServiceCertificateOrdersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AppServiceCertificateOrdersListOptionalParams
+    options?: AppServiceCertificateOrdersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceCertificateOrder[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceCertificateOrdersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -136,19 +153,33 @@ export class AppServiceCertificateOrdersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams
+    options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceCertificateOrder[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceCertificateOrdersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -156,7 +187,9 @@ export class AppServiceCertificateOrdersImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -195,11 +228,15 @@ export class AppServiceCertificateOrdersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCertificatesPagingPage(
           resourceGroupName,
           certificateOrderName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -208,15 +245,22 @@ export class AppServiceCertificateOrdersImpl
   private async *listCertificatesPagingPage(
     resourceGroupName: string,
     certificateOrderName: string,
-    options?: AppServiceCertificateOrdersListCertificatesOptionalParams
+    options?: AppServiceCertificateOrdersListCertificatesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceCertificateResource[]> {
-    let result = await this._listCertificates(
-      resourceGroupName,
-      certificateOrderName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceCertificateOrdersListCertificatesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCertificates(
+        resourceGroupName,
+        certificateOrderName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCertificatesNext(
         resourceGroupName,
@@ -225,7 +269,9 @@ export class AppServiceCertificateOrdersImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -313,8 +359,8 @@ export class AppServiceCertificateOrdersImpl
     certificateDistinguishedName: AppServiceCertificateOrder,
     options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>,
       AppServiceCertificateOrdersCreateOrUpdateResponse
     >
   > {
@@ -324,7 +370,7 @@ export class AppServiceCertificateOrdersImpl
     ): Promise<AppServiceCertificateOrdersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -357,18 +403,21 @@ export class AppServiceCertificateOrdersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         certificateOrderName,
         certificateDistinguishedName,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceCertificateOrdersCreateOrUpdateResponse,
+      OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -489,8 +538,8 @@ export class AppServiceCertificateOrdersImpl
     keyVaultCertificate: AppServiceCertificateResource,
     options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
       >,
       AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
@@ -502,7 +551,7 @@ export class AppServiceCertificateOrdersImpl
     ): Promise<AppServiceCertificateOrdersCreateOrUpdateCertificateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -535,19 +584,24 @@ export class AppServiceCertificateOrdersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         certificateOrderName,
         name,
         keyVaultCertificate,
         options
       },
-      createOrUpdateCertificateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateCertificateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceCertificateOrdersCreateOrUpdateCertificateResponse,
+      OperationState<
+        AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1322,7 +1376,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1342,7 +1395,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1363,7 +1415,6 @@ const listCertificatesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

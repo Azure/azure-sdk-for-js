@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get information about a configuration profile assignment
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfileHCRPAssignment.json
  */
 async function getAHcrpConfigurationProfileAssignment() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroupName";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const machineName = "myMachineName";
   const configurationProfileAssignmentName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getAHcrpConfigurationProfileAssignment() {
   console.log(result);
 }
 
-getAHcrpConfigurationProfileAssignment().catch(console.error);
+async function main() {
+  getAHcrpConfigurationProfileAssignment();
+}
+
+main().catch(console.error);

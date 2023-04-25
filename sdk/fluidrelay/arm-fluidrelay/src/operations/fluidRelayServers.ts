@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FluidRelayServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,8 +17,10 @@ import {
   FluidRelayServer,
   FluidRelayServersListBySubscriptionNextOptionalParams,
   FluidRelayServersListBySubscriptionOptionalParams,
+  FluidRelayServersListBySubscriptionResponse,
   FluidRelayServersListByResourceGroupNextOptionalParams,
   FluidRelayServersListByResourceGroupOptionalParams,
+  FluidRelayServersListByResourceGroupResponse,
   FluidRelayServersGetOptionalParams,
   FluidRelayServersGetResponse,
   FluidRelayServersCreateOrUpdateOptionalParams,
@@ -31,8 +34,6 @@ import {
   FluidRelayServersRegenerateKeyResponse,
   FluidRelayServersListKeysOptionalParams,
   FluidRelayServersListKeysResponse,
-  FluidRelayServersListBySubscriptionResponse,
-  FluidRelayServersListByResourceGroupResponse,
   FluidRelayServersListBySubscriptionNextResponse,
   FluidRelayServersListByResourceGroupNextResponse
 } from "../models";
@@ -65,22 +66,34 @@ export class FluidRelayServersImpl implements FluidRelayServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: FluidRelayServersListBySubscriptionOptionalParams
+    options?: FluidRelayServersListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FluidRelayServer[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FluidRelayServersListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -109,19 +122,33 @@ export class FluidRelayServersImpl implements FluidRelayServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroup, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroup,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroup: string,
-    options?: FluidRelayServersListByResourceGroupOptionalParams
+    options?: FluidRelayServersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FluidRelayServer[]> {
-    let result = await this._listByResourceGroup(resourceGroup, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FluidRelayServersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroup, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroup,
@@ -129,7 +156,9 @@ export class FluidRelayServersImpl implements FluidRelayServers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -502,7 +531,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -522,7 +550,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

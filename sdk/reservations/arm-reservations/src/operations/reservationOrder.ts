@@ -6,22 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReservationOrder } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReservationOrderResponse,
   ReservationOrderListNextOptionalParams,
   ReservationOrderListOptionalParams,
+  ReservationOrderListResponse,
   PurchaseRequest,
   ReservationOrderCalculateOptionalParams,
   ReservationOrderCalculateResponse,
-  ReservationOrderListResponse,
   ReservationOrderPurchaseOptionalParams,
   ReservationOrderPurchaseResponse,
   ReservationOrderGetOptionalParams,
@@ -60,22 +65,34 @@ export class ReservationOrderImpl implements ReservationOrder {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReservationOrderListOptionalParams
+    options?: ReservationOrderListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationOrderResponse[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationOrderListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,8 +140,8 @@ export class ReservationOrderImpl implements ReservationOrder {
     body: PurchaseRequest,
     options?: ReservationOrderPurchaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderPurchaseResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderPurchaseResponse>,
       ReservationOrderPurchaseResponse
     >
   > {
@@ -134,7 +151,7 @@ export class ReservationOrderImpl implements ReservationOrder {
     ): Promise<ReservationOrderPurchaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -167,15 +184,18 @@ export class ReservationOrderImpl implements ReservationOrder {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      purchaseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: purchaseOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationOrderPurchaseResponse,
+      OperationState<ReservationOrderPurchaseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -319,7 +339,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
   serializer
@@ -354,7 +374,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

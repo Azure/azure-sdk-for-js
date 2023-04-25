@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 import {
-  AbortSignalLike,
-  BaseRequestPolicy,
-  HttpOperationResponse,
   RequestPolicy,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
-  RequestPolicyOptions,
-  RestError,
-  WebResource,
-} from "@azure/core-http";
+  WebResourceLike as WebResource,
+  CompatResponse as HttpOperationResponse,
+} from "@azure/core-http-compat";
+import { BaseRequestPolicy } from "./RequestPolicy";
+import { RestError } from "@azure/core-rest-pipeline";
 
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";

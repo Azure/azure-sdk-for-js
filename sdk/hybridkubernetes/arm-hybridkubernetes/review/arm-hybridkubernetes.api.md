@@ -14,22 +14,22 @@ import { PollOperationState } from '@azure/core-lro';
 export type AuthenticationMethod = string;
 
 // @public
-export type ConnectedCluster = TrackedResource & {
-    identity: ConnectedClusterIdentity;
-    readonly systemData?: SystemData;
+export interface ConnectedCluster extends TrackedResource {
     agentPublicKeyCertificate: string;
-    readonly kubernetesVersion?: string;
-    readonly totalNodeCount?: number;
-    readonly totalCoreCount?: number;
     readonly agentVersion?: string;
-    provisioningState?: ProvisioningState;
-    distribution?: string;
-    infrastructure?: string;
-    readonly offering?: string;
-    readonly managedIdentityCertificateExpirationTime?: Date;
-    readonly lastConnectivityTime?: Date;
     readonly connectivityStatus?: ConnectivityStatus;
-};
+    distribution?: string;
+    identity: ConnectedClusterIdentity;
+    infrastructure?: string;
+    readonly kubernetesVersion?: string;
+    readonly lastConnectivityTime?: Date;
+    readonly managedIdentityCertificateExpirationTime?: Date;
+    readonly offering?: string;
+    provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+    readonly totalCoreCount?: number;
+    readonly totalNodeCount?: number;
+}
 
 // @public
 export interface ConnectedClusterCreateOptionalParams extends coreClient.OperationOptions {
@@ -190,6 +190,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HybridConnectionConfig {
     readonly expirationTime?: number;
     readonly hybridConnectionName?: string;
@@ -199,63 +202,42 @@ export interface HybridConnectionConfig {
 
 // @public
 export enum KnownAuthenticationMethod {
-    // (undocumented)
     AAD = "AAD",
-    // (undocumented)
     Token = "Token"
 }
 
 // @public
 export enum KnownConnectivityStatus {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Connecting = "Connecting",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Offline = "Offline"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLastModifiedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -331,12 +313,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

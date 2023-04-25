@@ -9,16 +9,16 @@ import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { isNode } from "@azure/test-utils";
 
-describe("Utility Helpers", () => {
-  describe("extractConnectionStringParts", () => {
-    describe("Account Connection String", () => {
+describe("Utility Helpers", function () {
+  describe("extractConnectionStringParts", function () {
+    describe("Account Connection String", function () {
       beforeEach(function (this: Context) {
         if (!isNode) {
           // Account connection string is not supported for Browsers
           this.skip();
         }
       });
-      it("should handle connection string without TableEndpoint", () => {
+      it("should handle connection string without TableEndpoint", function () {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net";
         const result = extractConnectionStringParts(validConnectionString);
@@ -30,7 +30,7 @@ describe("Utility Helpers", () => {
         });
       });
 
-      it("should handle case-insensitive string without TableEndpoint", () => {
+      it("should handle case-insensitive string without TableEndpoint", function () {
         const validConnectionString =
           "deFaultEndpointsPROTOcol=https;accoUNTNAme=testaccount;ACCOUNTkey=REDACTED;endPOintSuffiX=core.windows.net";
         const result = extractConnectionStringParts(validConnectionString);
@@ -42,7 +42,7 @@ describe("Utility Helpers", () => {
         });
       });
 
-      it("should handle connection string with TableEndpoint", () => {
+      it("should handle connection string with TableEndpoint", function () {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net;TableEndpoint=https://myAccount.table.core.windows.net/";
         const result = extractConnectionStringParts(validConnectionString);
@@ -54,14 +54,14 @@ describe("Utility Helpers", () => {
         });
       });
 
-      it("should throw when AccountName is missing", () => {
+      it("should throw when AccountName is missing", function () {
         const badString =
           "DefaultEndpointsProtocol=https;AccountKey=REDACTED;EndpointSuffix=core.windows.net";
 
         assert.throws(() => extractConnectionStringParts(badString), /Invalid AccountName/);
       });
 
-      it("should throw when AccountKey is missing", () => {
+      it("should throw when AccountKey is missing", function () {
         const badString =
           "DefaultEndpointsProtocol=https;AccountKey=;AccountName=testaccount;EndpointSuffix=core.windows.net";
 
@@ -69,7 +69,7 @@ describe("Utility Helpers", () => {
       });
     });
 
-    describe("SAS Connection String", () => {
+    describe("SAS Connection String", function () {
       const expectedConenctionStringParts: ConnectionString = {
         accountName: "teststorageaccount",
         accountSas: "REDACTED",
@@ -77,7 +77,7 @@ describe("Utility Helpers", () => {
         url: "https://teststorageaccount.table.core.windows.net",
       };
 
-      it("should handle format 'protocol://accountName.table.endpointSuffix'", () => {
+      it("should handle format 'protocol://accountName.table.endpointSuffix'", function () {
         const validSAS =
           "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://teststorageaccount.table.core.windows.net/;SharedAccessSignature=sv=2020-02-10&ss=bfqt";
         const connectionStringParts = extractConnectionStringParts(validSAS);
@@ -87,7 +87,7 @@ describe("Utility Helpers", () => {
         });
       });
 
-      it("should handle IPv4/6 format ", () => {
+      it("should handle IPv4/6 format ", function () {
         const validIPSAS =
           "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://127.0.0.1/teststorageaccount/;SharedAccessSignature=REDACTED";
         const connectionStringParts = extractConnectionStringParts(validIPSAS);
@@ -97,13 +97,13 @@ describe("Utility Helpers", () => {
         });
       });
 
-      it("should throw error for invalid TableEndpoint", () => {
+      it("should throw error for invalid TableEndpoint", function () {
         const invalidSAS =
           "BlobEndpoint=BlobEndpoint=https://testaccount.blob.core.windows.net/;QueueEndpoint=https://testaccount.queue.core.windows.net/;SharedAccessSignature=REDACTED";
         assert.throws(() => extractConnectionStringParts(invalidSAS), /Invalid TableEndpoint/);
       });
 
-      it("should throw error for invalid SharedAccessSignature", () => {
+      it("should throw error for invalid SharedAccessSignature", function () {
         const invalidSAS =
           "BlobEndpoint=BlobEndpoint=https://testaccount.blob.core.windows.net/;QueueEndpoint=https://testaccount.queue.core.windows.net/;FileEndpoint=https://testaccount.file.core.windows.net/;TableEndpoint=https://testaccount.table.core.windows.net/";
         assert.throws(
@@ -112,21 +112,21 @@ describe("Utility Helpers", () => {
         );
       });
 
-      it("should throw error for invalid AccountName", () => {
+      it("should throw error for invalid AccountName", function () {
         const invalidSAS =
           "BlobEndpoint=BlobEndpoint=https://testaccount.blob.core.windows.net/;QueueEndpoint=https://testaccount.queue.core.windows.net/;FileEndpoint=https://testaccount.file.core.windows.net/;TableEndpoint=https://testaccount.buggyUrl.core.windows.net/;SharedAccessSignature=REDACTED";
         assert.throws(() => extractConnectionStringParts(invalidSAS), /Invalid AccountName/);
       });
     });
   });
-  describe("bufferSerializer", () => {
-    it("should correctly serialize a Uint8Array object to a base64 string", () => {
+  describe("bufferSerializer", function () {
+    it("should correctly serialize a Uint8Array object to a base64 string", function () {
       const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
       const base64Encoded = "VGVzdDEyMw==";
       assert.strictEqual(base64Encode(binValue), base64Encoded);
     });
 
-    it("should correctly deserialize a base64 string to a Uint8Array object", () => {
+    it("should correctly deserialize a base64 string to a Uint8Array object", function () {
       const base64Str = "VGVzdDEyMw==";
       const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
       assert.deepEqual(base64Decode(base64Str), binValue);

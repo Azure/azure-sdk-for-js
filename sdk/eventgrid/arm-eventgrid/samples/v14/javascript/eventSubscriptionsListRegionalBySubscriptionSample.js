@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all event subscriptions from the given location under a specific Azure subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_ListRegionalBySubscription.json
  */
 async function eventSubscriptionsListRegionalBySubscription() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const location = "westus2";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -29,4 +31,8 @@ async function eventSubscriptionsListRegionalBySubscription() {
   console.log(resArray);
 }
 
-eventSubscriptionsListRegionalBySubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsListRegionalBySubscription();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkInterface,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
@@ -145,7 +145,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network interface.
    * @param resourceGroupName The name of the resource group.
@@ -181,8 +181,8 @@ export interface NetworkInterfaces {
     parameters: NetworkInterface,
     options?: NetworkInterfacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkInterfacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkInterfacesCreateOrUpdateResponse>,
       NetworkInterfacesCreateOrUpdateResponse
     >
   >;
@@ -223,8 +223,8 @@ export interface NetworkInterfaces {
     networkInterfaceName: string,
     options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkInterfacesGetEffectiveRouteTableResponse>,
+    SimplePollerLike<
+      OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>,
       NetworkInterfacesGetEffectiveRouteTableResponse
     >
   >;
@@ -250,8 +250,8 @@ export interface NetworkInterfaces {
     networkInterfaceName: string,
     options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
       >,
       NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse

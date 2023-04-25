@@ -61,6 +61,9 @@ export interface DnsManagementClientOptionalParams extends coreClient.ServiceCli
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HttpStatusCode = "Continue" | "SwitchingProtocols" | "OK" | "Created" | "Accepted" | "NonAuthoritativeInformation" | "NoContent" | "ResetContent" | "PartialContent" | "MultipleChoices" | "Ambiguous" | "MovedPermanently" | "Moved" | "Found" | "Redirect" | "SeeOther" | "RedirectMethod" | "NotModified" | "UseProxy" | "Unused" | "TemporaryRedirect" | "RedirectKeepVerb" | "BadRequest" | "Unauthorized" | "PaymentRequired" | "Forbidden" | "NotFound" | "MethodNotAllowed" | "NotAcceptable" | "ProxyAuthenticationRequired" | "RequestTimeout" | "Conflict" | "Gone" | "LengthRequired" | "PreconditionFailed" | "RequestEntityTooLarge" | "RequestUriTooLong" | "UnsupportedMediaType" | "RequestedRangeNotSatisfiable" | "ExpectationFailed" | "UpgradeRequired" | "InternalServerError" | "NotImplemented" | "BadGateway" | "ServiceUnavailable" | "GatewayTimeout" | "HttpVersionNotSupported";
 
 // @public
@@ -143,8 +146,6 @@ export type RecordSetsGetResponse = RecordSet;
 
 // @public
 export interface RecordSetsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -161,8 +162,6 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
 
 // @public
 export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -225,12 +224,12 @@ export interface SubResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TxtRecord {
@@ -238,14 +237,14 @@ export interface TxtRecord {
 }
 
 // @public
-export type Zone = TrackedResource & {
+export interface Zone extends TrackedResource {
     etag?: string;
     maxNumberOfRecordSets?: number;
     readonly maxNumberOfRecordsPerRecordSet?: number;
-    numberOfRecordSets?: number;
     readonly nameServers?: string[];
+    numberOfRecordSets?: number;
     zoneType?: ZoneType;
-};
+}
 
 // @public
 export interface ZoneDeleteResult {
@@ -302,7 +301,6 @@ export type ZonesGetResponse = Zone;
 
 // @public
 export interface ZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -318,7 +316,6 @@ export type ZonesListByResourceGroupResponse = ZoneListResult;
 
 // @public
 export interface ZonesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { EventHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,10 +17,11 @@ import {
   AuthorizationRule,
   EventHubsListAuthorizationRulesNextOptionalParams,
   EventHubsListAuthorizationRulesOptionalParams,
+  EventHubsListAuthorizationRulesResponse,
   Eventhub,
   EventHubsListByNamespaceNextOptionalParams,
   EventHubsListByNamespaceOptionalParams,
-  EventHubsListAuthorizationRulesResponse,
+  EventHubsListByNamespaceResponse,
   EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   EventHubsCreateOrUpdateAuthorizationRuleResponse,
   EventHubsGetAuthorizationRuleOptionalParams,
@@ -30,7 +32,6 @@ import {
   RegenerateAccessKeyParameters,
   EventHubsRegenerateKeysOptionalParams,
   EventHubsRegenerateKeysResponse,
-  EventHubsListByNamespaceResponse,
   EventHubsCreateOrUpdateOptionalParams,
   EventHubsCreateOrUpdateResponse,
   EventHubsDeleteOptionalParams,
@@ -79,12 +80,16 @@ export class EventHubsImpl implements EventHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           eventHubName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -94,16 +99,23 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsListAuthorizationRulesOptionalParams
+    options?: EventHubsListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      eventHubName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventHubsListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        eventHubName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -113,7 +125,9 @@ export class EventHubsImpl implements EventHubs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,11 +170,15 @@ export class EventHubsImpl implements EventHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNamespacePagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,15 +187,22 @@ export class EventHubsImpl implements EventHubs {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
+    options?: EventHubsListByNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Eventhub[]> {
-    let result = await this._listByNamespace(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventHubsListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByNamespaceNext(
         resourceGroupName,
@@ -186,7 +211,9 @@ export class EventHubsImpl implements EventHubs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -734,7 +761,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -757,7 +783,6 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsListByResourceGroup.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsListByResourceGroup.json
  */
 async function containerGroupsListByResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demo";
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const credential = new DefaultAzureCredential();
   const client = new ContainerInstanceManagementClient(
     credential,
@@ -34,4 +39,8 @@ async function containerGroupsListByResourceGroup() {
   console.log(resArray);
 }
 
-containerGroupsListByResourceGroup().catch(console.error);
+async function main() {
+  containerGroupsListByResourceGroup();
+}
+
+main().catch(console.error);

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Functions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   FunctionModel,
   FunctionsListByStreamingJobNextOptionalParams,
   FunctionsListByStreamingJobOptionalParams,
+  FunctionsListByStreamingJobResponse,
   FunctionsCreateOrReplaceOptionalParams,
   FunctionsCreateOrReplaceResponse,
   FunctionsUpdateOptionalParams,
@@ -25,7 +27,6 @@ import {
   FunctionsDeleteOptionalParams,
   FunctionsGetOptionalParams,
   FunctionsGetResponse,
-  FunctionsListByStreamingJobResponse,
   FunctionsTestOptionalParams,
   FunctionsTestResponse,
   FunctionsRetrieveDefaultDefinitionOptionalParams,
@@ -69,11 +70,15 @@ export class FunctionsImpl implements Functions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByStreamingJobPagingPage(
           resourceGroupName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,15 +87,22 @@ export class FunctionsImpl implements Functions {
   private async *listByStreamingJobPagingPage(
     resourceGroupName: string,
     jobName: string,
-    options?: FunctionsListByStreamingJobOptionalParams
+    options?: FunctionsListByStreamingJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FunctionModel[]> {
-    let result = await this._listByStreamingJob(
-      resourceGroupName,
-      jobName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FunctionsListByStreamingJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByStreamingJob(
+        resourceGroupName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByStreamingJobNext(
         resourceGroupName,
@@ -99,7 +111,9 @@ export class FunctionsImpl implements Functions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -557,7 +571,6 @@ const listByStreamingJobNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

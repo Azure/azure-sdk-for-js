@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List the object replication policies associated with the storage account.
  *
  * @summary List the object replication policies associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountListObjectReplicationPolicies.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountListObjectReplicationPolicies.json
  */
 async function storageAccountListObjectReplicationPolicies() {
   const subscriptionId = "{subscription-id}";

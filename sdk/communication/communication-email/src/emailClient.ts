@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EmailClientOptions, EmailMessage, SendEmailResult, SendStatusResult } from "./models";
+import { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
@@ -9,9 +11,8 @@ import {
 } from "@azure/communication-common";
 import { EmailRestApiClient } from "./generated/src/emailRestApiClient";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { KeyCredential } from "@azure/core-auth";
 import { logger } from "./logger";
-import { v4 as uuid } from "uuid";
+import { EmailSendResponse } from "./generated/src";
 
 /**
  * Checks whether the type of a value is EmailClientOptions or not.
@@ -19,7 +20,7 @@ import { v4 as uuid } from "uuid";
  * @param options - The value being checked.
  */
 const isEmailClientOptions = (options: any): options is EmailClientOptions =>
-  !!options && !isKeyCredential(options);
+  !!options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
  *  The Email service client.
@@ -41,11 +42,15 @@ export class EmailClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
+  constructor(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: EmailClientOptions
+  );
 
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: EmailClientOptions | KeyCredential,
+    credentialOrOptions?: EmailClientOptions | TokenCredential | KeyCredential,
     maybeOptions: EmailClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -67,30 +72,13 @@ export class EmailClient {
 
   /**
    * Queues an email message to be sent to one or more recipients
-   * @param emailMessage - Message payload for sending an email
+   * @param message - Message payload for sending an email
+   * @param options - The options parameters.
    */
-  public async send(emailMessage: EmailMessage): Promise<SendEmailResult> {
-    const response = await this.generatedClient.email.send(
-      uuid(),
-      new Date().toUTCString(),
-      emailMessage
-    );
-
-    return {
-      messageId: response.xMsRequestId ?? "",
-    };
-  }
-
-  /**
-   * Gets the status of a message sent previously.
-   * @param messageId - System generated message id (GUID) returned from a previous call to send email
-   */
-  public async getSendStatus(messageId: string): Promise<SendStatusResult> {
-    const response = await this.generatedClient.email.getSendStatus(messageId);
-
-    return {
-      messageId: response.messageId,
-      status: response.status,
-    };
+  beginSend(
+    message: EmailMessage,
+    options?: EmailSendOptionalParams
+  ): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>> {
+    return this.generatedClient.email.beginSend(message, options);
   }
 }

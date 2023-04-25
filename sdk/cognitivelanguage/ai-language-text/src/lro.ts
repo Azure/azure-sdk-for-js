@@ -47,19 +47,36 @@ const jobStatusOperationSpec: OperationSpec = {
   serializer,
 };
 
+function addOnResponse<TOptions extends OperationOptions>(
+  options: TOptions,
+  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void
+): TOptions {
+  return {
+    ...options,
+    onResponse: (rawResponse, response, error) => {
+      cb(rawResponse, response, error);
+      options.onResponse?.(rawResponse, response, error);
+    },
+  };
+}
+
+function logWarnHeader(rawResponse: FullOperationResponse) {
+  const warnHeader = rawResponse.headers.get("warn-text");
+  if (warnHeader) {
+    warnHeader.split(";").map((x) => logger.warning(x));
+  }
+}
+
 async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   getResponse: (options: TOptions) => Promise<TResponse>,
   options: TOptions
 ): Promise<LroResponse<TResponse>> {
-  const { onResponse } = options || {};
   let rawResponse: FullOperationResponse;
-  const flatResponse = await getResponse({
-    ...options,
-    onResponse: (response, flatResponseParam) => {
+  const flatResponse = await getResponse(
+    addOnResponse(options, (response) => {
       rawResponse = response;
-      onResponse?.(response, flatResponseParam);
-    },
-  });
+    })
+  );
   return {
     flatResponse,
     rawResponse: {
@@ -112,7 +129,12 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
     return throwError(
       sendRequest({
         client,
-        opOptions: options,
+        opOptions: addOnResponse(options, (_, response) => {
+          const castResponse = response as AnalyzeTextJobStatusResponse;
+          if (castResponse.status.toLowerCase() === "partiallysucceeded") {
+            castResponse.status = "succeeded";
+          }
+        }),
         path,
         spanStr,
         spec: jobStatusOperationSpec,
@@ -151,10 +173,13 @@ export function createAnalyzeBatchLro(settings: {
     async sendInitialRequest(): Promise<LroResponse<unknown>> {
       return tracing.withSpan(
         `${clientName}.beginAnalyzeBatch`,
-        {
-          ...commonOptions,
-          ...initialRequestOptions,
-        },
+        addOnResponse(
+          {
+            ...commonOptions,
+            ...initialRequestOptions,
+          },
+          logWarnHeader
+        ),
         async (finalOptions) =>
           throwError(
             getRawResponse(
@@ -248,7 +273,7 @@ export function processAnalyzeResult(options: {
         });
         const flatResponse = response.flatResponse as AnalyzeTextJobStatusResponse;
         return {
-          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items),
+          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items, flatResponse.errors),
           nextPageLink: flatResponse.nextLink,
         };
       },
@@ -266,13 +291,14 @@ type Writable<T> = {
  */
 export function createUpdateAnalyzeState(docIds?: string[]) {
   return (state: AnalyzeBatchOperationState, lastResponse: LroResponse): void => {
-    const { createdOn, modifiedOn, id, displayName, expiresOn, tasks } =
-      lastResponse.flatResponse as AnalyzeTextJobStatusResponse;
+    const { createdOn, modifiedOn, id, displayName, expiresOn, tasks, lastUpdateDateTime } =
+      lastResponse.flatResponse as AnalyzeTextJobStatusResponse & { lastUpdateDateTime: string };
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
       docIds?: string[];
     };
     mutableState.createdOn = createdOn;
-    mutableState.modifiedOn = modifiedOn;
+    // FIXME: remove this mitigation when the service API is fixed
+    mutableState.modifiedOn = modifiedOn ? modifiedOn : new Date(lastUpdateDateTime);
     mutableState.expiresOn = expiresOn;
     mutableState.displayName = displayName;
     mutableState.id = id;

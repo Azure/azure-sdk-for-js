@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   DedicatedSQLminimalTlsSettings,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse,
   DedicatedSQLMinimalTlsSettingsName,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse,
-  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse
 } from "../models";
 
@@ -60,8 +61,16 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          workspaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DedicatedSQLminimalTlsSettings[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, workspaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -366,7 +384,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

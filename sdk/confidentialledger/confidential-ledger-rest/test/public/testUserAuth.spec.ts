@@ -9,7 +9,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { DefaultAzureCredential } from "@azure/identity";
 
-describe("Test user authentications", () => {
+describe("Test user authentications", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {

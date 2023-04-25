@@ -1,5 +1,5 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseName": {
@@ -18,7 +18,7 @@
     }
   },
   "variables": {
-    "apiVersion": "2017-04-01",
+    "apiVersion": "2022-10-01-preview",
     "storageApiVersion": "2019-04-01",
     "iotApiVersion": "2018-04-01",
     "namespaceName": "[parameters('baseName')]",
@@ -66,18 +66,6 @@
       "properties": {
         "messageRetentionInDays": 1,
         "partitionCount": 4
-      }
-    },
-    {
-      "type": "Microsoft.EventHub/namespaces/networkRuleSets",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('namespaceName'), '/default')]",
-      "location": "[variables('location')]",
-      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
-      "properties": {
-        "defaultAction": "Deny",
-        "virtualNetworkRules": [],
-        "ipRules": []
       }
     },
     {

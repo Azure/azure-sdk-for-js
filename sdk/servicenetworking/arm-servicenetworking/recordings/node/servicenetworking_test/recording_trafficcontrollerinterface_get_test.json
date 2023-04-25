@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceNetworking/trafficControllers/TC1?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1434b6e4-2f91-4219-b97a-42b58c3fbc4f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 02:08:41 GMT",
+        "ETag": "\u0022e2359b27-9de7-4b53-b389-d5fcad4b149f\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2e44430f-a009-492a-94a3-42e4ee13b7c8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "2e44430f-a009-492a-94a3-42e4ee13b7c8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T020842Z:2e44430f-a009-492a-94a3-42e4ee13b7c8"
+      },
+      "ResponseBody": {
+        "properties": {
+          "configurationEndpoints": [
+            "ab5773a4aedc431b910bdbd739cd9122.trafficcontroller.azure.com"
+          ],
+          "frontends": [],
+          "associations": [],
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceNetworking/trafficControllers/TC1",
+        "name": "TC1",
+        "type": "Microsoft.ServiceNetworking/TrafficControllers",
+        "etag": "e2359b27-9de7-4b53-b389-d5fcad4b149f",
+        "location": "northcentralus",
+        "tags": {
+          "key1": "value1"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

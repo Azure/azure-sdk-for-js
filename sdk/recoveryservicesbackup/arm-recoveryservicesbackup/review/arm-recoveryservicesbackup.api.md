@@ -6,55 +6,55 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AcquireStorageAccountLock = string;
 
 // @public
-export type AzureBackupGoalFeatureSupportRequest = FeatureSupportRequest & {
+export interface AzureBackupGoalFeatureSupportRequest extends FeatureSupportRequest {
     featureType: "AzureBackupGoals";
-};
+}
 
 // @public
-export type AzureBackupServerContainer = DpmContainer & {
+export interface AzureBackupServerContainer extends DpmContainer {
     containerType: "AzureBackupServerContainer";
-};
+}
 
 // @public
-export type AzureBackupServerEngine = BackupEngineBase & {
+export interface AzureBackupServerEngine extends BackupEngineBase {
     backupEngineType: "AzureBackupServerEngine";
-};
+}
 
 // @public
-export type AzureFileShareBackupRequest = BackupRequest & {
+export interface AzureFileShareBackupRequest extends BackupRequest {
     objectType: "AzureFileShareBackupRequest";
     recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 // @public
-export type AzureFileShareProtectableItem = WorkloadProtectableItem & {
-    protectableItemType: "AzureFileShare";
+export interface AzureFileShareProtectableItem extends WorkloadProtectableItem {
+    azureFileShareType?: AzureFileShareType;
     parentContainerFabricId?: string;
     parentContainerFriendlyName?: string;
-    azureFileShareType?: AzureFileShareType;
-};
+    protectableItemType: "AzureFileShare";
+}
 
 // @public
-export type AzureFileshareProtectedItem = ProtectedItem & {
-    protectedItemType: "AzureFileShareProtectedItem";
+export interface AzureFileshareProtectedItem extends ProtectedItem {
+    extendedInfo?: AzureFileshareProtectedItemExtendedInfo;
     friendlyName?: string;
-    protectionStatus?: string;
-    protectionState?: ProtectionState;
-    lastBackupStatus?: string;
-    lastBackupTime?: Date;
     kpisHealths?: {
         [propertyName: string]: KPIResourceHealthDetails;
     };
-    extendedInfo?: AzureFileshareProtectedItemExtendedInfo;
-};
+    lastBackupStatus?: string;
+    lastBackupTime?: Date;
+    protectedItemType: "AzureFileShareProtectedItem";
+    protectionState?: ProtectionState;
+    protectionStatus?: string;
+}
 
 // @public
 export interface AzureFileshareProtectedItemExtendedInfo {
@@ -66,73 +66,74 @@ export interface AzureFileshareProtectedItemExtendedInfo {
 }
 
 // @public
-export type AzureFileShareProtectionPolicy = ProtectionPolicy & {
+export interface AzureFileShareProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "AzureStorage";
-    workLoadType?: WorkloadType;
-    schedulePolicy?: SchedulePolicyUnion;
     retentionPolicy?: RetentionPolicyUnion;
+    schedulePolicy?: SchedulePolicyUnion;
     timeZone?: string;
-};
+    workLoadType?: WorkloadType;
+}
 
 // @public
-export type AzureFileShareProvisionILRRequest = ILRRequest & {
+export interface AzureFileShareProvisionILRRequest extends ILRRequest {
     objectType: "AzureFileShareProvisionILRRequest";
     recoveryPointId?: string;
     sourceResourceId?: string;
-};
+}
 
 // @public
-export type AzureFileShareRecoveryPoint = RecoveryPoint & {
-    objectType: "AzureFileShareRecoveryPoint";
-    recoveryPointType?: string;
-    recoveryPointTime?: Date;
+export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
     fileShareSnapshotUri?: string;
+    objectType: "AzureFileShareRecoveryPoint";
+    recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointSizeInGB?: number;
-};
+    recoveryPointTime?: Date;
+    recoveryPointType?: string;
+}
 
 // @public
-export type AzureFileShareRestoreRequest = RestoreRequest & {
+export interface AzureFileShareRestoreRequest extends RestoreRequest {
+    copyOptions?: CopyOptions;
     objectType: "AzureFileShareRestoreRequest";
     recoveryType?: RecoveryType;
-    sourceResourceId?: string;
-    copyOptions?: CopyOptions;
-    restoreRequestType?: RestoreRequestType;
     restoreFileSpecs?: RestoreFileSpecs[];
+    restoreRequestType?: RestoreRequestType;
+    sourceResourceId?: string;
     targetDetails?: TargetAFSRestoreInfo;
-};
+}
 
 // @public
 export type AzureFileShareType = string;
 
 // @public
-export type AzureIaaSClassicComputeVMContainer = IaaSVMContainer & {
+export interface AzureIaaSClassicComputeVMContainer extends IaaSVMContainer {
     containerType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 // @public
-export type AzureIaaSClassicComputeVMProtectableItem = IaaSVMProtectableItem & {
+export interface AzureIaaSClassicComputeVMProtectableItem extends IaaSVMProtectableItem {
     protectableItemType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 // @public
-export type AzureIaaSClassicComputeVMProtectedItem = AzureIaaSVMProtectedItem & {
+export interface AzureIaaSClassicComputeVMProtectedItem extends AzureIaaSVMProtectedItem {
     protectedItemType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 // @public
-export type AzureIaaSComputeVMContainer = IaaSVMContainer & {
+export interface AzureIaaSComputeVMContainer extends IaaSVMContainer {
     containerType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 // @public
-export type AzureIaaSComputeVMProtectableItem = IaaSVMProtectableItem & {
+export interface AzureIaaSComputeVMProtectableItem extends IaaSVMProtectableItem {
     protectableItemType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 // @public
-export type AzureIaaSComputeVMProtectedItem = AzureIaaSVMProtectedItem & {
+export interface AzureIaaSComputeVMProtectedItem extends AzureIaaSVMProtectedItem {
     protectedItemType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 // @public
 export interface AzureIaaSVMErrorInfo {
@@ -143,19 +144,20 @@ export interface AzureIaaSVMErrorInfo {
 }
 
 // @public
-export type AzureIaaSVMHealthDetails = ResourceHealthDetails & {};
+export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {
+}
 
 // @public
-export type AzureIaaSVMJob = Job & {
-    jobType: "AzureIaaSVMJob";
-    duration?: string;
+export interface AzureIaaSVMJob extends Job {
     actionsInfo?: JobSupportedAction[];
-    errorDetails?: AzureIaaSVMErrorInfo[];
-    virtualMachineVersion?: string;
-    extendedInfo?: AzureIaaSVMJobExtendedInfo;
     containerName?: string;
+    duration?: string;
+    errorDetails?: AzureIaaSVMErrorInfo[];
+    extendedInfo?: AzureIaaSVMJobExtendedInfo;
     isUserTriggered?: boolean;
-};
+    jobType: "AzureIaaSVMJob";
+    virtualMachineVersion?: string;
+}
 
 // @public
 export interface AzureIaaSVMJobExtendedInfo {
@@ -184,38 +186,41 @@ export interface AzureIaaSVMJobTaskDetails {
 }
 
 // @public
-export type AzureIaaSVMJobV2 = Job & {
-    jobType: "AzureIaaSVMJobV2";
+export interface AzureIaaSVMJobV2 extends Job {
     actionsInfo?: JobSupportedAction[];
     containerName?: string;
     duration?: string;
     errorDetails?: AzureIaaSVMErrorInfo[];
-    virtualMachineVersion?: string;
     extendedInfo?: AzureIaaSVMJobExtendedInfo;
-};
+    jobType: "AzureIaaSVMJobV2";
+    virtualMachineVersion?: string;
+}
 
 // @public
-export type AzureIaaSVMProtectedItem = ProtectedItem & {
-    protectedItemType: "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
-    friendlyName?: string;
-    virtualMachineId?: string;
-    protectionStatus?: string;
-    protectionState?: ProtectionState;
-    healthStatus?: HealthStatus;
+export interface AzureIaaSVMProtectedItem extends ProtectedItem {
+    extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
+    extendedProperties?: ExtendedProperties;
+    readonly friendlyName?: string;
     healthDetails?: AzureIaaSVMHealthDetails[];
+    readonly healthStatus?: HealthStatus;
     kpisHealths?: {
         [propertyName: string]: KPIResourceHealthDetails;
     };
     lastBackupStatus?: string;
-    lastBackupTime?: Date;
-    protectedItemDataId?: string;
-    extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
-    extendedProperties?: ExtendedProperties;
-};
+    readonly lastBackupTime?: Date;
+    readonly protectedItemDataId?: string;
+    protectedItemType: "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
+    protectionState?: ProtectionState;
+    protectionStatus?: string;
+    readonly virtualMachineId?: string;
+}
 
 // @public
 export interface AzureIaaSVMProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyInconsistent?: boolean;
     recoveryPointCount?: number;
 }
@@ -224,47 +229,52 @@ export interface AzureIaaSVMProtectedItemExtendedInfo {
 export type AzureIaaSVMProtectedItemUnion = AzureIaaSVMProtectedItem | AzureIaaSClassicComputeVMProtectedItem | AzureIaaSComputeVMProtectedItem;
 
 // @public
-export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
+export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "AzureIaasVM";
+    // (undocumented)
     instantRPDetails?: InstantRPAdditionalDetails;
-    schedulePolicy?: SchedulePolicyUnion;
-    retentionPolicy?: RetentionPolicyUnion;
     instantRpRetentionRangeInDays?: number;
-    timeZone?: string;
+    // (undocumented)
     policyType?: IaasvmPolicyType;
-};
+    retentionPolicy?: RetentionPolicyUnion;
+    schedulePolicy?: SchedulePolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
+    timeZone?: string;
+}
 
 // @public
-export type AzureRecoveryServiceVaultProtectionIntent = ProtectionIntent & {
+export interface AzureRecoveryServiceVaultProtectionIntent extends ProtectionIntent {
     protectionIntentItemType: "RecoveryServiceVaultItem" | "AzureWorkloadAutoProtectionIntent" | "AzureWorkloadSQLAutoProtectionIntent";
-};
+}
 
 // @public (undocumented)
 export type AzureRecoveryServiceVaultProtectionIntentUnion = AzureRecoveryServiceVaultProtectionIntent | AzureWorkloadAutoProtectionIntentUnion;
 
 // @public
-export type AzureResourceProtectionIntent = ProtectionIntent & {
-    protectionIntentItemType: "AzureResourceItem";
+export interface AzureResourceProtectionIntent extends ProtectionIntent {
     friendlyName?: string;
-};
+    protectionIntentItemType: "AzureResourceItem";
+}
 
 // @public
-export type AzureSqlagWorkloadContainerProtectionContainer = AzureWorkloadContainer & {
+export interface AzureSqlagWorkloadContainerProtectionContainer extends AzureWorkloadContainer {
     containerType: "SQLAGWorkLoadContainer";
-};
+}
 
 // @public
-export type AzureSqlContainer = ProtectionContainer & {
+export interface AzureSqlContainer extends ProtectionContainer {
     containerType: "AzureSqlContainer";
-};
+}
 
 // @public
-export type AzureSqlProtectedItem = ProtectedItem & {
-    protectedItemType: "Microsoft.Sql/servers/databases";
-    protectedItemDataId?: string;
-    protectionState?: ProtectedItemState;
+export interface AzureSqlProtectedItem extends ProtectedItem {
     extendedInfo?: AzureSqlProtectedItemExtendedInfo;
-};
+    protectedItemDataId?: string;
+    protectedItemType: "Microsoft.Sql/servers/databases";
+    protectionState?: ProtectedItemState;
+}
 
 // @public
 export interface AzureSqlProtectedItemExtendedInfo {
@@ -274,20 +284,20 @@ export interface AzureSqlProtectedItemExtendedInfo {
 }
 
 // @public
-export type AzureSqlProtectionPolicy = ProtectionPolicy & {
+export interface AzureSqlProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "AzureSql";
     retentionPolicy?: RetentionPolicyUnion;
-};
+}
 
 // @public
-export type AzureStorageContainer = ProtectionContainer & {
+export interface AzureStorageContainer extends ProtectionContainer {
+    acquireStorageAccountLock?: AcquireStorageAccountLock;
     containerType: "StorageContainer";
+    protectedItemCount?: number;
+    resourceGroup?: string;
     sourceResourceId?: string;
     storageAccountVersion?: string;
-    resourceGroup?: string;
-    protectedItemCount?: number;
-    acquireStorageAccountLock?: AcquireStorageAccountLock;
-};
+}
 
 // @public
 export interface AzureStorageErrorInfo {
@@ -297,16 +307,16 @@ export interface AzureStorageErrorInfo {
 }
 
 // @public
-export type AzureStorageJob = Job & {
-    jobType: "AzureStorageJob";
-    duration?: string;
+export interface AzureStorageJob extends Job {
     actionsInfo?: JobSupportedAction[];
+    duration?: string;
     errorDetails?: AzureStorageErrorInfo[];
-    storageAccountName?: string;
-    storageAccountVersion?: string;
     extendedInfo?: AzureStorageJobExtendedInfo;
     isUserTriggered?: boolean;
-};
+    jobType: "AzureStorageJob";
+    storageAccountName?: string;
+    storageAccountVersion?: string;
+}
 
 // @public
 export interface AzureStorageJobExtendedInfo {
@@ -324,26 +334,26 @@ export interface AzureStorageJobTaskDetails {
 }
 
 // @public
-export type AzureStorageProtectableContainer = ProtectableContainer & {
+export interface AzureStorageProtectableContainer extends ProtectableContainer {
     protectableContainerType: "StorageContainer";
-};
+}
 
 // @public
-export type AzureVMAppContainerProtectableContainer = ProtectableContainer & {
+export interface AzureVMAppContainerProtectableContainer extends ProtectableContainer {
     protectableContainerType: "VMAppContainer";
-};
+}
 
 // @public
-export type AzureVMAppContainerProtectionContainer = AzureWorkloadContainer & {
+export interface AzureVMAppContainerProtectionContainer extends AzureWorkloadContainer {
     containerType: "VMAppContainer";
-};
+}
 
 // @public
-export type AzureVMResourceFeatureSupportRequest = FeatureSupportRequest & {
+export interface AzureVMResourceFeatureSupportRequest extends FeatureSupportRequest {
     featureType: "AzureVMResourceBackup";
     vmSize?: string;
     vmSku?: string;
-};
+}
 
 // @public
 export interface AzureVMResourceFeatureSupportResponse {
@@ -351,180 +361,198 @@ export interface AzureVMResourceFeatureSupportResponse {
 }
 
 // @public
-export type AzureVmWorkloadItem = WorkloadItem & {
-    workloadItemType: "AzureVmWorkloadItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLDataBase" | "SQLInstance";
+export interface AzureVmWorkloadItem extends WorkloadItem {
+    isAutoProtectable?: boolean;
     parentName?: string;
     serverName?: string;
-    isAutoProtectable?: boolean;
     subinquireditemcount?: number;
     subWorkloadItemCount?: number;
-};
+    workloadItemType: "AzureVmWorkloadItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLDataBase" | "SQLInstance";
+}
 
 // @public (undocumented)
 export type AzureVmWorkloadItemUnion = AzureVmWorkloadItem | AzureVmWorkloadSAPAseDatabaseWorkloadItem | AzureVmWorkloadSAPAseSystemWorkloadItem | AzureVmWorkloadSAPHanaDatabaseWorkloadItem | AzureVmWorkloadSAPHanaSystemWorkloadItem | AzureVmWorkloadSQLDatabaseWorkloadItem | AzureVmWorkloadSQLInstanceWorkloadItem;
 
 // @public
-export type AzureVmWorkloadProtectableItem = WorkloadProtectableItem & {
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
-    parentName?: string;
-    parentUniqueName?: string;
-    serverName?: string;
+export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem {
     isAutoProtectable?: boolean;
     isAutoProtected?: boolean;
+    parentName?: string;
+    parentUniqueName?: string;
+    prebackupvalidation?: PreBackupValidation;
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
-    prebackupvalidation?: PreBackupValidation;
-};
+}
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSR | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
-export type AzureVmWorkloadProtectedItem = ProtectedItem & {
-    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase";
-    friendlyName?: string;
-    serverName?: string;
-    parentName?: string;
-    parentType?: string;
-    protectionStatus?: string;
-    protectionState?: ProtectionState;
-    lastBackupStatus?: LastBackupStatus;
-    lastBackupTime?: Date;
-    lastBackupErrorDetail?: ErrorDetail;
-    protectedItemDataSourceId?: string;
-    protectedItemHealthStatus?: ProtectedItemHealthStatus;
+export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+    readonly friendlyName?: string;
     kpisHealths?: {
         [propertyName: string]: KPIResourceHealthDetails;
     };
-};
+    lastBackupErrorDetail?: ErrorDetail;
+    lastBackupStatus?: LastBackupStatus;
+    lastBackupTime?: Date;
+    parentName?: string;
+    parentType?: string;
+    protectedItemDataSourceId?: string;
+    protectedItemHealthStatus?: ProtectedItemHealthStatus;
+    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase";
+    protectionState?: ProtectionState;
+    readonly protectionStatus?: string;
+    serverName?: string;
+}
 
 // @public
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyState?: string;
     recoveryModel?: string;
     recoveryPointCount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
+export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSAPHanaDBInstanceProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
 
 // @public
-export type AzureVmWorkloadProtectionPolicy = ProtectionPolicy & {
+export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "AzureWorkload";
-    workLoadType?: WorkloadType;
+    makePolicyConsistent?: boolean;
     settings?: Settings;
     subProtectionPolicy?: SubProtectionPolicy[];
-    makePolicyConsistent?: boolean;
-};
+    workLoadType?: WorkloadType;
+}
 
 // @public
-export type AzureVmWorkloadSAPAseDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSAPAseDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
     protectedItemType: "AzureVmWorkloadSAPAseDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPAseDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPAseDatabaseWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SAPAseDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPAseSystemProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPAseSystemProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SAPAseSystem";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPAseSystemWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPAseSystemWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SAPAseSystem";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPHanaDatabaseProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SAPHanaDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPHanaDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
     protectedItemType: "AzureVmWorkloadSAPHanaDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPHanaDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SAPHanaDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPHanaSystemProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPHanaDBInstance extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "SAPHanaDBInstance";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem extends AzureVmWorkloadProtectedItem {
+    protectedItemType: "AzureVmWorkloadSAPHanaDBInstance";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaHSR extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "SAPHanaHSR";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaSystemProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SAPHanaSystem";
-};
+}
 
 // @public
-export type AzureVmWorkloadSAPHanaSystemWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPHanaSystemWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SAPHanaSystem";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLAvailabilityGroupProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SQLAvailabilityGroupContainer";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLDatabaseProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLDatabaseProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SQLDataBase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSQLDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
     protectedItemType: "AzureVmWorkloadSQLDatabase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSQLDatabaseWorkloadItem extends AzureVmWorkloadItem {
     workloadItemType: "SQLDataBase";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLInstanceProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLInstanceProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SQLInstance";
-};
+}
 
 // @public
-export type AzureVmWorkloadSQLInstanceWorkloadItem = AzureVmWorkloadItem & {
-    workloadItemType: "SQLInstance";
+export interface AzureVmWorkloadSQLInstanceWorkloadItem extends AzureVmWorkloadItem {
     dataDirectoryPaths?: SQLDataDirectory[];
-};
+    workloadItemType: "SQLInstance";
+}
 
 // @public
-export type AzureWorkloadAutoProtectionIntent = AzureRecoveryServiceVaultProtectionIntent & {
+export interface AzureWorkloadAutoProtectionIntent extends AzureRecoveryServiceVaultProtectionIntent {
     protectionIntentItemType: "AzureWorkloadAutoProtectionIntent" | "AzureWorkloadSQLAutoProtectionIntent";
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadAutoProtectionIntentUnion = AzureWorkloadAutoProtectionIntent | AzureWorkloadSQLAutoProtectionIntent;
 
 // @public
-export type AzureWorkloadBackupRequest = BackupRequest & {
-    objectType: "AzureWorkloadBackupRequest";
+export interface AzureWorkloadBackupRequest extends BackupRequest {
     backupType?: BackupType;
     enableCompression?: boolean;
+    objectType: "AzureWorkloadBackupRequest";
     recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 // @public
-export type AzureWorkloadContainer = ProtectionContainer & {
+export interface AzureWorkloadContainer extends ProtectionContainer {
     containerType: "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "VMAppContainer";
-    sourceResourceId?: string;
-    lastUpdatedTime?: Date;
     extendedInfo?: AzureWorkloadContainerExtendedInfo;
-    workloadType?: WorkloadType;
+    lastUpdatedTime?: Date;
     operationType?: OperationType;
-};
+    sourceResourceId?: string;
+    workloadType?: WorkloadType;
+}
 
 // @public
-export type AzureWorkloadContainerAutoProtectionIntent = ProtectionIntent & {
+export interface AzureWorkloadContainerAutoProtectionIntent extends ProtectionIntent {
     protectionIntentItemType: "AzureWorkloadContainerAutoProtectionIntent";
-};
+}
 
 // @public
 export interface AzureWorkloadContainerExtendedInfo {
@@ -546,14 +574,14 @@ export interface AzureWorkloadErrorInfo {
 }
 
 // @public
-export type AzureWorkloadJob = Job & {
-    jobType: "AzureWorkloadJob";
-    workloadType?: string;
-    duration?: string;
+export interface AzureWorkloadJob extends Job {
     actionsInfo?: JobSupportedAction[];
+    duration?: string;
     errorDetails?: AzureWorkloadErrorInfo[];
     extendedInfo?: AzureWorkloadJobExtendedInfo;
-};
+    jobType: "AzureWorkloadJob";
+    workloadType?: string;
+}
 
 // @public
 export interface AzureWorkloadJobExtendedInfo {
@@ -571,121 +599,122 @@ export interface AzureWorkloadJobTaskDetails {
 }
 
 // @public
-export type AzureWorkloadPointInTimeRecoveryPoint = AzureWorkloadRecoveryPoint & {
+export interface AzureWorkloadPointInTimeRecoveryPoint extends AzureWorkloadRecoveryPoint {
     objectType: "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
     timeRanges?: PointInTimeRange[];
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadPointInTimeRecoveryPointUnion = AzureWorkloadPointInTimeRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
 
 // @public
-export type AzureWorkloadPointInTimeRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadPointInTimeRestoreRequest extends AzureWorkloadRestoreRequest {
     objectType: "AzureWorkloadPointInTimeRestoreRequest";
     pointInTime?: Date;
-};
+}
 
 // @public
-export type AzureWorkloadRecoveryPoint = RecoveryPoint & {
+export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
     objectType: "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint";
-    recoveryPointTimeInUTC?: Date;
-    type?: RestorePointType;
-    recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
     recoveryPointMoveReadinessInfo?: {
         [propertyName: string]: RecoveryPointMoveReadinessInfo;
     };
-};
+    recoveryPointProperties?: RecoveryPointProperties;
+    recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
+    recoveryPointTimeInUTC?: Date;
+    type?: RestorePointType;
+}
 
 // @public (undocumented)
 export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadPointInTimeRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
 
 // @public
-export type AzureWorkloadRestoreRequest = RestoreRequest & {
+export interface AzureWorkloadRestoreRequest extends RestoreRequest {
     objectType: "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest";
-    recoveryType?: RecoveryType;
-    sourceResourceId?: string;
     propertyBag?: {
         [propertyName: string]: string;
     };
-    targetInfo?: TargetRestoreInfo;
     recoveryMode?: RecoveryMode;
+    recoveryType?: RecoveryType;
+    sourceResourceId?: string;
+    targetInfo?: TargetRestoreInfo;
     targetVirtualMachineId?: string;
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadPointInTimeRestoreRequest | AzureWorkloadSAPHanaRestoreRequestUnion | AzureWorkloadSQLRestoreRequestUnion;
 
 // @public
-export type AzureWorkloadSAPHanaPointInTimeRecoveryPoint = AzureWorkloadPointInTimeRecoveryPoint & {
+export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint extends AzureWorkloadPointInTimeRecoveryPoint {
     objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
-};
+}
 
 // @public
-export type AzureWorkloadSAPHanaPointInTimeRestoreRequest = AzureWorkloadSAPHanaRestoreRequest & {
+export interface AzureWorkloadSAPHanaPointInTimeRestoreRequest extends AzureWorkloadSAPHanaRestoreRequest {
     objectType: "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest";
     pointInTime?: Date;
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion = AzureWorkloadSAPHanaPointInTimeRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest;
 
 // @public
-export type AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest = AzureWorkloadSAPHanaPointInTimeRestoreRequest & {
+export interface AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest extends AzureWorkloadSAPHanaPointInTimeRestoreRequest {
     objectType: "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest";
     recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 // @public
-export type AzureWorkloadSAPHanaRecoveryPoint = AzureWorkloadRecoveryPoint & {
+export interface AzureWorkloadSAPHanaRecoveryPoint extends AzureWorkloadRecoveryPoint {
     objectType: "AzureWorkloadSAPHanaRecoveryPoint";
-};
+}
 
 // @public
-export type AzureWorkloadSAPHanaRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadSAPHanaRestoreRequest extends AzureWorkloadRestoreRequest {
     objectType: "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadSAPHanaRestoreRequestUnion = AzureWorkloadSAPHanaRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion | AzureWorkloadSAPHanaRestoreWithRehydrateRequest;
 
 // @public
-export type AzureWorkloadSAPHanaRestoreWithRehydrateRequest = AzureWorkloadSAPHanaRestoreRequest & {
+export interface AzureWorkloadSAPHanaRestoreWithRehydrateRequest extends AzureWorkloadSAPHanaRestoreRequest {
     objectType: "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
     recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 // @public
-export type AzureWorkloadSQLAutoProtectionIntent = AzureWorkloadAutoProtectionIntent & {
+export interface AzureWorkloadSQLAutoProtectionIntent extends AzureWorkloadAutoProtectionIntent {
     protectionIntentItemType: "AzureWorkloadSQLAutoProtectionIntent";
     workloadItemType?: WorkloadItemType;
-};
+}
 
 // @public
-export type AzureWorkloadSQLPointInTimeRecoveryPoint = AzureWorkloadSQLRecoveryPoint & {
+export interface AzureWorkloadSQLPointInTimeRecoveryPoint extends AzureWorkloadSQLRecoveryPoint {
     objectType: "AzureWorkloadSQLPointInTimeRecoveryPoint";
     timeRanges?: PointInTimeRange[];
-};
+}
 
 // @public
-export type AzureWorkloadSQLPointInTimeRestoreRequest = AzureWorkloadSQLRestoreRequest & {
+export interface AzureWorkloadSQLPointInTimeRestoreRequest extends AzureWorkloadSQLRestoreRequest {
     objectType: "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest";
     pointInTime?: Date;
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadSQLPointInTimeRestoreRequestUnion = AzureWorkloadSQLPointInTimeRestoreRequest | AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest;
 
 // @public
-export type AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest = AzureWorkloadSQLPointInTimeRestoreRequest & {
+export interface AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest extends AzureWorkloadSQLPointInTimeRestoreRequest {
     objectType: "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest";
     recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 // @public
-export type AzureWorkloadSQLRecoveryPoint = AzureWorkloadRecoveryPoint & {
-    objectType: "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint";
+export interface AzureWorkloadSQLRecoveryPoint extends AzureWorkloadRecoveryPoint {
     extendedInfo?: AzureWorkloadSQLRecoveryPointExtendedInfo;
-};
+    objectType: "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint";
+}
 
 // @public
 export interface AzureWorkloadSQLRecoveryPointExtendedInfo {
@@ -697,21 +726,21 @@ export interface AzureWorkloadSQLRecoveryPointExtendedInfo {
 export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint | AzureWorkloadSQLPointInTimeRecoveryPoint;
 
 // @public
-export type AzureWorkloadSQLRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadSQLRestoreRequest extends AzureWorkloadRestoreRequest {
+    alternateDirectoryPaths?: SQLDataDirectoryMapping[];
+    isNonRecoverable?: boolean;
     objectType: "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest";
     shouldUseAlternateTargetLocation?: boolean;
-    isNonRecoverable?: boolean;
-    alternateDirectoryPaths?: SQLDataDirectoryMapping[];
-};
+}
 
 // @public (undocumented)
 export type AzureWorkloadSQLRestoreRequestUnion = AzureWorkloadSQLRestoreRequest | AzureWorkloadSQLPointInTimeRestoreRequestUnion | AzureWorkloadSQLRestoreWithRehydrateRequest;
 
 // @public
-export type AzureWorkloadSQLRestoreWithRehydrateRequest = AzureWorkloadSQLRestoreRequest & {
+export interface AzureWorkloadSQLRestoreWithRehydrateRequest extends AzureWorkloadSQLRestoreRequest {
     objectType: "AzureWorkloadSQLRestoreWithRehydrateRequest";
     recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 // @public
 export interface BackupEngineBase {
@@ -731,14 +760,14 @@ export interface BackupEngineBase {
 }
 
 // @public
-export type BackupEngineBaseResource = Resource & {
+export interface BackupEngineBaseResource extends Resource {
     properties?: BackupEngineBaseUnion;
-};
+}
 
 // @public
-export type BackupEngineBaseResourceList = ResourceList & {
+export interface BackupEngineBaseResourceList extends ResourceList {
     value?: BackupEngineBaseResource[];
-};
+}
 
 // @public (undocumented)
 export type BackupEngineBaseUnion = BackupEngineBase | AzureBackupServerEngine | DpmBackupEngine;
@@ -772,8 +801,6 @@ export type BackupEnginesGetResponse = BackupEngineBaseResource;
 
 // @public
 export interface BackupEnginesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -801,8 +828,6 @@ export interface BackupJobs {
 
 // @public
 export interface BackupJobsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -863,7 +888,6 @@ export interface BackupPolicies {
 
 // @public
 export interface BackupPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -884,8 +908,6 @@ export interface BackupProtectableItems {
 
 // @public
 export interface BackupProtectableItemsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -907,8 +929,6 @@ export interface BackupProtectedItems {
 
 // @public
 export interface BackupProtectedItemsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -930,7 +950,6 @@ export interface BackupProtectionContainers {
 
 // @public
 export interface BackupProtectionContainersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -951,8 +970,6 @@ export interface BackupProtectionIntent {
 
 // @public
 export interface BackupProtectionIntentListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -973,9 +990,9 @@ export interface BackupRequest {
 }
 
 // @public
-export type BackupRequestResource = Resource & {
+export interface BackupRequestResource extends Resource {
     properties?: BackupRequestUnion;
-};
+}
 
 // @public (undocumented)
 export type BackupRequestUnion = BackupRequest | AzureFileShareBackupRequest | AzureWorkloadBackupRequest | IaasVMBackupRequest;
@@ -991,9 +1008,9 @@ export interface BackupResourceConfig {
 }
 
 // @public
-export type BackupResourceConfigResource = Resource & {
+export interface BackupResourceConfigResource extends Resource {
     properties?: BackupResourceConfig;
-};
+}
 
 // @public (undocumented)
 export interface BackupResourceEncryptionConfig {
@@ -1007,20 +1024,20 @@ export interface BackupResourceEncryptionConfig {
 }
 
 // @public (undocumented)
-export type BackupResourceEncryptionConfigExtended = BackupResourceEncryptionConfig & {
+export interface BackupResourceEncryptionConfigExtended extends BackupResourceEncryptionConfig {
     userAssignedIdentity?: string;
     useSystemAssignedIdentity?: boolean;
-};
+}
 
 // @public (undocumented)
-export type BackupResourceEncryptionConfigExtendedResource = Resource & {
+export interface BackupResourceEncryptionConfigExtendedResource extends Resource {
     properties?: BackupResourceEncryptionConfigExtended;
-};
+}
 
 // @public (undocumented)
-export type BackupResourceEncryptionConfigResource = Resource & {
+export interface BackupResourceEncryptionConfigResource extends Resource {
     properties?: BackupResourceEncryptionConfig;
-};
+}
 
 // @public
 export interface BackupResourceEncryptionConfigs {
@@ -1076,9 +1093,9 @@ export interface BackupResourceVaultConfig {
 }
 
 // @public
-export type BackupResourceVaultConfigResource = Resource & {
+export interface BackupResourceVaultConfigResource extends Resource {
     properties?: BackupResourceVaultConfig;
-};
+}
 
 // @public
 export interface BackupResourceVaultConfigs {
@@ -1173,8 +1190,6 @@ export interface BackupWorkloadItems {
 
 // @public
 export interface BackupWorkloadItemsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -1265,6 +1280,7 @@ export interface BMSRefreshContainersQueryObject {
 export interface BmsrpQueryObject {
     endDate?: Date;
     extendedInfo?: boolean;
+    includeSoftDeletedRP?: boolean;
     moveReadyRPOnly?: boolean;
     restorePointQueryType?: RestorePointQueryType;
     startDate?: Date;
@@ -1397,6 +1413,26 @@ export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursda
 // @public
 export type DedupState = string;
 
+// @public
+export interface DeletedProtectionContainers {
+    list(resourceGroupName: string, vaultName: string, options?: DeletedProtectionContainersListOptionalParams): PagedAsyncIterableIterator<ProtectionContainerResource>;
+}
+
+// @public
+export interface DeletedProtectionContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedProtectionContainersListNextResponse = ProtectionContainerResourceList;
+
+// @public
+export interface DeletedProtectionContainersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedProtectionContainersListResponse = ProtectionContainerResourceList;
+
 // @public (undocumented)
 export interface DiskExclusionProperties {
     diskLunList?: number[];
@@ -1419,22 +1455,22 @@ export interface DistributedNodesInfo {
 }
 
 // @public
-export type DpmBackupEngine = BackupEngineBase & {
+export interface DpmBackupEngine extends BackupEngineBase {
     backupEngineType: "DpmBackupEngine";
-};
+}
 
 // @public
-export type DpmContainer = ProtectionContainer & {
-    containerType: "DPMContainer" | "AzureBackupServerContainer";
+export interface DpmContainer extends ProtectionContainer {
     canReRegister?: boolean;
     containerId?: string;
-    protectedItemCount?: number;
+    containerType: "DPMContainer" | "AzureBackupServerContainer";
     dpmAgentVersion?: string;
     dpmServers?: string[];
-    upgradeAvailable?: boolean;
-    protectionStatus?: string;
     extendedInfo?: DPMContainerExtendedInfo;
-};
+    protectedItemCount?: number;
+    protectionStatus?: string;
+    upgradeAvailable?: boolean;
+}
 
 // @public
 export interface DPMContainerExtendedInfo {
@@ -1451,17 +1487,17 @@ export interface DpmErrorInfo {
 }
 
 // @public
-export type DpmJob = Job & {
-    jobType: "DpmJob";
-    duration?: string;
-    dpmServerName?: string;
+export interface DpmJob extends Job {
+    actionsInfo?: JobSupportedAction[];
     containerName?: string;
     containerType?: string;
-    workloadType?: string;
-    actionsInfo?: JobSupportedAction[];
+    dpmServerName?: string;
+    duration?: string;
     errorDetails?: DpmErrorInfo[];
     extendedInfo?: DpmJobExtendedInfo;
-};
+    jobType: "DpmJob";
+    workloadType?: string;
+}
 
 // @public
 export interface DpmJobExtendedInfo {
@@ -1482,13 +1518,13 @@ export interface DpmJobTaskDetails {
 }
 
 // @public
-export type DPMProtectedItem = ProtectedItem & {
-    protectedItemType: "DPMProtectedItem";
-    friendlyName?: string;
+export interface DPMProtectedItem extends ProtectedItem {
     backupEngineName?: string;
-    protectionState?: ProtectedItemState;
     extendedInfo?: DPMProtectedItemExtendedInfo;
-};
+    friendlyName?: string;
+    protectedItemType: "DPMProtectedItem";
+    protectionState?: ProtectedItemState;
+}
 
 // @public
 export interface DPMProtectedItemExtendedInfo {
@@ -1539,13 +1575,13 @@ export interface ErrorDetail {
 }
 
 // @public
-export type ExportJobsOperationResultInfo = OperationResultInfoBase & {
-    objectType: "ExportJobsOperationResultInfo";
-    blobUrl?: string;
+export interface ExportJobsOperationResultInfo extends OperationResultInfoBase {
     blobSasKey?: string;
-    excelFileBlobUrl?: string;
+    blobUrl?: string;
     excelFileBlobSasKey?: string;
-};
+    excelFileBlobUrl?: string;
+    objectType: "ExportJobsOperationResultInfo";
+}
 
 // @public
 export interface ExportJobsOperationResults {
@@ -1558,6 +1594,12 @@ export interface ExportJobsOperationResultsGetOptionalParams extends coreClient.
 
 // @public
 export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResource;
+
+// @public
+export interface ExtendedLocation {
+    name?: string;
+    type?: string;
+}
 
 // @public
 export interface ExtendedProperties {
@@ -1589,11 +1631,11 @@ export interface FeatureSupportValidateOptionalParams extends coreClient.Operati
 export type FeatureSupportValidateResponse = AzureVMResourceFeatureSupportResponse;
 
 // @public
-export type GenericContainer = ProtectionContainer & {
+export interface GenericContainer extends ProtectionContainer {
     containerType: "GenericContainer";
-    fabricName?: string;
     extendedInformation?: GenericContainerExtendedInfo;
-};
+    fabricName?: string;
+}
 
 // @public
 export interface GenericContainerExtendedInfo {
@@ -1605,34 +1647,38 @@ export interface GenericContainerExtendedInfo {
 }
 
 // @public
-export type GenericProtectedItem = ProtectedItem & {
-    protectedItemType: "GenericProtectedItem";
+export interface GenericProtectedItem extends ProtectedItem {
+    fabricName?: string;
     friendlyName?: string;
     policyState?: string;
-    protectionState?: ProtectionState;
     protectedItemId?: number;
+    protectedItemType: "GenericProtectedItem";
+    protectionState?: ProtectionState;
     sourceAssociations?: {
         [propertyName: string]: string;
     };
-    fabricName?: string;
-};
+}
 
 // @public
-export type GenericProtectionPolicy = ProtectionPolicy & {
+export interface GenericProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "GenericProtectionPolicy";
+    fabricName?: string;
     subProtectionPolicy?: SubProtectionPolicy[];
     timeZone?: string;
-    fabricName?: string;
-};
+}
 
 // @public
-export type GenericRecoveryPoint = RecoveryPoint & {
-    objectType: "GenericRecoveryPoint";
+export interface GenericRecoveryPoint extends RecoveryPoint {
     friendlyName?: string;
-    recoveryPointType?: string;
-    recoveryPointTime?: Date;
+    objectType: "GenericRecoveryPoint";
     recoveryPointAdditionalInfo?: string;
-};
+    recoveryPointProperties?: RecoveryPointProperties;
+    recoveryPointTime?: Date;
+    recoveryPointType?: string;
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GetOperationStatusOptionalParams extends coreClient.OperationOptions {
@@ -1663,100 +1709,106 @@ export interface HourlySchedule {
 export type HttpStatusCode = "Continue" | "SwitchingProtocols" | "OK" | "Created" | "Accepted" | "NonAuthoritativeInformation" | "NoContent" | "ResetContent" | "PartialContent" | "MultipleChoices" | "Ambiguous" | "MovedPermanently" | "Moved" | "Found" | "Redirect" | "SeeOther" | "RedirectMethod" | "NotModified" | "UseProxy" | "Unused" | "TemporaryRedirect" | "RedirectKeepVerb" | "BadRequest" | "Unauthorized" | "PaymentRequired" | "Forbidden" | "NotFound" | "MethodNotAllowed" | "NotAcceptable" | "ProxyAuthenticationRequired" | "RequestTimeout" | "Conflict" | "Gone" | "LengthRequired" | "PreconditionFailed" | "RequestEntityTooLarge" | "RequestUriTooLong" | "UnsupportedMediaType" | "RequestedRangeNotSatisfiable" | "ExpectationFailed" | "UpgradeRequired" | "InternalServerError" | "NotImplemented" | "BadGateway" | "ServiceUnavailable" | "GatewayTimeout" | "HttpVersionNotSupported";
 
 // @public
-export type IaasVMBackupRequest = BackupRequest & {
+export interface IaasVMBackupRequest extends BackupRequest {
     objectType: "IaasVMBackupRequest";
     recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 // @public
-export type IaaSVMContainer = ProtectionContainer & {
+export interface IaaSVMContainer extends ProtectionContainer {
     containerType: "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
+    resourceGroup?: string;
     virtualMachineId?: string;
     virtualMachineVersion?: string;
-    resourceGroup?: string;
-};
+}
 
 // @public (undocumented)
 export type IaaSVMContainerUnion = IaaSVMContainer | AzureIaaSClassicComputeVMContainer | AzureIaaSComputeVMContainer;
 
 // @public
-export type IaasVmilrRegistrationRequest = ILRRequest & {
+export interface IaasVmilrRegistrationRequest extends ILRRequest {
+    initiatorName?: string;
     objectType: "IaasVMILRRegistrationRequest";
     recoveryPointId?: string;
-    virtualMachineId?: string;
-    initiatorName?: string;
     renewExistingRegistration?: boolean;
-};
+    virtualMachineId?: string;
+}
 
 // @public
 export type IaasvmPolicyType = string;
 
 // @public
-export type IaaSVMProtectableItem = WorkloadProtectableItem & {
+export interface IaaSVMProtectableItem extends WorkloadProtectableItem {
     protectableItemType: "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
+    resourceGroup?: string;
     virtualMachineId?: string;
     virtualMachineVersion?: string;
-    resourceGroup?: string;
-};
+}
 
 // @public (undocumented)
 export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassicComputeVMProtectableItem | AzureIaaSComputeVMProtectableItem;
 
 // @public
-export type IaasVMRecoveryPoint = RecoveryPoint & {
-    objectType: "IaasVMRecoveryPoint";
-    recoveryPointType?: string;
-    recoveryPointTime?: Date;
-    recoveryPointAdditionalInfo?: string;
-    sourceVMStorageType?: string;
+export interface IaasVMRecoveryPoint extends RecoveryPoint {
+    isInstantIlrSessionActive?: boolean;
+    isManagedVirtualMachine?: boolean;
+    isPrivateAccessEnabledOnAnyDisk?: boolean;
     isSourceVMEncrypted?: boolean;
     keyAndSecret?: KeyAndSecretDetails;
-    isInstantIlrSessionActive?: boolean;
-    recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
-    isManagedVirtualMachine?: boolean;
-    virtualMachineSize?: string;
+    objectType: "IaasVMRecoveryPoint";
     originalStorageAccountOption?: boolean;
     osType?: string;
+    recoveryPointAdditionalInfo?: string;
     recoveryPointDiskConfiguration?: RecoveryPointDiskConfiguration;
-    zones?: string[];
     recoveryPointMoveReadinessInfo?: {
         [propertyName: string]: RecoveryPointMoveReadinessInfo;
     };
-};
+    recoveryPointProperties?: RecoveryPointProperties;
+    recoveryPointTierDetails?: RecoveryPointTierInformationV2[];
+    recoveryPointTime?: Date;
+    recoveryPointType?: string;
+    securityType?: string;
+    sourceVMStorageType?: string;
+    virtualMachineSize?: string;
+    zones?: string[];
+}
 
 // @public
-export type IaasVMRestoreRequest = RestoreRequest & {
-    objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
-    recoveryPointId?: string;
-    recoveryType?: RecoveryType;
-    sourceResourceId?: string;
-    targetVirtualMachineId?: string;
-    targetResourceGroupId?: string;
-    storageAccountId?: string;
-    virtualNetworkId?: string;
-    subnetId?: string;
-    targetDomainNameId?: string;
-    region?: string;
+export interface IaasVMRestoreRequest extends RestoreRequest {
     affinityGroup?: string;
     createNewCloudService?: boolean;
-    originalStorageAccountOption?: boolean;
+    diskEncryptionSetId?: string;
     encryptionDetails?: EncryptionDetails;
+    extendedLocation?: ExtendedLocation;
+    identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
+    identityInfo?: IdentityInfo;
+    objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
+    originalStorageAccountOption?: boolean;
+    recoveryPointId?: string;
+    recoveryType?: RecoveryType;
+    region?: string;
     restoreDiskLunList?: number[];
     restoreWithManagedDisks?: boolean;
-    diskEncryptionSetId?: string;
+    securedVMDetails?: SecuredVMDetails;
+    sourceResourceId?: string;
+    storageAccountId?: string;
+    subnetId?: string;
+    targetDiskNetworkAccessSettings?: TargetDiskNetworkAccessSettings;
+    targetDomainNameId?: string;
+    targetResourceGroupId?: string;
+    targetVirtualMachineId?: string;
+    virtualNetworkId?: string;
     zones?: string[];
-    identityInfo?: IdentityInfo;
-    identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
-};
+}
 
 // @public (undocumented)
 export type IaasVMRestoreRequestUnion = IaasVMRestoreRequest | IaasVMRestoreWithRehydrationRequest;
 
 // @public
-export type IaasVMRestoreWithRehydrationRequest = IaasVMRestoreRequest & {
+export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreRequest {
     objectType: "IaasVMRestoreWithRehydrationRequest";
     recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 // @public
 export interface IdentityBasedRestoreDetails {
@@ -1776,9 +1828,9 @@ export interface ILRRequest {
 }
 
 // @public
-export type ILRRequestResource = Resource & {
+export interface ILRRequestResource extends Resource {
     properties?: ILRRequestUnion;
-};
+}
 
 // @public (undocumented)
 export type ILRRequestUnion = ILRRequest | AzureFileShareProvisionILRRequest | IaasVmilrRegistrationRequest;
@@ -1889,14 +1941,14 @@ export interface JobQueryObject {
 }
 
 // @public
-export type JobResource = Resource & {
+export interface JobResource extends Resource {
     properties?: JobUnion;
-};
+}
 
 // @public
-export type JobResourceList = ResourceList & {
+export interface JobResourceList extends ResourceList {
     value?: JobResource[];
-};
+}
 
 // @public
 export interface Jobs {
@@ -1933,853 +1985,563 @@ export interface KeyAndSecretDetails {
 
 // @public
 export enum KnownAcquireStorageAccountLock {
-    // (undocumented)
     Acquire = "Acquire",
-    // (undocumented)
     NotAcquire = "NotAcquire"
 }
 
 // @public
 export enum KnownAzureFileShareType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Xsmb = "XSMB",
-    // (undocumented)
     XSync = "XSync"
 }
 
 // @public
 export enum KnownBackupEngineType {
-    // (undocumented)
     AzureBackupServerEngine = "AzureBackupServerEngine",
-    // (undocumented)
     DpmBackupEngine = "DpmBackupEngine",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownBackupItemType {
-    // (undocumented)
     AzureFileShare = "AzureFileShare",
-    // (undocumented)
     AzureSqlDb = "AzureSqlDb",
-    // (undocumented)
     Client = "Client",
-    // (undocumented)
     Exchange = "Exchange",
-    // (undocumented)
     FileFolder = "FileFolder",
-    // (undocumented)
     GenericDataSource = "GenericDataSource",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     SAPAseDatabase = "SAPAseDatabase",
-    // (undocumented)
     SAPHanaDatabase = "SAPHanaDatabase",
-    // (undocumented)
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
-    // (undocumented)
     SQLDataBase = "SQLDataBase",
-    // (undocumented)
     Sqldb = "SQLDB",
-    // (undocumented)
     SystemState = "SystemState",
-    // (undocumented)
     VM = "VM",
-    // (undocumented)
     VMwareVM = "VMwareVM"
 }
 
 // @public
 export enum KnownBackupManagementType {
-    // (undocumented)
     AzureBackupServer = "AzureBackupServer",
-    // (undocumented)
     AzureIaasVM = "AzureIaasVM",
-    // (undocumented)
     AzureSql = "AzureSql",
-    // (undocumented)
     AzureStorage = "AzureStorage",
-    // (undocumented)
     AzureWorkload = "AzureWorkload",
-    // (undocumented)
     DefaultBackup = "DefaultBackup",
-    // (undocumented)
     DPM = "DPM",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     MAB = "MAB"
 }
 
 // @public
 export enum KnownBackupType {
-    // (undocumented)
     CopyOnlyFull = "CopyOnlyFull",
-    // (undocumented)
     Differential = "Differential",
-    // (undocumented)
     Full = "Full",
-    // (undocumented)
     Incremental = "Incremental",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
 export enum KnownContainerType {
-    // (undocumented)
     AzureBackupServerContainer = "AzureBackupServerContainer",
-    // (undocumented)
     AzureSqlContainer = "AzureSqlContainer",
-    // (undocumented)
-    AzureWorkloadContainer = "AzureWorkloadContainer",
-    // (undocumented)
     Cluster = "Cluster",
-    // (undocumented)
     DPMContainer = "DPMContainer",
-    // (undocumented)
     GenericContainer = "GenericContainer",
-    // (undocumented)
+    HanaHSRContainer = "HanaHSRContainer",
     IaasVMContainer = "IaasVMContainer",
-    // (undocumented)
     IaasVMServiceContainer = "IaasVMServiceContainer",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     MABContainer = "MABContainer",
-    // (undocumented)
-    MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
-    // (undocumented)
-    MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
-    // (undocumented)
     SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
-    // (undocumented)
     StorageContainer = "StorageContainer",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     VCenter = "VCenter",
-    // (undocumented)
     VMAppContainer = "VMAppContainer",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownCopyOptions {
-    // (undocumented)
     CreateCopy = "CreateCopy",
-    // (undocumented)
     FailOnConflict = "FailOnConflict",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Overwrite = "Overwrite",
-    // (undocumented)
     Skip = "Skip"
 }
 
 // @public
 export enum KnownCreateMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Recover = "Recover"
 }
 
 // @public
 export enum KnownDataMoveLevel {
-    // (undocumented)
     Container = "Container",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Vault = "Vault"
 }
 
 // @public
 export enum KnownDataSourceType {
-    // (undocumented)
     AzureFileShare = "AzureFileShare",
-    // (undocumented)
     AzureSqlDb = "AzureSqlDb",
-    // (undocumented)
     Client = "Client",
-    // (undocumented)
     Exchange = "Exchange",
-    // (undocumented)
     FileFolder = "FileFolder",
-    // (undocumented)
     GenericDataSource = "GenericDataSource",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     SAPAseDatabase = "SAPAseDatabase",
-    // (undocumented)
     SAPHanaDatabase = "SAPHanaDatabase",
-    // (undocumented)
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
-    // (undocumented)
     SQLDataBase = "SQLDataBase",
-    // (undocumented)
     Sqldb = "SQLDB",
-    // (undocumented)
     SystemState = "SystemState",
-    // (undocumented)
     VM = "VM",
-    // (undocumented)
     VMwareVM = "VMwareVM"
 }
 
 // @public
 export enum KnownDedupState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownEncryptionAtRestType {
-    // (undocumented)
     CustomerManaged = "CustomerManaged",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     MicrosoftManaged = "MicrosoftManaged"
 }
 
 // @public
 export enum KnownEnhancedSecurityState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownFabricName {
-    // (undocumented)
     Azure = "Azure",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownHealthState {
-    // (undocumented)
     ActionRequired = "ActionRequired",
-    // (undocumented)
     ActionSuggested = "ActionSuggested",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Passed = "Passed"
 }
 
 // @public
 export enum KnownHealthStatus {
-    // (undocumented)
     ActionRequired = "ActionRequired",
-    // (undocumented)
     ActionSuggested = "ActionSuggested",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Passed = "Passed"
 }
 
 // @public
 export enum KnownIaasvmPolicyType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     V1 = "V1",
-    // (undocumented)
     V2 = "V2"
 }
 
 // @public
 export enum KnownInfrastructureEncryptionState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownInquiryStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Success = "Success"
 }
 
 // @public
 export enum KnownIntentItemType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     SQLAvailabilityGroupContainer = "SQLAvailabilityGroupContainer",
-    // (undocumented)
     SQLInstance = "SQLInstance"
 }
 
 // @public
 export enum KnownJobOperationType {
-    // (undocumented)
     Backup = "Backup",
-    // (undocumented)
     ConfigureBackup = "ConfigureBackup",
-    // (undocumented)
     CrossRegionRestore = "CrossRegionRestore",
-    // (undocumented)
     DeleteBackupData = "DeleteBackupData",
-    // (undocumented)
     DisableBackup = "DisableBackup",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Register = "Register",
-    // (undocumented)
     Restore = "Restore",
-    // (undocumented)
     Undelete = "Undelete",
-    // (undocumented)
     UnRegister = "UnRegister",
-    // (undocumented)
     UpdateCustomerManagedKey = "UpdateCustomerManagedKey"
 }
 
 // @public
 export enum KnownJobStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Cancelling = "Cancelling",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     CompletedWithWarnings = "CompletedWithWarnings",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownLastBackupStatus {
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     IRPending = "IRPending",
-    // (undocumented)
     Unhealthy = "Unhealthy"
 }
 
 // @public
 export enum KnownLastUpdateStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     FirstInitialization = "FirstInitialization",
-    // (undocumented)
     Initialized = "Initialized",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     NotEnabled = "NotEnabled",
-    // (undocumented)
     PartiallyFailed = "PartiallyFailed",
-    // (undocumented)
     PartiallySucceeded = "PartiallySucceeded",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownMabServerType {
-    // (undocumented)
     AzureBackupServerContainer = "AzureBackupServerContainer",
-    // (undocumented)
     AzureSqlContainer = "AzureSqlContainer",
-    // (undocumented)
     Cluster = "Cluster",
-    // (undocumented)
     DPMContainer = "DPMContainer",
-    // (undocumented)
     GenericContainer = "GenericContainer",
-    // (undocumented)
     IaasVMContainer = "IaasVMContainer",
-    // (undocumented)
     IaasVMServiceContainer = "IaasVMServiceContainer",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     MABContainer = "MABContainer",
-    // (undocumented)
     SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
-    // (undocumented)
     StorageContainer = "StorageContainer",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     VCenter = "VCenter",
-    // (undocumented)
     VMAppContainer = "VMAppContainer",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownOperationStatusValues {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownOperationType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Register = "Register",
-    // (undocumented)
     Reregister = "Reregister"
 }
 
 // @public
 export enum KnownOverwriteOptions {
-    // (undocumented)
     FailOnConflict = "FailOnConflict",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Overwrite = "Overwrite"
 }
 
 // @public
 export enum KnownPolicyType {
-    // (undocumented)
     CopyOnlyFull = "CopyOnlyFull",
-    // (undocumented)
     Differential = "Differential",
-    // (undocumented)
     Full = "Full",
-    // (undocumented)
     Incremental = "Incremental",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProtectedItemHealthStatus {
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     IRPending = "IRPending",
-    // (undocumented)
     NotReachable = "NotReachable",
-    // (undocumented)
     Unhealthy = "Unhealthy"
 }
 
 // @public
 export enum KnownProtectedItemState {
-    // (undocumented)
+    BackupsSuspended = "BackupsSuspended",
     Invalid = "Invalid",
-    // (undocumented)
     IRPending = "IRPending",
-    // (undocumented)
     Protected = "Protected",
-    // (undocumented)
     ProtectionError = "ProtectionError",
-    // (undocumented)
     ProtectionPaused = "ProtectionPaused",
-    // (undocumented)
     ProtectionStopped = "ProtectionStopped"
 }
 
 // @public
 export enum KnownProtectionIntentItemType {
-    // (undocumented)
     AzureResourceItem = "AzureResourceItem",
-    // (undocumented)
     AzureWorkloadAutoProtectionIntent = "AzureWorkloadAutoProtectionIntent",
-    // (undocumented)
     AzureWorkloadContainerAutoProtectionIntent = "AzureWorkloadContainerAutoProtectionIntent",
-    // (undocumented)
     AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     RecoveryServiceVaultItem = "RecoveryServiceVaultItem"
 }
 
 // @public
 export enum KnownProtectionState {
-    // (undocumented)
+    BackupsSuspended = "BackupsSuspended",
     Invalid = "Invalid",
-    // (undocumented)
     IRPending = "IRPending",
-    // (undocumented)
     Protected = "Protected",
-    // (undocumented)
     ProtectionError = "ProtectionError",
-    // (undocumented)
     ProtectionPaused = "ProtectionPaused",
-    // (undocumented)
     ProtectionStopped = "ProtectionStopped"
 }
 
 // @public
 export enum KnownProtectionStatus {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     NotProtected = "NotProtected",
-    // (undocumented)
     Protected = "Protected",
-    // (undocumented)
     Protecting = "Protecting",
-    // (undocumented)
     ProtectionFailed = "ProtectionFailed"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownRecoveryMode {
-    // (undocumented)
     FileRecovery = "FileRecovery",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     WorkloadRecovery = "WorkloadRecovery"
 }
 
 // @public
 export enum KnownRecoveryType {
-    // (undocumented)
     AlternateLocation = "AlternateLocation",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     OriginalLocation = "OriginalLocation",
-    // (undocumented)
     RestoreDisks = "RestoreDisks"
 }
 
 // @public
 export enum KnownRehydrationPriority {
-    // (undocumented)
     High = "High",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownResourceHealthStatus {
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     PersistentDegraded = "PersistentDegraded",
-    // (undocumented)
     PersistentUnhealthy = "PersistentUnhealthy",
-    // (undocumented)
     TransientDegraded = "TransientDegraded",
-    // (undocumented)
     TransientUnhealthy = "TransientUnhealthy"
 }
 
 // @public
 export enum KnownRestorePointQueryType {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Differential = "Differential",
-    // (undocumented)
     Full = "Full",
-    // (undocumented)
     FullAndDifferential = "FullAndDifferential",
-    // (undocumented)
     Incremental = "Incremental",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
 export enum KnownRestorePointType {
-    // (undocumented)
     Differential = "Differential",
-    // (undocumented)
     Full = "Full",
-    // (undocumented)
     Incremental = "Incremental",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
-    Log = "Log"
+    Log = "Log",
+    SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
+    SnapshotFull = "SnapshotFull"
 }
 
 // @public
 export enum KnownRestoreRequestType {
-    // (undocumented)
     FullShareRestore = "FullShareRestore",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     ItemLevelRestore = "ItemLevelRestore"
 }
 
 // @public
 export enum KnownRetentionDurationType {
-    // (undocumented)
     Days = "Days",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Months = "Months",
-    // (undocumented)
     Weeks = "Weeks",
-    // (undocumented)
     Years = "Years"
 }
 
 // @public
 export enum KnownRetentionScheduleFormat {
-    // (undocumented)
     Daily = "Daily",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Weekly = "Weekly"
 }
 
 // @public
 export enum KnownScheduleRunType {
-    // (undocumented)
     Daily = "Daily",
-    // (undocumented)
     Hourly = "Hourly",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Weekly = "Weekly"
 }
 
 // @public
 export enum KnownSoftDeleteFeatureState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownSQLDataDirectoryType {
-    // (undocumented)
     Data = "Data",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Log = "Log"
 }
 
 // @public
 export enum KnownStorageType {
-    // (undocumented)
     GeoRedundant = "GeoRedundant",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     LocallyRedundant = "LocallyRedundant",
-    // (undocumented)
     ReadAccessGeoZoneRedundant = "ReadAccessGeoZoneRedundant",
-    // (undocumented)
     ZoneRedundant = "ZoneRedundant"
 }
 
 // @public
 export enum KnownStorageTypeState {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Locked = "Locked",
-    // (undocumented)
     Unlocked = "Unlocked"
 }
 
 // @public
 export enum KnownSupportStatus {
-    // (undocumented)
     DefaultOFF = "DefaultOFF",
-    // (undocumented)
     DefaultON = "DefaultON",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     NotSupported = "NotSupported",
-    // (undocumented)
     Supported = "Supported"
 }
 
 // @public
+export enum KnownTieringMode {
+    DoNotTier = "DoNotTier",
+    Invalid = "Invalid",
+    TierAfter = "TierAfter",
+    TierRecommended = "TierRecommended"
+}
+
+// @public
 export enum KnownType {
-    // (undocumented)
     BackupProtectedItemCountSummary = "BackupProtectedItemCountSummary",
-    // (undocumented)
     BackupProtectionContainerCountSummary = "BackupProtectionContainerCountSummary",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownUsagesUnit {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds"
 }
 
 // @public
 export enum KnownValidationStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownWorkloadItemType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     SAPAseDatabase = "SAPAseDatabase",
-    // (undocumented)
     SAPAseSystem = "SAPAseSystem",
-    // (undocumented)
     SAPHanaDatabase = "SAPHanaDatabase",
-    // (undocumented)
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     SAPHanaSystem = "SAPHanaSystem",
-    // (undocumented)
     SQLDataBase = "SQLDataBase",
-    // (undocumented)
     SQLInstance = "SQLInstance"
 }
 
 // @public
 export enum KnownWorkloadType {
-    // (undocumented)
     AzureFileShare = "AzureFileShare",
-    // (undocumented)
     AzureSqlDb = "AzureSqlDb",
-    // (undocumented)
     Client = "Client",
-    // (undocumented)
     Exchange = "Exchange",
-    // (undocumented)
     FileFolder = "FileFolder",
-    // (undocumented)
     GenericDataSource = "GenericDataSource",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     SAPAseDatabase = "SAPAseDatabase",
-    // (undocumented)
     SAPHanaDatabase = "SAPHanaDatabase",
-    // (undocumented)
+    SAPHanaDBInstance = "SAPHanaDBInstance",
     Sharepoint = "Sharepoint",
-    // (undocumented)
     SQLDataBase = "SQLDataBase",
-    // (undocumented)
     Sqldb = "SQLDB",
-    // (undocumented)
     SystemState = "SystemState",
-    // (undocumented)
     VM = "VM",
-    // (undocumented)
     VMwareVM = "VMwareVM"
 }
 
 // @public
 export enum KnownXcoolState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
@@ -2802,36 +2564,36 @@ export interface ListRecoveryPointsRecommendedForMoveRequest {
 }
 
 // @public
-export type LogSchedulePolicy = SchedulePolicy & {
-    schedulePolicyType: "LogSchedulePolicy";
+export interface LogSchedulePolicy extends SchedulePolicy {
     scheduleFrequencyInMins?: number;
-};
+    schedulePolicyType: "LogSchedulePolicy";
+}
 
 // @public
-export type LongTermRetentionPolicy = RetentionPolicy & {
-    retentionPolicyType: "LongTermRetentionPolicy";
+export interface LongTermRetentionPolicy extends RetentionPolicy {
     dailySchedule?: DailyRetentionSchedule;
-    weeklySchedule?: WeeklyRetentionSchedule;
     monthlySchedule?: MonthlyRetentionSchedule;
+    retentionPolicyType: "LongTermRetentionPolicy";
+    weeklySchedule?: WeeklyRetentionSchedule;
     yearlySchedule?: YearlyRetentionSchedule;
-};
+}
 
 // @public
-export type LongTermSchedulePolicy = SchedulePolicy & {
+export interface LongTermSchedulePolicy extends SchedulePolicy {
     schedulePolicyType: "LongTermSchedulePolicy";
-};
+}
 
 // @public
-export type MabContainer = ProtectionContainer & {
-    containerType: "Windows";
-    canReRegister?: boolean;
-    containerId?: number;
-    protectedItemCount?: number;
+export interface MabContainer extends ProtectionContainer {
     agentVersion?: string;
+    canReRegister?: boolean;
+    containerHealthState?: string;
+    containerId?: number;
+    containerType: "Windows";
     extendedInfo?: MabContainerExtendedInfo;
     mabContainerHealthDetails?: MABContainerHealthDetails[];
-    containerHealthState?: string;
-};
+    protectedItemCount?: number;
+}
 
 // @public
 export interface MabContainerExtendedInfo {
@@ -2857,16 +2619,16 @@ export interface MabErrorInfo {
 }
 
 // @public
-export type MabFileFolderProtectedItem = ProtectedItem & {
-    protectedItemType: "MabFileFolderProtectedItem";
-    friendlyName?: string;
+export interface MabFileFolderProtectedItem extends ProtectedItem {
     computerName?: string;
-    lastBackupStatus?: string;
-    lastBackupTime?: Date;
-    protectionState?: string;
     deferredDeleteSyncTimeInUTC?: number;
     extendedInfo?: MabFileFolderProtectedItemExtendedInfo;
-};
+    friendlyName?: string;
+    lastBackupStatus?: string;
+    lastBackupTime?: Date;
+    protectedItemType: "MabFileFolderProtectedItem";
+    protectionState?: string;
+}
 
 // @public
 export interface MabFileFolderProtectedItemExtendedInfo {
@@ -2876,16 +2638,16 @@ export interface MabFileFolderProtectedItemExtendedInfo {
 }
 
 // @public
-export type MabJob = Job & {
-    jobType: "MabJob";
-    duration?: string;
+export interface MabJob extends Job {
     actionsInfo?: JobSupportedAction[];
+    duration?: string;
+    errorDetails?: MabErrorInfo[];
+    extendedInfo?: MabJobExtendedInfo;
+    jobType: "MabJob";
     mabServerName?: string;
     mabServerType?: MabServerType;
     workloadType?: WorkloadType;
-    errorDetails?: MabErrorInfo[];
-    extendedInfo?: MabJobExtendedInfo;
-};
+}
 
 // @public
 export interface MabJobExtendedInfo {
@@ -2906,11 +2668,11 @@ export interface MabJobTaskDetails {
 }
 
 // @public
-export type MabProtectionPolicy = ProtectionPolicy & {
+export interface MabProtectionPolicy extends ProtectionPolicy {
     backupManagementType: "MAB";
-    schedulePolicy?: SchedulePolicyUnion;
     retentionPolicy?: RetentionPolicyUnion;
-};
+    schedulePolicy?: SchedulePolicyUnion;
+}
 
 // @public
 export type MabServerType = string;
@@ -2966,10 +2728,10 @@ export interface Operation {
 }
 
 // @public
-export type OperationResultInfo = OperationResultInfoBase & {
-    objectType: "OperationResultInfo";
+export interface OperationResultInfo extends OperationResultInfoBase {
     jobList?: string[];
-};
+    objectType: "OperationResultInfo";
+}
 
 // @public
 export interface OperationResultInfoBase {
@@ -2977,9 +2739,9 @@ export interface OperationResultInfoBase {
 }
 
 // @public
-export type OperationResultInfoBaseResource = OperationWorkerResponse & {
+export interface OperationResultInfoBaseResource extends OperationWorkerResponse {
     operation?: OperationResultInfoBaseUnion;
-};
+}
 
 // @public (undocumented)
 export type OperationResultInfoBaseUnion = OperationResultInfoBase | ExportJobsOperationResultInfo | OperationResultInfo;
@@ -3029,31 +2791,31 @@ export interface OperationStatusExtendedInfo {
 export type OperationStatusExtendedInfoUnion = OperationStatusExtendedInfo | OperationStatusJobExtendedInfo | OperationStatusJobsExtendedInfo | OperationStatusProvisionILRExtendedInfo | OperationStatusValidateOperationExtendedInfo;
 
 // @public
-export type OperationStatusJobExtendedInfo = OperationStatusExtendedInfo & {
-    objectType: "OperationStatusJobExtendedInfo";
+export interface OperationStatusJobExtendedInfo extends OperationStatusExtendedInfo {
     jobId?: string;
-};
+    objectType: "OperationStatusJobExtendedInfo";
+}
 
 // @public
-export type OperationStatusJobsExtendedInfo = OperationStatusExtendedInfo & {
-    objectType: "OperationStatusJobsExtendedInfo";
-    jobIds?: string[];
+export interface OperationStatusJobsExtendedInfo extends OperationStatusExtendedInfo {
     failedJobsError?: {
         [propertyName: string]: string;
     };
-};
+    jobIds?: string[];
+    objectType: "OperationStatusJobsExtendedInfo";
+}
 
 // @public
-export type OperationStatusProvisionILRExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusProvisionILRExtendedInfo extends OperationStatusExtendedInfo {
     objectType: "OperationStatusProvisionILRExtendedInfo";
     recoveryTarget?: InstantItemRecoveryTarget;
-};
+}
 
 // @public
-export type OperationStatusValidateOperationExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusValidateOperationExtendedInfo extends OperationStatusExtendedInfo {
     objectType: "OperationStatusValidateOperationExtendedInfo";
     validateOperationResponse?: ValidateOperationResponse;
-};
+}
 
 // @public
 export type OperationStatusValues = string;
@@ -3105,13 +2867,13 @@ export interface PrepareDataMoveRequest {
 }
 
 // @public
-export type PrepareDataMoveResponse = VaultStorageConfigOperationResultResponse & {
-    objectType: "PrepareDataMoveResponse";
+export interface PrepareDataMoveResponse extends VaultStorageConfigOperationResultResponse {
     correlationId?: string;
+    objectType: "PrepareDataMoveResponse";
     sourceVaultProperties?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface PreValidateEnableBackupRequest {
@@ -3158,9 +2920,9 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionReso
 
 // @public
 export interface PrivateEndpointConnectionOperations {
-    beginDelete(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
-    beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionPutResponse>, PrivateEndpointConnectionPutResponse>>;
+    beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionPutResponse>, PrivateEndpointConnectionPutResponse>>;
     beginPutAndWait(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<PrivateEndpointConnectionPutResponse>;
     get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
 }
@@ -3175,9 +2937,9 @@ export interface PrivateEndpointConnectionPutOptionalParams extends coreClient.O
 export type PrivateEndpointConnectionPutResponse = PrivateEndpointConnectionResource;
 
 // @public
-export type PrivateEndpointConnectionResource = Resource & {
+export interface PrivateEndpointConnectionResource extends Resource {
     properties?: PrivateEndpointConnection;
-};
+}
 
 // @public
 export type PrivateEndpointConnectionStatus = string;
@@ -3211,14 +2973,14 @@ export interface ProtectableContainer {
 }
 
 // @public
-export type ProtectableContainerResource = Resource & {
+export interface ProtectableContainerResource extends Resource {
     properties?: ProtectableContainerUnion;
-};
+}
 
 // @public
-export type ProtectableContainerResourceList = ResourceList & {
+export interface ProtectableContainerResourceList extends ResourceList {
     value?: ProtectableContainerResource[];
-};
+}
 
 // @public
 export interface ProtectableContainers {
@@ -3227,7 +2989,6 @@ export interface ProtectableContainers {
 
 // @public
 export interface ProtectableContainersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3241,12 +3002,15 @@ export interface ProtectableContainersListOptionalParams extends coreClient.Oper
 // @public
 export type ProtectableContainersListResponse = ProtectableContainerResourceList;
 
+// @public
+export type ProtectableContainerType = "Invalid" | "Unknown" | "IaasVMContainer" | "IaasVMServiceContainer" | "DPMContainer" | "AzureBackupServerContainer" | "MABContainer" | "Cluster" | "AzureSqlContainer" | "Windows" | "VCenter" | "VMAppContainer" | "SQLAGWorkLoadContainer" | "StorageContainer" | "GenericContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer";
+
 // @public (undocumented)
 export type ProtectableContainerUnion = ProtectableContainer | AzureStorageProtectableContainer | AzureVMAppContainerProtectableContainer;
 
 // @public
 export interface ProtectedItem {
-    backupManagementType?: BackupManagementType;
+    readonly backupManagementType?: BackupManagementType;
     backupSetName?: string;
     containerName?: string;
     createMode?: CreateMode;
@@ -3259,10 +3023,11 @@ export interface ProtectedItem {
     lastRecoveryPoint?: Date;
     policyId?: string;
     policyName?: string;
-    protectedItemType: "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem";
+    protectedItemType: "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem";
     resourceGuardOperationRequests?: string[];
+    softDeleteRetentionPeriod?: number;
     sourceResourceId?: string;
-    workloadType?: DataSourceType;
+    readonly workloadType?: DataSourceType;
 }
 
 // @public
@@ -3306,14 +3071,14 @@ export interface ProtectedItemQueryObject {
 }
 
 // @public
-export type ProtectedItemResource = Resource & {
+export interface ProtectedItemResource extends Resource {
     properties?: ProtectedItemUnion;
-};
+}
 
 // @public
-export type ProtectedItemResourceList = ResourceList & {
+export interface ProtectedItemResourceList extends ResourceList {
     value?: ProtectedItemResource[];
-};
+}
 
 // @public
 export interface ProtectedItems {
@@ -3379,14 +3144,14 @@ export interface ProtectionContainerRefreshOperationResultsGetOptionalParams ext
 }
 
 // @public
-export type ProtectionContainerResource = Resource & {
+export interface ProtectionContainerResource extends Resource {
     properties?: ProtectionContainerUnion;
-};
+}
 
 // @public
-export type ProtectionContainerResourceList = ResourceList & {
+export interface ProtectionContainerResourceList extends ResourceList {
     value?: ProtectionContainerResource[];
-};
+}
 
 // @public
 export interface ProtectionContainers {
@@ -3476,14 +3241,14 @@ export interface ProtectionIntentQueryObject {
 }
 
 // @public
-export type ProtectionIntentResource = Resource & {
+export interface ProtectionIntentResource extends Resource {
     properties?: ProtectionIntentUnion;
-};
+}
 
 // @public
-export type ProtectionIntentResourceList = ResourceList & {
+export interface ProtectionIntentResourceList extends ResourceList {
     value?: ProtectionIntentResource[];
-};
+}
 
 // @public (undocumented)
 export type ProtectionIntentUnion = ProtectionIntent | AzureRecoveryServiceVaultProtectionIntentUnion | AzureResourceProtectionIntent | AzureWorkloadContainerAutoProtectionIntent;
@@ -3497,7 +3262,7 @@ export type ProtectionIntentValidateResponse = PreValidateEnableBackupResponse;
 
 // @public
 export interface ProtectionPolicies {
-    beginDelete(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams): Promise<void>;
     createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams): Promise<ProtectionPoliciesCreateOrUpdateResponse>;
     get(vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesGetOptionalParams): Promise<ProtectionPoliciesGetResponse>;
@@ -3562,14 +3327,14 @@ export interface ProtectionPolicyQueryObject {
 }
 
 // @public
-export type ProtectionPolicyResource = Resource & {
+export interface ProtectionPolicyResource extends Resource {
     properties?: ProtectionPolicyUnion;
-};
+}
 
 // @public
-export type ProtectionPolicyResourceList = ResourceList & {
+export interface ProtectionPolicyResourceList extends ResourceList {
     value?: ProtectionPolicyResource[];
-};
+}
 
 // @public (undocumented)
 export type ProtectionPolicyUnion = ProtectionPolicy | AzureVmWorkloadProtectionPolicy | AzureFileShareProtectionPolicy | AzureIaaSVMProtectionPolicy | AzureSqlProtectionPolicy | GenericProtectionPolicy | MabProtectionPolicy;
@@ -3608,20 +3373,27 @@ export interface RecoveryPointMoveReadinessInfo {
 }
 
 // @public
+export interface RecoveryPointProperties {
+    expiryTime?: string;
+    isSoftDeleted?: boolean;
+    ruleName?: string;
+}
+
+// @public
 export interface RecoveryPointRehydrationInfo {
     rehydrationPriority?: RehydrationPriority;
     rehydrationRetentionDuration?: string;
 }
 
 // @public
-export type RecoveryPointResource = Resource & {
+export interface RecoveryPointResource extends Resource {
     properties?: RecoveryPointUnion;
-};
+}
 
 // @public
-export type RecoveryPointResourceList = ResourceList & {
+export interface RecoveryPointResourceList extends ResourceList {
     value?: RecoveryPointResource[];
-};
+}
 
 // @public
 export interface RecoveryPoints {
@@ -3638,7 +3410,6 @@ export type RecoveryPointsGetResponse = RecoveryPointResource;
 
 // @public
 export interface RecoveryPointsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3681,7 +3452,8 @@ export interface RecoveryPointTierInformation {
 }
 
 // @public
-export type RecoveryPointTierInformationV2 = RecoveryPointTierInformation & {};
+export interface RecoveryPointTierInformationV2 extends RecoveryPointTierInformation {
+}
 
 // @public
 export type RecoveryPointTierStatus = "Invalid" | "Valid" | "Disabled" | "Deleted" | "Rehydrated";
@@ -3731,14 +3503,16 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     backupUsageSummaries: BackupUsageSummaries;
     // (undocumented)
     backupWorkloadItems: BackupWorkloadItems;
-    beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginBMSPrepareDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<void>;
-    beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginBMSTriggerDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<void>;
-    beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMoveRecoveryPointAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<void>;
     // (undocumented)
     bMSPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResult;
+    // (undocumented)
+    deletedProtectionContainers: DeletedProtectionContainers;
     // (undocumented)
     exportJobsOperationResults: ExportJobsOperationResults;
     // (undocumented)
@@ -3862,7 +3636,7 @@ export type ResourceGuardProxiesGetResponse = ResourceGuardProxyBaseResourceList
 export interface ResourceGuardProxy {
     delete(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyDeleteOptionalParams): Promise<void>;
     get(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyGetOptionalParams): Promise<ResourceGuardProxyGetResponse>;
-    put(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyPutOptionalParams): Promise<ResourceGuardProxyPutResponse>;
+    put(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, parameters: ResourceGuardProxyBaseResource, options?: ResourceGuardProxyPutOptionalParams): Promise<ResourceGuardProxyPutResponse>;
     unlockDelete(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, parameters: UnlockDeleteRequest, options?: ResourceGuardProxyUnlockDeleteOptionalParams): Promise<ResourceGuardProxyUnlockDeleteResponse>;
 }
 
@@ -3879,14 +3653,14 @@ export interface ResourceGuardProxyBase {
 }
 
 // @public (undocumented)
-export type ResourceGuardProxyBaseResource = Resource & {
+export interface ResourceGuardProxyBaseResource extends Resource {
     properties?: ResourceGuardProxyBase;
-};
+}
 
 // @public
-export type ResourceGuardProxyBaseResourceList = ResourceList & {
+export interface ResourceGuardProxyBaseResourceList extends ResourceList {
     value?: ResourceGuardProxyBaseResource[];
-};
+}
 
 // @public
 export interface ResourceGuardProxyDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3948,9 +3722,9 @@ export interface RestoreRequest {
 }
 
 // @public
-export type RestoreRequestResource = Resource & {
+export interface RestoreRequestResource extends Resource {
     properties?: RestoreRequestUnion;
-};
+}
 
 // @public
 export type RestoreRequestType = string;
@@ -3960,7 +3734,7 @@ export type RestoreRequestUnion = RestoreRequest | AzureFileShareRestoreRequest 
 
 // @public
 export interface Restores {
-    beginTrigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTrigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams): Promise<void>;
 }
 
@@ -4002,6 +3776,11 @@ export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermS
 export type ScheduleRunType = string;
 
 // @public
+export interface SecuredVMDetails {
+    securedVMOsDiskEncryptionSetId?: string;
+}
+
+// @public
 export interface SecurityPinBase {
     resourceGuardOperationRequests?: string[];
 }
@@ -4027,29 +3806,29 @@ export interface Settings {
 }
 
 // @public
-export type SimpleRetentionPolicy = RetentionPolicy & {
-    retentionPolicyType: "SimpleRetentionPolicy";
+export interface SimpleRetentionPolicy extends RetentionPolicy {
     retentionDuration?: RetentionDuration;
-};
+    retentionPolicyType: "SimpleRetentionPolicy";
+}
 
 // @public
-export type SimpleSchedulePolicy = SchedulePolicy & {
-    schedulePolicyType: "SimpleSchedulePolicy";
-    scheduleRunFrequency?: ScheduleRunType;
-    scheduleRunDays?: DayOfWeek[];
-    scheduleRunTimes?: Date[];
+export interface SimpleSchedulePolicy extends SchedulePolicy {
     hourlySchedule?: HourlySchedule;
+    schedulePolicyType: "SimpleSchedulePolicy";
+    scheduleRunDays?: DayOfWeek[];
+    scheduleRunFrequency?: ScheduleRunType;
+    scheduleRunTimes?: Date[];
     scheduleWeeklyFrequency?: number;
-};
+}
 
 // @public
-export type SimpleSchedulePolicyV2 = SchedulePolicy & {
+export interface SimpleSchedulePolicyV2 extends SchedulePolicy {
+    dailySchedule?: DailySchedule;
+    hourlySchedule?: HourlySchedule;
     schedulePolicyType: "SimpleSchedulePolicyV2";
     scheduleRunFrequency?: ScheduleRunType;
-    hourlySchedule?: HourlySchedule;
-    dailySchedule?: DailySchedule;
     weeklySchedule?: WeeklySchedule;
-};
+}
 
 // @public
 export type SoftDeleteFeatureState = string;
@@ -4083,6 +3862,9 @@ export interface SubProtectionPolicy {
     policyType?: PolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
 }
 
 // @public
@@ -4095,11 +3877,30 @@ export interface TargetAFSRestoreInfo {
 }
 
 // @public
+export type TargetDiskNetworkAccessOption = "SameAsOnSourceDisks" | "EnablePrivateAccessForAllDisks" | "EnablePublicAccessForAllDisks";
+
+// @public
+export interface TargetDiskNetworkAccessSettings {
+    targetDiskAccessId?: string;
+    targetDiskNetworkAccessOption?: TargetDiskNetworkAccessOption;
+}
+
+// @public
 export interface TargetRestoreInfo {
     containerId?: string;
     databaseName?: string;
     overwriteOption?: OverwriteOptions;
     targetDirectoryForFileRestore?: string;
+}
+
+// @public
+export type TieringMode = string;
+
+// @public
+export interface TieringPolicy {
+    duration?: number;
+    durationType?: RetentionDurationType;
+    tieringMode?: TieringMode;
 }
 
 // @public
@@ -4139,13 +3940,13 @@ export interface UnlockDeleteResponse {
 export type UsagesUnit = string;
 
 // @public
-export type ValidateIaasVMRestoreOperationRequest = ValidateRestoreOperationRequest & {
+export interface ValidateIaasVMRestoreOperationRequest extends ValidateRestoreOperationRequest {
     objectType: "ValidateIaasVMRestoreOperationRequest";
-};
+}
 
 // @public
 export interface ValidateOperation {
-    beginTrigger(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTrigger(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerAndWait(vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestUnion, options?: ValidateOperationTriggerOptionalParams): Promise<void>;
 }
 
@@ -4198,10 +3999,10 @@ export interface ValidateOperationTriggerOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type ValidateRestoreOperationRequest = ValidateOperationRequest & {
+export interface ValidateRestoreOperationRequest extends ValidateOperationRequest {
     objectType: "ValidateRestoreOperationRequest" | "ValidateIaasVMRestoreOperationRequest";
     restoreRequest?: RestoreRequestUnion;
-};
+}
 
 // @public (undocumented)
 export type ValidateRestoreOperationRequestUnion = ValidateRestoreOperationRequest | ValidateIaasVMRestoreOperationRequest;
@@ -4210,13 +4011,13 @@ export type ValidateRestoreOperationRequestUnion = ValidateRestoreOperationReque
 export type ValidationStatus = string;
 
 // @public
-export type VaultJob = Job & {
-    jobType: "VaultJob";
-    duration?: string;
+export interface VaultJob extends Job {
     actionsInfo?: JobSupportedAction[];
+    duration?: string;
     errorDetails?: VaultJobErrorInfo[];
     extendedInfo?: VaultJobExtendedInfo;
-};
+    jobType: "VaultJob";
+}
 
 // @public
 export interface VaultJobErrorInfo {
@@ -4280,14 +4081,14 @@ export interface WorkloadItem {
 }
 
 // @public
-export type WorkloadItemResource = Resource & {
+export interface WorkloadItemResource extends Resource {
     properties?: WorkloadItemUnion;
-};
+}
 
 // @public
-export type WorkloadItemResourceList = ResourceList & {
+export interface WorkloadItemResourceList extends ResourceList {
     value?: WorkloadItemResource[];
-};
+}
 
 // @public
 export type WorkloadItemType = string;
@@ -4299,20 +4100,20 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }
 
 // @public
-export type WorkloadProtectableItemResource = Resource & {
+export interface WorkloadProtectableItemResource extends Resource {
     properties?: WorkloadProtectableItemUnion;
-};
+}
 
 // @public
-export type WorkloadProtectableItemResourceList = ResourceList & {
+export interface WorkloadProtectableItemResourceList extends ResourceList {
     value?: WorkloadProtectableItemResource[];
-};
+}
 
 // @public (undocumented)
 export type WorkloadProtectableItemUnion = WorkloadProtectableItem | AzureFileShareProtectableItem | IaaSVMProtectableItemUnion | AzureVmWorkloadProtectableItemUnion;

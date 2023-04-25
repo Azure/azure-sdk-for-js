@@ -16,19 +16,19 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   CapabilitiesImpl,
+  CapabilityTypesImpl,
   ExperimentsImpl,
   OperationsImpl,
-  TargetsImpl,
   TargetTypesImpl,
-  CapabilityTypesImpl
+  TargetsImpl
 } from "./operations";
 import {
   Capabilities,
+  CapabilityTypes,
   Experiments,
   Operations,
-  Targets,
   TargetTypes,
-  CapabilityTypes
+  Targets
 } from "./operationsInterfaces";
 import { ChaosManagementClientOptionalParams } from "./models";
 
@@ -64,22 +64,19 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-chaos/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-chaos/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -105,7 +102,9 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -118,13 +117,13 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.capabilities = new CapabilitiesImpl(this);
+    this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.targets = new TargetsImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
-    this.capabilityTypes = new CapabilityTypesImpl(this);
+    this.targets = new TargetsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -157,9 +156,9 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   }
 
   capabilities: Capabilities;
+  capabilityTypes: CapabilityTypes;
   experiments: Experiments;
   operations: Operations;
-  targets: Targets;
   targetTypes: TargetTypes;
-  capabilityTypes: CapabilityTypes;
+  targets: Targets;
 }

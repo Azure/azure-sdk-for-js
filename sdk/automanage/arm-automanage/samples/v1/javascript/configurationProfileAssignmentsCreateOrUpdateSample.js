@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates an association between a VM and Automanage configuration profile
@@ -18,9 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileAssignment.json
  */
 async function createOrUpdateConfigurationProfileAssignment() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileAssignmentName = "default";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const vmName = "myVMName";
   const parameters = {
     properties: {
@@ -39,4 +40,8 @@ async function createOrUpdateConfigurationProfileAssignment() {
   console.log(result);
 }
 
-createOrUpdateConfigurationProfileAssignment().catch(console.error);
+async function main() {
+  createOrUpdateConfigurationProfileAssignment();
+}
+
+main().catch(console.error);

@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import assert from "assert";
+import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
-import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -20,7 +23,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
     afterEach(async () => {
@@ -87,6 +90,45 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           method: "GET",
         },
         { val: "I am the answer!" }
+      );
+    });
+
+    describe("does not add a content-length header unnecessarily", () =>
+      (["GET", "DELETE"] as const).forEach((method) =>
+        it(`to a ${method} request`, async () => {
+          await recorder.start({ envSetupForPlayback: {} });
+          const req = createPipelineRequest({
+            url: TEST_SERVER_URL + "/content_length_test",
+            method,
+            allowInsecureConnection: isLiveMode(),
+          });
+
+          const rsp = await client.sendRequest(req);
+          expect(rsp.status).to.be.within(200, 299);
+        })
+      ));
+
+    it("allows multiple consecutive slashes at the start of the path", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "///multiple_slashes", method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirected request gets reverted", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      const req = createPipelineRequest({
+        url: TEST_SERVER_URL + "/sample_response",
+        method: "GET",
+        allowInsecureConnection: isLiveMode(),
+      });
+      await client.sendRequest(req);
+      assert.strictEqual(
+        req.url,
+        TEST_SERVER_URL + "/sample_response",
+        "Looks like the url is not the same"
       );
     });
 

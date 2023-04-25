@@ -1,0 +1,53 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx/notificationHubs?api-version=2017-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-notificationhubs/2.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "03a33930-7074-4537-85fb-880be6336fdf"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2014-09-01, 2016-03-01, 2017-04-01, 2020-01-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 01 Dec 2022 06:25:07 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "TrackingId": "6e0529cf-7771-4c07-b57f-0c6648e69383",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "01ca5dbb-bf34-4363-be54-f773aaa6d432",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "01ca5dbb-bf34-4363-be54-f773aaa6d432",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221201T062507Z:01ca5dbb-bf34-4363-be54-f773aaa6d432"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "registrationTtl": "10675199.02:48:05.4775807",
+              "authorizationRules": [],
+              "dailyMaxActiveDevices": 0
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx/NotificationHubs/mynotificationhubsxxx",
+            "name": "mynotificationhubsxxx",
+            "type": "Microsoft.NotificationHubs/namespaces/notificationHubs",
+            "location": "East US"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

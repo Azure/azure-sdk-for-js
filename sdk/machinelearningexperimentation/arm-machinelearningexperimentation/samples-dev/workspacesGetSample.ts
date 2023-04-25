@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the properties of the specified machine learning workspace.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/WorkspaceGet.json
  */
 async function workspaceGet() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "accountcrud-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP"] ||
+    "accountcrud-1234";
   const accountName = "accountcrud5678";
   const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
@@ -32,4 +39,8 @@ async function workspaceGet() {
   console.log(result);
 }
 
-workspaceGet().catch(console.error);
+async function main() {
+  workspaceGet();
+}
+
+main().catch(console.error);

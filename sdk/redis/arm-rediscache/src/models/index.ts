@@ -200,7 +200,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
   [property: string]: any;
   /** Specifies whether the rdb backup is enabled */
   rdbBackupEnabled?: string;
-  /** Specifies the frequency for creating rdb backup */
+  /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
   rdbBackupFrequency?: string;
   /** Specifies the maximum number of snapshots for rdb backup */
   rdbBackupMaxSnapshotCount?: string;
@@ -494,6 +494,16 @@ export interface RedisLinkedServerCreateParameters {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
+  /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
 }
 
 /** Create properties for a linked server */
@@ -504,6 +514,16 @@ export interface RedisLinkedServerCreateProperties {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
+  /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
 }
 
 /** List of linked servers (with properties) of a Redis cache. */
@@ -793,6 +813,16 @@ export interface RedisLinkedServerWithProperties extends ProxyResource {
   linkedRedisCacheLocation?: string;
   /** Role of the linked server. */
   serverRole?: ReplicationRole;
+  /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
   /**
    * Terminal state of the link between primary and secondary redis cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.

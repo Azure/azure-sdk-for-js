@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Invoices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,13 @@ import {
   Invoice,
   InvoicesListByBillingAccountNextOptionalParams,
   InvoicesListByBillingAccountOptionalParams,
+  InvoicesListByBillingAccountResponse,
   InvoicesListByBillingProfileNextOptionalParams,
   InvoicesListByBillingProfileOptionalParams,
+  InvoicesListByBillingProfileResponse,
   InvoicesListByBillingSubscriptionNextOptionalParams,
   InvoicesListByBillingSubscriptionOptionalParams,
-  InvoicesListByBillingAccountResponse,
-  InvoicesListByBillingProfileResponse,
+  InvoicesListByBillingSubscriptionResponse,
   InvoicesGetOptionalParams,
   InvoicesGetResponse,
   InvoicesGetByIdOptionalParams,
@@ -32,7 +34,6 @@ import {
   InvoicesDownloadInvoiceResponse,
   InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams,
   InvoicesDownloadMultipleBillingProfileInvoicesResponse,
-  InvoicesListByBillingSubscriptionResponse,
   InvoicesGetBySubscriptionAndInvoiceIdOptionalParams,
   InvoicesGetBySubscriptionAndInvoiceIdResponse,
   InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
@@ -87,12 +88,16 @@ export class InvoicesImpl implements Invoices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           periodStartDate,
           periodEndDate,
-          options
+          options,
+          settings
         );
       }
     };
@@ -102,16 +107,23 @@ export class InvoicesImpl implements Invoices {
     billingAccountName: string,
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
+    options?: InvoicesListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Invoice[]> {
-    let result = await this._listByBillingAccount(
-      billingAccountName,
-      periodStartDate,
-      periodEndDate,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InvoicesListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(
+        billingAccountName,
+        periodStartDate,
+        periodEndDate,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
@@ -121,7 +133,9 @@ export class InvoicesImpl implements Invoices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -174,13 +188,17 @@ export class InvoicesImpl implements Invoices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountName,
           billingProfileName,
           periodStartDate,
           periodEndDate,
-          options
+          options,
+          settings
         );
       }
     };
@@ -191,17 +209,24 @@ export class InvoicesImpl implements Invoices {
     billingProfileName: string,
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingProfileOptionalParams
+    options?: InvoicesListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Invoice[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountName,
-      billingProfileName,
-      periodStartDate,
-      periodEndDate,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InvoicesListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        periodStartDate,
+        periodEndDate,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingProfileNext(
         billingAccountName,
@@ -212,7 +237,9 @@ export class InvoicesImpl implements Invoices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -257,11 +284,15 @@ export class InvoicesImpl implements Invoices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingSubscriptionPagingPage(
           periodStartDate,
           periodEndDate,
-          options
+          options,
+          settings
         );
       }
     };
@@ -270,15 +301,22 @@ export class InvoicesImpl implements Invoices {
   private async *listByBillingSubscriptionPagingPage(
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingSubscriptionOptionalParams
+    options?: InvoicesListByBillingSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Invoice[]> {
-    let result = await this._listByBillingSubscription(
-      periodStartDate,
-      periodEndDate,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InvoicesListByBillingSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingSubscription(
+        periodStartDate,
+        periodEndDate,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingSubscriptionNext(
         periodStartDate,
@@ -287,7 +325,9 @@ export class InvoicesImpl implements Invoices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

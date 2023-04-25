@@ -163,7 +163,7 @@ node channelsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node channelsCreateOrUpdateSample.js
+npx cross-env EVENTGRID_SUBSCRIPTION_ID="<eventgrid subscription id>" EVENTGRID_RESOURCE_GROUP="<eventgrid resource group>" node channelsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

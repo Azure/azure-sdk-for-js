@@ -2,6 +2,22 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2023-03-07
+
+- [#25122](https://github.com/Azure/azure-sdk-for-js/pull/25122) Fixes the bug where the long and short names are not recognized for the boolean options if they are different from the key presented in the options bag.
+
+### 2023-02-16
+
+- [#14146](https://github.com/Azure/azure-sdk-for-js/pull/14146) Adds profiling support to the perf framework. Two new options "profile" and "profile-path" introduced.
+
+  [#24240](https://github.com/Azure/azure-sdk-for-js/pull/24240) 
+
+### 2023-01-18
+
+- [#24518](https://github.com/Azure/azure-sdk-for-js/issues/24518) Fixes the issue where the `console.logs` that are part of the test are not being propagated as expected from the child process(test instance).
+
+  [#23819](https://github.com/Azure/azure-sdk-for-js/pull/23819)
+
 ### 2022-02-04
 
 - [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
@@ -9,7 +25,7 @@
 
   [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
 
-  - With the support from the new `PerfTest#configureClientOptions` method, we no longer need the `PerfTest#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies. 
+  - With the support from the new `PerfTest#configureClientOptions` method, we no longer need the `PerfTest#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies.
   - [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `PerfTest#configureClient` along with the new addition.
 
 ### 2021-11-24

@@ -1,0 +1,114 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.NetApp/netAppAccounts?api-version=2022-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-netapp/18.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "529897fa-8399-444e-a2b3-9dd3a82d380d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "2060",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 08 Mar 2023 08:35:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b55fdc13-c38b-41f1-93a7-d66ebe1e2d44",
+        "x-ms-original-request-ids": [
+          "01a4d8db-7610-43fc-bbd6-a0f6e8ab0abf",
+          "3106cbfc-3fdc-40b0-a7d8-7c9f3347c2ce"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "b55fdc13-c38b-41f1-93a7-d66ebe1e2d44",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230308T083515Z:b55fdc13-c38b-41f1-93a7-d66ebe1e2d44"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-secondary-rg/providers/Microsoft.NetApp/netAppAccounts/SecondaryANFAccount",
+            "name": "SecondaryANFAccount",
+            "type": "Microsoft.NetApp/netAppAccounts",
+            "etag": "W/\u0022datetime\u00272022-06-22T14%3A47%3A01.8936205Z\u0027\u0022",
+            "location": "eastus",
+            "tags": {
+              "Author": "ANF Go CRR SDK Sample",
+              "Service": "Azure Netapp Files"
+            },
+            "properties": {
+              "encryption": {
+                "keySource": "Microsoft.NetApp"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "a1fc368b-7f40-4802-8fa1-260d3a6ec34b",
+              "createdByType": "Application",
+              "createdAt": "2022-06-22T14:47:00.4826691Z",
+              "lastModifiedBy": "a1fc368b-7f40-4802-8fa1-260d3a6ec34b",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-06-22T14:47:00.4826691Z"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetApp/netAppAccounts/accounttest",
+            "name": "accounttest",
+            "type": "Microsoft.NetApp/netAppAccounts",
+            "etag": "W/\u0022datetime\u00272023-03-08T08%3A35%3A09.3407544Z\u0027\u0022",
+            "location": "eastus",
+            "properties": {
+              "encryption": {
+                "keySource": "Microsoft.NetApp"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-08T08:35:07.8997709Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-08T08:35:07.8997709Z"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-primary-rg/providers/Microsoft.NetApp/netAppAccounts/PrimaryANFAccount",
+            "name": "PrimaryANFAccount",
+            "type": "Microsoft.NetApp/netAppAccounts",
+            "etag": "W/\u0022datetime\u00272022-06-22T14%3A41%3A19.69571Z\u0027\u0022",
+            "location": "westus",
+            "tags": {
+              "Author": "ANF Go CRR SDK Sample",
+              "Service": "Azure Netapp Files"
+            },
+            "properties": {
+              "encryption": {
+                "keySource": "Microsoft.NetApp"
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "a1fc368b-7f40-4802-8fa1-260d3a6ec34b",
+              "createdByType": "Application",
+              "createdAt": "2022-06-22T14:41:18.5917381Z",
+              "lastModifiedBy": "a1fc368b-7f40-4802-8fa1-260d3a6ec34b",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-06-22T14:41:18.5917381Z"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

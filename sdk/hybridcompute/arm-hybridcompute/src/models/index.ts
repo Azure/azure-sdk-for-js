@@ -605,32 +605,33 @@ export interface MachineUpdateProperties {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Describes a Machine Extension Update. */
-export type MachineExtensionUpdate = ResourceUpdate & {
+export interface MachineExtensionUpdate extends ResourceUpdate {
   /** Describes Machine Extension Update Properties. */
   properties?: MachineExtensionUpdateProperties;
-};
+}
 
 /** Describes a hybrid machine Update. */
-export type MachineUpdate = ResourceUpdate & {
+export interface MachineUpdate extends ResourceUpdate {
   /** Identity for the resource. */
   identity?: Identity;
   /** Hybrid Compute Machine properties */
   properties?: MachineUpdateProperties;
-};
+}
 
 /** An Azure Arc PrivateLinkScope definition. */
-export type HybridComputePrivateLinkScope = PrivateLinkScopesResource & {
+export interface HybridComputePrivateLinkScope
+  extends PrivateLinkScopesResource {
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
   properties?: HybridComputePrivateLinkScopeProperties;
   /**
@@ -638,10 +639,10 @@ export type HybridComputePrivateLinkScope = PrivateLinkScopesResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Describes a hybrid machine. */
-export type Machine = TrackedResource & {
+export interface Machine extends TrackedResource {
   /** Hybrid Compute Machine properties */
   properties?: MachineProperties;
   /** Identity for the resource. */
@@ -651,10 +652,10 @@ export type Machine = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Describes a Machine Extension. */
-export type MachineExtension = TrackedResource & {
+export interface MachineExtension extends TrackedResource {
   /** Describes Machine Extension Properties. */
   properties?: MachineExtensionProperties;
   /**
@@ -662,10 +663,10 @@ export type MachineExtension = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
   /**
@@ -673,10 +674,10 @@ export type PrivateLinkResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** A private endpoint connection */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
   /**
@@ -684,10 +685,11 @@ export type PrivateEndpointConnection = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Known values of {@link InstanceViewTypes} that the service accepts. */
 export enum KnownInstanceViewTypes {
+  /** InstanceView */
   InstanceView = "instanceView"
 }
 
@@ -702,8 +704,11 @@ export type InstanceViewTypes = string;
 
 /** Known values of {@link StatusTypes} that the service accepts. */
 export enum KnownStatusTypes {
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Error */
   Error = "Error"
 }
 
@@ -720,8 +725,11 @@ export type StatusTypes = string;
 
 /** Known values of {@link StatusLevelTypes} that the service accepts. */
 export enum KnownStatusLevelTypes {
+  /** Info */
   Info = "Info",
+  /** Warning */
   Warning = "Warning",
+  /** Error */
   Error = "Error"
 }
 
@@ -738,9 +746,13 @@ export type StatusLevelTypes = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 

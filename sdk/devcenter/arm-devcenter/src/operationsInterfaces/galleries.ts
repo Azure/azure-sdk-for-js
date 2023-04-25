@@ -23,7 +23,7 @@ import {
 export interface Galleries {
   /**
    * Lists galleries for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface Galleries {
   ): PagedAsyncIterableIterator<Gallery>;
   /**
    * Gets a gallery
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface Galleries {
   ): Promise<GalleriesGetResponse>;
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -67,7 +67,7 @@ export interface Galleries {
   >;
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -82,7 +82,7 @@ export interface Galleries {
   ): Promise<GalleriesCreateOrUpdateResponse>;
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface Galleries {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.

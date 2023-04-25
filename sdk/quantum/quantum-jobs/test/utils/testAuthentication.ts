@@ -34,7 +34,7 @@ export async function authenticate(that: any): Promise<any> {
     env.WORKSPACE_NAME,
     {
       endpoint: "https://westus.quantum.azure.com",
-      credentialScopes: "https://quantum.microsoft.com/.default"
+      credentialScopes: "https://quantum.microsoft.com/.default",
     }
   );
   const testClient = new TestClient(client);

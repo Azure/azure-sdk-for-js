@@ -15,8 +15,8 @@ import {
 export interface OperationsStatus {
   /**
    * Gets the status of operation.
-   * @param location The region the operation is in.
-   * @param operationId The operation's unique identifier.
+   * @param location The name of Azure region.
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(

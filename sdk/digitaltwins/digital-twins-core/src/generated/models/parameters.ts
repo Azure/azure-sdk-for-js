@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   QuerySpecification as QuerySpecificationMapper,
   EventRoute as EventRouteMapper
@@ -39,7 +38,24 @@ export const models: OperationParameter = {
     serializedName: "models",
     type: {
       name: "Sequence",
-      element: { type: { name: "any" } }
+      element: {
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
     }
   }
 };
@@ -56,30 +72,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const traceparent: OperationParameter = {
-  parameterPath: ["options", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate: OperationParameter = {
-  parameterPath: ["options", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-31",
+    defaultValue: "2020-10-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -94,15 +90,20 @@ export const dependenciesFor: OperationQueryParameter = {
     serializedName: "dependenciesFor",
     type: {
       name: "Sequence",
-      element: { type: { name: "String" } }
+      element: {
+        type: {
+          name: "String"
+        }
+      }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "Multi"
 };
 
 export const includeModelDefinition: OperationQueryParameter = {
   parameterPath: ["options", "includeModelDefinition"],
   mapper: {
+    defaultValue: false,
     serializedName: "includeModelDefinition",
     type: {
       name: "Boolean"
@@ -110,8 +111,8 @@ export const includeModelDefinition: OperationQueryParameter = {
   }
 };
 
-export const maxItemsPerPage: OperationParameter = {
-  parameterPath: ["options", "maxItemsPerPage"],
+export const resultsPerPage: OperationParameter = {
+  parameterPath: ["options", "resultsPerPage"],
   mapper: {
     serializedName: "max-items-per-page",
     type: {
@@ -150,7 +151,12 @@ export const updateModel: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "any" } }
+      element: {
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
     }
   }
 };
@@ -178,7 +184,8 @@ export const twin: OperationParameter = {
     serializedName: "twin",
     required: true,
     type: {
-      name: "any"
+      name: "Dictionary",
+      value: { type: { name: "any" } }
     }
   }
 };
@@ -210,7 +217,12 @@ export const patchDocument: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "any" } }
+      element: {
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
     }
   }
 };
@@ -232,7 +244,8 @@ export const relationship: OperationParameter = {
     serializedName: "relationship",
     required: true,
     type: {
-      name: "any"
+      name: "Dictionary",
+      value: { type: { name: "any" } }
     }
   }
 };
@@ -253,7 +266,8 @@ export const telemetry: OperationParameter = {
     serializedName: "telemetry",
     required: true,
     type: {
-      name: "any"
+      name: "Dictionary",
+      value: { type: { name: "any" } }
     }
   }
 };

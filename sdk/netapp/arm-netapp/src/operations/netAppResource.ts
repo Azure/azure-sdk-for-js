@@ -19,7 +19,9 @@ import {
   NetAppResourceCheckFilePathAvailabilityResponse,
   CheckQuotaNameResourceTypes,
   NetAppResourceCheckQuotaAvailabilityOptionalParams,
-  NetAppResourceCheckQuotaAvailabilityResponse
+  NetAppResourceCheckQuotaAvailabilityResponse,
+  NetAppResourceQueryRegionInfoOptionalParams,
+  NetAppResourceQueryRegionInfoResponse
 } from "../models";
 
 /** Class containing NetAppResource operations. */
@@ -36,28 +38,28 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a resource name is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name Resource name to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckNameAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { location, name, resourceGroup, typeParam, options },
+      { location, name, typeParam, resourceGroup, options },
       checkNameAvailabilityOperationSpec
     );
   }
 
   /**
    * Check if a file path is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name File path to verify.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
    *                 Microsoft.NetApp/volumes
@@ -77,22 +79,37 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a quota is available.
-   * @param location The location
+   * @param location The name of Azure region.
    * @param name Name of the resource to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckQuotaNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { location, name, resourceGroup, typeParam, options },
+      { location, name, typeParam, resourceGroup, options },
       checkQuotaAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * Provides storage to network proximity and logical zone mapping information.
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  queryRegionInfo(
+    location: string,
+    options?: NetAppResourceQueryRegionInfoOptionalParams
+  ): Promise<NetAppResourceQueryRegionInfoResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      queryRegionInfoOperationSpec
     );
   }
 }
@@ -177,5 +194,24 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfo",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegionInfo
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LocalNetworkGateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   LocalNetworkGateway,
   LocalNetworkGatewaysListNextOptionalParams,
   LocalNetworkGatewaysListOptionalParams,
+  LocalNetworkGatewaysListResponse,
   LocalNetworkGatewaysCreateOrUpdateOptionalParams,
   LocalNetworkGatewaysCreateOrUpdateResponse,
   LocalNetworkGatewaysGetOptionalParams,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   LocalNetworkGatewaysUpdateTagsOptionalParams,
   LocalNetworkGatewaysUpdateTagsResponse,
-  LocalNetworkGatewaysListResponse,
   LocalNetworkGatewaysListNextResponse
 } from "../models";
 
@@ -60,19 +61,29 @@ export class LocalNetworkGatewaysImpl implements LocalNetworkGateways {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: LocalNetworkGatewaysListOptionalParams
+    options?: LocalNetworkGatewaysListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LocalNetworkGateway[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LocalNetworkGatewaysListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -80,7 +91,9 @@ export class LocalNetworkGatewaysImpl implements LocalNetworkGateways {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -155,11 +168,13 @@ export class LocalNetworkGatewaysImpl implements LocalNetworkGateways {
       { resourceGroupName, localNetworkGatewayName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -256,11 +271,13 @@ export class LocalNetworkGatewaysImpl implements LocalNetworkGateways {
       { resourceGroupName, localNetworkGatewayName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -344,10 +361,12 @@ export class LocalNetworkGatewaysImpl implements LocalNetworkGateways {
       { resourceGroupName, localNetworkGatewayName, parameters, options },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -526,7 +545,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LocalNetworkGatewayListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -179,7 +179,6 @@ export type DeploymentOperationsGetResponse = DeploymentOperation;
 
 // @public
 export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -195,7 +194,6 @@ export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentO
 
 // @public
 export interface DeploymentOperationsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -211,7 +209,6 @@ export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListRe
 
 // @public
 export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -227,7 +224,6 @@ export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOper
 
 // @public
 export interface DeploymentOperationsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -243,7 +239,6 @@ export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperations
 
 // @public
 export interface DeploymentOperationsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -582,8 +577,6 @@ export type DeploymentsGetResponse = DeploymentExtended;
 
 // @public
 export interface DeploymentsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -600,8 +593,6 @@ export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult
 
 // @public
 export interface DeploymentsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -618,8 +609,6 @@ export type DeploymentsListAtScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -636,8 +625,6 @@ export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -654,8 +641,6 @@ export type DeploymentsListAtTenantScopeResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -788,9 +773,9 @@ export interface DeploymentWhatIf {
 }
 
 // @public
-export type DeploymentWhatIfProperties = DeploymentProperties & {
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
     whatIfSettings?: DeploymentWhatIfSettings;
-};
+}
 
 // @public
 export interface DeploymentWhatIfSettings {
@@ -819,21 +804,21 @@ export interface ExportTemplateRequest {
 }
 
 // @public
-export type GenericResource = Resource & {
-    plan?: Plan;
-    properties?: Record<string, unknown>;
+export interface GenericResource extends Resource {
+    identity?: Identity;
     kind?: string;
     managedBy?: string;
+    plan?: Plan;
+    properties?: Record<string, unknown>;
     sku?: Sku;
-    identity?: Identity;
-};
+}
 
 // @public
-export type GenericResourceExpanded = GenericResource & {
-    readonly createdTime?: Date;
+export interface GenericResourceExpanded extends GenericResource {
     readonly changedTime?: Date;
+    readonly createdTime?: Date;
     readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface GenericResourceFilter {
@@ -841,6 +826,9 @@ export interface GenericResourceFilter {
     tagname?: string;
     tagvalue?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HttpMessage {
@@ -1000,8 +988,6 @@ export type ProvidersGetResponse = Provider;
 
 // @public
 export interface ProvidersListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    top?: number;
 }
 
 // @public
@@ -1018,8 +1004,6 @@ export type ProvidersListAtTenantScopeResponse = ProviderListResult;
 
 // @public
 export interface ProvidersListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    top?: number;
 }
 
 // @public
@@ -1161,8 +1145,6 @@ export type ResourceGroupsGetResponse = ResourceGroup;
 
 // @public
 export interface ResourceGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1329,9 +1311,6 @@ export type ResourcesGetResponse = GenericResource;
 
 // @public
 export interface ResourcesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1349,9 +1328,6 @@ export type ResourcesListByResourceGroupResponse = ResourceListResult;
 
 // @public
 export interface ResourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
 }
 
 // @public

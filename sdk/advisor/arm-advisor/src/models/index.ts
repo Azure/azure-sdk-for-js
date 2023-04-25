@@ -165,17 +165,17 @@ export interface SuppressionContractListResult {
 }
 
 /** The Advisor configuration data structure. */
-export type ConfigData = Resource & {
+export interface ConfigData extends Resource {
   /** Exclude the resource from Advisor evaluations. Valid values: False (default) or True. */
   exclude?: boolean;
   /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
   lowCpuThreshold?: CpuThreshold;
   /** Advisor digest configuration. Valid only for subscriptions */
   digests?: DigestConfig[];
-};
+}
 
 /** Advisor Recommendation. */
-export type ResourceRecommendationBase = Resource & {
+export interface ResourceRecommendationBase extends Resource {
   /** The category of the recommendation. */
   category?: Category;
   /** The business impact of the recommendation. */
@@ -216,10 +216,10 @@ export type ResourceRecommendationBase = Resource & {
   exposedMetadataProperties?: {
     [propertyName: string]: Record<string, unknown>;
   };
-};
+}
 
 /** The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule. */
-export type SuppressionContract = Resource & {
+export interface SuppressionContract extends Resource {
   /** The GUID of the suppression. */
   suppressionId?: string;
   /** The duration for which the suppression is valid. */
@@ -229,7 +229,7 @@ export type SuppressionContract = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly expirationTimeStamp?: Date;
-};
+}
 
 /** Defines headers for Recommendations_generate operation. */
 export interface RecommendationsGenerateHeaders {
@@ -241,6 +241,7 @@ export interface RecommendationsGenerateHeaders {
 
 /** Known values of {@link Scenario} that the service accepts. */
 export enum KnownScenario {
+  /** Alerts */
   Alerts = "Alerts"
 }
 
@@ -255,9 +256,13 @@ export type Scenario = string;
 
 /** Known values of {@link CpuThreshold} that the service accepts. */
 export enum KnownCpuThreshold {
+  /** Five */
   Five = "5",
+  /** Ten */
   Ten = "10",
+  /** Fifteen */
   Fifteen = "15",
+  /** Twenty */
   Twenty = "20"
 }
 
@@ -275,10 +280,15 @@ export type CpuThreshold = string;
 
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
+  /** HighAvailability */
   HighAvailability = "HighAvailability",
+  /** Security */
   Security = "Security",
+  /** Performance */
   Performance = "Performance",
+  /** Cost */
   Cost = "Cost",
+  /** OperationalExcellence */
   OperationalExcellence = "OperationalExcellence"
 }
 
@@ -297,7 +307,9 @@ export type Category = string;
 
 /** Known values of {@link DigestConfigState} that the service accepts. */
 export enum KnownDigestConfigState {
+  /** Active */
   Active = "Active",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -313,6 +325,7 @@ export type DigestConfigState = string;
 
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
+  /** Default */
   Default = "default"
 }
 
@@ -327,8 +340,11 @@ export type ConfigurationName = string;
 
 /** Known values of {@link Impact} that the service accepts. */
 export enum KnownImpact {
+  /** High */
   High = "High",
+  /** Medium */
   Medium = "Medium",
+  /** Low */
   Low = "Low"
 }
 
@@ -345,8 +361,11 @@ export type Impact = string;
 
 /** Known values of {@link Risk} that the service accepts. */
 export enum KnownRisk {
+  /** Error */
   Error = "Error",
+  /** Warning */
   Warning = "Warning",
+  /** None */
   None = "None"
 }
 

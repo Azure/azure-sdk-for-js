@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingAccount.json
  */
 async function reservationRecommendationsByBillingAccountLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -29,8 +31,6 @@ async function reservationRecommendationsByBillingAccountLegacy() {
   console.log(resArray);
 }
 
-reservationRecommendationsByBillingAccountLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
  *
@@ -38,7 +38,8 @@ reservationRecommendationsByBillingAccountLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingProfile.json
  */
 async function reservationRecommendationsByBillingProfileModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456/billingProfiles/6420";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -49,8 +50,6 @@ async function reservationRecommendationsByBillingProfileModern() {
   console.log(resArray);
 }
 
-reservationRecommendationsByBillingProfileModern().catch(console.error);
-
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
  *
@@ -58,7 +57,8 @@ reservationRecommendationsByBillingProfileModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByResourceGroup.json
  */
 async function reservationRecommendationsByResourceGroupLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testGroup";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -69,8 +69,6 @@ async function reservationRecommendationsByResourceGroupLegacy() {
   console.log(resArray);
 }
 
-reservationRecommendationsByResourceGroupLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
  *
@@ -78,7 +76,8 @@ reservationRecommendationsByResourceGroupLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsBySubscription.json
  */
 async function reservationRecommendationsBySubscriptionLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -89,8 +88,6 @@ async function reservationRecommendationsBySubscriptionLegacy() {
   console.log(resArray);
 }
 
-reservationRecommendationsBySubscriptionLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
  *
@@ -98,7 +95,8 @@ reservationRecommendationsBySubscriptionLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsFilterBySubscriptionForScopeLookBackPeriod.json
  */
 async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const filter = "properties/scope eq 'Single' AND properties/lookBackPeriod eq 'Last7Days'";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const options = { filter };
@@ -111,4 +109,12 @@ async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPer
   console.log(resArray);
 }
 
-reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy().catch(console.error);
+async function main() {
+  reservationRecommendationsByBillingAccountLegacy();
+  reservationRecommendationsByBillingProfileModern();
+  reservationRecommendationsByResourceGroupLegacy();
+  reservationRecommendationsBySubscriptionLegacy();
+  reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy();
+}
+
+main().catch(console.error);

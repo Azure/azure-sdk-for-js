@@ -1,6 +1,6 @@
 # Release History
 
-## 12.12.0-beta.2 (Unreleased)
+## 12.20.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,30 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.13.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.12.0 (2022-10-14)
+
+### Features Added
+
+- Includes all features released in 12.12.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed an issue of escaping slashes in blob name unnecessarily.
 
 ## 12.12.0-beta.1 (2022-08-26)
 

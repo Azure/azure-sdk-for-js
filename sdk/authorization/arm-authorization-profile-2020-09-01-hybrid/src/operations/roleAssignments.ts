@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,14 +17,16 @@ import {
   RoleAssignment,
   RoleAssignmentsListForResourceNextOptionalParams,
   RoleAssignmentsListForResourceOptionalParams,
+  RoleAssignmentsListForResourceResponse,
   RoleAssignmentsListForResourceGroupNextOptionalParams,
   RoleAssignmentsListForResourceGroupOptionalParams,
+  RoleAssignmentsListForResourceGroupResponse,
   RoleAssignmentsListNextOptionalParams,
   RoleAssignmentsListOptionalParams,
+  RoleAssignmentsListResponse,
   RoleAssignmentsListForScopeNextOptionalParams,
   RoleAssignmentsListForScopeOptionalParams,
-  RoleAssignmentsListForResourceResponse,
-  RoleAssignmentsListForResourceGroupResponse,
+  RoleAssignmentsListForScopeResponse,
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentsDeleteResponse,
   RoleAssignmentCreateParameters,
@@ -37,8 +40,6 @@ import {
   RoleAssignmentsCreateByIdResponse,
   RoleAssignmentsGetByIdOptionalParams,
   RoleAssignmentsGetByIdResponse,
-  RoleAssignmentsListResponse,
-  RoleAssignmentsListForScopeResponse,
   RoleAssignmentsListForResourceNextResponse,
   RoleAssignmentsListForResourceGroupNextResponse,
   RoleAssignmentsListNextResponse,
@@ -90,14 +91,18 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listForResourcePagingPage(
           resourceGroupName,
           resourceProviderNamespace,
           parentResourcePath,
           resourceType,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -109,18 +114,25 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+    options?: RoleAssignmentsListForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._listForResource(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleAssignmentsListForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResource(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceNext(
         resourceGroupName,
@@ -132,7 +144,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -173,19 +187,33 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RoleAssignmentsListForResourceGroupOptionalParams
+    options?: RoleAssignmentsListForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._listForResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleAssignmentsListForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
@@ -193,7 +221,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -224,22 +254,34 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RoleAssignmentsListOptionalParams
+    options?: RoleAssignmentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleAssignmentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -268,23 +310,35 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForScopePagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForScopePagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams
+    options?: RoleAssignmentsListForScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._listForScope(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleAssignmentsListForScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForScope(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForScopeNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -773,7 +827,6 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -798,7 +851,6 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -819,7 +871,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -839,7 +890,6 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer

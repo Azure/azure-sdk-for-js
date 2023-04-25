@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Summarizes policy states for the subscription level policy set definition.
@@ -21,9 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeSubscriptionLevelPolicySetDefinitionScope.json
  */
 async function summarizeAtPolicySetDefinitionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const top = 1;
   const fromParam = new Date("2019-10-05T18:00:00Z");
@@ -36,11 +41,15 @@ async function summarizeAtPolicySetDefinitionScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForPolicySetDefinition(
     policyStatesSummaryResource,
-    subscriptionId2,
+    subscriptionId,
     policySetDefinitionName,
     options
   );
   console.log(result);
 }
 
-summarizeAtPolicySetDefinitionScope().catch(console.error);
+async function main() {
+  summarizeAtPolicySetDefinitionScope();
+}
+
+main().catch(console.error);

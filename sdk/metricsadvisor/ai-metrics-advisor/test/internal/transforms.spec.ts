@@ -6,10 +6,10 @@ import { assert } from "chai";
 import {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyFeedback as ServiceAnomalyFeedback,
-  DataFeedDetailUnion as ServiceDataFeedDetailUnion,
-  Granularity as ServiceGranularity,
   ChangePointFeedback as ServiceChangePointFeedback,
   CommentFeedback as ServiceCommentFeedback,
+  DataFeedDetailUnion as ServiceDataFeedDetailUnion,
+  Granularity as ServiceGranularity,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration,
 } from "../../src/generated/models";

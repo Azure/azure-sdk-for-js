@@ -1,0 +1,48 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Attestation/attestationProviders/myservicexxx?api-version=2020-10-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-attestation/2.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3e7e4ea1-f428-42ca-ad18-3eab094273a2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 07:12:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f330dee0-ba6b-4ca0-b0c4-3739e7c27028",
+        "x-ms-maa-service-version": "1.11.02134.501",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "00-c6d4425081a1be5db8abb22c1ec024f8-144da3f8efd43298-01",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T071212Z:f330dee0-ba6b-4ca0-b0c4-3739e7c27028"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Attestation/attestationProviders/myservicexxx",
+        "name": "myservicexxx",
+        "type": "Microsoft.Attestation/attestationProviders",
+        "location": "eastus",
+        "properties": {
+          "trustModel": "AAD",
+          "status": "Ready",
+          "attestUri": "https://myservicexxx.eus.attest.azure.net"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

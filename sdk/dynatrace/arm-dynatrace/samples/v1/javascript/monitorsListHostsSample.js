@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the compute resources currently being monitored by the Dynatrace resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListHosts_MaximumSet_Gen.json
  */
 async function monitorsListHostsMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -29,8 +31,6 @@ async function monitorsListHostsMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-monitorsListHostsMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List the compute resources currently being monitored by the Dynatrace resource.
@@ -39,8 +39,9 @@ monitorsListHostsMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListHosts_MinimumSet_Gen.json
  */
 async function monitorsListHostsMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -51,4 +52,9 @@ async function monitorsListHostsMinimumSetGen() {
   console.log(resArray);
 }
 
-monitorsListHostsMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsListHostsMaximumSetGen();
+  monitorsListHostsMinimumSetGen();
+}
+
+main().catch(console.error);

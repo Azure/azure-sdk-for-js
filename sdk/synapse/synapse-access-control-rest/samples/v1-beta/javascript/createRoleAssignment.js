@@ -7,7 +7,8 @@
  * @summary creates a role assignment
  */
 
-const AccessControl = require("@azure-rest/synapse-access-control").default;
+const AccessControl = require("@azure-rest/synapse-access-control").default,
+  { isUnexpected } = require("@azure-rest/synapse-access-control");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { v4 } = require("uuid");
 require("dotenv").config();
@@ -28,7 +29,7 @@ async function main() {
     .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
     .put({ body: { principalId, roleId, scope } });
 
-  if (result.status !== "200") {
+  if (isUnexpected(result)) {
     throw result.body.error;
   }
 

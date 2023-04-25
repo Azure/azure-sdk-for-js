@@ -1197,6 +1197,20 @@ export const RedisLinkedServerCreateParameters: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
         }
+      },
+      geoReplicatedPrimaryHostName: {
+        serializedName: "properties.geoReplicatedPrimaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primaryHostName: {
+        serializedName: "properties.primaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1227,6 +1241,20 @@ export const RedisLinkedServerCreateProperties: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
+        }
+      },
+      geoReplicatedPrimaryHostName: {
+        serializedName: "geoReplicatedPrimaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primaryHostName: {
+        serializedName: "primaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1969,6 +1997,20 @@ export const RedisLinkedServerWithProperties: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Primary", "Secondary"]
+        }
+      },
+      geoReplicatedPrimaryHostName: {
+        serializedName: "properties.geoReplicatedPrimaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primaryHostName: {
+        serializedName: "properties.primaryHostName",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       provisioningState: {

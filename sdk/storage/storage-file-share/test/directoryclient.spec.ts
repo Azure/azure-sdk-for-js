@@ -57,6 +57,35 @@ describe("DirectoryClient", () => {
     await recorder.stop();
   });
 
+  it("Get directory client under another directory", async () => {
+    const directoryName1 = recorder.getUniqueName("dir1");
+    const directoryName2 = recorder.getUniqueName("dir2");
+    const dir1Client = dirClient.getDirectoryClient(directoryName1);
+    await dir1Client.create();
+
+    const dir2Client = dir1Client.getDirectoryClient(directoryName2);
+    await dir2Client.create();
+
+    const subDirClient = dirClient.getDirectoryClient(`${directoryName1}/${directoryName2}`);
+    assert.equal(subDirClient.name, dir2Client.name);
+    await subDirClient.getProperties();
+  });
+
+  it("Get file client under another directory", async () => {
+    const subDirName = recorder.getUniqueName("subdir");
+    const fileName = recorder.getUniqueName("file");
+    const subDirClient = dirClient.getDirectoryClient(subDirName);
+    await subDirClient.create();
+
+    const fileUnderSubDirClient = subDirClient.getFileClient(fileName);
+    await fileUnderSubDirClient.create(1024);
+    await fileUnderSubDirClient.getProperties();
+
+    const fileUnderSubDirClient_another = dirClient.getFileClient(`${subDirName}/${fileName}`);
+    assert.equal(fileUnderSubDirClient_another.path, fileUnderSubDirClient.path);
+    await fileUnderSubDirClient_another.getProperties();
+  });
+
   it("setMetadata", async () => {
     const metadata = {
       key0: "val0",

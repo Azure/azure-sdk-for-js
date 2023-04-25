@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-  checkAndFormatIfAndIfNoneMatch,
-  formatFiltersAndSelect,
-  extractAfterTokenFromNextLink,
-  quoteETag,
-  makeConfigurationSettingEmpty,
-  transformKeyValue,
-  transformKeyValueResponseWithStatusCode,
-  transformKeyValueResponse,
-  formatFieldsForSelect,
-  serializeAsConfigurationSettingParam,
-} from "../../src/internal/helpers";
-import { assert } from "chai";
-import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
+  featureFlagContentType,
   secretReferenceContentType,
 } from "../../src";
+import {
+  checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromNextLink,
+  formatFieldsForSelect,
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
+  quoteETag,
+  serializeAsConfigurationSettingParam,
+  transformKeyValue,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
+} from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
-import { SecretReferenceValue } from "../../src/secretReference";
 import { HttpHeadersLike } from "@azure/core-http-compat";
+import { SecretReferenceValue } from "../../src/secretReference";
+import { assert } from "chai";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {

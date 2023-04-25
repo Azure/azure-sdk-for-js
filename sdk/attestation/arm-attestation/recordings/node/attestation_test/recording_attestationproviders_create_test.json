@@ -1,0 +1,52 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Attestation/attestationProviders/myservicexxx?api-version=2020-10-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-attestation/2.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6ad3231a-b3fc-4c2d-887f-5996a0d2ca71"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {}
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "336",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 07:12:10 GMT",
+        "Expires": "-1",
+        "Location": "https://myservicexxx.eus.attest.azure.net/",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "903a790c-48f1-4aaa-a239-16e7a2fe8de8",
+        "x-ms-maa-service-version": "1.11.02134.501",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "00-18936ac6aa9638e41d968772e67fb8d7-541f2acace141028-01",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T071211Z:903a790c-48f1-4aaa-a239-16e7a2fe8de8"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Attestation/attestationProviders/myservicexxx",
+        "name": "myservicexxx",
+        "type": "Microsoft.Attestation/attestationProviders",
+        "location": "eastus",
+        "properties": {
+          "trustModel": "AAD",
+          "status": "Ready",
+          "attestUri": "https://myservicexxx.eus.attest.azure.net"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

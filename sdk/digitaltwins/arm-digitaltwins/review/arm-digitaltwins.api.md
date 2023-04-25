@@ -6,25 +6,28 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AuthenticationType = string;
 
 // @public
-export type AzureDataExplorerConnectionProperties = TimeSeriesDatabaseConnectionProperties & {
-    connectionType: "AzureDataExplorer";
-    adxResourceId: string;
-    adxEndpointUri: string;
+export interface AzureDataExplorerConnectionProperties extends TimeSeriesDatabaseConnectionProperties {
     adxDatabaseName: string;
+    adxEndpointUri: string;
+    adxRelationshipLifecycleEventsTableName?: string;
+    adxResourceId: string;
     adxTableName?: string;
+    adxTwinLifecycleEventsTableName?: string;
+    connectionType: "AzureDataExplorer";
+    eventHubConsumerGroup?: string;
     eventHubEndpointUri: string;
     eventHubEntityPath: string;
     eventHubNamespaceResourceId: string;
-    eventHubConsumerGroup?: string;
-};
+    recordPropertyAndItemRemovals?: RecordPropertyAndItemRemovals;
+}
 
 // @public (undocumented)
 export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient {
@@ -70,6 +73,9 @@ export interface CheckNameResult {
 }
 
 // @public
+export type CleanupConnectionArtifacts = string;
+
+// @public
 export interface ConnectionProperties {
     groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
@@ -78,7 +84,8 @@ export interface ConnectionProperties {
 }
 
 // @public
-export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState;
+export interface ConnectionPropertiesPrivateLinkServiceConnectionState extends ConnectionState {
+}
 
 // @public
 export type ConnectionPropertiesProvisioningState = string;
@@ -91,19 +98,18 @@ export interface ConnectionState {
 }
 
 // @public
-type ConnectionType_2 = string;
-export { ConnectionType_2 as ConnectionType }
+export type ConnectionType = string;
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface DigitalTwins {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsCreateOrUpdateResponse>, DigitalTwinsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsCreateOrUpdateResponse>, DigitalTwinsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<DigitalTwinsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsDeleteResponse>, DigitalTwinsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsDeleteResponse>, DigitalTwinsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<DigitalTwinsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsUpdateResponse>, DigitalTwinsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsUpdateResponse>, DigitalTwinsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
     checkNameAvailability(location: string, digitalTwinsInstanceCheckName: CheckNameRequest, options?: DigitalTwinsCheckNameAvailabilityOptionalParams): Promise<DigitalTwinsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, resourceName: string, options?: DigitalTwinsGetOptionalParams): Promise<DigitalTwinsGetResponse>;
@@ -137,14 +143,14 @@ export interface DigitalTwinsDeleteOptionalParams extends coreClient.OperationOp
 export type DigitalTwinsDeleteResponse = DigitalTwinsDescription;
 
 // @public
-export type DigitalTwinsDescription = DigitalTwinsResource & {
+export interface DigitalTwinsDescription extends DigitalTwinsResource {
     readonly createdTime?: Date;
-    readonly lastUpdatedTime?: Date;
-    readonly provisioningState?: ProvisioningState;
     readonly hostName?: string;
+    readonly lastUpdatedTime?: Date;
     privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 // @public
 export interface DigitalTwinsDescriptionListResult {
@@ -154,9 +160,9 @@ export interface DigitalTwinsDescriptionListResult {
 
 // @public
 export interface DigitalTwinsEndpoint {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsEndpointCreateOrUpdateResponse>, DigitalTwinsEndpointCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>, DigitalTwinsEndpointCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<DigitalTwinsEndpointCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsEndpointDeleteResponse>, DigitalTwinsEndpointDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsEndpointDeleteResponse>, DigitalTwinsEndpointDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<DigitalTwinsEndpointDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointGetOptionalParams): Promise<DigitalTwinsEndpointGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: DigitalTwinsEndpointListOptionalParams): PagedAsyncIterableIterator<DigitalTwinsEndpointResource>;
@@ -202,9 +208,9 @@ export interface DigitalTwinsEndpointListOptionalParams extends coreClient.Opera
 export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListResult;
 
 // @public
-export type DigitalTwinsEndpointResource = ExternalResource & {
+export interface DigitalTwinsEndpointResource extends ExternalResource {
     properties: DigitalTwinsEndpointResourcePropertiesUnion;
-};
+}
 
 // @public
 export interface DigitalTwinsEndpointResourceListResult {
@@ -219,6 +225,7 @@ export interface DigitalTwinsEndpointResourceProperties {
     deadLetterSecret?: string;
     deadLetterUri?: string;
     endpointType: "ServiceBus" | "EventHub" | "EventGrid";
+    identity?: ManagedIdentityReference;
     readonly provisioningState?: EndpointProvisioningState;
 }
 
@@ -237,6 +244,9 @@ export interface DigitalTwinsIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: DigitalTwinsIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public
@@ -325,21 +335,21 @@ export interface ErrorResponse {
 }
 
 // @public
-export type EventGrid = DigitalTwinsEndpointResourceProperties & {
-    endpointType: "EventGrid";
-    topicEndpoint: string;
+export interface EventGrid extends DigitalTwinsEndpointResourceProperties {
     accessKey1: string | null;
     accessKey2?: string;
-};
+    endpointType: "EventGrid";
+    topicEndpoint: string;
+}
 
 // @public
-export type EventHub = DigitalTwinsEndpointResourceProperties & {
-    endpointType: "EventHub";
+export interface EventHub extends DigitalTwinsEndpointResourceProperties {
     connectionStringPrimaryKey?: string;
     connectionStringSecondaryKey?: string;
+    endpointType: "EventHub";
     endpointUri?: string;
     entityPath?: string;
-};
+}
 
 // @public
 export interface ExternalResource {
@@ -348,6 +358,9 @@ export interface ExternalResource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GroupIdInformation {
@@ -370,169 +383,139 @@ export interface GroupIdInformationResponse {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     IdentityBased = "IdentityBased",
-    // (undocumented)
     KeyBased = "KeyBased"
 }
 
 // @public
+export enum KnownCleanupConnectionArtifacts {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownConnectionPropertiesProvisioningState {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownConnectionType {
-    // (undocumented)
     AzureDataExplorer = "AzureDataExplorer"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDigitalTwinsIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
-    SystemAssigned = "SystemAssigned"
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownEndpointProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     EventGrid = "EventGrid",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     ServiceBus = "ServiceBus"
 }
 
 // @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
+export enum KnownRecordPropertyAndItemRemovals {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownTimeSeriesDatabaseConnectionState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
+}
+
+// @public
+export interface ManagedIdentityReference {
+    type?: IdentityType;
+    userAssignedIdentity?: string;
 }
 
 // @public
@@ -595,9 +578,9 @@ export interface PrivateEndpointConnection {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
@@ -670,13 +653,16 @@ export type PublicNetworkAccess = string;
 export type Reason = string;
 
 // @public
-export type ServiceBus = DigitalTwinsEndpointResourceProperties & {
+export type RecordPropertyAndItemRemovals = string;
+
+// @public
+export interface ServiceBus extends DigitalTwinsEndpointResourceProperties {
     endpointType: "ServiceBus";
-    primaryConnectionString?: string;
-    secondaryConnectionString?: string;
     endpointUri?: string;
     entityPath?: string;
-};
+    primaryConnectionString?: string;
+    secondaryConnectionString?: string;
+}
 
 // @public
 export interface SystemData {
@@ -689,9 +675,9 @@ export interface SystemData {
 }
 
 // @public
-export type TimeSeriesDatabaseConnection = ExternalResource & {
+export interface TimeSeriesDatabaseConnection extends ExternalResource {
     properties?: TimeSeriesDatabaseConnectionPropertiesUnion;
-};
+}
 
 // @public
 export interface TimeSeriesDatabaseConnectionListResult {
@@ -702,6 +688,7 @@ export interface TimeSeriesDatabaseConnectionListResult {
 // @public
 export interface TimeSeriesDatabaseConnectionProperties {
     connectionType: "AzureDataExplorer";
+    identity?: ManagedIdentityReference;
     readonly provisioningState?: TimeSeriesDatabaseConnectionState;
 }
 
@@ -710,9 +697,9 @@ export type TimeSeriesDatabaseConnectionPropertiesUnion = TimeSeriesDatabaseConn
 
 // @public
 export interface TimeSeriesDatabaseConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>, TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>, TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<TimeSeriesDatabaseConnectionsDeleteResponse>, TimeSeriesDatabaseConnectionsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>, TimeSeriesDatabaseConnectionsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<TimeSeriesDatabaseConnectionsDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsGetOptionalParams): Promise<TimeSeriesDatabaseConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: TimeSeriesDatabaseConnectionsListOptionalParams): PagedAsyncIterableIterator<TimeSeriesDatabaseConnection>;
@@ -729,6 +716,7 @@ export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesData
 
 // @public
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    cleanupConnectionArtifacts?: CleanupConnectionArtifacts;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -759,6 +747,12 @@ export type TimeSeriesDatabaseConnectionsListResponse = TimeSeriesDatabaseConnec
 
 // @public
 export type TimeSeriesDatabaseConnectionState = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

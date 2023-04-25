@@ -117,7 +117,6 @@ export const ServiceCosmosDbConfigurationInfo: coreClient.CompositeMapper = {
     modelProperties: {
       offerThroughput: {
         constraints: {
-          InclusiveMaximum: 10000,
           InclusiveMinimum: 400
         },
         serializedName: "offerThroughput",

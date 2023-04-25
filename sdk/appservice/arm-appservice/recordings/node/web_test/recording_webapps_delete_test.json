@@ -1,47 +1,47 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites/mysitexxxx?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites/mysitexxxx?api-version=2022-09-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-appservice/13.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "90f365be-8d6c-4cb1-b402-75cb6dbdcbae"
+        "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "02642925-6be0-459c-9b91-34e84e486c21"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Wed, 06 Jul 2022 06:13:31 GMT",
-        "ETag": "\u00221D890FF7926A92B\u0022",
+        "Date": "Mon, 20 Mar 2023 06:46:16 GMT",
+        "ETag": "\u00221D95AF7A05E5920\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fdc50bf4-8e4f-4043-ab50-06a705508b04",
+        "x-ms-correlation-request-id": "f9e3a9da-d9d0-4c27-a1bb-2f8ef2155d1c",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "b6c5776b-96d3-429b-98c8-3d9897e2e06b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220706T061331Z:fdc50bf4-8e4f-4043-ab50-06a705508b04",
+        "x-ms-request-id": "9617edeb-056c-4ca1-8ef1-434bdf79331a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230320T064616Z:f9e3a9da-d9d0-4c27-a1bb-2f8ef2155d1c",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Web/sites?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites?api-version=2022-09-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-appservice/13.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ac0a566c-49a2-4942-b947-cb8059c817b4"
+        "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9ce280e9-6509-4cf2-a856-0a9ea701ee05"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -50,16 +50,16 @@
         "Content-Encoding": "gzip",
         "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 06 Jul 2022 06:13:31 GMT",
+        "Date": "Mon, 20 Mar 2023 06:46:16 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7131fb06-a04e-45a4-a7f2-52e3d2d656d0",
+        "x-ms-correlation-request-id": "7f131704-ea82-450c-951f-c65715326f67",
         "x-ms-ratelimit-remaining-subscription-reads": "11995",
-        "x-ms-request-id": "7131fb06-a04e-45a4-a7f2-52e3d2d656d0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220706T061331Z:7131fb06-a04e-45a4-a7f2-52e3d2d656d0"
+        "x-ms-request-id": "7f131704-ea82-450c-951f-c65715326f67",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230320T064617Z:7f131704-ea82-450c-951f-c65715326f67"
       },
       "ResponseBody": {
         "value": []

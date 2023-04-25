@@ -7,6 +7,8 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { FullOperationResponse } from '@azure/core-client';
+import { HttpClient } from '@azure/core-rest-pipeline';
+import { HttpHeaders } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
@@ -22,10 +24,13 @@ export interface CompatResponse extends Omit<FullOperationResponse, "request" | 
 }
 
 // @public
+export function convertHttpClient(requestPolicyClient: RequestPolicy): HttpClient;
+
+// @public
 export function createRequestPolicyFactoryPolicy(factories: RequestPolicyFactory[]): PipelinePolicy;
 
 // @public (undocumented)
-export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
+export const disableKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
 // @public
 export interface ExtendedClientOptions {
@@ -119,6 +124,9 @@ export interface RequestPolicyOptionsLike {
 }
 
 // @public
+export function toHttpHeadersLike(headers: HttpHeaders): HttpHeadersLike;
+
+// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
@@ -127,6 +135,7 @@ export type TransferProgressEvent = {
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
+    clone(): WebResourceLike;
     decompressResponse?: boolean;
     formData?: any;
     headers: HttpHeadersLike;
@@ -134,6 +143,7 @@ export interface WebResourceLike {
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    prepare(options: unknown): WebResourceLike;
     proxySettings?: ProxySettings;
     query?: {
         [key: string]: any;
@@ -144,6 +154,7 @@ export interface WebResourceLike {
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     url: string;
+    validateRequestProperties(): void;
     withCredentials: boolean;
 }
 

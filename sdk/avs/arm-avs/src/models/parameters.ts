@@ -12,6 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  Sku as SkuMapper,
   PrivateCloud as PrivateCloudMapper,
   PrivateCloudUpdate as PrivateCloudUpdateMapper,
   Cluster as ClusterMapper,
@@ -62,7 +63,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -81,6 +82,23 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sku: OperationParameter = {
+  parameterPath: ["options", "sku"],
+  mapper: SkuMapper
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -128,18 +146,6 @@ export const privateCloudName: OperationURLParameter = {
   mapper: {
     serializedName: "privateCloudName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -239,6 +245,17 @@ export const globalReachConnectionName: OperationURLParameter = {
 export const globalReachConnection: OperationParameter = {
   parameterPath: "globalReachConnection",
   mapper: GlobalReachConnectionMapper
+};
+
+export const workloadNetworkName: OperationURLParameter = {
+  parameterPath: "workloadNetworkName",
+  mapper: {
+    serializedName: "workloadNetworkName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const segmentId: OperationURLParameter = {

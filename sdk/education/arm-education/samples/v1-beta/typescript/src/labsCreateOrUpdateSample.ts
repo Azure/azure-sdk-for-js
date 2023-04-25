@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LabDetails, EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new lab or update a previously created lab.
@@ -38,4 +41,8 @@ async function createLab() {
   console.log(result);
 }
 
-createLab().catch(console.error);
+async function main() {
+  createLab();
+}
+
+main().catch(console.error);

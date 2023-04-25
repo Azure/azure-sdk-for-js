@@ -195,15 +195,15 @@ export interface SubResource {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Describes a DNS zone. */
-export type Zone = TrackedResource & {
+export interface Zone extends TrackedResource {
   /** The etag of the zone. */
   etag?: string;
   /** The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored. */
@@ -222,7 +222,8 @@ export type Zone = TrackedResource & {
   readonly nameServers?: string[];
   /** The type of this DNS zone (Public or Private). */
   zoneType?: ZoneType;
-};
+}
+
 /** Defines values for RecordType. */
 export type RecordType =
   | "A"
@@ -350,24 +351,14 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTypeNext operation. */
 export type RecordSetsListByTypeNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDnsZoneNext operation. */
 export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
@@ -424,20 +415,14 @@ export type ZonesListResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ZonesListByResourceGroupNextResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ZonesListNextResponse = ZoneListResult;

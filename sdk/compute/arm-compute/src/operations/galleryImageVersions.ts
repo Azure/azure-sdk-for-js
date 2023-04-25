@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GalleryImageVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   GalleryImageVersion,
   GalleryImageVersionsListByGalleryImageNextOptionalParams,
   GalleryImageVersionsListByGalleryImageOptionalParams,
+  GalleryImageVersionsListByGalleryImageResponse,
   GalleryImageVersionsCreateOrUpdateOptionalParams,
   GalleryImageVersionsCreateOrUpdateResponse,
   GalleryImageVersionUpdate,
@@ -26,7 +28,6 @@ import {
   GalleryImageVersionsGetOptionalParams,
   GalleryImageVersionsGetResponse,
   GalleryImageVersionsDeleteOptionalParams,
-  GalleryImageVersionsListByGalleryImageResponse,
   GalleryImageVersionsListByGalleryImageNextResponse
 } from "../models";
 
@@ -70,12 +71,16 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByGalleryImagePagingPage(
           resourceGroupName,
           galleryName,
           galleryImageName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,16 +90,23 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     resourceGroupName: string,
     galleryName: string,
     galleryImageName: string,
-    options?: GalleryImageVersionsListByGalleryImageOptionalParams
+    options?: GalleryImageVersionsListByGalleryImageOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GalleryImageVersion[]> {
-    let result = await this._listByGalleryImage(
-      resourceGroupName,
-      galleryName,
-      galleryImageName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GalleryImageVersionsListByGalleryImageResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGalleryImage(
+        resourceGroupName,
+        galleryName,
+        galleryImageName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByGalleryImageNext(
         resourceGroupName,
@@ -104,7 +116,9 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -679,7 +693,6 @@ const listByGalleryImageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

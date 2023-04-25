@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonSecretReferenceValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
+import { JsonSecretReferenceValue } from "./internal/jsonModels";
+import { logger } from "./logger";
 
 /**
  * content-type for the secret reference.
@@ -30,7 +31,9 @@ export const SecretReferenceHelper = {
   toConfigurationSettingParam: (
     secretReference: ConfigurationSettingParam<SecretReferenceValue>
   ): ConfigurationSettingParam => {
+    logger.info("Encoding SecretReference value in a ConfigurationSetting:", secretReference);
     if (!secretReference.value) {
+      logger.error(`SecretReference has an unexpected value`, secretReference);
       throw new TypeError(`SecretReference has an unexpected value - ${secretReference.value}`);
     }
 
@@ -52,7 +55,12 @@ export const SecretReferenceHelper = {
 export function parseSecretReference(
   setting: ConfigurationSetting
 ): ConfigurationSetting<SecretReferenceValue> {
+  logger.info(
+    "[parseSecretReference] Parsing the value to return the SecretReferenceValue",
+    setting
+  );
   if (!isSecretReference(setting)) {
+    logger.error("Invalid SecretReference input", setting);
     throw TypeError(
       `Setting with key ${setting.key} is not a valid SecretReference, make sure to have the correct content-type and a valid non-null value.`
     );

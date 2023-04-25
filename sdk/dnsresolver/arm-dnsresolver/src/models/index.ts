@@ -581,30 +581,21 @@ export type DnsResolversListByVirtualNetworkResponse = SubResourceListResult;
 
 /** Optional parameters. */
 export interface DnsResolversListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DnsResolversListByResourceGroupNextResponse = DnsResolverListResult;
 
 /** Optional parameters. */
 export interface DnsResolversListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DnsResolversListNextResponse = DnsResolverListResult;
 
 /** Optional parameters. */
 export interface DnsResolversListByVirtualNetworkNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualNetworkNext operation. */
 export type DnsResolversListByVirtualNetworkNextResponse = SubResourceListResult;
@@ -669,10 +660,7 @@ export type InboundEndpointsListResponse = InboundEndpointListResult;
 
 /** Optional parameters. */
 export interface InboundEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type InboundEndpointsListNextResponse = InboundEndpointListResult;
@@ -737,10 +725,7 @@ export type OutboundEndpointsListResponse = OutboundEndpointListResult;
 
 /** Optional parameters. */
 export interface OutboundEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OutboundEndpointsListNextResponse = OutboundEndpointListResult;
@@ -825,30 +810,21 @@ export type DnsForwardingRulesetsListByVirtualNetworkResponse = VirtualNetworkDn
 
 /** Optional parameters. */
 export interface DnsForwardingRulesetsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DnsForwardingRulesetsListByResourceGroupNextResponse = DnsForwardingRulesetListResult;
 
 /** Optional parameters. */
 export interface DnsForwardingRulesetsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DnsForwardingRulesetsListNextResponse = DnsForwardingRulesetListResult;
 
 /** Optional parameters. */
 export interface DnsForwardingRulesetsListByVirtualNetworkNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualNetworkNext operation. */
 export type DnsForwardingRulesetsListByVirtualNetworkNextResponse = VirtualNetworkDnsForwardingRulesetListResult;
@@ -901,10 +877,7 @@ export type ForwardingRulesListResponse = ForwardingRuleListResult;
 
 /** Optional parameters. */
 export interface ForwardingRulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ForwardingRulesListNextResponse = ForwardingRuleListResult;
@@ -969,10 +942,7 @@ export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkLinksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualNetworkLinksListNextResponse = VirtualNetworkLinkListResult;

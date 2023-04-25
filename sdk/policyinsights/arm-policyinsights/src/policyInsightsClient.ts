@@ -7,15 +7,17 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   PolicyTrackedResourcesImpl,
   RemediationsImpl,
   PolicyEventsImpl,
   PolicyStatesImpl,
-  OperationsImpl,
   PolicyMetadataOperationsImpl,
   PolicyRestrictionsImpl,
+  ComponentPolicyStatesImpl,
+  OperationsImpl,
   AttestationsImpl
 } from "./operations";
 import {
@@ -23,9 +25,10 @@ import {
   Remediations,
   PolicyEvents,
   PolicyStates,
-  Operations,
   PolicyMetadataOperations,
   PolicyRestrictions,
+  ComponentPolicyStates,
+  Operations,
   Attestations
 } from "./operationsInterfaces";
 import { PolicyInsightsClientOptionalParams } from "./models";
@@ -61,25 +64,54 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policyinsights/6.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-policyinsights/6.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
@@ -89,9 +121,10 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     this.remediations = new RemediationsImpl(this);
     this.policyEvents = new PolicyEventsImpl(this);
     this.policyStates = new PolicyStatesImpl(this);
-    this.operations = new OperationsImpl(this);
     this.policyMetadataOperations = new PolicyMetadataOperationsImpl(this);
     this.policyRestrictions = new PolicyRestrictionsImpl(this);
+    this.componentPolicyStates = new ComponentPolicyStatesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.attestations = new AttestationsImpl(this);
   }
 
@@ -99,8 +132,9 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
   remediations: Remediations;
   policyEvents: PolicyEvents;
   policyStates: PolicyStates;
-  operations: Operations;
   policyMetadataOperations: PolicyMetadataOperations;
   policyRestrictions: PolicyRestrictions;
+  componentPolicyStates: ComponentPolicyStates;
+  operations: Operations;
   attestations: Attestations;
 }

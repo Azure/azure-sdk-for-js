@@ -400,15 +400,15 @@ export interface CreatorUpdateParameters {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** An Azure resource which represents access to a suite of Maps REST APIs. */
-export type MapsAccount = TrackedResource & {
+export interface MapsAccount extends TrackedResource {
   /** The SKU of this account. */
   sku: Sku;
   /** Get or Set Kind property. */
@@ -422,10 +422,10 @@ export type MapsAccount = TrackedResource & {
   identity?: ManagedServiceIdentity;
   /** The map account properties. */
   properties?: MapsAccountProperties;
-};
+}
 
 /** An Azure resource which represents Maps Creator product and provides ability to manage private location data. */
-export type Creator = TrackedResource & {
+export interface Creator extends TrackedResource {
   /** The Creator resource properties. */
   properties: CreatorProperties;
   /**
@@ -433,12 +433,15 @@ export type Creator = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Known values of {@link Name} that the service accepts. */
 export enum KnownName {
+  /** S0 */
   S0 = "S0",
+  /** S1 */
   S1 = "S1",
+  /** G2 */
   G2 = "G2"
 }
 
@@ -455,7 +458,9 @@ export type Name = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** Gen1 */
   Gen1 = "Gen1",
+  /** Gen2 */
   Gen2 = "Gen2"
 }
 
@@ -471,9 +476,13 @@ export type Kind = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -491,7 +500,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link SigningKey} that the service accepts. */
 export enum KnownSigningKey {
+  /** PrimaryKey */
   PrimaryKey = "primaryKey",
+  /** SecondaryKey */
   SecondaryKey = "secondaryKey"
 }
 
@@ -507,7 +518,9 @@ export type SigningKey = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** Primary */
   Primary = "primary",
+  /** Secondary */
   Secondary = "secondary"
 }
 

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an existing event subscription for a domain topic.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/DomainTopicEventSubscriptions_Update.json
  */
 async function domainTopicEventSubscriptionsUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const domainName = "exampleDomain1";
   const topicName = "exampleDomainTopic1";
   const eventSubscriptionName = "exampleEventSubscriptionName1";
@@ -47,4 +49,8 @@ async function domainTopicEventSubscriptionsUpdate() {
   console.log(result);
 }
 
-domainTopicEventSubscriptionsUpdate().catch(console.error);
+async function main() {
+  domainTopicEventSubscriptionsUpdate();
+}
+
+main().catch(console.error);

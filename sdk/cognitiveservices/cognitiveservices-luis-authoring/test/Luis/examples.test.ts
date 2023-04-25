@@ -9,15 +9,15 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import * as chai from "chai";
 
 
-describe("Example Module Functionality Tests", () => {
-  it("should list all examples", async () => {
+describe("Example Module Functionality Tests", function () {
+  it("should list all examples", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const examples = await client.examples.list(BaseTest.GlobalAppId, "0.1");
       chai.expect(examples.length).not.to.eql(0);
     });
   });
 
-  it("should list all examples in empty application returning empty", async () => {
+  it("should list all examples in empty application returning empty", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",
@@ -33,7 +33,7 @@ describe("Example Module Functionality Tests", () => {
   });
 
 
-  it("should add example", async () => {
+  it("should add example", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",
@@ -59,7 +59,7 @@ describe("Example Module Functionality Tests", () => {
     });
   });
 
-  it("should add example with nested children", async () => {
+  it("should add example with nested children", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",
@@ -103,7 +103,7 @@ describe("Example Module Functionality Tests", () => {
     });
   });
 
-  it("should add examples in batch", async () => {
+  it("should add examples in batch", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",
@@ -151,7 +151,7 @@ describe("Example Module Functionality Tests", () => {
   });
 
 
-  it("should add examples in batch with some invalid examples returning some errors", async () => {
+  it("should add examples in batch with some invalid examples returning some errors", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",
@@ -192,7 +192,7 @@ describe("Example Module Functionality Tests", () => {
   });
 
 
-  it("should delete example", async () => {
+  it("should delete example", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Examples Test App",

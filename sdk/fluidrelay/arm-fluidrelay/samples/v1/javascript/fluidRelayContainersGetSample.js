@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { FluidRelayManagementClient } = require("@azure/arm-fluidrelay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a Fluid Relay container.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayContainers_Get.json
  */
 async function getFluidRelayContainerDetails() {
-  const subscriptionId = "xxxx-xxxx-xxxx-xxxx";
+  const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
   const fluidRelayContainerName = "myFluidRelayContainer";
@@ -32,4 +33,8 @@ async function getFluidRelayContainerDetails() {
   console.log(result);
 }
 
-getFluidRelayContainerDetails().catch(console.error);
+async function main() {
+  getFluidRelayContainerDetails();
+}
+
+main().catch(console.error);

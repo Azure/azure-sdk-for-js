@@ -565,7 +565,7 @@ export interface SecretListResult {
 }
 
 /** Private endpoint connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** Modified whenever there is a change in the state of private endpoint connection. */
   etag?: string;
   /** Properties of the private endpoint object. */
@@ -577,10 +577,10 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * Group identifier of private link resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -593,16 +593,16 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** Required DNS zone names of the the private link resource. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Resource information with extended details. */
-export type Secret = Resource & {
+export interface Secret extends Resource {
   /** Properties of the secret */
   properties: SecretProperties;
-};
+}
 
 /** The secret management attributes. */
-export type SecretAttributes = Attributes & {};
+export interface SecretAttributes extends Attributes {}
 
 /** Defines headers for PrivateEndpointConnections_put operation. */
 export interface PrivateEndpointConnectionsPutHeaders {
@@ -622,6 +622,7 @@ export interface PrivateEndpointConnectionsDeleteHeaders {
 
 /** Known values of {@link SkuFamily} that the service accepts. */
 export enum KnownSkuFamily {
+  /** A */
   A = "A"
 }
 
@@ -636,22 +637,39 @@ export type SkuFamily = string;
 
 /** Known values of {@link KeyPermissions} that the service accepts. */
 export enum KnownKeyPermissions {
+  /** All */
   All = "all",
+  /** Encrypt */
   Encrypt = "encrypt",
+  /** Decrypt */
   Decrypt = "decrypt",
+  /** WrapKey */
   WrapKey = "wrapKey",
+  /** UnwrapKey */
   UnwrapKey = "unwrapKey",
+  /** Sign */
   Sign = "sign",
+  /** Verify */
   Verify = "verify",
+  /** Get */
   Get = "get",
+  /** List */
   List = "list",
+  /** Create */
   Create = "create",
+  /** Update */
   Update = "update",
+  /** Import */
   Import = "import",
+  /** Delete */
   Delete = "delete",
+  /** Backup */
   Backup = "backup",
+  /** Restore */
   Restore = "restore",
+  /** Recover */
   Recover = "recover",
+  /** Purge */
   Purge = "purge"
 }
 
@@ -682,14 +700,23 @@ export type KeyPermissions = string;
 
 /** Known values of {@link SecretPermissions} that the service accepts. */
 export enum KnownSecretPermissions {
+  /** All */
   All = "all",
+  /** Get */
   Get = "get",
+  /** List */
   List = "list",
+  /** Set */
   Set = "set",
+  /** Delete */
   Delete = "delete",
+  /** Backup */
   Backup = "backup",
+  /** Restore */
   Restore = "restore",
+  /** Recover */
   Recover = "recover",
+  /** Purge */
   Purge = "purge"
 }
 
@@ -712,22 +739,39 @@ export type SecretPermissions = string;
 
 /** Known values of {@link CertificatePermissions} that the service accepts. */
 export enum KnownCertificatePermissions {
+  /** All */
   All = "all",
+  /** Get */
   Get = "get",
+  /** List */
   List = "list",
+  /** Delete */
   Delete = "delete",
+  /** Create */
   Create = "create",
+  /** Import */
   Import = "import",
+  /** Update */
   Update = "update",
+  /** Managecontacts */
   Managecontacts = "managecontacts",
+  /** Getissuers */
   Getissuers = "getissuers",
+  /** Listissuers */
   Listissuers = "listissuers",
+  /** Setissuers */
   Setissuers = "setissuers",
+  /** Deleteissuers */
   Deleteissuers = "deleteissuers",
+  /** Manageissuers */
   Manageissuers = "manageissuers",
+  /** Recover */
   Recover = "recover",
+  /** Purge */
   Purge = "purge",
+  /** Backup */
   Backup = "backup",
+  /** Restore */
   Restore = "restore"
 }
 
@@ -758,20 +802,35 @@ export type CertificatePermissions = string;
 
 /** Known values of {@link StoragePermissions} that the service accepts. */
 export enum KnownStoragePermissions {
+  /** All */
   All = "all",
+  /** Get */
   Get = "get",
+  /** List */
   List = "list",
+  /** Delete */
   Delete = "delete",
+  /** Set */
   Set = "set",
+  /** Update */
   Update = "update",
+  /** Regeneratekey */
   Regeneratekey = "regeneratekey",
+  /** Recover */
   Recover = "recover",
+  /** Purge */
   Purge = "purge",
+  /** Backup */
   Backup = "backup",
+  /** Restore */
   Restore = "restore",
+  /** Setsas */
   Setsas = "setsas",
+  /** Listsas */
   Listsas = "listsas",
+  /** Getsas */
   Getsas = "getsas",
+  /** Deletesas */
   Deletesas = "deletesas"
 }
 
@@ -800,7 +859,9 @@ export type StoragePermissions = string;
 
 /** Known values of {@link NetworkRuleBypassOptions} that the service accepts. */
 export enum KnownNetworkRuleBypassOptions {
+  /** AzureServices */
   AzureServices = "AzureServices",
+  /** None */
   None = "None"
 }
 
@@ -816,7 +877,9 @@ export type NetworkRuleBypassOptions = string;
 
 /** Known values of {@link NetworkRuleAction} that the service accepts. */
 export enum KnownNetworkRuleAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -832,7 +895,9 @@ export type NetworkRuleAction = string;
 
 /** Known values of {@link VaultProvisioningState} that the service accepts. */
 export enum KnownVaultProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** RegisteringDns */
   RegisteringDns = "RegisteringDns"
 }
 
@@ -848,9 +913,13 @@ export type VaultProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -868,11 +937,17 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -995,20 +1070,14 @@ export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface VaultsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VaultsListByResourceGroupNextResponse = VaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type VaultsListBySubscriptionNextResponse = VaultListResult;
@@ -1022,10 +1091,7 @@ export type VaultsListDeletedNextResponse = DeletedVaultListResult;
 
 /** Optional parameters. */
 export interface VaultsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VaultsListNextResponse = ResourceListResult;
@@ -1109,10 +1175,7 @@ export type SecretsListResponse = SecretListResult;
 
 /** Optional parameters. */
 export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretListResult;

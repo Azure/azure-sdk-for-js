@@ -222,6 +222,31 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      extensions: {
+        serializedName: "properties.extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExtensionSpec"
+            }
+          }
+        }
+      },
+      confidentialComputeProperties: {
+        serializedName: "properties.confidentialComputeProperties",
+        type: {
+          name: "Composite",
+          className: "ConfidentialComputeProperties"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -386,6 +411,13 @@ export const Container: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerProbe"
+        }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
         }
       }
     }
@@ -847,6 +879,83 @@ export const HttpHeader: coreClient.CompositeMapper = {
   }
 };
 
+export const SecurityContextDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextDefinition",
+    modelProperties: {
+      privileged: {
+        serializedName: "privileged",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowPrivilegeEscalation: {
+        serializedName: "allowPrivilegeEscalation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "SecurityContextCapabilitiesDefinition"
+        }
+      },
+      runAsGroup: {
+        serializedName: "runAsGroup",
+        type: {
+          name: "Number"
+        }
+      },
+      runAsUser: {
+        serializedName: "runAsUser",
+        type: {
+          name: "Number"
+        }
+      },
+      seccompProfile: {
+        serializedName: "seccompProfile",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityContextCapabilitiesDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextCapabilitiesDefinition",
+    modelProperties: {
+      add: {
+        serializedName: "add",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      drop: {
+        serializedName: "drop",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ImageRegistryCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1238,6 +1347,12 @@ export const EncryptionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1302,6 +1417,13 @@ export const InitContainerDefinition: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
+        }
       }
     }
   }
@@ -1344,6 +1466,63 @@ export const InitContainerPropertiesDefinitionInstanceView: coreClient.Composite
               className: "Event"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentExtensionSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExtensionSpec",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      extensionType: {
+        serializedName: "properties.extensionType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      settings: {
+        serializedName: "properties.settings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialComputeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialComputeProperties",
+    modelProperties: {
+      ccePolicy: {
+        serializedName: "ccePolicy",
+        type: {
+          name: "String"
         }
       }
     }

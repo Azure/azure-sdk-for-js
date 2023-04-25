@@ -72,7 +72,6 @@ export type CapabilitiesGetResponse = Capability;
 
 // @public
 export interface CapabilitiesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -142,7 +141,6 @@ export type CapabilityTypesGetResponse = CapabilityType;
 
 // @public
 export interface CapabilityTypesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -348,8 +346,6 @@ export type ExperimentsGetStatusResponse = ExperimentStatus;
 
 // @public
 export interface ExperimentsListAllNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    running?: boolean;
 }
 
 // @public
@@ -394,8 +390,6 @@ export type ExperimentsListExecutionDetailsResponse = ExperimentExecutionDetails
 
 // @public
 export interface ExperimentsListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    running?: boolean;
 }
 
 // @public
@@ -440,6 +434,20 @@ export interface ExperimentStatusListResult {
 }
 
 // @public
+export interface Filter {
+    type: "Simple";
+}
+
+// @public
+export type FilterType = string;
+
+// @public (undocumented)
+export type FilterUnion = Filter | SimpleFilter;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface KeyValuePair {
     key: string;
     value: string;
@@ -456,6 +464,11 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownFilterType {
+    Simple = "Simple"
 }
 
 // @public
@@ -529,6 +542,7 @@ export type ResourceIdentityType = "None" | "SystemAssigned";
 
 // @public
 export interface Selector {
+    filter?: FilterUnion;
     id: string;
     targets: TargetReference[];
     type: SelectorType;
@@ -536,6 +550,17 @@ export interface Selector {
 
 // @public
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+
+// @public
+export interface SimpleFilter extends Filter {
+    parameters?: SimpleFilterParameters;
+    type: "Simple";
+}
+
+// @public
+export interface SimpleFilterParameters {
+    zones?: string[];
+}
 
 // @public
 export interface Step {
@@ -610,7 +635,6 @@ export type TargetsGetResponse = Target;
 
 // @public
 export interface TargetsListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -655,7 +679,6 @@ export type TargetTypesGetResponse = TargetType;
 
 // @public
 export interface TargetTypesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public

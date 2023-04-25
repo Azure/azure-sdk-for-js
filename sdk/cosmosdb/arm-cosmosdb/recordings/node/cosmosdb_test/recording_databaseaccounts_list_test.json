@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-08-15",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cosmosdb/15.2.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "f0b93cdf-0572-4b18-bb92-a9da017c5010"
+        "User-Agent": "azsdk-js-arm-cosmosdb/15.4.0-beta.2 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "692bcc85-87a3-473e-abe7-cfc0a099df3c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,34 +17,35 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 05 Sep 2022 08:34:06 GMT",
+        "Date": "Tue, 28 Mar 2023 02:06:46 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a7a1cfd1-4466-4301-a28f-b702999da11f",
+        "x-ms-correlation-request-id": "52d29340-a497-4acc-9530-34aa3b09df44",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11880",
-        "x-ms-request-id": "a7a1cfd1-4466-4301-a28f-b702999da11f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220905T083407Z:a7a1cfd1-4466-4301-a28f-b702999da11f"
+        "x-ms-ratelimit-remaining-subscription-reads": "11879",
+        "x-ms-request-id": "52d29340-a497-4acc-9530-34aa3b09df44",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230328T020646Z:52d29340-a497-4acc-9530-34aa3b09df44"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
+            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
             "name": "myaccountxxyy2",
             "location": "East US",
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "kind": "GlobalDocumentDB",
             "tags": {},
             "systemData": {
-              "createdAt": "2022-09-05T08:30:43.3323911Z"
+              "createdAt": "2023-03-28T02:03:28.9894254Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
               "documentEndpoint": "https://myaccountxxyy2.documents.azure.com:443/",
+              "sqlEndpoint": "https://myaccountxxyy2.documents.azure.com:443/",
               "publicNetworkAccess": "Enabled",
               "enableAutomaticFailover": false,
               "enableMultipleWriteLocations": false,
@@ -58,12 +59,15 @@
               "analyticalStorageConfiguration": {
                 "schemaType": "WellDefined"
               },
-              "instanceId": "06c92a38-e8a7-4238-a74c-d833a6870b7d",
+              "instanceId": "9b66b966-24a8-4f45-a59c-e51c5fe4d471",
               "databaseAccountOfferType": "Standard",
+              "enableMaterializedViews": false,
               "defaultIdentity": "FirstPartyIdentity",
               "networkAclBypass": "None",
               "disableLocalAuth": false,
               "enablePartitionMerge": false,
+              "enableBurstCapacity": false,
+              "minimalTlsVersion": "Tls",
               "consistencyPolicy": {
                 "defaultConsistencyLevel": "Session",
                 "maxIntervalInSeconds": 5,
@@ -161,18 +165,21 @@
                 }
               },
               "networkAclBypassResourceIds": [],
+              "diagnosticLogSettings": {
+                "enableFullTextQuery": "None"
+              },
               "keysMetadata": {
                 "primaryMasterKey": {
-                  "generationTime": "2022-09-05T08:30:43.3323911Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "secondaryMasterKey": {
-                  "generationTime": "2022-09-05T08:30:43.3323911Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "primaryReadonlyMasterKey": {
-                  "generationTime": "2022-09-05T08:30:43.3323911Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 },
                 "secondaryReadonlyMasterKey": {
-                  "generationTime": "2022-09-05T08:30:43.3323911Z"
+                  "generationTime": "2023-03-28T02:03:28.9894254Z"
                 }
               }
             },

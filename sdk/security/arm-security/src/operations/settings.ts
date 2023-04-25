@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Settings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -39,7 +40,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   public list(
@@ -53,22 +54,34 @@ export class SettingsImpl implements Settings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SettingsListOptionalParams
+    options?: SettingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SettingUnion[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SettingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -81,7 +94,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   private _list(
@@ -91,7 +104,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * Settings of different configurations in security center
+   * Settings of different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param options The options parameters.
    */
@@ -106,7 +119,7 @@ export class SettingsImpl implements Settings {
   }
 
   /**
-   * updating settings about different configurations in security center
+   * updating settings about different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param setting Setting object
    * @param options The options parameters.
@@ -151,7 +164,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -168,7 +181,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -190,7 +203,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.setting1,
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -211,7 +224,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

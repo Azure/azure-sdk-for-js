@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProviderInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProviderInstance,
   ProviderInstancesListNextOptionalParams,
@@ -61,8 +66,16 @@ export class ProviderInstancesImpl implements ProviderInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, monitorName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          monitorName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -70,11 +83,18 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private async *listPagingPage(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProviderInstance[]> {
-    let result = await this._list(resourceGroupName, monitorName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProviderInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -83,7 +103,9 @@ export class ProviderInstancesImpl implements ProviderInstances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -155,8 +177,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
     providerInstanceParameter: ProviderInstance,
     options?: ProviderInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   > {
@@ -166,7 +188,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     ): Promise<ProviderInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -199,19 +221,22 @@ export class ProviderInstancesImpl implements ProviderInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         monitorName,
         providerInstanceName,
         providerInstanceParameter,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProviderInstancesCreateResponse,
+      OperationState<ProviderInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -258,8 +283,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
     providerInstanceName: string,
     options?: ProviderInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesDeleteResponse>,
       ProviderInstancesDeleteResponse
     >
   > {
@@ -269,7 +294,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     ): Promise<ProviderInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -302,14 +327,18 @@ export class ProviderInstancesImpl implements ProviderInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, providerInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, providerInstanceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProviderInstancesDeleteResponse,
+      OperationState<ProviderInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -435,7 +464,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.monitorName,
     Parameters.providerInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -482,7 +511,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

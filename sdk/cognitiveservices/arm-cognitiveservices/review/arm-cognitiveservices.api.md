@@ -11,17 +11,17 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Account = AzureEntityResource & {
-    kind?: string;
-    sku?: Sku;
+export interface Account extends AzureEntityResource {
     identity?: Identity;
+    kind?: string;
+    location?: string;
+    properties?: AccountProperties;
+    sku?: Sku;
     readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-    properties?: AccountProperties;
-};
+}
 
 // @public
 export interface AccountListResult {
@@ -30,15 +30,19 @@ export interface AccountListResult {
 }
 
 // @public
-export type AccountModel = DeploymentModel & {
+export interface AccountModel extends DeploymentModel {
     baseModel?: DeploymentModel;
-    maxCapacity?: number;
     capabilities?: {
         [propertyName: string]: string;
     };
     deprecation?: ModelDeprecationInfo;
+    finetuneCapabilities?: {
+        [propertyName: string]: string;
+    };
+    lifecycleStatus?: ModelLifecycleStatus;
+    maxCapacity?: number;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface AccountModelListResult {
@@ -53,6 +57,7 @@ export interface AccountProperties {
     apiProperties?: ApiProperties;
     readonly callRateLimit?: CallRateLimit;
     readonly capabilities?: SkuCapability[];
+    readonly commitmentPlanAssociations?: CommitmentPlanAssociation[];
     customSubDomainName?: string;
     readonly dateCreated?: string;
     readonly deletionDate?: string;
@@ -66,6 +71,7 @@ export interface AccountProperties {
     };
     readonly internalId?: string;
     readonly isMigrated?: boolean;
+    locations?: MultiRegionSettings;
     migrationToken?: string;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -237,9 +243,9 @@ export interface ApiProperties {
 }
 
 // @public
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
     readonly etag?: string;
-};
+}
 
 // @public
 export interface CallRateLimit {
@@ -332,11 +338,36 @@ export interface CommitmentPeriod {
 }
 
 // @public
-export type CommitmentPlan = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface CommitmentPlan extends ProxyResource {
     readonly etag?: string;
+    kind?: string;
+    location?: string;
     properties?: CommitmentPlanProperties;
-};
+    sku?: Sku;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface CommitmentPlanAccountAssociation extends ProxyResource {
+    accountId?: string;
+    readonly etag?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface CommitmentPlanAccountAssociationListResult {
+    nextLink?: string;
+    readonly value?: CommitmentPlanAccountAssociation[];
+}
+
+// @public
+export interface CommitmentPlanAssociation {
+    commitmentPlanId?: string;
+    commitmentPlanLocation?: string;
+}
 
 // @public
 export interface CommitmentPlanListResult {
@@ -347,28 +378,78 @@ export interface CommitmentPlanListResult {
 // @public
 export interface CommitmentPlanProperties {
     autoRenew?: boolean;
+    commitmentPlanGuid?: string;
     current?: CommitmentPeriod;
     hostingModel?: HostingModel;
     readonly last?: CommitmentPeriod;
     next?: CommitmentPeriod;
     planType?: string;
+    readonly provisioningState?: CommitmentPlanProvisioningState;
 }
 
 // @public
+export type CommitmentPlanProvisioningState = string;
+
+// @public
 export interface CommitmentPlans {
+    beginCreateOrUpdateAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>, CommitmentPlansCreateOrUpdateAssociationResponse>>;
+    beginCreateOrUpdateAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<CommitmentPlansCreateOrUpdateAssociationResponse>;
+    beginCreateOrUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>, CommitmentPlansCreateOrUpdatePlanResponse>>;
+    beginCreateOrUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<CommitmentPlansCreateOrUpdatePlanResponse>;
     beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<void>;
+    beginDeleteAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<void>;
+    beginDeletePlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePlanAndWait(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<void>;
+    beginUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansUpdatePlanResponse>, CommitmentPlansUpdatePlanResponse>>;
+    beginUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<CommitmentPlansUpdatePlanResponse>;
     createOrUpdate(resourceGroupName: string, accountName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdateOptionalParams): Promise<CommitmentPlansCreateOrUpdateResponse>;
     get(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansGetOptionalParams): Promise<CommitmentPlansGetResponse>;
+    getAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansGetAssociationOptionalParams): Promise<CommitmentPlansGetAssociationResponse>;
+    getPlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansGetPlanOptionalParams): Promise<CommitmentPlansGetPlanResponse>;
     list(resourceGroupName: string, accountName: string, options?: CommitmentPlansListOptionalParams): PagedAsyncIterableIterator<CommitmentPlan>;
+    listAssociations(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansListAssociationsOptionalParams): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation>;
+    listPlansByResourceGroup(resourceGroupName: string, options?: CommitmentPlansListPlansByResourceGroupOptionalParams): PagedAsyncIterableIterator<CommitmentPlan>;
+    listPlansBySubscription(options?: CommitmentPlansListPlansBySubscriptionOptionalParams): PagedAsyncIterableIterator<CommitmentPlan>;
 }
+
+// @public
+export interface CommitmentPlansCreateOrUpdateAssociationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CommitmentPlansCreateOrUpdateAssociationResponse = CommitmentPlanAccountAssociation;
 
 // @public
 export interface CommitmentPlansCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export interface CommitmentPlansCreateOrUpdatePlanOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CommitmentPlansCreateOrUpdatePlanResponse = CommitmentPlan;
+
+// @public
 export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan;
+
+// @public
+export interface CommitmentPlansDeleteAssociationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CommitmentPlansDeleteAssociationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface CommitmentPlansDeleteOptionalParams extends coreClient.OperationOptions {
@@ -377,11 +458,51 @@ export interface CommitmentPlansDeleteOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export interface CommitmentPlansDeletePlanHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CommitmentPlansDeletePlanOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CommitmentPlansGetAssociationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansGetAssociationResponse = CommitmentPlanAccountAssociation;
+
+// @public
 export interface CommitmentPlansGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export interface CommitmentPlansGetPlanOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansGetPlanResponse = CommitmentPlan;
+
+// @public
 export type CommitmentPlansGetResponse = CommitmentPlan;
+
+// @public
+export interface CommitmentPlansListAssociationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListAssociationsNextResponse = CommitmentPlanAccountAssociationListResult;
+
+// @public
+export interface CommitmentPlansListAssociationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListAssociationsResponse = CommitmentPlanAccountAssociationListResult;
 
 // @public
 export interface CommitmentPlansListNextOptionalParams extends coreClient.OperationOptions {
@@ -395,7 +516,50 @@ export interface CommitmentPlansListOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export interface CommitmentPlansListPlansByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListPlansByResourceGroupNextResponse = CommitmentPlanListResult;
+
+// @public
+export interface CommitmentPlansListPlansByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListPlansByResourceGroupResponse = CommitmentPlanListResult;
+
+// @public
+export interface CommitmentPlansListPlansBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListPlansBySubscriptionNextResponse = CommitmentPlanListResult;
+
+// @public
+export interface CommitmentPlansListPlansBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommitmentPlansListPlansBySubscriptionResponse = CommitmentPlanListResult;
+
+// @public
 export type CommitmentPlansListResponse = CommitmentPlanListResult;
+
+// @public
+export interface CommitmentPlansUpdatePlanHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CommitmentPlansUpdatePlanOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CommitmentPlansUpdatePlanResponse = CommitmentPlan;
 
 // @public
 export interface CommitmentQuota {
@@ -479,11 +643,11 @@ export interface DeletedAccountsPurgeOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type Deployment = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Deployment extends ProxyResource {
     readonly etag?: string;
     properties?: DeploymentProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DeploymentListResult {
@@ -493,6 +657,7 @@ export interface DeploymentListResult {
 
 // @public
 export interface DeploymentModel {
+    readonly callRateLimit?: CallRateLimit;
     format?: string;
     name?: string;
     version?: string;
@@ -500,8 +665,13 @@ export interface DeploymentModel {
 
 // @public
 export interface DeploymentProperties {
+    readonly callRateLimit?: CallRateLimit;
+    readonly capabilities?: {
+        [propertyName: string]: string;
+    };
     model?: DeploymentModel;
     readonly provisioningState?: DeploymentProvisioningState;
+    raiPolicyName?: string;
     scaleSettings?: DeploymentScaleSettings;
 }
 
@@ -600,6 +770,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HostingModel = string;
 
 // @public
@@ -634,179 +807,146 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
+export enum KnownCommitmentPlanProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Moving = "Moving",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDeploymentProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownDeploymentScaleType {
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownHostingModel {
-    // (undocumented)
     ConnectedContainer = "ConnectedContainer",
-    // (undocumented)
     DisconnectedContainer = "DisconnectedContainer",
-    // (undocumented)
     Web = "Web"
 }
 
 // @public
 export enum KnownKeySource {
-    // (undocumented)
     MicrosoftCognitiveServices = "Microsoft.CognitiveServices",
-    // (undocumented)
     MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
 // @public
+export enum KnownModelLifecycleStatus {
+    GenerallyAvailable = "GenerallyAvailable",
+    Preview = "Preview"
+}
+
+// @public
 export enum KnownNetworkRuleAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     ResolvingDNS = "ResolvingDNS",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownQuotaUsageStatus {
-    // (undocumented)
     Blocked = "Blocked",
-    // (undocumented)
     Included = "Included",
-    // (undocumented)
     InOverage = "InOverage",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownResourceSkuRestrictionsReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
+export enum KnownRoutingMethods {
+    Performance = "Performance",
+    Priority = "Priority",
+    Weighted = "Weighted"
+}
+
+// @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Enterprise = "Enterprise",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownUnitType {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     Milliseconds = "Milliseconds",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds"
 }
 
@@ -820,6 +960,16 @@ export interface MetricName {
 export interface ModelDeprecationInfo {
     fineTune?: string;
     inference?: string;
+}
+
+// @public
+export type ModelLifecycleStatus = string;
+
+// @public
+export interface MultiRegionSettings {
+    // (undocumented)
+    regions?: RegionSetting[];
+    routingMethod?: RoutingMethods;
 }
 
 // @public
@@ -878,16 +1028,28 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface PatchResourceTags {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface PatchResourceTagsAndSku extends PatchResourceTags {
+    sku?: Sku;
+}
+
+// @public
 export interface PrivateEndpoint {
     readonly id?: string;
 }
 
 // @public
-export type PrivateEndpointConnection = AzureEntityResource & {
+export interface PrivateEndpointConnection extends AzureEntityResource {
+    location?: string;
     properties?: PrivateEndpointConnectionProperties;
     readonly systemData?: SystemData;
-    location?: string;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -948,9 +1110,9 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     properties?: PrivateLinkResourceProperties;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -988,7 +1150,8 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -1009,6 +1172,13 @@ export type QuotaUsageStatus = string;
 // @public
 export interface RegenerateKeyParameters {
     keyName: KeyName;
+}
+
+// @public
+export interface RegionSetting {
+    customsubdomain?: string;
+    name?: string;
+    value?: number;
 }
 
 // @public (undocumented)
@@ -1083,6 +1253,9 @@ export interface ResourceSkusListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type ResourceSkusListResponse = ResourceSkuListResult;
+
+// @public
+export type RoutingMethods = string;
 
 // @public
 export interface Sku {

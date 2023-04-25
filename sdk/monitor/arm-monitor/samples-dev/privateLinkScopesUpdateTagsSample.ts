@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { TagsResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
@@ -18,8 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesUpdateTagsOnly.json
  */
 async function privateLinkScopeUpdateTagsOnly() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["MONITOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const privateLinkScopeTags: TagsResource = {
     tags: { tag1: "Value1", tag2: "Value2" }
@@ -34,4 +38,8 @@ async function privateLinkScopeUpdateTagsOnly() {
   console.log(result);
 }
 
-privateLinkScopeUpdateTagsOnly().catch(console.error);
+async function main() {
+  privateLinkScopeUpdateTagsOnly();
+}
+
+main().catch(console.error);

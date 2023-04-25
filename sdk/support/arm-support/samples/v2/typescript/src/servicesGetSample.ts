@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a specific Azure service for support ticket creation.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/GetService.json
  */
 async function getsDetailsOfTheAzureService() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SUPPORT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const serviceName = "service_guid";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
@@ -26,4 +31,8 @@ async function getsDetailsOfTheAzureService() {
   console.log(result);
 }
 
-getsDetailsOfTheAzureService().catch(console.error);
+async function main() {
+  getsDetailsOfTheAzureService();
+}
+
+main().catch(console.error);

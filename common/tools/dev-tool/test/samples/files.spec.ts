@@ -57,6 +57,7 @@ describe("File content tests", async function () {
               ...ownPackageJson,
               // Required by the PackageJson definition type, but not required for this test
               main: "",
+              types: "",
               version,
               keywords: [name],
               "//sampleConfiguration": {

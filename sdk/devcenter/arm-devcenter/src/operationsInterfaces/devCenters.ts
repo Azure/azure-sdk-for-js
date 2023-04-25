@@ -34,7 +34,7 @@ export interface DevCenters {
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Lists all devcenters in a resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +43,7 @@ export interface DevCenters {
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Gets a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -54,7 +54,7 @@ export interface DevCenters {
   ): Promise<DevCentersGetResponse>;
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -72,7 +72,7 @@ export interface DevCenters {
   >;
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -85,7 +85,7 @@ export interface DevCenters {
   ): Promise<DevCentersCreateOrUpdateResponse>;
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -103,7 +103,7 @@ export interface DevCenters {
   >;
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -116,7 +116,7 @@ export interface DevCenters {
   ): Promise<DevCentersUpdateResponse>;
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -127,7 +127,7 @@ export interface DevCenters {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */

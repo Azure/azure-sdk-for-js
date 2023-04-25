@@ -1,0 +1,61 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test: Current Open File",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "type": "node",
+            "args": [
+                "--timeout",
+                "100000",
+                "-r",
+                "test/mocha.env.ts",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "esm",
+                "-r",
+                "dotenv/config",
+                "-r",
+                "./test/public/common/setup.ts",
+                "--colors",
+                "**/${fileBasenameNoExtension}.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+        },
+        {
+            "name": "Test: Selected Test Case",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "type": "node",
+            "args": [
+                "--timeout",
+                "100000",
+                "-r",
+                "test/mocha.env.ts",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "esm",
+                "-r",
+                "dotenv/config",
+                "-r",
+                "./test/public/common/setup.ts",
+                "--colors",
+                "**/${fileBasenameNoExtension}.ts",
+                "-g",
+                "${selectedText}"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+        }
+    ]
+}

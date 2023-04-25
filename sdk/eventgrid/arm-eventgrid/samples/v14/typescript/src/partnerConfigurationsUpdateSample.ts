@@ -13,6 +13,9 @@ import {
   EventGridManagementClient
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Synchronously updates a partner configuration with the specified parameters.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerConfigurations_Update.json
  */
 async function partnerConfigurationsUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters = {
     defaultMaximumExpirationTimeInDays: 100,
     tags: { tag1: "value11", tag2: "value22" }
@@ -36,4 +42,8 @@ async function partnerConfigurationsUpdate() {
   console.log(result);
 }
 
-partnerConfigurationsUpdate().catch(console.error);
+async function main() {
+  partnerConfigurationsUpdate();
+}
+
+main().catch(console.error);

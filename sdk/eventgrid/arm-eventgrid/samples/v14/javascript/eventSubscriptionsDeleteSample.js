@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete an existing event subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_DeleteForCustomTopic.json
  */
 async function eventSubscriptionsDeleteForCustomTopic() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -28,8 +30,6 @@ async function eventSubscriptionsDeleteForCustomTopic() {
   console.log(result);
 }
 
-eventSubscriptionsDeleteForCustomTopic().catch(console.error);
-
 /**
  * This sample demonstrates how to Delete an existing event subscription.
  *
@@ -37,7 +37,8 @@ eventSubscriptionsDeleteForCustomTopic().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_DeleteForResource.json
  */
 async function eventSubscriptionsDeleteForResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription10";
@@ -47,8 +48,6 @@ async function eventSubscriptionsDeleteForResource() {
   console.log(result);
 }
 
-eventSubscriptionsDeleteForResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Delete an existing event subscription.
  *
@@ -56,7 +55,8 @@ eventSubscriptionsDeleteForResource().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_DeleteForResourceGroup.json
  */
 async function eventSubscriptionsDeleteForResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
   const credential = new DefaultAzureCredential();
@@ -65,8 +65,6 @@ async function eventSubscriptionsDeleteForResourceGroup() {
   console.log(result);
 }
 
-eventSubscriptionsDeleteForResourceGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Delete an existing event subscription.
  *
@@ -74,7 +72,8 @@ eventSubscriptionsDeleteForResourceGroup().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_DeleteForSubscription.json
  */
 async function eventSubscriptionsDeleteForSubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const eventSubscriptionName = "examplesubscription3";
   const credential = new DefaultAzureCredential();
@@ -83,4 +82,11 @@ async function eventSubscriptionsDeleteForSubscription() {
   console.log(result);
 }
 
-eventSubscriptionsDeleteForSubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsDeleteForCustomTopic();
+  eventSubscriptionsDeleteForResource();
+  eventSubscriptionsDeleteForResourceGroup();
+  eventSubscriptionsDeleteForSubscription();
+}
+
+main().catch(console.error);

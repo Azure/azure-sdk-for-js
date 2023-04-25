@@ -39,9 +39,10 @@ export interface ServiceConfigurationApplyFromEvaluationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ServiceConfigurationApplyFromEvaluationParameters = ServiceConfigurationApplyFromEvaluationMediaTypesParam &
-  ServiceConfigurationApplyFromEvaluationBodyParam &
-  RequestParameters;
+export type ServiceConfigurationApplyFromEvaluationParameters =
+  ServiceConfigurationApplyFromEvaluationMediaTypesParam &
+    ServiceConfigurationApplyFromEvaluationBodyParam &
+    RequestParameters;
 export type PolicyGetParameters = RequestParameters;
 
 export interface PolicyUpdateBodyParam {

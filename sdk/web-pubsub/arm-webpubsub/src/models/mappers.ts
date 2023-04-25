@@ -931,6 +931,75 @@ export const UserAssignedIdentityProperty: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomCertificateList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomCertificateList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomCertificate"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDomainList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomDomainList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomDomain"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebPubSubHubList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -972,6 +1041,18 @@ export const WebPubSubHubProperties: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "EventHandler"
+            }
+          }
+        }
+      },
+      eventListeners: {
+        serializedName: "eventListeners",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EventListener"
             }
           }
         }
@@ -1056,6 +1137,71 @@ export const ManagedIdentitySettings: coreClient.CompositeMapper = {
     modelProperties: {
       resource: {
         serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventListener: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventListener",
+    modelProperties: {
+      filter: {
+        serializedName: "filter",
+        type: {
+          name: "Composite",
+          className: "EventListenerFilter"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        type: {
+          name: "Composite",
+          className: "EventListenerEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const EventListenerFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventListenerFilter",
+    uberParent: "EventListenerFilter",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventListenerEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventListenerEndpoint",
+    uberParent: "EventListenerEndpoint",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -1400,6 +1546,64 @@ export const PrivateEndpointACL: coreClient.CompositeMapper = {
   }
 };
 
+export const EventNameFilter: coreClient.CompositeMapper = {
+  serializedName: "EventName",
+  type: {
+    name: "Composite",
+    className: "EventNameFilter",
+    uberParent: "EventListenerFilter",
+    polymorphicDiscriminator: EventListenerFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EventListenerFilter.type.modelProperties,
+      systemEvents: {
+        serializedName: "systemEvents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      userEventPattern: {
+        serializedName: "userEventPattern",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventHubEndpoint: coreClient.CompositeMapper = {
+  serializedName: "EventHub",
+  type: {
+    name: "Composite",
+    className: "EventHubEndpoint",
+    uberParent: "EventListenerEndpoint",
+    polymorphicDiscriminator:
+      EventListenerEndpoint.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EventListenerEndpoint.type.modelProperties,
+      fullyQualifiedNamespace: {
+        serializedName: "fullyQualifiedNamespace",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eventHubName: {
+        serializedName: "eventHubName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1493,6 +1697,88 @@ export const SharedPrivateLinkResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomCertificate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomCertificate",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultBaseUri: {
+        serializedName: "properties.keyVaultBaseUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultSecretName: {
+        serializedName: "properties.keyVaultSecretName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultSecretVersion: {
+        serializedName: "properties.keyVaultSecretVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDomain: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomDomain",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainName: {
+        serializedName: "properties.domainName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      customCertificate: {
+        serializedName: "properties.customCertificate",
+        type: {
+          name: "Composite",
+          className: "ResourceReference"
         }
       }
     }
@@ -1726,4 +2012,11 @@ export const WebPubSubResource: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export let discriminators = {
+  EventListenerFilter: EventListenerFilter,
+  EventListenerEndpoint: EventListenerEndpoint,
+  "EventListenerFilter.EventName": EventNameFilter,
+  "EventListenerEndpoint.EventHub": EventHubEndpoint
 };

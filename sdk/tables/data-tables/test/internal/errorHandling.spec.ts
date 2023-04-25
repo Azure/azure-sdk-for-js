@@ -5,9 +5,9 @@ import { HttpClient, PipelineResponse, createHttpHeaders } from "@azure/core-res
 import { TableClient, TableServiceClient } from "../../src";
 import { assert } from "chai";
 
-describe("ErrorHandling", () => {
-  describe("TableClient", () => {
-    it("should not throw on delete table not found", async () => {
+describe("ErrorHandling", function () {
+  describe("TableClient", function () {
+    it("should not throw on delete table not found", async function () {
       const client = new TableClient("https://example.org", "fakeTable", {
         httpClient: buildTestHttpClient({ status: 404 }),
       });
@@ -23,7 +23,7 @@ describe("ErrorHandling", () => {
       }
     });
 
-    it("should throw on delete table with non 404 error", async () => {
+    it("should throw on delete table with non 404 error", async function () {
       const client = new TableClient("https://example.org", "fakeTable", {
         httpClient: buildTestHttpClient({ status: 400 }),
       });
@@ -39,8 +39,8 @@ describe("ErrorHandling", () => {
     });
   });
 
-  describe("TableServiceClient", () => {
-    it("should not throw on delete table not found", async () => {
+  describe("TableServiceClient", function () {
+    it("should not throw on delete table not found", async function () {
       const client = new TableServiceClient("https://example.org", {
         httpClient: buildTestHttpClient({ status: 404 }),
       });
@@ -55,7 +55,7 @@ describe("ErrorHandling", () => {
       }
     });
 
-    it("should throw on delete table with non 404 error", async () => {
+    it("should throw on delete table with non 404 error", async function () {
       const client = new TableServiceClient("https://example.org", {
         httpClient: buildTestHttpClient({ status: 400 }),
       });

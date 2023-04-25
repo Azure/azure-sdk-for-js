@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
@@ -60,7 +60,10 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout adding a secret", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -134,7 +137,10 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout updating a secret", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -184,7 +190,10 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout getting a secret", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -277,7 +286,10 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout deleting a secret", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -350,7 +362,10 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("traces through the various operations", async () => {
-    const secretName = recorder.getUniqueName("secrettrace");
+    const secretName = recorder.variable(
+      "secrettrace",
+      `secrettrace${Math.floor(Math.random() * 1000)}`
+    );
 
     await assert.supportsTracing(
       async (options) => {

@@ -129,28 +129,22 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 namedKeyCredential.update("foo", "bar");
                 clock.tick(1000 * 60 * 45);
               },
-              // 2: observe another `processEvents` call. We should see this because the maxWaitTimeInSeconds is set to 5 seconds, and we fast forwarded the clock 45 minutes.
-              (events: []) => {
-                if (!Array.isArray(events)) {
-                  reject(new Error("Step 2 failed. Expected to see a list of events."));
-                }
-              },
-              // 3: Since the token renewal has occurred, we should start seeing `UnauthorizedError` being thrown from our `processError` handler.
+              // 2: Since the token renewal has occurred, we should start seeing `UnauthorizedError` being thrown from our `processError` handler.
               // Rotate the credentials back to valid values.
               (err: any) => {
                 if (err.code !== "UnauthorizedError") {
                   reject(
-                    new Error(`Step 3 failed. Expected ${err.code} to equal "UnauthorizedError".`)
+                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`)
                   );
                 }
                 // Rotate the credentials back to valid values.
                 namedKeyCredential.update(sharedAccessKeyName!, sharedAccessKey!);
               },
-              // 4: observe another `processEvents` call.
+              // 3: observe another `processEvents` call.
               // If the credentials were still invalid, we'd expect to see `processError` thrown instead.
               (events: []) => {
                 if (!Array.isArray(events)) {
-                  reject(new Error("Step 4 failed. Expected to see a list of events."));
+                  reject(new Error("Step 3 failed. Expected to see a list of events."));
                 }
                 resolve();
               },
@@ -297,28 +291,22 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 );
                 clock.tick(1000 * 60 * 45);
               },
-              // 2: observe another `processEvents` call. We should see this because the maxWaitTimeInSeconds is set to 5 seconds, and we fast forwarded the clock 45 minutes.
-              (events: []) => {
-                if (!Array.isArray(events)) {
-                  reject(new Error("Step 2 failed. Expected to see a list of events."));
-                }
-              },
-              // 3: Since the token renewal has occurred, we should start seeing `UnauthorizedError` being thrown from our `processError` handler.
+              // 2: Since the token renewal has occurred, we should start seeing `UnauthorizedError` being thrown from our `processError` handler.
               // Rotate the credentials back to valid values.
               (err: any) => {
                 if (err.code !== "UnauthorizedError") {
                   reject(
-                    new Error(`Step 3 failed. Expected ${err.code} to equal "UnauthorizedError".`)
+                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`)
                   );
                 }
                 // Rotate the credentials back to valid values.
                 sasCredential.update(getSas());
               },
-              // 4: observe another `processEvents` call.
+              // 3: observe another `processEvents` call.
               // If the credentials were still invalid, we'd expect to see `processError` thrown instead.
               (events: []) => {
                 if (!Array.isArray(events)) {
-                  reject(new Error("Step 4 failed. Expected to see a list of events."));
+                  reject(new Error("Step 3 failed. Expected to see a list of events."));
                 }
                 resolve();
               },

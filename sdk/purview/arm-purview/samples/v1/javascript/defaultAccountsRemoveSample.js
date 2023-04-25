@@ -19,9 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function defaultAccountsRemove() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const scopeTenantId = "12345678-1234-1234-12345678abc";
+  const scopeTenantId = "11733A4E-BA84-46FF-91D1-AFF1A3215A90";
   const scopeType = "Tenant";
-  const scope = "12345678-1234-1234-12345678abc";
+  const scope = "11733A4E-BA84-46FF-91D1-AFF1A3215A90";
   const options = { scope };
   const credential = new DefaultAzureCredential();
   const client = new PurviewManagementClient(credential, subscriptionId);

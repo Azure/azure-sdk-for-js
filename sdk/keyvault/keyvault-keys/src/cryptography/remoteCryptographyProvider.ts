@@ -34,7 +34,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { createChallengeCallbacks } from "../../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../../keyvault-common/src";
 import { tracingClient } from "../tracing";
 
 /**
@@ -385,7 +385,7 @@ function getOrInitializeClient(
   const authPolicy = bearerTokenAuthenticationPolicy({
     credential,
     scopes: [], // Scopes are going to be defined by the challenge callbacks.
-    challengeCallbacks: createChallengeCallbacks(options),
+    challengeCallbacks: createKeyVaultChallengeCallbacks(options),
   });
 
   const internalPipelineOptions = {

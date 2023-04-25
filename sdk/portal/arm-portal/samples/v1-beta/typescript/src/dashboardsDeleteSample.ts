@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the Dashboard.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/deleteDashboard.json
  */
 async function deleteADashboard() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "testRG";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["PORTAL_RESOURCE_GROUP"] || "testRG";
   const dashboardName = "testDashboard";
   const credential = new DefaultAzureCredential();
   const client = new Portal(credential, subscriptionId);
@@ -30,4 +35,8 @@ async function deleteADashboard() {
   console.log(result);
 }
 
-deleteADashboard().catch(console.error);
+async function main() {
+  deleteADashboard();
+}
+
+main().catch(console.error);

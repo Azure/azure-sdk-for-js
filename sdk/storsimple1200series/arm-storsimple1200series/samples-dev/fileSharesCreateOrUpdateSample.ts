@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates the file share.
  *
  * @summary Creates or updates the file share.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileSharesCreateOrUpdate.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileSharesCreateOrUpdate.json
  */
 async function fileSharesCreateOrUpdate() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
@@ -30,7 +30,7 @@ async function fileSharesCreateOrUpdate() {
   const fileShare: FileShare = {
     name: "Auto-TestFileShare1",
     description: "Demo FileShare for SDK Test Tiered",
-    adminUser: "fareastidcdlslb",
+    adminUser: "fareast\\idcdlslb",
     dataPolicy: "Tiered",
     monitoringStatus: "Enabled",
     provisionedCapacityInBytes: 536870912000,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TableGetResults,
   TableResourcesListTablesOptionalParams,
@@ -17,6 +17,7 @@ import {
   TableResourcesCreateUpdateTableOptionalParams,
   TableResourcesCreateUpdateTableResponse,
   TableResourcesDeleteTableOptionalParams,
+  TableResourcesDeleteTableResponse,
   TableResourcesGetTableThroughputOptionalParams,
   TableResourcesGetTableThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -25,7 +26,10 @@ import {
   TableResourcesMigrateTableToAutoscaleOptionalParams,
   TableResourcesMigrateTableToAutoscaleResponse,
   TableResourcesMigrateTableToManualThroughputOptionalParams,
-  TableResourcesMigrateTableToManualThroughputResponse
+  TableResourcesMigrateTableToManualThroughputResponse,
+  ContinuousBackupRestoreLocation,
+  TableResourcesRetrieveContinuousBackupInformationOptionalParams,
+  TableResourcesRetrieveContinuousBackupInformationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,8 +74,8 @@ export interface TableResources {
     createUpdateTableParameters: TableCreateUpdateParameters,
     options?: TableResourcesCreateUpdateTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TableResourcesCreateUpdateTableResponse>,
+    SimplePollerLike<
+      OperationState<TableResourcesCreateUpdateTableResponse>,
       TableResourcesCreateUpdateTableResponse
     >
   >;
@@ -102,7 +106,12 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesDeleteTableResponse>,
+      TableResourcesDeleteTableResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB Table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -115,7 +124,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     options?: TableResourcesDeleteTableOptionalParams
-  ): Promise<void>;
+  ): Promise<TableResourcesDeleteTableResponse>;
   /**
    * Gets the RUs per second of the Table under an existing Azure Cosmos DB database account with the
    * provided name.
@@ -146,8 +155,8 @@ export interface TableResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: TableResourcesUpdateTableThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TableResourcesUpdateTableThroughputResponse>,
+    SimplePollerLike<
+      OperationState<TableResourcesUpdateTableThroughputResponse>,
       TableResourcesUpdateTableThroughputResponse
     >
   >;
@@ -180,8 +189,8 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TableResourcesMigrateTableToAutoscaleResponse>,
+    SimplePollerLike<
+      OperationState<TableResourcesMigrateTableToAutoscaleResponse>,
       TableResourcesMigrateTableToAutoscaleResponse
     >
   >;
@@ -211,8 +220,8 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TableResourcesMigrateTableToManualThroughputResponse>,
+    SimplePollerLike<
+      OperationState<TableResourcesMigrateTableToManualThroughputResponse>,
       TableResourcesMigrateTableToManualThroughputResponse
     >
   >;
@@ -229,4 +238,39 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToManualThroughputOptionalParams
   ): Promise<TableResourcesMigrateTableToManualThroughputResponse>;
+  /**
+   * Retrieves continuous backup information for a table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param location The name of the continuous backup restore location.
+   * @param options The options parameters.
+   */
+  beginRetrieveContinuousBackupInformation(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    location: ContinuousBackupRestoreLocation,
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesRetrieveContinuousBackupInformationResponse>,
+      TableResourcesRetrieveContinuousBackupInformationResponse
+    >
+  >;
+  /**
+   * Retrieves continuous backup information for a table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param location The name of the continuous backup restore location.
+   * @param options The options parameters.
+   */
+  beginRetrieveContinuousBackupInformationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    location: ContinuousBackupRestoreLocation,
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+  ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse>;
 }

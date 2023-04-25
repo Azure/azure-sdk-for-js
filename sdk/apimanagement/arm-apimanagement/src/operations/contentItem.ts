@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ContentItem } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,12 +67,16 @@ export class ContentItemImpl implements ContentItem {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
           contentTypeId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,16 +86,23 @@ export class ContentItemImpl implements ContentItem {
     resourceGroupName: string,
     serviceName: string,
     contentTypeId: string,
-    options?: ContentItemListByServiceOptionalParams
+    options?: ContentItemListByServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContentItemContract[]> {
-    let result = await this._listByService(
-      resourceGroupName,
-      serviceName,
-      contentTypeId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ContentItemListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        contentTypeId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -100,7 +112,9 @@ export class ContentItemImpl implements ContentItem {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -188,6 +202,7 @@ export class ContentItemImpl implements ContentItem {
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -195,10 +210,18 @@ export class ContentItemImpl implements ContentItem {
     serviceName: string,
     contentTypeId: string,
     contentItemId: string,
+    parameters: ContentItemContract,
     options?: ContentItemCreateOrUpdateOptionalParams
   ): Promise<ContentItemCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, contentTypeId, contentItemId, options },
+      {
+        resourceGroupName,
+        serviceName,
+        contentTypeId,
+        contentItemId,
+        parameters,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
@@ -347,6 +370,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -356,7 +380,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentTypeId,
     Parameters.contentItemId
   ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -393,7 +422,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

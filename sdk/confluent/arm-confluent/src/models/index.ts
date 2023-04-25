@@ -232,9 +232,13 @@ export interface OrganizationResourceUpdate {
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -252,14 +256,23 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisionState} that the service accepts. */
 export enum KnownProvisionState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** NotSpecified */
   NotSpecified = "NotSpecified"
 }
 
@@ -282,15 +295,25 @@ export type ProvisionState = string;
 
 /** Known values of {@link SaaSOfferStatus} that the service accepts. */
 export enum KnownSaaSOfferStatus {
+  /** Started */
   Started = "Started",
+  /** PendingFulfillmentStart */
   PendingFulfillmentStart = "PendingFulfillmentStart",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Subscribed */
   Subscribed = "Subscribed",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Reinstated */
   Reinstated = "Reinstated",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Unsubscribed */
   Unsubscribed = "Unsubscribed",
+  /** Updating */
   Updating = "Updating"
 }
 

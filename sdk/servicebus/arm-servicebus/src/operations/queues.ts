@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Queues } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,10 +17,11 @@ import {
   SBAuthorizationRule,
   QueuesListAuthorizationRulesNextOptionalParams,
   QueuesListAuthorizationRulesOptionalParams,
+  QueuesListAuthorizationRulesResponse,
   SBQueue,
   QueuesListByNamespaceNextOptionalParams,
   QueuesListByNamespaceOptionalParams,
-  QueuesListAuthorizationRulesResponse,
+  QueuesListByNamespaceResponse,
   QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   QueuesCreateOrUpdateAuthorizationRuleResponse,
   QueuesDeleteAuthorizationRuleOptionalParams,
@@ -30,7 +32,6 @@ import {
   RegenerateAccessKeyParameters,
   QueuesRegenerateKeysOptionalParams,
   QueuesRegenerateKeysResponse,
-  QueuesListByNamespaceResponse,
   QueuesCreateOrUpdateOptionalParams,
   QueuesCreateOrUpdateResponse,
   QueuesDeleteOptionalParams,
@@ -79,12 +80,16 @@ export class QueuesImpl implements Queues {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           queueName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -94,16 +99,23 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SBAuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      queueName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: QueuesListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        queueName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -113,7 +125,9 @@ export class QueuesImpl implements Queues {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,11 +170,15 @@ export class QueuesImpl implements Queues {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNamespacePagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,15 +187,22 @@ export class QueuesImpl implements Queues {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
+    options?: QueuesListByNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SBQueue[]> {
-    let result = await this._listByNamespace(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: QueuesListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByNamespaceNext(
         resourceGroupName,
@@ -186,7 +211,9 @@ export class QueuesImpl implements Queues {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -732,7 +759,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -755,7 +781,6 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

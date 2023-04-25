@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the volume resource identified by the name.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/volumes/delete.json
  */
 async function deleteVolume() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const volumeResourceName = "sampleVolume";
   const credential = new DefaultAzureCredential();
   const client = new ServiceFabricMeshManagementClient(
@@ -33,4 +39,8 @@ async function deleteVolume() {
   console.log(result);
 }
 
-deleteVolume().catch(console.error);
+async function main() {
+  deleteVolume();
+}
+
+main().catch(console.error);

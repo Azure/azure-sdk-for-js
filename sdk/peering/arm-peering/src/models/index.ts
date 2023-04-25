@@ -587,7 +587,7 @@ export interface PeeringServiceListResult {
 }
 
 /** The CDN peering prefix */
-export type CdnPeeringPrefix = Resource & {
+export interface CdnPeeringPrefix extends Resource {
   /**
    * The prefix.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -613,10 +613,10 @@ export type CdnPeeringPrefix = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly bgpCommunity?: string;
-};
+}
 
 /** Peering is a logical representation of a set of connections to the Microsoft Cloud Edge at a location. */
-export type Peering = Resource & {
+export interface Peering extends Resource {
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -636,10 +636,10 @@ export type Peering = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** The essential information related to the peer's ASN. */
-export type PeerAsn = Resource & {
+export interface PeerAsn extends Resource {
   /** The Autonomous System Number (ASN) of the peer. */
   peerAsn?: number;
   /** The contact details of the peer. */
@@ -656,10 +656,10 @@ export type PeerAsn = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
-};
+}
 
 /** Peering location is where connectivity could be established to the Microsoft Cloud Edge. */
-export type PeeringLocation = Resource & {
+export interface PeeringLocation extends Resource {
   /** The kind of peering that the peering location supports. */
   kind?: Kind;
   /** The properties that define a direct peering location. */
@@ -672,10 +672,10 @@ export type PeeringLocation = Resource & {
   country?: string;
   /** The Azure region associated with the peering location. */
   azureRegion?: string;
-};
+}
 
 /** The customer's ASN that is registered by the peering service provider. */
-export type PeeringRegisteredAsn = Resource & {
+export interface PeeringRegisteredAsn extends Resource {
   /** The customer's ASN from which traffic originates. */
   asn?: number;
   /**
@@ -688,10 +688,10 @@ export type PeeringRegisteredAsn = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** The customer's prefix that is registered by the peering service provider. */
-export type PeeringRegisteredPrefix = Resource & {
+export interface PeeringRegisteredPrefix extends Resource {
   /** The customer's prefix from which traffic originates. */
   prefix?: string;
   /**
@@ -714,10 +714,10 @@ export type PeeringRegisteredPrefix = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** The Connection Monitor Test class. */
-export type ConnectionMonitorTest = Resource & {
+export interface ConnectionMonitorTest extends Resource {
   /** The Connection Monitor test source agent */
   sourceAgent?: string;
   /** The Connection Monitor test destination */
@@ -741,23 +741,23 @@ export type ConnectionMonitorTest = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** The peering service country. */
-export type PeeringServiceCountry = Resource & {};
+export interface PeeringServiceCountry extends Resource {}
 
 /** The peering service location. */
-export type PeeringServiceLocation = Resource & {
+export interface PeeringServiceLocation extends Resource {
   /** Country of the customer */
   country?: string;
   /** State of the customer */
   state?: string;
   /** Azure region for the location */
   azureRegion?: string;
-};
+}
 
 /** The peering service prefix class. */
-export type PeeringServicePrefix = Resource & {
+export interface PeeringServicePrefix extends Resource {
   /** The prefix from which your traffic originates. */
   prefix?: string;
   /**
@@ -787,18 +787,18 @@ export type PeeringServicePrefix = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** PeeringService provider */
-export type PeeringServiceProvider = Resource & {
+export interface PeeringServiceProvider extends Resource {
   /** The name of the service provider. */
   serviceProviderName?: string;
   /** The list of locations at which the service provider peers with Microsoft. */
   peeringLocations?: string[];
-};
+}
 
 /** Peering Service */
-export type PeeringService = Resource & {
+export interface PeeringService extends Resource {
   /** The SKU that defines the type of the peering service. */
   sku?: PeeringServiceSku;
   /** The location of the resource. */
@@ -820,11 +820,13 @@ export type PeeringService = Resource & {
   providerBackupPeeringLocation?: string;
   /** The Log Analytics Workspace Properties */
   logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
-};
+}
 
 /** Known values of {@link Enum0} that the service accepts. */
 export enum KnownEnum0 {
+  /** Available */
   Available = "Available",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -840,7 +842,9 @@ export type Enum0 = string;
 
 /** Known values of {@link LegacyPeeringsKind} that the service accepts. */
 export enum KnownLegacyPeeringsKind {
+  /** Direct */
   Direct = "Direct",
+  /** Exchange */
   Exchange = "Exchange"
 }
 
@@ -856,7 +860,9 @@ export type LegacyPeeringsKind = string;
 
 /** Known values of {@link Tier} that the service accepts. */
 export enum KnownTier {
+  /** Basic */
   Basic = "Basic",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -872,7 +878,9 @@ export type Tier = string;
 
 /** Known values of {@link Family} that the service accepts. */
 export enum KnownFamily {
+  /** Direct */
   Direct = "Direct",
+  /** Exchange */
   Exchange = "Exchange"
 }
 
@@ -888,8 +896,11 @@ export type Family = string;
 
 /** Known values of {@link Size} that the service accepts. */
 export enum KnownSize {
+  /** Free */
   Free = "Free",
+  /** Metered */
   Metered = "Metered",
+  /** Unlimited */
   Unlimited = "Unlimited"
 }
 
@@ -906,7 +917,9 @@ export type Size = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** Direct */
   Direct = "Direct",
+  /** Exchange */
   Exchange = "Exchange"
 }
 
@@ -922,7 +935,9 @@ export type Kind = string;
 
 /** Known values of {@link SessionAddressProvider} that the service accepts. */
 export enum KnownSessionAddressProvider {
+  /** Microsoft */
   Microsoft = "Microsoft",
+  /** Peer */
   Peer = "Peer"
 }
 
@@ -938,13 +953,21 @@ export type SessionAddressProvider = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
 export enum KnownConnectionState {
+  /** None */
   None = "None",
+  /** PendingApproval */
   PendingApproval = "PendingApproval",
+  /** Approved */
   Approved = "Approved",
+  /** ProvisioningStarted */
   ProvisioningStarted = "ProvisioningStarted",
+  /** ProvisioningFailed */
   ProvisioningFailed = "ProvisioningFailed",
+  /** ProvisioningCompleted */
   ProvisioningCompleted = "ProvisioningCompleted",
+  /** Validating */
   Validating = "Validating",
+  /** Active */
   Active = "Active"
 }
 
@@ -966,16 +989,27 @@ export type ConnectionState = string;
 
 /** Known values of {@link SessionStateV4} that the service accepts. */
 export enum KnownSessionStateV4 {
+  /** None */
   None = "None",
+  /** Idle */
   Idle = "Idle",
+  /** Connect */
   Connect = "Connect",
+  /** Active */
   Active = "Active",
+  /** OpenSent */
   OpenSent = "OpenSent",
+  /** OpenConfirm */
   OpenConfirm = "OpenConfirm",
+  /** OpenReceived */
   OpenReceived = "OpenReceived",
+  /** Established */
   Established = "Established",
+  /** PendingAdd */
   PendingAdd = "PendingAdd",
+  /** PendingUpdate */
   PendingUpdate = "PendingUpdate",
+  /** PendingRemove */
   PendingRemove = "PendingRemove"
 }
 
@@ -1000,16 +1034,27 @@ export type SessionStateV4 = string;
 
 /** Known values of {@link SessionStateV6} that the service accepts. */
 export enum KnownSessionStateV6 {
+  /** None */
   None = "None",
+  /** Idle */
   Idle = "Idle",
+  /** Connect */
   Connect = "Connect",
+  /** Active */
   Active = "Active",
+  /** OpenSent */
   OpenSent = "OpenSent",
+  /** OpenConfirm */
   OpenConfirm = "OpenConfirm",
+  /** OpenReceived */
   OpenReceived = "OpenReceived",
+  /** Established */
   Established = "Established",
+  /** PendingAdd */
   PendingAdd = "PendingAdd",
+  /** PendingUpdate */
   PendingUpdate = "PendingUpdate",
+  /** PendingRemove */
   PendingRemove = "PendingRemove"
 }
 
@@ -1034,12 +1079,19 @@ export type SessionStateV6 = string;
 
 /** Known values of {@link DirectPeeringType} that the service accepts. */
 export enum KnownDirectPeeringType {
+  /** Edge */
   Edge = "Edge",
+  /** Transit */
   Transit = "Transit",
+  /** Cdn */
   Cdn = "Cdn",
+  /** Internal */
   Internal = "Internal",
+  /** Ix */
   Ix = "Ix",
+  /** IxRs */
   IxRs = "IxRs",
+  /** Voice */
   Voice = "Voice"
 }
 
@@ -1060,9 +1112,13 @@ export type DirectPeeringType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1080,8 +1136,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link LookingGlassCommand} that the service accepts. */
 export enum KnownLookingGlassCommand {
+  /** Traceroute */
   Traceroute = "Traceroute",
+  /** Ping */
   Ping = "Ping",
+  /** BgpRoute */
   BgpRoute = "BgpRoute"
 }
 
@@ -1098,7 +1157,9 @@ export type LookingGlassCommand = string;
 
 /** Known values of {@link LookingGlassSourceType} that the service accepts. */
 export enum KnownLookingGlassSourceType {
+  /** EdgeSite */
   EdgeSite = "EdgeSite",
+  /** AzureRegion */
   AzureRegion = "AzureRegion"
 }
 
@@ -1114,8 +1175,11 @@ export type LookingGlassSourceType = string;
 
 /** Known values of {@link Command} that the service accepts. */
 export enum KnownCommand {
+  /** Traceroute */
   Traceroute = "Traceroute",
+  /** Ping */
   Ping = "Ping",
+  /** BgpRoute */
   BgpRoute = "BgpRoute"
 }
 
@@ -1132,11 +1196,17 @@ export type Command = string;
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
+  /** Noc */
   Noc = "Noc",
+  /** Policy */
   Policy = "Policy",
+  /** Technical */
   Technical = "Technical",
+  /** Service */
   Service = "Service",
+  /** Escalation */
   Escalation = "Escalation",
+  /** Other */
   Other = "Other"
 }
 
@@ -1156,9 +1226,13 @@ export type Role = string;
 
 /** Known values of {@link ValidationState} that the service accepts. */
 export enum KnownValidationState {
+  /** None */
   None = "None",
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1176,7 +1250,9 @@ export type ValidationState = string;
 
 /** Known values of {@link PeeringLocationsKind} that the service accepts. */
 export enum KnownPeeringLocationsKind {
+  /** Direct */
   Direct = "Direct",
+  /** Exchange */
   Exchange = "Exchange"
 }
 
@@ -1192,12 +1268,19 @@ export type PeeringLocationsKind = string;
 
 /** Known values of {@link PeeringLocationsDirectPeeringType} that the service accepts. */
 export enum KnownPeeringLocationsDirectPeeringType {
+  /** Edge */
   Edge = "Edge",
+  /** Transit */
   Transit = "Transit",
+  /** Cdn */
   Cdn = "Cdn",
+  /** Internal */
   Internal = "Internal",
+  /** Ix */
   Ix = "Ix",
+  /** IxRs */
   IxRs = "IxRs",
+  /** Voice */
   Voice = "Voice"
 }
 
@@ -1218,12 +1301,19 @@ export type PeeringLocationsDirectPeeringType = string;
 
 /** Known values of {@link PrefixValidationState} that the service accepts. */
 export enum KnownPrefixValidationState {
+  /** None */
   None = "None",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Verified */
   Verified = "Verified",
+  /** Failed */
   Failed = "Failed",
+  /** Pending */
   Pending = "Pending",
+  /** Warning */
   Warning = "Warning",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -1244,8 +1334,11 @@ export type PrefixValidationState = string;
 
 /** Known values of {@link LearnedType} that the service accepts. */
 export enum KnownLearnedType {
+  /** None */
   None = "None",
+  /** ViaServiceProvider */
   ViaServiceProvider = "ViaServiceProvider",
+  /** ViaSession */
   ViaSession = "ViaSession"
 }
 

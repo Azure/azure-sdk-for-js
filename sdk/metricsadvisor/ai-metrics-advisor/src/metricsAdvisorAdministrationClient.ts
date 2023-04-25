@@ -4,64 +4,62 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import "@azure/core-paging";
 import { logger } from "./logger";
-import { createSpan } from "./tracing";
 import {
-  createMetricsAdvisorKeyCredentialPolicy,
   MetricsAdvisorKeyCredential,
+  createMetricsAdvisorKeyCredentialPolicy,
 } from "./metricsAdvisorKeyCredentialPolicy";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
-  IngestionStatus,
-  DataFeedGranularity,
-  MetricsAdvisorDataFeed,
-  DataFeedPatch,
-  WebNotificationHook,
-  EmailNotificationHook,
-  WebNotificationHookPatch,
-  EmailNotificationHookPatch,
+  AlertConfigurationsPageResponse,
+  AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,
-  NotificationHookUnion,
+  CredentialsPageResponse,
   DataFeedAutoRollupMethod,
-  DataFeedsPageResponse,
-  IngestionStatusPageResponse,
-  AlertConfigurationsPageResponse,
-  DetectionConfigurationsPageResponse,
-  HooksPageResponse,
+  DataFeedGranularity,
+  DataFeedPatch,
   DataFeedStatus,
-  GetIngestionProgressResponse,
-  AnomalyAlertConfiguration,
+  DataFeedsPageResponse,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  CredentialsPageResponse,
+  DetectionConfigurationsPageResponse,
+  EmailNotificationHook,
+  EmailNotificationHookPatch,
+  GetIngestionProgressResponse,
+  HooksPageResponse,
+  IngestionStatus,
+  IngestionStatusPageResponse,
+  MetricsAdvisorDataFeed,
+  NotificationHookUnion,
   RestResponse,
+  WebNotificationHook,
+  WebNotificationHookPatch,
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
+  fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
+  fromServiceCredential,
   fromServiceDataFeedDetailUnion,
   fromServiceHookInfoUnion,
-  fromServiceAlertConfiguration,
-  toServiceRollupSettings,
-  toServiceAnomalyDetectionConfiguration,
-  toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity,
-  toServiceCredentialPatch,
+  toServiceAnomalyDetectionConfiguration,
+  toServiceAnomalyDetectionConfigurationPatch,
   toServiceCredential,
-  fromServiceCredential,
+  toServiceCredentialPatch,
   toServiceDataFeedSource,
   toServiceDataFeedSourcePatch,
+  toServiceGranularity,
+  toServiceRollupSettings,
 } from "./transforms";
 import {
   DEFAULT_COGNITIVE_SCOPE,
@@ -69,6 +67,7 @@ import {
   MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { tracingClient } from "./tracing";
 
 /**
  * Client options used to configure API requests.
@@ -208,92 +207,86 @@ export class MetricsAdvisorAdministrationClient {
     feed: DataFeedDescriptor,
     operationOptions: CreateDataFeedOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
-      operationOptions
-    );
-    const {
-      name,
-      granularity,
-      source,
-      schema,
-      ingestionSettings,
-      rollupSettings,
-      missingDataPointFillSettings,
-      accessMode,
-      admins,
-      viewers,
-      description,
-    } = feed;
+      operationOptions,
+      async (finalOptions) => {
+        const {
+          name,
+          granularity,
+          source,
+          schema,
+          ingestionSettings,
+          rollupSettings,
+          missingDataPointFillSettings,
+          accessMode,
+          admins,
+          viewers,
+          description,
+        } = feed;
 
-    if (source.dataSourceType === "Unknown") {
-      throw new Error("Cannot create a data feed with the Unknown source type.");
-    }
+        if (source.dataSourceType === "Unknown") {
+          throw new Error("Cannot create a data feed with the Unknown source type.");
+        }
 
-    const needRollup: NeedRollupEnum | undefined =
-      rollupSettings?.rollupType === "AutoRollup"
-        ? "NeedRollup"
-        : rollupSettings?.rollupType === "AlreadyRollup"
-        ? "AlreadyRollup"
-        : rollupSettings?.rollupType === "NoRollup"
-        ? "NoRollup"
-        : undefined;
-    const rollUpColumns: string[] | undefined =
-      rollupSettings?.rollupType === "AutoRollup"
-        ? rollupSettings.autoRollupGroupByColumnNames
-        : undefined;
-    const allUpIdentification: string | undefined =
-      rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
-        ? rollupSettings.rollupIdentificationValue
-        : undefined;
-    const rollUpMethod: DataFeedAutoRollupMethod | undefined =
-      rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
-    const fillMissingPointType = missingDataPointFillSettings?.fillType;
-    const fillMissingPointValue =
-      missingDataPointFillSettings?.fillType === "CustomValue"
-        ? missingDataPointFillSettings.customFillValue
-        : undefined;
-    try {
-      const body = {
-        dataFeedName: name,
-        ...toServiceGranularity(granularity),
-        ...toServiceDataFeedSource(source),
-        metrics: schema.metrics,
-        dimension: schema.dimensions,
-        timestampColumn: schema.timestampColumn,
-        dataStartFrom: ingestionSettings.ingestionStartTime,
-        startOffsetInSeconds: ingestionSettings.ingestionStartOffsetInSeconds,
-        maxConcurrency: ingestionSettings.dataSourceRequestConcurrency,
-        minRetryIntervalInSeconds: ingestionSettings.ingestionRetryDelayInSeconds,
-        stopRetryAfterInSeconds: ingestionSettings.stopRetryAfterInSeconds,
-        needRollup,
-        rollUpColumns,
-        allUpIdentification,
-        rollUpMethod,
-        fillMissingPointType,
-        fillMissingPointValue,
-        viewMode: accessMode,
-        admins: admins,
-        viewers: viewers,
-        dataFeedDescription: description,
-        ...finalOptions,
-      };
-      const result = await this.client.createDataFeed(body, finalOptions);
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+        const needRollup: NeedRollupEnum | undefined =
+          rollupSettings?.rollupType === "AutoRollup"
+            ? "NeedRollup"
+            : rollupSettings?.rollupType === "AlreadyRollup"
+            ? "AlreadyRollup"
+            : rollupSettings?.rollupType === "NoRollup"
+            ? "NoRollup"
+            : undefined;
+        const rollUpColumns: string[] | undefined =
+          rollupSettings?.rollupType === "AutoRollup"
+            ? rollupSettings.autoRollupGroupByColumnNames
+            : undefined;
+        const allUpIdentification: string | undefined =
+          rollupSettings?.rollupType === "AutoRollup" ||
+          rollupSettings?.rollupType === "AlreadyRollup"
+            ? rollupSettings.rollupIdentificationValue
+            : undefined;
+        const rollUpMethod: DataFeedAutoRollupMethod | undefined =
+          rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
+        const fillMissingPointType = missingDataPointFillSettings?.fillType;
+        const fillMissingPointValue =
+          missingDataPointFillSettings?.fillType === "CustomValue"
+            ? missingDataPointFillSettings.customFillValue
+            : undefined;
+
+        const body = {
+          dataFeedName: name,
+          ...toServiceGranularity(granularity),
+          ...toServiceDataFeedSource(source),
+          metrics: schema.metrics,
+          dimension: schema.dimensions,
+          timestampColumn: schema.timestampColumn,
+          dataStartFrom: ingestionSettings.ingestionStartTime,
+          startOffsetInSeconds: ingestionSettings.ingestionStartOffsetInSeconds,
+          maxConcurrency: ingestionSettings.dataSourceRequestConcurrency,
+          minRetryIntervalInSeconds: ingestionSettings.ingestionRetryDelayInSeconds,
+          stopRetryAfterInSeconds: ingestionSettings.stopRetryAfterInSeconds,
+          needRollup,
+          rollUpColumns,
+          allUpIdentification,
+          rollUpMethod,
+          fillMissingPointType,
+          fillMissingPointValue,
+          viewMode: accessMode,
+          admins: admins,
+          viewers: viewers,
+          dataFeedDescription: description,
+          ...finalOptions,
+        };
+        const result = await this.client.createDataFeed(body, finalOptions);
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const feedId = result.location.substring(lastSlashIndex + 1);
+        return this.getDataFeed(feedId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const feedId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataFeed(feedId);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -305,24 +298,15 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataFeed",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getDataFeedById(id, finalOptions);
+        const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+        return resultDataFeed;
+      }
     );
-
-    try {
-      const result = await this.client.getDataFeedById(id, finalOptions);
-      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return resultDataFeed;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -472,55 +456,48 @@ export class MetricsAdvisorAdministrationClient {
     patch: DataFeedPatch,
     options: OperationOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDataFeed",
-      options
+      options,
+      async (finalOptions) => {
+        if (patch.source.dataSourceType === "Unknown") {
+          throw new Error("Cannot update a data feed to have the Unknown source type.");
+        }
+
+        const patchBody = {
+          // source
+          ...toServiceDataFeedSourcePatch(patch.source),
+          // name and description
+          dataFeedName: patch.name,
+          dataFeedDescription: patch.description,
+          // schema
+          timestampColumn: patch.schema?.timestampColumn,
+          // ingestion settings
+          dataStartFrom: patch.ingestionSettings?.ingestionStartTime,
+          startOffsetInSeconds: patch.ingestionSettings?.ingestionStartOffsetInSeconds,
+          maxConcurrency: patch.ingestionSettings?.dataSourceRequestConcurrency,
+          minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
+          stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
+          // rollup settings
+          ...toServiceRollupSettings(patch.rollupSettings),
+          // missing point filling settings
+          fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
+          fillMissingPointValue:
+            patch.missingDataPointFillSettings?.fillType === "CustomValue"
+              ? patch.missingDataPointFillSettings.customFillValue
+              : undefined,
+          // other options
+          viewMode: patch.accessMode,
+          admins: patch.admins,
+          viewers: patch.viewers,
+          status: patch.status,
+          actionLinkTemplate: patch.actionLinkTemplate,
+        };
+        const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
+        const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+        return resultDataFeed;
+      }
     );
-    if (patch.source.dataSourceType === "Unknown") {
-      throw new Error("Cannot update a data feed to have the Unknown source type.");
-    }
-    try {
-      const patchBody = {
-        // source
-        ...toServiceDataFeedSourcePatch(patch.source),
-        // name and description
-        dataFeedName: patch.name,
-        dataFeedDescription: patch.description,
-        // schema
-        timestampColumn: patch.schema?.timestampColumn,
-        // ingestion settings
-        dataStartFrom: patch.ingestionSettings?.ingestionStartTime,
-        startOffsetInSeconds: patch.ingestionSettings?.ingestionStartOffsetInSeconds,
-        maxConcurrency: patch.ingestionSettings?.dataSourceRequestConcurrency,
-        minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
-        stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
-        // rollup settings
-        ...toServiceRollupSettings(patch.rollupSettings),
-        // missing point filling settings
-        fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
-        fillMissingPointValue:
-          patch.missingDataPointFillSettings?.fillType === "CustomValue"
-            ? patch.missingDataPointFillSettings.customFillValue
-            : undefined,
-        // other options
-        viewMode: patch.accessMode,
-        admins: patch.admins,
-        viewers: patch.viewers,
-        status: patch.status,
-        actionLinkTemplate: patch.actionLinkTemplate,
-      };
-      const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
-      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return resultDataFeed;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -530,25 +507,16 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteDataFeed",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
+          ...options,
+        });
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -561,31 +529,23 @@ export class MetricsAdvisorAdministrationClient {
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDetectionConfig",
-      options
-    );
-    try {
-      const transformed = toServiceAnomalyDetectionConfiguration(config);
-      const result = await this.client.createAnomalyDetectionConfiguration(
-        transformed,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAnomalyDetectionConfiguration(config);
+        const result = await this.client.createAnomalyDetectionConfiguration(
+          transformed,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const configId = result.location.substring(lastSlashIndex + 1);
+        return this.getDetectionConfig(configId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getDetectionConfig(configId);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -598,23 +558,14 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDetectionConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
+        return fromServiceAnomalyDetectionConfiguration(result);
+      }
     );
-
-    try {
-      const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
-      return fromServiceAnomalyDetectionConfiguration(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -629,28 +580,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDetectionConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
+        const result = await this.client.updateAnomalyDetectionConfiguration(
+          id,
+          transformed,
+          finalOptions
+        );
+        return fromServiceAnomalyDetectionConfiguration(result);
+      }
     );
-
-    try {
-      const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
-      const result = await this.client.updateAnomalyDetectionConfiguration(
-        id,
-        transformed,
-        finalOptions
-      );
-      return fromServiceAnomalyDetectionConfiguration(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -663,28 +605,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteDetectionConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(
-        () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
-        {
-          ...options,
-        }
-      );
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -696,31 +629,23 @@ export class MetricsAdvisorAdministrationClient {
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
-      options
-    );
-    try {
-      const transformed = toServiceAlertConfiguration(config);
-      const result = await this.client.createAnomalyAlertingConfiguration(
-        transformed,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAlertConfiguration(config);
+        const result = await this.client.createAnomalyAlertingConfiguration(
+          transformed,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const configId = result.location.substring(lastSlashIndex + 1);
+        return this.getAlertConfig(configId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getAlertConfig(configId);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -734,28 +659,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateAlertConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAlertConfigurationPatch(patch);
+        const result = await this.client.updateAnomalyAlertingConfiguration(
+          id,
+          transformed,
+          finalOptions
+        );
+        return fromServiceAlertConfiguration(result);
+      }
     );
-
-    try {
-      const transformed = toServiceAlertConfigurationPatch(patch);
-      const result = await this.client.updateAnomalyAlertingConfiguration(
-        id,
-        transformed,
-        finalOptions
-      );
-      return fromServiceAlertConfiguration(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -768,23 +684,14 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getAlertConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
+        return fromServiceAlertConfiguration(result);
+      }
     );
-
-    try {
-      const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
-      return fromServiceAlertConfiguration(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -797,28 +704,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteAlertConfig",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(
-        () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
-        {
-          ...options,
-        }
-      );
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   private async *listSegmentsOfAlertingConfigurations(
@@ -945,39 +843,30 @@ export class MetricsAdvisorAdministrationClient {
     hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
   ): Promise<NotificationHookUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createHook",
-      options
-    );
-
-    try {
-      const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
-      const result = await this.client.createHook(
-        {
-          hookType,
-          name,
-          description,
-          externalLink,
-          admins,
-          hookParameter,
-        } as HookInfoUnion,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+      options,
+      async (finalOptions) => {
+        const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
+        const result = await this.client.createHook(
+          {
+            hookType,
+            name,
+            description,
+            externalLink,
+            admins,
+            hookParameter,
+          } as HookInfoUnion,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const hookId = result.location.substring(lastSlashIndex + 1);
+        return this.getHook(hookId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const hookId = result.location.substring(lastSlashIndex + 1);
-      return this.getHook(hookId);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -987,23 +876,15 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async getHook(id: string, options: OperationOptions = {}): Promise<NotificationHookUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getHook",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getHook(id, finalOptions);
+        const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
+        return resultHookResponse;
+      }
     );
-    try {
-      const result = await this.client.getHook(id, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
-      return resultHookResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   private async *listSegmentOfHooks(
@@ -1135,23 +1016,15 @@ export class MetricsAdvisorAdministrationClient {
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
   ): Promise<NotificationHookUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateHook",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.updateHook(id, patch, finalOptions);
+        const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
+        return resultHookResponse;
+      }
     );
-    try {
-      const result = await this.client.updateHook(id, patch, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
-      return resultHookResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1160,25 +1033,16 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter
    */
   public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteHook",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
+          ...options,
+        });
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   private async *listSegmentsOfDetectionConfigurations(
@@ -1302,26 +1166,17 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     options = {}
   ): Promise<GetIngestionProgressResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
+        return {
+          latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
+          latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
+        };
+      }
     );
-
-    try {
-      const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
-      return {
-        latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   private async *listSegmentOfIngestionStatus(
@@ -1524,37 +1379,28 @@ export class MetricsAdvisorAdministrationClient {
     endTime: Date | string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-refreshDataFeedIngestion",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () =>
+            this.client.resetDataFeedIngestionStatus(
+              dataFeedId,
+              {
+                startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+                endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
+              },
+              finalOptions
+            ),
+          {
+            ...options,
+          }
+        );
+        logger.info(response);
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(
-        () =>
-          this.client.resetDataFeedIngestionStatus(
-            dataFeedId,
-            {
-              startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
-              endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
-            },
-            finalOptions
-          ),
-        {
-          ...options,
-        }
-      );
-      logger.info(response);
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1566,29 +1412,21 @@ export class MetricsAdvisorAdministrationClient {
     dataSourceCredential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDataSourceCredential",
-      options
-    );
-    try {
-      // transformation
-      const transformedCred = toServiceCredential(dataSourceCredential);
-      const result = await this.client.createCredential(transformedCred, finalOptions);
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created credential entity");
+      options,
+      async (finalOptions) => {
+        // transformation
+        const transformedCred = toServiceCredential(dataSourceCredential);
+        const result = await this.client.createCredential(transformedCred, finalOptions);
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created credential entity");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const credEntityId = result.location.substring(lastSlashIndex + 1);
+        return this.getDataSourceCredential(credEntityId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const credEntityId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataSourceCredential(credEntityId);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -1601,23 +1439,15 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataSourceCredential",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getCredential(id, finalOptions);
+        const resultCred = fromServiceCredential(result);
+        return resultCred;
+      }
     );
-    try {
-      const result = await this.client.getCredential(id, finalOptions);
-      const resultCred = fromServiceCredential(result);
-      return resultCred;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1758,27 +1588,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: DataSourceCredentialPatch,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
-      options
+      options,
+      async (finalOptions) => {
+        const result = await this.client.updateCredential(
+          id,
+          toServiceCredentialPatch(patch),
+          finalOptions
+        );
+        const resultCred = fromServiceCredential(result);
+        return resultCred;
+      }
     );
-    try {
-      const result = await this.client.updateCredential(
-        id,
-        toServiceCredentialPatch(patch),
-        finalOptions
-      );
-      const resultCred = fromServiceCredential(result);
-      return resultCred;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1790,25 +1612,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions: finalOptions } = createSpan(
+    return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
-      options
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteCredential(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
     );
-
-    try {
-      const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }
 interface ReturnType<T> {

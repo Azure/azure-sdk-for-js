@@ -1,0 +1,21 @@
+Service: keyvault-secrets
+
+Project: sdk/keyvault/perf-tests/keyvault-secrets
+
+PrimaryPackage: '@azure/storage-file-datalake'
+
+PackageVersions:
+- '@azure/keyvault-secrets': 4.3.0
+- '@azure/keyvault-secrets': source
+
+Tests:
+- Test: get-secret
+  Class: GetSecretTest
+  Arguments:
+  - --parallel 64
+
+- Test: list-secrets
+  Class: ListSecretsTest
+  Arguments:
+  - --count 5 --parallel 64
+  - --count 500 --parallel 32

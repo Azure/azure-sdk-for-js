@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { KustoPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +17,16 @@ import { LroImpl } from "../lroImpl";
 import {
   SkuDescription,
   KustoPoolsListSkusOptionalParams,
+  KustoPoolsListSkusResponse,
   AzureResourceSku,
   KustoPoolsListSkusByResourceOptionalParams,
+  KustoPoolsListSkusByResourceResponse,
   LanguageExtension,
   KustoPoolsListLanguageExtensionsOptionalParams,
+  KustoPoolsListLanguageExtensionsResponse,
   FollowerDatabaseDefinition,
   KustoPoolsListFollowerDatabasesOptionalParams,
-  KustoPoolsListSkusResponse,
+  KustoPoolsListFollowerDatabasesResponse,
   KustoPoolCheckNameRequest,
   KustoPoolsCheckNameAvailabilityOptionalParams,
   KustoPoolsCheckNameAvailabilityResponse,
@@ -40,12 +43,9 @@ import {
   KustoPoolsDeleteOptionalParams,
   KustoPoolsStopOptionalParams,
   KustoPoolsStartOptionalParams,
-  KustoPoolsListSkusByResourceResponse,
-  KustoPoolsListLanguageExtensionsResponse,
   LanguageExtensionsList,
   KustoPoolsAddLanguageExtensionsOptionalParams,
   KustoPoolsRemoveLanguageExtensionsOptionalParams,
-  KustoPoolsListFollowerDatabasesResponse,
   KustoPoolsDetachFollowerDatabasesOptionalParams
 } from "../models";
 
@@ -77,16 +77,21 @@ export class KustoPoolsImpl implements KustoPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listSkusPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSkusPagingPage(options, settings);
       }
     };
   }
 
   private async *listSkusPagingPage(
-    options?: KustoPoolsListSkusOptionalParams
+    options?: KustoPoolsListSkusOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SkuDescription[]> {
-    let result = await this._listSkus(options);
+    let result: KustoPoolsListSkusResponse;
+    result = await this._listSkus(options);
     yield result.value || [];
   }
 
@@ -124,12 +129,16 @@ export class KustoPoolsImpl implements KustoPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSkusByResourcePagingPage(
           workspaceName,
           kustoPoolName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -139,9 +148,11 @@ export class KustoPoolsImpl implements KustoPools {
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolsListSkusByResourceOptionalParams
+    options?: KustoPoolsListSkusByResourceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AzureResourceSku[]> {
-    let result = await this._listSkusByResource(
+    let result: KustoPoolsListSkusByResourceResponse;
+    result = await this._listSkusByResource(
       workspaceName,
       kustoPoolName,
       resourceGroupName,
@@ -192,12 +203,16 @@ export class KustoPoolsImpl implements KustoPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listLanguageExtensionsPagingPage(
           workspaceName,
           kustoPoolName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -207,9 +222,11 @@ export class KustoPoolsImpl implements KustoPools {
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolsListLanguageExtensionsOptionalParams
+    options?: KustoPoolsListLanguageExtensionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LanguageExtension[]> {
-    let result = await this._listLanguageExtensions(
+    let result: KustoPoolsListLanguageExtensionsResponse;
+    result = await this._listLanguageExtensions(
       workspaceName,
       kustoPoolName,
       resourceGroupName,
@@ -261,12 +278,16 @@ export class KustoPoolsImpl implements KustoPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFollowerDatabasesPagingPage(
           workspaceName,
           kustoPoolName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -276,9 +297,11 @@ export class KustoPoolsImpl implements KustoPools {
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolsListFollowerDatabasesOptionalParams
+    options?: KustoPoolsListFollowerDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FollowerDatabaseDefinition[]> {
-    let result = await this._listFollowerDatabases(
+    let result: KustoPoolsListFollowerDatabasesResponse;
+    result = await this._listFollowerDatabases(
       workspaceName,
       kustoPoolName,
       resourceGroupName,

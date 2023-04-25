@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SAPVirtualInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SAPVirtualInstance,
   SAPVirtualInstancesListByResourceGroupNextOptionalParams,
   SAPVirtualInstancesListByResourceGroupOptionalParams,
+  SAPVirtualInstancesListByResourceGroupResponse,
   SAPVirtualInstancesListBySubscriptionNextOptionalParams,
   SAPVirtualInstancesListBySubscriptionOptionalParams,
+  SAPVirtualInstancesListBySubscriptionResponse,
   SAPVirtualInstancesCreateOptionalParams,
   SAPVirtualInstancesCreateResponse,
   SAPVirtualInstancesGetOptionalParams,
@@ -28,8 +35,6 @@ import {
   SAPVirtualInstancesUpdateResponse,
   SAPVirtualInstancesDeleteOptionalParams,
   SAPVirtualInstancesDeleteResponse,
-  SAPVirtualInstancesListByResourceGroupResponse,
-  SAPVirtualInstancesListBySubscriptionResponse,
   SAPVirtualInstancesStartOptionalParams,
   SAPVirtualInstancesStartResponse,
   SAPVirtualInstancesStopOptionalParams,
@@ -52,7 +57,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in a resource group.
+   * Gets all Virtual Instances for SAP solutions resources in a Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -68,19 +73,33 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SAPVirtualInstancesListByResourceGroupOptionalParams
+    options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SAPVirtualInstance[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SAPVirtualInstancesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -88,7 +107,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -105,7 +126,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in the subscription.
+   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -119,22 +140,34 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SAPVirtualInstancesListBySubscriptionOptionalParams
+    options?: SAPVirtualInstancesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SAPVirtualInstance[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SAPVirtualInstancesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -147,9 +180,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Creates an Virtual Instance for SAP.
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginCreate(
@@ -157,8 +190,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesCreateResponse>,
       SAPVirtualInstancesCreateResponse
     >
   > {
@@ -168,7 +201,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -201,13 +234,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesCreateResponse,
+      OperationState<SAPVirtualInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -215,9 +251,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Creates an Virtual Instance for SAP.
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -234,9 +270,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets an Virtual Instance for SAP.
+   * Gets a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   get(
@@ -251,9 +287,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Updates an Virtual Instance for SAP.
+   * Updates a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   update(
@@ -268,9 +304,10 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Deletes an Virtual Instance for SAP.
+   * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
+   * associated Central Services Instance, Application Server Instances and Database Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginDelete(
@@ -278,8 +315,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesDeleteResponse>,
       SAPVirtualInstancesDeleteResponse
     >
   > {
@@ -289,7 +326,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,24 +359,28 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesDeleteResponse,
+      OperationState<SAPVirtualInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes an Virtual Instance for SAP.
+   * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
+   * associated Central Services Instance, Application Server Instances and Database Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -356,7 +397,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in a resource group.
+   * Gets all Virtual Instances for SAP solutions resources in a Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -371,7 +412,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in the subscription.
+   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -384,9 +425,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Starts the SAP System.
+   * Starts the SAP application, that is the Central Services instance and Application server instances.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStart(
@@ -394,8 +435,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStartResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStartResponse>,
       SAPVirtualInstancesStartResponse
     >
   > {
@@ -405,7 +446,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -438,13 +479,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesStartResponse,
+      OperationState<SAPVirtualInstancesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -452,9 +496,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Starts the SAP System.
+   * Starts the SAP application, that is the Central Services instance and Application server instances.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStartAndWait(
@@ -471,9 +515,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Stops the SAP System.
+   * Stops the SAP Application, that is the Application server instances and Central Services instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStop(
@@ -481,8 +525,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStopResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStopResponse>,
       SAPVirtualInstancesStopResponse
     >
   > {
@@ -492,7 +536,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -525,13 +569,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesStopResponse,
+      OperationState<SAPVirtualInstancesStopResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -539,9 +586,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Stops the SAP System.
+   * Stops the SAP Application, that is the Application server instances and Central Services instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStopAndWait(
@@ -621,7 +668,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -667,7 +714,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -800,7 +847,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -815,7 +862,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -836,7 +882,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

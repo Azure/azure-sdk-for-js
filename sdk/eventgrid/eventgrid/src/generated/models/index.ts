@@ -2273,6 +2273,34 @@ export interface HealthcareFhirResourceDeletedEventData {
   resourceVersionId: number;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageCreated event. */
+export interface HealthcareDicomImageCreatedEventData {
+  /** Unique identifier for the Study */
+  imageStudyInstanceUid: string;
+  /** Unique identifier for the Series */
+  imageSeriesInstanceUid: string;
+  /** Unique identifier for the DICOM Image */
+  imageSopInstanceUid: string;
+  /** Domain name of the DICOM account for this image. */
+  serviceHostName: string;
+  /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
+  sequenceNumber: number;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageDeleted event. */
+export interface HealthcareDicomImageDeletedEventData {
+  /** Unique identifier for the Study */
+  imageStudyInstanceUid: string;
+  /** Unique identifier for the Series */
+  imageSeriesInstanceUid: string;
+  /** Unique identifier for the DICOM Image */
+  imageSopInstanceUid: string;
+  /** Host name of the DICOM account for this image. */
+  serviceHostName: string;
+  /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
+  sequenceNumber: number;
+}
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 
@@ -3262,7 +3290,7 @@ export type MediaJobErrorCategory =
 export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
 /** Optional parameters. */
-export interface GeneratedClientPublishEventsOptionalParams
+export interface GeneratedClientPublishEventGridEventsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

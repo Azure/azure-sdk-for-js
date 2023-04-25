@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.2 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,33 @@
 
 ### Other Changes
 
+## 5.1.0 (2022-11-23)
+    
+**Features**
+
+  - Added Interface BackendPool
+  - Added Interface BackendPoolProperties
+  - Added Interface Experiment
+  - Added Interface ForwardingConfiguration
+  - Added Interface FrontDoor
+  - Added Interface FrontDoorProperties
+  - Added Interface FrontendEndpoint
+  - Added Interface FrontendEndpointProperties
+  - Added Interface HealthProbeSettingsModel
+  - Added Interface HealthProbeSettingsProperties
+  - Added Interface LatencyScorecard
+  - Added Interface LoadBalancingSettingsModel
+  - Added Interface LoadBalancingSettingsProperties
+  - Added Interface ManagedRuleSetDefinition
+  - Added Interface PreconfiguredEndpoint
+  - Added Interface Profile
+  - Added Interface RedirectConfiguration
+  - Added Interface RoutingRule
+  - Added Interface RoutingRuleProperties
+  - Added Interface RulesEngineProperties
+  - Added Interface Timeseries
+  - Added Interface WebApplicationFirewallPolicy
+    
 ## 5.0.1 (2022-04-26)
 
 **Features**

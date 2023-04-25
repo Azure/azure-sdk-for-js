@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DataExports } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,11 +59,15 @@ export class DataExportsImpl implements DataExports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -72,9 +76,11 @@ export class DataExportsImpl implements DataExports {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
+    options?: DataExportsListByWorkspaceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DataExport[]> {
-    let result = await this._listByWorkspace(
+    let result: DataExportsListByWorkspaceResponse;
+    result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
       options

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ElasticPoolActivities } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -58,12 +58,16 @@ export class ElasticPoolActivitiesImpl implements ElasticPoolActivities {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByElasticPoolPagingPage(
           resourceGroupName,
           serverName,
           elasticPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,9 +77,11 @@ export class ElasticPoolActivitiesImpl implements ElasticPoolActivities {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolActivitiesListByElasticPoolOptionalParams
+    options?: ElasticPoolActivitiesListByElasticPoolOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ElasticPoolActivity[]> {
-    let result = await this._listByElasticPool(
+    let result: ElasticPoolActivitiesListByElasticPoolResponse;
+    result = await this._listByElasticPool(
       resourceGroupName,
       serverName,
       elasticPoolName,

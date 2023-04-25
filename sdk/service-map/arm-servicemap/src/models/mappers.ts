@@ -1660,8 +1660,8 @@ export const Machine: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Machine",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CoreResource",
+    polymorphicDiscriminator: CoreResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...CoreResource.type.modelProperties,
       timestamp: {
@@ -1773,8 +1773,8 @@ export const Process: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Process",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CoreResource",
+    polymorphicDiscriminator: CoreResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...CoreResource.type.modelProperties,
       timestamp: {
@@ -1871,8 +1871,8 @@ export const Port: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Port",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CoreResource",
+    polymorphicDiscriminator: CoreResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...CoreResource.type.modelProperties,
       monitoringState: {
@@ -1916,8 +1916,8 @@ export const MachineGroup: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineGroup",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CoreResource",
+    polymorphicDiscriminator: CoreResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...CoreResource.type.modelProperties,
       groupType: {
@@ -1963,8 +1963,8 @@ export const ClientGroup: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ClientGroup",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CoreResource",
+    polymorphicDiscriminator: CoreResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...CoreResource.type.modelProperties,
       clientsOf: {
@@ -1983,8 +1983,8 @@ export const Connection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Connection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Relationship",
+    polymorphicDiscriminator: Relationship.type.polymorphicDiscriminator,
     modelProperties: {
       ...Relationship.type.modelProperties,
       source: {
@@ -2036,8 +2036,8 @@ export const Acceptor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Acceptor",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Relationship",
+    polymorphicDiscriminator: Relationship.type.polymorphicDiscriminator,
     modelProperties: {
       ...Relationship.type.modelProperties,
       source: {
@@ -2116,8 +2116,9 @@ export const MachineListMapRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineListMapRequest",
-    uberParent: "MapRequest",
-    polymorphicDiscriminator: MapRequest.type.polymorphicDiscriminator,
+    uberParent: "MultipleMachinesMapRequest",
+    polymorphicDiscriminator:
+      MultipleMachinesMapRequest.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultipleMachinesMapRequest.type.modelProperties,
       machineIds: {
@@ -2141,8 +2142,9 @@ export const MachineGroupMapRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineGroupMapRequest",
-    uberParent: "MapRequest",
-    polymorphicDiscriminator: MapRequest.type.polymorphicDiscriminator,
+    uberParent: "MultipleMachinesMapRequest",
+    polymorphicDiscriminator:
+      MultipleMachinesMapRequest.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultipleMachinesMapRequest.type.modelProperties,
       machineGroupId: {
@@ -2172,13 +2174,13 @@ export let discriminators = {
   "ProcessHostingConfiguration.provider:azure": AzureProcessHostingConfiguration,
   "MapRequest.map:single-machine-dependency": SingleMachineDependencyMapRequest,
   "MapRequest.MultipleMachinesMapRequest": MultipleMachinesMapRequest,
-  "Resource.machine": Machine,
-  "Resource.process": Process,
-  "Resource.port": Port,
-  "Resource.machineGroup": MachineGroup,
-  "Resource.clientGroup": ClientGroup,
-  "Resource.rel:connection": Connection,
-  "Resource.rel:acceptor": Acceptor,
-  "MapRequest.map:machine-list-dependency": MachineListMapRequest,
-  "MapRequest.map:machine-group-dependency": MachineGroupMapRequest
+  "CoreResource.machine": Machine,
+  "CoreResource.process": Process,
+  "CoreResource.port": Port,
+  "CoreResource.machineGroup": MachineGroup,
+  "CoreResource.clientGroup": ClientGroup,
+  "Relationship.rel:connection": Connection,
+  "Relationship.rel:acceptor": Acceptor,
+  "MultipleMachinesMapRequest.map:machine-list-dependency": MachineListMapRequest,
+  "MultipleMachinesMapRequest.map:machine-group-dependency": MachineGroupMapRequest
 };

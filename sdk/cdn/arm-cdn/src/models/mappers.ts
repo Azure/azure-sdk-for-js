@@ -2997,35 +2997,28 @@ export const HttpErrorRangeParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomDomainHttpsParameters: coreClient.CompositeMapper = {
+export const DeepCreatedCustomDomain: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomDomainHttpsParameters",
-    uberParent: "CustomDomainHttpsParameters",
-    polymorphicDiscriminator: {
-      serializedName: "certificateSource",
-      clientName: "certificateSource"
-    },
+    className: "DeepCreatedCustomDomain",
     modelProperties: {
-      certificateSource: {
-        serializedName: "certificateSource",
+      name: {
+        serializedName: "name",
         required: true,
         type: {
           name: "String"
         }
       },
-      protocolType: {
-        serializedName: "protocolType",
-        required: true,
+      hostName: {
+        serializedName: "properties.hostName",
         type: {
           name: "String"
         }
       },
-      minimumTlsVersion: {
-        serializedName: "minimumTlsVersion",
+      validationData: {
+        serializedName: "properties.validationData",
         type: {
-          name: "Enum",
-          allowedValues: ["None", "TLS10", "TLS12"]
+          name: "String"
         }
       }
     }
@@ -3874,6 +3867,41 @@ export const CustomDomainListResult: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDomainHttpsParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomDomainHttpsParameters",
+    uberParent: "CustomDomainHttpsParameters",
+    polymorphicDiscriminator: {
+      serializedName: "certificateSource",
+      clientName: "certificateSource"
+    },
+    modelProperties: {
+      certificateSource: {
+        serializedName: "certificateSource",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protocolType: {
+        serializedName: "protocolType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "minimumTlsVersion",
+        type: {
+          name: "Enum",
+          allowedValues: ["None", "TLS10", "TLS12"]
         }
       }
     }
@@ -7389,48 +7417,6 @@ export const AzureFirstPartyManagedCertificateParameters: coreClient.CompositeMa
   }
 };
 
-export const CdnManagedHttpsParameters: coreClient.CompositeMapper = {
-  serializedName: "Cdn",
-  type: {
-    name: "Composite",
-    className: "CdnManagedHttpsParameters",
-    uberParent: "CustomDomainHttpsParameters",
-    polymorphicDiscriminator:
-      CustomDomainHttpsParameters.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...CustomDomainHttpsParameters.type.modelProperties,
-      certificateSourceParameters: {
-        serializedName: "certificateSourceParameters",
-        type: {
-          name: "Composite",
-          className: "CdnCertificateSourceParameters"
-        }
-      }
-    }
-  }
-};
-
-export const UserManagedHttpsParameters: coreClient.CompositeMapper = {
-  serializedName: "AzureKeyVault",
-  type: {
-    name: "Composite",
-    className: "UserManagedHttpsParameters",
-    uberParent: "CustomDomainHttpsParameters",
-    polymorphicDiscriminator:
-      CustomDomainHttpsParameters.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...CustomDomainHttpsParameters.type.modelProperties,
-      certificateSourceParameters: {
-        serializedName: "certificateSourceParameters",
-        type: {
-          name: "Composite",
-          className: "KeyVaultCertificateSourceParameters"
-        }
-      }
-    }
-  }
-};
-
 export const EndpointProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7477,7 +7463,7 @@ export const EndpointProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CustomDomain"
+              className: "DeepCreatedCustomDomain"
             }
           }
         }
@@ -7549,6 +7535,48 @@ export const OriginGroupProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CdnManagedHttpsParameters: coreClient.CompositeMapper = {
+  serializedName: "Cdn",
+  type: {
+    name: "Composite",
+    className: "CdnManagedHttpsParameters",
+    uberParent: "CustomDomainHttpsParameters",
+    polymorphicDiscriminator:
+      CustomDomainHttpsParameters.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CustomDomainHttpsParameters.type.modelProperties,
+      certificateSourceParameters: {
+        serializedName: "certificateSourceParameters",
+        type: {
+          name: "Composite",
+          className: "CdnCertificateSourceParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UserManagedHttpsParameters: coreClient.CompositeMapper = {
+  serializedName: "AzureKeyVault",
+  type: {
+    name: "Composite",
+    className: "UserManagedHttpsParameters",
+    uberParent: "CustomDomainHttpsParameters",
+    polymorphicDiscriminator:
+      CustomDomainHttpsParameters.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CustomDomainHttpsParameters.type.modelProperties,
+      certificateSourceParameters: {
+        serializedName: "certificateSourceParameters",
+        type: {
+          name: "Composite",
+          className: "KeyVaultCertificateSourceParameters"
         }
       }
     }
@@ -8199,63 +8227,6 @@ export const Secret: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomDomain: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomDomain",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      hostName: {
-        serializedName: "properties.hostName",
-        type: {
-          name: "String"
-        }
-      },
-      resourceState: {
-        serializedName: "properties.resourceState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsProvisioningState: {
-        serializedName: "properties.customHttpsProvisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsProvisioningSubstate: {
-        serializedName: "properties.customHttpsProvisioningSubstate",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsParameters: {
-        serializedName: "properties.customHttpsParameters",
-        type: {
-          name: "Composite",
-          className: "CustomDomainHttpsParameters"
-        }
-      },
-      validationData: {
-        serializedName: "properties.validationData",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Origin: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8415,6 +8386,63 @@ export const OriginGroup: coreClient.CompositeMapper = {
       resourceState: {
         serializedName: "properties.resourceState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDomain: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomDomain",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      hostName: {
+        serializedName: "properties.hostName",
+        type: {
+          name: "String"
+        }
+      },
+      resourceState: {
+        serializedName: "properties.resourceState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      customHttpsProvisioningState: {
+        serializedName: "properties.customHttpsProvisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      customHttpsProvisioningSubstate: {
+        serializedName: "properties.customHttpsProvisioningSubstate",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      customHttpsParameters: {
+        serializedName: "properties.customHttpsParameters",
+        type: {
+          name: "Composite",
+          className: "CustomDomainHttpsParameters"
+        }
+      },
+      validationData: {
+        serializedName: "properties.validationData",
         type: {
           name: "String"
         }
@@ -8712,7 +8740,7 @@ export const Endpoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CustomDomain"
+              className: "DeepCreatedCustomDomain"
             }
           }
         }

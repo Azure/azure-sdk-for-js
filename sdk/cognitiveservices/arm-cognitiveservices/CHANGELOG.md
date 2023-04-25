@@ -1,4 +1,113 @@
 # Release History
+
+## 7.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.4.0 (2023-02-06)
+    
+**Features**
+
+  - Added operation CommitmentPlans.beginCreateOrUpdateAssociation
+  - Added operation CommitmentPlans.beginCreateOrUpdateAssociationAndWait
+  - Added operation CommitmentPlans.beginCreateOrUpdatePlan
+  - Added operation CommitmentPlans.beginCreateOrUpdatePlanAndWait
+  - Added operation CommitmentPlans.beginDeleteAssociation
+  - Added operation CommitmentPlans.beginDeleteAssociationAndWait
+  - Added operation CommitmentPlans.beginDeletePlan
+  - Added operation CommitmentPlans.beginDeletePlanAndWait
+  - Added operation CommitmentPlans.beginUpdatePlan
+  - Added operation CommitmentPlans.beginUpdatePlanAndWait
+  - Added operation CommitmentPlans.getAssociation
+  - Added operation CommitmentPlans.getPlan
+  - Added operation CommitmentPlans.listAssociations
+  - Added operation CommitmentPlans.listPlansByResourceGroup
+  - Added operation CommitmentPlans.listPlansBySubscription
+  - Added Interface CommitmentPlanAccountAssociation
+  - Added Interface CommitmentPlanAccountAssociationListResult
+  - Added Interface CommitmentPlanAssociation
+  - Added Interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  - Added Interface CommitmentPlansCreateOrUpdatePlanOptionalParams
+  - Added Interface CommitmentPlansDeleteAssociationHeaders
+  - Added Interface CommitmentPlansDeleteAssociationOptionalParams
+  - Added Interface CommitmentPlansDeletePlanHeaders
+  - Added Interface CommitmentPlansDeletePlanOptionalParams
+  - Added Interface CommitmentPlansGetAssociationOptionalParams
+  - Added Interface CommitmentPlansGetPlanOptionalParams
+  - Added Interface CommitmentPlansListAssociationsNextOptionalParams
+  - Added Interface CommitmentPlansListAssociationsOptionalParams
+  - Added Interface CommitmentPlansListPlansByResourceGroupNextOptionalParams
+  - Added Interface CommitmentPlansListPlansByResourceGroupOptionalParams
+  - Added Interface CommitmentPlansListPlansBySubscriptionNextOptionalParams
+  - Added Interface CommitmentPlansListPlansBySubscriptionOptionalParams
+  - Added Interface CommitmentPlansUpdatePlanHeaders
+  - Added Interface CommitmentPlansUpdatePlanOptionalParams
+  - Added Interface MultiRegionSettings
+  - Added Interface PatchResourceTags
+  - Added Interface PatchResourceTagsAndSku
+  - Added Interface RegionSetting
+  - Added Type Alias CommitmentPlanProvisioningState
+  - Added Type Alias CommitmentPlansCreateOrUpdateAssociationResponse
+  - Added Type Alias CommitmentPlansCreateOrUpdatePlanResponse
+  - Added Type Alias CommitmentPlansGetAssociationResponse
+  - Added Type Alias CommitmentPlansGetPlanResponse
+  - Added Type Alias CommitmentPlansListAssociationsNextResponse
+  - Added Type Alias CommitmentPlansListAssociationsResponse
+  - Added Type Alias CommitmentPlansListPlansByResourceGroupNextResponse
+  - Added Type Alias CommitmentPlansListPlansByResourceGroupResponse
+  - Added Type Alias CommitmentPlansListPlansBySubscriptionNextResponse
+  - Added Type Alias CommitmentPlansListPlansBySubscriptionResponse
+  - Added Type Alias CommitmentPlansUpdatePlanResponse
+  - Added Type Alias ModelLifecycleStatus
+  - Added Type Alias RoutingMethods
+  - Interface AccountModel has a new optional parameter finetuneCapabilities
+  - Interface AccountModel has a new optional parameter lifecycleStatus
+  - Interface AccountProperties has a new optional parameter commitmentPlanAssociations
+  - Interface AccountProperties has a new optional parameter locations
+  - Interface CommitmentPlan has a new optional parameter kind
+  - Interface CommitmentPlan has a new optional parameter location
+  - Interface CommitmentPlan has a new optional parameter sku
+  - Interface CommitmentPlan has a new optional parameter tags
+  - Interface CommitmentPlanProperties has a new optional parameter commitmentPlanGuid
+  - Interface CommitmentPlanProperties has a new optional parameter provisioningState
+  - Added Enum KnownCommitmentPlanProvisioningState
+  - Added Enum KnownModelLifecycleStatus
+  - Added Enum KnownRoutingMethods
+    
+    
+## 7.3.1 (2022-11-21)
+
+**Features**
+
+ -  Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
+## 7.3.0 (2022-10-31)
+    
+**Features**
+
+  - Added Interface Account
+  - Added Interface AccountModel
+  - Added Interface AzureEntityResource
+  - Added Interface CommitmentPlan
+  - Added Interface Deployment
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Interface DeploymentModel has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter capabilities
+  - Interface DeploymentProperties has a new optional parameter raiPolicyName
+    
     
 ## 7.2.0 (2022-06-10)
     

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { IscsiDisks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,20 +17,20 @@ import { LroImpl } from "../lroImpl";
 import {
   IscsiDisk,
   IscsiDisksListByDeviceOptionalParams,
+  IscsiDisksListByDeviceResponse,
   IscsiDisksListByIscsiServerOptionalParams,
+  IscsiDisksListByIscsiServerResponse,
   Metrics,
   IscsiDisksListMetricsOptionalParams,
+  IscsiDisksListMetricsResponse,
   MetricDefinition,
   IscsiDisksListMetricDefinitionOptionalParams,
-  IscsiDisksListByDeviceResponse,
-  IscsiDisksListByIscsiServerResponse,
+  IscsiDisksListMetricDefinitionResponse,
   IscsiDisksGetOptionalParams,
   IscsiDisksGetResponse,
   IscsiDisksCreateOrUpdateOptionalParams,
   IscsiDisksCreateOrUpdateResponse,
-  IscsiDisksDeleteOptionalParams,
-  IscsiDisksListMetricsResponse,
-  IscsiDisksListMetricDefinitionResponse
+  IscsiDisksDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -72,12 +72,16 @@ export class IscsiDisksImpl implements IscsiDisks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,9 +91,11 @@ export class IscsiDisksImpl implements IscsiDisks {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: IscsiDisksListByDeviceOptionalParams
+    options?: IscsiDisksListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<IscsiDisk[]> {
-    let result = await this._listByDevice(
+    let result: IscsiDisksListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,
@@ -143,13 +149,17 @@ export class IscsiDisksImpl implements IscsiDisks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByIscsiServerPagingPage(
           deviceName,
           iscsiServerName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -160,9 +170,11 @@ export class IscsiDisksImpl implements IscsiDisks {
     iscsiServerName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: IscsiDisksListByIscsiServerOptionalParams
+    options?: IscsiDisksListByIscsiServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<IscsiDisk[]> {
-    let result = await this._listByIscsiServer(
+    let result: IscsiDisksListByIscsiServerResponse;
+    result = await this._listByIscsiServer(
       deviceName,
       iscsiServerName,
       resourceGroupName,
@@ -222,14 +234,18 @@ export class IscsiDisksImpl implements IscsiDisks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           deviceName,
           iscsiServerName,
           diskName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -241,9 +257,11 @@ export class IscsiDisksImpl implements IscsiDisks {
     diskName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: IscsiDisksListMetricsOptionalParams
+    options?: IscsiDisksListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: IscsiDisksListMetricsResponse;
+    result = await this._listMetrics(
       deviceName,
       iscsiServerName,
       diskName,
@@ -306,14 +324,18 @@ export class IscsiDisksImpl implements IscsiDisks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           deviceName,
           iscsiServerName,
           diskName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -325,9 +347,11 @@ export class IscsiDisksImpl implements IscsiDisks {
     diskName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: IscsiDisksListMetricDefinitionOptionalParams
+    options?: IscsiDisksListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: IscsiDisksListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       deviceName,
       iscsiServerName,
       diskName,

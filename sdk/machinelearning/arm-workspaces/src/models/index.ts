@@ -104,7 +104,7 @@ export interface WorkspaceListResult {
 }
 
 /** An object that represents a machine learning workspace. */
-export type Workspace = Resource & {
+export interface Workspace extends Resource {
   /** The fully qualified arm id of the storage account associated with this workspace. */
   userStorageAccountId?: string;
   /** The email id of the owner for this workspace. */
@@ -136,7 +136,8 @@ export type Workspace = Resource & {
   readonly studioEndpoint?: string;
   /** The key vault identifier used for encrypted workspaces. */
   keyVaultIdentifierId?: string;
-};
+}
+
 /** Defines values for WorkspaceType. */
 export type WorkspaceType =
   | "Production"

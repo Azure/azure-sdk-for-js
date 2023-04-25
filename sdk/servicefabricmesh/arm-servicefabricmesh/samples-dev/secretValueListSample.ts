@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about all secret value resources of the specified secret resource. The information includes the names of the secret value resources, but not the actual values.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/secrets/values/list.json
  */
 async function listSecretValues() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const secretResourceName = "dbConnectionString";
   const credential = new DefaultAzureCredential();
   const client = new ServiceFabricMeshManagementClient(
@@ -36,4 +42,8 @@ async function listSecretValues() {
   console.log(resArray);
 }
 
-listSecretValues().catch(console.error);
+async function main() {
+  listSecretValues();
+}
+
+main().catch(console.error);

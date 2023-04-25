@@ -13,6 +13,9 @@ import {
   MLTeamAccountManagementClient
 } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a machine learning workspace with the specified parameters.
@@ -21,8 +24,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/WorkspaceCreate.json
  */
 async function workspaceCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP"] ||
+    "myResourceGroup";
   const accountName = "testaccount";
   const workspaceName = "testworkspace";
   const parameters: Workspace = {
@@ -41,4 +48,8 @@ async function workspaceCreate() {
   console.log(result);
 }
 
-workspaceCreate().catch(console.error);
+async function main() {
+  workspaceCreate();
+}
+
+main().catch(console.error);

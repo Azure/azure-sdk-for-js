@@ -10,12 +10,10 @@ import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
-
-// @public (undocumented)
-function AccessControl(endpoint: string, credentials: TokenCredential, options?: ClientOptions): AccessControlRestClient;
-export default AccessControl;
 
 // @public (undocumented)
 export type AccessControlRestClient = Client & {
@@ -23,10 +21,10 @@ export type AccessControlRestClient = Client & {
 };
 
 // @public (undocumented)
-export interface CheckAccessDecision {
+export interface CheckAccessDecisionOutput {
     accessDecision?: string;
     actionId?: string;
-    roleAssignment?: RoleAssignmentDetails;
+    roleAssignment?: RoleAssignmentDetailsOutput;
 }
 
 // @public (undocumented)
@@ -37,26 +35,30 @@ export interface CheckPrincipalAccessRequest {
 }
 
 // @public (undocumented)
-export interface CheckPrincipalAccessResponse {
-    AccessDecisions?: Array<CheckAccessDecision>;
+export interface CheckPrincipalAccessResponseOutput {
+    AccessDecisions?: Array<CheckAccessDecisionOutput>;
 }
 
 // @public (undocumented)
-export interface ErrorAdditionalInfo {
+function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): AccessControlRestClient;
+export default createClient;
+
+// @public (undocumented)
+export interface ErrorAdditionalInfoOutput {
     info?: Record<string, unknown>;
     type?: string;
 }
 
 // @public (undocumented)
-export interface ErrorContract {
-    error?: ErrorResponse;
+export interface ErrorContractOutput {
+    error?: ErrorResponseOutput;
 }
 
 // @public (undocumented)
-export interface ErrorResponse {
-    additionalInfo?: Array<ErrorAdditionalInfo>;
+export interface ErrorResponseOutput {
+    additionalInfo?: Array<ErrorAdditionalInfoOutput>;
     code?: string;
-    details?: Array<ErrorResponse>;
+    details?: Array<ErrorResponseOutput>;
     message?: string;
     target?: string;
 }
@@ -69,6 +71,30 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     page: TPage;
     nextPageLink?: string;
 }>;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse): response is RoleAssignmentsCheckPrincipalAccessdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse): response is RoleAssignmentsListRoleAssignmentsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse): response is RoleAssignmentsCreateRoleAssignmentdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse): response is RoleAssignmentsGetRoleAssignmentByIddefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse): response is RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse): response is RoleDefinitionsListRoleDefinitionsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse): response is RoleDefinitionsGetRoleDefinitionByIddefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse): response is RoleDefinitionsListScopesdefaultResponse;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -92,18 +118,18 @@ export interface RequiredAction {
 }
 
 // @public (undocumented)
-export interface RoleAssignmentDetails {
+export interface RoleAssignmentDetailsListOutput {
+    count?: number;
+    value?: Array<RoleAssignmentDetailsOutput>;
+}
+
+// @public (undocumented)
+export interface RoleAssignmentDetailsOutput {
     id?: string;
     principalId?: string;
     principalType?: string;
     roleDefinitionId?: string;
     scope?: string;
-}
-
-// @public (undocumented)
-export interface RoleAssignmentDetailsList {
-    count?: number;
-    value?: Array<RoleAssignmentDetails>;
 }
 
 // @public (undocumented)
@@ -116,13 +142,13 @@ export interface RoleAssignmentRequest {
 
 // @public (undocumented)
 export interface RoleAssignmentsCheckPrincipalAccess {
-    post(options: RoleAssignmentsCheckPrincipalAccessParameters): Promise<RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse>;
+    post(options: RoleAssignmentsCheckPrincipalAccessParameters): StreamableMethod<RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse>;
 }
 
 // @public
 export interface RoleAssignmentsCheckPrincipalAccess200Response extends HttpResponse {
     // (undocumented)
-    body: CheckPrincipalAccessResponse;
+    body: CheckPrincipalAccessResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -135,25 +161,30 @@ export interface RoleAssignmentsCheckPrincipalAccessBodyParam {
 // @public
 export interface RoleAssignmentsCheckPrincipalAccessdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
-export type RoleAssignmentsCheckPrincipalAccessParameters = RoleAssignmentsCheckPrincipalAccessBodyParam & RequestParameters;
+export interface RoleAssignmentsCheckPrincipalAccessMediaTypesParam {
+    contentType?: "application/json" | "text/json";
+}
+
+// @public (undocumented)
+export type RoleAssignmentsCheckPrincipalAccessParameters = RoleAssignmentsCheckPrincipalAccessMediaTypesParam & RoleAssignmentsCheckPrincipalAccessBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface RoleAssignmentsCreateRoleAssignment {
-    delete(options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters): Promise<RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse>;
-    get(options?: RoleAssignmentsGetRoleAssignmentByIdParameters): Promise<RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse>;
-    put(options: RoleAssignmentsCreateRoleAssignmentParameters): Promise<RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse>;
+    delete(options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse>;
+    get(options?: RoleAssignmentsGetRoleAssignmentByIdParameters): StreamableMethod<RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse>;
+    put(options: RoleAssignmentsCreateRoleAssignmentParameters): StreamableMethod<RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse>;
 }
 
 // @public
 export interface RoleAssignmentsCreateRoleAssignment200Response extends HttpResponse {
     // (undocumented)
-    body: RoleAssignmentDetails;
+    body: RoleAssignmentDetailsOutput;
     // (undocumented)
     status: "200";
 }
@@ -166,13 +197,18 @@ export interface RoleAssignmentsCreateRoleAssignmentBodyParam {
 // @public
 export interface RoleAssignmentsCreateRoleAssignmentdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
-export type RoleAssignmentsCreateRoleAssignmentParameters = RoleAssignmentsCreateRoleAssignmentBodyParam & RequestParameters;
+export interface RoleAssignmentsCreateRoleAssignmentMediaTypesParam {
+    contentType?: "application/json" | "text/json";
+}
+
+// @public (undocumented)
+export type RoleAssignmentsCreateRoleAssignmentParameters = RoleAssignmentsCreateRoleAssignmentMediaTypesParam & RoleAssignmentsCreateRoleAssignmentBodyParam & RequestParameters;
 
 // @public
 export interface RoleAssignmentsDeleteRoleAssignmentById200Response extends HttpResponse {
@@ -193,9 +229,9 @@ export interface RoleAssignmentsDeleteRoleAssignmentById204Response extends Http
 // @public
 export interface RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -215,7 +251,7 @@ export interface RoleAssignmentsDeleteRoleAssignmentByIdQueryParamProperties {
 // @public
 export interface RoleAssignmentsGetRoleAssignmentById200Response extends HttpResponse {
     // (undocumented)
-    body: RoleAssignmentDetails;
+    body: RoleAssignmentDetailsOutput;
     // (undocumented)
     status: "200";
 }
@@ -223,9 +259,9 @@ export interface RoleAssignmentsGetRoleAssignmentById200Response extends HttpRes
 // @public
 export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -233,7 +269,7 @@ export type RoleAssignmentsGetRoleAssignmentByIdParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RoleAssignmentsListRoleAssignments {
-    get(options?: RoleAssignmentsListRoleAssignmentsParameters): Promise<RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse>;
+    get(options?: RoleAssignmentsListRoleAssignmentsParameters): StreamableMethod<RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -244,7 +280,7 @@ export interface RoleAssignmentsListRoleAssignments200Headers {
 // @public
 export interface RoleAssignmentsListRoleAssignments200Response extends HttpResponse {
     // (undocumented)
-    body: RoleAssignmentDetailsList;
+    body: RoleAssignmentDetailsListOutput;
     // (undocumented)
     headers: RawHttpHeaders & RoleAssignmentsListRoleAssignments200Headers;
     // (undocumented)
@@ -254,13 +290,24 @@ export interface RoleAssignmentsListRoleAssignments200Response extends HttpRespo
 // @public
 export interface RoleAssignmentsListRoleAssignmentsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
-export type RoleAssignmentsListRoleAssignmentsParameters = RoleAssignmentsListRoleAssignmentsQueryParam & RequestParameters;
+export interface RoleAssignmentsListRoleAssignmentsHeaderParam {
+    // (undocumented)
+    headers: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
+}
+
+// @public (undocumented)
+export interface RoleAssignmentsListRoleAssignmentsHeaders {
+    "x-ms-continuation"?: string;
+}
+
+// @public (undocumented)
+export type RoleAssignmentsListRoleAssignmentsParameters = RoleAssignmentsListRoleAssignmentsQueryParam & RoleAssignmentsListRoleAssignmentsHeaderParam & RequestParameters;
 
 // @public (undocumented)
 export interface RoleAssignmentsListRoleAssignmentsQueryParam {
@@ -277,13 +324,13 @@ export interface RoleAssignmentsListRoleAssignmentsQueryParamProperties {
 
 // @public (undocumented)
 export interface RoleDefinitionsGetRoleDefinitionById {
-    get(options?: RoleDefinitionsGetRoleDefinitionByIdParameters): Promise<RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse>;
+    get(options?: RoleDefinitionsGetRoleDefinitionByIdParameters): StreamableMethod<RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse>;
 }
 
 // @public
 export interface RoleDefinitionsGetRoleDefinitionById200Response extends HttpResponse {
     // (undocumented)
-    body: SynapseRoleDefinition;
+    body: SynapseRoleDefinitionOutput;
     // (undocumented)
     status: "200";
 }
@@ -291,9 +338,9 @@ export interface RoleDefinitionsGetRoleDefinitionById200Response extends HttpRes
 // @public
 export interface RoleDefinitionsGetRoleDefinitionByIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -301,13 +348,13 @@ export type RoleDefinitionsGetRoleDefinitionByIdParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RoleDefinitionsListRoleDefinitions {
-    get(options?: RoleDefinitionsListRoleDefinitionsParameters): Promise<RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse>;
+    get(options?: RoleDefinitionsListRoleDefinitionsParameters): StreamableMethod<RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse>;
 }
 
 // @public
 export interface RoleDefinitionsListRoleDefinitions200Response extends HttpResponse {
     // (undocumented)
-    body: Array<SynapseRoleDefinition>;
+    body: Array<SynapseRoleDefinitionOutput>;
     // (undocumented)
     status: "200";
 }
@@ -315,9 +362,9 @@ export interface RoleDefinitionsListRoleDefinitions200Response extends HttpRespo
 // @public
 export interface RoleDefinitionsListRoleDefinitionsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -337,7 +384,7 @@ export interface RoleDefinitionsListRoleDefinitionsQueryParamProperties {
 
 // @public (undocumented)
 export interface RoleDefinitionsListScopes {
-    get(options?: RoleDefinitionsListScopesParameters): Promise<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
+    get(options?: RoleDefinitionsListScopesParameters): StreamableMethod<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
 }
 
 // @public
@@ -351,9 +398,9 @@ export interface RoleDefinitionsListScopes200Response extends HttpResponse {
 // @public
 export interface RoleDefinitionsListScopesdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorContract;
+    body: ErrorContractOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -376,7 +423,7 @@ export interface SubjectInfo {
 }
 
 // @public (undocumented)
-export interface SynapseRbacPermission {
+export interface SynapseRbacPermissionOutput {
     actions?: Array<string>;
     dataActions?: Array<string>;
     notActions?: Array<string>;
@@ -384,13 +431,13 @@ export interface SynapseRbacPermission {
 }
 
 // @public (undocumented)
-export interface SynapseRoleDefinition {
+export interface SynapseRoleDefinitionOutput {
     availabilityStatus?: string;
     description?: string;
     id?: string;
     isBuiltIn?: boolean;
     name?: string;
-    permissions?: Array<SynapseRbacPermission>;
+    permissions?: Array<SynapseRbacPermissionOutput>;
     scopes?: Array<string>;
 }
 

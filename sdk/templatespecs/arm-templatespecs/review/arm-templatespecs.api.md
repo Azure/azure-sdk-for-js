@@ -35,14 +35,13 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -68,18 +67,18 @@ export interface SystemData {
 }
 
 // @public
-export type TemplateSpec = AzureResourceBase & {
+export interface TemplateSpec extends AzureResourceBase {
+    description?: string;
+    displayName?: string;
     location: string;
+    metadata?: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };
-    description?: string;
-    displayName?: string;
-    metadata?: Record<string, unknown>;
     readonly versions?: {
         [propertyName: string]: TemplateSpecVersionInfo;
     };
-};
+}
 
 // @public
 export type TemplateSpecExpandKind = string;
@@ -187,24 +186,24 @@ export interface TemplateSpecsUpdateOptionalParams extends coreClient.OperationO
 export type TemplateSpecsUpdateResponse = TemplateSpec;
 
 // @public
-export type TemplateSpecUpdateModel = AzureResourceBase & {
+export interface TemplateSpecUpdateModel extends AzureResourceBase {
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type TemplateSpecVersion = AzureResourceBase & {
+export interface TemplateSpecVersion extends AzureResourceBase {
+    description?: string;
+    linkedTemplates?: LinkedTemplateArtifact[];
     location: string;
+    mainTemplate?: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };
-    description?: string;
-    linkedTemplates?: LinkedTemplateArtifact[];
-    metadata?: Record<string, unknown>;
-    mainTemplate?: Record<string, unknown>;
     uiFormDefinition?: Record<string, unknown>;
-};
+}
 
 // @public
 export interface TemplateSpecVersionInfo {
@@ -269,11 +268,11 @@ export interface TemplateSpecVersionsUpdateOptionalParams extends coreClient.Ope
 export type TemplateSpecVersionsUpdateResponse = TemplateSpecVersion;
 
 // @public
-export type TemplateSpecVersionUpdateModel = AzureResourceBase & {
+export interface TemplateSpecVersionUpdateModel extends AzureResourceBase {
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

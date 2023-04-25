@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Workspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,6 +17,7 @@ import {
   Workspace,
   WorkspacesListByAccountsNextOptionalParams,
   WorkspacesListByAccountsOptionalParams,
+  WorkspacesListByAccountsResponse,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
@@ -24,7 +26,6 @@ import {
   WorkspaceUpdateParameters,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
-  WorkspacesListByAccountsResponse,
   WorkspacesListByAccountsNextResponse
 } from "../models";
 
@@ -65,11 +66,15 @@ export class WorkspacesImpl implements Workspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAccountsPagingPage(
           accountName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +83,22 @@ export class WorkspacesImpl implements Workspaces {
   private async *listByAccountsPagingPage(
     accountName: string,
     resourceGroupName: string,
-    options?: WorkspacesListByAccountsOptionalParams
+    options?: WorkspacesListByAccountsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Workspace[]> {
-    let result = await this._listByAccounts(
-      accountName,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkspacesListByAccountsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAccounts(
+        accountName,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAccountsNext(
         accountName,
@@ -95,7 +107,9 @@ export class WorkspacesImpl implements Workspaces {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -369,7 +383,6 @@ const listByAccountsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

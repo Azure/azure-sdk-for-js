@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlVirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,14 @@ import {
   SqlVirtualMachine,
   SqlVirtualMachinesListBySqlVmGroupNextOptionalParams,
   SqlVirtualMachinesListBySqlVmGroupOptionalParams,
+  SqlVirtualMachinesListBySqlVmGroupResponse,
   SqlVirtualMachinesListNextOptionalParams,
   SqlVirtualMachinesListOptionalParams,
+  SqlVirtualMachinesListResponse,
   SqlVirtualMachinesListByResourceGroupNextOptionalParams,
   SqlVirtualMachinesListByResourceGroupOptionalParams,
-  SqlVirtualMachinesListBySqlVmGroupResponse,
-  SqlVirtualMachinesListResponse,
+  SqlVirtualMachinesListByResourceGroupResponse,
+  SqlVirtualMachinesStartAssessmentOptionalParams,
   SqlVirtualMachinesRedeployOptionalParams,
   SqlVirtualMachinesGetOptionalParams,
   SqlVirtualMachinesGetResponse,
@@ -33,8 +36,6 @@ import {
   SqlVirtualMachineUpdate,
   SqlVirtualMachinesUpdateOptionalParams,
   SqlVirtualMachinesUpdateResponse,
-  SqlVirtualMachinesListByResourceGroupResponse,
-  SqlVirtualMachinesStartAssessmentOptionalParams,
   SqlVirtualMachinesListBySqlVmGroupNextResponse,
   SqlVirtualMachinesListNextResponse,
   SqlVirtualMachinesListByResourceGroupNextResponse
@@ -77,11 +78,15 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySqlVmGroupPagingPage(
           resourceGroupName,
           sqlVirtualMachineGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,15 +95,22 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
   private async *listBySqlVmGroupPagingPage(
     resourceGroupName: string,
     sqlVirtualMachineGroupName: string,
-    options?: SqlVirtualMachinesListBySqlVmGroupOptionalParams
+    options?: SqlVirtualMachinesListBySqlVmGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlVirtualMachine[]> {
-    let result = await this._listBySqlVmGroup(
-      resourceGroupName,
-      sqlVirtualMachineGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlVirtualMachinesListBySqlVmGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySqlVmGroup(
+        resourceGroupName,
+        sqlVirtualMachineGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySqlVmGroupNext(
         resourceGroupName,
@@ -107,7 +119,9 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,22 +154,34 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SqlVirtualMachinesListOptionalParams
+    options?: SqlVirtualMachinesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlVirtualMachine[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlVirtualMachinesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -185,19 +211,33 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SqlVirtualMachinesListByResourceGroupOptionalParams
+    options?: SqlVirtualMachinesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlVirtualMachine[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlVirtualMachinesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -205,7 +245,9 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -247,6 +289,90 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
     options?: SqlVirtualMachinesListOptionalParams
   ): Promise<SqlVirtualMachinesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAssessment(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, sqlVirtualMachineName, options },
+      startAssessmentOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAssessmentAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStartAssessment(
+      resourceGroupName,
+      sqlVirtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -640,90 +766,6 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
   }
 
   /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStartAssessment(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlVirtualMachineName, options },
-      startAssessmentOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  async beginStartAssessmentAndWait(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginStartAssessment(
-      resourceGroupName,
-      sqlVirtualMachineName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListBySqlVmGroupNext
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
@@ -812,6 +854,20 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const startAssessmentOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/startAssessment",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.sqlVirtualMachineName
+  ],
   serializer
 };
 const redeployOperationSpec: coreClient.OperationSpec = {
@@ -943,20 +999,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const startAssessmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/startAssessment",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.sqlVirtualMachineName
-  ],
-  serializer
-};
 const listBySqlVmGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -966,7 +1008,6 @@ const listBySqlVmGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -986,7 +1027,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1004,7 +1044,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

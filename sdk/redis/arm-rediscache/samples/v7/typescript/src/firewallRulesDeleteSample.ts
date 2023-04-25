@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a single firewall rule in a specified redis cache.
  *
  * @summary Deletes a single firewall rule in a specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheFirewallRuleDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheFirewallRuleDelete.json
  */
 async function redisCacheFirewallRuleDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
   const ruleName = "rule1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function redisCacheFirewallRuleDelete() {
   console.log(result);
 }
 
-redisCacheFirewallRuleDelete().catch(console.error);
+async function main() {
+  redisCacheFirewallRuleDelete();
+}
+
+main().catch(console.error);

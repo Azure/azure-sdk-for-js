@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PublicIPAddress,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
@@ -26,6 +26,8 @@ import {
   TagsObject,
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesUpdateTagsResponse,
+  PublicIPAddressesDdosProtectionStatusOptionalParams,
+  PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse
 } from "../models";
@@ -136,7 +138,7 @@ export interface PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     options?: PublicIPAddressesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified public IP address.
    * @param resourceGroupName The name of the resource group.
@@ -172,8 +174,8 @@ export interface PublicIPAddresses {
     parameters: PublicIPAddress,
     options?: PublicIPAddressesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PublicIPAddressesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PublicIPAddressesCreateOrUpdateResponse>,
       PublicIPAddressesCreateOrUpdateResponse
     >
   >;
@@ -203,6 +205,33 @@ export interface PublicIPAddresses {
     parameters: TagsObject,
     options?: PublicIPAddressesUpdateTagsOptionalParams
   ): Promise<PublicIPAddressesUpdateTagsResponse>;
+  /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  beginDdosProtectionStatus(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PublicIPAddressesDdosProtectionStatusResponse>,
+      PublicIPAddressesDdosProtectionStatusResponse
+    >
+  >;
+  /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  beginDdosProtectionStatusAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<PublicIPAddressesDdosProtectionStatusResponse>;
   /**
    * Get the specified public IP address in a virtual machine scale set.
    * @param resourceGroupName The name of the resource group.

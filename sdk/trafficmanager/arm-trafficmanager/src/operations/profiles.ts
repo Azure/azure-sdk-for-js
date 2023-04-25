@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Profiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { TrafficManagerManagementClient } from "../trafficManagerManagementClien
 import {
   Profile,
   ProfilesListByResourceGroupOptionalParams,
+  ProfilesListByResourceGroupResponse,
   ProfilesListBySubscriptionOptionalParams,
+  ProfilesListBySubscriptionResponse,
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse,
-  ProfilesListByResourceGroupResponse,
-  ProfilesListBySubscriptionResponse,
   ProfilesGetOptionalParams,
   ProfilesGetResponse,
   ProfilesCreateOrUpdateOptionalParams,
@@ -46,8 +46,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Lists all Traffic Manager profiles within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles to
-   *                          be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -62,17 +61,26 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Profile[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ProfilesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -103,16 +111,21 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ProfilesListBySubscriptionOptionalParams
+    options?: ProfilesListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Profile[]> {
-    let result = await this._listBySubscription(options);
+    let result: ProfilesListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -142,8 +155,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Lists all Traffic Manager profiles within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles to
-   *                          be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -171,7 +183,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Gets a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param options The options parameters.
    */
@@ -188,7 +200,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Create or update a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param parameters The Traffic Manager profile parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -207,8 +219,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Deletes a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile to be
-   *                          deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile to be deleted.
    * @param options The options parameters.
    */
@@ -225,7 +236,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Update a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param parameters The Traffic Manager profile parameters supplied to the Update operation.
    * @param options The options parameters.

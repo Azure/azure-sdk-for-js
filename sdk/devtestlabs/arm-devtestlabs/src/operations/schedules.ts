@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Schedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   Schedule,
   SchedulesListNextOptionalParams,
   SchedulesListOptionalParams,
+  SchedulesListResponse,
   SchedulesListApplicableNextOptionalParams,
   SchedulesListApplicableOptionalParams,
-  SchedulesListResponse,
+  SchedulesListApplicableResponse,
   SchedulesGetOptionalParams,
   SchedulesGetResponse,
   SchedulesCreateOrUpdateOptionalParams,
@@ -30,7 +32,6 @@ import {
   SchedulesUpdateOptionalParams,
   SchedulesUpdateResponse,
   SchedulesExecuteOptionalParams,
-  SchedulesListApplicableResponse,
   SchedulesListNextResponse,
   SchedulesListApplicableNextResponse
 } from "../models";
@@ -67,8 +68,16 @@ export class SchedulesImpl implements Schedules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, labName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          labName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -76,11 +85,18 @@ export class SchedulesImpl implements Schedules {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: SchedulesListOptionalParams
+    options?: SchedulesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Schedule[]> {
-    let result = await this._list(resourceGroupName, labName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SchedulesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, labName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -89,7 +105,9 @@ export class SchedulesImpl implements Schedules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -133,12 +151,16 @@ export class SchedulesImpl implements Schedules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listApplicablePagingPage(
           resourceGroupName,
           labName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -148,16 +170,23 @@ export class SchedulesImpl implements Schedules {
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: SchedulesListApplicableOptionalParams
+    options?: SchedulesListApplicableOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Schedule[]> {
-    let result = await this._listApplicable(
-      resourceGroupName,
-      labName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SchedulesListApplicableResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listApplicable(
+        resourceGroupName,
+        labName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listApplicableNext(
         resourceGroupName,
@@ -167,7 +196,9 @@ export class SchedulesImpl implements Schedules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

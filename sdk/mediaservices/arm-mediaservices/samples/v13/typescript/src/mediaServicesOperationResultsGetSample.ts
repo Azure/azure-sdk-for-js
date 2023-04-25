@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get media service operation result.
  *
  * @summary Get media service operation result.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/media-service-operation-result-by-id.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-result-by-id.json
  */
 async function getStatusOfAsynchronousOperation() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const locationName = "westus";
   const operationId = "6FBA62C4-99B5-4FF8-9826-FC4744A8864F";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function getStatusOfAsynchronousOperation() {
   console.log(result);
 }
 
-getStatusOfAsynchronousOperation().catch(console.error);
+async function main() {
+  getStatusOfAsynchronousOperation();
+}
+
+main().catch(console.error);

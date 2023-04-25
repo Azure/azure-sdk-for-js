@@ -1,4 +1,29 @@
 # Release History
+
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-12-21)
+    
+**Features**
+
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface Secret
+  - Added Interface SecretAttributes
+  - Added function getContinuationToken
+  - Interface SecretsListNextOptionalParams no longer has parameter top
+  - Interface VaultsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface VaultsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface VaultsListNextOptionalParams no longer has parameter top
+    
     
 ## 2.0.0 (2022-03-09)
 

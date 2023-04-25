@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Constants, ContainerResponse } from "../../../src";
+import { Constants, ContainerResponse, StatusCodes } from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
@@ -484,4 +484,44 @@ describe("container.create", function () {
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });
+});
+
+describe("container.deleteAllItemsForPartitionKey", function () {
+  it("should delete all items for partition key value", async function () {
+    const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
+    await testDeleteAllItemsForPartitionKey(container);
+  });
+
+  it("should delete all items for parition key value in multi partition container", async function () {
+    //  multi partition container
+    const container = await getTestContainer("container", undefined, {
+      partitionKey: {
+        paths: ["/pk"],
+        version: 2,
+      },
+      throughput: 10500,
+    });
+    await testDeleteAllItemsForPartitionKey(container);
+  });
+  async function testDeleteAllItemsForPartitionKey(container: Container) {
+    const { resource: create1 } = await container.items.create({
+      id: "1",
+      key: "value",
+      pk: "pk",
+    });
+    const { resource: create2 } = await container.items.create({
+      id: "2",
+      key: "value",
+      pk: "pk",
+    });
+    const { resource: create3 } = await container.items.create({
+      id: "3",
+      key: "value",
+      pk: "rk",
+    });
+    await container.deleteAllItemsForPartitionKey("pk");
+    assert((await container.item(create1.id).read()).statusCode === StatusCodes.NotFound);
+    assert((await container.item(create2.id).read()).statusCode === StatusCodes.NotFound);
+    assert((await (await container.item(create3.id).read()).item.id) === create3.id);
+  }
 });

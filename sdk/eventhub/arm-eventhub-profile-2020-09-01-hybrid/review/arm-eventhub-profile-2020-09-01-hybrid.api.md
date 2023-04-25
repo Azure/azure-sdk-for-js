@@ -25,9 +25,9 @@ export interface AccessKeys {
 export type AccessRights = string;
 
 // @public
-export type AuthorizationRule = Resource & {
+export interface AuthorizationRule extends Resource {
     rights?: AccessRights[];
-};
+}
 
 // @public
 export interface AuthorizationRuleListResult {
@@ -68,13 +68,13 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    sku?: ClusterSku;
+export interface Cluster extends TrackedResource {
     readonly createdAt?: string;
-    readonly updatedAt?: string;
     readonly metricId?: string;
+    sku?: ClusterSku;
     readonly status?: string;
-};
+    readonly updatedAt?: string;
+}
 
 // @public
 export interface ClusterListResult {
@@ -171,11 +171,11 @@ export interface ConnectionState {
 }
 
 // @public
-export type ConsumerGroup = Resource & {
+export interface ConsumerGroup extends Resource {
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
     userMetadata?: string;
-};
+}
 
 // @public
 export interface ConsumerGroupListResult {
@@ -211,8 +211,6 @@ export type ConsumerGroupsGetResponse = ConsumerGroup;
 
 // @public
 export interface ConsumerGroupsListByEventHubNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -271,22 +269,22 @@ export interface DisasterRecoveryConfigsListKeysOptionalParams extends coreClien
 export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
 
 // @public
-export type EHNamespace = TrackedResource & {
-    sku?: Sku;
-    identity?: Identity;
-    readonly provisioningState?: string;
-    readonly status?: string;
-    readonly createdAt?: Date;
-    readonly updatedAt?: Date;
-    readonly serviceBusEndpoint?: string;
+export interface EHNamespace extends TrackedResource {
     clusterArmId?: string;
-    readonly metricId?: string;
-    isAutoInflateEnabled?: boolean;
-    maximumThroughputUnits?: number;
-    kafkaEnabled?: boolean;
-    zoneRedundant?: boolean;
+    readonly createdAt?: Date;
     encryption?: Encryption;
-};
+    identity?: Identity;
+    isAutoInflateEnabled?: boolean;
+    kafkaEnabled?: boolean;
+    maximumThroughputUnits?: number;
+    readonly metricId?: string;
+    readonly provisioningState?: string;
+    readonly serviceBusEndpoint?: string;
+    sku?: Sku;
+    readonly status?: string;
+    readonly updatedAt?: Date;
+    zoneRedundant?: boolean;
+}
 
 // @public
 export interface EHNamespaceIdContainer {
@@ -326,15 +324,15 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Eventhub = Resource & {
-    readonly partitionIds?: string[];
+export interface Eventhub extends Resource {
+    captureDescription?: CaptureDescription;
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
     messageRetentionInDays?: number;
     partitionCount?: number;
+    readonly partitionIds?: string[];
     status?: EntityStatus;
-    captureDescription?: CaptureDescription;
-};
+    readonly updatedAt?: Date;
+}
 
 // @public
 export interface EventHubListResult {
@@ -441,8 +439,6 @@ export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResul
 
 // @public
 export interface EventHubsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -472,6 +468,9 @@ export interface EventHubsRegenerateKeysOptionalParams extends coreClient.Operat
 export type EventHubsRegenerateKeysResponse = AccessKeys;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     principalId?: string;
     tenantId?: string;
@@ -491,68 +490,50 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownAccessRights {
-    // (undocumented)
     Listen = "Listen",
-    // (undocumented)
     Manage = "Manage",
-    // (undocumented)
     Send = "Send"
 }
 
 // @public
 export enum KnownClusterSkuName {
-    // (undocumented)
     Dedicated = "Dedicated"
 }
 
 // @public
 export enum KnownEndPointProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateLinkConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type MessagingRegions = TrackedResource & {
+export interface MessagingRegions extends TrackedResource {
     properties?: MessagingRegionsProperties;
-};
+}
 
 // @public
 export interface MessagingRegionsListResult {
@@ -739,11 +720,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -871,12 +852,12 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the async operation status.
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Locations_GetAsyncOperationStatus.json
  */
 async function getsTheAzureAsyncOperationStatus() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "East US 2";
   const operationId = "8a0348f4-8a85-4ec2-abe0-03b26104a9a0-0";
   const credential = new DefaultAzureCredential();
@@ -30,4 +33,8 @@ async function getsTheAzureAsyncOperationStatus() {
   console.log(result);
 }
 
-getsTheAzureAsyncOperationStatus().catch(console.error);
+async function main() {
+  getsTheAzureAsyncOperationStatus();
+}
+
+main().catch(console.error);

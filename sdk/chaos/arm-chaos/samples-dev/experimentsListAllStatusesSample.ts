@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of statuses of a Experiment resource.
  *
  * @summary Get a list of statuses of a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/ListExperimentStatuses.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListExperimentStatuses.json
  */
 async function listAllStatusesOfAExperiment() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-  const resourceGroupName = "exampleRG";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] ||
+    "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const resourceGroupName = process.env["CHAOS_RESOURCE_GROUP"] || "exampleRG";
   const experimentName = "exampleExperiment";
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function listAllStatusesOfAExperiment() {
   console.log(resArray);
 }
 
-listAllStatusesOfAExperiment().catch(console.error);
+async function main() {
+  listAllStatusesOfAExperiment();
+}
+
+main().catch(console.error);

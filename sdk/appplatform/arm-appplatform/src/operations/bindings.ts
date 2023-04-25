@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Bindings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BindingResource,
   BindingsListNextOptionalParams,
   BindingsListOptionalParams,
+  BindingsListResponse,
   BindingsGetOptionalParams,
   BindingsGetResponse,
   BindingsCreateOrUpdateOptionalParams,
@@ -25,7 +31,6 @@ import {
   BindingsDeleteOptionalParams,
   BindingsUpdateOptionalParams,
   BindingsUpdateResponse,
-  BindingsListResponse,
   BindingsListNextResponse
 } from "../models";
 
@@ -69,12 +74,16 @@ export class BindingsImpl implements Bindings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           appName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +93,23 @@ export class BindingsImpl implements Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BindingResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      appName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BindingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        appName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -103,7 +119,9 @@ export class BindingsImpl implements Bindings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -163,8 +181,8 @@ export class BindingsImpl implements Bindings {
     bindingResource: BindingResource,
     options?: BindingsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsCreateOrUpdateResponse>,
       BindingsCreateOrUpdateResponse
     >
   > {
@@ -174,7 +192,7 @@ export class BindingsImpl implements Bindings {
     ): Promise<BindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -207,9 +225,9 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -217,10 +235,13 @@ export class BindingsImpl implements Bindings {
         bindingResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BindingsCreateOrUpdateResponse,
+      OperationState<BindingsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,14 +292,14 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     options?: BindingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,13 +332,13 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, appName, bindingName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, appName, bindingName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -368,8 +389,8 @@ export class BindingsImpl implements Bindings {
     bindingResource: BindingResource,
     options?: BindingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BindingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BindingsUpdateResponse>,
       BindingsUpdateResponse
     >
   > {
@@ -379,7 +400,7 @@ export class BindingsImpl implements Bindings {
     ): Promise<BindingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -412,9 +433,9 @@ export class BindingsImpl implements Bindings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -422,10 +443,13 @@ export class BindingsImpl implements Bindings {
         bindingResource,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BindingsUpdateResponse,
+      OperationState<BindingsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -659,7 +683,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

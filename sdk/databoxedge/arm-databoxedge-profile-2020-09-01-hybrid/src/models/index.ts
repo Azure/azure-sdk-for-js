@@ -994,7 +994,7 @@ export interface PeriodicTimerSourceInfo {
 }
 
 /** The Data Box Edge/Gateway device. */
-export type DataBoxEdgeDevice = ARMBaseModel & {
+export interface DataBoxEdgeDevice extends ARMBaseModel {
   /** The location of the device. This is a supported and registered Azure geographical region (for example, West US, East US, or Southeast Asia). The geographical region of a device cannot be changed once it is created, but if an identical geographical region is specified on update, the request will succeed. */
   location: string;
   /** The list of tags that describe the device. These tags can be used to view and group this device (across resource groups). */
@@ -1061,10 +1061,10 @@ export type DataBoxEdgeDevice = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nodeCount?: number;
-};
+}
 
 /** Alert on the data box edge/gateway device. */
-export type Alert = ARMBaseModel & {
+export interface Alert extends ARMBaseModel {
   /**
    * Alert title.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1100,10 +1100,10 @@ export type Alert = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly detailedInformation?: { [propertyName: string]: string };
-};
+}
 
 /** The bandwidth schedule details. */
-export type BandwidthSchedule = ARMBaseModel & {
+export interface BandwidthSchedule extends ARMBaseModel {
   /** The start time of the schedule in UTC. */
   start: string;
   /** The stop time of the schedule in UTC. */
@@ -1112,10 +1112,10 @@ export type BandwidthSchedule = ARMBaseModel & {
   rateInMbps: number;
   /** The days of the week when this schedule is applicable. */
   days: DayOfWeek[];
-};
+}
 
 /** The extended Info of the Data Box Edge/Gateway device. */
-export type DataBoxEdgeDeviceExtendedInfo = ARMBaseModel & {
+export interface DataBoxEdgeDeviceExtendedInfo extends ARMBaseModel {
   /** The digital signature of encrypted certificate. */
   encryptionKeyThumbprint?: string;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
@@ -1125,23 +1125,23 @@ export type DataBoxEdgeDeviceExtendedInfo = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceKey?: string;
-};
+}
 
 /** The network settings of a device. */
-export type NetworkSettings = ARMBaseModel & {
+export interface NetworkSettings extends ARMBaseModel {
   /**
    * The network adapter list on the device.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkAdapters?: NetworkAdapter[];
-};
+}
 
 /**
  * Represents a single node in a Data box Edge/Gateway device
  * Gateway devices, standalone Edge devices and a single node cluster Edge device will all have 1 node
  * Multi-node Edge devices will have more than 1 nodes
  */
-export type Node = ARMBaseModel & {
+export interface Node extends ARMBaseModel {
   /**
    * The current status of the individual node
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1177,10 +1177,10 @@ export type Node = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nodeInstanceId?: string;
-};
+}
 
 /** The order details. */
-export type Order = ARMBaseModel & {
+export interface Order extends ARMBaseModel {
   /** The contact details. */
   contactInformation?: ContactDetails;
   /** The shipping address. */
@@ -1207,22 +1207,22 @@ export type Order = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly returnTrackingInfo?: TrackingInfo[];
-};
+}
 
 /** Compute role. */
-export type Role = ARMBaseModel & {
+export interface Role extends ARMBaseModel {
   /** Role type. */
   kind: RoleTypes;
-};
+}
 
 /** The security settings of a device. */
-export type SecuritySettings = ARMBaseModel & {
+export interface SecuritySettings extends ARMBaseModel {
   /** Device administrator password as an encrypted string (encrypted using RSA PKCS #1) is used to sign into the  local web UI of the device. The Actual password should have at least 8 characters that are a combination of  uppercase, lowercase, numeric, and special characters. */
   deviceAdminPassword: AsymmetricEncryptedSecret;
-};
+}
 
 /** Represents a share on the  Data Box Edge/Gateway device. */
-export type Share = ARMBaseModel & {
+export interface Share extends ARMBaseModel {
   /** Description for the share. */
   description?: string;
   /** Current status of the share. */
@@ -1246,10 +1246,10 @@ export type Share = ARMBaseModel & {
   readonly shareMappings?: MountPointMap[];
   /** Data policy of the share. */
   dataPolicy?: DataPolicy;
-};
+}
 
 /** The storage account credential. */
-export type StorageAccountCredential = ARMBaseModel & {
+export interface StorageAccountCredential extends ARMBaseModel {
   /** Alias for the storage account. */
   alias: string;
   /** Username for the storage account. */
@@ -1266,10 +1266,10 @@ export type StorageAccountCredential = ARMBaseModel & {
   accountType: AccountType;
   /** Id of the storage account. */
   storageAccountId?: string;
-};
+}
 
 /** Represents a Storage Account on the  Data Box Edge/Gateway device. */
-export type StorageAccount = ARMBaseModel & {
+export interface StorageAccount extends ARMBaseModel {
   /** Description for the storage Account. */
   description?: string;
   /** Current status of the storage account */
@@ -1288,10 +1288,10 @@ export type StorageAccount = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly containerCount?: number;
-};
+}
 
 /** Represents a container on the  Data Box Edge/Gateway device. */
-export type Container = ARMBaseModel & {
+export interface Container extends ARMBaseModel {
   /**
    * Current status of the container.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1309,16 +1309,16 @@ export type Container = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdDateTime?: Date;
-};
+}
 
 /** Trigger details. */
-export type Trigger = ARMBaseModel & {
+export interface Trigger extends ARMBaseModel {
   /** Trigger Kind. */
   kind: TriggerEventType;
-};
+}
 
 /** Details about ongoing updates and availability of updates on the device. */
-export type UpdateSummary = ARMBaseModel & {
+export interface UpdateSummary extends ARMBaseModel {
   /** The current version of the device in format: 1.2.17312.13.", */
   deviceVersionNumber?: string;
   /** The current version of the device in text format. */
@@ -1392,20 +1392,22 @@ export type UpdateSummary = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalUpdateSizeInBytes?: number;
-};
+}
 
 /** Represents a user who has access to one or more shares on the Data Box Edge/Gateway device. */
-export type User = ARMBaseModel & {
+export interface User extends ARMBaseModel {
   /** The password details. */
   encryptedPassword?: AsymmetricEncryptedSecret;
   /** List of shares that the user has rights on. This field should not be specified during user creation. */
   shareAccessRights?: ShareAccessRight[];
   /** Type of the user. */
   userType: UserType;
-};
+}
 
 /** Compute role. */
-export type IoTRole = Role & {
+export interface IoTRole extends Role {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "IOT";
   /** Host OS supported by the IoT role. */
   hostPlatform?: PlatformType;
   /** IoT device metadata to which data box edge device needs to be connected. */
@@ -1416,37 +1418,49 @@ export type IoTRole = Role & {
   shareMappings?: MountPointMap[];
   /** Role status. */
   roleStatus?: RoleStatus;
-};
+}
 
 /** Trigger details. */
-export type FileEventTrigger = Trigger & {
+export interface FileEventTrigger extends Trigger {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "FileEvent";
   /** File event source details. */
   sourceInfo: FileSourceInfo;
   /** Role sink info. */
   sinkInfo: RoleSinkInfo;
   /** A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module. */
   customContextTag?: string;
-};
+}
 
 /** Trigger details. */
-export type PeriodicTimerEventTrigger = Trigger & {
+export interface PeriodicTimerEventTrigger extends Trigger {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "PeriodicTimerEvent";
   /** Periodic timer details. */
   sourceInfo: PeriodicTimerSourceInfo;
   /** Role Sink information. */
   sinkInfo: RoleSinkInfo;
   /** A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module. */
   customContextTag?: string;
-};
+}
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Percent */
   Percent = "Percent",
+  /** Count */
   Count = "Count",
+  /** Seconds */
   Seconds = "Seconds",
+  /** Milliseconds */
   Milliseconds = "Milliseconds",
+  /** Bytes */
   Bytes = "Bytes",
+  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
+  /** CountPerSecond */
   CountPerSecond = "CountPerSecond"
 }
 
@@ -1468,12 +1482,19 @@ export type MetricUnit = string;
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** None */
   None = "None",
+  /** Average */
   Average = "Average",
+  /** Minimum */
   Minimum = "Minimum",
+  /** Maximum */
   Maximum = "Maximum",
+  /** Total */
   Total = "Total",
+  /** Count */
   Count = "Count"
 }
 
@@ -1494,7 +1515,9 @@ export type MetricAggregationType = string;
 
 /** Known values of {@link MetricCategory} that the service accepts. */
 export enum KnownMetricCategory {
+  /** Capacity */
   Capacity = "Capacity",
+  /** Transaction */
   Transaction = "Transaction"
 }
 
@@ -1510,13 +1533,21 @@ export type MetricCategory = string;
 
 /** Known values of {@link TimeGrain} that the service accepts. */
 export enum KnownTimeGrain {
+  /** PT1M */
   PT1M = "PT1M",
+  /** PT5M */
   PT5M = "PT5M",
+  /** PT15M */
   PT15M = "PT15M",
+  /** PT30M */
   PT30M = "PT30M",
+  /** PT1H */
   PT1H = "PT1H",
+  /** PT6H */
   PT6H = "PT6H",
+  /** PT12H */
   PT12H = "PT12H",
+  /** PT1D */
   PT1D = "PT1D"
 }
 
@@ -1538,14 +1569,23 @@ export type TimeGrain = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Gateway */
   Gateway = "Gateway",
+  /** Edge */
   Edge = "Edge",
+  /** TEA1Node */
   TEA1Node = "TEA_1Node",
+  /** TEA1NodeUPS */
   TEA1NodeUPS = "TEA_1Node_UPS",
+  /** TEA1NodeHeater */
   TEA1NodeHeater = "TEA_1Node_Heater",
+  /** TEA1NodeUPSHeater */
   TEA1NodeUPSHeater = "TEA_1Node_UPS_Heater",
+  /** TEA4NodeHeater */
   TEA4NodeHeater = "TEA_4Node_Heater",
+  /** TEA4NodeUPSHeater */
   TEA4NodeUPSHeater = "TEA_4Node_UPS_Heater",
+  /** TMA */
   TMA = "TMA"
 }
 
@@ -1568,6 +1608,7 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -1582,12 +1623,19 @@ export type SkuTier = string;
 
 /** Known values of {@link DataBoxEdgeDeviceStatus} that the service accepts. */
 export enum KnownDataBoxEdgeDeviceStatus {
+  /** ReadyToSetup */
   ReadyToSetup = "ReadyToSetup",
+  /** Online */
   Online = "Online",
+  /** Offline */
   Offline = "Offline",
+  /** NeedsAttention */
   NeedsAttention = "NeedsAttention",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** PartiallyDisconnected */
   PartiallyDisconnected = "PartiallyDisconnected",
+  /** Maintenance */
   Maintenance = "Maintenance"
 }
 
@@ -1608,6 +1656,7 @@ export type DataBoxEdgeDeviceStatus = string;
 
 /** Known values of {@link DeviceType} that the service accepts. */
 export enum KnownDeviceType {
+  /** DataBoxEdgeDevice */
   DataBoxEdgeDevice = "DataBoxEdgeDevice"
 }
 
@@ -1622,9 +1671,13 @@ export type DeviceType = string;
 
 /** Known values of {@link RoleTypes} that the service accepts. */
 export enum KnownRoleTypes {
+  /** IOT */
   IOT = "IOT",
+  /** ASA */
   ASA = "ASA",
+  /** Functions */
   Functions = "Functions",
+  /** Cognitive */
   Cognitive = "Cognitive"
 }
 
@@ -1642,8 +1695,11 @@ export type RoleTypes = string;
 
 /** Known values of {@link AlertSeverity} that the service accepts. */
 export enum KnownAlertSeverity {
+  /** Informational */
   Informational = "Informational",
+  /** Warning */
   Warning = "Warning",
+  /** Critical */
   Critical = "Critical"
 }
 
@@ -1660,12 +1716,19 @@ export type AlertSeverity = string;
 
 /** Known values of {@link DayOfWeek} that the service accepts. */
 export enum KnownDayOfWeek {
+  /** Sunday */
   Sunday = "Sunday",
+  /** Monday */
   Monday = "Monday",
+  /** Tuesday */
   Tuesday = "Tuesday",
+  /** Wednesday */
   Wednesday = "Wednesday",
+  /** Thursday */
   Thursday = "Thursday",
+  /** Friday */
   Friday = "Friday",
+  /** Saturday */
   Saturday = "Saturday"
 }
 
@@ -1686,12 +1749,19 @@ export type DayOfWeek = string;
 
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Paused */
   Paused = "Paused",
+  /** Scheduled */
   Scheduled = "Scheduled"
 }
 
@@ -1712,11 +1782,17 @@ export type JobStatus = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** ScanForUpdates */
   ScanForUpdates = "ScanForUpdates",
+  /** DownloadUpdates */
   DownloadUpdates = "DownloadUpdates",
+  /** InstallUpdates */
   InstallUpdates = "InstallUpdates",
+  /** RefreshShare */
   RefreshShare = "RefreshShare",
+  /** RefreshContainer */
   RefreshContainer = "RefreshContainer"
 }
 
@@ -1736,22 +1812,39 @@ export type JobType = string;
 
 /** Known values of {@link UpdateOperationStage} that the service accepts. */
 export enum KnownUpdateOperationStage {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Initial */
   Initial = "Initial",
+  /** ScanStarted */
   ScanStarted = "ScanStarted",
+  /** ScanComplete */
   ScanComplete = "ScanComplete",
+  /** ScanFailed */
   ScanFailed = "ScanFailed",
+  /** DownloadStarted */
   DownloadStarted = "DownloadStarted",
+  /** DownloadComplete */
   DownloadComplete = "DownloadComplete",
+  /** DownloadFailed */
   DownloadFailed = "DownloadFailed",
+  /** InstallStarted */
   InstallStarted = "InstallStarted",
+  /** InstallComplete */
   InstallComplete = "InstallComplete",
+  /** InstallFailed */
   InstallFailed = "InstallFailed",
+  /** RebootInitiated */
   RebootInitiated = "RebootInitiated",
+  /** Success */
   Success = "Success",
+  /** Failure */
   Failure = "Failure",
+  /** RescanStarted */
   RescanStarted = "RescanStarted",
+  /** RescanComplete */
   RescanComplete = "RescanComplete",
+  /** RescanFailed */
   RescanFailed = "RescanFailed"
 }
 
@@ -1782,9 +1875,13 @@ export type UpdateOperationStage = string;
 
 /** Known values of {@link DownloadPhase} that the service accepts. */
 export enum KnownDownloadPhase {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Initializing */
   Initializing = "Initializing",
+  /** Downloading */
   Downloading = "Downloading",
+  /** Verifying */
   Verifying = "Verifying"
 }
 
@@ -1802,8 +1899,11 @@ export type DownloadPhase = string;
 
 /** Known values of {@link NetworkGroup} that the service accepts. */
 export enum KnownNetworkGroup {
+  /** None */
   None = "None",
+  /** NonRdma */
   NonRdma = "NonRDMA",
+  /** Rdma */
   Rdma = "RDMA"
 }
 
@@ -1820,7 +1920,9 @@ export type NetworkGroup = string;
 
 /** Known values of {@link NetworkAdapterStatus} that the service accepts. */
 export enum KnownNetworkAdapterStatus {
+  /** Inactive */
   Inactive = "Inactive",
+  /** Active */
   Active = "Active"
 }
 
@@ -1836,7 +1938,9 @@ export type NetworkAdapterStatus = string;
 
 /** Known values of {@link NetworkAdapterRdmaStatus} that the service accepts. */
 export enum KnownNetworkAdapterRdmaStatus {
+  /** Incapable */
   Incapable = "Incapable",
+  /** Capable */
   Capable = "Capable"
 }
 
@@ -1852,7 +1956,9 @@ export type NetworkAdapterRdmaStatus = string;
 
 /** Known values of {@link NetworkAdapterDhcpStatus} that the service accepts. */
 export enum KnownNetworkAdapterDhcpStatus {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1868,10 +1974,15 @@ export type NetworkAdapterDhcpStatus = string;
 
 /** Known values of {@link NodeStatus} that the service accepts. */
 export enum KnownNodeStatus {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Up */
   Up = "Up",
+  /** Down */
   Down = "Down",
+  /** Rebooting */
   Rebooting = "Rebooting",
+  /** ShuttingDown */
   ShuttingDown = "ShuttingDown"
 }
 
@@ -1890,19 +2001,33 @@ export type NodeStatus = string;
 
 /** Known values of {@link OrderState} that the service accepts. */
 export enum KnownOrderState {
+  /** Untracked */
   Untracked = "Untracked",
+  /** AwaitingFulfilment */
   AwaitingFulfilment = "AwaitingFulfilment",
+  /** AwaitingPreparation */
   AwaitingPreparation = "AwaitingPreparation",
+  /** AwaitingShipment */
   AwaitingShipment = "AwaitingShipment",
+  /** Shipped */
   Shipped = "Shipped",
+  /** Arriving */
   Arriving = "Arriving",
+  /** Delivered */
   Delivered = "Delivered",
+  /** ReplacementRequested */
   ReplacementRequested = "ReplacementRequested",
+  /** LostDevice */
   LostDevice = "LostDevice",
+  /** Declined */
   Declined = "Declined",
+  /** ReturnInitiated */
   ReturnInitiated = "ReturnInitiated",
+  /** AwaitingReturnShipment */
   AwaitingReturnShipment = "AwaitingReturnShipment",
+  /** ShippedBack */
   ShippedBack = "ShippedBack",
+  /** CollectedAtMicrosoft */
   CollectedAtMicrosoft = "CollectedAtMicrosoft"
 }
 
@@ -1930,8 +2055,11 @@ export type OrderState = string;
 
 /** Known values of {@link EncryptionAlgorithm} that the service accepts. */
 export enum KnownEncryptionAlgorithm {
+  /** None */
   None = "None",
+  /** AES256 */
   AES256 = "AES256",
+  /** RsaesPkcs1V15 */
   RsaesPkcs1V15 = "RSAES_PKCS1_v_1_5"
 }
 
@@ -1948,10 +2076,15 @@ export type EncryptionAlgorithm = string;
 
 /** Known values of {@link ShareStatus} that the service accepts. */
 export enum KnownShareStatus {
+  /** Offline */
   Offline = "Offline",
+  /** Unknown */
   Unknown = "Unknown",
+  /** OK */
   OK = "OK",
+  /** Updating */
   Updating = "Updating",
+  /** NeedsAttention */
   NeedsAttention = "NeedsAttention"
 }
 
@@ -1970,7 +2103,9 @@ export type ShareStatus = string;
 
 /** Known values of {@link MonitoringStatus} that the service accepts. */
 export enum KnownMonitoringStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1986,8 +2121,11 @@ export type MonitoringStatus = string;
 
 /** Known values of {@link AzureContainerDataFormat} that the service accepts. */
 export enum KnownAzureContainerDataFormat {
+  /** BlockBlob */
   BlockBlob = "BlockBlob",
+  /** PageBlob */
   PageBlob = "PageBlob",
+  /** AzureFile */
   AzureFile = "AzureFile"
 }
 
@@ -2004,7 +2142,9 @@ export type AzureContainerDataFormat = string;
 
 /** Known values of {@link ShareAccessProtocol} that the service accepts. */
 export enum KnownShareAccessProtocol {
+  /** SMB */
   SMB = "SMB",
+  /** NFS */
   NFS = "NFS"
 }
 
@@ -2020,8 +2160,11 @@ export type ShareAccessProtocol = string;
 
 /** Known values of {@link ShareAccessType} that the service accepts. */
 export enum KnownShareAccessType {
+  /** Change */
   Change = "Change",
+  /** Read */
   Read = "Read",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -2038,8 +2181,11 @@ export type ShareAccessType = string;
 
 /** Known values of {@link ClientPermissionType} that the service accepts. */
 export enum KnownClientPermissionType {
+  /** NoAccess */
   NoAccess = "NoAccess",
+  /** ReadOnly */
   ReadOnly = "ReadOnly",
+  /** ReadWrite */
   ReadWrite = "ReadWrite"
 }
 
@@ -2056,7 +2202,9 @@ export type ClientPermissionType = string;
 
 /** Known values of {@link DataPolicy} that the service accepts. */
 export enum KnownDataPolicy {
+  /** Cloud */
   Cloud = "Cloud",
+  /** Local */
   Local = "Local"
 }
 
@@ -2072,7 +2220,9 @@ export type DataPolicy = string;
 
 /** Known values of {@link SSLStatus} that the service accepts. */
 export enum KnownSSLStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2088,7 +2238,9 @@ export type SSLStatus = string;
 
 /** Known values of {@link AccountType} that the service accepts. */
 export enum KnownAccountType {
+  /** GeneralPurposeStorage */
   GeneralPurposeStorage = "GeneralPurposeStorage",
+  /** BlobStorage */
   BlobStorage = "BlobStorage"
 }
 
@@ -2104,10 +2256,15 @@ export type AccountType = string;
 
 /** Known values of {@link StorageAccountStatus} that the service accepts. */
 export enum KnownStorageAccountStatus {
+  /** OK */
   OK = "OK",
+  /** Offline */
   Offline = "Offline",
+  /** Unknown */
   Unknown = "Unknown",
+  /** Updating */
   Updating = "Updating",
+  /** NeedsAttention */
   NeedsAttention = "NeedsAttention"
 }
 
@@ -2126,10 +2283,15 @@ export type StorageAccountStatus = string;
 
 /** Known values of {@link ContainerStatus} that the service accepts. */
 export enum KnownContainerStatus {
+  /** OK */
   OK = "OK",
+  /** Offline */
   Offline = "Offline",
+  /** Unknown */
   Unknown = "Unknown",
+  /** Updating */
   Updating = "Updating",
+  /** NeedsAttention */
   NeedsAttention = "NeedsAttention"
 }
 
@@ -2148,7 +2310,9 @@ export type ContainerStatus = string;
 
 /** Known values of {@link TriggerEventType} that the service accepts. */
 export enum KnownTriggerEventType {
+  /** FileEvent */
   FileEvent = "FileEvent",
+  /** PeriodicTimerEvent */
   PeriodicTimerEvent = "PeriodicTimerEvent"
 }
 
@@ -2164,8 +2328,11 @@ export type TriggerEventType = string;
 
 /** Known values of {@link InstallRebootBehavior} that the service accepts. */
 export enum KnownInstallRebootBehavior {
+  /** NeverReboots */
   NeverReboots = "NeverReboots",
+  /** RequiresReboot */
   RequiresReboot = "RequiresReboot",
+  /** RequestReboot */
   RequestReboot = "RequestReboot"
 }
 
@@ -2182,9 +2349,13 @@ export type InstallRebootBehavior = string;
 
 /** Known values of {@link UpdateOperation} that the service accepts. */
 export enum KnownUpdateOperation {
+  /** None */
   None = "None",
+  /** Scan */
   Scan = "Scan",
+  /** Download */
   Download = "Download",
+  /** Install */
   Install = "Install"
 }
 
@@ -2202,7 +2373,9 @@ export type UpdateOperation = string;
 
 /** Known values of {@link AuthenticationType} that the service accepts. */
 export enum KnownAuthenticationType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AzureActiveDirectory */
   AzureActiveDirectory = "AzureActiveDirectory"
 }
 
@@ -2218,8 +2391,11 @@ export type AuthenticationType = string;
 
 /** Known values of {@link UserType} that the service accepts. */
 export enum KnownUserType {
+  /** Share */
   Share = "Share",
+  /** LocalManagement */
   LocalManagement = "LocalManagement",
+  /** ARM */
   ARM = "ARM"
 }
 
@@ -2236,7 +2412,9 @@ export type UserType = string;
 
 /** Known values of {@link SkuRestrictionReasonCode} that the service accepts. */
 export enum KnownSkuRestrictionReasonCode {
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription",
+  /** QuotaId */
   QuotaId = "QuotaId"
 }
 
@@ -2252,7 +2430,9 @@ export type SkuRestrictionReasonCode = string;
 
 /** Known values of {@link PlatformType} that the service accepts. */
 export enum KnownPlatformType {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux"
 }
 
@@ -2268,7 +2448,9 @@ export type PlatformType = string;
 
 /** Known values of {@link RoleStatus} that the service accepts. */
 export enum KnownRoleStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2416,20 +2598,14 @@ export type DevicesUploadCertificateResponse = UploadCertificateResponse;
 
 /** Optional parameters. */
 export interface DevicesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DevicesListBySubscriptionNextResponse = DataBoxEdgeDeviceList;
 
 /** Optional parameters. */
 export interface DevicesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DevicesListByResourceGroupNextResponse = DataBoxEdgeDeviceList;
@@ -2822,10 +2998,7 @@ export interface TriggersDeleteOptionalParams
 
 /** Optional parameters. */
 export interface TriggersListByDataBoxEdgeDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify $filter='CustomContextTag eq <tag>' to filter on custom context tag property */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataBoxEdgeDeviceNext operation. */
 export type TriggersListByDataBoxEdgeDeviceNextResponse = TriggerList;
@@ -2868,10 +3041,7 @@ export interface UsersDeleteOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface UsersListByDataBoxEdgeDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify $filter='UserType eq <type>' to filter on user type property */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataBoxEdgeDeviceNext operation. */
 export type UsersListByDataBoxEdgeDeviceNextResponse = UserList;

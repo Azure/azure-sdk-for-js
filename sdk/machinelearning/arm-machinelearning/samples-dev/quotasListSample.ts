@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the currently assigned Workspace Quotas based on VMFamily.
  *
  * @summary Gets the currently assigned Workspace Quotas based on VMFamily.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Quota/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Quota/list.json
  */
 async function listWorkspaceQuotasByVMFamily() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

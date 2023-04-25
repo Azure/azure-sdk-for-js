@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReservationResponse,
   ReservationListOptionalParams,
@@ -26,7 +26,9 @@ import {
   ReservationGetResponse,
   Patch,
   ReservationUpdateOptionalParams,
-  ReservationUpdateResponse
+  ReservationUpdateResponse,
+  ReservationArchiveOptionalParams,
+  ReservationUnarchiveOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,13 +45,13 @@ export interface Reservation {
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
    * List of all the revisions for the `Reservation`.
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   listRevisions(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationListRevisionsOptionalParams
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
@@ -61,11 +63,11 @@ export interface Reservation {
     options?: ReservationListAllOptionalParams
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
-   * Get Available Scopes for `Reservation`.
+   * Check whether the scopes from request is valid for `Reservation`.
    *
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
-   * @param body Available scope
+   * @param reservationId Id of the reservation item
+   * @param body Scopes to be checked for eligibility.
    * @param options The options parameters.
    */
   beginAvailableScopes(
@@ -74,17 +76,17 @@ export interface Reservation {
     body: AvailableScopeRequest,
     options?: ReservationAvailableScopesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationAvailableScopesResponse>,
+    SimplePollerLike<
+      OperationState<ReservationAvailableScopesResponse>,
       ReservationAvailableScopesResponse
     >
   >;
   /**
-   * Get Available Scopes for `Reservation`.
+   * Check whether the scopes from request is valid for `Reservation`.
    *
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
-   * @param body Available scope
+   * @param reservationId Id of the reservation item
+   * @param body Scopes to be checked for eligibility.
    * @param options The options parameters.
    */
   beginAvailableScopesAndWait(
@@ -104,8 +106,8 @@ export interface Reservation {
     body: SplitRequest,
     options?: ReservationSplitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationSplitResponse>,
+    SimplePollerLike<
+      OperationState<ReservationSplitResponse>,
       ReservationSplitResponse
     >
   >;
@@ -132,8 +134,8 @@ export interface Reservation {
     body: MergeRequest,
     options?: ReservationMergeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationMergeResponse>,
+    SimplePollerLike<
+      OperationState<ReservationMergeResponse>,
       ReservationMergeResponse
     >
   >;
@@ -151,19 +153,19 @@ export interface Reservation {
   ): Promise<ReservationMergeResponse>;
   /**
    * Get specific `Reservation` details.
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   get(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationGetOptionalParams
   ): Promise<ReservationGetResponse>;
   /**
    * Updates the applied scopes of the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param parameters Information needed to patch a reservation item
    * @param options The options parameters.
    */
@@ -173,15 +175,15 @@ export interface Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationUpdateResponse>,
       ReservationUpdateResponse
     >
   >;
   /**
    * Updates the applied scopes of the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param parameters Information needed to patch a reservation item
    * @param options The options parameters.
    */
@@ -191,4 +193,27 @@ export interface Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<ReservationUpdateResponse>;
+  /**
+   * Archiving a `Reservation` moves it to `Archived` state.
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
+   * @param options The options parameters.
+   */
+  archive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationArchiveOptionalParams
+  ): Promise<void>;
+  /**
+   * Restores a `Reservation` to the state it was before archiving.
+   *
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
+   * @param options The options parameters.
+   */
+  unarchive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationUnarchiveOptionalParams
+  ): Promise<void>;
 }

@@ -1,0 +1,470 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.SecurityDevOps/operations?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-securitydevops/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "7dfd0732-7813-43a6-995f-d2e044111976"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Feb 2023 03:07:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f0c0ae18-7d19-44e1-af46-fb80faca29f2",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "4d590b50-0c88-4b31-88d8-58f1a199d5b5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230202T030745Z:f0c0ae18-7d19-44e1-af46-fb80faca29f2"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.SecurityDevOps/Locations/OperationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "Locations/OperationStatuses",
+              "operation": "read_OperationStatuses",
+              "description": "read OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/Locations/OperationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "Locations/OperationStatuses",
+              "operation": "write_OperationStatuses",
+              "description": "write OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_ListByResourceGroup",
+              "description": "read gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_Get",
+              "description": "read gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_CreateOrUpdate",
+              "description": "write gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_Delete",
+              "description": "delete gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_Update",
+              "description": "write gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors",
+              "operation": "GitHubConnector_ListBySubscription",
+              "description": "read gitHubConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/gitHubRepos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/gitHubRepos",
+              "operation": "GitHubRepo_ListByGitHubConnector",
+              "description": "Returns a list of monitored GitHub repositories."
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/gitHubRepos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/gitHubRepos",
+              "operation": "GitHubRepo_Get",
+              "description": "Returns a monitored GitHub repository resource for a given ID."
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_ListByResourceGroup",
+              "description": "read azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_Get",
+              "description": "read azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_CreateOrUpdate",
+              "description": "write azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_Delete",
+              "description": "delete azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_Update",
+              "description": "write azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors",
+              "operation": "AzureDevOpsConnector_ListBySubscription",
+              "description": "read azureDevOpsConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs",
+              "operation": "AzureDevOpsOrg_List",
+              "description": "read orgs"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs",
+              "operation": "AzureDevOpsOrg_Get",
+              "description": "read orgs"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs",
+              "operation": "AzureDevOpsOrg_CreateOrUpdate",
+              "description": "write orgs"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs",
+              "operation": "AzureDevOpsOrg_Update",
+              "description": "write orgs"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners",
+              "operation": "GitHubOwner_List",
+              "description": "read owners"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners",
+              "operation": "GitHubOwner_Get",
+              "description": "read owners"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners",
+              "operation": "GitHubOwner_CreateOrUpdate",
+              "description": "write owners"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners",
+              "operation": "GitHubOwner_Update",
+              "description": "write owners"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects",
+              "operation": "AzureDevOpsProject_List",
+              "description": "read projects"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects",
+              "operation": "AzureDevOpsProject_Get",
+              "description": "read projects"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects",
+              "operation": "AzureDevOpsProject_CreateOrUpdate",
+              "description": "write projects"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects",
+              "operation": "AzureDevOpsProject_Update",
+              "description": "write projects"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners/repos",
+              "operation": "GitHubRepo_List",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners/repos",
+              "operation": "GitHubRepo_Get",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/repos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners/repos",
+              "operation": "GitHubRepo_CreateOrUpdate",
+              "description": "write repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/owners/repos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/owners/repos",
+              "operation": "GitHubRepo_Update",
+              "description": "write repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects/repos",
+              "operation": "AzureDevOpsRepo_List",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects/repos",
+              "operation": "AzureDevOpsRepo_Get",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/repos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects/repos",
+              "operation": "AzureDevOpsRepo_CreateOrUpdate",
+              "description": "write repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/orgs/projects/repos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/orgs/projects/repos",
+              "operation": "AzureDevOpsRepo_Update",
+              "description": "write repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/Operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "Operations",
+              "operation": "read_Operations",
+              "description": "read Operations"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/stats/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/stats",
+              "operation": "GitHubConnectorStats_Get",
+              "description": "read stats"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/gitHubConnectors/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "gitHubConnectors/repos",
+              "operation": "GitHubRepo_ListByConnector",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/stats/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/stats",
+              "operation": "AzureDevOpsConnectorStats_Get",
+              "description": "read stats"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/azureDevOpsConnectors/repos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "azureDevOpsConnectors/repos",
+              "operation": "AzureDevOpsRepo_ListByConnector",
+              "description": "read repos"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "Microsoft.SecurityDevOps",
+              "operation": "Register the Microsoft.SecurityDevOps",
+              "description": "Register the subscription for Microsoft.SecurityDevOps"
+            }
+          },
+          {
+            "name": "Microsoft.SecurityDevOps/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.SecurityDevOps",
+              "resource": "Microsoft.SecurityDevOps",
+              "operation": "Unregister the Microsoft.SecurityDevOps",
+              "description": "Unregister the subscription for Microsoft.SecurityDevOps"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

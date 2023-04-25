@@ -1,0 +1,38 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+const createComputeManagementClient = require("@azure-rest/arm-compute").default;
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
+
+/**
+ * This sample demonstrates how to Get a community gallery image.
+ *
+ * @summary Get a community gallery image.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/communityGalleryExamples/CommunityGalleryImage_Get.json
+ */
+async function getACommunityGalleryImage() {
+  const credential = new DefaultAzureCredential();
+  const client = createComputeManagementClient(credential);
+  const subscriptionId = "";
+  const location = "myLocation";
+  const publicGalleryName = "publicGalleryName";
+  const galleryImageName = "myGalleryImageName";
+  const options = {
+    queryParameters: { "api-version": "2022-01-03" },
+  };
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
+      subscriptionId,
+      location,
+      publicGalleryName,
+      galleryImageName
+    )
+    .get(options);
+  console.log(result);
+}
+
+getACommunityGalleryImage().catch(console.error);

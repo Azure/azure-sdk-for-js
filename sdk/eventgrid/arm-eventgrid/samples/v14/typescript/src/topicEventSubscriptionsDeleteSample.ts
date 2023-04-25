@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete an existing event subscription for a topic.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/TopicEventSubscriptions_Delete.json
  */
 async function topicEventSubscriptionsDelete() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const topicName = "exampleTopic1";
   const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function topicEventSubscriptionsDelete() {
   console.log(result);
 }
 
-topicEventSubscriptionsDelete().catch(console.error);
+async function main() {
+  topicEventSubscriptionsDelete();
+}
+
+main().catch(console.error);

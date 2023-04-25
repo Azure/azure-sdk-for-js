@@ -17,18 +17,6 @@ import {
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
 } from "../models/mappers";
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -39,31 +27,6 @@ export const accept: OperationParameter = {
       name: "String"
     }
   }
-};
-
-export const phoneNumberType: OperationParameter = {
-  parameterPath: "phoneNumberType",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const assignmentType: OperationParameter = {
-  parameterPath: "assignmentType",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const capabilities: OperationParameter = {
-  parameterPath: "capabilities",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const areaCode: OperationParameter = {
-  parameterPath: ["options", "areaCode"],
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const quantity: OperationParameter = {
-  parameterPath: ["options", "quantity"],
-  mapper: PhoneNumberSearchRequestMapper
 };
 
 export const endpoint: OperationURLParameter = {
@@ -89,16 +52,139 @@ export const countryCode: OperationURLParameter = {
   }
 };
 
+export const phoneNumberType: OperationQueryParameter = {
+  parameterPath: "phoneNumberType",
+  mapper: {
+    serializedName: "phoneNumberType",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: ["geographic", "tollFree"]
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "maxPageSize",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const assignmentType: OperationQueryParameter = {
+  parameterPath: ["options", "assignmentType"],
+  mapper: {
+    serializedName: "assignmentType",
+    type: {
+      name: "Enum",
+      allowedValues: ["person", "application"]
+    }
+  }
+};
+
+export const locality: OperationQueryParameter = {
+  parameterPath: ["options", "locality"],
+  mapper: {
+    serializedName: "locality",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const administrativeDivision: OperationQueryParameter = {
+  parameterPath: ["options", "administrativeDivision"],
+  mapper: {
+    serializedName: "administrativeDivision",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-01-preview",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const acceptLanguage: OperationParameter = {
+  parameterPath: ["options", "acceptLanguage"],
+  mapper: {
+    serializedName: "accept-language",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumberType1: OperationQueryParameter = {
+  parameterPath: ["options", "phoneNumberType"],
+  mapper: {
+    serializedName: "phoneNumberType",
+    type: {
+      name: "Enum",
+      allowedValues: ["geographic", "tollFree"]
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumberType2: OperationParameter = {
+  parameterPath: "phoneNumberType",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const assignmentType1: OperationParameter = {
+  parameterPath: "assignmentType",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const capabilities: OperationParameter = {
+  parameterPath: "capabilities",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const areaCode: OperationParameter = {
+  parameterPath: ["options", "areaCode"],
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const quantity: OperationParameter = {
+  parameterPath: ["options", "quantity"],
+  mapper: PhoneNumberSearchRequestMapper
 };
 
 export const searchId: OperationURLParameter = {
@@ -157,17 +243,6 @@ export const phoneNumber: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
-    }
-  }
-};
-
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
-  mapper: {
-    defaultValue: 0,
-    serializedName: "skip",
-    type: {
-      name: "Number"
     }
   }
 };

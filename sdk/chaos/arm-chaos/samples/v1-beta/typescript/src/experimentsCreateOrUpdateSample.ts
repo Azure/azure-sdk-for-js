@@ -10,20 +10,25 @@
 // Licensed under the MIT License.
 import { Experiment, ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Experiment resource.
  *
  * @summary Create or update a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/CreateOrUpdateAExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/CreateOrUpdateAExperiment.json
  */
 async function createOrUpdateAExperimentInAResourceGroup() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-  const resourceGroupName = "exampleRG";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] ||
+    "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const resourceGroupName = process.env["CHAOS_RESOURCE_GROUP"] || "exampleRG";
   const experimentName = "exampleExperiment";
   const experiment: Experiment = {
     identity: { type: "SystemAssigned" },
-    location: "centraluseuap",
+    location: "eastus2euap",
     selectors: [
       {
         type: "List",
@@ -45,7 +50,7 @@ async function createOrUpdateAExperimentInAResourceGroup() {
             name: "branch1",
             actions: [
               {
-                name: "urn:csci:provider:providername:Shutdown/1.0",
+                name: "urn:csci:microsoft:virtualMachine:shutdown/1.0",
                 type: "continuous",
                 duration: "PT10M",
                 parameters: [{ key: "abruptShutdown", value: "false" }],
@@ -67,4 +72,8 @@ async function createOrUpdateAExperimentInAResourceGroup() {
   console.log(result);
 }
 
-createOrUpdateAExperimentInAResourceGroup().catch(console.error);
+async function main() {
+  createOrUpdateAExperimentInAResourceGroup();
+}
+
+main().catch(console.error);

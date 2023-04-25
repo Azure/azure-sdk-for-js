@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Devices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,18 +17,22 @@ import { LroImpl } from "../lroImpl";
 import {
   Device,
   DevicesListByManagerOptionalParams,
+  DevicesListByManagerResponse,
   FailoverSet,
   DevicesListFailoverSetsOptionalParams,
+  DevicesListFailoverSetsResponse,
   Metrics,
   DevicesListMetricsOptionalParams,
+  DevicesListMetricsResponse,
   MetricDefinition,
   DevicesListMetricDefinitionOptionalParams,
+  DevicesListMetricDefinitionResponse,
   FailoverTarget,
   ListFailoverTargetsRequest,
   DevicesListFailoverTargetsOptionalParams,
+  DevicesListFailoverTargetsResponse,
   ConfigureDeviceRequest,
   DevicesConfigureOptionalParams,
-  DevicesListByManagerResponse,
   DevicesGetOptionalParams,
   DevicesGetResponse,
   DevicesDeleteOptionalParams,
@@ -38,15 +42,11 @@ import {
   DevicesAuthorizeForServiceEncryptionKeyRolloverOptionalParams,
   DevicesDeactivateOptionalParams,
   DevicesInstallUpdatesOptionalParams,
-  DevicesListFailoverSetsResponse,
-  DevicesListMetricsResponse,
-  DevicesListMetricDefinitionResponse,
   DevicesScanForUpdatesOptionalParams,
   DevicesGetUpdateSummaryOptionalParams,
   DevicesGetUpdateSummaryResponse,
   FailoverRequest,
-  DevicesFailoverOptionalParams,
-  DevicesListFailoverTargetsResponse
+  DevicesFailoverOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -85,11 +85,15 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByManagerPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -98,13 +102,11 @@ export class DevicesImpl implements Devices {
   private async *listByManagerPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListByManagerOptionalParams
+    options?: DevicesListByManagerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Device[]> {
-    let result = await this._listByManager(
-      resourceGroupName,
-      managerName,
-      options
-    );
+    let result: DevicesListByManagerResponse;
+    result = await this._listByManager(resourceGroupName, managerName, options);
     yield result.value || [];
   }
 
@@ -150,12 +152,16 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFailoverSetsPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -165,9 +171,11 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListFailoverSetsOptionalParams
+    options?: DevicesListFailoverSetsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FailoverSet[]> {
-    let result = await this._listFailoverSets(
+    let result: DevicesListFailoverSetsResponse;
+    result = await this._listFailoverSets(
       deviceName,
       resourceGroupName,
       managerName,
@@ -221,13 +229,17 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -238,9 +250,11 @@ export class DevicesImpl implements Devices {
     resourceGroupName: string,
     managerName: string,
     filter: string,
-    options?: DevicesListMetricsOptionalParams
+    options?: DevicesListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: DevicesListMetricsResponse;
+    result = await this._listMetrics(
       deviceName,
       resourceGroupName,
       managerName,
@@ -294,12 +308,16 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -309,9 +327,11 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListMetricDefinitionOptionalParams
+    options?: DevicesListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: DevicesListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       deviceName,
       resourceGroupName,
       managerName,
@@ -367,13 +387,17 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFailoverTargetsPagingPage(
           sourceDeviceName,
           resourceGroupName,
           managerName,
           parameters,
-          options
+          options,
+          settings
         );
       }
     };
@@ -384,9 +408,11 @@ export class DevicesImpl implements Devices {
     resourceGroupName: string,
     managerName: string,
     parameters: ListFailoverTargetsRequest,
-    options?: DevicesListFailoverTargetsOptionalParams
+    options?: DevicesListFailoverTargetsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FailoverTarget[]> {
-    let result = await this._listFailoverTargets(
+    let result: DevicesListFailoverTargetsResponse;
+    result = await this._listFailoverTargets(
       sourceDeviceName,
       resourceGroupName,
       managerName,

@@ -8,6 +8,7 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
+import { logger } from "./logger";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
@@ -19,12 +20,14 @@ export function appConfigKeyCredentialPolicy(credential: string, secret: string)
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const verb = request.method;
       const utcNow = new Date().toUTCString();
+      logger.info("[appConfigKeyCredentialPolicy] Computing SHA-256 from the request body");
       const contentHash = await computeSha256Hash(request.body?.toString() || "", "base64");
       const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
       const url = new URL(request.url);
       const query = url.search;
       const urlPathAndQuery = query ? `${url.pathname}${query}` : url.pathname;
       const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.host};${contentHash}`;
+      logger.info("[appConfigKeyCredentialPolicy] Computing a SHA-256 Hmac signature");
       const signature = await computeSha256Hmac(secret, stringToSign, "base64");
 
       request.headers.set("x-ms-date", utcNow);

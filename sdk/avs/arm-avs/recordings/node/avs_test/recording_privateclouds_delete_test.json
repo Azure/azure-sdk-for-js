@@ -1,0 +1,152 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2022-05-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-avs/3.2.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "e0ce8636-ff88-4c05-bb3b-44cc957ba523"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Length": "78",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 28 Dec 2022 01:33:34 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3d92c531-2f08-45c3-b700-0522f5418297",
+        "x-ms-failure-cause": "service",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "4b83b8b8-e1e7-49a0-b7fa-f14852655db2",
+        "x-ms-routing-request-id": "KOREASOUTH:20221228T013334Z:3d92c531-2f08-45c3-b700-0522f5418297"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalError",
+          "message": "Problem deleting private cloud."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2022-05-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-avs/3.2.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "e0ce8636-ff88-4c05-bb3b-44cc957ba523"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "text/html",
+        "Date": "Wed, 28 Dec 2022 01:33:42 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fad8313f-20a7-4149-a17b-0240bb6726ee",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "15a5ed43-498f-40de-ba0a-5b85fa9084dd",
+        "x-ms-routing-request-id": "KOREASOUTH:20221228T013343Z:fad8313f-20a7-4149-a17b-0240bb6726ee"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.AVS/privateClouds?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-avs/3.2.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "c058e227-8f27-4dc3-815b-ba5781d28b63"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 28 Dec 2022 01:33:42 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "65dc331b-7edb-4ac0-9633-ee0e71e68454",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "3c593ef7-980f-4075-bab3-5161cb2f195e",
+        "x-ms-routing-request-id": "KOREASOUTH:20221228T013343Z:65dc331b-7edb-4ac0-9633-ee0e71e68454"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/czwtest",
+            "location": "eastasia",
+            "name": "czwtest",
+            "properties": {
+              "availability": {
+                "strategy": "SingleZone",
+                "zone": 3
+              },
+              "circuit": {
+                "expressRouteID": "/subscriptions/2d94f07b-fb20-460f-93a9-b1874d197d78/resourceGroups/tnt26-cust-p01-eastasia/providers/Microsoft.Network/expressRouteCircuits/tnt26-cust-p01-eastasia-er",
+                "expressRoutePrivatePeeringID": "/subscriptions/2d94f07b-fb20-460f-93a9-b1874d197d78/resourceGroups/tnt26-cust-p01-eastasia/providers/Microsoft.Network/expressRouteCircuits/tnt26-cust-p01-eastasia-er/peerings/AzurePrivatePeering",
+                "primarySubnet": "192.168.0.232/30",
+                "secondarySubnet": "192.168.0.236/30"
+              },
+              "encryption": {
+                "status": "Disabled"
+              },
+              "endpoints": {
+                "hcxCloudManager": "https://192.168.0.9/",
+                "nsxtManager": "https://192.168.0.3/",
+                "vcsa": "https://192.168.0.2/"
+              },
+              "externalCloudLinks": [],
+              "identitySources": [],
+              "internet": "Disabled",
+              "managementCluster": {
+                "clusterId": 1,
+                "clusterSize": 3,
+                "hosts": [
+                  "esx20-r22.p01.eastasia.avs.azure.com",
+                  "esx12-r06.p01.eastasia.avs.azure.com",
+                  "esx21-r15.p01.eastasia.avs.azure.com"
+                ],
+                "provisioningState": "Building"
+              },
+              "managementNetwork": "192.168.0.0/26",
+              "networkBlock": "192.168.0.0/16",
+              "nsxPublicIpQuotaRaised": "Disabled",
+              "provisioningNetwork": "192.168.2.0/25",
+              "provisioningState": "Building",
+              "vmotionNetwork": "192.168.1.128/25"
+            },
+            "sku": {
+              "name": "av36"
+            },
+            "tags": {},
+            "type": "Microsoft.AVS/privateClouds"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

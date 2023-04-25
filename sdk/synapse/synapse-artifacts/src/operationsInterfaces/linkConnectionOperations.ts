@@ -9,12 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   LinkConnectionResource,
-  LinkConnectionListLinkConnectionsByWorkspaceOptionalParams,
-  LinkConnectionCreateOrUpdateLinkConnectionOptionalParams,
-  LinkConnectionCreateOrUpdateLinkConnectionResponse,
-  LinkConnectionGetLinkConnectionOptionalParams,
-  LinkConnectionGetLinkConnectionResponse,
-  LinkConnectionDeleteLinkConnectionOptionalParams,
+  LinkConnectionListByWorkspaceOptionalParams,
+  LinkConnectionCreateOrUpdateOptionalParams,
+  LinkConnectionCreateOrUpdateResponse,
+  LinkConnectionGetOptionalParams,
+  LinkConnectionGetResponse,
+  LinkConnectionDeleteOptionalParams,
   EditTablesRequest,
   LinkConnectionEditTablesOptionalParams,
   LinkConnectionStartOptionalParams,
@@ -27,7 +27,9 @@ import {
   LinkConnectionQueryTableStatusOptionalParams,
   LinkConnectionQueryTableStatusResponse,
   UpdateLandingZoneCredential,
-  LinkConnectionUpdateLandingZoneCredentialOptionalParams
+  LinkConnectionUpdateLandingZoneCredentialOptionalParams,
+  LinkConnectionPauseOptionalParams,
+  LinkConnectionResumeOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,8 +39,8 @@ export interface LinkConnectionOperations {
    * List link connections
    * @param options The options parameters.
    */
-  listLinkConnectionsByWorkspace(
-    options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  listByWorkspace(
+    options?: LinkConnectionListByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<LinkConnectionResource>;
   /**
    * Creates or updates a link connection
@@ -46,28 +48,28 @@ export interface LinkConnectionOperations {
    * @param linkConnection Link connection resource definition
    * @param options The options parameters.
    */
-  createOrUpdateLinkConnection(
+  createOrUpdate(
     linkConnectionName: string,
     linkConnection: LinkConnectionResource,
-    options?: LinkConnectionCreateOrUpdateLinkConnectionOptionalParams
-  ): Promise<LinkConnectionCreateOrUpdateLinkConnectionResponse>;
+    options?: LinkConnectionCreateOrUpdateOptionalParams
+  ): Promise<LinkConnectionCreateOrUpdateResponse>;
   /**
    * Get a link connection
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  getLinkConnection(
+  get(
     linkConnectionName: string,
-    options?: LinkConnectionGetLinkConnectionOptionalParams
-  ): Promise<LinkConnectionGetLinkConnectionResponse>;
+    options?: LinkConnectionGetOptionalParams
+  ): Promise<LinkConnectionGetResponse>;
   /**
    * Delete a link connection
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  deleteLinkConnection(
+  delete(
     linkConnectionName: string,
-    options?: LinkConnectionDeleteLinkConnectionOptionalParams
+    options?: LinkConnectionDeleteOptionalParams
   ): Promise<void>;
   /**
    * Edit tables for a link connection
@@ -81,7 +83,8 @@ export interface LinkConnectionOperations {
     options?: LinkConnectionEditTablesOptionalParams
   ): Promise<void>;
   /**
-   * Start a link connection
+   * Start a link connection. It may take a few minutes from Starting to Running, monitor the status with
+   * LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
@@ -90,7 +93,8 @@ export interface LinkConnectionOperations {
     options?: LinkConnectionStartOptionalParams
   ): Promise<void>;
   /**
-   * Stop a link connection
+   * Stop a link connection. It may take a few minutes from Stopping to stopped, monitor the status with
+   * LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
@@ -137,5 +141,25 @@ export interface LinkConnectionOperations {
     linkConnectionName: string,
     updateLandingZoneCredentialRequest: UpdateLandingZoneCredential,
     options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams
+  ): Promise<void>;
+  /**
+   * Pause a link connection. It may take a few minutes from Pausing to Paused, monitor the status with
+   * LinkConnection_GetDetailedStatus.
+   * @param linkConnectionName The link connection name
+   * @param options The options parameters.
+   */
+  pause(
+    linkConnectionName: string,
+    options?: LinkConnectionPauseOptionalParams
+  ): Promise<void>;
+  /**
+   * Resume a link connection. It may take a few minutes from Resuming to Running, monitor the status
+   * with LinkConnection_GetDetailedStatus.
+   * @param linkConnectionName The link connection name
+   * @param options The options parameters.
+   */
+  resume(
+    linkConnectionName: string,
+    options?: LinkConnectionResumeOptionalParams
   ): Promise<void>;
 }

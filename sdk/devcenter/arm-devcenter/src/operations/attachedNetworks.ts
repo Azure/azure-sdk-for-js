@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AttachedNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   AttachedNetworkConnection,
   AttachedNetworksListByProjectNextOptionalParams,
   AttachedNetworksListByProjectOptionalParams,
+  AttachedNetworksListByProjectResponse,
   AttachedNetworksListByDevCenterNextOptionalParams,
   AttachedNetworksListByDevCenterOptionalParams,
-  AttachedNetworksListByProjectResponse,
+  AttachedNetworksListByDevCenterResponse,
   AttachedNetworksGetByProjectOptionalParams,
   AttachedNetworksGetByProjectResponse,
-  AttachedNetworksListByDevCenterResponse,
   AttachedNetworksGetByDevCenterOptionalParams,
   AttachedNetworksGetByDevCenterResponse,
   AttachedNetworksCreateOrUpdateOptionalParams,
@@ -48,7 +49,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -69,11 +70,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,15 +87,22 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttachedNetworksListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -99,7 +111,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,7 +133,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -140,11 +154,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -153,15 +171,22 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttachedNetworksListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -170,7 +195,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -190,7 +217,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -207,7 +234,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -231,7 +258,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -248,7 +275,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -272,7 +299,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -351,7 +378,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -376,7 +403,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -447,7 +474,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -469,7 +496,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.
@@ -488,7 +515,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

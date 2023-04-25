@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualRouterPeering,
   VirtualRouterPeeringsListOptionalParams,
@@ -44,7 +44,7 @@ export interface VirtualRouterPeerings {
     virtualRouterName: string,
     peeringName: string,
     options?: VirtualRouterPeeringsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified peering from a Virtual Router.
    * @param resourceGroupName The name of the resource group.
@@ -86,8 +86,8 @@ export interface VirtualRouterPeerings {
     parameters: VirtualRouterPeering,
     options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualRouterPeeringsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualRouterPeeringsCreateOrUpdateResponse>,
       VirtualRouterPeeringsCreateOrUpdateResponse
     >
   >;

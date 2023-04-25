@@ -752,6 +752,9 @@ export interface GatewaySettings {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HardwareProfile {
     vmSize?: string;
 }

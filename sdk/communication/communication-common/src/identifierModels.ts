@@ -8,6 +8,7 @@ export type CommunicationIdentifier =
   | CommunicationUserIdentifier
   | PhoneNumberIdentifier
   | MicrosoftTeamsUserIdentifier
+  | MicrosoftBotIdentifier
   | UnknownIdentifier;
 
 /**
@@ -60,6 +61,31 @@ export interface MicrosoftTeamsUserIdentifier {
 }
 
 /**
+ * A Microsoft bot.
+ */
+export interface MicrosoftBotIdentifier {
+  /**
+   * Optional raw id of the Microsoft bot.
+   */
+  rawId?: string;
+
+  /**
+   * The unique Microsoft app ID for the bot as registered with the Bot Framework.
+   */
+  botId: string;
+
+  /**
+   * True (or missing) if the bot is global and no resource account is configured and false if the bot is tenantized.
+   */
+  isResourceAccountConfigured?: boolean;
+
+  /**
+   * The cloud that the Microsoft bot belongs to. If missing, the cloud is "public".
+   */
+  cloud?: "public" | "dod" | "gcch";
+}
+
+/**
  * An unknown identifier that doesn't fit any of the other identifier types.
  */
 export interface UnknownIdentifier {
@@ -103,6 +129,17 @@ export const isMicrosoftTeamsUserIdentifier = (
 };
 
 /**
+ * Tests an Identifier to determine whether it implements MicrosoftBotIdentifier.
+ *
+ * @param identifier - The assumed available to be tested.
+ */
+export const isMicrosoftBotIdentifier = (
+  identifier: CommunicationIdentifier
+): identifier is MicrosoftBotIdentifier => {
+  return typeof (identifier as any).botId === "string";
+};
+
+/**
  * Tests an Identifier to determine whether it implements UnknownIdentifier.
  *
  * @param identifier - The assumed UnknownIdentifier to be tested.
@@ -120,6 +157,7 @@ export type CommunicationIdentifierKind =
   | CommunicationUserKind
   | PhoneNumberKind
   | MicrosoftTeamsUserKind
+  | MicrosoftBotKind
   | UnknownIdentifierKind;
 
 /**
@@ -153,6 +191,16 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 /**
+ * IdentifierKind for a MicrosoftBotIdentifier.
+ */
+export interface MicrosoftBotKind extends MicrosoftBotIdentifier {
+  /**
+   * The identifier kind.
+   */
+  kind: "microsoftBot";
+}
+
+/**
  * IdentifierKind for UnknownIdentifier.
  */
 export interface UnknownIdentifierKind extends UnknownIdentifier {
@@ -178,6 +226,9 @@ export const getIdentifierKind = (
   }
   if (isMicrosoftTeamsUserIdentifier(identifier)) {
     return { ...identifier, kind: "microsoftTeamsUser" };
+  }
+  if (isMicrosoftBotIdentifier(identifier)) {
+    return { ...identifier, kind: "microsoftBot" };
   }
   return { ...identifier, kind: "unknown" };
 };
@@ -206,16 +257,61 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       }
       return `8:orgid:${microsoftTeamsUserId}`;
     }
+    case "microsoftBot": {
+      const { botId, rawId, cloud, isResourceAccountConfigured } = identifierKind;
+      if (rawId) return rawId;
+      if (!isResourceAccountConfigured) {
+        switch (cloud) {
+          case "dod":
+            return `28:dod-global:${botId}`;
+          case "gcch":
+            return `28:gcch-global:${botId}`;
+        }
+        return `28:${botId}`;
+      }
+      switch (cloud) {
+        case "dod":
+          return `28:dod:${botId}`;
+        case "gcch":
+          return `28:gcch:${botId}`;
+      }
+      return `28:orgid:${botId}`;
+    }
     case "phoneNumber": {
       const { phoneNumber, rawId } = identifierKind;
       if (rawId) return rawId;
-      // strip the leading +. We just assume correct E.164 format here because validation should only happen server-side, not client-side.
-      return `4:${phoneNumber.replace(/^\+/, "")}`;
+      return `4:${phoneNumber}`;
     }
     case "unknown": {
       return identifierKind.id;
     }
   }
+};
+
+const buildMicrosoftBotIdentifier = (
+  id: string,
+  cloud: "public" | "dod" | "gcch",
+  isResourceAccountConfigured: boolean
+): CommunicationIdentifierKind => {
+  return {
+    kind: "microsoftBot",
+    botId: id,
+    cloud: cloud,
+    isResourceAccountConfigured: isResourceAccountConfigured,
+  };
+};
+
+const buildMicrosoftTeamsUserIdentifier = (
+  id: string,
+  cloud: "public" | "dod" | "gcch",
+  isAnonymous: boolean
+): CommunicationIdentifierKind => {
+  return {
+    kind: "microsoftTeamsUser",
+    microsoftTeamsUserId: id,
+    isAnonymous: isAnonymous,
+    cloud: cloud,
+  };
 };
 
 /**
@@ -225,44 +321,44 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
   if (rawId.startsWith("4:")) {
-    return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };
+    return { kind: "phoneNumber", phoneNumber: `${rawId.substring("4:".length)}` };
   }
 
   const segments = rawId.split(":");
-  if (segments.length < 3) return { kind: "unknown", id: rawId };
+  if (segments.length !== 3) {
+    if (segments.length === 2 && segments[0] === "28") {
+      return buildMicrosoftBotIdentifier(segments[1], "public", false);
+    }
+    return { kind: "unknown", id: rawId };
+  }
 
   const prefix = `${segments[0]}:${segments[1]}:`;
-  const suffix = rawId.substring(prefix.length);
+  const suffix = segments[2];
 
   switch (prefix) {
     case "8:teamsvisitor:":
       return { kind: "microsoftTeamsUser", microsoftTeamsUserId: suffix, isAnonymous: true };
     case "8:orgid:":
-      return {
-        kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: suffix,
-        isAnonymous: false,
-        cloud: "public",
-      };
+      return buildMicrosoftTeamsUserIdentifier(suffix, "public", false);
     case "8:dod:":
-      return {
-        kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: suffix,
-        isAnonymous: false,
-        cloud: "dod",
-      };
+      return buildMicrosoftTeamsUserIdentifier(suffix, "dod", false);
     case "8:gcch:":
-      return {
-        kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: suffix,
-        isAnonymous: false,
-        cloud: "gcch",
-      };
+      return buildMicrosoftTeamsUserIdentifier(suffix, "gcch", false);
     case "8:acs:":
     case "8:spool:":
     case "8:dod-acs:":
     case "8:gcch-acs:":
       return { kind: "communicationUser", communicationUserId: rawId };
+    case "28:gcch-global:":
+      return buildMicrosoftBotIdentifier(suffix, "gcch", false);
+    case "28:orgid:":
+      return buildMicrosoftBotIdentifier(suffix, "public", true);
+    case "28:dod-global:":
+      return buildMicrosoftBotIdentifier(suffix, "dod", false);
+    case "28:gcch:":
+      return buildMicrosoftBotIdentifier(suffix, "gcch", true);
+    case "28:dod:":
+      return buildMicrosoftBotIdentifier(suffix, "dod", true);
   }
   return { kind: "unknown", id: rawId };
 };

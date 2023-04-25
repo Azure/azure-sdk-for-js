@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
@@ -34,8 +35,6 @@ async function lab() {
   console.log(result);
 }
 
-lab().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
  *
@@ -59,4 +58,9 @@ async function labIncludeBudget() {
   console.log(result);
 }
 
-labIncludeBudget().catch(console.error);
+async function main() {
+  lab();
+  labIncludeBudget();
+}
+
+main().catch(console.error);

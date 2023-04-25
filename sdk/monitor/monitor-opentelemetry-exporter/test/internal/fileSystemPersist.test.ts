@@ -15,7 +15,12 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 
 const instrumentationKey = "abc";
-const tempDir = path.join(os.tmpdir(), `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`);
+const tempDir = path.join(
+  os.tmpdir(),
+  "Microsoft",
+  "AzureMonitor",
+  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+);
 
 const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
@@ -71,13 +76,48 @@ describe("FileSystemPersist", () => {
     });
   });
 
+  describe("#configuration", () => {
+    it("disableOfflineStorage", async () => {
+      const envelope: Envelope = {
+        name: "name",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+      const persister = new FileSystemPersist(instrumentationKey, { disableOfflineStorage: true });
+      const success = await persister.push(envelopes);
+      assert.strictEqual(success, false);
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, null, "File is present"); // File should not exist
+    });
+
+    it("custom storageDirectory", async () => {
+      let customPath = path.join(os.tmpdir(), "TestFolder");
+      const tempDir = path.join(
+        customPath,
+        "Microsoft",
+        "AzureMonitor",
+        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+      );
+      deleteFolderRecursive(tempDir);
+      const envelope: Envelope = {
+        name: "name",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+      const persister = new FileSystemPersist(instrumentationKey, { storageDirectory: customPath });
+      const success = await persister.push(envelopes);
+      assert.strictEqual(success, true);
+      await assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)));
+    });
+  });
+
   describe("#push()", () => {
     it("should store to disk the value provided", async () => {
       const envelope: Envelope = {
         name: "name",
         time: new Date(),
       };
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist(instrumentationKey);
       const envelopes = [envelope];
       const success = await persister.push(envelopes);
       assert.strictEqual(success, true);
@@ -95,7 +135,7 @@ describe("FileSystemPersist", () => {
         name: "name",
         time: new Date(),
       });
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist(instrumentationKey);
 
       const success = (
         await Promise.all(new Array(50).fill(null).map(() => persister.push(envelopes)))
@@ -107,14 +147,14 @@ describe("FileSystemPersist", () => {
 
   describe("#shift()", () => {
     it("should not crash if folder does not exist", () => {
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist(instrumentationKey);
       assert.doesNotThrow(async () => {
         await persister.shift();
       });
     });
 
     it("should not crash if file does not exist", () => {
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist(instrumentationKey);
       const mkdirAsync = promisify(fs.mkdir);
       assert.doesNotThrow(async () => {
         await mkdirAsync(tempDir);
@@ -124,7 +164,7 @@ describe("FileSystemPersist", () => {
 
     it("should get the first file on disk and return it", async () => {
       const sleep = promisify(setTimeout);
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist(instrumentationKey);
 
       const firstBatch = [{ batch: "first" }];
       const secondBatch = [{ batch: "second" }];
@@ -144,7 +184,7 @@ describe("FileSystemPersist", () => {
   describe("#fileCleanupTask()", () => {
     it("must clean old files from temp location", async () => {
       const sleep = promisify(setTimeout);
-      const persister = new FileSystemPersist({ instrumentationKey });
+      const persister = new FileSystemPersist("something");
       const firstBatch = [{ batch: "first" }];
       const success1 = await persister.push(firstBatch);
       assert.strictEqual(success1, true);
@@ -154,7 +194,7 @@ describe("FileSystemPersist", () => {
       const cleanup = await persister["_fileCleanupTask"]();
       assert.strictEqual(cleanup, true);
       const fileValue = await persister.shift();
-      assert.deepStrictEqual(fileValue, null); // File doesn't exist anymore
+      assert.deepStrictEqual(fileValue, null, "File is still present"); // File doesn't exist anymore
     });
   });
 });

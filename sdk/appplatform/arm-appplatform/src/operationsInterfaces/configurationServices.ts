@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigurationServiceResource,
   ConfigurationServicesListOptionalParams,
@@ -67,8 +67,8 @@ export interface ConfigurationServices {
     configurationServiceResource: ConfigurationServiceResource,
     options?: ConfigurationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesCreateOrUpdateResponse>,
       ConfigurationServicesCreateOrUpdateResponse
     >
   >;
@@ -102,7 +102,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     options?: ConfigurationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Application Configuration Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -133,8 +133,8 @@ export interface ConfigurationServices {
     settings: ConfigurationServiceSettings,
     options?: ConfigurationServicesValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationServicesValidateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationServicesValidateResponse>,
       ConfigurationServicesValidateResponse
     >
   >;

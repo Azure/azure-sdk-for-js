@@ -6,22 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TransparentDataEncryptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   LogicalDatabaseTransparentDataEncryption,
   TransparentDataEncryptionsListByDatabaseNextOptionalParams,
   TransparentDataEncryptionsListByDatabaseOptionalParams,
+  TransparentDataEncryptionsListByDatabaseResponse,
   TransparentDataEncryptionName,
   TransparentDataEncryptionsGetOptionalParams,
   TransparentDataEncryptionsGetResponse,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   TransparentDataEncryptionsCreateOrUpdateResponse,
-  TransparentDataEncryptionsListByDatabaseResponse,
   TransparentDataEncryptionsListByDatabaseNextResponse
 } from "../models";
 
@@ -67,12 +74,16 @@ export class TransparentDataEncryptionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,16 +93,23 @@ export class TransparentDataEncryptionsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LogicalDatabaseTransparentDataEncryption[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TransparentDataEncryptionsListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -101,7 +119,9 @@ export class TransparentDataEncryptionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,6 +139,27 @@ export class TransparentDataEncryptionsImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of the logical database's transparent data encryption.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the logical database for which the transparent data encryption is
+   *                     defined.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+  ): Promise<TransparentDataEncryptionsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
   }
 
   /**
@@ -154,16 +195,61 @@ export class TransparentDataEncryptionsImpl
    * @param parameters The database transparent data encryption.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: LogicalDatabaseTransparentDataEncryption,
     options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
-  ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TransparentDataEncryptionsCreateOrUpdateResponse>,
+      TransparentDataEncryptionsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -171,29 +257,47 @@ export class TransparentDataEncryptionsImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TransparentDataEncryptionsCreateOrUpdateResponse,
+      OperationState<TransparentDataEncryptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Gets a list of the logical database's transparent data encryption.
+   * Updates a logical database's transparent data encryption configuration.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the logical database for which the transparent data encryption is
-   *                     defined.
+   * @param databaseName The name of the logical database for which the security alert policy is defined.
+   * @param tdeName The name of the transparent data encryption configuration.
+   * @param parameters The database transparent data encryption.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
-  ): Promise<TransparentDataEncryptionsListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+    tdeName: TransparentDataEncryptionName,
+    parameters: LogicalDatabaseTransparentDataEncryption,
+    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
+  ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      tdeName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -222,6 +326,27 @@ export class TransparentDataEncryptionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
@@ -232,7 +357,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -255,11 +380,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+    },
+    204: {
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+    },
     default: {}
   },
-  requestBody: Parameters.parameters75,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters105,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -268,29 +398,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.tdeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
-};
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -302,7 +411,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

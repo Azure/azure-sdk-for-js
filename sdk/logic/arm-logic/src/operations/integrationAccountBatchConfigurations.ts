@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { IntegrationAccountBatchConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -60,11 +60,15 @@ export class IntegrationAccountBatchConfigurationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           integrationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,9 +77,11 @@ export class IntegrationAccountBatchConfigurationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
+    options?: IntegrationAccountBatchConfigurationsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<BatchConfiguration[]> {
-    let result = await this._list(
+    let result: IntegrationAccountBatchConfigurationsListResponse;
+    result = await this._list(
       resourceGroupName,
       integrationAccountName,
       options

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets properties of a virtual network link to a DNS forwarding ruleset.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkLink_Get.json
  */
 async function retrieveVirtualNetworkLinkToADnsForwardingRuleset() {
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const resourceGroupName = "sampleResourceGroup";
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
   const dnsForwardingRulesetName = "sampleDnsForwardingRuleset";
   const virtualNetworkLinkName = "sampleVirtualNetworkLink";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function retrieveVirtualNetworkLinkToADnsForwardingRuleset() {
   console.log(result);
 }
 
-retrieveVirtualNetworkLinkToADnsForwardingRuleset().catch(console.error);
+async function main() {
+  retrieveVirtualNetworkLinkToADnsForwardingRuleset();
+}
+
+main().catch(console.error);

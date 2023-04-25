@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to return notebook access token and refresh token
  *
  * @summary return notebook access token and refresh token
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/listNotebookAccessToken.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/listNotebookAccessToken.json
  */
 async function listWorkspaceKeys() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

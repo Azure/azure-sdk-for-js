@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to get student join requests
@@ -33,4 +34,8 @@ async function joinRequest() {
   console.log(result);
 }
 
-joinRequest().catch(console.error);
+async function main() {
+  joinRequest();
+}
+
+main().catch(console.error);

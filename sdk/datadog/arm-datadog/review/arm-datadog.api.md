@@ -193,6 +193,9 @@ export interface FilteringTag {
     value?: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export interface IdentityProperties {
     readonly principalId?: string;
@@ -202,91 +205,62 @@ export interface IdentityProperties {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLiftrResourceCategories {
-    // (undocumented)
     MonitorLogs = "MonitorLogs",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownManagedIdentityTypes {
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMarketplaceSubscriptionStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unsubscribed = "Unsubscribed"
 }
 
 // @public
 export enum KnownMonitoringStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSingleSignOnStates {
-    // (undocumented)
     Disable = "Disable",
-    // (undocumented)
     Enable = "Enable",
-    // (undocumented)
     Existing = "Existing",
-    // (undocumented)
     Initial = "Initial"
 }
 
 // @public
 export enum KnownTagAction {
-    // (undocumented)
     Exclude = "Exclude",
-    // (undocumented)
     Include = "Include"
 }
 

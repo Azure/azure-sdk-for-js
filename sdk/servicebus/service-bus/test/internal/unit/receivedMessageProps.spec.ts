@@ -24,7 +24,7 @@ describe("Message translations", () => {
         ...toRheaMessage(testMessage, { encode: (body) => body }),
         message_annotations: { [Constants.enqueuedTime]: Date.now().valueOf() },
       };
-      const expiresAtUtc = fromRheaMessage(rheaMsg, false).expiresAtUtc;
+      const expiresAtUtc = fromRheaMessage(rheaMsg, { skipParsingBodyAsJson: false }).expiresAtUtc;
       should.not.equal(expiresAtUtc?.toString(), "Invalid Date", "expiresAtUtc is Invalid Date");
     }
 

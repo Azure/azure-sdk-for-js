@@ -78,11 +78,11 @@ export interface BlobInventoryPoliciesListOptionalParams extends coreClient.Oper
 export type BlobInventoryPoliciesListResponse = ListBlobInventoryPolicy;
 
 // @public
-export type BlobInventoryPolicy = Resource & {
-    readonly systemData?: SystemData;
+export interface BlobInventoryPolicy extends Resource {
     readonly lastModifiedTime?: Date;
     policy?: BlobInventoryPolicySchema;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface BlobInventoryPolicyDefinition {
@@ -189,13 +189,13 @@ export interface Encryption {
 }
 
 // @public
-export type EncryptionScope = Resource & {
+export interface EncryptionScope extends Resource {
+    readonly creationTime?: Date;
+    keyVaultProperties?: EncryptionScopeKeyVaultProperties;
+    readonly lastModifiedTime?: Date;
     source?: EncryptionScopeSource;
     state?: EncryptionScopeState;
-    readonly creationTime?: Date;
-    readonly lastModifiedTime?: Date;
-    keyVaultProperties?: EncryptionScopeKeyVaultProperties;
-};
+}
 
 // @public
 export interface EncryptionScopeKeyVaultProperties {
@@ -306,6 +306,9 @@ export interface GeoReplicationStats {
 export type GeoReplicationStatus = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HttpProtocol = "https,http" | "https";
 
 // @public
@@ -348,137 +351,99 @@ export type Kind = string;
 
 // @public
 export enum KnownBlobInventoryPolicyName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownBlobRestoreProgressStatus {
-    // (undocumented)
     Complete = "Complete",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress"
 }
 
 // @public
 export enum KnownBypass {
-    // (undocumented)
     AzureServices = "AzureServices",
-    // (undocumented)
     Logging = "Logging",
-    // (undocumented)
     Metrics = "Metrics",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDirectoryServiceOptions {
-    // (undocumented)
     Aadds = "AADDS",
-    // (undocumented)
     AD = "AD",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownEncryptionScopeSource {
-    // (undocumented)
     MicrosoftKeyVault = "Microsoft.KeyVault",
-    // (undocumented)
     MicrosoftStorage = "Microsoft.Storage"
 }
 
 // @public
 export enum KnownEncryptionScopeState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownGeoReplicationStatus {
-    // (undocumented)
     Bootstrap = "Bootstrap",
-    // (undocumented)
     Live = "Live",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownInventoryRuleType {
-    // (undocumented)
     Inventory = "Inventory"
 }
 
 // @public
 export enum KnownKeySource {
-    // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault",
-    // (undocumented)
     MicrosoftStorage = "Microsoft.Storage"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     Account = "Account",
-    // (undocumented)
     Service = "Service"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     BlobStorage = "BlobStorage",
-    // (undocumented)
     BlockBlobStorage = "BlockBlobStorage",
-    // (undocumented)
     FileStorage = "FileStorage",
-    // (undocumented)
     Storage = "Storage",
-    // (undocumented)
     StorageV2 = "StorageV2"
 }
 
 // @public
 export enum KnownLargeFileSharesState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownManagementPolicyName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownMinimumTlsVersion {
-    // (undocumented)
     TLS10 = "TLS1_0",
-    // (undocumented)
     TLS11 = "TLS1_1",
-    // (undocumented)
     TLS12 = "TLS1_2"
 }
 
@@ -504,45 +469,33 @@ export enum KnownPermissions {
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownRoutingChoice {
-    // (undocumented)
     InternetRouting = "InternetRouting",
-    // (undocumented)
     MicrosoftRouting = "MicrosoftRouting"
 }
 
 // @public
 export enum KnownRuleType {
-    // (undocumented)
     Lifecycle = "Lifecycle"
 }
 
@@ -582,21 +535,13 @@ export enum KnownSignedResourceTypes {
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     PremiumLRS = "Premium_LRS",
-    // (undocumented)
     PremiumZRS = "Premium_ZRS",
-    // (undocumented)
     StandardGRS = "Standard_GRS",
-    // (undocumented)
     StandardGzrs = "Standard_GZRS",
-    // (undocumented)
     StandardLRS = "Standard_LRS",
-    // (undocumented)
     StandardRagrs = "Standard_RAGRS",
-    // (undocumented)
     StandardRagzrs = "Standard_RAGZRS",
-    // (undocumented)
     StandardZRS = "Standard_ZRS"
 }
 
@@ -644,10 +589,10 @@ export interface ManagementPoliciesGetOptionalParams extends coreClient.Operatio
 export type ManagementPoliciesGetResponse = ManagementPolicy;
 
 // @public
-export type ManagementPolicy = Resource & {
+export interface ManagementPolicy extends Resource {
     readonly lastModifiedTime?: Date;
     policy?: ManagementPolicySchema;
-};
+}
 
 // @public
 export interface ManagementPolicyAction {
@@ -770,13 +715,13 @@ export interface ObjectReplicationPoliciesOperations {
 }
 
 // @public
-export type ObjectReplicationPolicy = Resource & {
-    readonly policyId?: string;
-    readonly enabledTime?: Date;
-    sourceAccount?: string;
+export interface ObjectReplicationPolicy extends Resource {
     destinationAccount?: string;
+    readonly enabledTime?: Date;
+    readonly policyId?: string;
     rules?: ObjectReplicationPolicyRule[];
-};
+    sourceAccount?: string;
+}
 
 // @public
 export interface ObjectReplicationPolicyFilter {
@@ -835,11 +780,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -886,11 +831,11 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -1033,36 +978,36 @@ export type SkuTier = "Standard" | "Premium";
 export type State = "provisioning" | "deprovisioning" | "succeeded" | "failed" | "networkSourceDeleted";
 
 // @public
-export type StorageAccount = TrackedResource & {
-    readonly sku?: Sku;
-    readonly kind?: Kind;
-    identity?: Identity;
-    readonly provisioningState?: ProvisioningState;
-    readonly primaryEndpoints?: Endpoints;
-    readonly primaryLocation?: string;
-    readonly statusOfPrimary?: AccountStatus;
-    readonly lastGeoFailoverTime?: Date;
-    readonly secondaryLocation?: string;
-    readonly statusOfSecondary?: AccountStatus;
+export interface StorageAccount extends TrackedResource {
+    readonly accessTier?: AccessTier;
+    allowBlobPublicAccess?: boolean;
+    allowSharedKeyAccess?: boolean;
+    azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
+    readonly blobRestoreStatus?: BlobRestoreStatus;
     readonly creationTime?: Date;
     readonly customDomain?: CustomDomain;
-    readonly secondaryEndpoints?: Endpoints;
-    readonly encryption?: Encryption;
-    readonly accessTier?: AccessTier;
-    azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
     enableHttpsTrafficOnly?: boolean;
-    readonly networkRuleSet?: NetworkRuleSet;
-    isHnsEnabled?: boolean;
-    readonly geoReplicationStats?: GeoReplicationStats;
+    readonly encryption?: Encryption;
     readonly failoverInProgress?: boolean;
+    readonly geoReplicationStats?: GeoReplicationStats;
+    identity?: Identity;
+    isHnsEnabled?: boolean;
+    readonly kind?: Kind;
     largeFileSharesState?: LargeFileSharesState;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    routingPreference?: RoutingPreference;
-    readonly blobRestoreStatus?: BlobRestoreStatus;
-    allowBlobPublicAccess?: boolean;
+    readonly lastGeoFailoverTime?: Date;
     minimumTlsVersion?: MinimumTlsVersion;
-    allowSharedKeyAccess?: boolean;
-};
+    readonly networkRuleSet?: NetworkRuleSet;
+    readonly primaryEndpoints?: Endpoints;
+    readonly primaryLocation?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    routingPreference?: RoutingPreference;
+    readonly secondaryEndpoints?: Endpoints;
+    readonly secondaryLocation?: string;
+    readonly sku?: Sku;
+    readonly statusOfPrimary?: AccountStatus;
+    readonly statusOfSecondary?: AccountStatus;
+}
 
 // @public
 export interface StorageAccountCheckNameAvailabilityParameters {
@@ -1343,12 +1288,12 @@ export interface TagFilter {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface Usage {

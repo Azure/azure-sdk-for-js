@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CustomAssessmentAutomations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,16 +17,16 @@ import {
   CustomAssessmentAutomation,
   CustomAssessmentAutomationsListByResourceGroupNextOptionalParams,
   CustomAssessmentAutomationsListByResourceGroupOptionalParams,
+  CustomAssessmentAutomationsListByResourceGroupResponse,
   CustomAssessmentAutomationsListBySubscriptionNextOptionalParams,
   CustomAssessmentAutomationsListBySubscriptionOptionalParams,
+  CustomAssessmentAutomationsListBySubscriptionResponse,
   CustomAssessmentAutomationsGetOptionalParams,
   CustomAssessmentAutomationsGetResponse,
   CustomAssessmentAutomationRequest,
   CustomAssessmentAutomationsCreateOptionalParams,
   CustomAssessmentAutomationsCreateResponse,
   CustomAssessmentAutomationsDeleteOptionalParams,
-  CustomAssessmentAutomationsListByResourceGroupResponse,
-  CustomAssessmentAutomationsListBySubscriptionResponse,
   CustomAssessmentAutomationsListByResourceGroupNextResponse,
   CustomAssessmentAutomationsListBySubscriptionNextResponse
 } from "../models";
@@ -62,19 +63,33 @@ export class CustomAssessmentAutomationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CustomAssessmentAutomation[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomAssessmentAutomationsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -82,7 +97,9 @@ export class CustomAssessmentAutomationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -113,22 +130,34 @@ export class CustomAssessmentAutomationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CustomAssessmentAutomation[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomAssessmentAutomationsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -386,7 +415,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -407,7 +435,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

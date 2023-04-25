@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LocalNetworkGateway,
   LocalNetworkGatewaysListOptionalParams,
@@ -46,8 +46,8 @@ export interface LocalNetworkGateways {
     parameters: LocalNetworkGateway,
     options?: LocalNetworkGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LocalNetworkGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LocalNetworkGatewaysCreateOrUpdateResponse>,
       LocalNetworkGatewaysCreateOrUpdateResponse
     >
   >;
@@ -85,7 +85,7 @@ export interface LocalNetworkGateways {
     resourceGroupName: string,
     localNetworkGatewayName: string,
     options?: LocalNetworkGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified local network gateway.
    * @param resourceGroupName The name of the resource group.

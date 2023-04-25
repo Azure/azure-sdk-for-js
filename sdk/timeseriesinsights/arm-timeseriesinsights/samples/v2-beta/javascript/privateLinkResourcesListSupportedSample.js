@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { TimeSeriesInsightsClient } = require("@azure/arm-timeseriesinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of all supported private link resource types for the given environment.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateLinkResourcesGet.json
  */
 async function listSupportedPrivateLinkResources() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const environmentName = "myEnvironment";
   const credential = new DefaultAzureCredential();
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function listSupportedPrivateLinkResources() {
   console.log(resArray);
 }
 
-listSupportedPrivateLinkResources().catch(console.error);
+async function main() {
+  listSupportedPrivateLinkResources();
+}
+
+main().catch(console.error);

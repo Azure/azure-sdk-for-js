@@ -7,9 +7,13 @@
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AbortError }
 
 // @public (undocumented)
 export interface Agent {
@@ -111,12 +115,13 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        method?: HTTPMethod;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, }: {
@@ -203,6 +208,18 @@ export class ClientSideMetrics {
     // (undocumented)
     static readonly zero: ClientSideMetrics;
 }
+
+// @public
+export type ClientSideRequestStatistics = {
+    requestStartTimeUTCInMs: number;
+    requestEndTimeUTCInMs: number;
+    activityId: string;
+    locationEndpointsContacted: Location_2[];
+    retryDiagnostics: RetryDiagnostics;
+    metadataDiagnostics: MetadataLookUpDiagnostics;
+    requestPayloadLength: number;
+    responsePayloadLength: number;
+};
 
 // @public
 export class Conflict {
@@ -365,6 +382,8 @@ export const Constants: {
         ResponseContinuationTokenLimitInKB: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
+        PopulateIndexMetrics: string;
+        IndexUtilization: string;
         Version: string;
         OwnerFullName: string;
         OwnerId: string;
@@ -400,6 +419,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -409,6 +429,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };
@@ -454,6 +475,7 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -543,7 +565,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
@@ -555,6 +577,16 @@ export interface CosmosClientOptions {
     };
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
+}
+
+// @public
+export class CosmosDiagnostics {
+    // (undocumented)
+    readonly clientSideRequestStatistics: ClientSideRequestStatistics;
+    // (undocumented)
+    get getContactedRegionNames(): Set<string>;
+    // (undocumented)
+    readonly id: string;
 }
 
 // @public (undocumented)
@@ -704,7 +736,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -734,6 +766,20 @@ export type ExistingKeyOperation = {
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
+export interface FailedRequestAttemptDiagnostic {
+    // (undocumented)
+    attemptNumber: number;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    startTimeUTCInMs: number;
+    // (undocumented)
+    statusCode: string;
+}
+
+// @public
 export interface FeedOptions extends SharedOptions {
     accessCondition?: {
         type: string;
@@ -749,6 +795,7 @@ export interface FeedOptions extends SharedOptions {
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
     partitionKey?: any;
+    populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
 }
@@ -764,6 +811,8 @@ export class FeedResponse<TResource> {
     get continuationToken(): string;
     // (undocumented)
     readonly hasMoreResults: boolean;
+    // (undocumented)
+    get indexMetrics(): string;
     // (undocumented)
     get queryMetrics(): string;
     // (undocumented)
@@ -896,7 +945,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -939,11 +988,42 @@ interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
+    lastUnavailabilityTimestampInMs?: number;
+    // (undocumented)
     name: string;
     // (undocumented)
     unavailable?: boolean;
 }
 export { Location_2 as Location }
+
+// @public
+export interface MetadataLookUpDiagnostic {
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    metaDataType: MetadataLookUpType;
+    // (undocumented)
+    startTimeUTCInMs: number;
+}
+
+// @public
+export type MetadataLookUpDiagnostics = {
+    metadataLookups: MetadataLookUpDiagnostic[];
+};
+
+// @public
+export enum MetadataLookUpType {
+    // (undocumented)
+    DatabaseAccountLookUp = "DATABASE_ACCOUNT_LOOK_UP",
+    // (undocumented)
+    PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
+    // (undocumented)
+    ServerAddressLookUp = "SERVER_ADDRESS_LOOK_UP"
+}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
@@ -1526,6 +1606,8 @@ export enum ResourceType {
     // (undocumented)
     offer = "offers",
     // (undocumented)
+    partitionkey = "partitionKey",
+    // (undocumented)
     permission = "permissions",
     // (undocumented)
     pkranges = "pkranges",
@@ -1551,6 +1633,13 @@ interface Response_2<T> {
     substatus?: number;
 }
 export { Response_2 as Response }
+
+export { RestError }
+
+// @public
+export type RetryDiagnostics = {
+    failedAttempts: FailedRequestAttemptDiagnostic[];
+};
 
 // @public
 export interface RetryOptions {
@@ -1857,6 +1946,13 @@ export class StoredProcedures {
 
 // @public (undocumented)
 export type SubStatusCode = number;
+
+// @public (undocumented)
+export class TimeoutError extends Error {
+    constructor(message?: string);
+    // (undocumented)
+    readonly code: string;
+}
 
 // @public
 export class TimeSpan {

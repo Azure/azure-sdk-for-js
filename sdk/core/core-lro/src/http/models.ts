@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { LroError } from "../poller/models";
 
 // TODO: rename to ResourceLocationConfig
 /**
@@ -15,11 +16,13 @@ export type LroResourceLocationConfig = "azure-async-operation" | "location" | "
 
 export interface ResponseBody extends Record<string, unknown> {
   /** The status of the operation. */
-  status?: string;
+  status?: unknown;
   /** The state of the provisioning process */
-  provisioningState?: string;
+  provisioningState?: unknown;
   /** The properties of the provisioning process */
-  properties?: { provisioningState?: string } & Record<string, unknown>;
+  properties?: { provisioningState?: unknown } & Record<string, unknown>;
+  /** The error if the operation failed */
+  error?: Partial<LroError>;
 }
 
 /**
@@ -105,4 +108,8 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    * service.
    */
   withOperationLocation?: (operationLocation: string) => void;
+  /**
+   * Control whether to throw an exception if the operation failed or was canceled.
+   */
+  resolveOnUnsuccessful?: boolean;
 }

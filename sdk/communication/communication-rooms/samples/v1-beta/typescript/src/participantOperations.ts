@@ -5,11 +5,7 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import {
-  RoomsClient,
-  RoomParticipant,
-  CreateRoomOptions,
-} from "@azure/communication-rooms";
+import { RoomsClient, RoomParticipant, CreateRoomOptions } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierRawId } from "@azure/communication-common";
 
@@ -19,7 +15,7 @@ dotenv.config();
 
 export async function main() {
   const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
+    process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
   const identityClient = new CommunicationIdentityClient(connectionString);

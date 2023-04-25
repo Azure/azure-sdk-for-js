@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeviceUpdate } = require("@azure/arm-deviceupdate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns instances for the given account name.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_ListByAccount.json
  */
 async function getsListOfInstancesByAccount() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DEVICEUPDATE_RESOURCE_GROUP"] || "test-rg";
   const accountName = "contoso";
   const credential = new DefaultAzureCredential();
   const client = new DeviceUpdate(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function getsListOfInstancesByAccount() {
   console.log(resArray);
 }
 
-getsListOfInstancesByAccount().catch(console.error);
+async function main() {
+  getsListOfInstancesByAccount();
+}
+
+main().catch(console.error);

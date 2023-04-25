@@ -743,6 +743,11 @@ export interface SearchResults {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sourceTable?: string;
+  /**
+   * Search results table async operation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureAsyncOperationId?: string;
 }
 
 /** Restore parameters. */
@@ -753,6 +758,11 @@ export interface RestoredLogs {
   endRestoreTime?: Date;
   /** The table to restore data from. */
   sourceTable?: string;
+  /**
+   * Search results table async operation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureAsyncOperationId?: string;
 }
 
 /** Search job execution statistics. */
@@ -767,6 +777,11 @@ export interface ResultStatistics {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ingestedRecords?: number;
+  /**
+   * Search job: Amount of scanned data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scannedGb?: number;
 }
 
 /** Table's schema. */
@@ -814,16 +829,6 @@ export interface Schema {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly solutions?: string[];
-  /**
-   * Parameters of the search job that initiated this table.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly searchResults?: SearchResults;
-  /**
-   * Parameters of the restore operation that initiated this table.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly restoredLogs?: RestoredLogs;
 }
 
 /** Table column. */
@@ -857,7 +862,7 @@ export interface DataSourceFilter {
 }
 
 /** An Log Analytics QueryPack definition. */
-export type LogAnalyticsQueryPack = QueryPacksResource & {
+export interface LogAnalyticsQueryPack extends QueryPacksResource {
   /**
    * The unique ID of your application. This field cannot be changed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -878,10 +883,10 @@ export type LogAnalyticsQueryPack = QueryPacksResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** A Log Analytics QueryPack-Query definition. */
-export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
+export interface LogAnalyticsQueryPackQuery extends AzureResourceProperties {
   /**
    * The unique ID of your application. This field cannot be changed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -914,30 +919,30 @@ export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
   tags?: { [propertyName: string]: string[] };
   /** Additional properties that can be set for the query. */
   properties?: Record<string, unknown>;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
   /**
    * Resource Etag.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-};
+}
 
 /** The top level data export resource container. */
-export type DataExport = ProxyResource & {
+export interface DataExport extends ProxyResource {
   /** The data export rule ID. */
   dataExportId?: string;
   /** An array of tables to export, for example: [“Heartbeat, SecurityEvent”]. */
@@ -957,10 +962,10 @@ export type DataExport = ProxyResource & {
   readonly typePropertiesDestinationType?: Type;
   /** Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account. */
   eventHubName?: string;
-};
+}
 
 /** Datasources under OMS Workspace. */
-export type DataSource = ProxyResource & {
+export interface DataSource extends ProxyResource {
   /** The data source properties in raw json format, each kind of data source have it's own schema. */
   properties: Record<string, unknown>;
   /** The ETag of the data source. */
@@ -969,10 +974,10 @@ export type DataSource = ProxyResource & {
   kind: DataSourceKind;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** The top level Linked service resource container. */
-export type LinkedService = ProxyResource & {
+export interface LinkedService extends ProxyResource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The resource id of the resource that will be linked to the workspace. This should be used for linking resources which require read access */
@@ -981,10 +986,10 @@ export type LinkedService = ProxyResource & {
   writeAccessResourceId?: string;
   /** The provisioning state of the linked service. */
   provisioningState?: LinkedServiceEntityStatus;
-};
+}
 
 /** Linked storage accounts top level resource container. */
-export type LinkedStorageAccountsResource = ProxyResource & {
+export interface LinkedStorageAccountsResource extends ProxyResource {
   /**
    * Linked storage accounts type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -992,10 +997,10 @@ export type LinkedStorageAccountsResource = ProxyResource & {
   readonly dataSourceType?: DataSourceType;
   /** Linked storage accounts resources ids. */
   storageAccountIds?: string[];
-};
+}
 
 /** The top level storage insight resource container. */
-export type StorageInsight = ProxyResource & {
+export interface StorageInsight extends ProxyResource {
   /** The ETag of the storage insight. */
   eTag?: string;
   /** Resource tags. */
@@ -1011,10 +1016,10 @@ export type StorageInsight = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: StorageInsightStatus;
-};
+}
 
 /** Value object for saved search results. */
-export type SavedSearch = ProxyResource & {
+export interface SavedSearch extends ProxyResource {
   /** The ETag of the saved search. To override an existing saved search, use "*" or specify the current Etag */
   etag?: string;
   /** The category of the saved search. This helps the user to find a saved search faster. */
@@ -1031,10 +1036,10 @@ export type SavedSearch = ProxyResource & {
   version?: number;
   /** The tags attached to the saved search. */
   tags?: Tag[];
-};
+}
 
 /** Workspace data table definition. */
-export type Table = ProxyResource & {
+export interface Table extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1053,8 +1058,11 @@ export type Table = ProxyResource & {
   searchResults?: SearchResults;
   /** Parameters of the restore operation that initiated this table. */
   restoredLogs?: RestoredLogs;
-  /** Search job execution statistics. */
-  resultStatistics?: ResultStatistics;
+  /**
+   * Search job execution statistics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultStatistics?: ResultStatistics;
   /** Instruct the system how to handle and charge the logs ingested to this table. */
   plan?: TablePlanEnum;
   /**
@@ -1069,10 +1077,20 @@ export type Table = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningStateEnum;
-};
+  /**
+   * True - Value originates from workspace retention in days, False - Customer specific.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly retentionInDaysAsDefault?: boolean;
+  /**
+   * True - Value originates from retention in days, False - Customer specific.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRetentionInDaysAsDefault?: boolean;
+}
 
 /** The top level Log Analytics cluster resource container. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** The identity of the resource. */
   identity?: Identity;
   /** The sku properties. */
@@ -1109,17 +1127,19 @@ export type Cluster = TrackedResource & {
   associatedWorkspaces?: AssociatedWorkspace[];
   /** Additional properties for capacity reservation */
   capacityReservationProperties?: CapacityReservationProperties;
-};
+}
 
 /** The top level Workspace resource container. */
-export type Workspace = TrackedResource & {
+export interface Workspace extends TrackedResource {
+  /** The identity of the resource. */
+  identity?: Identity;
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemDataAutoGenerated;
-  /** The ETag of the workspace. */
-  eTag?: string;
+  /** The etag of the workspace. */
+  etag?: string;
   /**
    * The provisioning state of the workspace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1161,10 +1181,12 @@ export type Workspace = TrackedResource & {
   features?: WorkspaceFeatures;
   /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
   defaultDataCollectionRuleResourceId?: string;
-};
+}
 
 /** The top level Workspace resource container. */
-export type WorkspacePatch = AzureEntityResource & {
+export interface WorkspacePatch extends AzureEntityResource {
+  /** The identity of the resource. */
+  identity?: Identity;
   /** Resource tags. Optional. */
   tags?: { [propertyName: string]: string };
   /**
@@ -1208,7 +1230,7 @@ export type WorkspacePatch = AzureEntityResource & {
   features?: WorkspaceFeatures;
   /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
   defaultDataCollectionRuleResourceId?: string;
-};
+}
 
 /** Defines headers for WorkspacePurge_purge operation. */
 export interface WorkspacePurgePurgeHeaders {
@@ -1218,12 +1240,19 @@ export interface WorkspacePurgePurgeHeaders {
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "user",
+  /** Application */
   Application = "application",
+  /** ManagedIdentity */
   ManagedIdentity = "managedIdentity",
+  /** Key */
   Key = "key",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** None */
   None = "None"
 }
 
@@ -1244,7 +1273,9 @@ export type IdentityType = string;
 
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
+  /** StorageAccount */
   StorageAccount = "StorageAccount",
+  /** EventHub */
   EventHub = "EventHub"
 }
 
@@ -1260,38 +1291,71 @@ export type Type = string;
 
 /** Known values of {@link DataSourceKind} that the service accepts. */
 export enum KnownDataSourceKind {
+  /** WindowsEvent */
   WindowsEvent = "WindowsEvent",
+  /** WindowsPerformanceCounter */
   WindowsPerformanceCounter = "WindowsPerformanceCounter",
+  /** IISLogs */
   IISLogs = "IISLogs",
+  /** LinuxSyslog */
   LinuxSyslog = "LinuxSyslog",
+  /** LinuxSyslogCollection */
   LinuxSyslogCollection = "LinuxSyslogCollection",
+  /** LinuxPerformanceObject */
   LinuxPerformanceObject = "LinuxPerformanceObject",
+  /** LinuxPerformanceCollection */
   LinuxPerformanceCollection = "LinuxPerformanceCollection",
+  /** CustomLog */
   CustomLog = "CustomLog",
+  /** CustomLogCollection */
   CustomLogCollection = "CustomLogCollection",
+  /** AzureAuditLog */
   AzureAuditLog = "AzureAuditLog",
+  /** AzureActivityLog */
   AzureActivityLog = "AzureActivityLog",
+  /** GenericDataSource */
   GenericDataSource = "GenericDataSource",
+  /** ChangeTrackingCustomPath */
   ChangeTrackingCustomPath = "ChangeTrackingCustomPath",
+  /** ChangeTrackingPath */
   ChangeTrackingPath = "ChangeTrackingPath",
+  /** ChangeTrackingServices */
   ChangeTrackingServices = "ChangeTrackingServices",
+  /** ChangeTrackingDataTypeConfiguration */
   ChangeTrackingDataTypeConfiguration = "ChangeTrackingDataTypeConfiguration",
+  /** ChangeTrackingDefaultRegistry */
   ChangeTrackingDefaultRegistry = "ChangeTrackingDefaultRegistry",
+  /** ChangeTrackingRegistry */
   ChangeTrackingRegistry = "ChangeTrackingRegistry",
+  /** ChangeTrackingLinuxPath */
   ChangeTrackingLinuxPath = "ChangeTrackingLinuxPath",
+  /** LinuxChangeTrackingPath */
   LinuxChangeTrackingPath = "LinuxChangeTrackingPath",
+  /** ChangeTrackingContentLocation */
   ChangeTrackingContentLocation = "ChangeTrackingContentLocation",
+  /** WindowsTelemetry */
   WindowsTelemetry = "WindowsTelemetry",
+  /** Office365 */
   Office365 = "Office365",
+  /** SecurityWindowsBaselineConfiguration */
   SecurityWindowsBaselineConfiguration = "SecurityWindowsBaselineConfiguration",
+  /** SecurityCenterSecurityWindowsBaselineConfiguration */
   SecurityCenterSecurityWindowsBaselineConfiguration = "SecurityCenterSecurityWindowsBaselineConfiguration",
+  /** SecurityEventCollectionConfiguration */
   SecurityEventCollectionConfiguration = "SecurityEventCollectionConfiguration",
+  /** SecurityInsightsSecurityEventCollectionConfiguration */
   SecurityInsightsSecurityEventCollectionConfiguration = "SecurityInsightsSecurityEventCollectionConfiguration",
+  /** ImportComputerGroup */
   ImportComputerGroup = "ImportComputerGroup",
+  /** NetworkMonitoring */
   NetworkMonitoring = "NetworkMonitoring",
+  /** Itsm */
   Itsm = "Itsm",
+  /** DnsAnalytics */
   DnsAnalytics = "DnsAnalytics",
+  /** ApplicationInsights */
   ApplicationInsights = "ApplicationInsights",
+  /** SqlDataClassification */
   SqlDataClassification = "SqlDataClassification"
 }
 
@@ -1338,9 +1402,13 @@ export type DataSourceKind = string;
 
 /** Known values of {@link LinkedServiceEntityStatus} that the service accepts. */
 export enum KnownLinkedServiceEntityStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleting */
   Deleting = "Deleting",
+  /** ProvisioningAccount */
   ProvisioningAccount = "ProvisioningAccount",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1358,7 +1426,9 @@ export type LinkedServiceEntityStatus = string;
 
 /** Known values of {@link StorageInsightState} that the service accepts. */
 export enum KnownStorageInsightState {
+  /** OK */
   OK = "OK",
+  /** Error */
   Error = "ERROR"
 }
 
@@ -1374,12 +1444,19 @@ export type StorageInsightState = string;
 
 /** Known values of {@link SkuNameEnum} that the service accepts. */
 export enum KnownSkuNameEnum {
+  /** Free */
   Free = "Free",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** PerNode */
   PerNode = "PerNode",
+  /** PerGB2018 */
   PerGB2018 = "PerGB2018",
+  /** Standalone */
   Standalone = "Standalone",
+  /** CapacityReservation */
   CapacityReservation = "CapacityReservation"
 }
 
@@ -1400,7 +1477,9 @@ export type SkuNameEnum = string;
 
 /** Known values of {@link SearchSortEnum} that the service accepts. */
 export enum KnownSearchSortEnum {
+  /** Asc */
   Asc = "asc",
+  /** Desc */
   Desc = "desc"
 }
 
@@ -1416,7 +1495,9 @@ export type SearchSortEnum = string;
 
 /** Known values of {@link PurgeState} that the service accepts. */
 export enum KnownPurgeState {
+  /** Pending */
   Pending = "pending",
+  /** Completed */
   Completed = "completed"
 }
 
@@ -1432,6 +1513,7 @@ export type PurgeState = string;
 
 /** Known values of {@link ClusterSkuNameEnum} that the service accepts. */
 export enum KnownClusterSkuNameEnum {
+  /** CapacityReservation */
   CapacityReservation = "CapacityReservation"
 }
 
@@ -1446,12 +1528,19 @@ export type ClusterSkuNameEnum = string;
 
 /** Known values of {@link ClusterEntityStatus} that the service accepts. */
 export enum KnownClusterEntityStatus {
+  /** Creating */
   Creating = "Creating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleting */
   Deleting = "Deleting",
+  /** ProvisioningAccount */
   ProvisioningAccount = "ProvisioningAccount",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1472,7 +1561,9 @@ export type ClusterEntityStatus = string;
 
 /** Known values of {@link BillingType} that the service accepts. */
 export enum KnownBillingType {
+  /** Cluster */
   Cluster = "Cluster",
+  /** Workspaces */
   Workspaces = "Workspaces"
 }
 
@@ -1488,12 +1579,19 @@ export type BillingType = string;
 
 /** Known values of {@link WorkspaceEntityStatus} that the service accepts. */
 export enum KnownWorkspaceEntityStatus {
+  /** Creating */
   Creating = "Creating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleting */
   Deleting = "Deleting",
+  /** ProvisioningAccount */
   ProvisioningAccount = "ProvisioningAccount",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1514,13 +1612,21 @@ export type WorkspaceEntityStatus = string;
 
 /** Known values of {@link WorkspaceSkuNameEnum} that the service accepts. */
 export enum KnownWorkspaceSkuNameEnum {
+  /** Free */
   Free = "Free",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** PerNode */
   PerNode = "PerNode",
+  /** PerGB2018 */
   PerGB2018 = "PerGB2018",
+  /** Standalone */
   Standalone = "Standalone",
+  /** CapacityReservation */
   CapacityReservation = "CapacityReservation",
+  /** LACluster */
   LACluster = "LACluster"
 }
 
@@ -1590,9 +1696,13 @@ export type PublicNetworkAccessType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1628,13 +1738,21 @@ export type TablePlanEnum = string;
 
 /** Known values of {@link ColumnTypeEnum} that the service accepts. */
 export enum KnownColumnTypeEnum {
+  /** String */
   String = "string",
+  /** Int */
   Int = "int",
+  /** Long */
   Long = "long",
+  /** Real */
   Real = "real",
+  /** Boolean */
   Boolean = "boolean",
+  /** DateTime */
   DateTime = "dateTime",
+  /** Guid */
   Guid = "guid",
+  /** Dynamic */
   Dynamic = "dynamic"
 }
 
@@ -1796,6 +1914,13 @@ export interface QueryPacksListByResourceGroupOptionalParams
 export type QueryPacksListByResourceGroupResponse = LogAnalyticsQueryPackListResult;
 
 /** Optional parameters. */
+export interface QueryPacksCreateOrUpdateWithoutNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateWithoutName operation. */
+export type QueryPacksCreateOrUpdateWithoutNameResponse = LogAnalyticsQueryPack;
+
+/** Optional parameters. */
 export interface QueryPacksDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1886,28 +2011,14 @@ export interface QueriesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface QueriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum items returned in page. */
-  top?: number;
-  /** Flag indicating whether or not to return the body of each applicable query. If false, only return the query information. */
-  includeBody?: boolean;
-  /** Base64 encoded token used to fetch the next page of items. Default is null. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QueriesListNextResponse = LogAnalyticsQueryPackQueryListResult;
 
 /** Optional parameters. */
 export interface QueriesSearchNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum items returned in page. */
-  top?: number;
-  /** Flag indicating whether or not to return the body of each applicable query. If false, only return the query information. */
-  includeBody?: boolean;
-  /** Base64 encoded token used to fetch the next page of items. Default is null. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the searchNext operation. */
 export type QueriesSearchNextResponse = LogAnalyticsQueryPackQueryListResult;
@@ -1967,10 +2078,7 @@ export type DataSourcesListByWorkspaceResponse = DataSourceListResult;
 
 /** Optional parameters. */
 export interface DataSourcesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Starting point of the collection of data source instances. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type DataSourcesListByWorkspaceNextResponse = DataSourceListResult;
@@ -2371,6 +2479,10 @@ export interface TablesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface TablesMigrateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TablesCancelSearchOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

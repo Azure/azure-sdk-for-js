@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseKeyvaultIdentifier } from "../../keyvault-common/src";
+import { parseKeyVaultIdentifier } from "../../keyvault-common/src";
 
 /**
  * Represents the segments that compose a Key Vault Key Id.
@@ -53,6 +53,6 @@ export function parseKeyVaultKeyIdentifier(id: string): KeyVaultKeyIdentifier {
 
   return {
     sourceId: id,
-    ...parseKeyvaultIdentifier(collection, id),
+    ...parseKeyVaultIdentifier(collection, id),
   };
 }

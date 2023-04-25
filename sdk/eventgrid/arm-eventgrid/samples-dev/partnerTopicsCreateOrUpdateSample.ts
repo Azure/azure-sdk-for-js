@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PartnerTopic, EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Asynchronously creates a new partner topic with the specified parameters.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerTopics_CreateOrUpdate.json
  */
 async function partnerTopicsCreateOrUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerTopicName = "examplePartnerTopicName1";
   const partnerTopicInfo: PartnerTopic = {
     expirationTimeIfNotActivatedUtc: new Date("2022-03-23T23:06:13.109Z"),
@@ -39,4 +45,8 @@ async function partnerTopicsCreateOrUpdate() {
   console.log(result);
 }
 
-partnerTopicsCreateOrUpdate().catch(console.error);
+async function main() {
+  partnerTopicsCreateOrUpdate();
+}
+
+main().catch(console.error);

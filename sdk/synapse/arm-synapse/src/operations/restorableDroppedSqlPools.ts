@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestorableDroppedSqlPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   RestorableDroppedSqlPool,
   RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
+  RestorableDroppedSqlPoolsListByWorkspaceResponse,
   RestorableDroppedSqlPoolsGetOptionalParams,
-  RestorableDroppedSqlPoolsGetResponse,
-  RestorableDroppedSqlPoolsListByWorkspaceResponse
+  RestorableDroppedSqlPoolsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,11 +57,15 @@ export class RestorableDroppedSqlPoolsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -70,9 +74,11 @@ export class RestorableDroppedSqlPoolsImpl
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
+    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RestorableDroppedSqlPool[]> {
-    let result = await this._listByWorkspace(
+    let result: RestorableDroppedSqlPoolsListByWorkspaceResponse;
+    result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
       options

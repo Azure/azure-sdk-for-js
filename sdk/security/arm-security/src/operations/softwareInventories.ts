@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SoftwareInventories } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   Software,
   SoftwareInventoriesListByExtendedResourceNextOptionalParams,
   SoftwareInventoriesListByExtendedResourceOptionalParams,
+  SoftwareInventoriesListByExtendedResourceResponse,
   SoftwareInventoriesListBySubscriptionNextOptionalParams,
   SoftwareInventoriesListBySubscriptionOptionalParams,
-  SoftwareInventoriesListByExtendedResourceResponse,
   SoftwareInventoriesListBySubscriptionResponse,
   SoftwareInventoriesGetOptionalParams,
   SoftwareInventoriesGetResponse,
@@ -69,13 +70,17 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByExtendedResourcePagingPage(
           resourceGroupName,
           resourceNamespace,
           resourceType,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -86,17 +91,24 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Software[]> {
-    let result = await this._listByExtendedResource(
-      resourceGroupName,
-      resourceNamespace,
-      resourceType,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SoftwareInventoriesListByExtendedResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByExtendedResource(
+        resourceGroupName,
+        resourceNamespace,
+        resourceType,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByExtendedResourceNext(
         resourceGroupName,
@@ -107,7 +119,9 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -144,22 +158,34 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Software[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SoftwareInventoriesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -304,7 +330,7 @@ const listByExtendedResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion15],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -328,7 +354,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion15],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -345,7 +371,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion15],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -369,7 +395,6 @@ const listByExtendedResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -393,7 +418,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

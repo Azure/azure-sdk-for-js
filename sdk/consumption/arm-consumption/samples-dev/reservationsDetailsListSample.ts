@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
  */
 async function reservationDetailsByBillingAccountId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/12345";
   const filter =
     "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05";
@@ -35,8 +40,6 @@ async function reservationDetailsByBillingAccountId() {
   console.log(resArray);
 }
 
-reservationDetailsByBillingAccountId().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
  *
@@ -44,7 +47,9 @@ reservationDetailsByBillingAccountId().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileId.json
  */
 async function reservationDetailsByBillingProfileId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
   const startDate = "2019-09-01";
@@ -59,8 +64,6 @@ async function reservationDetailsByBillingProfileId() {
   console.log(resArray);
 }
 
-reservationDetailsByBillingProfileId().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
  *
@@ -68,7 +71,9 @@ reservationDetailsByBillingProfileId().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileIdReservationId.json
  */
 async function reservationDetailsByBillingProfileIdReservationId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
   const startDate = "2019-09-01";
@@ -90,4 +95,10 @@ async function reservationDetailsByBillingProfileIdReservationId() {
   console.log(resArray);
 }
 
-reservationDetailsByBillingProfileIdReservationId().catch(console.error);
+async function main() {
+  reservationDetailsByBillingAccountId();
+  reservationDetailsByBillingProfileId();
+  reservationDetailsByBillingProfileIdReservationId();
+}
+
+main().catch(console.error);

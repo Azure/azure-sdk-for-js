@@ -9,10 +9,5 @@
       "@azure/keyvault-certificates": ["./src/index"]
     }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "../keyvault-common/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

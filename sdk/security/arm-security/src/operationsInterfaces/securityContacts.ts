@@ -14,23 +14,21 @@ import {
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
-  SecurityContactsDeleteOptionalParams,
-  SecurityContactsUpdateOptionalParams,
-  SecurityContactsUpdateResponse
+  SecurityContactsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityContacts. */
 export interface SecurityContacts {
   /**
-   * Security contact configurations for the subscription
+   * List all security contact configurations for the subscription
    * @param options The options parameters.
    */
   list(
     options?: SecurityContactsListOptionalParams
   ): PagedAsyncIterableIterator<SecurityContact>;
   /**
-   * Security contact configurations for the subscription
+   * Get Default Security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param options The options parameters.
    */
@@ -39,7 +37,7 @@ export interface SecurityContacts {
     options?: SecurityContactsGetOptionalParams
   ): Promise<SecurityContactsGetResponse>;
   /**
-   * Security contact configurations for the subscription
+   * Create security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param options The options parameters.
@@ -50,7 +48,7 @@ export interface SecurityContacts {
     options?: SecurityContactsCreateOptionalParams
   ): Promise<SecurityContactsCreateResponse>;
   /**
-   * Security contact configurations for the subscription
+   * Delete security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param options The options parameters.
    */
@@ -58,15 +56,4 @@ export interface SecurityContacts {
     securityContactName: string,
     options?: SecurityContactsDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Security contact configurations for the subscription
-   * @param securityContactName Name of the security contact object
-   * @param securityContact Security contact object
-   * @param options The options parameters.
-   */
-  update(
-    securityContactName: string,
-    securityContact: SecurityContact,
-    options?: SecurityContactsUpdateOptionalParams
-  ): Promise<SecurityContactsUpdateResponse>;
 }

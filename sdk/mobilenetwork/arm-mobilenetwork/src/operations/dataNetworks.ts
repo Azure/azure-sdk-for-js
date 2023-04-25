@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   DataNetwork,
   DataNetworksListByMobileNetworkNextOptionalParams,
   DataNetworksListByMobileNetworkOptionalParams,
+  DataNetworksListByMobileNetworkResponse,
   DataNetworksDeleteOptionalParams,
   DataNetworksGetOptionalParams,
   DataNetworksGetResponse,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   DataNetworksUpdateTagsOptionalParams,
   DataNetworksUpdateTagsResponse,
-  DataNetworksListByMobileNetworkResponse,
   DataNetworksListByMobileNetworkNextResponse
 } from "../models";
 
@@ -66,11 +67,15 @@ export class DataNetworksImpl implements DataNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMobileNetworkPagingPage(
           resourceGroupName,
           mobileNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class DataNetworksImpl implements DataNetworks {
   private async *listByMobileNetworkPagingPage(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: DataNetworksListByMobileNetworkOptionalParams
+    options?: DataNetworksListByMobileNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataNetwork[]> {
-    let result = await this._listByMobileNetwork(
-      resourceGroupName,
-      mobileNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataNetworksListByMobileNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByMobileNetwork(
+        resourceGroupName,
+        mobileNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByMobileNetworkNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class DataNetworksImpl implements DataNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -222,7 +236,8 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Creates or updates a data network.
+   * Creates or updates a data network. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
@@ -301,7 +316,8 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Creates or updates a data network.
+   * Creates or updates a data network. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
@@ -530,7 +546,6 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

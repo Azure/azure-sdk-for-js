@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check the cluster name is available or not.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Locations_CheckClusterNameAvailability.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const parameters = {
     name: "test123",
@@ -30,4 +31,8 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
   console.log(result);
 }
 
-getTheSubscriptionUsagesForSpecificLocation().catch(console.error);
+async function main() {
+  getTheSubscriptionUsagesForSpecificLocation();
+}
+
+main().catch(console.error);

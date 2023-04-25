@@ -1,0 +1,329 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/CurrencyDatasetUSD?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "391",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "28854e38-119a-4925-bebf-8e7f644d107d"
+      },
+      "RequestBody": {
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 15 Mar 2023 07:53:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "77554e4c-8c4f-47bf-ae3a-b453ce2a7fb2",
+        "x-ms-ratelimit-remaining-subscription-writes": "1196",
+        "x-ms-request-id": "77554e4c-8c4f-47bf-ae3a-b453ce2a7fb2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T075305Z:77554e4c-8c4f-47bf-ae3a-b453ce2a7fb2"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/CurrencyDatasetUSD",
+        "name": "CurrencyDatasetUSD",
+        "type": "Microsoft.DataFactory/factories/datasets",
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        },
+        "etag": "1500e7ad-0000-0100-0000-641179610000"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/CurrencyDatasetCAD?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "391",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "41d05179-c611-41c8-94cc-2280ff37b19f"
+      },
+      "RequestBody": {
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 15 Mar 2023 07:53:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fdb2b6af-5764-4769-ac15-19b088a7b11d",
+        "x-ms-ratelimit-remaining-subscription-writes": "1195",
+        "x-ms-request-id": "fdb2b6af-5764-4769-ac15-19b088a7b11d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T075306Z:fdb2b6af-5764-4769-ac15-19b088a7b11d"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/CurrencyDatasetCAD",
+        "name": "CurrencyDatasetCAD",
+        "type": "Microsoft.DataFactory/factories/datasets",
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        },
+        "etag": "15000aae-0000-0100-0000-641179620000"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/dataflows/exampleDataFlow?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1194",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "abd8bbd0-7c0f-40e8-a7d6-e90ef8a9a28d"
+      },
+      "RequestBody": {
+        "properties": {
+          "type": "MappingDataFlow",
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "typeProperties": {
+            "sources": [
+              {
+                "name": "USDCurrency",
+                "dataset": {
+                  "type": "DatasetReference",
+                  "referenceName": "CurrencyDatasetUSD"
+                }
+              },
+              {
+                "name": "CADSource",
+                "dataset": {
+                  "type": "DatasetReference",
+                  "referenceName": "CurrencyDatasetCAD"
+                }
+              }
+            ],
+            "scriptLines": [
+              "source(output(",
+              "PreviousConversionRate as double,",
+              "Country as string,",
+              "DateTime1 as string,",
+              "CurrentConversionRate as double",
+              "),",
+              "allowSchemaDrift: false,",
+              "validateSchema: false) ~\u003E USDCurrency",
+              "source(output(",
+              "PreviousConversionRate as double,",
+              "Country as string,",
+              "DateTime1 as string,",
+              "CurrentConversionRate as double",
+              "),",
+              "allowSchemaDrift: true,",
+              "validateSchema: false) ~\u003E CADSource",
+              "USDCurrency, CADSource union(byName: true)~\u003E Union",
+              "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~\u003E NewCurrencyColumn",
+              "NewCurrencyColumn split(Country == \u0027USD\u0027,",
+              "Country == \u0027CAD\u0027,disjoint: false) ~\u003E ConditionalSplit1@(USD, CAD)",
+              "ConditionalSplit1@USD sink(saveMode:\u0027overwrite\u0027 ) ~\u003E USDSink",
+              "ConditionalSplit1@CAD sink(saveMode:\u0027overwrite\u0027 ) ~\u003E CADSink"
+            ]
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 15 Mar 2023 07:53:07 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "77a3f449-9c06-44d7-b073-389cb9048324",
+        "x-ms-ratelimit-remaining-subscription-writes": "1194",
+        "x-ms-request-id": "77a3f449-9c06-44d7-b073-389cb9048324",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T075307Z:77a3f449-9c06-44d7-b073-389cb9048324"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/dataflows/exampleDataFlow",
+        "name": "exampleDataFlow",
+        "type": "Microsoft.DataFactory/factories/dataflows",
+        "properties": {
+          "type": "MappingDataFlow",
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "typeProperties": {
+            "sources": [
+              {
+                "name": "USDCurrency",
+                "dataset": {
+                  "type": "DatasetReference",
+                  "referenceName": "CurrencyDatasetUSD"
+                }
+              },
+              {
+                "name": "CADSource",
+                "dataset": {
+                  "type": "DatasetReference",
+                  "referenceName": "CurrencyDatasetCAD"
+                }
+              }
+            ],
+            "scriptLines": [
+              "source(output(",
+              "PreviousConversionRate as double,",
+              "Country as string,",
+              "DateTime1 as string,",
+              "CurrentConversionRate as double",
+              "),",
+              "allowSchemaDrift: false,",
+              "validateSchema: false) ~\u003E USDCurrency",
+              "source(output(",
+              "PreviousConversionRate as double,",
+              "Country as string,",
+              "DateTime1 as string,",
+              "CurrentConversionRate as double",
+              "),",
+              "allowSchemaDrift: true,",
+              "validateSchema: false) ~\u003E CADSource",
+              "USDCurrency, CADSource union(byName: true)~\u003E Union",
+              "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~\u003E NewCurrencyColumn",
+              "NewCurrencyColumn split(Country == \u0027USD\u0027,",
+              "Country == \u0027CAD\u0027,disjoint: false) ~\u003E ConditionalSplit1@(USD, CAD)",
+              "ConditionalSplit1@USD sink(saveMode:\u0027overwrite\u0027 ) ~\u003E USDSink",
+              "ConditionalSplit1@CAD sink(saveMode:\u0027overwrite\u0027 ) ~\u003E CADSink"
+            ]
+          }
+        },
+        "etag": "15002dae-0000-0100-0000-641179630000"
+      }
+    }
+  ],
+  "Variables": {}
+}

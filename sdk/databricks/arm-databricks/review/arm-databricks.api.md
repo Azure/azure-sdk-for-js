@@ -122,9 +122,12 @@ export interface ErrorResponse {
 }
 
 // @public
-export type GroupIdInformation = Resource & {
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GroupIdInformation extends Resource {
     properties: GroupIdInformationProperties;
-};
+}
 
 // @public
 export interface GroupIdInformationProperties {
@@ -138,129 +141,87 @@ export type KeySource = string;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCustomParameterType {
-    // (undocumented)
     Bool = "Bool",
-    // (undocumented)
     Object = "Object",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownEncryptionKeySource {
-    // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
 // @public
 export enum KnownKeySource {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
 // @public
 export enum KnownPeeringProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPeeringState {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Initiated = "Initiated"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRequiredNsgRules {
-    // (undocumented)
     AllRules = "AllRules",
-    // (undocumented)
     NoAzureDatabricksRules = "NoAzureDatabricksRules",
-    // (undocumented)
     NoAzureServiceRules = "NoAzureServiceRules"
 }
 
@@ -484,12 +445,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VirtualNetworkPeering {
@@ -571,25 +532,25 @@ export interface VNetPeeringListByWorkspaceOptionalParams extends coreClient.Ope
 export type VNetPeeringListByWorkspaceResponse = VirtualNetworkPeeringList;
 
 // @public
-export type Workspace = TrackedResource & {
-    sku?: Sku;
-    readonly systemData?: SystemData;
-    managedResourceGroupId: string;
-    parameters?: WorkspaceCustomParameters;
-    readonly provisioningState?: ProvisioningState;
-    uiDefinitionUri?: string;
+export interface Workspace extends TrackedResource {
     authorizations?: WorkspaceProviderAuthorization[];
     createdBy?: CreatedBy;
-    updatedBy?: CreatedBy;
     readonly createdDateTime?: Date;
-    readonly workspaceId?: string;
-    readonly workspaceUrl?: string;
-    storageAccountIdentity?: ManagedIdentityConfiguration;
     encryption?: WorkspacePropertiesEncryption;
+    managedResourceGroupId: string;
+    parameters?: WorkspaceCustomParameters;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     requiredNsgRules?: RequiredNsgRules;
-};
+    sku?: Sku;
+    storageAccountIdentity?: ManagedIdentityConfiguration;
+    readonly systemData?: SystemData;
+    uiDefinitionUri?: string;
+    updatedBy?: CreatedBy;
+    readonly workspaceId?: string;
+    readonly workspaceUrl?: string;
+}
 
 // @public
 export interface WorkspaceCustomBooleanParameter {

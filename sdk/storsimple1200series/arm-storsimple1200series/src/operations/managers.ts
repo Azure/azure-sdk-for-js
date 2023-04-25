@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Managers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,13 +15,15 @@ import { StorSimpleManagementClient } from "../storSimpleManagementClient";
 import {
   Manager,
   ManagersListOptionalParams,
+  ManagersListResponse,
   ManagersListByResourceGroupOptionalParams,
+  ManagersListByResourceGroupResponse,
   Metrics,
   ManagersListMetricsOptionalParams,
+  ManagersListMetricsResponse,
   MetricDefinition,
   ManagersListMetricDefinitionOptionalParams,
-  ManagersListResponse,
-  ManagersListByResourceGroupResponse,
+  ManagersListMetricDefinitionResponse,
   ManagersGetOptionalParams,
   ManagersGetResponse,
   ManagersCreateOrUpdateOptionalParams,
@@ -44,9 +46,7 @@ import {
   ManagersUpdateExtendedInfoOptionalParams,
   ManagersUpdateExtendedInfoResponse,
   ManagersGetEncryptionKeyOptionalParams,
-  ManagersGetEncryptionKeyResponse,
-  ManagersListMetricsResponse,
-  ManagersListMetricDefinitionResponse
+  ManagersGetEncryptionKeyResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -77,16 +77,21 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ManagersListOptionalParams
+    options?: ManagersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Manager[]> {
-    let result = await this._list(options);
+    let result: ManagersListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -115,17 +120,26 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ManagersListByResourceGroupOptionalParams
+    options?: ManagersListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Manager[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ManagersListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -164,11 +178,15 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -177,13 +195,11 @@ export class ManagersImpl implements Managers {
   private async *listMetricsPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: ManagersListMetricsOptionalParams
+    options?: ManagersListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
-      resourceGroupName,
-      managerName,
-      options
-    );
+    let result: ManagersListMetricsResponse;
+    result = await this._listMetrics(resourceGroupName, managerName, options);
     yield result.value || [];
   }
 
@@ -224,11 +240,15 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -237,9 +257,11 @@ export class ManagersImpl implements Managers {
   private async *listMetricDefinitionPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: ManagersListMetricDefinitionOptionalParams
+    options?: ManagersListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: ManagersListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       resourceGroupName,
       managerName,
       options

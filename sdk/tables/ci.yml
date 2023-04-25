@@ -21,9 +21,6 @@ pr:
     include:
       - sdk/tables/
 
-variables:
-    jobMatrixFilter: ^((?!8x_node).)*$
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

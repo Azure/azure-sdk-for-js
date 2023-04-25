@@ -15,7 +15,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -39,7 +39,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -65,7 +65,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         const client: any = {
           async deleteSecret(): Promise<any> {
             return {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
           },
@@ -97,7 +97,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -121,7 +121,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -147,7 +147,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         const client: any = {
           async recoverDeletedSecret(): Promise<any> {
             return {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
           },

@@ -6,25 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Quota } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CurrentQuotaLimitBase,
   QuotaListNextOptionalParams,
   QuotaListOptionalParams,
+  QuotaListResponse,
   QuotaGetOptionalParams,
   QuotaGetResponse,
   QuotaCreateOrUpdateOptionalParams,
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
   QuotaUpdateResponse,
-  QuotaListResponse,
   QuotaListNextResponse
 } from "../models";
 
@@ -68,12 +73,16 @@ export class QuotaImpl implements Quota {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           subscriptionId,
           providerId,
           location,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,16 +92,18 @@ export class QuotaImpl implements Quota {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CurrentQuotaLimitBase[]> {
-    let result = await this._list(
-      subscriptionId,
-      providerId,
-      location,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: QuotaListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(subscriptionId, providerId, location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         subscriptionId,
@@ -102,7 +113,9 @@ export class QuotaImpl implements Quota {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -148,12 +161,9 @@ export class QuotaImpl implements Quota {
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
    *  Steps:
-   * 
-  1. Make the Get request to get the quota information for specific resource.
-   * 
-  2. To increase the quota, update the limit field in the response from Get request to new value.
-   * 
-  3. Submit the JSON to the quota request API to update the quota.
+   *   1. Make the Get request to get the quota information for specific resource.
+   *   2. To increase the quota, update the limit field in the response from Get request to new value.
+   *   3. Submit the JSON to the quota request API to update the quota.
    *   The Create quota request may be constructed as follows. The PUT operation can be used to update
    * the quota.
    * @param subscriptionId Azure subscription ID.
@@ -172,8 +182,8 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<QuotaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<QuotaCreateOrUpdateResponse>,
       QuotaCreateOrUpdateResponse
     >
   > {
@@ -183,7 +193,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,9 +226,9 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         subscriptionId,
         providerId,
         location,
@@ -226,12 +236,15 @@ export class QuotaImpl implements Quota {
         createQuotaRequest,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaCreateOrUpdateResponse,
+      OperationState<QuotaCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -240,12 +253,9 @@ export class QuotaImpl implements Quota {
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
    *  Steps:
-   * 
-  1. Make the Get request to get the quota information for specific resource.
-   * 
-  2. To increase the quota, update the limit field in the response from Get request to new value.
-   * 
-  3. Submit the JSON to the quota request API to update the quota.
+   *   1. Make the Get request to get the quota information for specific resource.
+   *   2. To increase the quota, update the limit field in the response from Get request to new value.
+   *   3. Submit the JSON to the quota request API to update the quota.
    *   The Create quota request may be constructed as follows. The PUT operation can be used to update
    * the quota.
    * @param subscriptionId Azure subscription ID.
@@ -277,12 +287,9 @@ export class QuotaImpl implements Quota {
 
   /**
    * Update the quota (service limits) of this resource to the requested value.
-   * 
-  • To get the quota information for specific resource, send a GET request.
-   * 
-  • To increase the quota, update the limit field from the GET response to a new value.
-   * 
-  • To update the quota value, submit the JSON response to the quota request API to update the
+   *   • To get the quota information for specific resource, send a GET request.
+   *   • To increase the quota, update the limit field from the GET response to a new value.
+   *   • To update the quota value, submit the JSON response to the quota request API to update the
    * quota.
    *   • To update the quota. use the PATCH operation.
    * @param subscriptionId Azure subscription ID.
@@ -301,7 +308,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
+    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -309,7 +316,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,9 +349,9 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         subscriptionId,
         providerId,
         location,
@@ -352,12 +359,15 @@ export class QuotaImpl implements Quota {
         createQuotaRequest,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaUpdateResponse,
+      OperationState<QuotaUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -365,12 +375,9 @@ export class QuotaImpl implements Quota {
 
   /**
    * Update the quota (service limits) of this resource to the requested value.
-   * 
-  • To get the quota information for specific resource, send a GET request.
-   * 
-  • To increase the quota, update the limit field from the GET response to a new value.
-   * 
-  • To update the quota value, submit the JSON response to the quota request API to update the
+   *   • To get the quota information for specific resource, send a GET request.
+   *   • To increase the quota, update the limit field from the GET response to a new value.
+   *   • To update the quota value, submit the JSON response to the quota request API to update the
    * quota.
    *   • To update the quota. use the PATCH operation.
    * @param subscriptionId Azure subscription ID.
@@ -571,7 +578,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

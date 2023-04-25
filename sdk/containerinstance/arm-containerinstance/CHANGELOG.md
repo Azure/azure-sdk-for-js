@@ -1,5 +1,25 @@
 # Release History
     
+## 9.1.0 (2023-04-24)
+    
+**Features**
+
+  - Added Interface ConfidentialComputeProperties
+  - Added Interface DeploymentExtensionSpec
+  - Added Interface SecurityContextCapabilitiesDefinition
+  - Added Interface SecurityContextDefinition
+  - Added Type Alias ContainerGroupPriority
+  - Interface Container has a new optional parameter securityContext
+  - Interface ContainerGroupProperties has a new optional parameter confidentialComputeProperties
+  - Interface ContainerGroupProperties has a new optional parameter extensions
+  - Interface ContainerGroupProperties has a new optional parameter priority
+  - Interface EncryptionProperties has a new optional parameter identity
+  - Interface InitContainerDefinition has a new optional parameter securityContext
+  - Added Enum KnownContainerGroupPriority
+  - Enum KnownContainerGroupSku has a new value Confidential
+  - Added function getContinuationToken
+    
+    
 ## 9.0.0 (2022-08-30)
     
 **Features**

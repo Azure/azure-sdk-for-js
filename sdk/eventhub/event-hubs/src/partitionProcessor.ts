@@ -8,9 +8,9 @@ import {
 } from "./eventHubConsumerClientModels";
 import { CheckpointStore } from "./eventProcessor";
 import { CloseReason } from "./models/public";
-import { LastEnqueuedEventProperties } from "./eventHubReceiver";
+import { LastEnqueuedEventProperties } from "./partitionReceiver";
 import { ReceivedEventData } from "./eventData";
-import { logger } from "./log";
+import { logger } from "./logger";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -135,9 +135,7 @@ export class PartitionProcessor implements PartitionContext {
    * events are received.
    */
   async initialize(): Promise<void> {
-    if (this._eventHandlers.processInitialize) {
-      await this._eventHandlers.processInitialize(this);
-    }
+    return this._eventHandlers.processInitialize?.(this);
   }
 
   /**

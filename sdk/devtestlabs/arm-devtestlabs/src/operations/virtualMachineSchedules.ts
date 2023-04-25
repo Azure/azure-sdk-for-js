@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachineSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -70,12 +71,16 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           labName,
           virtualMachineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,16 +90,23 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
     resourceGroupName: string,
     labName: string,
     virtualMachineName: string,
-    options?: VirtualMachineSchedulesListOptionalParams
+    options?: VirtualMachineSchedulesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Schedule[]> {
-    let result = await this._list(
-      resourceGroupName,
-      labName,
-      virtualMachineName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineSchedulesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        labName,
+        virtualMachineName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -104,7 +116,9 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

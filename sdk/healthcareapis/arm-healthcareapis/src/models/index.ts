@@ -653,7 +653,7 @@ export interface PrivateEndpointConnectionListResult {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -663,10 +663,10 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -679,10 +679,10 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The description of the service. */
-export type ServicesDescription = ServicesResource & {
+export interface ServicesDescription extends ServicesResource {
   /** The common properties of a service. */
   properties?: ServicesProperties;
   /**
@@ -690,151 +690,152 @@ export type ServicesDescription = ServicesResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** The common properties of tracked resources in the service. */
-export type TaggedResource = ResourceTags & LocationBasedResource & {};
+export interface TaggedResource extends ResourceTags, LocationBasedResource {}
 
 /** Workspace patch properties */
-export type WorkspacePatchResource = ResourceTags & {};
+export interface WorkspacePatchResource extends ResourceTags {}
 
 /** Dicom Service patch properties */
-export type DicomServicePatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface DicomServicePatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** Iot Connector patch properties */
-export type IotConnectorPatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface IotConnectorPatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** FhirService patch properties */
-export type FhirServicePatchResource = ResourceTags &
-  ServiceManagedIdentity & {};
+export interface FhirServicePatchResource
+  extends ResourceTags,
+    ServiceManagedIdentity {}
 
 /** The common properties for any location based resource, tracked or proxy. */
-export type LocationBasedResource = ResourceCore & {
+export interface LocationBasedResource extends ResourceCore {
   /** The resource location. */
   location?: string;
-};
+}
 
 /** The description of Dicom Service */
-export type DicomService = TaggedResource &
-  ServiceManagedIdentity & {
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Dicom Service authentication configuration. */
-    authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
-    /**
-     * The url of the Dicom Services.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly serviceUrl?: string;
-    /**
-     * The list of private endpoint connections that are set up for this resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-    publicNetworkAccess?: PublicNetworkAccess;
-  };
+export interface DicomService extends TaggedResource, ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Dicom Service authentication configuration. */
+  authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /**
+   * The url of the Dicom Services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUrl?: string;
+  /**
+   * The list of private endpoint connections that are set up for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
 
 /** IoT Connector definition. */
-export type IotConnector = TaggedResource &
-  ServiceManagedIdentity & {
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Source configuration. */
-    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
-    /** Device Mappings. */
-    deviceMapping?: IotMappingProperties;
-  };
+export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Source configuration. */
+  ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+  /** Device Mappings. */
+  deviceMapping?: IotMappingProperties;
+}
 
 /** The description of Fhir Service */
-export type FhirService = TaggedResource &
-  ServiceManagedIdentity & {
-    /** The kind of the service. */
-    kind?: FhirServiceKind;
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * The provisioning state.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /** Fhir Service access policies. */
-    accessPolicies?: FhirServiceAccessPolicyEntry[];
-    /** Fhir Service Azure container registry configuration. */
-    acrConfiguration?: FhirServiceAcrConfiguration;
-    /** Fhir Service authentication configuration. */
-    authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
-    /** Fhir Service Cors configuration. */
-    corsConfiguration?: FhirServiceCorsConfiguration;
-    /** Fhir Service export configuration. */
-    exportConfiguration?: FhirServiceExportConfiguration;
-    /**
-     * The list of private endpoint connections that are set up for this resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-    publicNetworkAccess?: PublicNetworkAccess;
-    /**
-     * Fhir Service event support status.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly eventState?: ServiceEventState;
-    /** Determines tracking of history for resources. */
-    resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
-  };
+export interface FhirService extends TaggedResource, ServiceManagedIdentity {
+  /** The kind of the service. */
+  kind?: FhirServiceKind;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Fhir Service access policies. */
+  accessPolicies?: FhirServiceAccessPolicyEntry[];
+  /** Fhir Service Azure container registry configuration. */
+  acrConfiguration?: FhirServiceAcrConfiguration;
+  /** Fhir Service authentication configuration. */
+  authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+  /** Fhir Service Cors configuration. */
+  corsConfiguration?: FhirServiceCorsConfiguration;
+  /** Fhir Service export configuration. */
+  exportConfiguration?: FhirServiceExportConfiguration;
+  /**
+   * The list of private endpoint connections that are set up for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Fhir Service event support status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventState?: ServiceEventState;
+  /** Determines tracking of history for resources. */
+  resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+}
 
 /** IoT Connector destination properties for an Azure FHIR service. */
-export type IotFhirDestinationProperties = IotDestinationProperties & {
+export interface IotFhirDestinationProperties extends IotDestinationProperties {
   /** Determines how resource identity is resolved on the destination. */
   resourceIdentityResolutionType: IotIdentityResolutionType;
   /** Fully qualified resource id of the FHIR service to connect to. */
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnectionDescription = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionDescription
+  extends PrivateEndpointConnection {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateLinkResourceDescription = PrivateLinkResource & {
+export interface PrivateLinkResourceDescription extends PrivateLinkResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Workspace resource. */
-export type Workspace = TaggedResource & {
+export interface Workspace extends TaggedResource {
   /** Workspaces resource specific properties. */
   properties?: WorkspaceProperties;
   /**
@@ -842,10 +843,10 @@ export type Workspace = TaggedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** IoT Connector FHIR destination definition. */
-export type IotFhirDestination = LocationBasedResource & {
+export interface IotFhirDestination extends LocationBasedResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -862,22 +863,35 @@ export type IotFhirDestination = LocationBasedResource & {
   fhirServiceResourceId: string;
   /** FHIR Mappings */
   fhirMapping: IotMappingProperties;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Verifying */
   Verifying = "Verifying",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deprovisioned */
   Deprovisioned = "Deprovisioned",
+  /** Moving */
   Moving = "Moving",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Warned */
   Warned = "Warned",
+  /** SystemMaintenance */
   SystemMaintenance = "SystemMaintenance"
 }
 
@@ -904,8 +918,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -922,9 +939,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -942,7 +963,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -958,9 +981,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -978,7 +1005,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** None */
   None = "None"
 }
 
@@ -994,9 +1023,13 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ServiceManagedIdentityType} that the service accepts. */
 export enum KnownServiceManagedIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -1014,7 +1047,9 @@ export type ServiceManagedIdentityType = string;
 
 /** Known values of {@link IotIdentityResolutionType} that the service accepts. */
 export enum KnownIotIdentityResolutionType {
+  /** Create */
   Create = "Create",
+  /** Lookup */
   Lookup = "Lookup"
 }
 
@@ -1030,7 +1065,9 @@ export type IotIdentityResolutionType = string;
 
 /** Known values of {@link FhirServiceKind} that the service accepts. */
 export enum KnownFhirServiceKind {
+  /** FhirStu3 */
   FhirStu3 = "fhir-Stu3",
+  /** FhirR4 */
   FhirR4 = "fhir-R4"
 }
 
@@ -1046,8 +1083,11 @@ export type FhirServiceKind = string;
 
 /** Known values of {@link ServiceEventState} that the service accepts. */
 export enum KnownServiceEventState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1064,8 +1104,11 @@ export type ServiceEventState = string;
 
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {
+  /** NoVersion */
   NoVersion = "no-version",
+  /** Versioned */
   Versioned = "versioned",
+  /** VersionedUpdate */
   VersionedUpdate = "versioned-update"
 }
 
@@ -1082,6 +1125,7 @@ export type FhirResourceVersionPolicy = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -1096,10 +1140,15 @@ export type ActionType = string;
 
 /** Known values of {@link OperationResultStatus} that the service accepts. */
 export enum KnownOperationResultStatus {
+  /** Canceled */
   Canceled = "Canceled",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Requested */
   Requested = "Requested",
+  /** Running */
   Running = "Running"
 }
 

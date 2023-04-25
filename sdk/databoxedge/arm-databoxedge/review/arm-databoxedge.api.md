@@ -17,10 +17,10 @@ export type AccessLevel = string;
 export type AccountType = string;
 
 // @public
-export type Addon = ARMBaseModel & {
+export interface Addon extends ARMBaseModel {
     kind: AddonType;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface AddonList {
@@ -95,18 +95,18 @@ export interface Address {
 }
 
 // @public
-export type Alert = ARMBaseModel & {
-    readonly systemData?: SystemData;
-    readonly title?: string;
+export interface Alert extends ARMBaseModel {
     readonly alertType?: string;
     readonly appearedAtDateTime?: Date;
-    readonly recommendation?: string;
-    readonly severity?: AlertSeverity;
-    readonly errorDetails?: AlertErrorDetails;
     readonly detailedInformation?: {
         [propertyName: string]: string;
     };
-};
+    readonly errorDetails?: AlertErrorDetails;
+    readonly recommendation?: string;
+    readonly severity?: AlertSeverity;
+    readonly systemData?: SystemData;
+    readonly title?: string;
+}
 
 // @public
 export interface AlertErrorDetails {
@@ -152,16 +152,17 @@ export interface AlertsListByDataBoxEdgeDeviceOptionalParams extends coreClient.
 export type AlertsListByDataBoxEdgeDeviceResponse = AlertList;
 
 // @public
-export type ArcAddon = Addon & {
-    subscriptionId: string;
-    resourceGroupName: string;
-    resourceName: string;
-    resourceLocation: string;
-    readonly version?: string;
+export interface ArcAddon extends Addon {
     readonly hostPlatform?: PlatformType;
     readonly hostPlatformType?: HostPlatformType;
+    kind: "ArcForKubernetes";
     readonly provisioningState?: AddonState;
-};
+    resourceGroupName: string;
+    resourceLocation: string;
+    resourceName: string;
+    subscriptionId: string;
+    readonly version?: string;
+}
 
 // @public
 export interface ARMBaseModel {
@@ -215,13 +216,13 @@ export interface AzureContainerInfo {
 }
 
 // @public
-export type BandwidthSchedule = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface BandwidthSchedule extends ARMBaseModel {
+    days: DayOfWeek[];
+    rateInMbps: number;
     start: string;
     stop: string;
-    rateInMbps: number;
-    days: DayOfWeek[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface BandwidthSchedules {
@@ -285,11 +286,12 @@ export interface ClientAccessRight {
 export type ClientPermissionType = string;
 
 // @public
-export type CloudEdgeManagementRole = Role & {
-    readonly localManagementStatus?: RoleStatus;
+export interface CloudEdgeManagementRole extends Role {
     readonly edgeProfile?: EdgeProfile;
+    kind: "CloudEdgeManagement";
+    readonly localManagementStatus?: RoleStatus;
     roleStatus?: RoleStatus;
-};
+}
 
 // @public
 export interface CloudError {
@@ -326,13 +328,13 @@ export interface ContactDetails {
 }
 
 // @public
-export type Container = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface Container extends ARMBaseModel {
     readonly containerStatus?: ContainerStatus;
+    readonly createdDateTime?: Date;
     dataFormat: AzureContainerDataFormat;
     readonly refreshDetails?: RefreshDetails;
-    readonly createdDateTime?: Date;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ContainerList {
@@ -401,50 +403,50 @@ export type ContainerStatus = string;
 export type CreatedByType = string;
 
 // @public
-export type DataBoxEdgeDevice = ARMBaseModel & {
+export interface DataBoxEdgeDevice extends ARMBaseModel {
+    readonly configuredRoleTypes?: RoleTypes[];
+    readonly culture?: string;
+    dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+    dataResidency?: DataResidency;
+    readonly description?: string;
+    readonly deviceHcsVersion?: string;
+    readonly deviceLocalCapacity?: number;
+    readonly deviceModel?: string;
+    readonly deviceSoftwareVersion?: string;
+    readonly deviceType?: DeviceType;
+    readonly edgeProfile?: EdgeProfile;
+    etag?: string;
+    readonly friendlyName?: string;
+    identity?: ResourceIdentity;
+    kind?: DataBoxEdgeDeviceKind;
     location: string;
+    readonly modelDescription?: string;
+    readonly nodeCount?: number;
+    readonly resourceMoveDetails?: ResourceMoveDetails;
+    readonly serialNumber?: string;
+    sku?: Sku;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesSystemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    sku?: Sku;
-    etag?: string;
-    identity?: ResourceIdentity;
-    kind?: DataBoxEdgeDeviceKind;
-    readonly systemData?: SystemData;
-    readonly systemDataPropertiesSystemData?: SystemData;
-    dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
-    readonly serialNumber?: string;
-    readonly description?: string;
-    readonly modelDescription?: string;
-    readonly deviceType?: DeviceType;
-    readonly friendlyName?: string;
-    readonly culture?: string;
-    readonly deviceModel?: string;
-    readonly deviceSoftwareVersion?: string;
-    readonly deviceLocalCapacity?: number;
     readonly timeZone?: string;
-    readonly deviceHcsVersion?: string;
-    readonly configuredRoleTypes?: RoleTypes[];
-    readonly nodeCount?: number;
-    readonly resourceMoveDetails?: ResourceMoveDetails;
-    readonly edgeProfile?: EdgeProfile;
-    dataResidency?: DataResidency;
-};
+}
 
 // @public
-export type DataBoxEdgeDeviceExtendedInfo = ARMBaseModel & {
-    encryptionKeyThumbprint?: string;
-    encryptionKey?: string;
-    readonly resourceKey?: string;
-    clientSecretStoreId?: string;
-    clientSecretStoreUrl?: string;
+export interface DataBoxEdgeDeviceExtendedInfo extends ARMBaseModel {
     channelIntegrityKeyName?: string;
     channelIntegrityKeyVersion?: string;
-    keyVaultSyncStatus?: KeyVaultSyncStatus;
+    clientSecretStoreId?: string;
+    clientSecretStoreUrl?: string;
     readonly deviceSecrets?: {
         [propertyName: string]: Secret;
     };
-};
+    encryptionKey?: string;
+    encryptionKeyThumbprint?: string;
+    keyVaultSyncStatus?: KeyVaultSyncStatus;
+    readonly resourceKey?: string;
+}
 
 // @public
 export interface DataBoxEdgeDeviceExtendedInfoPatch {
@@ -738,16 +740,16 @@ export type DevicesUploadCertificateResponse = UploadCertificateResponse;
 export type DeviceType = string;
 
 // @public
-export type DiagnosticProactiveLogCollectionSettings = ARMBaseModel & {
+export interface DiagnosticProactiveLogCollectionSettings extends ARMBaseModel {
     readonly systemData?: SystemData;
     userConsent: ProactiveDiagnosticsConsent;
-};
+}
 
 // @public
-export type DiagnosticRemoteSupportSettings = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface DiagnosticRemoteSupportSettings extends ARMBaseModel {
     remoteSupportSettingsList?: RemoteSupportSettings[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DiagnosticSettings {
@@ -841,11 +843,12 @@ export interface EtcdInfo {
 }
 
 // @public
-export type FileEventTrigger = Trigger & {
-    sourceInfo: FileSourceInfo;
-    sinkInfo: RoleSinkInfo;
+export interface FileEventTrigger extends Trigger {
     customContextTag?: string;
-};
+    kind: "FileEvent";
+    sinkInfo: RoleSinkInfo;
+    sourceInfo: FileSourceInfo;
+}
 
 // @public
 export interface FileSourceInfo {
@@ -858,6 +861,9 @@ export interface GenerateCertResponse {
     privateKey?: string;
     publicKey?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type HostPlatformType = string;
@@ -876,14 +882,15 @@ export type InstallationImpact = string;
 export type InstallRebootBehavior = string;
 
 // @public
-export type IoTAddon = Addon & {
-    ioTDeviceDetails: IoTDeviceInfo;
-    ioTEdgeDeviceDetails: IoTDeviceInfo;
-    readonly version?: string;
+export interface IoTAddon extends Addon {
     readonly hostPlatform?: PlatformType;
     readonly hostPlatformType?: HostPlatformType;
+    ioTDeviceDetails: IoTDeviceInfo;
+    ioTEdgeDeviceDetails: IoTDeviceInfo;
+    kind: "IotEdge";
     readonly provisioningState?: AddonState;
-};
+    readonly version?: string;
+}
 
 // @public
 export interface IoTDeviceInfo {
@@ -901,16 +908,17 @@ export interface IoTEdgeAgentInfo {
 }
 
 // @public
-export type IoTRole = Role & {
-    hostPlatform?: PlatformType;
-    ioTDeviceDetails?: IoTDeviceInfo;
-    ioTEdgeDeviceDetails?: IoTDeviceInfo;
-    shareMappings?: MountPointMap[];
-    ioTEdgeAgentInfo?: IoTEdgeAgentInfo;
-    readonly hostPlatformType?: HostPlatformType;
+export interface IoTRole extends Role {
     computeResource?: ComputeResource;
+    hostPlatform?: PlatformType;
+    readonly hostPlatformType?: HostPlatformType;
+    ioTDeviceDetails?: IoTDeviceInfo;
+    ioTEdgeAgentInfo?: IoTEdgeAgentInfo;
+    ioTEdgeDeviceDetails?: IoTDeviceInfo;
+    kind: "IOT";
     roleStatus?: RoleStatus;
-};
+    shareMappings?: MountPointMap[];
+}
 
 // @public
 export interface Ipv4Config {
@@ -983,821 +991,539 @@ export type KeyVaultSyncStatus = string;
 
 // @public
 export enum KnownAccessLevel {
-    // (undocumented)
     FullAccess = "FullAccess",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownAccountType {
-    // (undocumented)
     BlobStorage = "BlobStorage",
-    // (undocumented)
     GeneralPurposeStorage = "GeneralPurposeStorage"
 }
 
 // @public
 export enum KnownAddonState {
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Reconfiguring = "Reconfiguring",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownAddonType {
-    // (undocumented)
     ArcForKubernetes = "ArcForKubernetes",
-    // (undocumented)
     IotEdge = "IotEdge"
 }
 
 // @public
 export enum KnownAlertSeverity {
-    // (undocumented)
     Critical = "Critical",
-    // (undocumented)
     Informational = "Informational",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     AzureActiveDirectory = "AzureActiveDirectory",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownAzureContainerDataFormat {
-    // (undocumented)
     AzureFile = "AzureFile",
-    // (undocumented)
     BlockBlob = "BlockBlob",
-    // (undocumented)
     PageBlob = "PageBlob"
 }
 
 // @public
 export enum KnownClientPermissionType {
-    // (undocumented)
     NoAccess = "NoAccess",
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownContainerStatus {
-    // (undocumented)
     NeedsAttention = "NeedsAttention",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDataBoxEdgeDeviceKind {
-    // (undocumented)
     AzureDataBoxGateway = "AzureDataBoxGateway",
-    // (undocumented)
     AzureModularDataCentre = "AzureModularDataCentre",
-    // (undocumented)
     AzureStackEdge = "AzureStackEdge",
-    // (undocumented)
     AzureStackHub = "AzureStackHub"
 }
 
 // @public
 export enum KnownDataBoxEdgeDeviceStatus {
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Maintenance = "Maintenance",
-    // (undocumented)
     NeedsAttention = "NeedsAttention",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     PartiallyDisconnected = "PartiallyDisconnected",
-    // (undocumented)
     ReadyToSetup = "ReadyToSetup"
 }
 
 // @public
 export enum KnownDataPolicy {
-    // (undocumented)
     Cloud = "Cloud",
-    // (undocumented)
     Local = "Local"
 }
 
 // @public
 export enum KnownDataResidencyType {
-    // (undocumented)
     GeoZoneReplication = "GeoZoneReplication",
-    // (undocumented)
     ZoneReplication = "ZoneReplication"
 }
 
 // @public
 export enum KnownDayOfWeek {
-    // (undocumented)
     Friday = "Friday",
-    // (undocumented)
     Monday = "Monday",
-    // (undocumented)
     Saturday = "Saturday",
-    // (undocumented)
     Sunday = "Sunday",
-    // (undocumented)
     Thursday = "Thursday",
-    // (undocumented)
     Tuesday = "Tuesday",
-    // (undocumented)
     Wednesday = "Wednesday"
 }
 
 // @public
 export enum KnownDeviceType {
-    // (undocumented)
     DataBoxEdgeDevice = "DataBoxEdgeDevice"
 }
 
 // @public
 export enum KnownDownloadPhase {
-    // (undocumented)
     Downloading = "Downloading",
-    // (undocumented)
     Initializing = "Initializing",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Verifying = "Verifying"
 }
 
 // @public
 export enum KnownEncryptionAlgorithm {
-    // (undocumented)
     AES256 = "AES256",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     RsaesPkcs1V15 = "RSAES_PKCS1_v_1_5"
 }
 
 // @public
 export enum KnownHostPlatformType {
-    // (undocumented)
     KubernetesCluster = "KubernetesCluster",
-    // (undocumented)
     LinuxVM = "LinuxVM"
 }
 
 // @public
 export enum KnownInstallationImpact {
-    // (undocumented)
     DeviceRebooted = "DeviceRebooted",
-    // (undocumented)
     KubernetesWorkloadsDown = "KubernetesWorkloadsDown",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownInstallRebootBehavior {
-    // (undocumented)
     NeverReboots = "NeverReboots",
-    // (undocumented)
     RequestReboot = "RequestReboot",
-    // (undocumented)
     RequiresReboot = "RequiresReboot"
 }
 
 // @public
 export enum KnownJobStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     Backup = "Backup",
-    // (undocumented)
     DownloadUpdates = "DownloadUpdates",
-    // (undocumented)
     InstallUpdates = "InstallUpdates",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     RefreshContainer = "RefreshContainer",
-    // (undocumented)
     RefreshShare = "RefreshShare",
-    // (undocumented)
     Restore = "Restore",
-    // (undocumented)
     ScanForUpdates = "ScanForUpdates",
-    // (undocumented)
     TriggerSupportPackage = "TriggerSupportPackage"
 }
 
 // @public
 export enum KnownKeyVaultSyncStatus {
-    // (undocumented)
     KeyVaultNotConfigured = "KeyVaultNotConfigured",
-    // (undocumented)
     KeyVaultNotSynced = "KeyVaultNotSynced",
-    // (undocumented)
     KeyVaultSynced = "KeyVaultSynced",
-    // (undocumented)
     KeyVaultSyncFailed = "KeyVaultSyncFailed",
-    // (undocumented)
     KeyVaultSyncing = "KeyVaultSyncing",
-    // (undocumented)
     KeyVaultSyncPending = "KeyVaultSyncPending"
 }
 
 // @public
 export enum KnownKubernetesNodeType {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Master = "Master",
-    // (undocumented)
     Worker = "Worker"
 }
 
 // @public
 export enum KnownKubernetesState {
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Reconfiguring = "Reconfiguring",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownMetricAggregationType {
-    // (undocumented)
     Average = "Average",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     Maximum = "Maximum",
-    // (undocumented)
     Minimum = "Minimum",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Total = "Total"
 }
 
 // @public
 export enum KnownMetricCategory {
-    // (undocumented)
     Capacity = "Capacity",
-    // (undocumented)
     Transaction = "Transaction"
 }
 
 // @public
 export enum KnownMetricUnit {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     Milliseconds = "Milliseconds",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds"
 }
 
 // @public
 export enum KnownMonitoringStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMountType {
-    // (undocumented)
     HostPath = "HostPath",
-    // (undocumented)
     Volume = "Volume"
 }
 
 // @public
 export enum KnownMsiIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownNetworkAdapterDhcpStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNetworkAdapterRdmaStatus {
-    // (undocumented)
     Capable = "Capable",
-    // (undocumented)
     Incapable = "Incapable"
 }
 
 // @public
 export enum KnownNetworkAdapterStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Inactive = "Inactive"
 }
 
 // @public
 export enum KnownNetworkGroup {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NonRdma = "NonRDMA",
-    // (undocumented)
     Rdma = "RDMA"
 }
 
 // @public
 export enum KnownNodeStatus {
-    // (undocumented)
     Down = "Down",
-    // (undocumented)
     Rebooting = "Rebooting",
-    // (undocumented)
     ShuttingDown = "ShuttingDown",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Up = "Up"
 }
 
 // @public
 export enum KnownOrderState {
-    // (undocumented)
     Arriving = "Arriving",
-    // (undocumented)
     AwaitingDrop = "AwaitingDrop",
-    // (undocumented)
     AwaitingFulfillment = "AwaitingFulfillment",
-    // (undocumented)
     AwaitingPickup = "AwaitingPickup",
-    // (undocumented)
     AwaitingPreparation = "AwaitingPreparation",
-    // (undocumented)
     AwaitingReturnShipment = "AwaitingReturnShipment",
-    // (undocumented)
     AwaitingShipment = "AwaitingShipment",
-    // (undocumented)
     CollectedAtMicrosoft = "CollectedAtMicrosoft",
-    // (undocumented)
     Declined = "Declined",
-    // (undocumented)
     Delivered = "Delivered",
-    // (undocumented)
     LostDevice = "LostDevice",
-    // (undocumented)
     PickupCompleted = "PickupCompleted",
-    // (undocumented)
     ReplacementRequested = "ReplacementRequested",
-    // (undocumented)
     ReturnInitiated = "ReturnInitiated",
-    // (undocumented)
     Shipped = "Shipped",
-    // (undocumented)
     ShippedBack = "ShippedBack",
-    // (undocumented)
     Untracked = "Untracked"
 }
 
 // @public
 export enum KnownPlatformType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownPosixComplianceStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownProactiveDiagnosticsConsent {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRemoteApplicationType {
-    // (undocumented)
     AllApplications = "AllApplications",
-    // (undocumented)
     LocalUI = "LocalUI",
-    // (undocumented)
     Powershell = "Powershell",
-    // (undocumented)
     WAC = "WAC"
 }
 
 // @public
 export enum KnownResourceMoveStatus {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ResourceMoveFailed = "ResourceMoveFailed",
-    // (undocumented)
     ResourceMoveInProgress = "ResourceMoveInProgress"
 }
 
 // @public
 export enum KnownRoleStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRoleTypes {
-    // (undocumented)
     ASA = "ASA",
-    // (undocumented)
     CloudEdgeManagement = "CloudEdgeManagement",
-    // (undocumented)
     Cognitive = "Cognitive",
-    // (undocumented)
     Functions = "Functions",
-    // (undocumented)
     IOT = "IOT",
-    // (undocumented)
     Kubernetes = "Kubernetes",
-    // (undocumented)
     MEC = "MEC"
 }
 
 // @public
 export enum KnownShareAccessProtocol {
-    // (undocumented)
     NFS = "NFS",
-    // (undocumented)
     SMB = "SMB"
 }
 
 // @public
 export enum KnownShareAccessType {
-    // (undocumented)
     Change = "Change",
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     Read = "Read"
 }
 
 // @public
 export enum KnownShareStatus {
-    // (undocumented)
     NeedsAttention = "NeedsAttention",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownShipmentType {
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     SelfPickup = "SelfPickup",
-    // (undocumented)
     ShippedToCustomer = "ShippedToCustomer"
 }
 
 // @public
 export enum KnownSkuAvailability {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Edge = "Edge",
-    // (undocumented)
     EdgeMRMini = "EdgeMR_Mini",
-    // (undocumented)
     EdgePBase = "EdgeP_Base",
-    // (undocumented)
     EdgePHigh = "EdgeP_High",
-    // (undocumented)
     EdgePRBase = "EdgePR_Base",
-    // (undocumented)
     EdgePRBaseUPS = "EdgePR_Base_UPS",
-    // (undocumented)
     EP21281T4Mx1W = "EP2_128_1T4_Mx1_W",
-    // (undocumented)
     EP22562T4W = "EP2_256_2T4_W",
-    // (undocumented)
     EP2641VPUW = "EP2_64_1VPU_W",
-    // (undocumented)
     Gateway = "Gateway",
-    // (undocumented)
     GPU = "GPU",
-    // (undocumented)
     Management = "Management",
-    // (undocumented)
     RCALarge = "RCA_Large",
-    // (undocumented)
     RCASmall = "RCA_Small",
-    // (undocumented)
     RDC = "RDC",
-    // (undocumented)
     TCALarge = "TCA_Large",
-    // (undocumented)
     TCASmall = "TCA_Small",
-    // (undocumented)
     TDC = "TDC",
-    // (undocumented)
     TEA1Node = "TEA_1Node",
-    // (undocumented)
     TEA1NodeHeater = "TEA_1Node_Heater",
-    // (undocumented)
     TEA1NodeUPS = "TEA_1Node_UPS",
-    // (undocumented)
     TEA1NodeUPSHeater = "TEA_1Node_UPS_Heater",
-    // (undocumented)
     TEA4NodeHeater = "TEA_4Node_Heater",
-    // (undocumented)
     TEA4NodeUPSHeater = "TEA_4Node_UPS_Heater",
-    // (undocumented)
     TMA = "TMA"
 }
 
 // @public
 export enum KnownSkuSignupOption {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSkuVersion {
-    // (undocumented)
     Preview = "Preview",
-    // (undocumented)
     Stable = "Stable"
 }
 
 // @public
 export enum KnownSSLStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownStorageAccountStatus {
-    // (undocumented)
     NeedsAttention = "NeedsAttention",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSubscriptionState {
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Registered = "Registered",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unregistered = "Unregistered",
-    // (undocumented)
     Warned = "Warned"
 }
 
 // @public
 export enum KnownTimeGrain {
-    // (undocumented)
     PT12H = "PT12H",
-    // (undocumented)
     PT15M = "PT15M",
-    // (undocumented)
     PT1D = "PT1D",
-    // (undocumented)
     PT1H = "PT1H",
-    // (undocumented)
     PT1M = "PT1M",
-    // (undocumented)
     PT30M = "PT30M",
-    // (undocumented)
     PT5M = "PT5M",
-    // (undocumented)
     PT6H = "PT6H"
 }
 
 // @public
 export enum KnownTriggerEventType {
-    // (undocumented)
     FileEvent = "FileEvent",
-    // (undocumented)
     PeriodicTimerEvent = "PeriodicTimerEvent"
 }
 
 // @public
 export enum KnownUpdateOperation {
-    // (undocumented)
     Download = "Download",
-    // (undocumented)
     Install = "Install",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Scan = "Scan"
 }
 
 // @public
 export enum KnownUpdateOperationStage {
-    // (undocumented)
     DownloadComplete = "DownloadComplete",
-    // (undocumented)
     DownloadFailed = "DownloadFailed",
-    // (undocumented)
     DownloadStarted = "DownloadStarted",
-    // (undocumented)
     Failure = "Failure",
-    // (undocumented)
     Initial = "Initial",
-    // (undocumented)
     InstallComplete = "InstallComplete",
-    // (undocumented)
     InstallFailed = "InstallFailed",
-    // (undocumented)
     InstallStarted = "InstallStarted",
-    // (undocumented)
     RebootInitiated = "RebootInitiated",
-    // (undocumented)
     RescanComplete = "RescanComplete",
-    // (undocumented)
     RescanFailed = "RescanFailed",
-    // (undocumented)
     RescanStarted = "RescanStarted",
-    // (undocumented)
     ScanComplete = "ScanComplete",
-    // (undocumented)
     ScanFailed = "ScanFailed",
-    // (undocumented)
     ScanStarted = "ScanStarted",
-    // (undocumented)
     Success = "Success",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownUpdateStatus {
-    // (undocumented)
     DownloadCompleted = "DownloadCompleted",
-    // (undocumented)
     DownloadPending = "DownloadPending",
-    // (undocumented)
     DownloadStarted = "DownloadStarted",
-    // (undocumented)
     InstallCompleted = "InstallCompleted",
-    // (undocumented)
     InstallStarted = "InstallStarted"
 }
 
 // @public
 export enum KnownUpdateType {
-    // (undocumented)
     Firmware = "Firmware",
-    // (undocumented)
     Kubernetes = "Kubernetes",
-    // (undocumented)
     Software = "Software"
 }
 
 // @public
 export enum KnownUserType {
-    // (undocumented)
     ARM = "ARM",
-    // (undocumented)
     LocalManagement = "LocalManagement",
-    // (undocumented)
     Share = "Share"
 }
 
@@ -1818,14 +1544,15 @@ export interface KubernetesIPConfiguration {
 export type KubernetesNodeType = string;
 
 // @public
-export type KubernetesRole = Role & {
+export interface KubernetesRole extends Role {
     hostPlatform?: PlatformType;
-    readonly provisioningState?: KubernetesState;
     readonly hostPlatformType?: HostPlatformType;
+    kind: "Kubernetes";
     kubernetesClusterInfo?: KubernetesClusterInfo;
     kubernetesRoleResources?: KubernetesRoleResources;
+    readonly provisioningState?: KubernetesState;
     roleStatus?: RoleStatus;
-};
+}
 
 // @public
 export interface KubernetesRoleCompute {
@@ -1870,12 +1597,13 @@ export interface LoadBalancerConfig {
 }
 
 // @public
-export type MECRole = Role & {
+export interface MECRole extends Role {
     connectionString?: AsymmetricEncryptedSecret;
     controllerEndpoint?: string;
+    kind: "MEC";
     resourceUniqueId?: string;
     roleStatus?: RoleStatus;
-};
+}
 
 // @public
 export type MetricAggregationType = string;
@@ -1982,10 +1710,10 @@ export interface MonitoringConfigListOptionalParams extends coreClient.Operation
 export type MonitoringConfigListResponse = MonitoringMetricConfigurationList;
 
 // @public
-export type MonitoringMetricConfiguration = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface MonitoringMetricConfiguration extends ARMBaseModel {
     metricConfigurations: MetricConfiguration[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface MonitoringMetricConfigurationList {
@@ -2049,21 +1777,21 @@ export type NetworkAdapterStatus = string;
 export type NetworkGroup = string;
 
 // @public
-export type NetworkSettings = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface NetworkSettings extends ARMBaseModel {
     readonly networkAdapters?: NetworkAdapter[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
-type Node_2 = ARMBaseModel & {
-    readonly nodeStatus?: NodeStatus;
+interface Node_2 extends ARMBaseModel {
     readonly nodeChassisSerialNumber?: string;
-    readonly nodeSerialNumber?: string;
     readonly nodeDisplayName?: string;
     readonly nodeFriendlySoftwareVersion?: string;
     readonly nodeHcsVersion?: string;
     readonly nodeInstanceId?: string;
-};
+    readonly nodeSerialNumber?: string;
+    readonly nodeStatus?: NodeStatus;
+}
 export { Node_2 as Node }
 
 // @public
@@ -2157,17 +1885,17 @@ export interface OperationsStatusGetOptionalParams extends coreClient.OperationO
 export type OperationsStatusGetResponse = Job;
 
 // @public
-export type Order = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface Order extends ARMBaseModel {
     contactInformation?: ContactDetails;
-    shippingAddress?: Address;
     readonly currentStatus?: OrderStatus;
-    readonly orderHistory?: OrderStatus[];
-    readonly serialNumber?: string;
     readonly deliveryTrackingInfo?: TrackingInfo[];
+    readonly orderHistory?: OrderStatus[];
     readonly returnTrackingInfo?: TrackingInfo[];
+    readonly serialNumber?: string;
     shipmentType?: ShipmentType;
-};
+    shippingAddress?: Address;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface OrderList {
@@ -2244,11 +1972,12 @@ export interface OrderStatus {
 }
 
 // @public
-export type PeriodicTimerEventTrigger = Trigger & {
-    sourceInfo: PeriodicTimerSourceInfo;
-    sinkInfo: RoleSinkInfo;
+export interface PeriodicTimerEventTrigger extends Trigger {
     customContextTag?: string;
-};
+    kind: "PeriodicTimerEvent";
+    sinkInfo: RoleSinkInfo;
+    sourceInfo: PeriodicTimerSourceInfo;
+}
 
 // @public
 export interface PeriodicTimerSourceInfo {
@@ -2307,10 +2036,10 @@ export interface ResourceTypeSku {
 }
 
 // @public
-export type Role = ARMBaseModel & {
+export interface Role extends ARMBaseModel {
     kind: RoleTypes;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface RoleList {
@@ -2385,9 +2114,9 @@ export interface Secret {
 }
 
 // @public
-export type SecuritySettings = ARMBaseModel & {
+export interface SecuritySettings extends ARMBaseModel {
     deviceAdminPassword: AsymmetricEncryptedSecret;
-};
+}
 
 // @public
 export interface ServiceSpecification {
@@ -2395,19 +2124,19 @@ export interface ServiceSpecification {
 }
 
 // @public
-export type Share = ARMBaseModel & {
-    readonly systemData?: SystemData;
-    description?: string;
-    shareStatus: ShareStatus;
-    monitoringStatus: MonitoringStatus;
-    azureContainerInfo?: AzureContainerInfo;
+export interface Share extends ARMBaseModel {
     accessProtocol: ShareAccessProtocol;
-    userAccessRights?: UserAccessRight[];
+    azureContainerInfo?: AzureContainerInfo;
     clientAccessRights?: ClientAccessRight[];
+    dataPolicy?: DataPolicy;
+    description?: string;
+    monitoringStatus: MonitoringStatus;
     refreshDetails?: RefreshDetails;
     readonly shareMappings?: MountPointMap[];
-    dataPolicy?: DataPolicy;
-};
+    shareStatus: ShareStatus;
+    readonly systemData?: SystemData;
+    userAccessRights?: UserAccessRight[];
+}
 
 // @public
 export type ShareAccessProtocol = string;
@@ -2551,28 +2280,28 @@ export type SkuVersion = string;
 export type SSLStatus = string;
 
 // @public
-export type StorageAccount = ARMBaseModel & {
-    readonly systemData?: SystemData;
-    description?: string;
-    storageAccountStatus?: StorageAccountStatus;
-    dataPolicy: DataPolicy;
-    storageAccountCredentialId?: string;
+export interface StorageAccount extends ARMBaseModel {
     readonly blobEndpoint?: string;
     readonly containerCount?: number;
-};
+    dataPolicy: DataPolicy;
+    description?: string;
+    storageAccountCredentialId?: string;
+    storageAccountStatus?: StorageAccountStatus;
+    readonly systemData?: SystemData;
+}
 
 // @public
-export type StorageAccountCredential = ARMBaseModel & {
-    readonly systemData?: SystemData;
-    alias: string;
-    userName?: string;
+export interface StorageAccountCredential extends ARMBaseModel {
     accountKey?: AsymmetricEncryptedSecret;
+    accountType: AccountType;
+    alias: string;
+    blobDomainName?: string;
     connectionString?: string;
     sslStatus: SSLStatus;
-    blobDomainName?: string;
-    accountType: AccountType;
     storageAccountId?: string;
-};
+    readonly systemData?: SystemData;
+    userName?: string;
+}
 
 // @public
 export interface StorageAccountCredentialList {
@@ -2731,10 +2460,10 @@ export interface TrackingInfo {
 }
 
 // @public
-export type Trigger = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface Trigger extends ARMBaseModel {
     kind: TriggerEventType;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type TriggerEventType = string;
@@ -2794,11 +2523,11 @@ export interface TriggersListByDataBoxEdgeDeviceOptionalParams extends coreClien
 export type TriggersListByDataBoxEdgeDeviceResponse = TriggerList;
 
 // @public
-export type TriggerSupportPackageRequest = ARMBaseModel & {
-    minimumTimeStamp?: Date;
-    maximumTimeStamp?: Date;
+export interface TriggerSupportPackageRequest extends ARMBaseModel {
     include?: string;
-};
+    maximumTimeStamp?: Date;
+    minimumTimeStamp?: Date;
+}
 
 // @public (undocumented)
 export type TriggerUnion = Trigger | FileEventTrigger | PeriodicTimerEventTrigger;
@@ -2843,34 +2572,34 @@ export type UpdateOperationStage = string;
 export type UpdateStatus = string;
 
 // @public
-export type UpdateSummary = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface UpdateSummary extends ARMBaseModel {
+    deviceLastScannedDateTime?: Date;
     deviceVersionNumber?: string;
     friendlyDeviceVersionName?: string;
-    deviceLastScannedDateTime?: Date;
-    lastCompletedScanJobDateTime?: Date;
-    lastSuccessfulScanJobTime?: Date;
+    readonly inProgressDownloadJobId?: string;
+    readonly inProgressDownloadJobStartedDateTime?: Date;
+    readonly inProgressInstallJobId?: string;
+    readonly inProgressInstallJobStartedDateTime?: Date;
     readonly lastCompletedDownloadJobDateTime?: Date;
     readonly lastCompletedDownloadJobId?: string;
-    readonly lastDownloadJobStatus?: JobStatus;
-    lastSuccessfulInstallJobDateTime?: Date;
     readonly lastCompletedInstallJobDateTime?: Date;
     readonly lastCompletedInstallJobId?: string;
+    lastCompletedScanJobDateTime?: Date;
+    readonly lastDownloadJobStatus?: JobStatus;
     readonly lastInstallJobStatus?: JobStatus;
+    lastSuccessfulInstallJobDateTime?: Date;
+    lastSuccessfulScanJobTime?: Date;
+    readonly ongoingUpdateOperation?: UpdateOperation;
+    readonly rebootBehavior?: InstallRebootBehavior;
+    readonly systemData?: SystemData;
     readonly totalNumberOfUpdatesAvailable?: number;
     readonly totalNumberOfUpdatesPendingDownload?: number;
     readonly totalNumberOfUpdatesPendingInstall?: number;
-    readonly rebootBehavior?: InstallRebootBehavior;
-    readonly ongoingUpdateOperation?: UpdateOperation;
-    readonly inProgressDownloadJobId?: string;
-    readonly inProgressInstallJobId?: string;
-    readonly inProgressDownloadJobStartedDateTime?: Date;
-    readonly inProgressInstallJobStartedDateTime?: Date;
-    readonly updateTitles?: string[];
-    readonly updates?: UpdateDetails[];
-    readonly totalUpdateSizeInBytes?: number;
     readonly totalTimeInMinutes?: number;
-};
+    readonly totalUpdateSizeInBytes?: number;
+    readonly updates?: UpdateDetails[];
+    readonly updateTitles?: string[];
+}
 
 // @public
 export type UpdateType = string;
@@ -2894,12 +2623,12 @@ export interface UploadCertificateResponse {
 }
 
 // @public
-export type User = ARMBaseModel & {
-    readonly systemData?: SystemData;
+export interface User extends ARMBaseModel {
     encryptedPassword?: AsymmetricEncryptedSecret;
     readonly shareAccessRights?: ShareAccessRight[];
+    readonly systemData?: SystemData;
     userType: UserType;
-};
+}
 
 // @public
 export interface UserAccessRight {

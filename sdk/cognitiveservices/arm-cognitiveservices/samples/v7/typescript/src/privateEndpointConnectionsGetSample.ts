@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary Gets the specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetPrivateEndpointConnection.json
  */
 async function getPrivateEndpointConnection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function getPrivateEndpointConnection() {
   console.log(result);
 }
 
-getPrivateEndpointConnection().catch(console.error);
+async function main() {
+  getPrivateEndpointConnection();
+}
+
+main().catch(console.error);

@@ -16,12 +16,6 @@ export const logger = credentialLogger("ChainedTokenCredential");
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-  /**
-   * The message to use when the chained token fails to get a token
-   */
-  protected UnavailableMessage =
-    "ChainedTokenCredential => failed to retrieve a token from the included credentials";
-
   private _sources: TokenCredential[] = [];
 
   /**
@@ -54,8 +48,16 @@ export class ChainedTokenCredential implements TokenCredential {
    *                `TokenCredential` implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    const { token } = await this.getTokenInternal(scopes, options);
+    return token;
+  }
+
+  private async getTokenInternal(
+    scopes: string | string[],
+    options: GetTokenOptions = {}
+  ): Promise<{ token: AccessToken; successfulCredential: TokenCredential }> {
     let token: AccessToken | null = null;
-    let successfulCredentialName = "";
+    let successfulCredential: TokenCredential;
     const errors: Error[] = [];
 
     return tracingClient.withSpan(
@@ -65,7 +67,7 @@ export class ChainedTokenCredential implements TokenCredential {
         for (let i = 0; i < this._sources.length && token === null; i++) {
           try {
             token = await this._sources[i].getToken(scopes, updatedOptions);
-            successfulCredentialName = this._sources[i].constructor.name;
+            successfulCredential = this._sources[i];
           } catch (err: any) {
             if (
               err.name === "CredentialUnavailableError" ||
@@ -88,12 +90,14 @@ export class ChainedTokenCredential implements TokenCredential {
           throw err;
         }
 
-        logger.getToken.info(`Result for ${successfulCredentialName}: ${formatSuccess(scopes)}`);
+        logger.getToken.info(
+          `Result for ${successfulCredential.constructor.name}: ${formatSuccess(scopes)}`
+        );
 
         if (token === null) {
           throw new CredentialUnavailableError("Failed to retrieve a valid token");
         }
-        return token;
+        return { token, successfulCredential };
       }
     );
   }

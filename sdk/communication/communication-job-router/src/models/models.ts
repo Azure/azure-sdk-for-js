@@ -86,5 +86,5 @@ export {
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
   FunctionRuleCredential,
-  QueueStatistics
+  QueueStatistics,
 } from "../generated/src/models";

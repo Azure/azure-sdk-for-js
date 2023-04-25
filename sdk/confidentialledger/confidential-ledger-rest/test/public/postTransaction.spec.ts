@@ -12,7 +12,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("Post transaction", () => {
+describe("Post transaction", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
   let contentBody: string;

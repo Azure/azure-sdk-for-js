@@ -449,7 +449,7 @@ export interface AzureServiceFabricClusterConfiguration {
 }
 
 /** Provides information about how a machine is hosted in Azure */
-export type AzureHostingConfiguration = HostingConfiguration & {
+export interface AzureHostingConfiguration extends HostingConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "provider:azure";
   /** Virtual Machine ID (unique identifier). */
@@ -478,43 +478,43 @@ export type AzureHostingConfiguration = HostingConfiguration & {
   vmScaleSet?: AzureVmScaleSetConfiguration;
   /** Contains information about machines that belong an Azure Service Fabric Cluster */
   serviceFabricCluster?: AzureServiceFabricClusterConfiguration;
-};
+}
 
 /** Marker resource for the core Service Map resources */
-export type CoreResource = Resource & {
+export interface CoreResource extends Resource {
   /** Resource ETAG. */
   etag?: string;
   /** Additional resource type qualifier. */
   kind: CoreResourceKind;
-};
+}
 
 /** A typed relationship between two entities. */
-export type Relationship = Resource & {
+export interface Relationship extends Resource {
   /** Additional resource type qualifier. */
   kind: RelationshipKind;
-};
+}
 
 /** Represents a member of a client group */
-export type ClientGroupMember = Resource & {
+export interface ClientGroupMember extends Resource {
   /** IP address. */
   ipAddress?: string;
   /** Port into which this client connected */
   port?: PortReference;
   /** Processes accepting on the above port that received connections from this client. */
   processes?: ProcessReference[];
-};
+}
 
 /** Base for all resource summaries. */
-export type Summary = Resource & {};
+export interface Summary extends Resource {}
 
 /** Reference to a machine. */
-export type MachineReference = ResourceReference & {
+export interface MachineReference extends ResourceReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ref:machine";
-};
+}
 
 /** Reference to a port. */
-export type PortReference = ResourceReference & {
+export interface PortReference extends ResourceReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ref:port";
   /**
@@ -529,10 +529,10 @@ export type PortReference = ResourceReference & {
   readonly ipAddress?: string;
   /** Port number. */
   portNumber?: number;
-};
+}
 
 /** A machine reference with a hint of the machine's name and operating system. */
-export type MachineReferenceWithHints = ResourceReference & {
+export interface MachineReferenceWithHints extends ResourceReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ref:machinewithhints";
   /**
@@ -545,10 +545,10 @@ export type MachineReferenceWithHints = ResourceReference & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osFamilyHint?: OperatingSystemFamily;
-};
+}
 
 /** Reference to a process. */
-export type ProcessReference = ResourceReference & {
+export interface ProcessReference extends ResourceReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ref:process";
   /**
@@ -556,40 +556,41 @@ export type ProcessReference = ResourceReference & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly machine?: MachineReference;
-};
+}
 
 /** Reference to a client group. */
-export type ClientGroupReference = ResourceReference & {
+export interface ClientGroupReference extends ResourceReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ref:clientgroup";
-};
+}
 
 /** Properties for a connection resource. */
-export type ConnectionProperties = RelationshipProperties & {
+export interface ConnectionProperties extends RelationshipProperties {
   /** Reference to the server port via which this connection has been established. */
   serverPort?: PortReference;
   /** Specifies whether there are only successful, failed or a mixture of both connections represented by this resource. */
   failureState?: ConnectionFailureState;
-};
+}
 
 /** Describes the hosting configuration of a process when hosted on azure */
-export type AzureProcessHostingConfiguration = ProcessHostingConfiguration & {
+export interface AzureProcessHostingConfiguration
+  extends ProcessHostingConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "provider:azure";
   /** Contains information about the cloud service the process belongs to */
   cloudService?: AzureCloudServiceConfiguration;
-};
+}
 
 /** Specifies the computation of a single server dependency map. A single server dependency map includes all direct dependencies of a given machine. */
-export type SingleMachineDependencyMapRequest = MapRequest & {
+export interface SingleMachineDependencyMapRequest extends MapRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "map:single-machine-dependency";
   /** URI of machine resource for which to generate the map. */
   machineId: string;
-};
+}
 
 /** Provides a base class for describing map requests for a collection of machines */
-export type MultipleMachinesMapRequest = MapRequest & {
+export interface MultipleMachinesMapRequest extends MapRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind:
     | "MultipleMachinesMapRequest"
@@ -597,20 +598,22 @@ export type MultipleMachinesMapRequest = MapRequest & {
     | "map:machine-group-dependency";
   /** If true, only processes between specified machines will be included. Any connections in or out of those processes will be included. */
   filterProcesses?: boolean;
-};
+}
 
 /** Summarizes machines in the workspace. */
-export type MachinesSummaryProperties = SummaryProperties & {
+export interface MachinesSummaryProperties extends SummaryProperties {
   /** Total number of machines. */
   total: number;
   /** Number of live machines. */
   live: number;
   /** Machine counts by operating system. */
   os: MachineCountsByOperatingSystem;
-};
+}
 
 /** A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine. */
-export type Machine = CoreResource & {
+export interface Machine extends CoreResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "machine";
   /** UTC date and time when this resource was updated in the system. */
   timestamp?: Date;
   /** Specifies whether the machine is actively monitored or discovered. */
@@ -641,10 +644,12 @@ export type Machine = CoreResource & {
   hypervisor?: HypervisorConfiguration;
   /** Hosting-related configuration. Present if hosting information is discovered for the VM. */
   hosting?: HostingConfigurationUnion;
-};
+}
 
 /** A process resource represents a process running on a machine. The process may be actively *monitored*, i.e., a Dependency Agent is running on its machine, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. A process resource represents a pool of actual operating system resources that share command lines and metadata. As the process pool evolves over time, prior versions of the process resource are preserved and available for access. A process is live during an interval of time, if that process is executing during (parts) of that interval */
-export type Process = CoreResource & {
+export interface Process extends CoreResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "process";
   /** UTC date and time when this process resource was updated in the system */
   timestamp?: Date;
   /** Specifies whether the process is actively monitored or discovered. */
@@ -671,10 +676,12 @@ export type Process = CoreResource & {
   acceptorOf?: ResourceReferenceUnion;
   /** Information about the hosting environment */
   hosting?: ProcessHostingConfigurationUnion;
-};
+}
 
 /** A port resource represents a server port on a machine. The port may be actively *monitored*, i.e., a Dependency Agent is running on its machine, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. A port is live during an interval of time, if that port had associated activity during (parts) of that interval. */
-export type Port = CoreResource & {
+export interface Port extends CoreResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "port";
   /** Specifies whether the port is actively monitored or discovered. */
   monitoringState?: MonitoringState;
   /** Machine hosting this port. */
@@ -685,10 +692,12 @@ export type Port = CoreResource & {
   ipAddress?: string;
   /** Port number. */
   portNumber?: number;
-};
+}
 
 /** A user-defined logical grouping of machines. */
-export type MachineGroup = CoreResource & {
+export interface MachineGroup extends CoreResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "machineGroup";
   /** Type of the machine group */
   groupType?: MachineGroupType;
   /** User defined name for the group */
@@ -697,16 +706,20 @@ export type MachineGroup = CoreResource & {
   count?: number;
   /** References of the machines in this group. The hints within each reference do not represent the current value of the corresponding fields. They are a snapshot created during the last time the machine group was updated. */
   machines?: MachineReferenceWithHints[];
-};
+}
 
 /** Represents a collection of clients of a resource. A client group can represent the clients of a port, process, or a machine. */
-export type ClientGroup = CoreResource & {
+export interface ClientGroup extends CoreResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "clientGroup";
   /** Reference to the resource whose clients are represented by this group. */
   clientsOf?: ResourceReferenceUnion;
-};
+}
 
 /** A network connection. */
-export type Connection = Relationship & {
+export interface Connection extends Relationship {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rel:connection";
   /** Source resource of the relationship. */
   source?: ResourceReferenceUnion;
   /** Destination resource of the relationship. */
@@ -719,10 +732,12 @@ export type Connection = Relationship & {
   serverPort?: PortReference;
   /** Specifies whether there are only successful, failed or a mixture of both connections represented by this resource. */
   failureState?: ConnectionFailureState;
-};
+}
 
 /** A process accepting on a port. */
-export type Acceptor = Relationship & {
+export interface Acceptor extends Relationship {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rel:acceptor";
   /** Port being accepted. */
   source?: PortReference;
   /** Accepting process. */
@@ -731,10 +746,10 @@ export type Acceptor = Relationship & {
   startTime?: Date;
   /** Relationship end time. */
   endTime?: Date;
-};
+}
 
 /** A summary of the machines in the workspace. */
-export type MachinesSummary = Summary & {
+export interface MachinesSummary extends Summary {
   /** Summary interval start time. */
   startTime?: Date;
   /** Summary interval end time. */
@@ -745,30 +760,35 @@ export type MachinesSummary = Summary & {
   live?: number;
   /** Machine counts by operating system. */
   os?: MachineCountsByOperatingSystem;
-};
+}
 
 /** Specifies the computation of a one hope dependency map for a list of machines. The resulting map includes all direct dependencies for the specified machines. */
-export type MachineListMapRequest = MultipleMachinesMapRequest & {
+export interface MachineListMapRequest extends MultipleMachinesMapRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "map:machine-list-dependency";
   /** a list of URIs of machine resources for which to generate the map. */
   machineIds: string[];
-};
+}
 
 /** Specifies the computation of a machine group dependency map. A machine group dependency map includes all direct dependencies the machines in the group. */
-export type MachineGroupMapRequest = MultipleMachinesMapRequest & {
+export interface MachineGroupMapRequest extends MultipleMachinesMapRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "map:machine-group-dependency";
   /** URI of machine group resource for which to generate the map. */
   machineGroupId: string;
-};
+}
 
 /** Known values of {@link CoreResourceKind} that the service accepts. */
 export enum KnownCoreResourceKind {
+  /** Machine */
   Machine = "machine",
+  /** Process */
   Process = "process",
+  /** Port */
   Port = "port",
+  /** ClientGroup */
   ClientGroup = "clientGroup",
+  /** MachineGroup */
   MachineGroup = "machineGroup"
 }
 
@@ -787,11 +807,17 @@ export type CoreResourceKind = string;
 
 /** Known values of {@link ResourceReferenceKind} that the service accepts. */
 export enum KnownResourceReferenceKind {
+  /** RefMachine */
   RefMachine = "ref:machine",
+  /** RefMachinewithhints */
   RefMachinewithhints = "ref:machinewithhints",
+  /** RefProcess */
   RefProcess = "ref:process",
+  /** RefPort */
   RefPort = "ref:port",
+  /** RefOnmachine */
   RefOnmachine = "ref:onmachine",
+  /** RefClientgroup */
   RefClientgroup = "ref:clientgroup"
 }
 
@@ -811,7 +837,9 @@ export type ResourceReferenceKind = string;
 
 /** Known values of {@link RelationshipKind} that the service accepts. */
 export enum KnownRelationshipKind {
+  /** RelConnection */
   RelConnection = "rel:connection",
+  /** RelAcceptor */
   RelAcceptor = "rel:acceptor"
 }
 
@@ -827,10 +855,15 @@ export type RelationshipKind = string;
 
 /** Known values of {@link ProcessRole} that the service accepts. */
 export enum KnownProcessRole {
+  /** WebServer */
   WebServer = "webServer",
+  /** AppServer */
   AppServer = "appServer",
+  /** DatabaseServer */
   DatabaseServer = "databaseServer",
+  /** LdapServer */
   LdapServer = "ldapServer",
+  /** SmbServer */
   SmbServer = "smbServer"
 }
 
@@ -849,10 +882,15 @@ export type ProcessRole = string;
 
 /** Known values of {@link MachineGroupType} that the service accepts. */
 export enum KnownMachineGroupType {
+  /** Unknown */
   Unknown = "unknown",
+  /** AzureCs */
   AzureCs = "azure-cs",
+  /** AzureSf */
   AzureSf = "azure-sf",
+  /** AzureVmss */
   AzureVmss = "azure-vmss",
+  /** UserStatic */
   UserStatic = "user-static"
 }
 
@@ -871,8 +909,11 @@ export type MachineGroupType = string;
 
 /** Known values of {@link MapRequestKind} that the service accepts. */
 export enum KnownMapRequestKind {
+  /** MapSingleMachineDependency */
   MapSingleMachineDependency = "map:single-machine-dependency",
+  /** MapMachineGroupDependency */
   MapMachineGroupDependency = "map:machine-group-dependency",
+  /** MapMachineListDependency */
   MapMachineListDependency = "map:machine-list-dependency"
 }
 
@@ -1016,70 +1057,35 @@ export type MachinesListMachineGroupMembershipResponse = MachineGroupCollection;
 
 /** Optional parameters. */
 export interface MachinesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies whether to return live resources (true) or inventory resources (false). Defaults to **true**. When retrieving live resources, the start time (`startTime`) and end time (`endTime`) of the desired interval should be included. When retrieving inventory resources, an optional timestamp (`timestamp`) parameter can be specified to return the version of each resource closest (not-after) that timestamp. */
-  live?: boolean;
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-  /** UTC date and time specifying a time instance relative to which to evaluate each machine resource. Only applies when `live=false`. When not specified, the service uses DateTime.UtcNow. */
-  timestamp?: Date;
-  /** Page size to use. When not specified, the default page size is 100 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type MachinesListByWorkspaceNextResponse = MachineCollection;
 
 /** Optional parameters. */
 export interface MachinesListConnectionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionsNext operation. */
 export type MachinesListConnectionsNextResponse = ConnectionCollection;
 
 /** Optional parameters. */
 export interface MachinesListProcessesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies whether to return live resources (true) or inventory resources (false). Defaults to **true**. When retrieving live resources, the start time (`startTime`) and end time (`endTime`) of the desired interval should be included. When retrieving inventory resources, an optional timestamp (`timestamp`) parameter can be specified to return the version of each resource closest (not-after) that timestamp. */
-  live?: boolean;
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-  /** UTC date and time specifying a time instance relative to which to evaluate all process resource. Only applies when `live=false`. When not specified, the service uses DateTime.UtcNow. */
-  timestamp?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessesNext operation. */
 export type MachinesListProcessesNextResponse = ProcessCollection;
 
 /** Optional parameters. */
 export interface MachinesListPortsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPortsNext operation. */
 export type MachinesListPortsNextResponse = PortCollection;
 
 /** Optional parameters. */
 export interface MachinesListMachineGroupMembershipNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMachineGroupMembershipNext operation. */
 export type MachinesListMachineGroupMembershipNextResponse = MachineGroupCollection;
@@ -1132,24 +1138,14 @@ export type ProcessesListConnectionsResponse = ConnectionCollection;
 
 /** Optional parameters. */
 export interface ProcessesListAcceptingPortsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAcceptingPortsNext operation. */
 export type ProcessesListAcceptingPortsNextResponse = PortCollection;
 
 /** Optional parameters. */
 export interface ProcessesListConnectionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionsNext operation. */
 export type ProcessesListConnectionsNextResponse = ConnectionCollection;
@@ -1203,24 +1199,14 @@ export type PortsListConnectionsResponse = ConnectionCollection;
 
 /** Optional parameters. */
 export interface PortsListAcceptingProcessesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAcceptingProcessesNext operation. */
 export type PortsListAcceptingProcessesNextResponse = ProcessCollection;
 
 /** Optional parameters. */
 export interface PortsListConnectionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionsNext operation. */
 export type PortsListConnectionsNextResponse = ConnectionCollection;
@@ -1265,14 +1251,7 @@ export type ClientGroupsListMembersResponse = ClientGroupMembersCollection;
 
 /** Optional parameters. */
 export interface ClientGroupsListMembersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-  /** Page size to use. When not specified, the default page size is 100 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMembersNext operation. */
 export type ClientGroupsListMembersNextResponse = ClientGroupMembersCollection;
@@ -1340,12 +1319,7 @@ export interface MachineGroupsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface MachineGroupsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m */
-  startTime?: Date;
-  /** UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow */
-  endTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type MachineGroupsListByWorkspaceNextResponse = MachineGroupCollection;

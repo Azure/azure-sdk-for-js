@@ -26,22 +26,6 @@ export interface SchemaProperties {
 }
 
 /**
- * Version of a schema
- */
-export interface SchemaVersion {
-  /**
-   * Version of the schema
-   */
-  version: number;
-
-  /** Schema group under which schema is or should be registered. */
-  groupName: string;
-
-  /** Name of schema.*/
-  name: string;
-}
-
-/**
  * Schema definition with its name, format, and group.
  */
 export interface SchemaDescription {
@@ -71,11 +55,23 @@ export interface Schema {
 }
 
 /**
+ * Schema formats supported at the time of this library release.
+ */
+export enum KnownSchemaFormats {
+  /** Avro */
+  Avro = "Avro",
+  /** JSON */
+  Json = "Json",
+  /** Schemas of the custom format will be treated as an opaque string */
+  Custom = "Custom",
+}
+
+/**
  * Options for SchemaRegistrationClient.
  */
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
   /**
-   * The service API version to use in requests. The default is "2021-10".
+   * The service API version to use in requests. The default is "2022-10".
    */
   apiVersion?: string;
 }
@@ -94,11 +90,6 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {}
  * Options to configure SchemaRegistryClient.getSchema.
  */
 export interface GetSchemaOptions extends OperationOptions {}
-
-/**
- * Options to configure SchemaRegistryClient.getSchemaByVersion.
- */
-export interface GetSchemaByVersionOptions extends OperationOptions {}
 
 /**
  * Represents a store of registered schemas.

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the available ServiceLinker REST API operations.
@@ -27,4 +30,8 @@ async function getConfiguration() {
   console.log(resArray);
 }
 
-getConfiguration().catch(console.error);
+async function main() {
+  getConfiguration();
+}
+
+main().catch(console.error);

@@ -1,0 +1,38 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+            
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/storagemover/arm-storagemover
+      - sdk/storagemover/ci.mgmt.yml
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/storagemover/arm-storagemover
+      - sdk/storagemover/ci.mgmt.yml
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: storagemover
+    Artifacts:
+      - name: azure-arm-storagemover
+        safeName: azurearmstoragemover
+        

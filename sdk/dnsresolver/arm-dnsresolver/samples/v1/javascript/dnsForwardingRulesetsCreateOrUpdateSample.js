@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DnsResolverManagementClient } = require("@azure/arm-dnsresolver");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a DNS forwarding ruleset.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DnsForwardingRuleset_Put.json
  */
 async function upsertDnsForwardingRuleset() {
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const resourceGroupName = "sampleResourceGroup";
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] || "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName = process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
   const dnsForwardingRulesetName = "samplednsForwardingRuleset";
   const parameters = {
     dnsResolverOutboundEndpoints: [
@@ -43,4 +45,8 @@ async function upsertDnsForwardingRuleset() {
   console.log(result);
 }
 
-upsertDnsForwardingRuleset().catch(console.error);
+async function main() {
+  upsertDnsForwardingRuleset();
+}
+
+main().catch(console.error);

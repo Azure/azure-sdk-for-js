@@ -39,26 +39,21 @@ export interface CnameRecord {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownVirtualNetworkLinkState {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     InProgress = "InProgress"
 }
 
@@ -93,17 +88,17 @@ export interface PrivateDnsManagementClientOptionalParams extends coreClient.Ser
 }
 
 // @public
-export type PrivateZone = TrackedResource & {
+export interface PrivateZone extends TrackedResource {
     etag?: string;
+    readonly internalId?: string;
     readonly maxNumberOfRecordSets?: number;
-    readonly numberOfRecordSets?: number;
     readonly maxNumberOfVirtualNetworkLinks?: number;
-    readonly numberOfVirtualNetworkLinks?: number;
     readonly maxNumberOfVirtualNetworkLinksWithRegistration?: number;
+    readonly numberOfRecordSets?: number;
+    readonly numberOfVirtualNetworkLinks?: number;
     readonly numberOfVirtualNetworkLinksWithRegistration?: number;
     readonly provisioningState?: ProvisioningState;
-    readonly internalId?: string;
-};
+}
 
 // @public
 export interface PrivateZoneListResult {
@@ -195,7 +190,8 @@ export type PrivateZonesUpdateResponse = PrivateZone;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface PtrRecord {
@@ -203,23 +199,23 @@ export interface PtrRecord {
 }
 
 // @public
-export type RecordSet = ProxyResource & {
+export interface RecordSet extends ProxyResource {
+    aaaaRecords?: AaaaRecord[];
+    aRecords?: ARecord[];
+    cnameRecord?: CnameRecord;
     etag?: string;
+    readonly fqdn?: string;
+    readonly isAutoRegistered?: boolean;
     metadata?: {
         [propertyName: string]: string;
     };
-    ttl?: number;
-    readonly fqdn?: string;
-    readonly isAutoRegistered?: boolean;
-    aRecords?: ARecord[];
-    aaaaRecords?: AaaaRecord[];
-    cnameRecord?: CnameRecord;
     mxRecords?: MxRecord[];
     ptrRecords?: PtrRecord[];
     soaRecord?: SoaRecord;
     srvRecords?: SrvRecord[];
+    ttl?: number;
     txtRecords?: TxtRecord[];
-};
+}
 
 // @public
 export interface RecordSetListResult {
@@ -337,12 +333,12 @@ export interface SubResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-};
+}
 
 // @public
 export interface TxtRecord {
@@ -350,13 +346,13 @@ export interface TxtRecord {
 }
 
 // @public
-export type VirtualNetworkLink = TrackedResource & {
+export interface VirtualNetworkLink extends TrackedResource {
     etag?: string;
-    virtualNetwork?: SubResource;
-    registrationEnabled?: boolean;
-    readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
     readonly provisioningState?: ProvisioningState;
-};
+    registrationEnabled?: boolean;
+    virtualNetwork?: SubResource;
+    readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
+}
 
 // @public
 export interface VirtualNetworkLinkListResult {

@@ -251,7 +251,7 @@ export const select: OperationQueryParameter = {
   }
 };
 
-export const fromParam: OperationQueryParameter = {
+export const from: OperationQueryParameter = {
   parameterPath: ["options", "queryOptions", "from"],
   mapper: {
     serializedName: "$from",
@@ -428,10 +428,148 @@ export const parameters2: OperationParameter = {
   mapper: CheckManagementGroupRestrictionsRequestMapper
 };
 
+export const componentPolicyStatesResource: OperationURLParameter = {
+  parameterPath: "componentPolicyStatesResource",
+  mapper: {
+    serializedName: "componentPolicyStatesResource",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01",
+    defaultValue: "2022-04-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 0
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const orderBy1: OperationQueryParameter = {
+  parameterPath: ["options", "orderBy"],
+  mapper: {
+    serializedName: "$orderby",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const select1: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    serializedName: "$select",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const from1: OperationQueryParameter = {
+  parameterPath: ["options", "from"],
+  mapper: {
+    serializedName: "$from",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const to1: OperationQueryParameter = {
+  parameterPath: ["options", "to"],
+  mapper: {
+    serializedName: "$to",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const filter1: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apply1: OperationQueryParameter = {
+  parameterPath: ["options", "apply"],
+  mapper: {
+    serializedName: "$apply",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const expand1: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const policyDefinitionName1: OperationURLParameter = {
+  parameterPath: "policyDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>%&:\\\\?/#]*$"),
+      MaxLength: 64,
+      MinLength: 1
+    },
+    serializedName: "policyDefinitionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const policyAssignmentName1: OperationURLParameter = {
+  parameterPath: "policyAssignmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>%&:\\\\?/#]*$"),
+      MaxLength: 64,
+      MinLength: 1
+    },
+    serializedName: "policyAssignmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion5: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

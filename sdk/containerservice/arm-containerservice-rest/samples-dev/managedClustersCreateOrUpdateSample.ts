@@ -1635,7 +1635,8 @@ async function createOrUpdateManagedCluster() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       sku: { name: "Basic", tier: "Free" },
@@ -1711,7 +1712,8 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
 
@@ -1862,7 +1864,8 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       location: "location1",
@@ -1948,7 +1951,8 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       location: "location1",

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SyncGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,11 +61,15 @@ export class SyncGroupsImpl implements SyncGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByStorageSyncServicePagingPage(
           resourceGroupName,
           storageSyncServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,9 +78,11 @@ export class SyncGroupsImpl implements SyncGroups {
   private async *listByStorageSyncServicePagingPage(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: SyncGroupsListByStorageSyncServiceOptionalParams
+    options?: SyncGroupsListByStorageSyncServiceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SyncGroup[]> {
-    let result = await this._listByStorageSyncService(
+    let result: SyncGroupsListByStorageSyncServiceResponse;
+    result = await this._listByStorageSyncService(
       resourceGroupName,
       storageSyncServiceName,
       options

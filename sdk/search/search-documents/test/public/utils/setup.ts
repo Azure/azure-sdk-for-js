@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
+  GeographyPoint,
+  KnownAnalyzerNames,
   SearchClient,
+  SearchIndex,
   SearchIndexClient,
   SearchIndexerClient,
-  GeographyPoint,
-  SearchIndex,
-  KnownAnalyzerNames,
 } from "../../../src";
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";

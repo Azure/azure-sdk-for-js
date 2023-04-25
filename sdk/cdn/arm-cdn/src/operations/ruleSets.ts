@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RuleSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,16 +19,16 @@ import {
   RuleSet,
   RuleSetsListByProfileNextOptionalParams,
   RuleSetsListByProfileOptionalParams,
+  RuleSetsListByProfileResponse,
   Usage,
   RuleSetsListResourceUsageNextOptionalParams,
   RuleSetsListResourceUsageOptionalParams,
-  RuleSetsListByProfileResponse,
+  RuleSetsListResourceUsageResponse,
   RuleSetsGetOptionalParams,
   RuleSetsGetResponse,
   RuleSetsCreateOptionalParams,
   RuleSetsCreateResponse,
   RuleSetsDeleteOptionalParams,
-  RuleSetsListResourceUsageResponse,
   RuleSetsListByProfileNextResponse,
   RuleSetsListResourceUsageNextResponse
 } from "../models";
@@ -69,11 +70,15 @@ export class RuleSetsImpl implements RuleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProfilePagingPage(
           resourceGroupName,
           profileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,15 +87,22 @@ export class RuleSetsImpl implements RuleSets {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: RuleSetsListByProfileOptionalParams
+    options?: RuleSetsListByProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RuleSet[]> {
-    let result = await this._listByProfile(
-      resourceGroupName,
-      profileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RuleSetsListByProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProfile(
+        resourceGroupName,
+        profileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProfileNext(
         resourceGroupName,
@@ -99,7 +111,9 @@ export class RuleSetsImpl implements RuleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -118,7 +132,7 @@ export class RuleSetsImpl implements RuleSets {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of the given AzureFrontDoor rule set under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -144,12 +158,16 @@ export class RuleSetsImpl implements RuleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listResourceUsagePagingPage(
           resourceGroupName,
           profileName,
           ruleSetName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -159,16 +177,23 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsListResourceUsageOptionalParams
+    options?: RuleSetsListResourceUsageOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listResourceUsage(
-      resourceGroupName,
-      profileName,
-      ruleSetName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RuleSetsListResourceUsageResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listResourceUsage(
+        resourceGroupName,
+        profileName,
+        ruleSetName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listResourceUsageNext(
         resourceGroupName,
@@ -178,7 +203,9 @@ export class RuleSetsImpl implements RuleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -350,7 +377,7 @@ export class RuleSetsImpl implements RuleSets {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of the given AzureFrontDoor rule set under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of all the tables under the specified storage account
  *
  * @summary Gets a list of all the tables under the specified storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/TableOperationList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationList.json
  */
 async function tableOperationList() {
   const subscriptionId = "{subscription-id}";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "../src/coreHttp";
+import { HttpHeaders } from "../src";
 import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { RestError } from "../src/restError";
 import { WebResource } from "../src/webResource";

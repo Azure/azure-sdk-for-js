@@ -9,12 +9,12 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type AddRemoveReplicaScalingMechanism = AutoScalingMechanism & {
+export interface AddRemoveReplicaScalingMechanism extends AutoScalingMechanism {
     kind: "AddRemoveReplica";
-    minCount: number;
     maxCount: number;
+    minCount: number;
     scaleIncrement: number;
-};
+}
 
 // @public
 export interface Application {
@@ -85,18 +85,18 @@ export interface ApplicationProperties {
 }
 
 // @public
-export type ApplicationResourceDescription = TrackedResource & {
-    readonly provisioningState?: string;
-    description?: string;
-    services?: ServiceResourceDescription[];
-    diagnostics?: DiagnosticsDescription;
+export interface ApplicationResourceDescription extends TrackedResource {
     debugParams?: string;
+    description?: string;
+    diagnostics?: DiagnosticsDescription;
+    readonly healthState?: HealthState;
+    readonly provisioningState?: string;
     readonly serviceNames?: string[];
+    services?: ServiceResourceDescription[];
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-    readonly healthState?: HealthState;
     readonly unhealthyEvaluation?: string;
-};
+}
 
 // @public
 export interface ApplicationResourceDescriptionList {
@@ -105,12 +105,13 @@ export interface ApplicationResourceDescriptionList {
 }
 
 // @public
-export type ApplicationResourceProperties = ProvisionedResourceProperties & ApplicationProperties;
+export interface ApplicationResourceProperties extends ProvisionedResourceProperties, ApplicationProperties {
+}
 
 // @public
-export type ApplicationScopedVolume = VolumeReference & {
+export interface ApplicationScopedVolume extends VolumeReference {
     creationParameters: ApplicationScopedVolumeCreationParametersUnion;
-};
+}
 
 // @public
 export interface ApplicationScopedVolumeCreationParameters {
@@ -119,10 +120,10 @@ export interface ApplicationScopedVolumeCreationParameters {
 }
 
 // @public
-export type ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk = ApplicationScopedVolumeCreationParameters & {
+export interface ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk extends ApplicationScopedVolumeCreationParameters {
     kind: "ServiceFabricVolumeDisk";
     sizeDisk: SizeTypes;
-};
+}
 
 // @public (undocumented)
 export type ApplicationScopedVolumeCreationParametersUnion = ApplicationScopedVolumeCreationParameters | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
@@ -160,10 +161,10 @@ export interface AutoScalingPolicy {
 }
 
 // @public
-export type AutoScalingResourceMetric = AutoScalingMetric & {
+export interface AutoScalingResourceMetric extends AutoScalingMetric {
     kind: "Resource";
     name: AutoScalingResourceMetricName;
-};
+}
 
 // @public
 export type AutoScalingResourceMetricName = string;
@@ -188,23 +189,23 @@ export interface AvailableOperationDisplay {
 }
 
 // @public
-export type AverageLoadScalingTrigger = AutoScalingTrigger & {
+export interface AverageLoadScalingTrigger extends AutoScalingTrigger {
     kind: "AverageLoad";
-    metric: AutoScalingMetricUnion;
     lowerLoadThreshold: number;
-    upperLoadThreshold: number;
+    metric: AutoScalingMetricUnion;
     scaleIntervalInSeconds: number;
-};
+    upperLoadThreshold: number;
+}
 
 // @public
-export type AzureInternalMonitoringPipelineSinkDescription = DiagnosticsSinkProperties & {
-    kind: "AzureInternalMonitoringPipeline";
+export interface AzureInternalMonitoringPipelineSinkDescription extends DiagnosticsSinkProperties {
     accountName?: string;
-    namespace?: string;
-    maConfigUrl?: string;
-    fluentdConfigUrl?: any;
     autoKeyConfigUrl?: string;
-};
+    fluentdConfigUrl?: any;
+    kind: "AzureInternalMonitoringPipeline";
+    maConfigUrl?: string;
+    namespace?: string;
+}
 
 // @public
 export interface CodePackage {
@@ -416,17 +417,17 @@ export interface GatewayProperties {
 }
 
 // @public
-export type GatewayResourceDescription = TrackedResource & {
-    readonly provisioningState?: string;
+export interface GatewayResourceDescription extends TrackedResource {
     description?: string;
-    sourceNetwork: NetworkRef;
     destinationNetwork: NetworkRef;
-    tcp?: TcpConfig[];
     http?: HttpConfig[];
+    readonly ipAddress?: string;
+    readonly provisioningState?: string;
+    sourceNetwork: NetworkRef;
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-    readonly ipAddress?: string;
-};
+    tcp?: TcpConfig[];
+}
 
 // @public
 export interface GatewayResourceDescriptionList {
@@ -435,7 +436,11 @@ export interface GatewayResourceDescriptionList {
 }
 
 // @public
-export type GatewayResourceProperties = ProvisionedResourceProperties & GatewayProperties;
+export interface GatewayResourceProperties extends ProvisionedResourceProperties, GatewayProperties {
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type HeaderMatchType = string;
@@ -491,7 +496,9 @@ export interface ImageRegistryCredential {
 }
 
 // @public
-export type InlinedValueSecretResourceProperties = SecretResourceProperties;
+export interface InlinedValueSecretResourceProperties extends SecretResourceProperties {
+    kind: "inlinedValue";
+}
 
 // @public
 export enum KnownApplicationScopedVolumeKind {
@@ -527,7 +534,6 @@ export enum KnownDiagnosticsSinkKind {
 
 // @public
 export enum KnownHeaderMatchType {
-    // (undocumented)
     Exact = "exact"
 }
 
@@ -553,7 +559,6 @@ export enum KnownOperatingSystemType {
 
 // @public
 export enum KnownPathMatchType {
-    // (undocumented)
     Prefix = "prefix"
 }
 
@@ -574,11 +579,8 @@ export enum KnownSecretKind {
 
 // @public
 export enum KnownSizeTypes {
-    // (undocumented)
     Large = "Large",
-    // (undocumented)
     Medium = "Medium",
-    // (undocumented)
     Small = "Small"
 }
 
@@ -588,9 +590,10 @@ export enum KnownVolumeProvider {
 }
 
 // @public
-export type LocalNetworkResourceProperties = NetworkResourceProperties & {
+export interface LocalNetworkResourceProperties extends NetworkResourceProperties {
+    kind: "Local";
     networkAddressPrefix?: string;
-};
+}
 
 // @public
 export interface ManagedProxyResource {
@@ -664,9 +667,9 @@ export interface NetworkRef {
 }
 
 // @public
-export type NetworkResourceDescription = TrackedResource & {
+export interface NetworkResourceDescription extends TrackedResource {
     properties: NetworkResourcePropertiesUnion;
-};
+}
 
 // @public
 export interface NetworkResourceDescriptionList {
@@ -675,16 +678,17 @@ export interface NetworkResourceDescriptionList {
 }
 
 // @public
-export type NetworkResourceProperties = NetworkResourcePropertiesBase & {
+export interface NetworkResourceProperties extends NetworkResourcePropertiesBase {
     description?: string;
+    kind: "NetworkResourceProperties" | "Local";
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-};
+}
 
 // @public
-export type NetworkResourcePropertiesBase = ProvisionedResourceProperties & {
+export interface NetworkResourcePropertiesBase extends ProvisionedResourceProperties {
     kind: NetworkKind;
-};
+}
 
 // @public (undocumented)
 export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
@@ -737,7 +741,8 @@ export interface ProvisionedResourceProperties {
 }
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface ReliableCollectionsRef {
@@ -832,9 +837,9 @@ export interface SecretListBySubscriptionOptionalParams extends coreClient.Opera
 export type SecretListBySubscriptionResponse = SecretResourceDescriptionList;
 
 // @public
-export type SecretResourceDescription = TrackedResource & {
+export interface SecretResourceDescription extends TrackedResource {
     properties: SecretResourcePropertiesUnion;
-};
+}
 
 // @public
 export interface SecretResourceDescriptionList {
@@ -843,17 +848,18 @@ export interface SecretResourceDescriptionList {
 }
 
 // @public
-export type SecretResourceProperties = SecretResourcePropertiesBase & {
+export interface SecretResourceProperties extends SecretResourcePropertiesBase {
+    contentType?: string;
     description?: string;
+    kind: "SecretResourceProperties" | "inlinedValue";
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-    contentType?: string;
-};
+}
 
 // @public
-export type SecretResourcePropertiesBase = ProvisionedResourceProperties & {
+export interface SecretResourcePropertiesBase extends ProvisionedResourceProperties {
     kind: SecretKind;
-};
+}
 
 // @public (undocumented)
 export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
@@ -920,10 +926,10 @@ export interface SecretValueProperties {
 }
 
 // @public
-export type SecretValueResourceDescription = TrackedResource & {
+export interface SecretValueResourceDescription extends TrackedResource {
     readonly provisioningState?: string;
     value?: string;
-};
+}
 
 // @public
 export interface SecretValueResourceDescriptionList {
@@ -932,7 +938,8 @@ export interface SecretValueResourceDescriptionList {
 }
 
 // @public
-export type SecretValueResourceProperties = ProvisionedResourceProperties & SecretValueProperties;
+export interface SecretValueResourceProperties extends ProvisionedResourceProperties, SecretValueProperties {
+}
 
 // @public
 export interface Service {
@@ -1017,9 +1024,9 @@ export interface ServiceReplica {
 }
 
 // @public
-export type ServiceReplicaDescription = ServiceReplicaProperties & {
+export interface ServiceReplicaDescription extends ServiceReplicaProperties {
     replicaName: string;
-};
+}
 
 // @public
 export interface ServiceReplicaDescriptionList {
@@ -1057,20 +1064,20 @@ export interface ServiceReplicaProperties {
 }
 
 // @public
-export type ServiceResourceDescription = ManagedProxyResource & {
-    readonly provisioningState?: string;
-    osType: OperatingSystemType;
-    codePackages: ContainerCodePackageProperties[];
-    networkRefs?: NetworkRef[];
-    diagnostics?: DiagnosticsRef;
-    description?: string;
-    replicaCount?: number;
+export interface ServiceResourceDescription extends ManagedProxyResource {
     autoScalingPolicies?: AutoScalingPolicy[];
+    codePackages: ContainerCodePackageProperties[];
+    description?: string;
+    diagnostics?: DiagnosticsRef;
+    readonly healthState?: HealthState;
+    networkRefs?: NetworkRef[];
+    osType: OperatingSystemType;
+    readonly provisioningState?: string;
+    replicaCount?: number;
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-    readonly healthState?: HealthState;
     readonly unhealthyEvaluation?: string;
-};
+}
 
 // @public
 export interface ServiceResourceDescriptionList {
@@ -1079,7 +1086,8 @@ export interface ServiceResourceDescriptionList {
 }
 
 // @public
-export type ServiceResourceProperties = ProvisionedResourceProperties & ServiceReplicaProperties & ServiceProperties;
+export interface ServiceResourceProperties extends ProvisionedResourceProperties, ServiceReplicaProperties, ServiceProperties {
+}
 
 // @public
 export interface Setting {
@@ -1098,12 +1106,12 @@ export interface TcpConfig {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface Volume {
@@ -1187,14 +1195,14 @@ export interface VolumeReference {
 }
 
 // @public
-export type VolumeResourceDescription = TrackedResource & {
-    readonly provisioningState?: string;
+export interface VolumeResourceDescription extends TrackedResource {
+    azureFileParameters?: VolumeProviderParametersAzureFile;
     description?: string;
+    provider: VolumeProvider;
+    readonly provisioningState?: string;
     readonly status?: ResourceStatus;
     readonly statusDetails?: string;
-    provider: VolumeProvider;
-    azureFileParameters?: VolumeProviderParametersAzureFile;
-};
+}
 
 // @public
 export interface VolumeResourceDescriptionList {
@@ -1203,7 +1211,8 @@ export interface VolumeResourceDescriptionList {
 }
 
 // @public
-export type VolumeResourceProperties = ProvisionedResourceProperties & VolumeProperties;
+export interface VolumeResourceProperties extends ProvisionedResourceProperties, VolumeProperties {
+}
 
 // (No @packageDocumentation comment for this package)
 

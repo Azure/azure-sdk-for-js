@@ -24,7 +24,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 import { tracingClient } from "./tracing";
@@ -92,7 +92,7 @@ export class KeyVaultAccessControlClient {
         // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
-        challengeCallbacks: createChallengeCallbacks(options),
+        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
       })
     );
   }

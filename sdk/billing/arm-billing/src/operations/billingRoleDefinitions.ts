@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BillingRoleDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,19 +17,19 @@ import {
   BillingRoleDefinition,
   BillingRoleDefinitionsListByBillingAccountNextOptionalParams,
   BillingRoleDefinitionsListByBillingAccountOptionalParams,
+  BillingRoleDefinitionsListByBillingAccountResponse,
   BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams,
   BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
+  BillingRoleDefinitionsListByInvoiceSectionResponse,
   BillingRoleDefinitionsListByBillingProfileNextOptionalParams,
   BillingRoleDefinitionsListByBillingProfileOptionalParams,
+  BillingRoleDefinitionsListByBillingProfileResponse,
   BillingRoleDefinitionsGetByBillingAccountOptionalParams,
   BillingRoleDefinitionsGetByBillingAccountResponse,
   BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
   BillingRoleDefinitionsGetByInvoiceSectionResponse,
   BillingRoleDefinitionsGetByBillingProfileOptionalParams,
   BillingRoleDefinitionsGetByBillingProfileResponse,
-  BillingRoleDefinitionsListByBillingAccountResponse,
-  BillingRoleDefinitionsListByInvoiceSectionResponse,
-  BillingRoleDefinitionsListByBillingProfileResponse,
   BillingRoleDefinitionsListByBillingAccountNextResponse,
   BillingRoleDefinitionsListByInvoiceSectionNextResponse,
   BillingRoleDefinitionsListByBillingProfileNextResponse
@@ -68,19 +69,33 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByBillingAccountPagingPage(billingAccountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
-    let result = await this._listByBillingAccount(billingAccountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingRoleDefinitionsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
@@ -88,7 +103,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -131,12 +148,16 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInvoiceSectionPagingPage(
           billingAccountName,
           billingProfileName,
           invoiceSectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -146,16 +167,23 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
-    let result = await this._listByInvoiceSection(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingRoleDefinitionsListByInvoiceSectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSection(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInvoiceSectionNext(
         billingAccountName,
@@ -165,7 +193,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -209,11 +239,15 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountName,
           billingProfileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -222,15 +256,22 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   private async *listByBillingProfilePagingPage(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountName,
-      billingProfileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingRoleDefinitionsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingProfileNext(
         billingAccountName,
@@ -239,7 +280,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

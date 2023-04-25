@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Operation, OperationStatus, RestorableOperationState, StateProxy } from "./models";
+import {
+  LroError,
+  InnerError,
+  Operation,
+  OperationStatus,
+  RestorableOperationState,
+  StateProxy,
+} from "./models";
 import { logger } from "../logger";
 import { terminalStates } from "./constants";
 
@@ -21,42 +28,92 @@ export function deserializeState<TState>(
 function setStateError<TState, TResult>(inputs: {
   state: TState;
   stateProxy: StateProxy<TState, TResult>;
+  isOperationError: (error: Error) => boolean;
 }): (error: Error) => never {
-  const { state, stateProxy } = inputs;
+  const { state, stateProxy, isOperationError } = inputs;
   return (error: Error) => {
-    stateProxy.setError(state, error);
-    stateProxy.setFailed(state);
+    if (isOperationError(error)) {
+      stateProxy.setError(state, error);
+      stateProxy.setFailed(state);
+    }
     throw error;
   };
 }
 
-function processOperationStatus<TState, TResult>(result: {
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
+  }
+  return message + " " + innerMessage;
+}
+
+function simplifyError(err: LroError): {
+  code: string;
+  message: string;
+} {
+  let message = err.message;
+  let code = err.code;
+  let curErr = err as InnerError;
+  while (curErr.innererror) {
+    curErr = curErr.innererror;
+    code = curErr.code;
+    message = appendReadableErrorMessage(message, curErr.message);
+  }
+  return {
+    code,
+    message,
+  };
+}
+
+function processOperationStatus<TState, TResult, TResponse>(result: {
   status: OperationStatus;
+  response: TResponse;
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
+  processResult?: (result: TResponse, state: TState) => TResult;
+  getError?: (response: TResponse) => LroError | undefined;
+  isDone?: (lastResponse: TResponse, state: TState) => boolean;
+  setErrorAsResult: boolean;
 }): void {
-  const { state, stateProxy, status } = result;
-  logger.verbose(
-    `LRO: Status:\n\tPolling from: ${
-      state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${
-      terminalStates.includes(status) ? "Stopped" : "Running"
-    }`
-  );
+  const { state, stateProxy, status, isDone, processResult, getError, response, setErrorAsResult } =
+    result;
   switch (status) {
     case "succeeded": {
       stateProxy.setSucceeded(state);
       break;
     }
     case "failed": {
-      stateProxy.setError(state, new Error(`The long-running operation has failed`));
+      const err = getError?.(response);
+      let postfix = "";
+      if (err) {
+        const { code, message } = simplifyError(err);
+        postfix = `. ${code}. ${message}`;
+      }
+      const errStr = `The long-running operation has failed${postfix}`;
+      stateProxy.setError(state, new Error(errStr));
       stateProxy.setFailed(state);
+      logger.warning(errStr);
       break;
     }
     case "canceled": {
       stateProxy.setCanceled(state);
       break;
     }
+  }
+  if (
+    isDone?.(response, state) ||
+    (isDone === undefined &&
+      ["succeeded", "canceled"].concat(setErrorAsResult ? [] : ["failed"]).includes(status))
+  ) {
+    stateProxy.setResult(
+      state,
+      buildResult({
+        response,
+        state,
+        processResult,
+      })
+    );
   }
 }
 
@@ -75,14 +132,23 @@ function buildResult<TResponse, TResult, TState>(inputs: {
 export async function initOperation<TResponse, TResult, TState>(inputs: {
   init: Operation<TResponse, unknown>["init"];
   stateProxy: StateProxy<TState, TResult>;
-  getOperationStatus: (
-    response: TResponse,
-    state: RestorableOperationState<TState>
-  ) => OperationStatus;
+  getOperationStatus: (inputs: {
+    response: TResponse;
+    state: RestorableOperationState<TState>;
+    operationLocation?: string;
+  }) => OperationStatus;
   processResult?: (result: TResponse, state: TState) => TResult;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
+  setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TState>> {
-  const { init, stateProxy, processResult, getOperationStatus, withOperationLocation } = inputs;
+  const {
+    init,
+    stateProxy,
+    processResult,
+    getOperationStatus,
+    withOperationLocation,
+    setErrorAsResult,
+  } = inputs;
   const { operationLocation, resourceLocation, metadata, response } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
@@ -92,18 +158,8 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   };
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
-  const status = getOperationStatus(response, state);
-  if (status === "succeeded" || operationLocation === undefined) {
-    stateProxy.setSucceeded(state);
-    stateProxy.setResult(
-      state,
-      buildResult({
-        response,
-        state,
-        processResult,
-      })
-    );
-  }
+  const status = getOperationStatus({ response, state, operationLocation });
+  processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
   return state;
 }
 
@@ -120,6 +176,7 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => string | undefined;
+  isOperationError: (error: Error) => boolean;
   options?: TOptions;
 }): Promise<{
   status: OperationStatus;
@@ -132,25 +189,31 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     operationLocation,
     getOperationStatus,
     getResourceLocation,
+    isOperationError,
     options,
   } = inputs;
   const response = await poll(operationLocation, options).catch(
     setStateError({
       state,
       stateProxy,
+      isOperationError,
     })
   );
   const status = getOperationStatus(response, state);
-  processOperationStatus({
-    status,
-    state,
-    stateProxy,
-  });
+  logger.verbose(
+    `LRO: Status:\n\tPolling from: ${
+      state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${
+      terminalStates.includes(status) ? "Stopped" : "Running"
+    }`
+  );
   if (status === "succeeded") {
     const resourceLocation = getResourceLocation(response, state);
     if (resourceLocation !== undefined) {
       return {
-        response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
+        response: await poll(resourceLocation).catch(
+          setStateError({ state, stateProxy, isOperationError })
+        ),
         status,
       };
     }
@@ -171,6 +234,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => string | undefined;
+  isOperationError: (error: Error) => boolean;
   getPollingInterval?: (response: TResponse) => number | undefined;
   setDelay: (intervalInMs: number) => void;
   getOperationLocation?: (
@@ -179,8 +243,10 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   processResult?: (result: TResponse, state: TState) => TResult;
+  getError?: (response: TResponse) => LroError | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
+  setErrorAsResult: boolean;
   options?: TOptions;
 }): Promise<void> {
   const {
@@ -191,12 +257,15 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     getOperationStatus,
     getResourceLocation,
     getOperationLocation,
+    isOperationError,
     withOperationLocation,
     getPollingInterval,
     processResult,
+    getError,
     updateState,
     setDelay,
     isDone,
+    setErrorAsResult,
   } = inputs;
   const { operationLocation } = state.config;
   if (operationLocation !== undefined) {
@@ -207,21 +276,21 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       stateProxy,
       operationLocation,
       getResourceLocation,
+      isOperationError,
       options,
     });
-    if (
-      isDone?.(response, state) ||
-      (isDone === undefined && ["succeeded", "canceled"].includes(status))
-    ) {
-      stateProxy.setResult(
-        state,
-        buildResult({
-          response,
-          state,
-          processResult,
-        })
-      );
-    } else {
+    processOperationStatus({
+      status,
+      response,
+      state,
+      stateProxy,
+      isDone,
+      processResult,
+      getError,
+      setErrorAsResult,
+    });
+
+    if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
       if (intervalInMs) setDelay(intervalInMs);
       const location = getOperationLocation?.(response, state);

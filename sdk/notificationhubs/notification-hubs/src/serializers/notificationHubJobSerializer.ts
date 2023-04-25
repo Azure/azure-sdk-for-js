@@ -69,7 +69,10 @@ export async function parseNotificationHubJobFeed(bodyText: string): Promise<Not
 
 function createInputOutputProperties(content: Record<string, any>): Record<string, string> {
   const props: Record<string, string> = {};
-  for (const item of content["d3p1:KeyValueOfstringstring"]) {
+
+  const keyValues = content["d3p1:KeyValueOfstringstring"];
+  const keyValueArray = Array.isArray(keyValues) ? keyValues : [keyValues];
+  for (const item of keyValueArray) {
     props[item["d3p1:Key"]] = item["d3p1:Value"];
   }
 

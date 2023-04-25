@@ -13,16 +13,22 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an attached database configuration.
  *
  * @summary Creates or updates an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
  */
 async function attachedDatabaseConfigurationsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster2";
   const attachedDatabaseConfigurationName =
     "attachedDatabaseConfigurationsTest";
@@ -53,4 +59,8 @@ async function attachedDatabaseConfigurationsCreateOrUpdate() {
   console.log(result);
 }
 
-attachedDatabaseConfigurationsCreateOrUpdate().catch(console.error);
+async function main() {
+  attachedDatabaseConfigurationsCreateOrUpdate();
+}
+
+main().catch(console.error);

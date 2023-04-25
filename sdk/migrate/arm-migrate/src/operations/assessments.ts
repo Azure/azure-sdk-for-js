@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Assessments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,8 +15,8 @@ import { AzureMigrateV2 } from "../azureMigrateV2";
 import {
   Assessment,
   AssessmentsListByGroupOptionalParams,
-  AssessmentsListByProjectOptionalParams,
   AssessmentsListByGroupResponse,
+  AssessmentsListByProjectOptionalParams,
   AssessmentsListByProjectResponse,
   AssessmentsGetOptionalParams,
   AssessmentsGetResponse,
@@ -70,12 +70,16 @@ export class AssessmentsImpl implements Assessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByGroupPagingPage(
           resourceGroupName,
           projectName,
           groupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,9 +89,11 @@ export class AssessmentsImpl implements Assessments {
     resourceGroupName: string,
     projectName: string,
     groupName: string,
-    options?: AssessmentsListByGroupOptionalParams
+    options?: AssessmentsListByGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Assessment[]> {
-    let result = await this._listByGroup(
+    let result: AssessmentsListByGroupResponse;
+    result = await this._listByGroup(
       resourceGroupName,
       projectName,
       groupName,
@@ -138,11 +144,15 @@ export class AssessmentsImpl implements Assessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -151,13 +161,11 @@ export class AssessmentsImpl implements Assessments {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: AssessmentsListByProjectOptionalParams
+    options?: AssessmentsListByProjectOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Assessment[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
+    let result: AssessmentsListByProjectResponse;
+    result = await this._listByProject(resourceGroupName, projectName, options);
     yield result.value || [];
   }
 

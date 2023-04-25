@@ -7,13 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
   VirtualNetworksListAllOptionalParams,
   VirtualNetworksListOptionalParams,
   VirtualNetworkUsage,
   VirtualNetworksListUsageOptionalParams,
+  PublicIpDdosProtectionStatusResult,
+  VirtualNetworksListDdosProtectionStatusOptionalParams,
   VirtualNetworksDeleteOptionalParams,
   VirtualNetworksGetOptionalParams,
   VirtualNetworksGetResponse,
@@ -57,6 +59,17 @@ export interface VirtualNetworks {
     options?: VirtualNetworksListUsageOptionalParams
   ): PagedAsyncIterableIterator<VirtualNetworkUsage>;
   /**
+   * Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param options The options parameters.
+   */
+  beginListDdosProtectionStatusAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+  ): PagedAsyncIterableIterator<PublicIpDdosProtectionStatusResult>;
+  /**
    * Deletes the specified virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -66,7 +79,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified virtual network.
    * @param resourceGroupName The name of the resource group.
@@ -102,8 +115,8 @@ export interface VirtualNetworks {
     parameters: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;

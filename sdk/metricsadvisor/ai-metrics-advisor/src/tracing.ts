@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants";
 
-/**
- * Creates a span using the global tracer.
- * @internal
- */
-export const createSpan = createSpanFunction({
-  packagePrefix: "Azure.CognitiveServices.MetricsAdvisor",
+export const tracingClient = createTracingClient({
   namespace: "Microsoft.CognitiveServices",
+  packageName: "@azure/ai-metrics-advisor",
+  packageVersion: SDK_VERSION,
 });

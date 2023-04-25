@@ -19,7 +19,7 @@ export const PUBLIC_SAMPLES_BASE = "samples";
  */
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
-    target: "ES2018",
+    target: "ES2020",
     module: "commonjs",
 
     moduleResolution: "node",

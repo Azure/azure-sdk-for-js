@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Images } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,11 +65,15 @@ export class ImagesImpl implements Images {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByLabPlanPagingPage(
           resourceGroupName,
           labPlanName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class ImagesImpl implements Images {
   private async *listByLabPlanPagingPage(
     resourceGroupName: string,
     labPlanName: string,
-    options?: ImagesListByLabPlanOptionalParams
+    options?: ImagesListByLabPlanOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Image[]> {
-    let result = await this._listByLabPlan(
-      resourceGroupName,
-      labPlanName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ImagesListByLabPlanResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLabPlan(
+        resourceGroupName,
+        labPlanName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLabPlanNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class ImagesImpl implements Images {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -323,7 +337,6 @@ const listByLabPlanNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

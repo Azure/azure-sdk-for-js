@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AutoScaleVCores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,7 +15,9 @@ import { PowerBIDedicated } from "../powerBIDedicated";
 import {
   AutoScaleVCore,
   AutoScaleVCoresListByResourceGroupOptionalParams,
+  AutoScaleVCoresListByResourceGroupResponse,
   AutoScaleVCoresListBySubscriptionOptionalParams,
+  AutoScaleVCoresListBySubscriptionResponse,
   AutoScaleVCoresGetOptionalParams,
   AutoScaleVCoresGetResponse,
   AutoScaleVCoresCreateOptionalParams,
@@ -23,9 +25,7 @@ import {
   AutoScaleVCoresDeleteOptionalParams,
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
-  AutoScaleVCoresUpdateResponse,
-  AutoScaleVCoresListByResourceGroupResponse,
-  AutoScaleVCoresListBySubscriptionResponse
+  AutoScaleVCoresUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,17 +59,26 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AutoScaleVCore[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: AutoScaleVCoresListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -100,16 +109,21 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AutoScaleVCore[]> {
-    let result = await this._listBySubscription(options);
+    let result: AutoScaleVCoresListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 

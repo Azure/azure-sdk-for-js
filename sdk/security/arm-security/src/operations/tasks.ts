@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Tasks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,17 +17,17 @@ import {
   SecurityTask,
   TasksListNextOptionalParams,
   TasksListOptionalParams,
+  TasksListResponse,
   TasksListByHomeRegionNextOptionalParams,
   TasksListByHomeRegionOptionalParams,
+  TasksListByHomeRegionResponse,
   TasksListByResourceGroupNextOptionalParams,
   TasksListByResourceGroupOptionalParams,
-  TasksListResponse,
-  TasksListByHomeRegionResponse,
+  TasksListByResourceGroupResponse,
   TasksGetSubscriptionLevelTaskOptionalParams,
   TasksGetSubscriptionLevelTaskResponse,
   TaskUpdateActionType,
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
-  TasksListByResourceGroupResponse,
   TasksGetResourceGroupLevelTaskOptionalParams,
   TasksGetResourceGroupLevelTaskResponse,
   TasksUpdateResourceGroupLevelTaskStateOptionalParams,
@@ -63,22 +64,34 @@ export class TasksImpl implements Tasks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecurityTask[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TasksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,19 +121,29 @@ export class TasksImpl implements Tasks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHomeRegionPagingPage(ascLocation, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHomeRegionPagingPage(ascLocation, options, settings);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
-    options?: TasksListByHomeRegionOptionalParams
+    options?: TasksListByHomeRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecurityTask[]> {
-    let result = await this._listByHomeRegion(ascLocation, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TasksListByHomeRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHomeRegion(ascLocation, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHomeRegionNext(
         ascLocation,
@@ -128,7 +151,9 @@ export class TasksImpl implements Tasks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -169,11 +194,15 @@ export class TasksImpl implements Tasks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           ascLocation,
-          options
+          options,
+          settings
         );
       }
     };
@@ -182,15 +211,22 @@ export class TasksImpl implements Tasks {
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     ascLocation: string,
-    options?: TasksListByResourceGroupOptionalParams
+    options?: TasksListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecurityTask[]> {
-    let result = await this._listByResourceGroup(
-      resourceGroupName,
-      ascLocation,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TasksListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(
+        resourceGroupName,
+        ascLocation,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -199,7 +235,9 @@ export class TasksImpl implements Tasks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -563,7 +601,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -583,7 +620,6 @@ const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -604,7 +640,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

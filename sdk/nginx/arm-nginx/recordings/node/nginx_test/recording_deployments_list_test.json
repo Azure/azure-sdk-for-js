@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Nginx.NginxPlus/nginxDeployments?api-version=2022-08-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-nginx/2.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "dd61fd8e-1e9e-425f-9470-6cd637e23a5f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 30 Jan 2023 01:58:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a3f5296f-6ad6-4ee3-bfab-bb472e917e27",
+        "x-ms-original-request-ids": [
+          "a2d0b805-d264-44b4-ae69-ac0cd08057fc",
+          "e70c703b-057c-49b5-a9cf-f41cf45b0be4",
+          "ae64550c-dd6e-42fc-9ec6-695315e524a1",
+          "8681544d-8e66-436f-9ba8-da8e78bd333e",
+          "4dc50d0a-ca8c-4013-a4ae-812d25cef974",
+          "86f0fa31-c664-4114-b134-4ecd34fa7c02",
+          "62d4d4e8-d08f-4b84-a8ef-9e1aa4101851",
+          "f1becf04-5e28-43b8-885a-4e8b20e6cb40",
+          "145e864f-d91e-4a7f-9c7a-0f3b487cbcec"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "a3f5296f-6ad6-4ee3-bfab-bb472e917e27",
+        "x-ms-routing-request-id": "KOREASOUTH:20230130T015806Z:a3f5296f-6ad6-4ee3-bfab-bb472e917e27"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

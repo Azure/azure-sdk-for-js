@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic.json
  */
 async function eventSubscriptionsGetForCustomTopic() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -30,8 +35,6 @@ async function eventSubscriptionsGetForCustomTopic() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopic().catch(console.error);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -40,7 +43,9 @@ eventSubscriptionsGetForCustomTopic().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -52,10 +57,6 @@ async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicAzureFunctionDestination().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -64,7 +65,9 @@ eventSubscriptionsGetForCustomTopicAzureFunctionDestination().catch(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicEventHubDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -76,8 +79,6 @@ async function eventSubscriptionsGetForCustomTopicEventHubDestination() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicEventHubDestination().catch(console.error);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -86,7 +87,9 @@ eventSubscriptionsGetForCustomTopicEventHubDestination().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -98,10 +101,6 @@ async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination() 
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicHybridConnectionDestination().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -110,7 +109,9 @@ eventSubscriptionsGetForCustomTopicHybridConnectionDestination().catch(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -122,10 +123,6 @@ async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicServiceBusQueueDestination().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -134,7 +131,9 @@ eventSubscriptionsGetForCustomTopicServiceBusQueueDestination().catch(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -146,10 +145,6 @@ async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicServiceBusTopicDestination().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -158,7 +153,9 @@ eventSubscriptionsGetForCustomTopicServiceBusTopicDestination().catch(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicStorageQueueDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -170,10 +167,6 @@ async function eventSubscriptionsGetForCustomTopicStorageQueueDestination() {
   );
   console.log(result);
 }
-
-eventSubscriptionsGetForCustomTopicStorageQueueDestination().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Get properties of an event subscription.
@@ -182,7 +175,9 @@ eventSubscriptionsGetForCustomTopicStorageQueueDestination().catch(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicWebhookDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -195,8 +190,6 @@ async function eventSubscriptionsGetForCustomTopicWebhookDestination() {
   console.log(result);
 }
 
-eventSubscriptionsGetForCustomTopicWebhookDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Get properties of an event subscription.
  *
@@ -204,7 +197,9 @@ eventSubscriptionsGetForCustomTopicWebhookDestination().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForResource.json
  */
 async function eventSubscriptionsGetForResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription1";
@@ -217,8 +212,6 @@ async function eventSubscriptionsGetForResource() {
   console.log(result);
 }
 
-eventSubscriptionsGetForResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Get properties of an event subscription.
  *
@@ -226,7 +219,9 @@ eventSubscriptionsGetForResource().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForResourceGroup.json
  */
 async function eventSubscriptionsGetForResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
@@ -239,8 +234,6 @@ async function eventSubscriptionsGetForResourceGroup() {
   console.log(result);
 }
 
-eventSubscriptionsGetForResourceGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Get properties of an event subscription.
  *
@@ -248,7 +241,9 @@ eventSubscriptionsGetForResourceGroup().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetForSubscription.json
  */
 async function eventSubscriptionsGetForSubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const eventSubscriptionName = "examplesubscription3";
   const credential = new DefaultAzureCredential();
@@ -260,4 +255,18 @@ async function eventSubscriptionsGetForSubscription() {
   console.log(result);
 }
 
-eventSubscriptionsGetForSubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsGetForCustomTopic();
+  eventSubscriptionsGetForCustomTopicAzureFunctionDestination();
+  eventSubscriptionsGetForCustomTopicEventHubDestination();
+  eventSubscriptionsGetForCustomTopicHybridConnectionDestination();
+  eventSubscriptionsGetForCustomTopicServiceBusQueueDestination();
+  eventSubscriptionsGetForCustomTopicServiceBusTopicDestination();
+  eventSubscriptionsGetForCustomTopicStorageQueueDestination();
+  eventSubscriptionsGetForCustomTopicWebhookDestination();
+  eventSubscriptionsGetForResource();
+  eventSubscriptionsGetForResourceGroup();
+  eventSubscriptionsGetForSubscription();
+}
+
+main().catch(console.error);

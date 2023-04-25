@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Certificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   NginxCertificate,
   CertificatesListNextOptionalParams,
   CertificatesListOptionalParams,
+  CertificatesListResponse,
   CertificatesGetOptionalParams,
   CertificatesGetResponse,
-  CertificatesCreateOptionalParams,
-  CertificatesCreateResponse,
+  CertificatesCreateOrUpdateOptionalParams,
+  CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
-  CertificatesListResponse,
   CertificatesListNextResponse
 } from "../models";
 
@@ -59,8 +60,16 @@ export class CertificatesImpl implements Certificates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingPage(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NginxCertificate[]> {
-    let result = await this._list(resourceGroupName, deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CertificatesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class CertificatesImpl implements Certificates {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -125,21 +143,21 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<CertificatesCreateResponse>,
-      CertificatesCreateResponse
+      PollOperationState<CertificatesCreateOrUpdateResponse>,
+      CertificatesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<CertificatesCreateResponse> => {
+    ): Promise<CertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -178,7 +196,7 @@ export class CertificatesImpl implements Certificates {
     const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, certificateName, options },
-      createOperationSpec
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -196,13 +214,13 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
-  ): Promise<CertificatesCreateResponse> {
-    const poller = await this.beginCreate(
+    options?: CertificatesCreateOrUpdateOptionalParams
+  ): Promise<CertificatesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       certificateName,
@@ -349,6 +367,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -359,7 +378,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "PUT",
@@ -381,6 +400,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -405,6 +425,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -448,7 +469,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Sims } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,15 +17,24 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Sim,
-  SimsListBySimGroupNextOptionalParams,
-  SimsListBySimGroupOptionalParams,
+  SimsListByGroupNextOptionalParams,
+  SimsListByGroupOptionalParams,
+  SimsListByGroupResponse,
   SimsDeleteOptionalParams,
   SimsGetOptionalParams,
   SimsGetResponse,
   SimsCreateOrUpdateOptionalParams,
   SimsCreateOrUpdateResponse,
-  SimsListBySimGroupResponse,
-  SimsListBySimGroupNextResponse
+  SimUploadList,
+  SimsBulkUploadOptionalParams,
+  SimsBulkUploadResponse,
+  SimDeleteList,
+  SimsBulkDeleteOptionalParams,
+  SimsBulkDeleteResponse,
+  EncryptedSimUploadList,
+  SimsBulkUploadEncryptedOptionalParams,
+  SimsBulkUploadEncryptedResponse,
+  SimsListByGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,12 +56,12 @@ export class SimsImpl implements Sims {
    * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
-  public listBySimGroup(
+  public listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams
   ): PagedAsyncIterableIterator<Sim> {
-    const iter = this.listBySimGroupPagingAll(
+    const iter = this.listByGroupPagingAll(
       resourceGroupName,
       simGroupName,
       options
@@ -63,46 +73,59 @@ export class SimsImpl implements Sims {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySimGroupPagingPage(
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByGroupPagingPage(
           resourceGroupName,
           simGroupName,
-          options
+          options,
+          settings
         );
       }
     };
   }
 
-  private async *listBySimGroupPagingPage(
+  private async *listByGroupPagingPage(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Sim[]> {
-    let result = await this._listBySimGroup(
-      resourceGroupName,
-      simGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SimsListByGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGroup(
+        resourceGroupName,
+        simGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
-      result = await this._listBySimGroupNext(
+      result = await this._listByGroupNext(
         resourceGroupName,
         simGroupName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
-  private async *listBySimGroupPagingAll(
+  private async *listByGroupPagingAll(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams
   ): AsyncIterableIterator<Sim> {
-    for await (const page of this.listBySimGroupPagingPage(
+    for await (const page of this.listByGroupPagingPage(
       resourceGroupName,
       simGroupName,
       options
@@ -322,33 +345,312 @@ export class SimsImpl implements Sims {
    * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
-  private _listBySimGroup(
+  private _listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
-  ): Promise<SimsListBySimGroupResponse> {
+    options?: SimsListByGroupOptionalParams
+  ): Promise<SimsListByGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, options },
-      listBySimGroupOperationSpec
+      listByGroupOperationSpec
     );
   }
 
   /**
-   * ListBySimGroupNext
+   * Bulk upload SIMs to a SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param nextLink The nextLink from the previous successful call to the ListBySimGroup method.
+   * @param parameters Parameters supplied to the bulk SIM upload operation.
    * @param options The options parameters.
    */
-  private _listBySimGroupNext(
+  async beginBulkUpload(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimUploadList,
+    options?: SimsBulkUploadOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkUploadResponse>,
+      SimsBulkUploadResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SimsBulkUploadResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, simGroupName, parameters, options },
+      bulkUploadOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Bulk upload SIMs to a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM upload operation.
+   * @param options The options parameters.
+   */
+  async beginBulkUploadAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimUploadList,
+    options?: SimsBulkUploadOptionalParams
+  ): Promise<SimsBulkUploadResponse> {
+    const poller = await this.beginBulkUpload(
+      resourceGroupName,
+      simGroupName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  async beginBulkDelete(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkDeleteResponse>,
+      SimsBulkDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SimsBulkDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, simGroupName, parameters, options },
+      bulkDeleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  async beginBulkDeleteAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams
+  ): Promise<SimsBulkDeleteResponse> {
+    const poller = await this.beginBulkDelete(
+      resourceGroupName,
+      simGroupName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param options The options parameters.
+   */
+  async beginBulkUploadEncrypted(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: EncryptedSimUploadList,
+    options?: SimsBulkUploadEncryptedOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkUploadEncryptedResponse>,
+      SimsBulkUploadEncryptedResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SimsBulkUploadEncryptedResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, simGroupName, parameters, options },
+      bulkUploadEncryptedOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param options The options parameters.
+   */
+  async beginBulkUploadEncryptedAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: EncryptedSimUploadList,
+    options?: SimsBulkUploadEncryptedOptionalParams
+  ): Promise<SimsBulkUploadEncryptedResponse> {
+    const poller = await this.beginBulkUploadEncrypted(
+      resourceGroupName,
+      simGroupName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param nextLink The nextLink from the previous successful call to the ListByGroup method.
+   * @param options The options parameters.
+   */
+  private _listByGroupNext(
     resourceGroupName: string,
     simGroupName: string,
     nextLink: string,
-    options?: SimsListBySimGroupNextOptionalParams
-  ): Promise<SimsListBySimGroupNextResponse> {
+    options?: SimsListByGroupNextOptionalParams
+  ): Promise<SimsListByGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, nextLink, options },
-      listBySimGroupNextOperationSpec
+      listByGroupNextOperationSpec
     );
   }
 }
@@ -423,7 +725,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -436,7 +738,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listBySimGroupOperationSpec: coreClient.OperationSpec = {
+const listByGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims",
   httpMethod: "GET",
@@ -458,7 +760,106 @@ const listBySimGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySimGroupNextOperationSpec: coreClient.OperationSpec = {
+const bulkUploadOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadSims",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.simGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const bulkDeleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/deleteSims",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.simGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const bulkUploadEncryptedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/uploadEncryptedSims",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.simGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listByGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -469,7 +870,6 @@ const listBySimGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

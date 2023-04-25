@@ -34,19 +34,32 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
 
   /**
    * Gets the health details of the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationVaultHealthGetOptionalParams
   ): Promise<ReplicationVaultHealthGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { resourceName, resourceGroupName, options },
+      getOperationSpec
+    );
   }
 
   /**
    * Refreshes health summary of the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   async beginRefresh(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams
   ): Promise<
     PollerLike<
@@ -93,21 +106,36 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
       };
     };
 
-    const lro = new LroImpl(sendOperation, { options }, refreshOperationSpec);
-    return new LroEngine(lro, {
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceName, resourceGroupName, options },
+      refreshOperationSpec
+    );
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Refreshes health summary of the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   async beginRefreshAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams
   ): Promise<ReplicationVaultHealthRefreshResponse> {
-    const poller = await this.beginRefresh(options);
+    const poller = await this.beginRefresh(
+      resourceName,
+      resourceGroupName,
+      options
+    );
     return poller.pollUntilDone();
   }
 }

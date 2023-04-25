@@ -1,0 +1,93 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx/endpoints?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cdn/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "04d50347-85fc-46b5-b7ea-772988742d19"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Dec 2022 08:39:26 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "04d50347-85fc-46b5-b7ea-772988742d19",
+        "x-ms-correlation-request-id": "a18b397a-474c-4f5b-9a1a-f6231e3782a1",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "47",
+        "x-ms-request-id": "f19bcc9b-8c2c-4da6-b3f7-df4a2348b45c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221208T083927Z:a18b397a-474c-4f5b-9a1a-f6231e3782a1"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx/endpoints/myendpointxxx",
+            "type": "Microsoft.Cdn/profiles/endpoints",
+            "name": "myendpointxxx",
+            "location": "WestUs",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "hostName": "myendpointxxx.azureedge.net",
+              "originHostHeader": "www.bing.com",
+              "originPath": "/image",
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true,
+              "isHttpAllowed": true,
+              "isHttpsAllowed": true,
+              "queryStringCachingBehavior": "BypassCaching",
+              "optimizationType": null,
+              "probePath": null,
+              "origins": [
+                {
+                  "name": "origin1",
+                  "properties": {
+                    "hostName": "host1.hello.com",
+                    "httpPort": null,
+                    "httpsPort": null,
+                    "originHostHeader": null,
+                    "priority": null,
+                    "weight": null,
+                    "enabled": true,
+                    "privateLinkAlias": null,
+                    "privateLinkResourceId": null,
+                    "privateLinkLocation": null,
+                    "privateEndpointStatus": null,
+                    "privateLinkApprovalMessage": null
+                  }
+                }
+              ],
+              "originGroups": [],
+              "defaultOriginGroup": null,
+              "customDomains": [],
+              "geoFilters": [],
+              "deliveryPolicy": null,
+              "urlSigningKeys": null,
+              "webApplicationFirewallPolicyLink": null,
+              "resourceState": "Running",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

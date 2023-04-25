@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get details for a specific grant linked to the provided billing account and billing profile.
@@ -28,8 +29,6 @@ async function grant() {
   console.log(result);
 }
 
-grant().catch(console.error);
-
 /**
  * This sample demonstrates how to Get details for a specific grant linked to the provided billing account and billing profile.
  *
@@ -47,4 +46,9 @@ async function grantIncludeAllocatedBudget() {
   console.log(result);
 }
 
-grantIncludeAllocatedBudget().catch(console.error);
+async function main() {
+  grant();
+  grantIncludeAllocatedBudget();
+}
+
+main().catch(console.error);

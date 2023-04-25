@@ -1,14 +1,21 @@
 # Release History
 
-## 1.4.0-beta.2 (Unreleased)
+## 1.4.1 (2023-04-24)
 
 ### Features Added
-
-### Breaking Changes
+- Added dependency on `@azure/logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
 
 ### Bugs Fixed
 
+- "\0" as the `labelFilter` in the listing methods `AppConfgurationClient#listConfigurationSettings` would return the settings without any labels. Docs were updated to reflect that.
+   [#21309](https://github.com/Azure/azure-sdk-for-js/pull/21039)
+- [#25463](https://github.com/Azure/azure-sdk-for-js/pull/25463) If the app configuration endpoint ends withs a slash(`/`), the requests made using the `AppConfigurationClient` hit 401 error owing to `Bearer error="invalid_token", error_description="Authorization token failed validation"`. The issue is fixed as part of [#20766](https://github.com/Azure/azure-sdk-for-js/pull/20766).
+
 ### Other Changes
+
+- Update `@azure/core-paging` dependency to the latest version (1.4.0). Notable changes include using the `getPagedAsyncIterator` method. [#23479](https://github.com/Azure/azure-sdk-for-js/pull/23479)
+
+- Provide helpful debugging error message for `412` status code with `Setting was already present`. [#24207](https://github.com/Azure/azure-sdk-for-js/pull/24207)
 
 ## 1.4.0-beta.1 (2022-05-10)
 

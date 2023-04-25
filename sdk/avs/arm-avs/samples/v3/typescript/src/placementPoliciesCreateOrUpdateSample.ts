@@ -10,31 +10,38 @@
 // Licensed under the MIT License.
 import { PlacementPolicy, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a placement policy in a private cloud cluster
  *
  * @summary Create or update a placement policy in a private cloud cluster
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_CreateOrUpdate.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PlacementPolicies_CreateOrUpdate.json
  */
 async function placementPoliciesCreateOrUpdate() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const placementPolicyName = "policy1";
   const placementPolicy: PlacementPolicy = {
     properties: {
       type: "VmHost",
+      affinityStrength: "Must",
       affinityType: "AntiAffinity",
+      azureHybridBenefitType: "SqlHost",
       hostMembers: [
         "fakehost22.nyc1.kubernetes.center",
         "fakehost23.nyc1.kubernetes.center",
         "fakehost24.nyc1.kubernetes.center"
       ],
       vmMembers: [
-        "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-        "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
       ]
     }
   };
@@ -50,4 +57,8 @@ async function placementPoliciesCreateOrUpdate() {
   console.log(result);
 }
 
-placementPoliciesCreateOrUpdate().catch(console.error);
+async function main() {
+  placementPoliciesCreateOrUpdate();
+}
+
+main().catch(console.error);

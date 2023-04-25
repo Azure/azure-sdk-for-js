@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreate.json
  */
 async function createANewServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const parameters = {
     administratorLogin: "cloudsa",
@@ -40,8 +42,6 @@ async function createANewServer() {
   console.log(result);
 }
 
-createANewServer().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
  *
@@ -49,8 +49,9 @@ createANewServer().catch(console.error);
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreateReplica.json
  */
 async function createAReplicaServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testgr";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testgr";
   const serverName = "replica-server";
   const parameters = {
     createMode: "Replica",
@@ -64,8 +65,6 @@ async function createAReplicaServer() {
   console.log(result);
 }
 
-createAReplicaServer().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
  *
@@ -73,8 +72,9 @@ createAReplicaServer().catch(console.error);
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreateWithPointInTimeRestore.json
  */
 async function createAServerAsAPointInTimeRestore() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "TargetResourceGroup";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TargetResourceGroup";
   const serverName = "targetserver";
   const parameters = {
     createMode: "PointInTimeRestore",
@@ -91,4 +91,10 @@ async function createAServerAsAPointInTimeRestore() {
   console.log(result);
 }
 
-createAServerAsAPointInTimeRestore().catch(console.error);
+async function main() {
+  createANewServer();
+  createAReplicaServer();
+  createAServerAsAPointInTimeRestore();
+}
+
+main().catch(console.error);

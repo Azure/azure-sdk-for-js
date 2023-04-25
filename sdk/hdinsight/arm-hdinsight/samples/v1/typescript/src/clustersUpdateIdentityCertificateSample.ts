@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates the cluster identity certificate.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Clusters_UpdateClusterIdentityCertificate.json
  */
 async function updateClusterIdentityCertificate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const parameters: UpdateClusterIdentityCertificateParameters = {
     applicationId: "applicationId",
@@ -39,4 +42,8 @@ async function updateClusterIdentityCertificate() {
   console.log(result);
 }
 
-updateClusterIdentityCertificate().catch(console.error);
+async function main() {
+  updateClusterIdentityCertificate();
+}
+
+main().catch(console.error);

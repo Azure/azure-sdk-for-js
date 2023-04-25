@@ -9,22 +9,19 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownPolicyMode {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Indexed = "Indexed",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownPolicyType {
-    // (undocumented)
     BuiltIn = "BuiltIn",
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
@@ -103,7 +100,6 @@ export type PolicyAssignmentsGetResponse = PolicyAssignment;
 
 // @public
 export interface PolicyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -119,7 +115,6 @@ export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentList
 
 // @public
 export interface PolicyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -135,7 +130,6 @@ export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResul
 
 // @public
 export interface PolicyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

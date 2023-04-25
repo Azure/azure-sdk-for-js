@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ConfigurationProfileAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,20 +15,20 @@ import { AutomanageClient } from "../automanageClient";
 import {
   ConfigurationProfileAssignment,
   ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
+  ConfigurationProfileAssignmentsListByVirtualMachinesResponse,
   ConfigurationProfileAssignmentsListOptionalParams,
+  ConfigurationProfileAssignmentsListResponse,
   ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
+  ConfigurationProfileAssignmentsListBySubscriptionResponse,
   ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
+  ConfigurationProfileAssignmentsListByMachineNameResponse,
   ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
+  ConfigurationProfileAssignmentsListByClusterNameResponse,
   ConfigurationProfileAssignmentsCreateOrUpdateOptionalParams,
   ConfigurationProfileAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileAssignmentsGetOptionalParams,
   ConfigurationProfileAssignmentsGetResponse,
-  ConfigurationProfileAssignmentsDeleteOptionalParams,
-  ConfigurationProfileAssignmentsListByVirtualMachinesResponse,
-  ConfigurationProfileAssignmentsListResponse,
-  ConfigurationProfileAssignmentsListBySubscriptionResponse,
-  ConfigurationProfileAssignmentsListByMachineNameResponse,
-  ConfigurationProfileAssignmentsListByClusterNameResponse
+  ConfigurationProfileAssignmentsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,11 +68,15 @@ export class ConfigurationProfileAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVirtualMachinesPagingPage(
           resourceGroupName,
           vmName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,9 +85,11 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByVirtualMachinesPagingPage(
     resourceGroupName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams
+    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
-    let result = await this._listByVirtualMachines(
+    let result: ConfigurationProfileAssignmentsListByVirtualMachinesResponse;
+    result = await this._listByVirtualMachines(
       resourceGroupName,
       vmName,
       options
@@ -122,17 +128,22 @@ export class ConfigurationProfileAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ConfigurationProfileAssignmentsListOptionalParams
+    options?: ConfigurationProfileAssignmentsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
-    let result = await this._list(resourceGroupName, options);
+    let result: ConfigurationProfileAssignmentsListResponse;
+    result = await this._list(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -160,16 +171,21 @@ export class ConfigurationProfileAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
+    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
-    let result = await this._listBySubscription(options);
+    let result: ConfigurationProfileAssignmentsListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -204,11 +220,15 @@ export class ConfigurationProfileAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMachineNamePagingPage(
           resourceGroupName,
           machineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -217,9 +237,11 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByMachineNamePagingPage(
     resourceGroupName: string,
     machineName: string,
-    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
-    let result = await this._listByMachineName(
+    let result: ConfigurationProfileAssignmentsListByMachineNameResponse;
+    result = await this._listByMachineName(
       resourceGroupName,
       machineName,
       options
@@ -264,11 +286,15 @@ export class ConfigurationProfileAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterNamePagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -277,9 +303,11 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByClusterNamePagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
-    let result = await this._listByClusterName(
+    let result: ConfigurationProfileAssignmentsListByClusterNameResponse;
+    result = await this._listByClusterName(
       resourceGroupName,
       clusterName,
       options

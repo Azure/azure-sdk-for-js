@@ -9,7 +9,7 @@ import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
-describe(`Access Policy operations`, () => {
+describe(`Access Policy operations`, function () {
   let client: TableClient;
   let unrecordedClient: TableClient;
   let recorder: Recorder;
@@ -35,7 +35,7 @@ describe(`Access Policy operations`, () => {
     }
   });
 
-  after(async () => {
+  after(async function () {
     if (!isPlaybackMode() && isNode) {
       await unrecordedClient.deleteTable();
     }

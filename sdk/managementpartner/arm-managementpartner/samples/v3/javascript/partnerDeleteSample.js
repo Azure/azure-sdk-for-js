@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ACEProvisioningManagementPartnerAPI } = require("@azure/arm-managementpartner");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete the management partner for the objectId and tenantId.
@@ -25,4 +26,8 @@ async function deletePartnerDetails() {
   console.log(result);
 }
 
-deletePartnerDetails().catch(console.error);
+async function main() {
+  deletePartnerDetails();
+}
+
+main().catch(console.error);

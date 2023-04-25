@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LoadBalancers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   LoadBalancer,
   LoadBalancersListAllNextOptionalParams,
   LoadBalancersListAllOptionalParams,
+  LoadBalancersListAllResponse,
   LoadBalancersListNextOptionalParams,
   LoadBalancersListOptionalParams,
+  LoadBalancersListResponse,
   LoadBalancersDeleteOptionalParams,
   LoadBalancersGetOptionalParams,
   LoadBalancersGetResponse,
@@ -28,8 +31,6 @@ import {
   TagsObject,
   LoadBalancersUpdateTagsOptionalParams,
   LoadBalancersUpdateTagsResponse,
-  LoadBalancersListAllResponse,
-  LoadBalancersListResponse,
   LoadBalancersListAllNextResponse,
   LoadBalancersListNextResponse
 } from "../models";
@@ -62,22 +63,34 @@ export class LoadBalancersImpl implements LoadBalancers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: LoadBalancersListAllOptionalParams
+    options?: LoadBalancersListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LoadBalancer[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LoadBalancersListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +119,29 @@ export class LoadBalancersImpl implements LoadBalancers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: LoadBalancersListOptionalParams
+    options?: LoadBalancersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LoadBalancer[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LoadBalancersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -126,7 +149,9 @@ export class LoadBalancersImpl implements LoadBalancers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -194,10 +219,12 @@ export class LoadBalancersImpl implements LoadBalancers {
       { resourceGroupName, loadBalancerName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -298,10 +325,12 @@ export class LoadBalancersImpl implements LoadBalancers {
       { resourceGroupName, loadBalancerName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -388,10 +417,12 @@ export class LoadBalancersImpl implements LoadBalancers {
       { resourceGroupName, loadBalancerName, parameters, options },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -609,7 +640,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LoadBalancerListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -626,7 +656,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LoadBalancerListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

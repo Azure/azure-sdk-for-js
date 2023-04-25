@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the list of GuestAgent of the given vm.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/GuestAgent_ListByVm.json
  */
 async function guestAgentListByVM() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName =
+    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const virtualMachineName = "ContosoVm";
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(
@@ -36,4 +42,8 @@ async function guestAgentListByVM() {
   console.log(resArray);
 }
 
-guestAgentListByVM().catch(console.error);
+async function main() {
+  guestAgentListByVM();
+}
+
+main().catch(console.error);

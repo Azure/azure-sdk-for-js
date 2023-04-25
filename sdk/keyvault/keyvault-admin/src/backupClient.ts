@@ -22,7 +22,7 @@ import { LATEST_API_VERSION } from "./constants";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 
@@ -95,7 +95,7 @@ export class KeyVaultBackupClient {
         // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
-        challengeCallbacks: createChallengeCallbacks(options),
+        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
       })
     );
   }

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create or update the extension.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/PUTExtension.json
  */
 async function createOrUpdateAMachineExtensionPut() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "myResourceGroup";
   const name = "myMachine";
   const extensionName = "CustomScriptExtension";
   const extensionParameters = {
@@ -42,4 +43,8 @@ async function createOrUpdateAMachineExtensionPut() {
   console.log(result);
 }
 
-createOrUpdateAMachineExtensionPut().catch(console.error);
+async function main() {
+  createOrUpdateAMachineExtensionPut();
+}
+
+main().catch(console.error);

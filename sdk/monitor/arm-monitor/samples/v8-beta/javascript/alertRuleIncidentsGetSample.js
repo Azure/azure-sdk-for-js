@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets an incident associated to an alert rule
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/getAlertRuleIncident.json
  */
 async function getASingleAlertRuleIncident() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Rac46PostSwapRG";
   const ruleName = "myRuleName";
   const incidentName = "Website_started";
   const credential = new DefaultAzureCredential();
@@ -28,4 +30,8 @@ async function getASingleAlertRuleIncident() {
   console.log(result);
 }
 
-getASingleAlertRuleIncident().catch(console.error);
+async function main() {
+  getASingleAlertRuleIncident();
+}
+
+main().catch(console.error);

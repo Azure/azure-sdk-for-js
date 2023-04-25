@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const DigitalTwinsModelData: coreHttp.CompositeMapper = {
+export const DigitalTwinsModelData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsModelData",
@@ -41,6 +41,7 @@ export const DigitalTwinsModelData: coreHttp.CompositeMapper = {
         }
       },
       decommissioned: {
+        defaultValue: false,
         serializedName: "decommissioned",
         type: {
           name: "Boolean"
@@ -49,14 +50,15 @@ export const DigitalTwinsModelData: coreHttp.CompositeMapper = {
       model: {
         serializedName: "model",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",
@@ -72,7 +74,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
+export const ErrorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorModel",
@@ -96,7 +98,12 @@ export const ErrorModel: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ErrorModel" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel"
+            }
+          }
         }
       },
       innererror: {
@@ -110,7 +117,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const InnerError: coreHttp.CompositeMapper = {
+export const InnerError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "InnerError",
@@ -132,7 +139,7 @@ export const InnerError: coreHttp.CompositeMapper = {
   }
 };
 
-export const PagedDigitalTwinsModelDataCollection: coreHttp.CompositeMapper = {
+export const PagedDigitalTwinsModelDataCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PagedDigitalTwinsModelDataCollection",
@@ -142,7 +149,10 @@ export const PagedDigitalTwinsModelDataCollection: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DigitalTwinsModelData" }
+            type: {
+              name: "Composite",
+              className: "DigitalTwinsModelData"
+            }
           }
         }
       },
@@ -156,7 +166,7 @@ export const PagedDigitalTwinsModelDataCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuerySpecification: coreHttp.CompositeMapper = {
+export const QuerySpecification: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QuerySpecification",
@@ -177,7 +187,7 @@ export const QuerySpecification: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueryResult: coreHttp.CompositeMapper = {
+export const QueryResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryResult",
@@ -186,7 +196,12 @@ export const QueryResult: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
         }
       },
       continuationToken: {
@@ -199,7 +214,7 @@ export const QueryResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const RelationshipCollection: coreHttp.CompositeMapper = {
+export const RelationshipCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RelationshipCollection",
@@ -208,30 +223,11 @@ export const RelationshipCollection: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "any" } }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IncomingRelationshipCollection: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IncomingRelationshipCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
           element: {
-            type: { name: "Composite", className: "IncomingRelationship" }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
           }
         }
       },
@@ -245,7 +241,34 @@ export const IncomingRelationshipCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const IncomingRelationship: coreHttp.CompositeMapper = {
+export const IncomingRelationshipCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IncomingRelationshipCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IncomingRelationship"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IncomingRelationship: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IncomingRelationship",
@@ -278,7 +301,7 @@ export const IncomingRelationship: coreHttp.CompositeMapper = {
   }
 };
 
-export const EventRouteCollection: coreHttp.CompositeMapper = {
+export const EventRouteCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventRouteCollection",
@@ -287,7 +310,12 @@ export const EventRouteCollection: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "EventRoute" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "EventRoute"
+            }
+          }
         }
       },
       nextLink: {
@@ -300,7 +328,7 @@ export const EventRouteCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const EventRoute: coreHttp.CompositeMapper = {
+export const EventRoute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventRoute",
@@ -330,7 +358,7 @@ export const EventRoute: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueryQueryTwinsHeaders: coreHttp.CompositeMapper = {
+export const QueryQueryTwinsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryQueryTwinsHeaders",
@@ -345,7 +373,7 @@ export const QueryQueryTwinsHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsGetByIdHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsGetByIdHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsGetByIdHeaders",
@@ -360,7 +388,7 @@ export const DigitalTwinsGetByIdHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsAddHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsAddHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsAddHeaders",
@@ -375,7 +403,7 @@ export const DigitalTwinsAddHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsUpdateHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsUpdateHeaders",
@@ -390,7 +418,7 @@ export const DigitalTwinsUpdateHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsGetRelationshipByIdHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsGetRelationshipByIdHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsGetRelationshipByIdHeaders",
@@ -405,7 +433,7 @@ export const DigitalTwinsGetRelationshipByIdHeaders: coreHttp.CompositeMapper = 
   }
 };
 
-export const DigitalTwinsAddRelationshipHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsAddRelationshipHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsAddRelationshipHeaders",
@@ -420,7 +448,7 @@ export const DigitalTwinsAddRelationshipHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsUpdateRelationshipHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsUpdateRelationshipHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsUpdateRelationshipHeaders",
@@ -435,7 +463,7 @@ export const DigitalTwinsUpdateRelationshipHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsGetComponentHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsGetComponentHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsGetComponentHeaders",
@@ -450,7 +478,7 @@ export const DigitalTwinsGetComponentHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const DigitalTwinsUpdateComponentHeaders: coreHttp.CompositeMapper = {
+export const DigitalTwinsUpdateComponentHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DigitalTwinsUpdateComponentHeaders",

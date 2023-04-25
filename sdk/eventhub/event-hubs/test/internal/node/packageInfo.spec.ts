@@ -15,7 +15,11 @@ const should = chai.should();
 testWithServiceTypes(() => {
   describe("Ensure package name and version are consistent in SDK and package.json", function (): void {
     it("Ensure constants.ts file is consistent with package.json", () => {
-      const packageJsonFilePath = path.join(__dirname, "..", "..", "..", "..", "package.json");
+      let packageJsonFilePath = path.join(__dirname, "..", "..", "..", "package.json");
+      if (!fs.existsSync(packageJsonFilePath)) {
+        /** the file path could be a one level highter if the compiled test module is run */
+        packageJsonFilePath = path.join(__dirname, "..", "..", "..", "..", "package.json");
+      }
       const rawFileContents = fs.readFileSync(packageJsonFilePath, { encoding: "utf-8" });
       const packageJsonContents = JSON.parse(rawFileContents);
 

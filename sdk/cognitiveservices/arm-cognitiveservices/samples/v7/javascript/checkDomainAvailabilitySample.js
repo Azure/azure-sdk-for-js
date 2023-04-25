@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check whether a domain is available.
  *
  * @summary Check whether a domain is available.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/CheckDomainAvailability.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/CheckDomainAvailability.json
  */
 async function checkSkuAvailability() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const subdomainName = "contosodemoapp1";
   const typeParam = "Microsoft.CognitiveServices/accounts";
   const credential = new DefaultAzureCredential();
@@ -27,4 +29,8 @@ async function checkSkuAvailability() {
   console.log(result);
 }
 
-checkSkuAvailability().catch(console.error);
+async function main() {
+  checkSkuAvailability();
+}
+
+main().catch(console.error);

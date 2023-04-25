@@ -53,12 +53,14 @@ export interface ContentType {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
     contentTypeId: string,
+    parameters: ContentTypeContract,
     options?: ContentTypeCreateOrUpdateOptionalParams
   ): Promise<ContentTypeCreateOrUpdateResponse>;
   /**

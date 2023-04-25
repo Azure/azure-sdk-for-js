@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
@@ -41,8 +45,8 @@ export class CalculateExchangeImpl implements CalculateExchange {
     body: CalculateExchangeRequest,
     options?: CalculateExchangePostOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CalculateExchangePostResponse>,
+    SimplePollerLike<
+      OperationState<CalculateExchangePostResponse>,
       CalculateExchangePostResponse
     >
   > {
@@ -52,7 +56,7 @@ export class CalculateExchangeImpl implements CalculateExchange {
     ): Promise<CalculateExchangePostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -85,15 +89,18 @@ export class CalculateExchangeImpl implements CalculateExchange {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { body, options },
-      postOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { body, options },
+      spec: postOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CalculateExchangePostResponse,
+      OperationState<CalculateExchangePostResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -136,7 +143,7 @@ const postOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],

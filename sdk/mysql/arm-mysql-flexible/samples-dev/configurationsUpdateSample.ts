@@ -13,6 +13,9 @@ import {
   MySQLManagementFlexibleServerClient
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a configuration of a server.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationUpdate.json
  */
 async function updateAUserConfiguration() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const configurationName = "event_scheduler";
   const parameters: Configuration = { source: "user-override", value: "on" };
@@ -40,4 +45,8 @@ async function updateAUserConfiguration() {
   console.log(result);
 }
 
-updateAUserConfiguration().catch(console.error);
+async function main() {
+  updateAUserConfiguration();
+}
+
+main().catch(console.error);

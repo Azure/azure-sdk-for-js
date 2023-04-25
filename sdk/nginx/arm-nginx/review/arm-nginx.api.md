@@ -12,8 +12,8 @@ import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface Certificates {
-    beginCreate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOptionalParams): Promise<PollerLike<PollOperationState<CertificatesCreateResponse>, CertificatesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOptionalParams): Promise<CertificatesCreateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
@@ -21,14 +21,14 @@ export interface Certificates {
 }
 
 // @public
-export interface CertificatesCreateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     body?: NginxCertificate;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CertificatesCreateResponse = NginxCertificate;
+export type CertificatesCreateOrUpdateResponse = NginxCertificate;
 
 // @public
 export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -109,8 +109,8 @@ export type CreatedByType = string;
 
 // @public
 export interface Deployments {
-    beginCreate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateResponse>, DeploymentsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOptionalParams): Promise<DeploymentsCreateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
@@ -121,7 +121,7 @@ export interface Deployments {
 }
 
 // @public
-export interface DeploymentsCreateOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     body?: NginxDeployment;
     resumeFrom?: string;
@@ -129,7 +129,7 @@ export interface DeploymentsCreateOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type DeploymentsCreateResponse = NginxDeployment;
+export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 // @public
 export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -194,6 +194,9 @@ export interface ErrorResponseBody {
     // (undocumented)
     target?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
 export interface IdentityProperties {
@@ -275,8 +278,7 @@ export interface NginxCertificateProperties {
     keyVaultSecretId?: string;
     // (undocumented)
     keyVirtualPath?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -321,7 +323,8 @@ export interface NginxConfigurationProperties {
     // (undocumented)
     package?: NginxConfigurationPackage;
     // (undocumented)
-    provisioningState?: ProvisioningState;
+    protectedFiles?: NginxConfigurationFile[];
+    readonly provisioningState?: ProvisioningState;
     // (undocumented)
     rootFile?: string;
 }
@@ -364,8 +367,7 @@ export interface NginxDeploymentProperties {
     // (undocumented)
     networkProfile?: NginxNetworkProfile;
     readonly nginxVersion?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)

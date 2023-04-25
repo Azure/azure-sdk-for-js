@@ -1,16 +1,45 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.12 (2023-04-04)
 
 ### Features Added
 
+- Use Prefix/Distro version if available.
+- Remove standard metrics custom handling.
+- Remove mapped Span attributes and remaining as properties.
+- Updated OpenTelemetry dependencies to their latest available versions.
+
+## 1.0.0-beta.11 (2023-02-02)
+
+### Features Added
+
+- Add attach and feature Statsbeat Metrics.
+
+## 1.0.0-beta.10 (2022-11-09)
+
+### Features Added
+
+- Add network Statsbeat Metrics.
+
+## 1.0.0-beta.9 (2022-10-20)
+
+### Features Added
+
+- Application Insights Sampler.
 - Added retriable behavior for 502, 503 and 504 status codes.
+- Export Metric attributes and Histogram Min/Max values.
+- Added new config options disableOfflineStorage, storageDirectory and exposed ApplicationInsightsClientOptionalParams for HTTP client extra configuration.
+- Added Network Statsbeat Metrics.
 
 ### Breaking Changes
 
+- Azure Monitor OpenTelemetry Metrics Exporter Configuration updated.
+
+
 ### Bugs Fixed
 
-### Other Changes
+- Suppress tracing while exporting metrics.
+- Envelopes not populating sampleRate correctly.
 
 ## 1.0.0-beta.8 (2022-07-07)
 

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
-  Conversion,
-  AssetConversionSettings,
   AssetConversionOutput,
+  AssetConversionSettings,
+  Conversion,
   KnownAssetConversionStatus,
 } from "../generated/models/index";
 import {

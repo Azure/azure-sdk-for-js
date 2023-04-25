@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DeviceSecurityGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -55,23 +56,35 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceId, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceId: string,
-    options?: DeviceSecurityGroupsListOptionalParams
+    options?: DeviceSecurityGroupsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeviceSecurityGroup[]> {
-    let result = await this._list(resourceId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeviceSecurityGroupsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(resourceId, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -269,7 +282,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer

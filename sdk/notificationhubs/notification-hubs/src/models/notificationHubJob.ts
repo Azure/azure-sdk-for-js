@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
+
 /**
  * Describes the types of notification hub jobs.
  */
@@ -125,3 +127,11 @@ export interface NotificationHubJob {
    */
   updatedAt?: Date;
 }
+
+/**
+ * Describes a poller for NotificationHubJob types.
+ */
+export type NotificationHubJobPoller = SimplePollerLike<
+  OperationState<NotificationHubJob>,
+  NotificationHubJob
+>;

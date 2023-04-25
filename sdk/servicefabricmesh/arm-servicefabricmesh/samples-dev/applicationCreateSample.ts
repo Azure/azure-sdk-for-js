@@ -13,6 +13,9 @@ import {
   ServiceFabricMeshManagementClient
 } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates an application resource with the specified name, description and properties. If an application resource with the same name exists, then it is updated with the specified description and properties.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/create_update.json
  */
 async function createOrUpdateApplication() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const applicationResourceName = "sampleApplication";
   const applicationResourceDescription: ApplicationResourceDescription = {
     description: "Service Fabric Mesh sample application.",
@@ -65,4 +71,8 @@ async function createOrUpdateApplication() {
   console.log(result);
 }
 
-createOrUpdateApplication().catch(console.error);
+async function main() {
+  createOrUpdateApplication();
+}
+
+main().catch(console.error);

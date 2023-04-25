@@ -6,33 +6,42 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AppServicePlans } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebSiteManagementClient } from "../webSiteManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AppServicePlan,
   AppServicePlansListNextOptionalParams,
   AppServicePlansListOptionalParams,
+  AppServicePlansListResponse,
   AppServicePlansListByResourceGroupNextOptionalParams,
   AppServicePlansListByResourceGroupOptionalParams,
+  AppServicePlansListByResourceGroupResponse,
   AppServicePlansListWebAppsByHybridConnectionNextOptionalParams,
   AppServicePlansListWebAppsByHybridConnectionOptionalParams,
+  AppServicePlansListWebAppsByHybridConnectionResponse,
   HybridConnection,
   AppServicePlansListHybridConnectionsNextOptionalParams,
   AppServicePlansListHybridConnectionsOptionalParams,
+  AppServicePlansListHybridConnectionsResponse,
   Site,
   AppServicePlansListWebAppsNextOptionalParams,
   AppServicePlansListWebAppsOptionalParams,
+  AppServicePlansListWebAppsResponse,
   CsmUsageQuota,
   AppServicePlansListUsagesNextOptionalParams,
   AppServicePlansListUsagesOptionalParams,
-  AppServicePlansListResponse,
-  AppServicePlansListByResourceGroupResponse,
+  AppServicePlansListUsagesResponse,
   AppServicePlansGetOptionalParams,
   AppServicePlansGetResponse,
   AppServicePlansCreateOrUpdateOptionalParams,
@@ -48,15 +57,11 @@ import {
   AppServicePlansDeleteHybridConnectionOptionalParams,
   AppServicePlansListHybridConnectionKeysOptionalParams,
   AppServicePlansListHybridConnectionKeysResponse,
-  AppServicePlansListWebAppsByHybridConnectionResponse,
   AppServicePlansGetHybridConnectionPlanLimitOptionalParams,
   AppServicePlansGetHybridConnectionPlanLimitResponse,
-  AppServicePlansListHybridConnectionsResponse,
   AppServicePlansRestartWebAppsOptionalParams,
-  AppServicePlansListWebAppsResponse,
   AppServicePlansGetServerFarmSkusOptionalParams,
   AppServicePlansGetServerFarmSkusResponse,
-  AppServicePlansListUsagesResponse,
   AppServicePlansListVnetsOptionalParams,
   AppServicePlansListVnetsResponse,
   AppServicePlansGetVnetFromServerFarmOptionalParams,
@@ -113,22 +118,34 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AppServicePlansListOptionalParams
+    options?: AppServicePlansListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServicePlan[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,19 +174,33 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppServicePlansListByResourceGroupOptionalParams
+    options?: AppServicePlansListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServicePlan[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -177,7 +208,9 @@ export class AppServicePlansImpl implements AppServicePlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -222,13 +255,17 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listWebAppsByHybridConnectionPagingPage(
           resourceGroupName,
           name,
           namespaceName,
           relayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -239,17 +276,24 @@ export class AppServicePlansImpl implements AppServicePlans {
     name: string,
     namespaceName: string,
     relayName: string,
-    options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams
+    options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<string[]> {
-    let result = await this._listWebAppsByHybridConnection(
-      resourceGroupName,
-      name,
-      namespaceName,
-      relayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListWebAppsByHybridConnectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWebAppsByHybridConnection(
+        resourceGroupName,
+        name,
+        namespaceName,
+        relayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWebAppsByHybridConnectionNext(
         resourceGroupName,
@@ -260,7 +304,9 @@ export class AppServicePlansImpl implements AppServicePlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -305,11 +351,15 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listHybridConnectionsPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -318,15 +368,22 @@ export class AppServicePlansImpl implements AppServicePlans {
   private async *listHybridConnectionsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServicePlansListHybridConnectionsOptionalParams
+    options?: AppServicePlansListHybridConnectionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HybridConnection[]> {
-    let result = await this._listHybridConnections(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListHybridConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHybridConnections(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listHybridConnectionsNext(
         resourceGroupName,
@@ -335,7 +392,9 @@ export class AppServicePlansImpl implements AppServicePlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -372,8 +431,16 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listWebAppsPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listWebAppsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -381,11 +448,18 @@ export class AppServicePlansImpl implements AppServicePlans {
   private async *listWebAppsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServicePlansListWebAppsOptionalParams
+    options?: AppServicePlansListWebAppsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    let result = await this._listWebApps(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListWebAppsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWebApps(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWebAppsNext(
         resourceGroupName,
@@ -394,7 +468,9 @@ export class AppServicePlansImpl implements AppServicePlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -431,8 +507,16 @@ export class AppServicePlansImpl implements AppServicePlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listUsagesPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listUsagesPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -440,11 +524,18 @@ export class AppServicePlansImpl implements AppServicePlans {
   private async *listUsagesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServicePlansListUsagesOptionalParams
+    options?: AppServicePlansListUsagesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CsmUsageQuota[]> {
-    let result = await this._listUsages(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServicePlansListUsagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listUsages(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listUsagesNext(
         resourceGroupName,
@@ -453,7 +544,9 @@ export class AppServicePlansImpl implements AppServicePlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -526,8 +619,8 @@ export class AppServicePlansImpl implements AppServicePlans {
     appServicePlan: AppServicePlan,
     options?: AppServicePlansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServicePlansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServicePlansCreateOrUpdateResponse>,
       AppServicePlansCreateOrUpdateResponse
     >
   > {
@@ -537,7 +630,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     ): Promise<AppServicePlansCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -570,13 +663,16 @@ export class AppServicePlansImpl implements AppServicePlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, appServicePlan, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, appServicePlan, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServicePlansCreateOrUpdateResponse,
+      OperationState<AppServicePlansCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1861,7 +1957,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.detailed],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1881,7 +1976,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1902,7 +1996,6 @@ const listWebAppsByHybridConnectionNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1926,7 +2019,6 @@ const listHybridConnectionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1948,12 +2040,6 @@ const listWebAppsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1975,7 +2061,6 @@ const listUsagesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

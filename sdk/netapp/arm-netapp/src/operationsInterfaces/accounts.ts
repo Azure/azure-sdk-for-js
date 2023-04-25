@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetAppAccount,
   AccountsListBySubscriptionOptionalParams,
@@ -19,7 +19,8 @@ import {
   AccountsDeleteOptionalParams,
   NetAppAccountPatch,
   AccountsUpdateOptionalParams,
-  AccountsUpdateResponse
+  AccountsUpdateResponse,
+  AccountsRenewCredentialsOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +35,7 @@ export interface Accounts {
   ): PagedAsyncIterableIterator<NetAppAccount>;
   /**
    * List and describe all NetApp accounts in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
@@ -43,7 +44,7 @@ export interface Accounts {
   ): PagedAsyncIterableIterator<NetAppAccount>;
   /**
    * Get the NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -54,7 +55,7 @@ export interface Accounts {
   ): Promise<AccountsGetResponse>;
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -65,14 +66,14 @@ export interface Accounts {
     body: NetAppAccount,
     options?: AccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsCreateOrUpdateResponse>,
       AccountsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -85,7 +86,7 @@ export interface Accounts {
   ): Promise<AccountsCreateOrUpdateResponse>;
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -93,10 +94,10 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -107,7 +108,7 @@ export interface Accounts {
   ): Promise<void>;
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -118,14 +119,14 @@ export interface Accounts {
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsUpdateResponse>,
       AccountsUpdateResponse
     >
   >;
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -136,4 +137,30 @@ export interface Accounts {
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams
   ): Promise<AccountsUpdateResponse>;
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginRenewCredentials(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginRenewCredentialsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<void>;
 }

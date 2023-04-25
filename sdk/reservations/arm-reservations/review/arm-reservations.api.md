@@ -6,32 +6,39 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
-// @public (undocumented)
+// @public
 export interface AppliedReservationList {
     nextLink?: string;
     // (undocumented)
     value?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface AppliedReservations {
     readonly id?: string;
     readonly name?: string;
-    // (undocumented)
     reservationOrderIds?: AppliedReservationList;
     readonly type?: string;
 }
 
 // @public
+export interface AppliedScopeProperties {
+    displayName?: string;
+    managementGroupId?: string;
+    resourceGroupId?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
 export type AppliedScopeType = string;
 
-// @public (undocumented)
+// @public
 export interface AvailableScopeProperties {
-    // (undocumented)
     properties?: SubscriptionScopeProperties;
 }
 
@@ -54,9 +61,11 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     // (undocumented)
     calculateExchange: CalculateExchange;
     // (undocumented)
+    calculateRefund: CalculateRefund;
+    // (undocumented)
     exchange: Exchange;
     getAppliedReservationList(subscriptionId: string, options?: GetAppliedReservationListOptionalParams): Promise<GetAppliedReservationListResponse>;
-    getCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): Promise<GetCatalogResponse>;
+    listCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): PagedAsyncIterableIterator<Catalog>;
     // (undocumented)
     operation: Operation;
     // (undocumented)
@@ -67,6 +76,8 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     reservation: Reservation;
     // (undocumented)
     reservationOrder: ReservationOrder;
+    // (undocumented)
+    return: Return;
 }
 
 // @public
@@ -77,17 +88,17 @@ export interface AzureReservationAPIOptionalParams extends coreClient.ServiceCli
 
 // @public
 export interface BillingInformation {
-    // (undocumented)
     billingCurrencyProratedAmount?: Price;
-    // (undocumented)
     billingCurrencyRemainingCommitmentAmount?: Price;
-    // (undocumented)
     billingCurrencyTotalPaidAmount?: Price;
 }
 
 // @public
+export type BillingPlan = string;
+
+// @public
 export interface CalculateExchange {
-    beginPost(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<PollerLike<PollOperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>>;
+    beginPost(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>>;
     beginPostAndWait(body: CalculateExchangeRequest, options?: CalculateExchangePostOptionalParams): Promise<CalculateExchangePostResponse>;
 }
 
@@ -128,29 +139,27 @@ export interface CalculateExchangeRequest {
 export interface CalculateExchangeRequestProperties {
     reservationsToExchange?: ReservationToReturn[];
     reservationsToPurchase?: PurchaseRequest[];
+    savingsPlansToPurchase?: SavingsPlanPurchaseRequest[];
 }
 
 // @public
 export interface CalculateExchangeResponseProperties {
-    // (undocumented)
     netPayable?: Price;
     policyResult?: ExchangePolicyErrors;
-    // (undocumented)
     purchasesTotal?: Price;
-    // (undocumented)
     refundsTotal?: Price;
     reservationsToExchange?: ReservationToExchange[];
     reservationsToPurchase?: ReservationToPurchaseCalculateExchange[];
+    savingsPlansToPurchase?: SavingsPlanToPurchaseCalculateExchange[];
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculatePriceResponse {
-    // (undocumented)
     properties?: CalculatePriceResponseProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculatePriceResponseProperties {
     billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
     grandTotal?: number;
@@ -179,7 +188,37 @@ export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
     currencyCode?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface CalculateRefund {
+    post(reservationOrderId: string, body: CalculateRefundRequest, options?: CalculateRefundPostOptionalParams): Promise<CalculateRefundPostResponse>;
+}
+
+// @public
+export interface CalculateRefundPostOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CalculateRefundPostResponse = CalculateRefundResponse;
+
+// @public
+export interface CalculateRefundRequest {
+    id?: string;
+    properties?: CalculateRefundRequestProperties;
+}
+
+// @public
+export interface CalculateRefundRequestProperties {
+    reservationToReturn?: ReservationToReturn;
+    scope?: string;
+}
+
+// @public
+export interface CalculateRefundResponse {
+    id?: string;
+    properties?: RefundResponseProperties;
+}
+
+// @public
 export interface Catalog {
     billingPlans?: {
         [propertyName: string]: ReservationBillingPlan[];
@@ -199,9 +238,18 @@ export interface Catalog {
 // @public
 export interface CatalogMsrp {
     p1Y?: Price;
+    p3Y?: Price;
+    p5Y?: Price;
 }
 
-// @public (undocumented)
+// @public
+export interface CatalogsResult {
+    readonly nextLink?: string;
+    totalItems?: number;
+    readonly value?: Catalog[];
+}
+
+// @public
 export interface ChangeDirectoryRequest {
     destinationTenantId?: string;
 }
@@ -220,6 +268,14 @@ export interface ChangeDirectoryResult {
     isSucceeded?: boolean;
     name?: string;
 }
+
+// @public
+export interface Commitment extends Price {
+    grain?: CommitmentGrain;
+}
+
+// @public
+export type CommitmentGrain = string;
 
 // @public
 export type CreatedByType = string;
@@ -257,9 +313,8 @@ export interface ErrorDetails {
     readonly target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorModel {
-    // (undocumented)
     error?: ExtendedErrorInfo;
 }
 
@@ -278,7 +333,7 @@ export interface ExceptionResponse {
 
 // @public
 export interface Exchange {
-    beginPost(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<PollerLike<PollOperationState<ExchangePostResponse>, ExchangePostResponse>>;
+    beginPost(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>>;
     beginPostAndWait(body: ExchangeRequest, options?: ExchangePostOptionalParams): Promise<ExchangePostResponse>;
 }
 
@@ -335,21 +390,18 @@ export interface ExchangeRequestProperties {
 
 // @public
 export interface ExchangeResponseProperties {
-    // (undocumented)
     netPayable?: Price;
     policyResult?: ExchangePolicyErrors;
-    // (undocumented)
     purchasesTotal?: Price;
-    // (undocumented)
     refundsTotal?: Price;
     reservationsToExchange?: ReservationToReturnForExchange[];
     reservationsToPurchase?: ReservationToPurchaseExchange[];
+    savingsPlansToPurchase?: SavingsPlanToPurchaseExchange[];
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedErrorInfo {
-    // (undocumented)
     code?: ErrorResponseCode;
     // (undocumented)
     message?: string;
@@ -370,465 +422,313 @@ export interface GetAppliedReservationListOptionalParams extends coreClient.Oper
 export type GetAppliedReservationListResponse = AppliedReservations;
 
 // @public
+export interface GetCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetCatalogNextResponse = CatalogsResult;
+
+// @public
 export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
     location?: string;
     offerId?: string;
     planId?: string;
     publisherId?: string;
     reservedResourceType?: string;
+    skip?: number;
+    take?: number;
 }
 
 // @public
-export type GetCatalogResponse = Catalog[];
+export type GetCatalogResponse = CatalogsResult;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type InstanceFlexibility = string;
 
 // @public
 export enum KnownAppliedScopeType {
-    // (undocumented)
+    ManagementGroup = "ManagementGroup",
     Shared = "Shared",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
+export enum KnownBillingPlan {
+    P1M = "P1M"
+}
+
+// @public
 export enum KnownCalculateExchangeOperationResultStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
+export enum KnownCommitmentGrain {
+    Hourly = "Hourly"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDisplayProvisioningState {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Expiring = "Expiring",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
+    NoBenefit = "NoBenefit",
     Pending = "Pending",
-    // (undocumented)
     Processing = "Processing",
-    // (undocumented)
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Warning = "Warning"
 }
 
 // @public
 export enum KnownErrorResponseCode {
-    // (undocumented)
     ActivateQuoteFailed = "ActivateQuoteFailed",
-    // (undocumented)
     AppliedScopesNotAssociatedWithCommerceAccount = "AppliedScopesNotAssociatedWithCommerceAccount",
-    // (undocumented)
     AppliedScopesSameAsExisting = "AppliedScopesSameAsExisting",
-    // (undocumented)
     AuthorizationFailed = "AuthorizationFailed",
-    // (undocumented)
     BadRequest = "BadRequest",
-    // (undocumented)
     BillingCustomerInputError = "BillingCustomerInputError",
-    // (undocumented)
     BillingError = "BillingError",
-    // (undocumented)
     BillingPaymentInstrumentHardError = "BillingPaymentInstrumentHardError",
-    // (undocumented)
     BillingPaymentInstrumentSoftError = "BillingPaymentInstrumentSoftError",
-    // (undocumented)
     BillingScopeIdCannotBeChanged = "BillingScopeIdCannotBeChanged",
-    // (undocumented)
     BillingTransientError = "BillingTransientError",
-    // (undocumented)
     CalculatePriceFailed = "CalculatePriceFailed",
-    // (undocumented)
     CapacityUpdateScopesFailed = "CapacityUpdateScopesFailed",
-    // (undocumented)
     ClientCertificateThumbprintNotSet = "ClientCertificateThumbprintNotSet",
-    // (undocumented)
     CreateQuoteFailed = "CreateQuoteFailed",
-    // (undocumented)
     Forbidden = "Forbidden",
-    // (undocumented)
     FulfillmentConfigurationError = "FulfillmentConfigurationError",
-    // (undocumented)
     FulfillmentError = "FulfillmentError",
-    // (undocumented)
     FulfillmentOutOfStockError = "FulfillmentOutOfStockError",
-    // (undocumented)
     FulfillmentTransientError = "FulfillmentTransientError",
-    // (undocumented)
     HttpMethodNotSupported = "HttpMethodNotSupported",
-    // (undocumented)
     InternalServerError = "InternalServerError",
-    // (undocumented)
     InvalidAccessToken = "InvalidAccessToken",
-    // (undocumented)
     InvalidFulfillmentRequestParameters = "InvalidFulfillmentRequestParameters",
-    // (undocumented)
     InvalidHealthCheckType = "InvalidHealthCheckType",
-    // (undocumented)
     InvalidLocationId = "InvalidLocationId",
-    // (undocumented)
     InvalidRefundQuantity = "InvalidRefundQuantity",
-    // (undocumented)
     InvalidRequestContent = "InvalidRequestContent",
-    // (undocumented)
     InvalidRequestUri = "InvalidRequestUri",
-    // (undocumented)
     InvalidReservationId = "InvalidReservationId",
-    // (undocumented)
     InvalidReservationOrderId = "InvalidReservationOrderId",
-    // (undocumented)
     InvalidSingleAppliedScopesCount = "InvalidSingleAppliedScopesCount",
-    // (undocumented)
     InvalidSubscriptionId = "InvalidSubscriptionId",
-    // (undocumented)
     InvalidTenantId = "InvalidTenantId",
-    // (undocumented)
     MissingAppliedScopesForSingle = "MissingAppliedScopesForSingle",
-    // (undocumented)
     MissingTenantId = "MissingTenantId",
-    // (undocumented)
     NonsupportedAccountId = "NonsupportedAccountId",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     NotSupportedCountry = "NotSupportedCountry",
-    // (undocumented)
     NoValidReservationsToReRate = "NoValidReservationsToReRate",
-    // (undocumented)
     OperationCannotBePerformedInCurrentState = "OperationCannotBePerformedInCurrentState",
-    // (undocumented)
     OperationFailed = "OperationFailed",
-    // (undocumented)
     PatchValuesSameAsExisting = "PatchValuesSameAsExisting",
-    // (undocumented)
     PaymentInstrumentNotFound = "PaymentInstrumentNotFound",
-    // (undocumented)
     PurchaseError = "PurchaseError",
-    // (undocumented)
+    RefundLimitExceeded = "RefundLimitExceeded",
     ReRateOnlyAllowedForEA = "ReRateOnlyAllowedForEA",
-    // (undocumented)
     ReservationIdNotInReservationOrder = "ReservationIdNotInReservationOrder",
-    // (undocumented)
     ReservationOrderCreationFailed = "ReservationOrderCreationFailed",
-    // (undocumented)
     ReservationOrderIdAlreadyExists = "ReservationOrderIdAlreadyExists",
-    // (undocumented)
     ReservationOrderNotEnabled = "ReservationOrderNotEnabled",
-    // (undocumented)
     ReservationOrderNotFound = "ReservationOrderNotFound",
-    // (undocumented)
     RiskCheckFailed = "RiskCheckFailed",
-    // (undocumented)
     RoleAssignmentCreationFailed = "RoleAssignmentCreationFailed",
-    // (undocumented)
+    SelfServiceRefundNotSupported = "SelfServiceRefundNotSupported",
     ServerTimeout = "ServerTimeout",
-    // (undocumented)
     UnauthenticatedRequestsThrottled = "UnauthenticatedRequestsThrottled",
-    // (undocumented)
     UnsupportedReservationTerm = "UnsupportedReservationTerm"
 }
 
 // @public
 export enum KnownExchangeOperationResultStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     PendingPurchases = "PendingPurchases",
-    // (undocumented)
     PendingRefunds = "PendingRefunds",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownInstanceFlexibility {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownLocation {
-    // (undocumented)
     Australiaeast = "australiaeast",
-    // (undocumented)
     Australiasoutheast = "australiasoutheast",
-    // (undocumented)
     Brazilsouth = "brazilsouth",
-    // (undocumented)
     Canadacentral = "canadacentral",
-    // (undocumented)
     Canadaeast = "canadaeast",
-    // (undocumented)
     Centralindia = "centralindia",
-    // (undocumented)
     Centralus = "centralus",
-    // (undocumented)
     Eastasia = "eastasia",
-    // (undocumented)
     Eastus = "eastus",
-    // (undocumented)
     Eastus2 = "eastus2",
-    // (undocumented)
     Japaneast = "japaneast",
-    // (undocumented)
     Japanwest = "japanwest",
-    // (undocumented)
     Northcentralus = "northcentralus",
-    // (undocumented)
     Northeurope = "northeurope",
-    // (undocumented)
     Southcentralus = "southcentralus",
-    // (undocumented)
     Southeastasia = "southeastasia",
-    // (undocumented)
     Southindia = "southindia",
-    // (undocumented)
     Uksouth = "uksouth",
-    // (undocumented)
     Ukwest = "ukwest",
-    // (undocumented)
     Westcentralus = "westcentralus",
-    // (undocumented)
     Westeurope = "westeurope",
-    // (undocumented)
     Westindia = "westindia",
-    // (undocumented)
     Westus = "westus",
-    // (undocumented)
     Westus2 = "westus2"
 }
 
 // @public
 export enum KnownOperationStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPaymentStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     BillingFailed = "BillingFailed",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     ConfirmedBilling = "ConfirmedBilling",
-    // (undocumented)
     ConfirmedResourceHold = "ConfirmedResourceHold",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Merged = "Merged",
-    // (undocumented)
     PendingBilling = "PendingBilling",
-    // (undocumented)
     PendingResourceHold = "PendingResourceHold",
-    // (undocumented)
     Split = "Split",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownQuotaRequestState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReservationBillingPlan {
-    // (undocumented)
     Monthly = "Monthly",
-    // (undocumented)
     Upfront = "Upfront"
 }
 
 // @public
 export enum KnownReservationStatusCode {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Merged = "Merged",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PaymentInstrumentError = "PaymentInstrumentError",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Processing = "Processing",
-    // (undocumented)
     PurchaseError = "PurchaseError",
-    // (undocumented)
     Split = "Split",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReservationTerm {
-    // (undocumented)
     P1Y = "P1Y",
-    // (undocumented)
     P3Y = "P3Y",
-    // (undocumented)
     P5Y = "P5Y"
 }
 
 // @public
 export enum KnownReservedResourceType {
-    // (undocumented)
     AppService = "AppService",
-    // (undocumented)
     AVS = "AVS",
-    // (undocumented)
     AzureDataExplorer = "AzureDataExplorer",
-    // (undocumented)
     AzureFiles = "AzureFiles",
-    // (undocumented)
     BlockBlob = "BlockBlob",
-    // (undocumented)
     CosmosDb = "CosmosDb",
-    // (undocumented)
     Databricks = "Databricks",
-    // (undocumented)
     DataFactory = "DataFactory",
-    // (undocumented)
     DedicatedHost = "DedicatedHost",
-    // (undocumented)
     ManagedDisk = "ManagedDisk",
-    // (undocumented)
     MariaDb = "MariaDb",
-    // (undocumented)
     MySql = "MySql",
-    // (undocumented)
     NetAppStorage = "NetAppStorage",
-    // (undocumented)
     PostgreSql = "PostgreSql",
-    // (undocumented)
     RedHat = "RedHat",
-    // (undocumented)
     RedHatOsa = "RedHatOsa",
-    // (undocumented)
     RedisCache = "RedisCache",
-    // (undocumented)
     SapHana = "SapHana",
-    // (undocumented)
     SqlAzureHybridBenefit = "SqlAzureHybridBenefit",
-    // (undocumented)
     SqlDatabases = "SqlDatabases",
-    // (undocumented)
     SqlDataWarehouse = "SqlDataWarehouse",
-    // (undocumented)
     SqlEdge = "SqlEdge",
-    // (undocumented)
     SuseLinux = "SuseLinux",
-    // (undocumented)
     VirtualMachines = "VirtualMachines",
-    // (undocumented)
     VirtualMachineSoftware = "VirtualMachineSoftware",
-    // (undocumented)
     VMwareCloudSimple = "VMwareCloudSimple"
 }
 
 // @public
 export enum KnownResourceType {
-    // (undocumented)
     Dedicated = "dedicated",
-    // (undocumented)
     LowPriority = "lowPriority",
-    // (undocumented)
     ServiceSpecific = "serviceSpecific",
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     Standard = "standard"
 }
 
 // @public
+export enum KnownSavingsPlanTerm {
+    P1Y = "P1Y",
+    P3Y = "P3Y"
+}
+
+// @public
 export enum KnownUserFriendlyAppliedScopeType {
-    // (undocumented)
     ManagementGroup = "ManagementGroup",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ResourceGroup = "ResourceGroup",
-    // (undocumented)
     Shared = "Shared",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
 export enum KnownUserFriendlyRenewState {
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     NotRenewed = "NotRenewed",
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On",
-    // (undocumented)
     Renewed = "Renewed"
 }
 
@@ -836,7 +736,7 @@ export enum KnownUserFriendlyRenewState {
 type Location_2 = string;
 export { Location_2 as Location }
 
-// @public (undocumented)
+// @public
 export interface MergeRequest {
     sources?: string[];
 }
@@ -846,7 +746,7 @@ export interface Operation {
     list(options?: OperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationDisplay {
     // (undocumented)
     description?: string;
@@ -858,7 +758,7 @@ export interface OperationDisplay {
     resource?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationList {
     nextLink?: string;
     // (undocumented)
@@ -879,7 +779,7 @@ export interface OperationListOptionalParams extends coreClient.OperationOptions
 // @public
 export type OperationListResponse = OperationList;
 
-// @public (undocumented)
+// @public
 export interface OperationResponse {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -897,8 +797,9 @@ export interface OperationResultError {
 // @public
 export type OperationStatus = string;
 
-// @public (undocumented)
+// @public
 export interface Patch {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     instanceFlexibility?: InstanceFlexibility;
@@ -906,11 +807,11 @@ export interface Patch {
     renew?: boolean;
     // (undocumented)
     renewProperties?: PatchPropertiesRenewProperties;
+    reviewDateTime?: Date;
 }
 
 // @public (undocumented)
 export interface PatchPropertiesRenewProperties {
-    // (undocumented)
     purchaseProperties?: PurchaseRequest;
 }
 
@@ -929,7 +830,7 @@ export interface PaymentDetail {
 // @public
 export type PaymentStatus = string;
 
-// @public (undocumented)
+// @public
 export interface Price {
     // (undocumented)
     amount?: number;
@@ -939,8 +840,13 @@ export interface Price {
 // @public
 export type ProvisioningState = string;
 
-// @public (undocumented)
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface PurchaseRequest {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     billingPlan?: ReservationBillingPlan;
@@ -951,7 +857,7 @@ export interface PurchaseRequest {
     renew?: boolean;
     reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
-    // (undocumented)
+    reviewDateTime?: Date;
     sku?: SkuName;
     term?: ReservationTerm;
 }
@@ -963,9 +869,9 @@ export interface PurchaseRequestPropertiesReservedResourceProperties {
 
 // @public
 export interface Quota {
-    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
+    beginUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
     beginUpdateAndWait(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
     get(subscriptionId: string, providerId: string, location: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
     list(subscriptionId: string, providerId: string, location: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
@@ -1096,9 +1002,6 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 
 // @public
 export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -1140,11 +1043,68 @@ export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
 // @public
 export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
-// @public (undocumented)
+// @public
+export interface RefundBillingInformation {
+    billingCurrencyProratedAmount?: Price;
+    billingCurrencyRemainingCommitmentAmount?: Price;
+    billingCurrencyTotalPaidAmount?: Price;
+    billingPlan?: ReservationBillingPlan;
+    completedTransactions?: number;
+    totalTransactions?: number;
+}
+
+// @public
+export interface RefundPolicyError {
+    code?: ErrorResponseCode;
+    // (undocumented)
+    message?: string;
+}
+
+// @public
+export interface RefundPolicyResult {
+    properties?: RefundPolicyResultProperty;
+}
+
+// @public
+export interface RefundPolicyResultProperty {
+    consumedRefundsTotal?: Price;
+    maxRefundLimit?: Price;
+    policyErrors?: RefundPolicyError[];
+}
+
+// @public
+export interface RefundRequest {
+    properties?: RefundRequestProperties;
+}
+
+// @public
+export interface RefundRequestProperties {
+    reservationToReturn?: ReservationToReturn;
+    returnReason?: string;
+    scope?: string;
+    sessionId?: string;
+}
+
+// @public
+export interface RefundResponse {
+    id?: string;
+    properties?: RefundResponseProperties;
+}
+
+// @public
+export interface RefundResponseProperties {
+    billingInformation?: RefundBillingInformation;
+    billingRefundAmount?: Price;
+    policyResult?: RefundPolicyResult;
+    pricingRefundAmount?: Price;
+    quantity?: number;
+    sessionId?: string;
+}
+
+// @public
 export interface RenewPropertiesResponse {
     billingCurrencyTotal?: RenewPropertiesResponseBillingCurrencyTotal;
     pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
-    // (undocumented)
     purchaseProperties?: PurchaseRequest;
 }
 
@@ -1164,18 +1124,24 @@ export interface RenewPropertiesResponsePricingCurrencyTotal {
 
 // @public
 export interface Reservation {
-    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<PollerLike<PollOperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
+    archive(reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams): Promise<void>;
+    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<SimplePollerLike<OperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
     beginAvailableScopesAndWait(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<ReservationAvailableScopesResponse>;
-    beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<PollerLike<PollOperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
+    beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<SimplePollerLike<OperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
     beginMergeAndWait(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<ReservationMergeResponse>;
-    beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<PollerLike<PollOperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
+    beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<SimplePollerLike<OperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
     beginSplitAndWait(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<ReservationSplitResponse>;
-    beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
+    beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
     beginUpdateAndWait(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<ReservationUpdateResponse>;
-    get(reservationId: string, reservationOrderId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
+    get(reservationOrderId: string, reservationId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
     list(reservationOrderId: string, options?: ReservationListOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
     listAll(options?: ReservationListAllOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
-    listRevisions(reservationId: string, reservationOrderId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
+    listRevisions(reservationOrderId: string, reservationId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
+    unarchive(reservationOrderId: string, reservationId: string, options?: ReservationUnarchiveOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ReservationArchiveOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1198,7 +1164,7 @@ export interface ReservationGetOptionalParams extends coreClient.OperationOption
 // @public
 export type ReservationGetResponse = ReservationResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationList {
     nextLink?: string;
     // (undocumented)
@@ -1207,12 +1173,6 @@ export interface ReservationList {
 
 // @public
 export interface ReservationListAllNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
-    skiptoken?: number;
-    take?: number;
 }
 
 // @public
@@ -1260,12 +1220,18 @@ export interface ReservationListRevisionsOptionalParams extends coreClient.Opera
 export type ReservationListRevisionsResponse = ReservationList;
 
 // @public
+export interface ReservationMergeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationMergeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReservationMergeProperties {
     mergeDestination?: string;
     mergeSources?: string[];
@@ -1276,7 +1242,7 @@ export type ReservationMergeResponse = ReservationResponse[];
 
 // @public
 export interface ReservationOrder {
-    beginPurchase(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderPurchaseResponse>, ReservationOrderPurchaseResponse>>;
+    beginPurchase(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderPurchaseResponse>, ReservationOrderPurchaseResponse>>;
     beginPurchaseAndWait(reservationOrderId: string, body: PurchaseRequest, options?: ReservationOrderPurchaseOptionalParams): Promise<ReservationOrderPurchaseResponse>;
     calculate(body: PurchaseRequest, options?: ReservationOrderCalculateOptionalParams): Promise<ReservationOrderCalculateResponse>;
     changeDirectory(reservationOrderId: string, body: ChangeDirectoryRequest, options?: ReservationOrderChangeDirectoryOptionalParams): Promise<ReservationOrderChangeDirectoryResponse>;
@@ -1315,7 +1281,7 @@ export interface ReservationOrderGetOptionalParams extends coreClient.OperationO
 // @public
 export type ReservationOrderGetResponse = ReservationOrderResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationOrderList {
     nextLink?: string;
     // (undocumented)
@@ -1337,6 +1303,12 @@ export interface ReservationOrderListOptionalParams extends coreClient.Operation
 export type ReservationOrderListResponse = ReservationOrderList;
 
 // @public
+export interface ReservationOrderPurchaseHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationOrderPurchaseOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1345,7 +1317,7 @@ export interface ReservationOrderPurchaseOptionalParams extends coreClient.Opera
 // @public
 export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationOrderResponse {
     benefitStartTime?: Date;
     billingPlan?: ReservationBillingPlan;
@@ -1354,6 +1326,7 @@ export interface ReservationOrderResponse {
     // (undocumented)
     etag?: number;
     expiryDate?: Date;
+    expiryDateTime?: Date;
     readonly id?: string;
     readonly name?: string;
     originalQuantity?: number;
@@ -1362,23 +1335,20 @@ export interface ReservationOrderResponse {
     requestDateTime?: Date;
     // (undocumented)
     reservations?: ReservationResponse[];
+    reviewDateTime?: Date;
     readonly systemData?: SystemData;
     term?: ReservationTerm;
     readonly type?: string;
 }
 
 // @public
-export interface ReservationResponse {
+export interface ReservationResponse extends ProxyResource {
     // (undocumented)
     etag?: number;
-    readonly id?: string;
     kind?: "Microsoft.Compute";
     location?: string;
-    readonly name?: string;
     properties?: ReservationsProperties;
     sku?: SkuName;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
@@ -1389,12 +1359,18 @@ export interface ReservationsListResult {
 }
 
 // @public
+export interface ReservationSplitHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationSplitOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReservationSplitProperties {
     splitDestinations?: string[];
     splitSource?: string;
@@ -1405,6 +1381,7 @@ export type ReservationSplitResponse = ReservationResponse[];
 
 // @public
 export interface ReservationsProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     archived?: boolean;
@@ -1416,24 +1393,25 @@ export interface ReservationsProperties {
     readonly displayProvisioningState?: string;
     effectiveDateTime?: Date;
     expiryDate?: Date;
+    expiryDateTime?: Date;
     extendedStatusInfo?: ExtendedStatusInfo;
     instanceFlexibility?: InstanceFlexibility;
     readonly lastUpdatedDateTime?: Date;
-    // (undocumented)
     mergeProperties?: ReservationMergeProperties;
     provisioningState?: ProvisioningState;
     readonly provisioningSubState?: string;
     purchaseDate?: Date;
+    purchaseDateTime?: Date;
     quantity?: number;
     renew?: boolean;
     renewDestination?: string;
-    // (undocumented)
     renewProperties?: RenewPropertiesResponse;
     renewSource?: string;
     reservedResourceType?: ReservedResourceType;
+    reviewDateTime?: Date;
     skuDescription?: string;
-    // (undocumented)
     splitProperties?: ReservationSplitProperties;
+    swapProperties?: ReservationSwapProperties;
     term?: ReservationTerm;
     readonly userFriendlyAppliedScopeType?: string;
     readonly userFriendlyRenewState?: string;
@@ -1455,9 +1433,17 @@ export interface ReservationSummary {
     readonly expiredCount?: number;
     readonly expiringCount?: number;
     readonly failedCount?: number;
+    readonly noBenefitCount?: number;
     readonly pendingCount?: number;
     readonly processingCount?: number;
     readonly succeededCount?: number;
+    readonly warningCount?: number;
+}
+
+// @public
+export interface ReservationSwapProperties {
+    swapDestination?: string;
+    swapSource?: string;
 }
 
 // @public
@@ -1466,7 +1452,6 @@ export type ReservationTerm = string;
 // @public
 export interface ReservationToExchange {
     billingInformation?: BillingInformation;
-    // (undocumented)
     billingRefundAmount?: Price;
     quantity?: number;
     reservationId?: string;
@@ -1474,17 +1459,13 @@ export interface ReservationToExchange {
 
 // @public
 export interface ReservationToPurchaseCalculateExchange {
-    // (undocumented)
     billingCurrencyTotal?: Price;
-    // (undocumented)
     properties?: PurchaseRequest;
 }
 
 // @public
 export interface ReservationToPurchaseExchange {
-    // (undocumented)
     billingCurrencyTotal?: Price;
-    // (undocumented)
     properties?: PurchaseRequest;
     reservationId?: string;
     reservationOrderId?: string;
@@ -1500,11 +1481,21 @@ export interface ReservationToReturn {
 // @public
 export interface ReservationToReturnForExchange {
     billingInformation?: BillingInformation;
-    // (undocumented)
     billingRefundAmount?: Price;
     quantity?: number;
     reservationId?: string;
     status?: OperationStatus;
+}
+
+// @public
+export interface ReservationUnarchiveOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ReservationUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1528,6 +1519,14 @@ export interface ReservationUtilizationAggregates {
 export type ReservedResourceType = string;
 
 // @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface ResourceName {
     readonly localizedValue?: string;
     value?: string;
@@ -1536,7 +1535,58 @@ export interface ResourceName {
 // @public
 export type ResourceType = string;
 
-// @public (undocumented)
+// @public
+export interface Return {
+    beginPost(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>>;
+    beginPostAndWait(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
+}
+
+// @public
+export interface ReturnPostHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReturnPostResponse = ReservationOrderResponse;
+
+// @public
+export interface SavingsPlanPurchaseRequest {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    sku?: SkuName;
+    term?: SavingsPlanTerm;
+}
+
+// @public
+export type SavingsPlanTerm = string;
+
+// @public
+export interface SavingsPlanToPurchaseCalculateExchange {
+    billingCurrencyTotal?: Price;
+    properties?: SavingsPlanPurchaseRequest;
+}
+
+// @public
+export interface SavingsPlanToPurchaseExchange {
+    billingCurrencyTotal?: Price;
+    properties?: SavingsPlanPurchaseRequest;
+    savingsPlanId?: string;
+    savingsPlanOrderId?: string;
+    status?: OperationStatus;
+}
+
+// @public
 export interface ScopeProperties {
     // (undocumented)
     scope?: string;
@@ -1557,32 +1607,32 @@ export interface ServiceErrorDetail {
     readonly message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuCapability {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuName {
     // (undocumented)
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuProperty {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuRestriction {
     reasonCode?: string;
     type?: string;
     values?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface SplitRequest {
     quantities?: number[];
     reservationId?: string;
@@ -1599,7 +1649,7 @@ export interface SubRequest {
     unit?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SubscriptionScopeProperties {
     // (undocumented)
     scopes?: ScopeProperties[];

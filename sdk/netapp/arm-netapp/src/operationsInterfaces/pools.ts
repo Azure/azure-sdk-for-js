@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CapacityPool,
   PoolsListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface Pools {
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Pools {
   ): PagedAsyncIterableIterator<CapacityPool>;
   /**
    * Get details of the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Pools {
   ): Promise<PoolsGetResponse>;
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -63,14 +63,14 @@ export interface Pools {
     body: CapacityPool,
     options?: PoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoolsCreateOrUpdateResponse>,
       PoolsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -85,7 +85,7 @@ export interface Pools {
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -98,11 +98,11 @@ export interface Pools {
     body: CapacityPoolPatch,
     options?: PoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
+    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
   >;
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -117,7 +117,7 @@ export interface Pools {
   ): Promise<PoolsUpdateResponse>;
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -127,10 +127,10 @@ export interface Pools {
     accountName: string,
     poolName: string,
     options?: PoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.

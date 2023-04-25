@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.0-beta.2 (Unreleased)
+## 6.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,20 +10,75 @@
 
 ### Other Changes
 
-## 6.0.0-beta.1 (2022-03-31)
+## 6.0.0-beta.3 (2023-01-30)
     
 **Features**
 
+  - Added operation group ComponentPolicyStates
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
+  - Added Interface Attestation
   - Added Interface CheckManagementGroupRestrictionsRequest
+  - Added Interface ComponentExpressionEvaluationDetails
+  - Added Interface ComponentPolicyEvaluationDetails
+  - Added Interface ComponentPolicyState
+  - Added Interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  - Added Interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
+  - Added Interface ComponentPolicyStatesQueryResults
+  - Added Interface PolicyMetadataProperties
   - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceGroupResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForResourceResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
+  - Added Type Alias ComponentPolicyStatesListQueryResultsForSubscriptionResponse
+  - Added Type Alias ComponentPolicyStatesResource
   - Added Type Alias PolicyEventsResourceType
   - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse
   - Added Type Alias PolicyStatesSummaryResourceType
   - Added Type Alias PolicyTrackedResourcesResourceType
+  - Interface Operation has a new optional parameter isDataAction
+  - Added Enum KnownComponentPolicyStatesResource
   - Added Enum KnownPolicyEventsResourceType
   - Added Enum KnownPolicyStatesSummaryResourceType
   - Added Enum KnownPolicyTrackedResourcesResourceType
+  - Added function getContinuationToken
+  - Interface AttestationsListForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface AttestationsListForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface AttestationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyEventsListQueryResultsForSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyMetadataListNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyStatesListQueryResultsForSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
 
 **Breaking Changes**
 

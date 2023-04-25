@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageClientContext } from "./generated/src/storageClientContext";
-import { PipelineLike } from "./Pipeline";
+import { StorageClient as StorageClientContext } from "./generated/src/";
+import { StorageContextClient } from "./StorageContextClient";
+import { getCoreClientOptions, getCredentialFromPipeline, PipelineLike } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
@@ -58,26 +59,11 @@ export abstract class StorageClient {
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(
-      this.url,
-      pipeline.toServiceClientOptions()
-    );
+    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = new AnonymousCredential();
-    for (const factory of this.pipeline.factories) {
-      if (
-        (isNode && factory instanceof StorageSharedKeyCredential) ||
-        factory instanceof AnonymousCredential
-      ) {
-        this.credential = factory;
-      } else if (isTokenCredential((factory as any).credential)) {
-        // Only works if the factory has been attached a "credential" property.
-        // We do that in newPipeline() when using TokenCredential.
-        this.credential = (factory as any).credential;
-      }
-    }
+    this.credential = getCredentialFromPipeline(pipeline);
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

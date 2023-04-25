@@ -13,6 +13,9 @@ import {
   ServiceLinkerManagementClient
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update linker resource.
@@ -46,8 +49,6 @@ async function putLink() {
   console.log(result);
 }
 
-putLink().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update linker resource.
  *
@@ -79,8 +80,6 @@ async function putLinkWithSecretStore() {
   );
   console.log(result);
 }
-
-putLinkWithSecretStore().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update linker resource.
@@ -119,4 +118,10 @@ async function putLinkWithServiceEndpoint() {
   console.log(result);
 }
 
-putLinkWithServiceEndpoint().catch(console.error);
+async function main() {
+  putLink();
+  putLinkWithSecretStore();
+  putLinkWithServiceEndpoint();
+}
+
+main().catch(console.error);

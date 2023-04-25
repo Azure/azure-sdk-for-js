@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GatewayResource,
   GatewaysListOptionalParams,
@@ -15,7 +15,13 @@ import {
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
+  SkuObject,
+  GatewaysUpdateCapacityOptionalParams,
+  GatewaysUpdateCapacityResponse,
   GatewaysDeleteOptionalParams,
+  GatewaysListEnvSecretsOptionalParams,
+  GatewaysListEnvSecretsResponse,
+  GatewaysRestartOptionalParams,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse
@@ -66,8 +72,8 @@ export interface Gateways {
     gatewayResource: GatewayResource,
     options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewaysCreateOrUpdateResponse>,
       GatewaysCreateOrUpdateResponse
     >
   >;
@@ -88,6 +94,43 @@ export interface Gateways {
     options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<GatewaysCreateOrUpdateResponse>;
   /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacity(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GatewaysUpdateCapacityResponse>,
+      GatewaysUpdateCapacityResponse
+    >
+  >;
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacityAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<GatewaysUpdateCapacityResponse>;
+  /**
    * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -100,7 +143,7 @@ export interface Gateways {
     serviceName: string,
     gatewayName: string,
     options?: GatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -114,6 +157,48 @@ export interface Gateways {
     serviceName: string,
     gatewayName: string,
     options?: GatewaysDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * List sensitive environment variables of Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysListEnvSecretsOptionalParams
+  ): Promise<GatewaysListEnvSecretsResponse>;
+  /**
+   * Restart the Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  beginRestart(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysRestartOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Restart the Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  beginRestartAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysRestartOptionalParams
   ): Promise<void>;
   /**
    * Check the domains are valid as well as not in use.

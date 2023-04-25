@@ -79,6 +79,7 @@ import {
   QuotaByPeriodKeysImpl,
   RegionImpl,
   ReportsImpl,
+  GlobalSchemaImpl,
   TenantSettingsImpl,
   ApiManagementSkusImpl,
   SubscriptionImpl,
@@ -155,6 +156,7 @@ import {
   QuotaByPeriodKeys,
   Region,
   Reports,
+  GlobalSchema,
   TenantSettings,
   ApiManagementSkus,
   Subscription,
@@ -210,22 +212,19 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.1.0`;
+    const packageDetails = `azsdk-js-arm-apimanagement/9.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -251,7 +250,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -335,6 +336,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
     this.reports = new ReportsImpl(this);
+    this.globalSchema = new GlobalSchemaImpl(this);
     this.tenantSettings = new TenantSettingsImpl(this);
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
@@ -540,6 +542,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
   reports: Reports;
+  globalSchema: GlobalSchema;
   tenantSettings: TenantSettings;
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;

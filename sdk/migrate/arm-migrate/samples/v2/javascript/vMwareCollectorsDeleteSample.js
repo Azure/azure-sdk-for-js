@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a VMware collector from the project.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/VMwareCollectors_Delete.json
  */
 async function vMwareCollectorsDelete() {
-  const subscriptionId = "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
-  const resourceGroupName = "abgoyal-westEurope";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
+  const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "abgoyal-westEurope";
   const projectName = "abgoyalWEselfhostb72bproject";
   const vmWareCollectorName = "PortalvCenterbc2fcollector";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function vMwareCollectorsDelete() {
   console.log(result);
 }
 
-vMwareCollectorsDelete().catch(console.error);
+async function main() {
+  vMwareCollectorsDelete();
+}
+
+main().catch(console.error);

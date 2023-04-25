@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CollectionRegion } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -69,7 +69,10 @@ export class CollectionRegionImpl implements CollectionRegion {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
@@ -77,7 +80,8 @@ export class CollectionRegionImpl implements CollectionRegion {
           databaseRid,
           collectionRid,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,9 +94,11 @@ export class CollectionRegionImpl implements CollectionRegion {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionRegionListMetricsOptionalParams
+    options?: CollectionRegionListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metric[]> {
-    let result = await this._listMetrics(
+    let result: CollectionRegionListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       region,

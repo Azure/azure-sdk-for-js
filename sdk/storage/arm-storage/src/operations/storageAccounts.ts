@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { StorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   StorageAccount,
   StorageAccountsListNextOptionalParams,
   StorageAccountsListOptionalParams,
+  StorageAccountsListResponse,
   StorageAccountsListByResourceGroupNextOptionalParams,
   StorageAccountsListByResourceGroupOptionalParams,
+  StorageAccountsListByResourceGroupResponse,
   StorageAccountCheckNameAvailabilityParameters,
   StorageAccountsCheckNameAvailabilityOptionalParams,
   StorageAccountsCheckNameAvailabilityResponse,
@@ -32,8 +35,6 @@ import {
   StorageAccountUpdateParameters,
   StorageAccountsUpdateOptionalParams,
   StorageAccountsUpdateResponse,
-  StorageAccountsListResponse,
-  StorageAccountsListByResourceGroupResponse,
   StorageAccountsListKeysOptionalParams,
   StorageAccountsListKeysResponse,
   StorageAccountRegenerateKeyParameters,
@@ -85,22 +86,34 @@ export class StorageAccountsImpl implements StorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: StorageAccountsListOptionalParams
+    options?: StorageAccountsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageAccount[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: StorageAccountsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -131,19 +144,33 @@ export class StorageAccountsImpl implements StorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: StorageAccountsListByResourceGroupOptionalParams
+    options?: StorageAccountsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageAccount[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: StorageAccountsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -151,7 +178,9 @@ export class StorageAccountsImpl implements StorageAccounts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -474,9 +503,16 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Failover request can be triggered for a storage account in case of availability issues. The failover
-   * occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The
-   * secondary cluster will become primary after failover.
+   * A failover request can be triggered for a storage account in the event a primary endpoint becomes
+   * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
+   * secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and
+   * the account is converted to LRS. In the case of a Planned Failover, the primary and secondary
+   * clusters are swapped after failover and the account remains geo-replicated. Failover should continue
+   * to be used in the event of availability issues as Planned failover is only available while the
+   * primary and secondary endpoints are available. The primary use case of a Planned Failover is
+   * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
+   * to 'Planned'. Learn more about the failover options here-
+   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -543,9 +579,16 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Failover request can be triggered for a storage account in case of availability issues. The failover
-   * occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The
-   * secondary cluster will become primary after failover.
+   * A failover request can be triggered for a storage account in the event a primary endpoint becomes
+   * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
+   * secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and
+   * the account is converted to LRS. In the case of a Planned Failover, the primary and secondary
+   * clusters are swapped after failover and the account remains geo-replicated. Failover should continue
+   * to be used in the event of availability issues as Planned failover is only available while the
+   * primary and secondary endpoints are available. The primary use case of a Planned Failover is
+   * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
+   * to 'Planned'. Learn more about the failover options here-
+   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -1129,7 +1172,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.failoverType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

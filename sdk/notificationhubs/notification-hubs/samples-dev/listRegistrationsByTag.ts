@@ -13,8 +13,11 @@
  * @azsdk-weight 100
  */
 
-import { createClientContext } from "@azure/notification-hubs/client";
-import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
+import * as dotenv from "dotenv";
+import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
+
+// Load the .env file if it exists
+dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

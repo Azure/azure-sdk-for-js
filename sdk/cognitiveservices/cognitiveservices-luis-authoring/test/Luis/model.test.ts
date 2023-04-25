@@ -8,8 +8,8 @@ import * as chai from "chai";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { BaseTest } from "../baseTest";
 
-describe("model Module Functionality", () => {
-  it('should list models', async () => {
+describe("model Module Functionality", function () {
+  it('should list models', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let models = await client.model.listModels(BaseTest.GlobalAppId, versionId);
@@ -27,7 +27,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should create model with no children', async () => {
+  it('should create model with no children', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let entityId = await client.model.addEntity(BaseTest.GlobalAppId, versionId, { name: "New Entity Test with no childern" });
@@ -35,7 +35,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should create model with children', async () => {
+  it('should create model with children', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let entityId = await client.model.addEntity(BaseTest.GlobalAppId, versionId, { name: "New Entity Test with childern", children: [ { name: "child1"}] } );
@@ -43,7 +43,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should create model with children and instance of', async () => {
+  it('should create model with children and instance of', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let prebuiltEntitiesAdded = await client.model.addPrebuilt(BaseTest.GlobalAppId, versionId, [ "email" ]);
@@ -53,7 +53,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should add model child', async () => {
+  it('should add model child', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let entityId = await client.model.addEntity(BaseTest.GlobalAppId, versionId, { name: "New Entity to add"} );
@@ -62,7 +62,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should get model', async () => {
+  it('should get model', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let entityId = await client.model.addEntity(BaseTest.GlobalAppId, versionId, { name: "New Entity Test to get", children: [{name: "child1"}]} );
@@ -73,7 +73,7 @@ describe("model Module Functionality", () => {
     });
   });
 
-  it('should update model child name', async () => {
+  it('should update model child name', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = BaseTest.GlobalVersionId;
       let entityId = await client.model.addEntity(BaseTest.GlobalAppId, versionId, { name: "New Entity Test to update" } );

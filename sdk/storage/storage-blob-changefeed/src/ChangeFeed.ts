@@ -7,9 +7,8 @@ import { SegmentFactory } from "./SegmentFactory";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
-import { AbortSignalLike } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
@@ -80,43 +79,20 @@ export class ChangeFeed {
   }
 
   private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChangeFeed-advanceSegmentIfNecessary", options);
-    try {
-      if (!this.currentSegment) {
-        throw new Error("Empty Change Feed shouldn't call this function.");
-      }
+    return tracingClient.withSpan(
+      "ChangeFeed-advanceSegmentIfNecessary",
+      options,
+      async (updatedOptions) => {
+        if (!this.currentSegment) {
+          throw new Error("Empty Change Feed shouldn't call this function.");
+        }
 
-      // If the current segment has more Events, we don't need to do anything.
-      if (this.currentSegment.hasNext()) {
-        return;
-      }
+        // If the current segment has more Events, we don't need to do anything.
+        if (this.currentSegment.hasNext()) {
+          return;
+        }
 
-      // If the current segment is completed, remove it
-      if (this.segments.length > 0) {
-        this.currentSegment = await this.segmentFactory!.create(
-          this.containerClient!,
-          this.segments.shift()!,
-          undefined,
-          {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        );
-      }
-      // If segments is empty, refill it
-      else if (this.segments.length === 0 && this.years.length > 0) {
-        const year = this.years.shift();
-        this.segments = await getSegmentsInYear(
-          this.containerClient!,
-          year!,
-          this.startTime,
-          this.end,
-          {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        );
-
+        // If the current segment is completed, remove it
         if (this.segments.length > 0) {
           this.currentSegment = await this.segmentFactory!.create(
             this.containerClient!,
@@ -127,19 +103,37 @@ export class ChangeFeed {
               tracingOptions: updatedOptions.tracingOptions,
             }
           );
-        } else {
-          this.currentSegment = undefined;
+        }
+        // If segments is empty, refill it
+        else if (this.segments.length === 0 && this.years.length > 0) {
+          const year = this.years.shift();
+          this.segments = await getSegmentsInYear(
+            this.containerClient!,
+            year!,
+            this.startTime,
+            this.end,
+            {
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }
+          );
+
+          if (this.segments.length > 0) {
+            this.currentSegment = await this.segmentFactory!.create(
+              this.containerClient!,
+              this.segments.shift()!,
+              undefined,
+              {
+                abortSignal: options.abortSignal,
+                tracingOptions: updatedOptions.tracingOptions,
+              }
+            );
+          } else {
+            this.currentSegment = undefined;
+          }
         }
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   public hasNext(): boolean {
@@ -158,8 +152,7 @@ export class ChangeFeed {
   public async getChange(
     options: ChangeFeedGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, updatedOptions } = createSpan("ChangeFeed-getChange", options);
-    try {
+    return tracingClient.withSpan("ChangeFeed-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
         event = await this.currentSegment!.getChange({
@@ -172,15 +165,7 @@ export class ChangeFeed {
         });
       }
       return event;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   public getCursor(): ChangeFeedCursor {

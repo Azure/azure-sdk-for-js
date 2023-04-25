@@ -1,6 +1,6 @@
 # Release History
 
-## 14.0.1 (Unreleased)
+## 14.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,125 @@
 
 ### Other Changes
 
+## 14.1.0 (2023-01-10)
+    
+**Features**
+
+  - Added Interface AzureFunctionEventSubscriptionDestination
+  - Added Interface BoolEqualsAdvancedFilter
+  - Added Interface Channel
+  - Added Interface Domain
+  - Added Interface DomainTopic
+  - Added Interface DynamicDeliveryAttributeMapping
+  - Added Interface EventHubEventSubscriptionDestination
+  - Added Interface EventSubscription
+  - Added Interface EventType
+  - Added Interface ExtensionTopic
+  - Added Interface HybridConnectionEventSubscriptionDestination
+  - Added Interface IsNotNullAdvancedFilter
+  - Added Interface IsNullOrUndefinedAdvancedFilter
+  - Added Interface JsonInputSchemaMapping
+  - Added Interface NumberGreaterThanAdvancedFilter
+  - Added Interface NumberGreaterThanOrEqualsAdvancedFilter
+  - Added Interface NumberInAdvancedFilter
+  - Added Interface NumberInRangeAdvancedFilter
+  - Added Interface NumberLessThanAdvancedFilter
+  - Added Interface NumberLessThanOrEqualsAdvancedFilter
+  - Added Interface NumberNotInAdvancedFilter
+  - Added Interface NumberNotInRangeAdvancedFilter
+  - Added Interface PartnerConfiguration
+  - Added Interface PartnerNamespace
+  - Added Interface PartnerRegistration
+  - Added Interface PartnerTopic
+  - Added Interface PrivateEndpointConnection
+  - Added Interface ServiceBusQueueEventSubscriptionDestination
+  - Added Interface ServiceBusTopicEventSubscriptionDestination
+  - Added Interface StaticDeliveryAttributeMapping
+  - Added Interface StorageBlobDeadLetterDestination
+  - Added Interface StorageQueueEventSubscriptionDestination
+  - Added Interface StringBeginsWithAdvancedFilter
+  - Added Interface StringContainsAdvancedFilter
+  - Added Interface StringEndsWithAdvancedFilter
+  - Added Interface StringInAdvancedFilter
+  - Added Interface StringNotBeginsWithAdvancedFilter
+  - Added Interface StringNotContainsAdvancedFilter
+  - Added Interface StringNotEndsWithAdvancedFilter
+  - Added Interface StringNotInAdvancedFilter
+  - Added Interface SystemTopic
+  - Added Interface Topic
+  - Added Interface TopicTypeInfo
+  - Added Interface TrackedResource
+  - Added Interface VerifiedPartner
+  - Added Interface WebHookEventSubscriptionDestination
+  - Added function getContinuationToken
+  - Interface ChannelsListByPartnerNamespaceNextOptionalParams no longer has parameter filter
+  - Interface ChannelsListByPartnerNamespaceNextOptionalParams no longer has parameter top
+  - Interface DomainEventSubscriptionsListNextOptionalParams no longer has parameter filter
+  - Interface DomainEventSubscriptionsListNextOptionalParams no longer has parameter top
+  - Interface DomainsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface DomainsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DomainsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface DomainsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface DomainTopicEventSubscriptionsListNextOptionalParams no longer has parameter filter
+  - Interface DomainTopicEventSubscriptionsListNextOptionalParams no longer has parameter top
+  - Interface DomainTopicsListByDomainNextOptionalParams no longer has parameter filter
+  - Interface DomainTopicsListByDomainNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListByDomainTopicNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListByDomainTopicNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListByResourceNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListByResourceNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams no longer has parameter top
+  - Interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface PartnerConfigurationsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface PartnerConfigurationsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface PartnerNamespacesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface PartnerNamespacesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface PartnerNamespacesListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface PartnerNamespacesListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface PartnerRegistrationsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface PartnerRegistrationsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface PartnerRegistrationsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface PartnerRegistrationsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams no longer has parameter filter
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams no longer has parameter top
+  - Interface PartnerTopicsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface PartnerTopicsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface PartnerTopicsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface PartnerTopicsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface PrivateEndpointConnectionsListByResourceNextOptionalParams no longer has parameter filter
+  - Interface PrivateEndpointConnectionsListByResourceNextOptionalParams no longer has parameter top
+  - Interface PrivateLinkResourcesListByResourceNextOptionalParams no longer has parameter filter
+  - Interface PrivateLinkResourcesListByResourceNextOptionalParams no longer has parameter top
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams no longer has parameter filter
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams no longer has parameter top
+  - Interface SystemTopicsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface SystemTopicsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface SystemTopicsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface SystemTopicsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface TopicEventSubscriptionsListNextOptionalParams no longer has parameter filter
+  - Interface TopicEventSubscriptionsListNextOptionalParams no longer has parameter top
+  - Interface TopicsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface TopicsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface TopicsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface TopicsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface VerifiedPartnersListNextOptionalParams no longer has parameter filter
+  - Interface VerifiedPartnersListNextOptionalParams no longer has parameter top
+    
+    
 ## 14.0.0 (2022-06-17)
     
 **Features**

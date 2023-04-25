@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BackupJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -53,8 +54,16 @@ export class BackupJobsImpl implements BackupJobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(vaultName, resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          vaultName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -62,11 +71,18 @@ export class BackupJobsImpl implements BackupJobs {
   private async *listPagingPage(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobResource[]> {
-    let result = await this._list(vaultName, resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BackupJobsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(vaultName, resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         vaultName,
@@ -75,7 +91,9 @@ export class BackupJobsImpl implements BackupJobs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -171,11 +189,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,

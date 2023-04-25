@@ -82,8 +82,8 @@ export interface DeviceUpdateListOperationStatusesQueryParam {
   queryParameters?: DeviceUpdateListOperationStatusesQueryParamProperties;
 }
 
-export type DeviceUpdateListOperationStatusesParameters = DeviceUpdateListOperationStatusesQueryParam &
-  RequestParameters;
+export type DeviceUpdateListOperationStatusesParameters =
+  DeviceUpdateListOperationStatusesQueryParam & RequestParameters;
 
 export interface DeviceUpdateGetOperationStatusHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -106,8 +106,8 @@ export interface DeviceManagementListDeviceClassesQueryParam {
   queryParameters?: DeviceManagementListDeviceClassesQueryParamProperties;
 }
 
-export type DeviceManagementListDeviceClassesParameters = DeviceManagementListDeviceClassesQueryParam &
-  RequestParameters;
+export type DeviceManagementListDeviceClassesParameters =
+  DeviceManagementListDeviceClassesQueryParam & RequestParameters;
 export type DeviceManagementGetDeviceClassParameters = RequestParameters;
 
 export interface DeviceManagementUpdateDeviceClassBodyParam {
@@ -120,9 +120,10 @@ export interface DeviceManagementUpdateDeviceClassMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type DeviceManagementUpdateDeviceClassParameters = DeviceManagementUpdateDeviceClassMediaTypesParam &
-  DeviceManagementUpdateDeviceClassBodyParam &
-  RequestParameters;
+export type DeviceManagementUpdateDeviceClassParameters =
+  DeviceManagementUpdateDeviceClassMediaTypesParam &
+    DeviceManagementUpdateDeviceClassBodyParam &
+    RequestParameters;
 export type DeviceManagementDeleteDeviceClassParameters = RequestParameters;
 export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
 
@@ -180,8 +181,8 @@ export interface DeviceManagementListDeploymentsForGroupQueryParam {
   queryParameters?: DeviceManagementListDeploymentsForGroupQueryParamProperties;
 }
 
-export type DeviceManagementListDeploymentsForGroupParameters = DeviceManagementListDeploymentsForGroupQueryParam &
-  RequestParameters;
+export type DeviceManagementListDeploymentsForGroupParameters =
+  DeviceManagementListDeploymentsForGroupQueryParam & RequestParameters;
 export type DeviceManagementGetDeploymentParameters = RequestParameters;
 
 export interface DeviceManagementCreateOrUpdateDeploymentBodyParam {
@@ -194,9 +195,10 @@ export interface DeviceManagementCreateOrUpdateDeploymentMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DeviceManagementCreateOrUpdateDeploymentParameters = DeviceManagementCreateOrUpdateDeploymentMediaTypesParam &
-  DeviceManagementCreateOrUpdateDeploymentBodyParam &
-  RequestParameters;
+export type DeviceManagementCreateOrUpdateDeploymentParameters =
+  DeviceManagementCreateOrUpdateDeploymentMediaTypesParam &
+    DeviceManagementCreateOrUpdateDeploymentBodyParam &
+    RequestParameters;
 export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
 export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
@@ -209,8 +211,8 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParam {
   queryParameters?: DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties;
 }
 
-export type DeviceManagementListDeviceClassSubgroupsForGroupParameters = DeviceManagementListDeviceClassSubgroupsForGroupQueryParam &
-  RequestParameters;
+export type DeviceManagementListDeviceClassSubgroupsForGroupParameters =
+  DeviceManagementListDeviceClassSubgroupsForGroupQueryParam & RequestParameters;
 export type DeviceManagementGetDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementDeleteDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters = RequestParameters;
@@ -225,8 +227,8 @@ export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam
   queryParameters?: DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties;
 }
 
-export type DeviceManagementListDeploymentsForDeviceClassSubgroupParameters = DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam &
-  RequestParameters;
+export type DeviceManagementListDeploymentsForDeviceClassSubgroupParameters =
+  DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam & RequestParameters;
 export type DeviceManagementGetDeploymentForDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementDeleteDeploymentForDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementStopDeploymentParameters = RequestParameters;
@@ -242,8 +244,8 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
   queryParameters?: DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParamProperties;
 }
 
-export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters = DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam &
-  RequestParameters;
+export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters =
+  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam & RequestParameters;
 
 export interface DeviceManagementGetOperationStatusHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -254,8 +256,8 @@ export interface DeviceManagementGetOperationStatusHeaderParam {
   headers: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
 }
 
-export type DeviceManagementGetOperationStatusParameters = DeviceManagementGetOperationStatusHeaderParam &
-  RequestParameters;
+export type DeviceManagementGetOperationStatusParameters =
+  DeviceManagementGetOperationStatusHeaderParam & RequestParameters;
 
 export interface DeviceManagementListOperationStatusesQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
@@ -268,8 +270,8 @@ export interface DeviceManagementListOperationStatusesQueryParam {
   queryParameters?: DeviceManagementListOperationStatusesQueryParamProperties;
 }
 
-export type DeviceManagementListOperationStatusesParameters = DeviceManagementListOperationStatusesQueryParam &
-  RequestParameters;
+export type DeviceManagementListOperationStatusesParameters =
+  DeviceManagementListOperationStatusesQueryParam & RequestParameters;
 
 export interface DeviceManagementStartLogCollectionBodyParam {
   /** The log collection properties. */
@@ -281,9 +283,10 @@ export interface DeviceManagementStartLogCollectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DeviceManagementStartLogCollectionParameters = DeviceManagementStartLogCollectionMediaTypesParam &
-  DeviceManagementStartLogCollectionBodyParam &
-  RequestParameters;
+export type DeviceManagementStartLogCollectionParameters =
+  DeviceManagementStartLogCollectionMediaTypesParam &
+    DeviceManagementStartLogCollectionBodyParam &
+    RequestParameters;
 export type DeviceManagementGetLogCollectionParameters = RequestParameters;
 export type DeviceManagementListLogCollectionsParameters = RequestParameters;
 export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
@@ -297,5 +300,5 @@ export interface DeviceManagementListHealthOfDevicesQueryParam {
   queryParameters: DeviceManagementListHealthOfDevicesQueryParamProperties;
 }
 
-export type DeviceManagementListHealthOfDevicesParameters = DeviceManagementListHealthOfDevicesQueryParam &
-  RequestParameters;
+export type DeviceManagementListHealthOfDevicesParameters =
+  DeviceManagementListHealthOfDevicesQueryParam & RequestParameters;

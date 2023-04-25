@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
  *
  * @summary Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveoutput-delete.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-delete.json
  */
 async function deleteALiveOutput() {
-  const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-  const resourceGroupName = "mediaresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "mediaresources";
   const accountName = "slitestmedia10";
   const liveEventName = "myLiveEvent1";
   const liveOutputName = "myLiveOutput1";
@@ -34,4 +36,8 @@ async function deleteALiveOutput() {
   console.log(result);
 }
 
-deleteALiveOutput().catch(console.error);
+async function main() {
+  deleteALiveOutput();
+}
+
+main().catch(console.error);

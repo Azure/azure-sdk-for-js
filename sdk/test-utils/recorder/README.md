@@ -11,7 +11,11 @@ The Azure SDK for JavaScript is composed of a multitude of libraries that attemp
 
 Our recorder tool package `@azure-tools/test-recorder` attempts to provide an answer for those questions.
 
-**Note: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 2, follow the [migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+**Note 1: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 3, follow the [migration guide to recorder v3 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+
+**Note 2: If you're looking to onboard to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).**
+
+**Note 3: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) if you need help on commands to run during testing.**
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
@@ -26,6 +30,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Installing the package](#installing-the-package)
   - [Configuring your project](#configuring-your-project)
   - [TEST_MODE](#test_mode)
+- [Onboard to asset-sync workflow](#onboard-to-asset---sync-workflow)
 - [Using the `Recorder`](#using-the-recorder)
   - [Recorder#variable()](#recordervariable)
   - [Environment Variables](#environment-variables)
@@ -39,7 +44,6 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Securing sensitive data](#securing-sensitive-data)
   - [Supporting parallelism](#supporting-parallelism)
   - [Isomorphic tests](#isomorphic-tests)
-  - [Many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool)
 - [Troubleshooting](#troubleshooting)
 - [Next steps](#next-steps)
 - [Contributing](#contributing)
@@ -62,7 +66,7 @@ From this point forward, we'll assume that you're developing (perhaps contributi
 
 ```bash
 cd sdk/tables/data-tables
-rush add -p @azure-tools/test-recorder@^2.0.0 --dev
+rush add -p @azure-tools/test-recorder@^3.0.0 --dev
 ```
 
 If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
@@ -79,7 +83,7 @@ With a following `rush update`, you may see something like below.
   "devDependencies": {
     // ... your devDependencies
     "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^3.0.0"
     // ... more of your devDependencies
   }
   // ... more of your package.json properties
@@ -144,16 +148,6 @@ Test scripts
 }
 ```
 
-#### Prerequisites
-
-- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. 
-
-Check [docker.com/get-started](https://www.docker.com/get-started/) to download and install docker desktop on your machine.
-
-For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
-
-If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
-
 ### TEST_MODE
 
 By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
@@ -164,6 +158,27 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 | `record`   | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
 | `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
+
+## Onboard to asset-sync workflow
+
+This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
+
+From the root of the repo, navigate to your package
+
+```
+cd sdk/<service-folder>/<package-name>
+```
+
+Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
+
+```
+npx dev-tool test-proxy init
+```
+
+This command would generate an `assets.json` file with an empty tag.
+Once you generate the recordings for your tests and push them to the assets repo, the tag gets populated here.
+
+For further understanding, please read the [asset sync migration and workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).
 
 ## Using the `Recorder`
 
@@ -182,8 +197,6 @@ The tested client needs to install the recording policy that redirects requests 
 ```js
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
-
-_Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
 Recording starts with the `recorder.start()` method.
 
@@ -290,6 +303,8 @@ module.exports = function (config) {
 };
 ```
 
+## Onboard to asset-sync workflow
+
 ## Examples
 
 ### How to record
@@ -366,7 +381,13 @@ describe(`TableServiceClient tests`, () => {
 ```
 
 - After running this test with the `TEST_MODE` environment variable set to
-  `record`, the recorder assisted by the test-proxy tool will create a recording file located in `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json` with the contents of the HTTP requests as well as the responses.
+  `record`, the recorder assisted by the test-proxy tool will create a recording file with the contents of the HTTP requests as well as the responses.
+
+  If the package has been onboarded to asset-sync workflow, the recording will be loacted under the `.assets/` at the root of the repository. 
+    - To view the recording, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
+    - Refer to [asset sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
+
+  Otherwise, the recording will be located at `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json`.
 
 - You'll see in the code above that we're invoking `recorder.stop`. This is so that, after each test, we can stop recording and the test file can be generated.
 
@@ -484,63 +505,16 @@ If you run into issues while running the tests in record/playback modes, some of
 
 `dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
 
-#### Viewing more detailed logs by running the proxy tool manually
+#### Switching ports
+If port 5000 is already being used in your machine, you can specify the environment variable `TEST_PROXY_HTTP_PORT` and point to the port number that you wish. (Example, `export TEST_PROXY_HTTP_PORT=2345`)
 
-If you desire, you can run the proxy tool docker image manually before running your tests, refer to the [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool). This allows you to specify a different log level (debug in the below example), allowing for more detailed logs to be viewed. Do this by running:
-
-```bash
-docker run -v <your azure-sdk-for-js repository root>:/srv/testproxy -p 5001:5001 -p 5000:5000 -e Logging__LogLevel__Microsoft=Debug azsdkengsys.azurecr.io/engsys/testproxy-lin:latest
-```
-
-If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case).
-
-Once you've done this, you can run your tests in a separate terminal. `dev-tool` will detect that a test proxy container is already running and will point requests to the Docker container you started.
-
-### Many ways to run the test-proxy tool
-
-#### With the `dev-tool` commands
-
-- The following commands run the tests with the default configs, and concurrently runs the proxy tool in record/playback modes if it is not already active. Additionally, more options can be passeed to override the default configs.
-  - `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`
-  - `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'`
-  - `dev-tool run test:browser`
-    Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
-
-Follow the below two methods if you wish to run the proxy tool yourself without relying on the `dev-tool` commands.
-
-#### With the `docker run` command
-
-- Run this command
-
-  > `docker run -v /workspaces/azure-sdk-for-js/:/srv/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
-
-  Map the root directory of the azure-sdk-for-js repo to `/srv/testproxy` inside the container for an accurate location while generating recordings.
-
-  Add `--add-host host.docker.internal:host-gateway` for linux to access host's network(to access `localhost`) through `host.docker.internal`.
-  Docker for Windows and Mac support `host.docker.internal` as a functioning alias for localhost.
-
-  If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
-
-  Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
-
-  If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case) so that the recorder knows which port to hit.
-
-#### (OR) With the `dotnet tool`
-
-- Install [.Net 5.0](https://dotnet.microsoft.com/download)
-- Install test-proxy
-  > `dotnet tool install azure.sdk.tools.testproxy --global --add-source https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-net/nuget/v3/index.json --version 1.0.0-dev*`
-- After successful installation, run the tool:
-
-  > `test-proxy --storage-location <root-of-the-repo>`
-
-  [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces, `C:/Users/username/projects/azure-sdk-for-js/` on windows, etc]
-
-  Reference: [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
+### Inspecting recordings
+Refer to [asset sync workflow - inspect recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
 
 ### Next steps
 
-The test-recorder(v2.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following search link:
+Almost all the libraries in the `azure-sdk-for-js` repository leverage test-recorder(v3.0). 
+If you want to refer to the tests that leverage this package, go through the following search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
 
 ### Contributing

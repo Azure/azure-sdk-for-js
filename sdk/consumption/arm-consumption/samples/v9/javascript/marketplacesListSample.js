@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByBillingAccountList.json
  */
 async function billingAccountMarketplacesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -28,8 +30,6 @@ async function billingAccountMarketplacesList() {
   }
   console.log(resArray);
 }
-
-billingAccountMarketplacesList().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -38,7 +38,8 @@ billingAccountMarketplacesList().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByBillingAccountListForBillingPeriod.json
  */
 async function billingAccountMarketplacesListForBillingPeriod() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -49,8 +50,6 @@ async function billingAccountMarketplacesListForBillingPeriod() {
   console.log(resArray);
 }
 
-billingAccountMarketplacesListForBillingPeriod().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
@@ -58,7 +57,8 @@ billingAccountMarketplacesListForBillingPeriod().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByDepartmentList.json
  */
 async function departmentMarketplacesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/departments/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -68,8 +68,6 @@ async function departmentMarketplacesList() {
   }
   console.log(resArray);
 }
-
-departmentMarketplacesList().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -78,7 +76,8 @@ departmentMarketplacesList().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByDepartment_ListByBillingPeriod.json
  */
 async function departmentMarketplacesListForBillingPeriod() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/departments/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -89,8 +88,6 @@ async function departmentMarketplacesListForBillingPeriod() {
   console.log(resArray);
 }
 
-departmentMarketplacesListForBillingPeriod().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
@@ -98,7 +95,8 @@ departmentMarketplacesListForBillingPeriod().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByEnrollmentAccountList.json
  */
 async function enrollmentAccountMarketplacesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/enrollmentAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -108,8 +106,6 @@ async function enrollmentAccountMarketplacesList() {
   }
   console.log(resArray);
 }
-
-enrollmentAccountMarketplacesList().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -118,7 +114,8 @@ enrollmentAccountMarketplacesList().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByEnrollmentAccounts_ListByBillingPeriod.json
  */
 async function enrollmentAccountMarketplacesListForBillingPeriod() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/enrollmentAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -129,8 +126,6 @@ async function enrollmentAccountMarketplacesListForBillingPeriod() {
   console.log(resArray);
 }
 
-enrollmentAccountMarketplacesListForBillingPeriod().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
@@ -138,7 +133,8 @@ enrollmentAccountMarketplacesListForBillingPeriod().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByManagementGroupList.json
  */
 async function managementGroupMarketplacesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -148,8 +144,6 @@ async function managementGroupMarketplacesList() {
   }
   console.log(resArray);
 }
-
-managementGroupMarketplacesList().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -158,7 +152,8 @@ managementGroupMarketplacesList().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByManagementGroup_ListForBillingPeriod.json
  */
 async function managementGroupMarketplacesListForBillingPeriod() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -168,8 +163,6 @@ async function managementGroupMarketplacesListForBillingPeriod() {
   }
   console.log(resArray);
 }
-
-managementGroupMarketplacesListForBillingPeriod().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -178,7 +171,8 @@ managementGroupMarketplacesListForBillingPeriod().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesList.json
  */
 async function subscriptionMarketplacesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -188,8 +182,6 @@ async function subscriptionMarketplacesList() {
   }
   console.log(resArray);
 }
-
-subscriptionMarketplacesList().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
@@ -198,7 +190,8 @@ subscriptionMarketplacesList().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesListForBillingPeriod.json
  */
 async function subscriptionMarketplacesListForBillingPeriod() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -209,4 +202,17 @@ async function subscriptionMarketplacesListForBillingPeriod() {
   console.log(resArray);
 }
 
-subscriptionMarketplacesListForBillingPeriod().catch(console.error);
+async function main() {
+  billingAccountMarketplacesList();
+  billingAccountMarketplacesListForBillingPeriod();
+  departmentMarketplacesList();
+  departmentMarketplacesListForBillingPeriod();
+  enrollmentAccountMarketplacesList();
+  enrollmentAccountMarketplacesListForBillingPeriod();
+  managementGroupMarketplacesList();
+  managementGroupMarketplacesListForBillingPeriod();
+  subscriptionMarketplacesList();
+  subscriptionMarketplacesListForBillingPeriod();
+}
+
+main().catch(console.error);

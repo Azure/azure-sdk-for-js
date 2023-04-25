@@ -25,8 +25,8 @@ import {
   EnableRequest as EnableRequestMapper,
   MetricAlertResource as MetricAlertResourceMapper,
   MetricAlertResourcePatch as MetricAlertResourcePatchMapper,
-  LogSearchRuleResource as LogSearchRuleResourceMapper,
-  LogSearchRuleResourcePatch as LogSearchRuleResourcePatchMapper,
+  ScheduledQueryRuleResource as ScheduledQueryRuleResourceMapper,
+  ScheduledQueryRuleResourcePatch as ScheduledQueryRuleResourcePatchMapper,
   AzureMonitorPrivateLinkScope as AzureMonitorPrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -36,7 +36,9 @@ import {
   DataCollectionEndpointResource as DataCollectionEndpointResourceMapper,
   ResourceForUpdate as ResourceForUpdateMapper,
   DataCollectionRuleAssociationProxyOnlyResource as DataCollectionRuleAssociationProxyOnlyResourceMapper,
-  DataCollectionRuleResource as DataCollectionRuleResourceMapper
+  DataCollectionRuleResource as DataCollectionRuleResourceMapper,
+  AzureMonitorWorkspaceResource as AzureMonitorWorkspaceResourceMapper,
+  AzureMonitorWorkspaceResourceForUpdate as AzureMonitorWorkspaceResourceForUpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -554,15 +556,10 @@ export const statusName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: LogSearchRuleResourceMapper
-};
-
 export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-04-16",
+    defaultValue: "2022-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -571,9 +568,14 @@ export const apiVersion8: OperationQueryParameter = {
   }
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduledQueryRuleResourceMapper
+};
+
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LogSearchRuleResourcePatchMapper
+  mapper: ScheduledQueryRuleResourcePatchMapper
 };
 
 export const apiVersion9: OperationQueryParameter = {
@@ -797,4 +799,40 @@ export const body2: OperationParameter = {
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: DataCollectionRuleResourceMapper
+};
+
+export const apiVersion14: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-03-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const azureMonitorWorkspaceName: OperationURLParameter = {
+  parameterPath: "azureMonitorWorkspaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^(?!-)[a-zA-Z0-9-]+[^-]$")
+    },
+    serializedName: "azureMonitorWorkspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const azureMonitorWorkspaceProperties: OperationParameter = {
+  parameterPath: "azureMonitorWorkspaceProperties",
+  mapper: AzureMonitorWorkspaceResourceMapper
+};
+
+export const azureMonitorWorkspaceProperties1: OperationParameter = {
+  parameterPath: ["options", "azureMonitorWorkspaceProperties"],
+  mapper: AzureMonitorWorkspaceResourceForUpdateMapper
 };

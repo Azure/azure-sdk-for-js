@@ -13,6 +13,9 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create and add a new student to the specified lab or update the details of an existing student in a lab. Note the student must have a valid tenant to accept the lab after they have been added to lab.
@@ -45,4 +48,8 @@ async function student() {
   console.log(result);
 }
 
-student().catch(console.error);
+async function main() {
+  student();
+}
+
+main().catch(console.error);

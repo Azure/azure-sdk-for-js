@@ -6,1257 +6,427 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-/**
- * A model definition and metadata for that model.
- */
+/** A model definition and metadata for that model. */
 export interface DigitalTwinsModelData {
-  /**
-   * A language map that contains the localized display names as specified in the model definition.
-   */
+  /** A language map that contains the localized display names as specified in the model definition. */
   displayName?: { [propertyName: string]: string };
-  /**
-   * A language map that contains the localized descriptions as specified in the model definition.
-   */
+  /** A language map that contains the localized descriptions as specified in the model definition. */
   description?: { [propertyName: string]: string };
-  /**
-   * The id of the model as specified in the model definition.
-   */
+  /** The id of the model as specified in the model definition. */
   id: string;
-  /**
-   * The time the model was uploaded to the service.
-   */
+  /** The time the model was uploaded to the service. */
   uploadTime?: Date;
-  /**
-   * Indicates if the model is decommissioned. Decommissioned models cannot be referenced by newly created digital twins.
-   */
+  /** Indicates if the model is decommissioned. Decommissioned models cannot be referenced by newly created digital twins. */
   decommissioned?: boolean;
-  /**
-   * The model definition.
-   */
-  model?: any;
+  /** The model definition. */
+  model?: Record<string, unknown>;
 }
 
-/**
- * Error response.
- */
+/** Error response. */
 export interface ErrorResponse {
-  /**
-   * The error details.
-   */
+  /** The error details. */
   error?: ErrorModel;
 }
 
-/**
- * Error definition.
- */
+/** Error definition. */
 export interface ErrorModel {
   /**
    * Service specific error code which serves as the substatus for the HTTP error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * A human-readable representation of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * Internal error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorModel[];
-  /**
-   * An object containing more specific information than the current object about the error.
-   */
+  /** An object containing more specific information than the current object about the error. */
   innererror?: InnerError;
 }
 
-/**
- * A more specific error description than was provided by the containing error.
- */
+/** A more specific error description than was provided by the containing error. */
 export interface InnerError {
-  /**
-   * A more specific error code than was provided by the containing error.
-   */
+  /** A more specific error code than was provided by the containing error. */
   code?: string;
-  /**
-   * An object containing more specific information than the current object about the error.
-   */
+  /** An object containing more specific information than the current object about the error. */
   innererror?: InnerError;
 }
 
-/**
- * A collection of DigitalTwinsModelData objects.
- */
+/** A collection of DigitalTwinsModelData objects. */
 export interface PagedDigitalTwinsModelDataCollection {
-  /**
-   * The DigitalTwinsModelData objects.
-   */
+  /** The DigitalTwinsModelData objects. */
   value?: DigitalTwinsModelData[];
-  /**
-   * A URI to retrieve the next page of objects.
-   */
+  /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
 
-/**
- * A query specification containing either a query statement or a continuation token from a previous query result.
- */
+/** A query specification containing either a query statement or a continuation token from a previous query result. */
 export interface QuerySpecification {
-  /**
-   * The query to execute. This value is ignored if a continuation token is provided.
-   */
+  /** The query to execute. This value is ignored if a continuation token is provided. */
   query?: string;
-  /**
-   * A token which is used to retrieve the next set of results from a previous query.
-   */
+  /** A token which is used to retrieve the next set of results from a previous query. */
   continuationToken?: string;
 }
 
-/**
- * The results of a query operation and an optional continuation token.
- */
+/** The results of a query operation and an optional continuation token. */
 export interface QueryResult {
-  /**
-   * The query results.
-   */
-  value?: any[];
-  /**
-   * A token which can be used to construct a new QuerySpecification to retrieve the next set of results.
-   */
+  /** The query results. */
+  value?: Record<string, unknown>[];
+  /** A token which can be used to construct a new QuerySpecification to retrieve the next set of results. */
   continuationToken?: string;
 }
 
-/**
- * A collection of relationships which relate digital twins together.
- */
+/** A collection of relationships which relate digital twins together. */
 export interface RelationshipCollection {
-  /**
-   * The relationship objects.
-   */
-  value?: any[];
-  /**
-   * A URI to retrieve the next page of objects.
-   */
+  /** The relationship objects. */
+  value?: Record<string, unknown>[];
+  /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
 
-/**
- * A collection of incoming relationships which relate digital twins together.
- */
+/** A collection of incoming relationships which relate digital twins together. */
 export interface IncomingRelationshipCollection {
   value?: IncomingRelationship[];
-  /**
-   * A URI to retrieve the next page of objects.
-   */
+  /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
 
-/**
- * An incoming relationship.
- */
+/** An incoming relationship. */
 export interface IncomingRelationship {
-  /**
-   * A user-provided string representing the id of this relationship, unique in the context of the source digital twin, i.e. sourceId + relationshipId is unique in the context of the service.
-   */
+  /** A user-provided string representing the id of this relationship, unique in the context of the source digital twin, i.e. sourceId + relationshipId is unique in the context of the service. */
   relationshipId?: string;
-  /**
-   * The id of the source digital twin.
-   */
+  /** The id of the source digital twin. */
   sourceId?: string;
-  /**
-   * The name of the relationship.
-   */
+  /** The name of the relationship. */
   relationshipName?: string;
-  /**
-   * Link to the relationship, to be used for deletion.
-   */
+  /** Link to the relationship, to be used for deletion. */
   relationshipLink?: string;
 }
 
-/**
- * A collection of EventRoute objects.
- */
+/** A collection of EventRoute objects. */
 export interface EventRouteCollection {
-  /**
-   * The EventRoute objects.
-   */
+  /** The EventRoute objects. */
   value?: EventRoute[];
-  /**
-   * A URI to retrieve the next page of results.
-   */
+  /** A URI to retrieve the next page of results. */
   nextLink?: string;
 }
 
-/**
- * A route which directs notification and telemetry events to an endpoint. Endpoints are a destination outside of Azure Digital Twins such as an EventHub.
- */
+/** A route which directs notification and telemetry events to an endpoint. Endpoints are a destination outside of Azure Digital Twins such as an EventHub. */
 export interface EventRoute {
   /**
    * The id of the event route.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * The name of the endpoint this event route is bound to.
-   */
+  /** The name of the endpoint this event route is bound to. */
   endpointName: string;
-  /**
-   * An expression which describes the events which are routed to the endpoint.
-   */
+  /** An expression which describes the events which are routed to the endpoint. */
   filter: string;
 }
 
-/**
- * Defines headers for Query_queryTwins operation.
- */
+/** Defines headers for Query_queryTwins operation. */
 export interface QueryQueryTwinsHeaders {
-  /**
-   * The query charge.
-   */
+  /** The query charge. */
   queryCharge?: number;
 }
 
-/**
- * Defines headers for DigitalTwins_getById operation.
- */
+/** Defines headers for DigitalTwins_getById operation. */
 export interface DigitalTwinsGetByIdHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_add operation.
- */
+/** Defines headers for DigitalTwins_add operation. */
 export interface DigitalTwinsAddHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_update operation.
- */
+/** Defines headers for DigitalTwins_update operation. */
 export interface DigitalTwinsUpdateHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_getRelationshipById operation.
- */
+/** Defines headers for DigitalTwins_getRelationshipById operation. */
 export interface DigitalTwinsGetRelationshipByIdHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_addRelationship operation.
- */
+/** Defines headers for DigitalTwins_addRelationship operation. */
 export interface DigitalTwinsAddRelationshipHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_updateRelationship operation.
- */
+/** Defines headers for DigitalTwins_updateRelationship operation. */
 export interface DigitalTwinsUpdateRelationshipHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_getComponent operation.
- */
+/** Defines headers for DigitalTwins_getComponent operation. */
 export interface DigitalTwinsGetComponentHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Defines headers for DigitalTwins_updateComponent operation.
- */
+/** Defines headers for DigitalTwins_updateComponent operation. */
 export interface DigitalTwinsUpdateComponentHeaders {
-  /**
-   * Weak Etag.
-   */
+  /** Weak Etag. */
   etag?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsAddOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * An array of models to add.
-   */
-  models?: any[];
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
+  extends coreClient.OperationOptions {
+  /** An array of models to add. */
+  models?: Record<string, unknown>[];
 }
 
-/**
- * Contains response data for the add operation.
- */
-export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[] & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the add operation. */
+export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DigitalTwinsModelData[];
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsListOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The set of the models which will have their dependencies retrieved. If omitted, all models are retrieved.
-   */
+  extends coreClient.OperationOptions {
+  /** The set of the models which will have their dependencies retrieved. If omitted, all models are retrieved. */
   dependenciesFor?: string[];
-  /**
-   * When true the model definition will be returned as part of the result.
-   */
+  /** When true the model definition will be returned as part of the result. */
   includeModelDefinition?: boolean;
-  /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
-   */
-  maxItemsPerPage?: number;
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
 }
 
-/**
- * Contains response data for the list operation.
- */
-export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PagedDigitalTwinsModelDataCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsGetByIdOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * When true the model definition will be returned as part of the result.
-   */
+  extends coreClient.OperationOptions {
+  /** When true the model definition will be returned as part of the result. */
   includeModelDefinition?: boolean;
 }
 
-/**
- * Contains response data for the getById operation.
- */
-export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the getById operation. */
+export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DigitalTwinsModelData;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsUpdateOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsDeleteOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinModelsListNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The set of the models which will have their dependencies retrieved. If omitted, all models are retrieved.
-   */
-  dependenciesFor?: string[];
-  /**
-   * When true the model definition will be returned as part of the result.
-   */
-  includeModelDefinition?: boolean;
-  /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
-   */
-  maxItemsPerPage?: number;
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
 }
 
-/**
- * Contains response data for the listNext operation.
- */
-export type DigitalTwinModelsListNextResponse = PagedDigitalTwinsModelDataCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type DigitalTwinModelsListNextResponse = PagedDigitalTwinsModelDataCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PagedDigitalTwinsModelDataCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface QueryQueryTwinsOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
-   */
-  maxItemsPerPage?: number;
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
 }
 
-/**
- * Contains response data for the queryTwins operation.
- */
-export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders &
-  QueryResult & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the queryTwins operation. */
+export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryResult;
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueryQueryTwinsHeaders;
-    };
-  };
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsGetByIdOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the getById operation.
- */
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+/** Contains response data for the getById operation. */
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders &
+  Record<string, unknown>;
 
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsGetByIdHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsAddOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity does not already exist.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity does not already exist. */
   ifNoneMatch?: string;
 }
 
-/**
- * Contains response data for the add operation.
- */
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+/** Contains response data for the add operation. */
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders &
+  Record<string, unknown>;
 
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsAddHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsDeleteOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity's etag matches one of the etags provided or * is provided. */
   ifMatch?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsUpdateOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity's etag matches one of the etags provided or * is provided. */
   ifMatch?: string;
 }
 
-/**
- * Contains response data for the update operation.
- */
-export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsUpdateHeaders;
-  };
-};
+/** Contains response data for the update operation. */
+export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders;
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsGetRelationshipByIdOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the getRelationshipById operation.
- */
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+/** Contains response data for the getRelationshipById operation. */
+export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders &
+  Record<string, unknown>;
 
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsGetRelationshipByIdHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsAddRelationshipOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity does not already exist.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity does not already exist. */
   ifNoneMatch?: string;
 }
 
-/**
- * Contains response data for the addRelationship operation.
- */
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+/** Contains response data for the addRelationship operation. */
+export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders &
+  Record<string, unknown>;
 
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsAddRelationshipHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsDeleteRelationshipOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity's etag matches one of the etags provided or * is provided. */
   ifMatch?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsUpdateRelationshipOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity's etag matches one of the etags provided or * is provided. */
   ifMatch?: string;
 }
 
-/**
- * Contains response data for the updateRelationship operation.
- */
-export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelationshipHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsUpdateRelationshipHeaders;
-  };
-};
+/** Contains response data for the updateRelationship operation. */
+export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelationshipHeaders;
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsListRelationshipsOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The name of the relationship.
-   */
+  extends coreClient.OperationOptions {
+  /** The name of the relationship. */
   relationshipName?: string;
 }
 
-/**
- * Contains response data for the listRelationships operation.
- */
-export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listRelationships operation. */
+export type DigitalTwinsListRelationshipsResponse = RelationshipCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RelationshipCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsListIncomingRelationshipsOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listIncomingRelationships operation.
- */
-export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listIncomingRelationships operation. */
+export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IncomingRelationshipCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsSendTelemetryOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * An RFC 3339 timestamp that identifies the time the telemetry was measured.
-   */
+  extends coreClient.OperationOptions {
+  /** An RFC 3339 timestamp that identifies the time the telemetry was measured. */
   telemetrySourceTime?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsSendComponentTelemetryOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * An RFC 3339 timestamp that identifies the time the telemetry was measured.
-   */
+  extends coreClient.OperationOptions {
+  /** An RFC 3339 timestamp that identifies the time the telemetry was measured. */
   telemetrySourceTime?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsGetComponentOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the getComponent operation.
- */
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
-  /**
-   * The parsed response body.
-   */
-  body: any;
+/** Contains response data for the getComponent operation. */
+export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders &
+  Record<string, unknown>;
 
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsGetComponentHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsUpdateComponentOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   */
+  extends coreClient.OperationOptions {
+  /** Only perform the operation if the entity's etag matches one of the etags provided or * is provided. */
   ifMatch?: string;
 }
 
-/**
- * Contains response data for the updateComponent operation.
- */
-export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DigitalTwinsUpdateComponentHeaders;
-  };
-};
+/** Contains response data for the updateComponent operation. */
+export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHeaders;
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsListRelationshipsNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The name of the relationship.
-   */
-  relationshipName?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listRelationshipsNext operation.
- */
-export type DigitalTwinsListRelationshipsNextResponse = RelationshipCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listRelationshipsNext operation. */
+export type DigitalTwinsListRelationshipsNextResponse = RelationshipCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RelationshipCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface DigitalTwinsListIncomingRelationshipsNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listIncomingRelationshipsNext operation.
- */
-export type DigitalTwinsListIncomingRelationshipsNextResponse = IncomingRelationshipCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listIncomingRelationshipsNext operation. */
+export type DigitalTwinsListIncomingRelationshipsNextResponse = IncomingRelationshipCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IncomingRelationshipCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface EventRoutesListOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
-   */
-  maxItemsPerPage?: number;
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
 }
 
-/**
- * Contains response data for the list operation.
- */
-export type EventRoutesListResponse = EventRouteCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type EventRoutesListResponse = EventRouteCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EventRouteCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface EventRoutesGetByIdOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the getById operation.
- */
-export type EventRoutesGetByIdResponse = EventRoute & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the getById operation. */
+export type EventRoutesGetByIdResponse = EventRoute;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EventRoute;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface EventRoutesAddOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The event route data
-   */
+  extends coreClient.OperationOptions {
+  /** The event route data */
   eventRoute?: EventRoute;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface EventRoutesDeleteOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-}
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface EventRoutesListNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Identifies the request in a distributed tracing system.
-   */
-  traceparent?: string;
-  /**
-   * Provides vendor-specific trace identification information and is a companion to traceparent.
-   */
-  tracestate?: string;
-  /**
-   * The maximum number of items to retrieve per request. The server may choose to return less than the requested number.
-   */
-  maxItemsPerPage?: number;
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
 }
 
-/**
- * Contains response data for the listNext operation.
- */
-export type EventRoutesListNextResponse = EventRouteCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type EventRoutesListNextResponse = EventRouteCollection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EventRouteCollection;
-  };
-};
-
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface AzureDigitalTwinsAPIOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /**
-   * server parameter
-   */
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
   $host?: string;
-  /**
-   * Api Version
-   */
+  /** Api Version */
   apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

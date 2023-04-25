@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { InventoryItems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   InventoryItem,
   InventoryItemsListByVCenterNextOptionalParams,
   InventoryItemsListByVCenterOptionalParams,
+  InventoryItemsListByVCenterResponse,
   InventoryItemsCreateOptionalParams,
   InventoryItemsCreateResponse,
   InventoryItemsGetOptionalParams,
   InventoryItemsGetResponse,
   InventoryItemsDeleteOptionalParams,
-  InventoryItemsListByVCenterResponse,
   InventoryItemsListByVCenterNextResponse
 } from "../models";
 
@@ -61,11 +62,15 @@ export class InventoryItemsImpl implements InventoryItems {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVCenterPagingPage(
           resourceGroupName,
           vcenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class InventoryItemsImpl implements InventoryItems {
   private async *listByVCenterPagingPage(
     resourceGroupName: string,
     vcenterName: string,
-    options?: InventoryItemsListByVCenterOptionalParams
+    options?: InventoryItemsListByVCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InventoryItem[]> {
-    let result = await this._listByVCenter(
-      resourceGroupName,
-      vcenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InventoryItemsListByVCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVCenter(
+        resourceGroupName,
+        vcenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVCenterNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class InventoryItemsImpl implements InventoryItems {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -308,7 +322,6 @@ const listByVCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

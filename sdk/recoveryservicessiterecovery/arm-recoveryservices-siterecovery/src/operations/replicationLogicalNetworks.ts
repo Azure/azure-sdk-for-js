@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationLogicalNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -38,14 +39,24 @@ export class ReplicationLogicalNetworksImpl
 
   /**
    * Lists all the logical networks of the Azure Site Recovery fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Server Id.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<LogicalNetwork> {
-    const iter = this.listByReplicationFabricsPagingAll(fabricName, options);
+    const iter = this.listByReplicationFabricsPagingAll(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -53,35 +64,66 @@ export class ReplicationLogicalNetworksImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByReplicationFabricsPagingPage(fabricName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByReplicationFabricsPagingPage(
+          resourceName,
+          resourceGroupName,
+          fabricName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByReplicationFabricsPagingPage(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LogicalNetwork[]> {
-    let result = await this._listByReplicationFabrics(fabricName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationLogicalNetworksListByReplicationFabricsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationFabrics(
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
+        resourceName,
+        resourceGroupName,
         fabricName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByReplicationFabricsPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<LogicalNetwork> {
     for await (const page of this.listByReplicationFabricsPagingPage(
+      resourceName,
+      resourceGroupName,
       fabricName,
       options
     )) {
@@ -91,50 +133,71 @@ export class ReplicationLogicalNetworksImpl
 
   /**
    * Lists all the logical networks of the Azure Site Recovery fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Server Id.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams
   ): Promise<ReplicationLogicalNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, options },
+      { resourceName, resourceGroupName, fabricName, options },
       listByReplicationFabricsOperationSpec
     );
   }
 
   /**
    * Gets the details of a logical network.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Server Id.
    * @param logicalNetworkName Logical network name.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     logicalNetworkName: string,
     options?: ReplicationLogicalNetworksGetOptionalParams
   ): Promise<ReplicationLogicalNetworksGetResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, logicalNetworkName, options },
+      {
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        logicalNetworkName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
    * ListByReplicationFabricsNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Server Id.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationLogicalNetworksListByReplicationFabricsNextOptionalParams
   ): Promise<ReplicationLogicalNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, nextLink, options },
+      { resourceName, resourceGroupName, fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec
     );
   }
@@ -191,7 +254,6 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogicalNetworkCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

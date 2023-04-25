@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource group.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScope.json
  */
 async function queryAtResourceGroupScope() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyTrackedResourcesResource = "default";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -36,8 +42,6 @@ async function queryAtResourceGroupScope() {
   console.log(resArray);
 }
 
-queryAtResourceGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource group.
  *
@@ -45,8 +49,11 @@ queryAtResourceGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScopeWithFilterAndTop.json
  */
 async function queryAtResourceGroupScopeUsingQueryParameters() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyTrackedResourcesResource = "default";
   const top = 1;
   const filter =
@@ -67,4 +74,9 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtResourceGroupScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtResourceGroupScope();
+  queryAtResourceGroupScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

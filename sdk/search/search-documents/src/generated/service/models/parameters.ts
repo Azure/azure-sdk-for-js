@@ -75,16 +75,6 @@ export const dataSourceName: OperationURLParameter = {
   }
 };
 
-export const xMsClientRequestId: OperationParameter = {
-  parameterPath: ["options", "requestOptionsParam", "xMsClientRequestId"],
-  mapper: {
-    serializedName: "x-ms-client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
 export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {

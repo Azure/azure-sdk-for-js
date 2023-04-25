@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the management group.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryManagementGroupScope.json
  */
 async function queryAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupName = "myManagementGroup";
   const policyTrackedResourcesResource = "default";
   const credential = new DefaultAzureCredential();
@@ -33,8 +35,6 @@ async function queryAtManagementGroupScope() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the management group.
  *
@@ -42,7 +42,8 @@ queryAtManagementGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryManagementGroupScopeWithFilterAndTop.json
  */
 async function queryAtManagementGroupScopeUsingQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupName = "myManagementGroup";
   const policyTrackedResourcesResource = "default";
   const top = 1;
@@ -64,4 +65,9 @@ async function queryAtManagementGroupScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtManagementGroupScope();
+  queryAtManagementGroupScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of Linkers which connects to the resource.
@@ -29,4 +32,8 @@ async function linkList() {
   console.log(resArray);
 }
 
-linkList().catch(console.error);
+async function main() {
+  linkList();
+}
+
+main().catch(console.error);

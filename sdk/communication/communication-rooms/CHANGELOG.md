@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated to `@azure/communication-common` 2.2.0.
+
 ## 1.0.0-beta.1 (2022-08-09)
 
 The first preview of the Azure Communication Rooms Client has the following features:

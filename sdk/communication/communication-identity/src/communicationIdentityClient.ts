@@ -6,6 +6,8 @@ import {
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
   GetTokenForTeamsUserOptions,
+  CreateUserAndTokenOptions,
+  GetTokenOptions,
   TokenScope,
 } from "./models";
 import {
@@ -103,13 +105,13 @@ export class CommunicationIdentityClient {
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    options: OperationOptions = {}
+    options: GetTokenOptions = {}
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
       return this.client.communicationIdentityOperations.issueAccessToken(
         user.communicationUserId,
         scopes,
-        updatedOptions
+        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions }
       );
     });
   }
@@ -146,7 +148,10 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
-        const result = await this.client.communicationIdentityOperations.create(updatedOptions);
+        const result = await this.client.communicationIdentityOperations.create({
+          expiresInMinutes: undefined,
+          ...updatedOptions,
+        });
         return {
           communicationUserId: result.identity.id,
         };
@@ -162,7 +167,7 @@ export class CommunicationIdentityClient {
    */
   public createUserAndToken(
     scopes: TokenScope[],
-    options: OperationOptions = {}
+    options: CreateUserAndTokenOptions = {}
   ): Promise<CommunicationUserToken> {
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
@@ -170,6 +175,7 @@ export class CommunicationIdentityClient {
       async (updatedOptions) => {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
+          expiresInMinutes: options.tokenExpiresInMinutes,
           ...updatedOptions,
         });
         return {

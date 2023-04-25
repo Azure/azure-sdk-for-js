@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CustomDomainResource,
   CustomDomainsListNextOptionalParams,
   CustomDomainsListOptionalParams,
+  CustomDomainsListResponse,
   CustomDomainsGetOptionalParams,
   CustomDomainsGetResponse,
   CustomDomainsCreateOrUpdateOptionalParams,
@@ -25,7 +31,6 @@ import {
   CustomDomainsDeleteOptionalParams,
   CustomDomainsUpdateOptionalParams,
   CustomDomainsUpdateResponse,
-  CustomDomainsListResponse,
   CustomDomainsListNextResponse
 } from "../models";
 
@@ -69,12 +74,16 @@ export class CustomDomainsImpl implements CustomDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           appName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +93,23 @@ export class CustomDomainsImpl implements CustomDomains {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: CustomDomainsListOptionalParams
+    options?: CustomDomainsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CustomDomainResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      appName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomDomainsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        appName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -103,7 +119,9 @@ export class CustomDomainsImpl implements CustomDomains {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -163,8 +181,8 @@ export class CustomDomainsImpl implements CustomDomains {
     domainResource: CustomDomainResource,
     options?: CustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsCreateOrUpdateResponse>,
       CustomDomainsCreateOrUpdateResponse
     >
   > {
@@ -174,7 +192,7 @@ export class CustomDomainsImpl implements CustomDomains {
     ): Promise<CustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -207,9 +225,9 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -217,10 +235,13 @@ export class CustomDomainsImpl implements CustomDomains {
         domainResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CustomDomainsCreateOrUpdateResponse,
+      OperationState<CustomDomainsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,14 +292,14 @@ export class CustomDomainsImpl implements CustomDomains {
     appName: string,
     domainName: string,
     options?: CustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,13 +332,13 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, appName, domainName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, appName, domainName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -368,8 +389,8 @@ export class CustomDomainsImpl implements CustomDomains {
     domainResource: CustomDomainResource,
     options?: CustomDomainsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsUpdateResponse>,
       CustomDomainsUpdateResponse
     >
   > {
@@ -379,7 +400,7 @@ export class CustomDomainsImpl implements CustomDomains {
     ): Promise<CustomDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -412,9 +433,9 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         appName,
@@ -422,10 +443,13 @@ export class CustomDomainsImpl implements CustomDomains {
         domainResource,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CustomDomainsUpdateResponse,
+      OperationState<CustomDomainsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -659,7 +683,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

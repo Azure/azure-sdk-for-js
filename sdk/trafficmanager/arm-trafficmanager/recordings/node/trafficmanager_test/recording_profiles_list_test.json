@@ -1,0 +1,68 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3a3ef7d3-5fca-4a9b-b46a-4c5a5cda8288"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "private",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 15 Nov 2022 02:17:06 GMT",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7ffccac8-e53f-4d51-9701-0c85ce3f24cc",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "1998",
+        "x-ms-request-id": "3a3ef7d3-5fca-4a9b-b46a-4c5a5cda8288",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221115T021707Z:7ffccac8-e53f-4d51-9701-0c85ce3f24cc",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386",
+            "name": "azsmnet6386",
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "location": "global",
+            "tags": {},
+            "properties": {
+              "profileStatus": "Enabled",
+              "trafficRoutingMethod": "MultiValue",
+              "dnsConfig": {
+                "relativeName": "azsmnet6386",
+                "fqdn": "azsmnet6386.trafficmanager.net",
+                "ttl": 35
+              },
+              "monitorConfig": {
+                "profileMonitorStatus": "Inactive",
+                "protocol": "HTTP",
+                "port": 80,
+                "path": "/testpath.aspx",
+                "intervalInSeconds": 30,
+                "toleratedNumberOfFailures": 3,
+                "timeoutInSeconds": 10
+              },
+              "endpoints": [],
+              "trafficViewEnrollmentStatus": "Disabled",
+              "maxReturn": 2
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

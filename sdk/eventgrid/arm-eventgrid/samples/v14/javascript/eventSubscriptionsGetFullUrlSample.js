@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetFullUrlForCustomTopic.json
  */
 async function eventSubscriptionsGetFullUrlForCustomTopic() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -28,8 +30,6 @@ async function eventSubscriptionsGetFullUrlForCustomTopic() {
   console.log(result);
 }
 
-eventSubscriptionsGetFullUrlForCustomTopic().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription.
  *
@@ -37,7 +37,8 @@ eventSubscriptionsGetFullUrlForCustomTopic().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetFullUrlForResource.json
  */
 async function eventSubscriptionsGetFullUrlForResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription1";
@@ -47,8 +48,6 @@ async function eventSubscriptionsGetFullUrlForResource() {
   console.log(result);
 }
 
-eventSubscriptionsGetFullUrlForResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription.
  *
@@ -56,7 +55,8 @@ eventSubscriptionsGetFullUrlForResource().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetFullUrlForResourceGroup.json
  */
 async function eventSubscriptionsGetFullUrlForResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
   const credential = new DefaultAzureCredential();
@@ -65,8 +65,6 @@ async function eventSubscriptionsGetFullUrlForResourceGroup() {
   console.log(result);
 }
 
-eventSubscriptionsGetFullUrlForResourceGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription.
  *
@@ -74,7 +72,8 @@ eventSubscriptionsGetFullUrlForResourceGroup().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_GetFullUrlForSubscription.json
  */
 async function eventSubscriptionsGetFullUrlForSubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const eventSubscriptionName = "examplesubscription3";
   const credential = new DefaultAzureCredential();
@@ -83,4 +82,11 @@ async function eventSubscriptionsGetFullUrlForSubscription() {
   console.log(result);
 }
 
-eventSubscriptionsGetFullUrlForSubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsGetFullUrlForCustomTopic();
+  eventSubscriptionsGetFullUrlForResource();
+  eventSubscriptionsGetFullUrlForResourceGroup();
+  eventSubscriptionsGetFullUrlForSubscription();
+}
+
+main().catch(console.error);

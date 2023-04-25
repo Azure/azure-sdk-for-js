@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const JobDetailsList: coreHttp.CompositeMapper = {
+export const JobDetailsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobDetailsList",
@@ -43,7 +43,7 @@ export const JobDetailsList: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobDetails: coreHttp.CompositeMapper = {
+export const JobDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobDetails",
@@ -83,7 +83,8 @@ export const JobDetails: coreHttp.CompositeMapper = {
       inputParams: {
         serializedName: "inputParams",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       providerId: {
@@ -165,7 +166,7 @@ export const JobDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorData: coreHttp.CompositeMapper = {
+export const ErrorData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorData",
@@ -186,7 +187,7 @@ export const ErrorData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestError: coreHttp.CompositeMapper = {
+export const RestError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RestError",
@@ -202,7 +203,7 @@ export const RestError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ProviderStatusList: coreHttp.CompositeMapper = {
+export const ProviderStatusList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProviderStatusList",
@@ -231,7 +232,7 @@ export const ProviderStatusList: coreHttp.CompositeMapper = {
   }
 };
 
-export const ProviderStatus: coreHttp.CompositeMapper = {
+export const ProviderStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProviderStatus",
@@ -267,7 +268,7 @@ export const ProviderStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const TargetStatus: coreHttp.CompositeMapper = {
+export const TargetStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TargetStatus",
@@ -304,7 +305,7 @@ export const TargetStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobDetails: coreHttp.CompositeMapper = {
+export const BlobDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BlobDetails",
@@ -326,7 +327,7 @@ export const BlobDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const SasUriResponse: coreHttp.CompositeMapper = {
+export const SasUriResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SasUriResponse",
@@ -341,7 +342,7 @@ export const SasUriResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuotaList: coreHttp.CompositeMapper = {
+export const QuotaList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QuotaList",
@@ -370,7 +371,7 @@ export const QuotaList: coreHttp.CompositeMapper = {
   }
 };
 
-export const Quota: coreHttp.CompositeMapper = {
+export const Quota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Quota",

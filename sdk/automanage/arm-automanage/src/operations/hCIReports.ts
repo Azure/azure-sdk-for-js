@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { HCIReports } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { AutomanageClient } from "../automanageClient";
 import {
   Report,
   HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
+  HCIReportsListByConfigurationProfileAssignmentsResponse,
   HCIReportsGetOptionalParams,
-  HCIReportsGetResponse,
-  HCIReportsListByConfigurationProfileAssignmentsResponse
+  HCIReportsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +59,16 @@ export class HCIReportsImpl implements HCIReports {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByConfigurationProfileAssignmentsPagingPage(
           resourceGroupName,
           clusterName,
           configurationProfileAssignmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,9 +78,11 @@ export class HCIReportsImpl implements HCIReports {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Report[]> {
-    let result = await this._listByConfigurationProfileAssignments(
+    let result: HCIReportsListByConfigurationProfileAssignmentsResponse;
+    result = await this._listByConfigurationProfileAssignments(
       resourceGroupName,
       clusterName,
       configurationProfileAssignmentName,

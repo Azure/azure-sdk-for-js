@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all attestations for a resource.
  *
  * @summary Gets all attestations for a resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceScope.json
  */
 async function listAttestationsAtIndividualResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myrg/providers/microsoft.compute/virtualMachines/devVM";
   const credential = new DefaultAzureCredential();
@@ -30,16 +32,15 @@ async function listAttestationsAtIndividualResourceScope() {
   console.log(resArray);
 }
 
-listAttestationsAtIndividualResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets all attestations for a resource.
  *
  * @summary Gets all attestations for a resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceScope_WithQuery.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceScope_WithQuery.json
  */
 async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myrg/providers/microsoft.compute/virtualMachines/devVM";
   const top = 1;
@@ -55,4 +56,9 @@ async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-listAttestationsAtIndividualResourceScopeWithQueryParameters().catch(console.error);
+async function main() {
+  listAttestationsAtIndividualResourceScope();
+  listAttestationsAtIndividualResourceScopeWithQueryParameters();
+}
+
+main().catch(console.error);

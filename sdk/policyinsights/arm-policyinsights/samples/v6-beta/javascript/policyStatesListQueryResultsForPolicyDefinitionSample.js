@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy definition.
@@ -18,24 +19,22 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicyDefinitionScope.json
  */
 async function queryLatestAtSubscriptionLevelPolicyDefinitionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForPolicyDefinition(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     policyDefinitionName
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-queryLatestAtSubscriptionLevelPolicyDefinitionScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy definition.
@@ -44,9 +43,9 @@ queryLatestAtSubscriptionLevelPolicyDefinitionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicyDefinitionScopeNextLink.json
  */
 async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
@@ -66,4 +65,9 @@ async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink()
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink().catch(console.error);
+async function main() {
+  queryLatestAtSubscriptionLevelPolicyDefinitionScope();
+  queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink();
+}
+
+main().catch(console.error);

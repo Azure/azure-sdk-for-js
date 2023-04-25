@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PolicyEvents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,27 +18,27 @@ import {
   PolicyEventsResourceType,
   PolicyEventsListQueryResultsForManagementGroupNextOptionalParams,
   PolicyEventsListQueryResultsForManagementGroupOptionalParams,
+  PolicyEventsListQueryResultsForManagementGroupResponse,
   PolicyEventsListQueryResultsForSubscriptionNextOptionalParams,
   PolicyEventsListQueryResultsForSubscriptionOptionalParams,
+  PolicyEventsListQueryResultsForSubscriptionResponse,
   PolicyEventsListQueryResultsForResourceGroupNextOptionalParams,
   PolicyEventsListQueryResultsForResourceGroupOptionalParams,
+  PolicyEventsListQueryResultsForResourceGroupResponse,
   PolicyEventsListQueryResultsForResourceNextOptionalParams,
   PolicyEventsListQueryResultsForResourceOptionalParams,
+  PolicyEventsListQueryResultsForResourceResponse,
   PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams,
   PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
+  PolicyEventsListQueryResultsForPolicySetDefinitionResponse,
   PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams,
   PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
+  PolicyEventsListQueryResultsForPolicyDefinitionResponse,
   PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams,
   PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
   PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-  PolicyEventsListQueryResultsForManagementGroupResponse,
-  PolicyEventsListQueryResultsForSubscriptionResponse,
-  PolicyEventsListQueryResultsForResourceGroupResponse,
-  PolicyEventsListQueryResultsForResourceResponse,
-  PolicyEventsListQueryResultsForPolicySetDefinitionResponse,
-  PolicyEventsListQueryResultsForPolicyDefinitionResponse,
-  PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
   PolicyEventsListQueryResultsForManagementGroupNextResponse,
   PolicyEventsListQueryResultsForSubscriptionNextResponse,
@@ -86,11 +87,15 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForManagementGroupPagingPage(
           policyEventsResource,
           managementGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -99,15 +104,22 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForManagementGroupPagingPage(
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForManagementGroup(
-      policyEventsResource,
-      managementGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForManagementGroup(
+        policyEventsResource,
+        managementGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForManagementGroupNext(
         policyEventsResource,
@@ -116,7 +128,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -158,11 +172,15 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForSubscriptionPagingPage(
           policyEventsResource,
           subscriptionId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -171,15 +189,22 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForSubscriptionPagingPage(
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForSubscription(
-      policyEventsResource,
-      subscriptionId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForSubscription(
+        policyEventsResource,
+        subscriptionId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionNext(
         policyEventsResource,
@@ -188,7 +213,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -233,12 +260,16 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourceGroupPagingPage(
           policyEventsResource,
           subscriptionId,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -248,16 +279,23 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForResourceGroup(
-      policyEventsResource,
-      subscriptionId,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResourceGroup(
+        policyEventsResource,
+        subscriptionId,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupNext(
         policyEventsResource,
@@ -267,7 +305,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -311,11 +351,15 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourcePagingPage(
           policyEventsResource,
           resourceId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -324,15 +368,22 @@ export class PolicyEventsImpl implements PolicyEvents {
   private async *listQueryResultsForResourcePagingPage(
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
-    options?: PolicyEventsListQueryResultsForResourceOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForResource(
-      policyEventsResource,
-      resourceId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResource(
+        policyEventsResource,
+        resourceId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceNext(
         policyEventsResource,
@@ -341,7 +392,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -386,12 +439,16 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForPolicySetDefinitionPagingPage(
           policyEventsResource,
           subscriptionId,
           policySetDefinitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -401,16 +458,23 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForPolicySetDefinition(
-      policyEventsResource,
-      subscriptionId,
-      policySetDefinitionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForPolicySetDefinitionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForPolicySetDefinition(
+        policyEventsResource,
+        subscriptionId,
+        policySetDefinitionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForPolicySetDefinitionNext(
         policyEventsResource,
@@ -420,7 +484,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -467,12 +533,16 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForPolicyDefinitionPagingPage(
           policyEventsResource,
           subscriptionId,
           policyDefinitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -482,16 +552,23 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForPolicyDefinition(
-      policyEventsResource,
-      subscriptionId,
-      policyDefinitionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForPolicyDefinitionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForPolicyDefinition(
+        policyEventsResource,
+        subscriptionId,
+        policyDefinitionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForPolicyDefinitionNext(
         policyEventsResource,
@@ -501,7 +578,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -548,12 +627,16 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
           policyEventsResource,
           subscriptionId,
           policyAssignmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -563,16 +646,23 @@ export class PolicyEventsImpl implements PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForSubscriptionLevelPolicyAssignment(
-      policyEventsResource,
-      subscriptionId,
-      policyAssignmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForSubscriptionLevelPolicyAssignment(
+        policyEventsResource,
+        subscriptionId,
+        policyAssignmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
         policyEventsResource,
@@ -582,7 +672,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -632,13 +724,17 @@ export class PolicyEventsImpl implements PolicyEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
           policyEventsResource,
           subscriptionId,
           resourceGroupName,
           policyAssignmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -649,17 +745,24 @@ export class PolicyEventsImpl implements PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
-      policyEventsResource,
-      subscriptionId,
-      resourceGroupName,
-      policyAssignmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
+        policyEventsResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
         policyEventsResource,
@@ -670,7 +773,9 @@ export class PolicyEventsImpl implements PolicyEvents {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1099,7 +1204,7 @@ const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec 
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1131,7 +1236,7 @@ const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1162,7 +1267,7 @@ const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = 
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1194,7 +1299,7 @@ const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken,
@@ -1226,7 +1331,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: coreClient.OperationS
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1259,7 +1364,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: coreClient.OperationSpec
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1292,7 +1397,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: coreCli
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1325,7 +1430,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: coreCl
     Parameters.apiVersion2,
     Parameters.orderBy,
     Parameters.select,
-    Parameters.fromParam,
+    Parameters.from,
     Parameters.to,
     Parameters.apply,
     Parameters.skipToken
@@ -1352,17 +1457,6 @@ const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
@@ -1384,17 +1478,6 @@ const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1415,17 +1498,6 @@ const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1447,18 +1519,6 @@ const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken,
-    Parameters.expand
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -1479,17 +1539,6 @@ const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.Operat
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1512,17 +1561,6 @@ const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.Operation
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1545,17 +1583,6 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: cor
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1578,17 +1605,6 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: co
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

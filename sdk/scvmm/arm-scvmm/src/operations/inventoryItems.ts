@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { InventoryItems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   InventoryItem,
   InventoryItemsListByVMMServerNextOptionalParams,
   InventoryItemsListByVMMServerOptionalParams,
+  InventoryItemsListByVMMServerResponse,
   InventoryItemsCreateOptionalParams,
   InventoryItemsCreateResponse,
   InventoryItemsGetOptionalParams,
   InventoryItemsGetResponse,
   InventoryItemsDeleteOptionalParams,
-  InventoryItemsListByVMMServerResponse,
   InventoryItemsListByVMMServerNextResponse
 } from "../models";
 
@@ -61,11 +62,15 @@ export class InventoryItemsImpl implements InventoryItems {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVMMServerPagingPage(
           resourceGroupName,
           vmmServerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class InventoryItemsImpl implements InventoryItems {
   private async *listByVMMServerPagingPage(
     resourceGroupName: string,
     vmmServerName: string,
-    options?: InventoryItemsListByVMMServerOptionalParams
+    options?: InventoryItemsListByVMMServerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InventoryItem[]> {
-    let result = await this._listByVMMServer(
-      resourceGroupName,
-      vmmServerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InventoryItemsListByVMMServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVMMServer(
+        resourceGroupName,
+        vmmServerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVMMServerNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class InventoryItemsImpl implements InventoryItems {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -308,7 +322,6 @@ const listByVMMServerNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

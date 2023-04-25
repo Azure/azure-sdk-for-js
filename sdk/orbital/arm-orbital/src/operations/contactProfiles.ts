@@ -6,30 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ContactProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureOrbital } from "../azureOrbital";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ContactProfile,
   ContactProfilesListBySubscriptionNextOptionalParams,
   ContactProfilesListBySubscriptionOptionalParams,
+  ContactProfilesListBySubscriptionResponse,
   ContactProfilesListNextOptionalParams,
   ContactProfilesListOptionalParams,
+  ContactProfilesListResponse,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
+  ContactProfilesPropertiesNetworkConfiguration,
+  ContactProfileLink,
   ContactProfilesCreateOrUpdateOptionalParams,
   ContactProfilesCreateOrUpdateResponse,
   ContactProfilesDeleteOptionalParams,
   TagsObject,
   ContactProfilesUpdateTagsOptionalParams,
   ContactProfilesUpdateTagsResponse,
-  ContactProfilesListBySubscriptionResponse,
-  ContactProfilesListResponse,
   ContactProfilesListBySubscriptionNextResponse,
   ContactProfilesListNextResponse
 } from "../models";
@@ -48,7 +55,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -62,22 +69,34 @@ export class ContactProfilesImpl implements ContactProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContactProfile[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ContactProfilesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -90,7 +109,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -106,19 +125,29 @@ export class ContactProfilesImpl implements ContactProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContactProfile[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ContactProfilesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -126,7 +155,9 @@ export class ContactProfilesImpl implements ContactProfiles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,9 +171,9 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Gets the specified contact Profile in a specified resource group
+   * Gets the specified contact Profile in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   get(
@@ -157,20 +188,24 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesCreateOrUpdateResponse>,
       ContactProfilesCreateOrUpdateResponse
     >
   > {
@@ -180,7 +215,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     ): Promise<ContactProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -213,37 +248,53 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, location, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        contactProfileName,
+        location,
+        networkConfiguration,
+        links,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContactProfilesCreateOrUpdateResponse,
+      OperationState<ContactProfilesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<ContactProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       contactProfileName,
       location,
+      networkConfiguration,
+      links,
       options
     );
     return poller.pollUntilDone();
@@ -252,21 +303,21 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     contactProfileName: string,
     options?: ContactProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -299,15 +350,15 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, contactProfileName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -316,7 +367,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -335,7 +386,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -345,8 +396,8 @@ export class ContactProfilesImpl implements ContactProfiles {
     parameters: TagsObject,
     options?: ContactProfilesUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesUpdateTagsResponse>,
       ContactProfilesUpdateTagsResponse
     >
   > {
@@ -356,7 +407,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     ): Promise<ContactProfilesUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -389,15 +440,18 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, parameters, options },
-      updateTagsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, contactProfileName, parameters, options },
+      spec: updateTagsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContactProfilesUpdateTagsResponse,
+      OperationState<ContactProfilesUpdateTagsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -406,7 +460,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -426,7 +480,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -439,7 +493,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -497,7 +551,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -528,7 +582,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: {
@@ -540,8 +594,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       minimumElevationDegrees: ["options", "minimumElevationDegrees"],
       autoTrackingConfiguration: ["options", "autoTrackingConfiguration"],
       eventHubUri: ["options", "eventHubUri"],
-      networkConfiguration: ["options", "networkConfiguration"],
-      links: ["options", "links"]
+      networkConfiguration: ["networkConfiguration"],
+      thirdPartyConfigurations: ["options", "thirdPartyConfigurations"],
+      links: ["links"]
     },
     mapper: { ...Mappers.ContactProfile, required: true }
   },
@@ -566,7 +621,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -597,7 +652,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters1,
@@ -621,7 +676,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
@@ -638,7 +693,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
@@ -658,10 +713,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -678,10 +732,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

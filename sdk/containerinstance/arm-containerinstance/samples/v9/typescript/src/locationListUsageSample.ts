@@ -10,15 +10,19 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the usage for a subscription
  *
  * @summary Get the usage for a subscription
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupUsage.json
  */
 async function containerUsage() {
-  const subscriptionId = "subid";
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const location = "westcentralus";
   const credential = new DefaultAzureCredential();
   const client = new ContainerInstanceManagementClient(
@@ -32,4 +36,8 @@ async function containerUsage() {
   console.log(resArray);
 }
 
-containerUsage().catch(console.error);
+async function main() {
+  containerUsage();
+}
+
+main().catch(console.error);

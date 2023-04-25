@@ -12,11 +12,11 @@ urlFragment: agrifood-farming-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure FarmBeats rest in some common scenarios.
 
-| **File Name**                   | **Description**        |
-| ------------------------------- | ---------------------- |
-| [deleteFarmer.ts][deletefarmer] | deletes a farmer       |
-| [listFarmers.ts][listfarmers]   | gets a list of farmers |
-| [createFarmer.ts][createfarmer] | creates a farmer       |
+| **File Name**                 | **Description**        |
+| ----------------------------- | ---------------------- |
+| [deleteParty.ts][deleteparty] | deletes a party        |
+| [listParties.ts][listparties] | gets a list of parties |
+| [createParty.ts][createparty] | creates a party        |
 
 ## Prerequisites
 
@@ -57,22 +57,22 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/deleteFarmer.js
+node dist/deleteParty.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteFarmer.js
+npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteParty.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/deleteFarmer.ts
-[listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/listFarmers.ts
-[createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/createFarmer.ts
+[deleteparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/deleteParty.ts
+[listparties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/listParties.ts
+[createparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/createParty.ts
 [apiref]: https://docs.microsoft.com/javascript
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats

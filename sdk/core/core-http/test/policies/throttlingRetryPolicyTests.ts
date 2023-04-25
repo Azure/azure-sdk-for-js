@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AssertionError, assert } from "chai";
-import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";

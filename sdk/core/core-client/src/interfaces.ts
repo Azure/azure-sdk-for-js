@@ -46,6 +46,11 @@ export interface SerializerOptions {
    * Options to configure xml parser/builder behavior.
    */
   xml: XmlOptions;
+  /**
+   * Normally additional properties are included in the result object, even if there is no mapper for them.
+   * This flag disables this behavior when true. It is used when parsing headers to avoid polluting the result object.
+   */
+  ignoreUnknownProperties?: boolean;
 }
 
 export type RequiredSerializerOptions = {
@@ -593,6 +598,10 @@ export interface BaseMapper {
    * Determines if the current property should be serialized as an attribute of the parent xml element
    */
   xmlIsAttribute?: boolean;
+  /**
+   * Determines if the current property should be serialized as the inner content of the xml element
+   */
+  xmlIsMsText?: boolean;
   /**
    * Name for the xml elements when serializing an array
    */

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedDatabaseQueries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   QueryStatistics,
   ManagedDatabaseQueriesListByQueryNextOptionalParams,
   ManagedDatabaseQueriesListByQueryOptionalParams,
+  ManagedDatabaseQueriesListByQueryResponse,
   ManagedDatabaseQueriesGetOptionalParams,
   ManagedDatabaseQueriesGetResponse,
-  ManagedDatabaseQueriesListByQueryResponse,
   ManagedDatabaseQueriesListByQueryNextResponse
 } from "../models";
 
@@ -65,13 +66,17 @@ export class ManagedDatabaseQueriesImpl implements ManagedDatabaseQueries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByQueryPagingPage(
           resourceGroupName,
           managedInstanceName,
           databaseName,
           queryId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,17 +87,24 @@ export class ManagedDatabaseQueriesImpl implements ManagedDatabaseQueries {
     managedInstanceName: string,
     databaseName: string,
     queryId: string,
-    options?: ManagedDatabaseQueriesListByQueryOptionalParams
+    options?: ManagedDatabaseQueriesListByQueryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<QueryStatistics[]> {
-    let result = await this._listByQuery(
-      resourceGroupName,
-      managedInstanceName,
-      databaseName,
-      queryId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedDatabaseQueriesListByQueryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByQuery(
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        queryId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByQueryNext(
         resourceGroupName,
@@ -103,7 +115,9 @@ export class ManagedDatabaseQueriesImpl implements ManagedDatabaseQueries {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -225,7 +239,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -248,7 +262,7 @@ const listByQueryOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.startTime,
     Parameters.endTime,
     Parameters.interval
@@ -273,12 +287,6 @@ const listByQueryNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion2,
-    Parameters.startTime,
-    Parameters.endTime,
-    Parameters.interval
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

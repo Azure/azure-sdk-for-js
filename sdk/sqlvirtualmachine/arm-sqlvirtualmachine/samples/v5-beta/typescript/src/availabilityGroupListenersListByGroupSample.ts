@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all availability group listeners in a SQL virtual machine group.
  *
  * @summary Lists all availability group listeners in a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/ListByGroupAvailabilityGroupListener.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListByGroupAvailabilityGroupListener.json
  */
 async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
   const sqlVirtualMachineGroupName = "testvmgroup";
   const credential = new DefaultAzureCredential();
   const client = new SqlVirtualMachineManagementClient(
@@ -36,6 +42,8 @@ async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
   console.log(resArray);
 }
 
-listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup().catch(
-  console.error
-);
+async function main() {
+  listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup();
+}
+
+main().catch(console.error);

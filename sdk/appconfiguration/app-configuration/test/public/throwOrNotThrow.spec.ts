@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -21,9 +21,9 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(function (this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+  beforeEach(async function (this: Context) {
+    recorder = await startRecorder(this);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
@@ -36,7 +36,7 @@ describe("Various error cases", () => {
 
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.getUniqueName(`etags`),
+        key: recorder.variable(`etags`, `etags${Math.floor(Math.random() * 1000)}`),
         value: "world",
       });
 
@@ -97,7 +97,7 @@ describe("Various error cases", () => {
 
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.getUniqueName(`etags`),
+        key: recorder.variable(`etags`, `etags${Math.floor(Math.random() * 1000)}`),
         value: "world",
       });
 

@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
 import {
-  TokenCredential,
-  RestResponse,
   OperationOptions,
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  generateUuid,
-  PipelineOptions,
-} from "@azure/core-http";
+  InternalClientPipelineOptions,
+  CommonClientOptions,
+} from "@azure/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { v4 as generateUuid } from "uuid";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import {
   DigitalTwinsGetByIdResponse,
@@ -30,39 +25,36 @@ import {
   DigitalTwinsUpdateRelationshipOptionalParams,
   DigitalTwinsUpdateRelationshipResponse,
   DigitalTwinsDeleteRelationshipOptionalParams,
-  DigitalTwinsSendTelemetryOptionalParams,
-  DigitalTwinsSendComponentTelemetryOptionalParams,
-  DigitalTwinsListRelationshipsResponse,
   IncomingRelationship,
-  DigitalTwinsListIncomingRelationshipsResponse,
   DigitalTwinsGetRelationshipByIdResponse,
   DigitalTwinsModelData,
   DigitalTwinModelsGetByIdResponse,
-  DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddResponse,
-  DigitalTwinModelsAddOptionalParams,
-  DigitalTwinModelsListResponse,
-  DigitalTwinModelsListOptionalParams,
   EventRoutesGetByIdResponse,
   EventRoute,
-  EventRoutesAddOptionalParams,
-  EventRoutesListNextResponse,
-  EventRoutesListOptionalParams,
-  QueryQueryTwinsOptionalParams,
   QueryQueryTwinsResponse,
-  QuerySpecification,
+  DigitalTwinModelsGetByIdOptionalParams as GetModelOptions,
+  DigitalTwinModelsListOptionalParams as ListModelsOptions,
+  QueryQueryTwinsOptionalParams as QueryTwinsOptions,
+  EventRoutesListOptionalParams as ListEventRoutesOptions,
+  DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
+  DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
 } from "./generated/models";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
+export {
+  GetModelOptions,
+  ListModelsOptions,
+  QueryTwinsOptions,
+  ListEventRoutesOptions,
+  ListIncomingRelationshipsOptions,
+  ListRelationshipsOptions,
+};
 
-export const SDK_VERSION: string = "1.1.0";
-
-export interface DigitalTwinsClientOptions extends PipelineOptions {
-  /**
-   * Api Version
-   */
-  apiVersion?: string;
-}
+/**
+ * Options for the DigitalTwinsClient class
+ */
+export interface DigitalTwinsClientOptions extends CommonClientOptions {}
 
 const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
 
@@ -96,35 +88,19 @@ export class DigitalTwinsClient {
     credential: TokenCredential,
     options: DigitalTwinsClientOptions = {}
   ) {
-    const authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_DIGITALTWINS_SCOPE);
-    const libInfo = `azsdk-js-digital-twins-core/${SDK_VERSION}`;
-
-    const { apiVersion, ...pipelineOptions } = options;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: ["x-ms-request-id"],
-        },
+    const internalPipelineOptions: InternalClientPipelineOptions = {
+      ...options,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: ["x-ms-request-id"],
       },
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     this.client = new GeneratedClient({
       endpoint: endpointUrl,
-      apiVersion,
-      ...pipeline,
+      credential,
+      credentialScopes: DEFAULT_DIGITALTWINS_SCOPE,
+      ...internalPipelineOptions,
     });
   }
 
@@ -133,7 +109,7 @@ export class DigitalTwinsClient {
    *
    * @param digitalTwinId - The Id of the digital twin.
    * @param options - The operation options
-   * @returns The application/json digital twin and the http response.
+   * @returns The application/json digital twin.
    */
   public getDigitalTwin(
     digitalTwinId: string,
@@ -155,7 +131,7 @@ export class DigitalTwinsClient {
    * @param digitalTwinJson - The application/json digital twin to create.
    * @param options - Extended operation options including
    *  ifNoneMatch: Only perform the operation if the entity does not already exist.
-   * @returns The created application/json digital twin and the http response.
+   * @returns The created application/json digital twin.
    */
   public upsertDigitalTwin(
     digitalTwinId: string,
@@ -181,12 +157,11 @@ export class DigitalTwinsClient {
    * remove.
    * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @returns The http response.
+
    */
   public updateDigitalTwin(
     digitalTwinId: string,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    jsonPatch: any,
+    jsonPatch: Array<Record<string, unknown>>,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
     return tracingClient.withSpan(
@@ -204,12 +179,12 @@ export class DigitalTwinsClient {
    * @param digitalTwinId - The Id of the digital twin to delete.
    * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @returns The http response.
+
    */
   public deleteDigitalTwin(
     digitalTwinId: string,
     options: DigitalTwinsDeleteOptionalParams = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteDigitalTwin",
       options,
@@ -225,7 +200,7 @@ export class DigitalTwinsClient {
    * @param digitalTwinId - The Id of the digital twin.
    * @param componentName - The component being retrieved.
    * @param options - The operation options
-   * @returns Json string representation of the component corresponding to the provided componentName and the HTTP response.
+   * @returns Json string representation of the component corresponding to the provided componentName.
    */
   public getComponent(
     digitalTwinId: string,
@@ -250,12 +225,12 @@ export class DigitalTwinsClient {
    * @param enableUpdate - If true then update of an existing digital twin is enabled.
    * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
-   * @returns The http response.
+
    */
   public updateComponent(
     digitalTwinId: string,
     componentName: string,
-    jsonPatch: any[],
+    jsonPatch: Array<Record<string, unknown>>,
     options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     return tracingClient.withSpan(
@@ -278,7 +253,7 @@ export class DigitalTwinsClient {
    * @param digitalTwinId - The Id of the source digital twin.
    * @param relationshipId - The Id of the relationship to retrieve.
    * @param options - The operation options
-   * @returns The pageable list of application/json relationships belonging to the specified digital twin and the http response.
+   * @returns The pageable list of application/json relationships belonging to the specified digital twin.
    */
   public getRelationship(
     digitalTwinId: string,
@@ -310,8 +285,7 @@ export class DigitalTwinsClient {
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    relationship: any,
+    relationship: Record<string, unknown>,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     return tracingClient.withSpan(
@@ -340,7 +314,7 @@ export class DigitalTwinsClient {
   public updateRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    jsonPatch: any[],
+    jsonPatch: Array<Record<string, unknown>>,
     options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     return tracingClient.withSpan(
@@ -364,13 +338,13 @@ export class DigitalTwinsClient {
    * @param relationshipId - The Id of the relationship to delete.
    * @param options - The operation options
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is
-   * @returns The http response.
+
    */
   public deleteRelationship(
     digitalTwinId: string,
     relationshipId: string,
     options: DigitalTwinsDeleteRelationshipOptionalParams = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteRelationship",
       options,
@@ -385,128 +359,15 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * Deals with the pagination of {@link listRelationships}.
-   *
-   * @param digitalTwinId - The Id of the digital twin.
-   * @param options - Common options for the iterative endpoints.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   *
-   */
-  private async *listRelationshipsPage(
-    digitalTwinId: string,
-    options: OperationOptions,
-    continuationState: PageSettings
-  ): AsyncIterableIterator<DigitalTwinsListRelationshipsResponse> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: OperationOptions = {
-        ...options,
-      };
-      const listRelationshipResponse = await this.client.digitalTwins.listRelationships(
-        digitalTwinId,
-        optionsComplete
-      );
-      continuationState.continuationToken = listRelationshipResponse.nextLink;
-      yield listRelationshipResponse;
-    }
-    while (continuationState.continuationToken) {
-      const listRelationshipResponse = await this.client.digitalTwins.listRelationshipsNext(
-        "",
-        continuationState.continuationToken,
-        options
-      );
-
-      continuationState.continuationToken = listRelationshipResponse.nextLink;
-      yield listRelationshipResponse;
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listRelationships}.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listRelationshipsAll(
-    digitalTwinId: string,
-    options: OperationOptions
-  ): AsyncIterableIterator<any> {
-    for await (const page of this.listRelationshipsPage(digitalTwinId, options, {})) {
-      const value = page.value || [];
-      for (const item of value) {
-        yield item;
-      }
-    }
-  }
-
-  /**
    * Retrieve relationships for a digital twin.
    *
    * @param digitalTwinId - The Id of the digital twin.
    */
   public listRelationships(
     digitalTwinId: string,
-    options: OperationOptions & PageSettings = {}
-  ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
-    const iter = this.listRelationshipsAll(digitalTwinId, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listRelationshipsPage(digitalTwinId, options, settings),
-    };
-  }
-
-  /**
-   * Deals with the pagination of {@link listIncomingRelationships}.
-   *
-   * @param digitalTwinId - The Id of the digital twin.
-   * @param options - Common options for the iterative endpoints.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   *
-   */
-  private async *listIncomingRelationshipsPage(
-    digitalTwinId: string,
-    options: OperationOptions,
-    continuationState: PageSettings
-  ): AsyncIterableIterator<DigitalTwinsListIncomingRelationshipsResponse> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: OperationOptions = {
-        ...options,
-      };
-      const listIncomingRelationshipsResponse =
-        await this.client.digitalTwins.listIncomingRelationships(digitalTwinId, optionsComplete);
-      continuationState.continuationToken = listIncomingRelationshipsResponse.nextLink;
-      yield listIncomingRelationshipsResponse;
-    }
-    while (continuationState.continuationToken) {
-      const listIncomingRelationshipsResponse =
-        await this.client.digitalTwins.listIncomingRelationshipsNext(
-          "",
-          continuationState.continuationToken,
-          options
-        );
-
-      continuationState.continuationToken = listIncomingRelationshipsResponse.nextLink;
-      yield listIncomingRelationshipsResponse;
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listIncomingRelationships}.
-   * @param digitalTwinId - The Id of the digital twin.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listIncomingRelationshipsAll(
-    digitalTwinId: string,
-    options: OperationOptions
-  ): AsyncIterableIterator<IncomingRelationship> {
-    for await (const page of this.listIncomingRelationshipsPage(digitalTwinId, options, {})) {
-      const value = page.value || [];
-      yield* value;
-    }
+    options?: ListRelationshipsOptions
+  ): PagedAsyncIterableIterator<Record<string, unknown>> {
+    return this.client.digitalTwins.listRelationships(digitalTwinId, options);
   }
 
   /**
@@ -516,23 +377,9 @@ export class DigitalTwinsClient {
    */
   public listIncomingRelationships(
     digitalTwinId: string,
-    options: OperationOptions & PageSettings = {}
-  ): PagedAsyncIterableIterator<
-    IncomingRelationship,
-    DigitalTwinsListIncomingRelationshipsResponse
-  > {
-    const iter = this.listIncomingRelationshipsAll(digitalTwinId, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listIncomingRelationshipsPage(digitalTwinId, options, settings),
-    };
+    options?: ListIncomingRelationshipsOptions
+  ): PagedAsyncIterableIterator<IncomingRelationship> {
+    return this.client.digitalTwins.listIncomingRelationships(digitalTwinId, options);
   }
 
   /**
@@ -542,31 +389,26 @@ export class DigitalTwinsClient {
    * @param payload - The application/json telemetry payload to be sent.
    * @param messageId - The message Id.
    * @param options - The operation options
-   * @returns The http response.
+
    */
   public publishTelemetry(
     digitalTwinId: string,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    payload: any,
+    payload: Record<string, unknown>,
     messageId: string,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
-    const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams =
-      options;
-    digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
-    if (!messageId) {
-      messageId = generateUuid();
-    }
-
+  ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.publishTelemetry",
-      digitalTwinsSendTelemetryOptionalParams,
+      options,
       async (updatedOptions) => {
         return this.client.digitalTwins.sendTelemetry(
           digitalTwinId,
-          messageId,
+          messageId || generateUuid(),
           payload,
-          updatedOptions
+          {
+            ...updatedOptions,
+            telemetrySourceTime: new Date().toISOString(),
+          }
         );
       }
     );
@@ -580,32 +422,25 @@ export class DigitalTwinsClient {
    * @param payload - The application/json telemetry payload to be sent.
    * @param messageId - The message Id.
    * @param options - The operation options
-   * @returns The http response.
+
    */
   public publishComponentTelemetry(
     digitalTwinId: string,
     componentName: string,
-    payload: string,
+    payload: Record<string, unknown>,
     messageId: string,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
-    const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams =
-      options;
-    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
-    if (!messageId) {
-      messageId = generateUuid();
-    }
-
+  ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.publishComponentTelemetry",
-      digitalTwinsSendComponentTelemetryOptionalParams,
+      options,
       async (updatedOptions) => {
         return this.client.digitalTwins.sendComponentTelemetry(
           digitalTwinId,
           componentName,
+          messageId || generateUuid(),
           payload,
-          messageId,
-          updatedOptions
+          { ...updatedOptions, telemetrySourceTime: new Date().toISOString() }
         );
       }
     );
@@ -615,21 +450,19 @@ export class DigitalTwinsClient {
    * Get a model, including the model metadata and the model definition.
    *
    * @param modelId - The Id of the model.
-   * @param options - Extended operation options including
-   *  includeModelDefinition: When true the model definition will be returned as part of the result. Default value: false.
-   * @returns The application/json model and the http response.
+   * @param options - Options for this operation
+   * @returns The application/json model.
    */
   public getModel(
     modelId: string,
-    includeModelDefinition: boolean = false,
-    options: OperationOptions = {}
+    options: GetModelOptions = {}
   ): Promise<DigitalTwinModelsGetByIdResponse> {
-    const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams = options;
-    digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
-
     return tracingClient.withSpan(
       "DigitalTwinsClient.getModel",
-      digitalTwinModelsGetByIdOptionalParams,
+      {
+        ...options,
+        includeModelDefinition: options?.includeModelDefinition ?? false,
+      },
       async (updatedOptions) => {
         return this.client.digitalTwinModels.getById(modelId, updatedOptions);
       }
@@ -637,104 +470,37 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * Deals with the pagination of {@link list}.
-   *
-   * @param options - Common options for the iterative endpoints.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   *
-   */
-  private async *getModelsPage(
-    options: DigitalTwinModelsListOptionalParams,
-    continuationState: PageSettings
-  ): AsyncIterableIterator<DigitalTwinModelsListResponse> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: DigitalTwinModelsListOptionalParams = options;
-      optionsComplete.maxItemsPerPage = continuationState.maxPageSize;
-
-      const listResponse = await this.client.digitalTwinModels.list(optionsComplete);
-      continuationState.continuationToken = listResponse.nextLink;
-      yield listResponse;
-    }
-    while (continuationState.continuationToken) {
-      const listResponse = await this.client.digitalTwinModels.listNext(
-        continuationState.continuationToken,
-        options
-      );
-
-      continuationState.continuationToken = listResponse.nextLink;
-      yield listResponse;
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link list}.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *getModelsAll(
-    options: DigitalTwinModelsListOptionalParams
-  ): AsyncIterableIterator<DigitalTwinsModelData> {
-    const f = {};
-
-    for await (const page of this.getModelsPage(options, f)) {
-      const value = page.value || [];
-      for (const item of value) {
-        yield item;
-      }
-    }
-  }
-
-  /**
    * Get the list of models
    *
-   * @param dependeciesFor - The model Ids to have dependencies retrieved. If omitted, all models are retrieved.
-   * @param includeModelDefinition - Whether to include the model definition in the result. If false, only the model metadata will be returned.
-   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
-   * @returns A pageable set of application/json models and the http response.
+   * @param options - Options for listing models.
+   * @returns A pageable set of application/json models.
    */
   public listModels(
-    dependeciesFor?: string[],
-    includeModelDefinition: boolean = false,
-    resultsPerPage?: number,
-    options: OperationOptions & PageSettings = {}
-  ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
-    let digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
-    digitalTwinModelsListOptionalParams = {
-      maxItemsPerPage: resultsPerPage,
-      dependenciesFor: dependeciesFor,
-      includeModelDefinition: includeModelDefinition,
-    };
-
-    const iter = this.getModelsAll(digitalTwinModelsListOptionalParams);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.getModelsPage(digitalTwinModelsListOptionalParams, settings),
-    };
+    options: ListModelsOptions = {}
+  ): PagedAsyncIterableIterator<DigitalTwinsModelData> {
+    return this.client.digitalTwinModels.list({
+      ...options,
+      includeModelDefinition: options?.includeModelDefinition ?? false,
+    });
   }
 
   /**
    * Create one or many
    *
-   * @param models - The set of models to create. Each string corresponds to exactly one model.
+   * @param dtdlModels - The set of models to create. Each string corresponds to exactly one model.
    * @param options - The operation options
-   * @returns The created application/json models and the http response.
+   * @returns The created application/json models.
    */
   public createModels(
-    dtdlModels: any[],
+    dtdlModels: Array<Record<string, unknown>>,
     options: OperationOptions = {}
   ): Promise<DigitalTwinModelsAddResponse> {
-    const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
-    digitalTwinModelsAddOptionalParams.models = dtdlModels;
-
     return tracingClient.withSpan(
       "DigitalTwinsClient.createModels",
-      digitalTwinModelsAddOptionalParams,
+      {
+        ...options,
+        models: dtdlModels,
+      },
       async (updatedOptions) => {
         return this.client.digitalTwinModels.add(updatedOptions);
       }
@@ -750,10 +516,10 @@ export class DigitalTwinsClient {
    * @param modelId - The Id of the model to decommission.
    * property can be replaced.
    * @param options - The operation options
-   * @returns The http response.
+
    *
    */
-  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<void> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
     return tracingClient.withSpan(
@@ -770,9 +536,9 @@ export class DigitalTwinsClient {
    *
    * @param modelId - The Id of the model to delete.
    * @param options - The operation options
-   * @returns The http response.
+
    */
-  public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public deleteModel(modelId: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteModel",
       options,
@@ -787,7 +553,7 @@ export class DigitalTwinsClient {
    *
    * @param modelId - The Id of the event route.
    * @param options - The operation options
-   * @returns The application/json event route and the http response.
+   * @returns The application/json event route.
    */
   public getEventRoute(
     eventRouteId: string,
@@ -803,79 +569,13 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * Deals with the pagination of {@link list}.
-   *
-   * @param options - Common options for the iterative endpoints.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   *
-   */
-  private async *getEventRoutesPage(
-    options: EventRoutesListOptionalParams,
-    continuationState: PageSettings
-  ): AsyncIterableIterator<EventRoutesListNextResponse> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: EventRoutesListOptionalParams = options;
-      optionsComplete.maxItemsPerPage = continuationState.maxPageSize;
-
-      const listResponse = await this.client.eventRoutes.list(optionsComplete);
-      continuationState.continuationToken = listResponse.nextLink;
-      yield listResponse;
-    }
-    while (continuationState.continuationToken) {
-      const listResponse = await this.client.eventRoutes.listNext(
-        continuationState.continuationToken,
-        options
-      );
-
-      continuationState.continuationToken = listResponse.nextLink;
-      yield listResponse;
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link list}.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *getEventRoutesAll(
-    options: EventRoutesListOptionalParams
-  ): AsyncIterableIterator<EventRoute> {
-    const f = {};
-    for await (const page of this.getEventRoutesPage(options, f)) {
-      const value = page.value || [];
-      for (const item of value) {
-        yield item;
-      }
-    }
-  }
-
-  /**
    * List the event routes in a digital twins instance.
    *
-   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than
-   * the requested max.
-   * @returns The application/json event route and the http response.
+   * @param options - Options for listEventRoutes.
+   * @returns The application/json event route.
    */
-  public listEventRoutes(
-    resultsPerPage?: number,
-    options: OperationOptions & PageSettings = {}
-  ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
-    let eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
-    eventRoutesListOptionalParams = {
-      maxItemsPerPage: resultsPerPage,
-    };
-
-    const iter = this.getEventRoutesAll(eventRoutesListOptionalParams);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.getEventRoutesPage(eventRoutesListOptionalParams, settings),
-    };
+  public listEventRoutes(options?: ListEventRoutesOptions): PagedAsyncIterableIterator<EventRoute> {
+    return this.client.eventRoutes.list(options);
   }
 
   /**
@@ -885,24 +585,23 @@ export class DigitalTwinsClient {
    * @param endpointId - The id of the endpoint this event route is bound to.
    * @param filter - An expression which describes the events which are routed to the endpoint.
    * @param options - The operation options
-   * @returns The http response.
+
    */
   public upsertEventRoute(
     eventRouteId: string,
     endpointId: string,
     filter: string,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
-    const eventRoutesAddOptionalParams: EventRoutesAddOptionalParams = options;
-    const eventRoute: EventRoute = {
-      endpointName: endpointId,
-      filter: filter,
-    };
-    eventRoutesAddOptionalParams.eventRoute = eventRoute;
-
+  ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertEventRoute",
-      eventRoutesAddOptionalParams,
+      {
+        eventRoute: {
+          endpointName: endpointId,
+          filter,
+        },
+        ...options,
+      },
       async (updatedOptions) => {
         return this.client.eventRoutes.add(eventRouteId, updatedOptions);
       }
@@ -914,12 +613,9 @@ export class DigitalTwinsClient {
    *
    * @param eventRouteId - The Id of the eventRoute to delete.
    * @param options - The operation options
-   * @returns The http response.
+
    */
-  public deleteEventRoute(
-    eventRouteId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  public deleteEventRoute(eventRouteId: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteEventRoute",
       options,
@@ -939,26 +635,18 @@ export class DigitalTwinsClient {
    */
   private async *queryTwinsPage(
     query: string,
-    options: QueryQueryTwinsOptionalParams,
-    continuationState: PageSettings
+    options: QueryTwinsOptions,
+    continuationState?: PageSettings
   ): AsyncIterableIterator<QueryQueryTwinsResponse> {
-    if (continuationState.continuationToken == null) {
-      const querySpecification: QuerySpecification = {
-        query: query,
-        continuationToken: continuationState.continuationToken,
-      };
-      const queryResult = await this.client.query.queryTwins(querySpecification, options);
-      continuationState.continuationToken = queryResult.continuationToken;
+    let { continuationToken } = continuationState ?? {};
+    if (!continuationToken) {
+      const queryResult = await this.client.query.queryTwins({ query }, options);
+      continuationToken = queryResult.continuationToken;
       yield queryResult;
     }
-    while (continuationState.continuationToken) {
-      const querySpecification: QuerySpecification = {
-        query: query,
-        continuationToken: continuationState.continuationToken,
-      };
-      const queryResult = await this.client.query.queryTwins(querySpecification, options);
-
-      continuationState.continuationToken = queryResult.continuationToken;
+    while (continuationToken) {
+      const queryResult = await this.client.query.queryTwins({ query, continuationToken }, options);
+      continuationToken = queryResult.continuationToken;
       yield queryResult;
     }
   }
@@ -970,15 +658,11 @@ export class DigitalTwinsClient {
    */
   private async *queryTwinsAll(
     query: string,
-    options: QueryQueryTwinsOptionalParams
-  ): AsyncIterableIterator<any> {
-    const f = {};
-
-    for await (const page of this.queryTwinsPage(query, options, f)) {
+    options: QueryTwinsOptions
+  ): AsyncIterableIterator<Record<string, unknown>> {
+    for await (const page of this.queryTwinsPage(query, options)) {
       if (page.value) {
-        for (const item of page.value) {
-          yield item;
-        }
+        yield* page.value;
       }
     }
   }
@@ -987,20 +671,14 @@ export class DigitalTwinsClient {
    * Query for digital twins.
    *
    * @param query - The query string, in SQL-like syntax.
-   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
+   * @param options - Options for the query operation.
    * @returns The pageable list of query results.
    */
   public queryTwins(
     query: string,
-    resultsPerPage?: number,
-    options: OperationOptions & PageSettings = {}
-  ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
-    let queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
-    queryQueryTwinsOptionalParams = {
-      maxItemsPerPage: resultsPerPage,
-    };
-
-    const iter = this.queryTwinsAll(query, queryQueryTwinsOptionalParams);
+    options: QueryTwinsOptions = {}
+  ): PagedAsyncIterableIterator<Record<string, unknown>, QueryQueryTwinsResponse> {
+    const iter = this.queryTwinsAll(query, options);
 
     return {
       next() {
@@ -1009,8 +687,7 @@ export class DigitalTwinsClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
-        this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings),
+      byPage: (settings: PageSettings = {}) => this.queryTwinsPage(query, options, settings),
     };
   }
 }

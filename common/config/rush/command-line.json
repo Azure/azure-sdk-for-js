@@ -4,7 +4,6 @@
  */
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
-
   /**
    * Custom "commands" introduce new verbs for the command-line.  To see the help for these
    * example commands, try "rush --help", "rush my-bulk-command --help", or
@@ -164,15 +163,6 @@
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
-
-    {
-      "commandKind": "bulk",
-      "name": "generate-doc",
-      "summary": "Run typedoc on projects and generate documentation",
-      "enableParallelism": true,
-      "ignoreMissingScript": true
-    },
-
     // Global Commands
     {
       "commandKind": "global",
@@ -204,14 +194,11 @@
       "name": "prettier",
       "commandKind": "global",
       "summary": "Used by the pre-commit Git hook. This command invokes Prettier to reformat staged changes.",
-
       "autoinstallerName": "rush-prettier",
-
       // This will invoke common/autoinstallers/rush-prettier/node_modules/.bin/pretty-quick
       "shellCommand": "pretty-quick --staged --no-restage"
     }
   ],
-
   /**
    * Custom "parameters" introduce new parameters for specified Rush command-line commands.
    * For example, you might define a "--production" parameter for the "rush build" command.
@@ -221,7 +208,9 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": ["sync-versions"]
+      "associatedCommands": [
+        "sync-versions"
+      ]
     }
   ]
 }

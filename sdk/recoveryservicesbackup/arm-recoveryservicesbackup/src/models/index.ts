@@ -123,6 +123,7 @@ export type AzureVmWorkloadProtectedItemUnion =
   | AzureVmWorkloadProtectedItem
   | AzureVmWorkloadSAPAseDatabaseProtectedItem
   | AzureVmWorkloadSAPHanaDatabaseProtectedItem
+  | AzureVmWorkloadSAPHanaDBInstanceProtectedItem
   | AzureVmWorkloadSQLDatabaseProtectedItem;
 export type AzureWorkloadRecoveryPointUnion =
   | AzureWorkloadRecoveryPoint
@@ -166,6 +167,8 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPAseSystemProtectableItem
   | AzureVmWorkloadSAPHanaDatabaseProtectableItem
   | AzureVmWorkloadSAPHanaSystemProtectableItem
+  | AzureVmWorkloadSAPHanaDBInstance
+  | AzureVmWorkloadSAPHanaHSR
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem;
@@ -652,14 +655,21 @@ export interface ProtectedItem {
     | "AzureVmWorkloadProtectedItem"
     | "AzureVmWorkloadSAPAseDatabase"
     | "AzureVmWorkloadSAPHanaDatabase"
+    | "AzureVmWorkloadSAPHanaDBInstance"
     | "AzureVmWorkloadSQLDatabase"
     | "DPMProtectedItem"
     | "GenericProtectedItem"
     | "MabFileFolderProtectedItem";
-  /** Type of backup management for the backed up item. */
-  backupManagementType?: BackupManagementType;
-  /** Type of workload this item represents. */
-  workloadType?: DataSourceType;
+  /**
+   * Type of backup management for the backed up item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupManagementType?: BackupManagementType;
+  /**
+   * Type of workload this item represents.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadType?: DataSourceType;
   /** Unique name of container */
   containerName?: string;
   /** ARM ID of the resource to be backed up. */
@@ -688,6 +698,8 @@ export interface ProtectedItem {
   isArchiveEnabled?: boolean;
   /** Name of the policy used for protection */
   policyName?: string;
+  /** Soft delete retention period in days */
+  softDeleteRetentionPeriod?: number;
 }
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
@@ -961,6 +973,8 @@ export interface WorkloadProtectableItem {
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
+    | "SAPHanaDBInstance"
+    | "SAPHanaHSR"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -1083,6 +1097,16 @@ export interface AzureFileshareProtectedItemExtendedInfo {
   readonly resourceStateSyncTime?: Date;
 }
 
+/** Properties of Recovery Point */
+export interface RecoveryPointProperties {
+  /** Expiry time of Recovery Point in UTC. */
+  expiryTime?: string;
+  /** Rule name tagged on Recovery Point that governs life cycle */
+  ruleName?: string;
+  /** Bool to indicate whether RP is in soft delete state or not */
+  isSoftDeleted?: boolean;
+}
+
 /** Restore file specs like file path, type and target folder path info. */
 export interface RestoreFileSpecs {
   /** Source File/Folder path */
@@ -1122,6 +1146,12 @@ export interface SubProtectionPolicy {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier.
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
 }
 
 /** Base class for backup schedule. */
@@ -1140,10 +1170,40 @@ export interface RetentionPolicy {
   retentionPolicyType: "LongTermRetentionPolicy" | "SimpleRetentionPolicy";
 }
 
+/**
+ * Tiering Policy for a target tier.
+ * If the policy is not specified for a given target tier, service retains the existing configured tiering policy for that tier
+ */
+export interface TieringPolicy {
+  /**
+   * Tiering Mode to control automatic tiering of recovery points. Supported values are:
+   * 1. TierRecommended: Tier all recovery points recommended to be tiered
+   * 2. TierAfter: Tier all recovery points after a fixed period, as specified in duration + durationType below.
+   * 3. DoNotTier: Do not tier any recovery points
+   */
+  tieringMode?: TieringMode;
+  /**
+   * Number of days/weeks/months/years to retain backups in current tier before tiering.
+   * Used only if TieringMode is set to TierAfter
+   */
+  duration?: number;
+  /**
+   * Retention duration type: days/weeks/months/years
+   * Used only if TieringMode is set to TierAfter
+   */
+  durationType?: RetentionDurationType;
+}
+
 /** Additional information on Azure IaaS VM specific backup item. */
 export interface AzureIaaSVMProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item. */
+  /** The oldest backup copy available for this backup item across all tiers. */
   oldestRecoveryPoint?: Date;
+  /** The oldest backup copy available for this backup item in vault tier */
+  oldestRecoveryPointInVault?: Date;
+  /** The oldest backup copy available for this backup item in archive tier */
+  oldestRecoveryPointInArchive?: Date;
+  /** The latest backup copy available for this backup item in archive tier */
+  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Specifies if backup policy associated with the backup item is inconsistent. */
@@ -1273,8 +1333,14 @@ export interface AzureStorageJobTaskDetails {
 
 /** Additional information on Azure Workload for SQL specific backup item. */
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item. */
+  /** The oldest backup copy available for this backup item across all tiers. */
   oldestRecoveryPoint?: Date;
+  /** The oldest backup copy available for this backup item in vault tier */
+  oldestRecoveryPointInVault?: Date;
+  /** The oldest backup copy available for this backup item in archive tier */
+  oldestRecoveryPointInArchive?: Date;
+  /** The latest backup copy available for this backup item in archive tier */
+  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Indicates consistency of policy object and policy applied to this backup item. */
@@ -1402,6 +1468,8 @@ export interface BmsrpQueryObject {
   extendedInfo?: boolean;
   /** Whether the RP can be moved to another tier */
   moveReadyRPOnly?: boolean;
+  /** Flag to indicate whether Soft Deleted RPs should be included/excluded from result. */
+  includeSoftDeletedRP?: boolean;
 }
 
 /** Disk information */
@@ -1607,6 +1675,28 @@ export interface RecoveryPointDiskConfiguration {
   includedDiskList?: DiskInformation[];
   /** Information of disks excluded from backup */
   excludedDiskList?: DiskInformation[];
+}
+
+/** The extended location of Recovery point where VM was present. */
+export interface ExtendedLocation {
+  /** Name of the extended location. */
+  name?: string;
+  /** Type of the extended location. Possible values include: 'EdgeZone' */
+  type?: string;
+}
+
+/** Restore request parameters for Secured VMs */
+export interface SecuredVMDetails {
+  /** Gets or Sets Disk Encryption Set Id for Secured VM OS Disk */
+  securedVMOsDiskEncryptionSetId?: string;
+}
+
+/** Specifies target network access settings for disks of VM to be restored. */
+export interface TargetDiskNetworkAccessSettings {
+  /** Network access settings to be used for restored disks */
+  targetDiskNetworkAccessOption?: TargetDiskNetworkAccessOption;
+  /** Gets or sets the ARM resource ID of the target disk access to be used when TargetDiskNetworkAccessOption is set to TargetDiskNetworkAccessOption.UseNew */
+  targetDiskAccessId?: string;
 }
 
 /** Filters to list the jobs. */
@@ -2020,274 +2110,285 @@ export interface RecoveryPointRehydrationInfo {
 }
 
 /** The resource storage details. */
-export type BackupResourceConfigResource = Resource & {
+export interface BackupResourceConfigResource extends Resource {
   /** BackupResourceConfigResource properties */
   properties?: BackupResourceConfig;
-};
+}
 
 /** Base class for backup ProtectionIntent. */
-export type ProtectionIntentResource = Resource & {
+export interface ProtectionIntentResource extends Resource {
   /** ProtectionIntentResource properties */
   properties?: ProtectionIntentUnion;
-};
+}
 
 /** Backup resource vault config details. */
-export type BackupResourceVaultConfigResource = Resource & {
+export interface BackupResourceVaultConfigResource extends Resource {
   /** BackupResourceVaultConfigResource properties */
   properties?: BackupResourceVaultConfig;
-};
+}
 
-export type BackupResourceEncryptionConfigExtendedResource = Resource & {
+export interface BackupResourceEncryptionConfigExtendedResource
+  extends Resource {
   /** BackupResourceEncryptionConfigExtendedResource properties */
   properties?: BackupResourceEncryptionConfigExtended;
-};
+}
 
-export type BackupResourceEncryptionConfigResource = Resource & {
+export interface BackupResourceEncryptionConfigResource extends Resource {
   /** BackupResourceEncryptionConfigResource properties */
   properties?: BackupResourceEncryptionConfig;
-};
+}
 
 /** Private Endpoint Connection Response Properties */
-export type PrivateEndpointConnectionResource = Resource & {
+export interface PrivateEndpointConnectionResource extends Resource {
   /** PrivateEndpointConnectionResource properties */
   properties?: PrivateEndpointConnection;
-};
+}
 
 /** Base class for backup items. */
-export type ProtectedItemResource = Resource & {
+export interface ProtectedItemResource extends Resource {
   /** ProtectedItemResource properties */
   properties?: ProtectedItemUnion;
-};
+}
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
-export type RecoveryPointResource = Resource & {
+export interface RecoveryPointResource extends Resource {
   /** RecoveryPointResource properties */
   properties?: RecoveryPointUnion;
-};
+}
 
 /** Base class for restore request. Workload-specific restore requests are derived from this class. */
-export type RestoreRequestResource = Resource & {
+export interface RestoreRequestResource extends Resource {
   /** RestoreRequestResource properties */
   properties?: RestoreRequestUnion;
-};
+}
 
 /** Base class for backup policy. Workload-specific backup policies are derived from this class. */
-export type ProtectionPolicyResource = Resource & {
+export interface ProtectionPolicyResource extends Resource {
   /** ProtectionPolicyResource properties */
   properties?: ProtectionPolicyUnion;
-};
+}
 
 /** Defines workload agnostic properties for a job. */
-export type JobResource = Resource & {
+export interface JobResource extends Resource {
   /** JobResource properties */
   properties?: JobUnion;
-};
+}
 
 /** The base backup engine class. All workload specific backup engines derive from this class. */
-export type BackupEngineBaseResource = Resource & {
+export interface BackupEngineBaseResource extends Resource {
   /** BackupEngineBaseResource properties */
   properties?: BackupEngineBaseUnion;
-};
+}
 
 /** Protectable Container Class. */
-export type ProtectableContainerResource = Resource & {
+export interface ProtectableContainerResource extends Resource {
   /** ProtectableContainerResource properties */
   properties?: ProtectableContainerUnion;
-};
+}
 
 /** Base class for container with backup items. Containers with specific workloads are derived from this class. */
-export type ProtectionContainerResource = Resource & {
+export interface ProtectionContainerResource extends Resource {
   /** ProtectionContainerResource properties */
   properties?: ProtectionContainerUnion;
-};
+}
 
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
-export type WorkloadItemResource = Resource & {
+export interface WorkloadItemResource extends Resource {
   /** WorkloadItemResource properties */
   properties?: WorkloadItemUnion;
-};
+}
 
 /** Base class for backup request. Workload-specific backup requests are derived from this class. */
-export type BackupRequestResource = Resource & {
+export interface BackupRequestResource extends Resource {
   /** BackupRequestResource properties */
   properties?: BackupRequestUnion;
-};
+}
 
 /** Parameters to Provision ILR API. */
-export type ILRRequestResource = Resource & {
+export interface ILRRequestResource extends Resource {
   /** ILRRequestResource properties */
   properties?: ILRRequestUnion;
-};
+}
 
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
-export type WorkloadProtectableItemResource = Resource & {
+export interface WorkloadProtectableItemResource extends Resource {
   /** WorkloadProtectableItemResource properties */
   properties?: WorkloadProtectableItemUnion;
-};
+}
 
-export type ResourceGuardProxyBaseResource = Resource & {
+export interface ResourceGuardProxyBaseResource extends Resource {
   /** ResourceGuardProxyBaseResource properties */
   properties?: ResourceGuardProxyBase;
-};
+}
 
 /** Azure backup goal feature specific request. */
-export type AzureBackupGoalFeatureSupportRequest = FeatureSupportRequest & {
+export interface AzureBackupGoalFeatureSupportRequest
+  extends FeatureSupportRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   featureType: "AzureBackupGoals";
-};
+}
 
 /** AzureResource(IaaS VM) Specific feature support request */
-export type AzureVMResourceFeatureSupportRequest = FeatureSupportRequest & {
+export interface AzureVMResourceFeatureSupportRequest
+  extends FeatureSupportRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   featureType: "AzureVMResourceBackup";
   /** Size of the resource: VM size(A/D series etc) in case of IaasVM */
   vmSize?: string;
   /** SKUs (Premium/Managed etc) in case of IaasVM */
   vmSku?: string;
-};
+}
 
 /** Azure Recovery Services Vault specific protection intent item. */
-export type AzureRecoveryServiceVaultProtectionIntent = ProtectionIntent & {
+export interface AzureRecoveryServiceVaultProtectionIntent
+  extends ProtectionIntent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectionIntentItemType:
     | "RecoveryServiceVaultItem"
     | "AzureWorkloadAutoProtectionIntent"
     | "AzureWorkloadSQLAutoProtectionIntent";
-};
+}
 
 /** IaaS VM specific backup protection intent item. */
-export type AzureResourceProtectionIntent = ProtectionIntent & {
+export interface AzureResourceProtectionIntent extends ProtectionIntent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectionIntentItemType: "AzureResourceItem";
   /** Friendly name of the VM represented by this backup item. */
   friendlyName?: string;
-};
+}
 
 /** Azure workload specific protection intent item. */
-export type AzureWorkloadContainerAutoProtectionIntent = ProtectionIntent & {
+export interface AzureWorkloadContainerAutoProtectionIntent
+  extends ProtectionIntent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectionIntentItemType: "AzureWorkloadContainerAutoProtectionIntent";
-};
+}
 
 /** List of ProtectionIntent resources */
-export type ProtectionIntentResourceList = ResourceList & {
+export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
-};
+}
 
 /** List of RecoveryPoint resources */
-export type RecoveryPointResourceList = ResourceList & {
+export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
-};
+}
 
 /** List of ProtectionPolicy resources */
-export type ProtectionPolicyResourceList = ResourceList & {
+export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
-};
+}
 
 /** List of Job resources */
-export type JobResourceList = ResourceList & {
+export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
-};
+}
 
 /** List of ProtectedItem resources */
-export type ProtectedItemResourceList = ResourceList & {
+export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
-};
+}
 
 /** List of BackupEngineBase resources */
-export type BackupEngineBaseResourceList = ResourceList & {
+export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
-};
+}
 
 /** List of ProtectableContainer resources */
-export type ProtectableContainerResourceList = ResourceList & {
+export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
-};
+}
 
 /** List of WorkloadItem resources */
-export type WorkloadItemResourceList = ResourceList & {
+export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
-};
+}
 
 /** List of WorkloadProtectableItem resources */
-export type WorkloadProtectableItemResourceList = ResourceList & {
+export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
-};
+}
 
 /** List of ProtectionContainer resources */
-export type ProtectionContainerResourceList = ResourceList & {
+export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
-};
+}
 
 /** List of ResourceGuardProxyBase resources */
-export type ResourceGuardProxyBaseResourceList = ResourceList & {
+export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
-};
+}
 
-export type BackupResourceEncryptionConfigExtended = BackupResourceEncryptionConfig & {
+export interface BackupResourceEncryptionConfigExtended
+  extends BackupResourceEncryptionConfig {
   /** User Assigned Identity Id */
   userAssignedIdentity?: string;
   /** bool to indicate whether to use system Assigned Identity or not */
   useSystemAssignedIdentity?: boolean;
-};
+}
 
 /** Operation status job extended info. */
-export type OperationStatusJobExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusJobExtendedInfo
+  extends OperationStatusExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "OperationStatusJobExtendedInfo";
   /** ID of the job created for this protected item. */
   jobId?: string;
-};
+}
 
 /** Operation status extended info for list of jobs. */
-export type OperationStatusJobsExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusJobsExtendedInfo
+  extends OperationStatusExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "OperationStatusJobsExtendedInfo";
   /** IDs of the jobs created for the protected item. */
   jobIds?: string[];
   /** Stores all the failed jobs along with the corresponding error codes. */
   failedJobsError?: { [propertyName: string]: string };
-};
+}
 
 /** Operation status extended info for ILR provision action. */
-export type OperationStatusProvisionILRExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusProvisionILRExtendedInfo
+  extends OperationStatusExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "OperationStatusProvisionILRExtendedInfo";
   /** Target details for file / folder restore. */
   recoveryTarget?: InstantItemRecoveryTarget;
-};
+}
 
 /** Operation status extended info for ValidateOperation action. */
-export type OperationStatusValidateOperationExtendedInfo = OperationStatusExtendedInfo & {
+export interface OperationStatusValidateOperationExtendedInfo
+  extends OperationStatusExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "OperationStatusValidateOperationExtendedInfo";
   /** Gets the validation operation response */
   validateOperationResponse?: ValidateOperationResponse;
-};
+}
 
 /** Prepare DataMove Response */
-export type PrepareDataMoveResponse = VaultStorageConfigOperationResultResponse & {
+export interface PrepareDataMoveResponse
+  extends VaultStorageConfigOperationResultResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "PrepareDataMoveResponse";
   /** Co-relationId for move operation */
   correlationId?: string;
   /** Source Vault Properties */
   sourceVaultProperties?: { [propertyName: string]: string };
-};
+}
 
 /** Azure File Share workload-specific backup item. */
-export type AzureFileshareProtectedItem = ProtectedItem & {
+export interface AzureFileshareProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "AzureFileShareProtectedItem";
   /** Friendly name of the fileshare represented by this backup item. */
@@ -2304,43 +2405,58 @@ export type AzureFileshareProtectedItem = ProtectedItem & {
   kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /** Additional information with this backup item. */
   extendedInfo?: AzureFileshareProtectedItemExtendedInfo;
-};
+}
 
 /** IaaS VM workload-specific backup item. */
-export type AzureIaaSVMProtectedItem = ProtectedItem & {
+export interface AzureIaaSVMProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType:
     | "AzureIaaSVMProtectedItem"
     | "Microsoft.ClassicCompute/virtualMachines"
     | "Microsoft.Compute/virtualMachines";
-  /** Friendly name of the VM represented by this backup item. */
-  friendlyName?: string;
-  /** Fully qualified ARM ID of the virtual machine represented by this item. */
-  virtualMachineId?: string;
+  /**
+   * Friendly name of the VM represented by this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /**
+   * Fully qualified ARM ID of the virtual machine represented by this item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineId?: string;
   /** Backup status of this backup item. */
   protectionStatus?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionState;
-  /** Health status of protected item. */
-  healthStatus?: HealthStatus;
+  /**
+   * Health status of protected item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatus?: HealthStatus;
   /** Health details on this backup item. */
   healthDetails?: AzureIaaSVMHealthDetails[];
   /** Health details of different KPIs */
   kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /** Last backup operation status. */
   lastBackupStatus?: string;
-  /** Timestamp of the last backup operation on this backup item. */
-  lastBackupTime?: Date;
-  /** Data ID of the protected item. */
-  protectedItemDataId?: string;
+  /**
+   * Timestamp of the last backup operation on this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastBackupTime?: Date;
+  /**
+   * Data ID of the protected item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemDataId?: string;
   /** Additional information for this backup item. */
   extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
   /** Extended Properties for Azure IaasVM Backup. */
   extendedProperties?: ExtendedProperties;
-};
+}
 
 /** Azure SQL workload-specific backup item. */
-export type AzureSqlProtectedItem = ProtectedItem & {
+export interface AzureSqlProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "Microsoft.Sql/servers/databases";
   /** Internal ID of a backup item. Used by Azure SQL Backup engine to contact Recovery Services. */
@@ -2349,26 +2465,33 @@ export type AzureSqlProtectedItem = ProtectedItem & {
   protectionState?: ProtectedItemState;
   /** Additional information for this backup item. */
   extendedInfo?: AzureSqlProtectedItemExtendedInfo;
-};
+}
 
 /** Azure VM workload-specific protected item. */
-export type AzureVmWorkloadProtectedItem = ProtectedItem & {
+export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType:
     | "AzureVmWorkloadProtectedItem"
     | "AzureVmWorkloadSAPAseDatabase"
     | "AzureVmWorkloadSAPHanaDatabase"
+    | "AzureVmWorkloadSAPHanaDBInstance"
     | "AzureVmWorkloadSQLDatabase";
-  /** Friendly name of the DB represented by this backup item. */
-  friendlyName?: string;
+  /**
+   * Friendly name of the DB represented by this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
   /** Host/Cluster Name for instance or AG */
   serverName?: string;
   /** Parent name of the DB such as Instance or Availability Group. */
   parentName?: string;
   /** Parent type of protected item, example: for a DB, standalone server or distributed */
   parentType?: string;
-  /** Backup status of this backup item. */
-  protectionStatus?: string;
+  /**
+   * Backup status of this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectionStatus?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionState;
   /** Last backup operation status. Possible values: Healthy, Unhealthy. */
@@ -2385,10 +2508,10 @@ export type AzureVmWorkloadProtectedItem = ProtectedItem & {
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
   /** Health details of different KPIs */
   kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
-};
+}
 
 /** Additional information on Backup engine specific backup item. */
-export type DPMProtectedItem = ProtectedItem & {
+export interface DPMProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "DPMProtectedItem";
   /** Friendly name of the managed item */
@@ -2399,10 +2522,10 @@ export type DPMProtectedItem = ProtectedItem & {
   protectionState?: ProtectedItemState;
   /** Extended info of the backup item. */
   extendedInfo?: DPMProtectedItemExtendedInfo;
-};
+}
 
 /** Base class for backup items. */
-export type GenericProtectedItem = ProtectedItem & {
+export interface GenericProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "GenericProtectedItem";
   /** Friendly name of the container. */
@@ -2417,10 +2540,10 @@ export type GenericProtectedItem = ProtectedItem & {
   sourceAssociations?: { [propertyName: string]: string };
   /** Name of this backup item's fabric. */
   fabricName?: string;
-};
+}
 
 /** MAB workload-specific backup item. */
-export type MabFileFolderProtectedItem = ProtectedItem & {
+export interface MabFileFolderProtectedItem extends ProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "MabFileFolderProtectedItem";
   /** Friendly name of this backup item. */
@@ -2437,10 +2560,10 @@ export type MabFileFolderProtectedItem = ProtectedItem & {
   deferredDeleteSyncTimeInUTC?: number;
   /** Additional information with this backup item. */
   extendedInfo?: MabFileFolderProtectedItemExtendedInfo;
-};
+}
 
 /** Azure File Share workload specific backup copy. */
-export type AzureFileShareRecoveryPoint = RecoveryPoint & {
+export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureFileShareRecoveryPoint";
   /** Type of the backup copy. Specifies whether it is a crash consistent backup or app consistent. */
@@ -2451,10 +2574,12 @@ export type AzureFileShareRecoveryPoint = RecoveryPoint & {
   fileShareSnapshotUri?: string;
   /** Contains recovery point size */
   recoveryPointSizeInGB?: number;
-};
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
+}
 
 /** Workload specific recovery point, specifically encapsulates full/diff recovery point */
-export type AzureWorkloadRecoveryPoint = RecoveryPoint & {
+export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadRecoveryPoint"
@@ -2473,10 +2598,12 @@ export type AzureWorkloadRecoveryPoint = RecoveryPoint & {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
-};
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
+}
 
 /** Generic backup copy. */
-export type GenericRecoveryPoint = RecoveryPoint & {
+export interface GenericRecoveryPoint extends RecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "GenericRecoveryPoint";
   /** Friendly name of the backup copy. */
@@ -2487,10 +2614,12 @@ export type GenericRecoveryPoint = RecoveryPoint & {
   recoveryPointTime?: Date;
   /** Additional information associated with this backup copy. */
   recoveryPointAdditionalInfo?: string;
-};
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
+}
 
 /** IaaS VM workload specific backup copy. */
-export type IaasVMRecoveryPoint = RecoveryPoint & {
+export interface IaasVMRecoveryPoint extends RecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "IaasVMRecoveryPoint";
   /** Type of the backup copy. */
@@ -2525,10 +2654,16 @@ export type IaasVMRecoveryPoint = RecoveryPoint & {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
-};
+  /** Security Type of the Disk */
+  securityType?: string;
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
+  /** This flag denotes if any of the disks in the VM are using Private access network setting */
+  isPrivateAccessEnabledOnAnyDisk?: boolean;
+}
 
 /** AzureFileShare Restore Request */
-export type AzureFileShareRestoreRequest = RestoreRequest & {
+export interface AzureFileShareRestoreRequest extends RestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureFileShareRestoreRequest";
   /** Type of this recovery. */
@@ -2543,10 +2678,10 @@ export type AzureFileShareRestoreRequest = RestoreRequest & {
   restoreFileSpecs?: RestoreFileSpecs[];
   /** Target File Share Details */
   targetDetails?: TargetAFSRestoreInfo;
-};
+}
 
 /** AzureWorkload-specific restore. */
-export type AzureWorkloadRestoreRequest = RestoreRequest & {
+export interface AzureWorkloadRestoreRequest extends RestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadRestoreRequest"
@@ -2574,10 +2709,10 @@ export type AzureWorkloadRestoreRequest = RestoreRequest & {
    * For e.g. /subscriptions/{subId}/resourcegroups/{rg}/provider/Microsoft.Compute/virtualmachines/{vm}
    */
   targetVirtualMachineId?: string;
-};
+}
 
 /** IaaS VM workload-specific restore. */
-export type IaasVMRestoreRequest = RestoreRequest & {
+export interface IaasVMRestoreRequest extends RestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest";
   /** ID of the backup copy to be recovered. */
@@ -2639,10 +2774,19 @@ export type IaasVMRestoreRequest = RestoreRequest & {
   identityInfo?: IdentityInfo;
   /** IaaS VM workload specific restore details for restores using managed identity. */
   identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
-};
+  /**
+   * Target extended location where the VM should be restored,
+   * should be null if restore is to be done in public cloud
+   */
+  extendedLocation?: ExtendedLocation;
+  /** Stores Secured VM Details */
+  securedVMDetails?: SecuredVMDetails;
+  /** Specifies target network access settings for disks of VM to be restored, */
+  targetDiskNetworkAccessSettings?: TargetDiskNetworkAccessSettings;
+}
 
 /** Azure VM (Mercury) workload-specific backup policy. */
-export type AzureVmWorkloadProtectionPolicy = ProtectionPolicy & {
+export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "AzureWorkload";
   /** Type of workload for the backup management */
@@ -2653,10 +2797,10 @@ export type AzureVmWorkloadProtectionPolicy = ProtectionPolicy & {
   subProtectionPolicy?: SubProtectionPolicy[];
   /** Fix the policy inconsistency */
   makePolicyConsistent?: boolean;
-};
+}
 
 /** AzureStorage backup policy. */
-export type AzureFileShareProtectionPolicy = ProtectionPolicy & {
+export interface AzureFileShareProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "AzureStorage";
   /** Type of workload for the backup management */
@@ -2667,10 +2811,10 @@ export type AzureFileShareProtectionPolicy = ProtectionPolicy & {
   retentionPolicy?: RetentionPolicyUnion;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
-};
+}
 
 /** IaaS VM workload-specific backup policy. */
-export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
+export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "AzureIaasVM";
   instantRPDetails?: InstantRPAdditionalDetails;
@@ -2678,23 +2822,29 @@ export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
   /** Instant RP retention policy range in days */
   instantRpRetentionRangeInDays?: number;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
   policyType?: IaasvmPolicyType;
-};
+}
 
 /** Azure SQL workload-specific backup policy. */
-export type AzureSqlProtectionPolicy = ProtectionPolicy & {
+export interface AzureSqlProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "AzureSql";
   /** Retention policy details. */
   retentionPolicy?: RetentionPolicyUnion;
-};
+}
 
 /** Azure VM (Mercury) workload-specific backup policy. */
-export type GenericProtectionPolicy = ProtectionPolicy & {
+export interface GenericProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "GenericProtectionPolicy";
   /** List of sub-protection policies which includes schedule and retention */
@@ -2703,20 +2853,20 @@ export type GenericProtectionPolicy = ProtectionPolicy & {
   timeZone?: string;
   /** Name of this policy's fabric. */
   fabricName?: string;
-};
+}
 
 /** Mab container-specific backup policy. */
-export type MabProtectionPolicy = ProtectionPolicy & {
+export interface MabProtectionPolicy extends ProtectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupManagementType: "MAB";
   /** Backup schedule of backup policy. */
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy details. */
   retentionPolicy?: RetentionPolicyUnion;
-};
+}
 
 /** Azure IaaS VM workload-specific job object. */
-export type AzureIaaSVMJob = Job & {
+export interface AzureIaaSVMJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "AzureIaaSVMJob";
   /** Time elapsed during the execution of this job. */
@@ -2733,10 +2883,10 @@ export type AzureIaaSVMJob = Job & {
   containerName?: string;
   /** Indicated that whether the job is adhoc(true) or scheduled(false) */
   isUserTriggered?: boolean;
-};
+}
 
 /** Azure IaaS VM workload-specific job object. */
-export type AzureIaaSVMJobV2 = Job & {
+export interface AzureIaaSVMJobV2 extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "AzureIaaSVMJobV2";
   /** Gets or sets the state/actions applicable on this job like cancel/retry. */
@@ -2751,10 +2901,10 @@ export type AzureIaaSVMJobV2 = Job & {
   virtualMachineVersion?: string;
   /** Additional information for this job. */
   extendedInfo?: AzureIaaSVMJobExtendedInfo;
-};
+}
 
 /** Azure storage specific job. */
-export type AzureStorageJob = Job & {
+export interface AzureStorageJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "AzureStorageJob";
   /** Time elapsed during the execution of this job. */
@@ -2771,10 +2921,10 @@ export type AzureStorageJob = Job & {
   extendedInfo?: AzureStorageJobExtendedInfo;
   /** Indicated that whether the job is adhoc(true) or scheduled(false) */
   isUserTriggered?: boolean;
-};
+}
 
 /** Azure storage specific job. */
-export type AzureWorkloadJob = Job & {
+export interface AzureWorkloadJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "AzureWorkloadJob";
   /** Workload type of the job */
@@ -2787,10 +2937,10 @@ export type AzureWorkloadJob = Job & {
   errorDetails?: AzureWorkloadErrorInfo[];
   /** Additional information about the job. */
   extendedInfo?: AzureWorkloadJobExtendedInfo;
-};
+}
 
 /** DPM workload-specific job object. */
-export type DpmJob = Job & {
+export interface DpmJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "DpmJob";
   /** Time elapsed for job. */
@@ -2809,10 +2959,10 @@ export type DpmJob = Job & {
   errorDetails?: DpmErrorInfo[];
   /** Additional information for this job. */
   extendedInfo?: DpmJobExtendedInfo;
-};
+}
 
 /** MAB workload-specific job. */
-export type MabJob = Job & {
+export interface MabJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "MabJob";
   /** Time taken by job to run. */
@@ -2829,10 +2979,10 @@ export type MabJob = Job & {
   errorDetails?: MabErrorInfo[];
   /** Additional information on the job. */
   extendedInfo?: MabJobExtendedInfo;
-};
+}
 
 /** Vault level Job */
-export type VaultJob = Job & {
+export interface VaultJob extends Job {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "VaultJob";
   /** Time elapsed during the execution of this job. */
@@ -2843,10 +2993,10 @@ export type VaultJob = Job & {
   errorDetails?: VaultJobErrorInfo[];
   /** Additional information about the job. */
   extendedInfo?: VaultJobExtendedInfo;
-};
+}
 
 /** This class is used to send blob details after exporting jobs. */
-export type ExportJobsOperationResultInfo = OperationResultInfoBase & {
+export interface ExportJobsOperationResultInfo extends OperationResultInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "ExportJobsOperationResultInfo";
   /** URL of the blob into which the serialized string of list of jobs is exported. */
@@ -2857,58 +3007,61 @@ export type ExportJobsOperationResultInfo = OperationResultInfoBase & {
   excelFileBlobUrl?: string;
   /** SAS key to access the blob. It expires in 15 mins. */
   excelFileBlobSasKey?: string;
-};
+}
 
 /** Operation result info. */
-export type OperationResultInfo = OperationResultInfoBase & {
+export interface OperationResultInfo extends OperationResultInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "OperationResultInfo";
   /** List of jobs created by this operation. */
   jobList?: string[];
-};
+}
 
 /** Base class for operation result info. */
-export type OperationResultInfoBaseResource = OperationWorkerResponse & {
+export interface OperationResultInfoBaseResource
+  extends OperationWorkerResponse {
   /** OperationResultInfoBaseResource operation */
   operation?: OperationResultInfoBaseUnion;
-};
+}
 
 /** AzureRestoreValidation request. */
-export type ValidateRestoreOperationRequest = ValidateOperationRequest & {
+export interface ValidateRestoreOperationRequest
+  extends ValidateOperationRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "ValidateRestoreOperationRequest"
     | "ValidateIaasVMRestoreOperationRequest";
   /** Sets restore request to be validated */
   restoreRequest?: RestoreRequestUnion;
-};
+}
 
 /** Backup engine type when Azure Backup Server is used to manage the backups. */
-export type AzureBackupServerEngine = BackupEngineBase & {
+export interface AzureBackupServerEngine extends BackupEngineBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupEngineType: "AzureBackupServerEngine";
-};
+}
 
 /** Data Protection Manager (DPM) specific backup engine. */
-export type DpmBackupEngine = BackupEngineBase & {
+export interface DpmBackupEngine extends BackupEngineBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   backupEngineType: "DpmBackupEngine";
-};
+}
 
 /** Azure Storage-specific protectable containers */
-export type AzureStorageProtectableContainer = ProtectableContainer & {
+export interface AzureStorageProtectableContainer extends ProtectableContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableContainerType: "StorageContainer";
-};
+}
 
 /** Azure workload-specific container */
-export type AzureVMAppContainerProtectableContainer = ProtectableContainer & {
+export interface AzureVMAppContainerProtectableContainer
+  extends ProtectableContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableContainerType: "VMAppContainer";
-};
+}
 
 /** DPM workload-specific protection container. */
-export type DpmContainer = ProtectionContainer & {
+export interface DpmContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "DPMContainer" | "AzureBackupServerContainer";
   /** Specifies whether the container is re-registrable. */
@@ -2927,10 +3080,10 @@ export type DpmContainer = ProtectionContainer & {
   protectionStatus?: string;
   /** Extended Info of the container. */
   extendedInfo?: DPMContainerExtendedInfo;
-};
+}
 
 /** IaaS VM workload-specific container. */
-export type IaaSVMContainer = ProtectionContainer & {
+export interface IaaSVMContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType:
     | "IaasVMContainer"
@@ -2942,10 +3095,10 @@ export type IaaSVMContainer = ProtectionContainer & {
   virtualMachineVersion?: string;
   /** Resource group name of Recovery Services Vault. */
   resourceGroup?: string;
-};
+}
 
 /** Container for the workloads running inside Azure Compute or Classic Compute. */
-export type AzureWorkloadContainer = ProtectionContainer & {
+export interface AzureWorkloadContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType:
     | "AzureWorkloadContainer"
@@ -2961,16 +3114,16 @@ export type AzureWorkloadContainer = ProtectionContainer & {
   workloadType?: WorkloadType;
   /** Re-Do Operation */
   operationType?: OperationType;
-};
+}
 
 /** Azure Sql workload-specific container. */
-export type AzureSqlContainer = ProtectionContainer & {
+export interface AzureSqlContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "AzureSqlContainer";
-};
+}
 
 /** Azure Storage Account workload-specific container. */
-export type AzureStorageContainer = ProtectionContainer & {
+export interface AzureStorageContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "StorageContainer";
   /** Fully qualified ARM url. */
@@ -2983,20 +3136,20 @@ export type AzureStorageContainer = ProtectionContainer & {
   protectedItemCount?: number;
   /** Whether storage account lock is to be acquired for this container or not. */
   acquireStorageAccountLock?: AcquireStorageAccountLock;
-};
+}
 
 /** Base class for generic container of backup items */
-export type GenericContainer = ProtectionContainer & {
+export interface GenericContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "GenericContainer";
   /** Name of the container's fabric */
   fabricName?: string;
   /** Extended information (not returned in List container API calls) */
   extendedInformation?: GenericContainerExtendedInfo;
-};
+}
 
 /** Container with items backed up using MAB backup engine. */
-export type MabContainer = ProtectionContainer & {
+export interface MabContainer extends ProtectionContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "Windows";
   /** Can the container be registered one more time. */
@@ -3013,10 +3166,10 @@ export type MabContainer = ProtectionContainer & {
   mabContainerHealthDetails?: MABContainerHealthDetails[];
   /** Health state of mab container. */
   containerHealthState?: string;
-};
+}
 
 /** Azure VM workload-specific workload item. */
-export type AzureVmWorkloadItem = WorkloadItem & {
+export interface AzureVmWorkloadItem extends WorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType:
     | "AzureVmWorkloadItem"
@@ -3036,18 +3189,18 @@ export type AzureVmWorkloadItem = WorkloadItem & {
   subinquireditemcount?: number;
   /** For instance or AG, indicates number of DB's to be protected */
   subWorkloadItemCount?: number;
-};
+}
 
 /** AzureFileShare workload-specific backup request. */
-export type AzureFileShareBackupRequest = BackupRequest & {
+export interface AzureFileShareBackupRequest extends BackupRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureFileShareBackupRequest";
   /** Backup copy will expire after the time specified (UTC). */
   recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 /** AzureWorkload workload-specific backup request. */
-export type AzureWorkloadBackupRequest = BackupRequest & {
+export interface AzureWorkloadBackupRequest extends BackupRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadBackupRequest";
   /** Type of backup, viz. Full, Differential, Log or CopyOnlyFull */
@@ -3056,28 +3209,28 @@ export type AzureWorkloadBackupRequest = BackupRequest & {
   enableCompression?: boolean;
   /** Backup copy will expire after the time specified (UTC). */
   recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 /** IaaS VM workload-specific backup request. */
-export type IaasVMBackupRequest = BackupRequest & {
+export interface IaasVMBackupRequest extends BackupRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "IaasVMBackupRequest";
   /** Backup copy will expire after the time specified (UTC). */
   recoveryPointExpiryTimeInUTC?: Date;
-};
+}
 
 /** Update snapshot Uri with the correct friendly Name of the source Azure file share. */
-export type AzureFileShareProvisionILRRequest = ILRRequest & {
+export interface AzureFileShareProvisionILRRequest extends ILRRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureFileShareProvisionILRRequest";
   /** Recovery point ID. */
   recoveryPointId?: string;
   /** Source Storage account ARM Id */
   sourceResourceId?: string;
-};
+}
 
 /** Restore files/folders from a backup copy of IaaS VM. */
-export type IaasVmilrRegistrationRequest = ILRRequest & {
+export interface IaasVmilrRegistrationRequest extends ILRRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "IaasVMILRRegistrationRequest";
   /** ID of the IaaS VM backup copy from where the files/folders have to be restored. */
@@ -3088,10 +3241,10 @@ export type IaasVmilrRegistrationRequest = ILRRequest & {
   initiatorName?: string;
   /** Whether to renew existing registration with the iSCSI server. */
   renewExistingRegistration?: boolean;
-};
+}
 
 /** Protectable item for Azure Fileshare workloads. */
-export type AzureFileShareProtectableItem = WorkloadProtectableItem & {
+export interface AzureFileShareProtectableItem extends WorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "AzureFileShare";
   /** Full Fabric ID of container to which this protectable item belongs. For example, ARM ID. */
@@ -3100,10 +3253,10 @@ export type AzureFileShareProtectableItem = WorkloadProtectableItem & {
   parentContainerFriendlyName?: string;
   /** File Share type XSync or XSMB. */
   azureFileShareType?: AzureFileShareType;
-};
+}
 
 /** IaaS VM workload-specific backup item. */
-export type IaaSVMProtectableItem = WorkloadProtectableItem & {
+export interface IaaSVMProtectableItem extends WorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType:
     | "IaaSVMProtectableItem"
@@ -3115,16 +3268,19 @@ export type IaaSVMProtectableItem = WorkloadProtectableItem & {
   virtualMachineVersion?: string;
   /** Resource group name of Recovery Services Vault. */
   resourceGroup?: string;
-};
+}
 
 /** Azure VM workload-specific protectable item. */
-export type AzureVmWorkloadProtectableItem = WorkloadProtectableItem & {
+export interface AzureVmWorkloadProtectableItem
+  extends WorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType:
     | "AzureVmWorkloadProtectableItem"
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
+    | "SAPHanaDBInstance"
+    | "SAPHanaHSR"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3147,27 +3303,27 @@ export type AzureVmWorkloadProtectableItem = WorkloadProtectableItem & {
   subprotectableitemcount?: number;
   /** Pre-backup validation for protectable objects */
   prebackupvalidation?: PreBackupValidation;
-};
+}
 
 /** Azure IaaS VM workload-specific Health Details. */
-export type AzureIaaSVMHealthDetails = ResourceHealthDetails & {};
+export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {}
 
 /** Log policy schedule. */
-export type LogSchedulePolicy = SchedulePolicy & {
+export interface LogSchedulePolicy extends SchedulePolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   schedulePolicyType: "LogSchedulePolicy";
   /** Frequency of the log schedule operation of this policy in minutes. */
   scheduleFrequencyInMins?: number;
-};
+}
 
 /** Long term policy schedule. */
-export type LongTermSchedulePolicy = SchedulePolicy & {
+export interface LongTermSchedulePolicy extends SchedulePolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   schedulePolicyType: "LongTermSchedulePolicy";
-};
+}
 
 /** Simple policy schedule. */
-export type SimpleSchedulePolicy = SchedulePolicy & {
+export interface SimpleSchedulePolicy extends SchedulePolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   schedulePolicyType: "SimpleSchedulePolicy";
   /** Frequency of the schedule operation of this policy. */
@@ -3180,10 +3336,10 @@ export type SimpleSchedulePolicy = SchedulePolicy & {
   hourlySchedule?: HourlySchedule;
   /** At every number weeks this schedule has to be run. */
   scheduleWeeklyFrequency?: number;
-};
+}
 
 /** The V2 policy schedule for IaaS that supports hourly backups. */
-export type SimpleSchedulePolicyV2 = SchedulePolicy & {
+export interface SimpleSchedulePolicyV2 extends SchedulePolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   schedulePolicyType: "SimpleSchedulePolicyV2";
   /** Frequency of the schedule operation of this policy. */
@@ -3194,10 +3350,10 @@ export type SimpleSchedulePolicyV2 = SchedulePolicy & {
   dailySchedule?: DailySchedule;
   /** Weekly schedule of this policy */
   weeklySchedule?: WeeklySchedule;
-};
+}
 
 /** Long term retention policy. */
-export type LongTermRetentionPolicy = RetentionPolicy & {
+export interface LongTermRetentionPolicy extends RetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   retentionPolicyType: "LongTermRetentionPolicy";
   /** Daily retention schedule of the protection policy. */
@@ -3208,75 +3364,92 @@ export type LongTermRetentionPolicy = RetentionPolicy & {
   monthlySchedule?: MonthlyRetentionSchedule;
   /** Yearly retention schedule of the protection policy. */
   yearlySchedule?: YearlyRetentionSchedule;
-};
+}
 
 /** Simple policy retention. */
-export type SimpleRetentionPolicy = RetentionPolicy & {
+export interface SimpleRetentionPolicy extends RetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   retentionPolicyType: "SimpleRetentionPolicy";
   /** Retention duration of the protection policy. */
   retentionDuration?: RetentionDuration;
-};
+}
 
 /** RecoveryPoint Tier Information V2 */
-export type RecoveryPointTierInformationV2 = RecoveryPointTierInformation & {};
+export interface RecoveryPointTierInformationV2
+  extends RecoveryPointTierInformation {}
 
 /** Azure Recovery Services Vault specific protection intent item. */
-export type AzureWorkloadAutoProtectionIntent = AzureRecoveryServiceVaultProtectionIntent & {
+export interface AzureWorkloadAutoProtectionIntent
+  extends AzureRecoveryServiceVaultProtectionIntent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectionIntentItemType:
     | "AzureWorkloadAutoProtectionIntent"
     | "AzureWorkloadSQLAutoProtectionIntent";
-};
+}
 
 /** IaaS VM workload-specific backup item representing the Classic Compute VM. */
-export type AzureIaaSClassicComputeVMProtectedItem = AzureIaaSVMProtectedItem & {
+export interface AzureIaaSClassicComputeVMProtectedItem
+  extends AzureIaaSVMProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 /** IaaS VM workload-specific backup item representing the Azure Resource Manager VM. */
-export type AzureIaaSComputeVMProtectedItem = AzureIaaSVMProtectedItem & {
+export interface AzureIaaSComputeVMProtectedItem
+  extends AzureIaaSVMProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 /** Azure VM workload-specific protected item representing SAP ASE Database. */
-export type AzureVmWorkloadSAPAseDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSAPAseDatabaseProtectedItem
+  extends AzureVmWorkloadProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "AzureVmWorkloadSAPAseDatabase";
-};
+}
 
 /** Azure VM workload-specific protected item representing SAP HANA Database. */
-export type AzureVmWorkloadSAPHanaDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem
+  extends AzureVmWorkloadProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "AzureVmWorkloadSAPHanaDatabase";
-};
+}
+
+/** Azure VM workload-specific protected item representing SAP HANA DBInstance. */
+export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem
+  extends AzureVmWorkloadProtectedItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectedItemType: "AzureVmWorkloadSAPHanaDBInstance";
+}
 
 /** Azure VM workload-specific protected item representing SQL Database. */
-export type AzureVmWorkloadSQLDatabaseProtectedItem = AzureVmWorkloadProtectedItem & {
+export interface AzureVmWorkloadSQLDatabaseProtectedItem
+  extends AzureVmWorkloadProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "AzureVmWorkloadSQLDatabase";
-};
+}
 
 /** Recovery point specific to PointInTime */
-export type AzureWorkloadPointInTimeRecoveryPoint = AzureWorkloadRecoveryPoint & {
+export interface AzureWorkloadPointInTimeRecoveryPoint
+  extends AzureWorkloadRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadPointInTimeRecoveryPoint"
     | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
   /** List of log ranges */
   timeRanges?: PointInTimeRange[];
-};
+}
 
 /** SAPHana specific recoverypoint, specifically encapsulates full/diff recoverypoints */
-export type AzureWorkloadSAPHanaRecoveryPoint = AzureWorkloadRecoveryPoint & {
+export interface AzureWorkloadSAPHanaRecoveryPoint
+  extends AzureWorkloadRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSAPHanaRecoveryPoint";
-};
+}
 
 /** SQL specific recoverypoint, specifically encapsulates full/diff recoverypoint along with extended info */
-export type AzureWorkloadSQLRecoveryPoint = AzureWorkloadRecoveryPoint & {
+export interface AzureWorkloadSQLRecoveryPoint
+  extends AzureWorkloadRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadSQLRecoveryPoint"
@@ -3287,28 +3460,31 @@ export type AzureWorkloadSQLRecoveryPoint = AzureWorkloadRecoveryPoint & {
    * Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
    */
   extendedInfo?: AzureWorkloadSQLRecoveryPointExtendedInfo;
-};
+}
 
 /** AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore */
-export type AzureWorkloadPointInTimeRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadPointInTimeRestoreRequest
+  extends AzureWorkloadRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadPointInTimeRestoreRequest";
   /** PointInTime value */
   pointInTime?: Date;
-};
+}
 
 /** AzureWorkload SAP Hana-specific restore. */
-export type AzureWorkloadSAPHanaRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadSAPHanaRestoreRequest
+  extends AzureWorkloadRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadSAPHanaRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest"
     | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
-};
+}
 
 /** AzureWorkload SQL -specific restore. Specifically for full/diff restore */
-export type AzureWorkloadSQLRestoreRequest = AzureWorkloadRestoreRequest & {
+export interface AzureWorkloadSQLRestoreRequest
+  extends AzureWorkloadRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadSQLRestoreRequest"
@@ -3321,218 +3497,264 @@ export type AzureWorkloadSQLRestoreRequest = AzureWorkloadRestoreRequest & {
   isNonRecoverable?: boolean;
   /** Data directory details */
   alternateDirectoryPaths?: SQLDataDirectoryMapping[];
-};
+}
 
 /** IaaS VM workload-specific restore with integrated rehydration of recovery point. */
-export type IaasVMRestoreWithRehydrationRequest = IaasVMRestoreRequest & {
+export interface IaasVMRestoreWithRehydrationRequest
+  extends IaasVMRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "IaasVMRestoreWithRehydrationRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 /** AzureRestoreValidation request. */
-export type ValidateIaasVMRestoreOperationRequest = ValidateRestoreOperationRequest & {
+export interface ValidateIaasVMRestoreOperationRequest
+  extends ValidateRestoreOperationRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "ValidateIaasVMRestoreOperationRequest";
-};
+}
 
 /** AzureBackupServer (DPMVenus) workload-specific protection container. */
-export type AzureBackupServerContainer = DpmContainer & {
+export interface AzureBackupServerContainer extends DpmContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "AzureBackupServerContainer";
-};
+}
 
 /** IaaS VM workload-specific backup item representing a classic virtual machine. */
-export type AzureIaaSClassicComputeVMContainer = IaaSVMContainer & {
+export interface AzureIaaSClassicComputeVMContainer extends IaaSVMContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 /** IaaS VM workload-specific backup item representing an Azure Resource Manager virtual machine. */
-export type AzureIaaSComputeVMContainer = IaaSVMContainer & {
+export interface AzureIaaSComputeVMContainer extends IaaSVMContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 /** Container for SQL workloads under SQL Availability Group. */
-export type AzureSqlagWorkloadContainerProtectionContainer = AzureWorkloadContainer & {
+export interface AzureSqlagWorkloadContainerProtectionContainer
+  extends AzureWorkloadContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "SQLAGWorkLoadContainer";
-};
+}
 
 /** Container for SQL workloads under Azure Virtual Machines. */
-export type AzureVMAppContainerProtectionContainer = AzureWorkloadContainer & {
+export interface AzureVMAppContainerProtectionContainer
+  extends AzureWorkloadContainer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType: "VMAppContainer";
-};
+}
 
 /** Azure VM workload-specific workload item representing SAP ASE Database. */
-export type AzureVmWorkloadSAPAseDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPAseDatabaseWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SAPAseDatabase";
-};
+}
 
 /** Azure VM workload-specific workload item representing SAP ASE System. */
-export type AzureVmWorkloadSAPAseSystemWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPAseSystemWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SAPAseSystem";
-};
+}
 
 /** Azure VM workload-specific workload item representing SAP HANA Database. */
-export type AzureVmWorkloadSAPHanaDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SAPHanaDatabase";
-};
+}
 
 /** Azure VM workload-specific workload item representing SAP HANA System. */
-export type AzureVmWorkloadSAPHanaSystemWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSAPHanaSystemWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SAPHanaSystem";
-};
+}
 
 /** Azure VM workload-specific workload item representing SQL Database. */
-export type AzureVmWorkloadSQLDatabaseWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSQLDatabaseWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SQLDataBase";
-};
+}
 
 /** Azure VM workload-specific workload item representing SQL Instance. */
-export type AzureVmWorkloadSQLInstanceWorkloadItem = AzureVmWorkloadItem & {
+export interface AzureVmWorkloadSQLInstanceWorkloadItem
+  extends AzureVmWorkloadItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   workloadItemType: "SQLInstance";
   /** Data Directory Paths for default directories */
   dataDirectoryPaths?: SQLDataDirectory[];
-};
+}
 
 /** IaaS VM workload-specific backup item representing the Classic Compute VM. */
-export type AzureIaaSClassicComputeVMProtectableItem = IaaSVMProtectableItem & {
+export interface AzureIaaSClassicComputeVMProtectableItem
+  extends IaaSVMProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "Microsoft.ClassicCompute/virtualMachines";
-};
+}
 
 /** IaaS VM workload-specific backup item representing the Azure Resource Manager VM. */
-export type AzureIaaSComputeVMProtectableItem = IaaSVMProtectableItem & {
+export interface AzureIaaSComputeVMProtectableItem
+  extends IaaSVMProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "Microsoft.Compute/virtualMachines";
-};
+}
 
 /** Azure VM workload-specific protectable item representing SAP ASE System. */
-export type AzureVmWorkloadSAPAseSystemProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPAseSystemProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SAPAseSystem";
-};
+}
 
 /** Azure VM workload-specific protectable item representing SAP HANA Database. */
-export type AzureVmWorkloadSAPHanaDatabaseProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SAPHanaDatabase";
-};
+}
 
 /** Azure VM workload-specific protectable item representing SAP HANA System. */
-export type AzureVmWorkloadSAPHanaSystemProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSAPHanaSystemProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SAPHanaSystem";
-};
+}
+
+/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
+export interface AzureVmWorkloadSAPHanaDBInstance
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "SAPHanaDBInstance";
+}
+
+/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
+export interface AzureVmWorkloadSAPHanaHSR
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "SAPHanaHSR";
+}
 
 /** Azure VM workload-specific protectable item representing SQL Availability Group. */
-export type AzureVmWorkloadSQLAvailabilityGroupProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SQLAvailabilityGroupContainer";
-};
+}
 
 /** Azure VM workload-specific protectable item representing SQL Database. */
-export type AzureVmWorkloadSQLDatabaseProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLDatabaseProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SQLDataBase";
-};
+}
 
 /** Azure VM workload-specific protectable item representing SQL Instance. */
-export type AzureVmWorkloadSQLInstanceProtectableItem = AzureVmWorkloadProtectableItem & {
+export interface AzureVmWorkloadSQLInstanceProtectableItem
+  extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SQLInstance";
-};
+}
 
 /** Azure Workload SQL Auto Protection intent item. */
-export type AzureWorkloadSQLAutoProtectionIntent = AzureWorkloadAutoProtectionIntent & {
+export interface AzureWorkloadSQLAutoProtectionIntent
+  extends AzureWorkloadAutoProtectionIntent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectionIntentItemType: "AzureWorkloadSQLAutoProtectionIntent";
   /** Workload item type of the item for which intent is to be set */
   workloadItemType?: WorkloadItemType;
-};
+}
 
 /** Recovery point specific to PointInTime in SAPHana */
-export type AzureWorkloadSAPHanaPointInTimeRecoveryPoint = AzureWorkloadPointInTimeRecoveryPoint & {
+export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+  extends AzureWorkloadPointInTimeRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
-};
+}
 
 /** Recovery point specific to PointInTime */
-export type AzureWorkloadSQLPointInTimeRecoveryPoint = AzureWorkloadSQLRecoveryPoint & {
+export interface AzureWorkloadSQLPointInTimeRecoveryPoint
+  extends AzureWorkloadSQLRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSQLPointInTimeRecoveryPoint";
   /** List of log ranges */
   timeRanges?: PointInTimeRange[];
-};
+}
 
 /** AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore */
-export type AzureWorkloadSAPHanaPointInTimeRestoreRequest = AzureWorkloadSAPHanaRestoreRequest & {
+export interface AzureWorkloadSAPHanaPointInTimeRestoreRequest
+  extends AzureWorkloadSAPHanaRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest";
   /** PointInTime value */
   pointInTime?: Date;
-};
+}
 
 /** AzureWorkload SAP Hana-specific restore with integrated rehydration of recovery point. */
-export type AzureWorkloadSAPHanaRestoreWithRehydrateRequest = AzureWorkloadSAPHanaRestoreRequest & {
+export interface AzureWorkloadSAPHanaRestoreWithRehydrateRequest
+  extends AzureWorkloadSAPHanaRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 /** AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore */
-export type AzureWorkloadSQLPointInTimeRestoreRequest = AzureWorkloadSQLRestoreRequest & {
+export interface AzureWorkloadSQLPointInTimeRestoreRequest
+  extends AzureWorkloadSQLRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadSQLPointInTimeRestoreRequest"
     | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest";
   /** PointInTime value */
   pointInTime?: Date;
-};
+}
 
 /** AzureWorkload SQL-specific restore with integrated rehydration of recovery point */
-export type AzureWorkloadSQLRestoreWithRehydrateRequest = AzureWorkloadSQLRestoreRequest & {
+export interface AzureWorkloadSQLRestoreWithRehydrateRequest
+  extends AzureWorkloadSQLRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSQLRestoreWithRehydrateRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 /** AzureWorkload SAP Hana-specific restore with integrated rehydration of recovery point. */
-export type AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest = AzureWorkloadSAPHanaPointInTimeRestoreRequest & {
+export interface AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest
+  extends AzureWorkloadSAPHanaPointInTimeRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 /** AzureWorkload SQL-specific restore with integrated rehydration of recovery point. */
-export type AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest = AzureWorkloadSQLPointInTimeRestoreRequest & {
+export interface AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest
+  extends AzureWorkloadSQLPointInTimeRestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
-};
+}
 
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** GeoRedundant */
   GeoRedundant = "GeoRedundant",
+  /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
+  /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant",
+  /** ReadAccessGeoZoneRedundant */
   ReadAccessGeoZoneRedundant = "ReadAccessGeoZoneRedundant"
 }
 
@@ -3551,8 +3773,11 @@ export type StorageType = string;
 
 /** Known values of {@link StorageTypeState} that the service accepts. */
 export enum KnownStorageTypeState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Locked */
   Locked = "Locked",
+  /** Unlocked */
   Unlocked = "Unlocked"
 }
 
@@ -3569,8 +3794,11 @@ export type StorageTypeState = string;
 
 /** Known values of {@link DedupState} that the service accepts. */
 export enum KnownDedupState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3587,8 +3815,11 @@ export type DedupState = string;
 
 /** Known values of {@link XcoolState} that the service accepts. */
 export enum KnownXcoolState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3605,21 +3836,38 @@ export type XcoolState = string;
 
 /** Known values of {@link DataSourceType} that the service accepts. */
 export enum KnownDataSourceType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** VM */
   VM = "VM",
+  /** FileFolder */
   FileFolder = "FileFolder",
+  /** AzureSqlDb */
   AzureSqlDb = "AzureSqlDb",
+  /** Sqldb */
   Sqldb = "SQLDB",
+  /** Exchange */
   Exchange = "Exchange",
+  /** Sharepoint */
   Sharepoint = "Sharepoint",
+  /** VMwareVM */
   VMwareVM = "VMwareVM",
+  /** SystemState */
   SystemState = "SystemState",
+  /** Client */
   Client = "Client",
+  /** GenericDataSource */
   GenericDataSource = "GenericDataSource",
+  /** SQLDataBase */
   SQLDataBase = "SQLDataBase",
+  /** AzureFileShare */
   AzureFileShare = "AzureFileShare",
+  /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
-  SAPAseDatabase = "SAPAseDatabase"
+  /** SAPAseDatabase */
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -3641,14 +3889,18 @@ export enum KnownDataSourceType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type DataSourceType = string;
 
 /** Known values of {@link ValidationStatus} that the service accepts. */
 export enum KnownValidationStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -3665,10 +3917,15 @@ export type ValidationStatus = string;
 
 /** Known values of {@link ProtectionStatus} that the service accepts. */
 export enum KnownProtectionStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** NotProtected */
   NotProtected = "NotProtected",
+  /** Protecting */
   Protecting = "Protecting",
+  /** Protected */
   Protected = "Protected",
+  /** ProtectionFailed */
   ProtectionFailed = "ProtectionFailed"
 }
 
@@ -3687,7 +3944,9 @@ export type ProtectionStatus = string;
 
 /** Known values of {@link FabricName} that the service accepts. */
 export enum KnownFabricName {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Azure */
   Azure = "Azure"
 }
 
@@ -3703,10 +3962,15 @@ export type FabricName = string;
 
 /** Known values of {@link SupportStatus} that the service accepts. */
 export enum KnownSupportStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Supported */
   Supported = "Supported",
+  /** DefaultOFF */
   DefaultOFF = "DefaultOFF",
+  /** DefaultON */
   DefaultON = "DefaultON",
+  /** NotSupported */
   NotSupported = "NotSupported"
 }
 
@@ -3725,11 +3989,17 @@ export type SupportStatus = string;
 
 /** Known values of {@link ProtectionIntentItemType} that the service accepts. */
 export enum KnownProtectionIntentItemType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AzureResourceItem */
   AzureResourceItem = "AzureResourceItem",
+  /** RecoveryServiceVaultItem */
   RecoveryServiceVaultItem = "RecoveryServiceVaultItem",
+  /** AzureWorkloadContainerAutoProtectionIntent */
   AzureWorkloadContainerAutoProtectionIntent = "AzureWorkloadContainerAutoProtectionIntent",
+  /** AzureWorkloadAutoProtectionIntent */
   AzureWorkloadAutoProtectionIntent = "AzureWorkloadAutoProtectionIntent",
+  /** AzureWorkloadSQLAutoProtectionIntent */
   AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent"
 }
 
@@ -3749,14 +4019,23 @@ export type ProtectionIntentItemType = string;
 
 /** Known values of {@link BackupManagementType} that the service accepts. */
 export enum KnownBackupManagementType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AzureIaasVM */
   AzureIaasVM = "AzureIaasVM",
+  /** MAB */
   MAB = "MAB",
+  /** DPM */
   DPM = "DPM",
+  /** AzureBackupServer */
   AzureBackupServer = "AzureBackupServer",
+  /** AzureSql */
   AzureSql = "AzureSql",
+  /** AzureStorage */
   AzureStorage = "AzureStorage",
+  /** AzureWorkload */
   AzureWorkload = "AzureWorkload",
+  /** DefaultBackup */
   DefaultBackup = "DefaultBackup"
 }
 
@@ -3779,11 +4058,17 @@ export type BackupManagementType = string;
 
 /** Known values of {@link UsagesUnit} that the service accepts. */
 export enum KnownUsagesUnit {
+  /** Count */
   Count = "Count",
+  /** Bytes */
   Bytes = "Bytes",
+  /** Seconds */
   Seconds = "Seconds",
+  /** Percent */
   Percent = "Percent",
+  /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
+  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond"
 }
 
@@ -3803,8 +4088,11 @@ export type UsagesUnit = string;
 
 /** Known values of {@link EnhancedSecurityState} that the service accepts. */
 export enum KnownEnhancedSecurityState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3821,8 +4109,11 @@ export type EnhancedSecurityState = string;
 
 /** Known values of {@link SoftDeleteFeatureState} that the service accepts. */
 export enum KnownSoftDeleteFeatureState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3839,8 +4130,11 @@ export type SoftDeleteFeatureState = string;
 
 /** Known values of {@link EncryptionAtRestType} that the service accepts. */
 export enum KnownEncryptionAtRestType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** MicrosoftManaged */
   MicrosoftManaged = "MicrosoftManaged",
+  /** CustomerManaged */
   CustomerManaged = "CustomerManaged"
 }
 
@@ -3857,13 +4151,21 @@ export type EncryptionAtRestType = string;
 
 /** Known values of {@link LastUpdateStatus} that the service accepts. */
 export enum KnownLastUpdateStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** NotEnabled */
   NotEnabled = "NotEnabled",
+  /** PartiallySucceeded */
   PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyFailed */
   PartiallyFailed = "PartiallyFailed",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Initialized */
   Initialized = "Initialized",
+  /** FirstInitialization */
   FirstInitialization = "FirstInitialization"
 }
 
@@ -3885,8 +4187,11 @@ export type LastUpdateStatus = string;
 
 /** Known values of {@link InfrastructureEncryptionState} that the service accepts. */
 export enum KnownInfrastructureEncryptionState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -3903,9 +4208,13 @@ export type InfrastructureEncryptionState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed",
+  /** Pending */
   Pending = "Pending"
 }
 
@@ -3923,9 +4232,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -3943,10 +4256,15 @@ export type PrivateEndpointConnectionStatus = string;
 
 /** Known values of {@link OperationStatusValues} that the service accepts. */
 export enum KnownOperationStatusValues {
+  /** Invalid */
   Invalid = "Invalid",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -3965,8 +4283,11 @@ export type OperationStatusValues = string;
 
 /** Known values of {@link DataMoveLevel} that the service accepts. */
 export enum KnownDataMoveLevel {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Vault */
   Vault = "Vault",
+  /** Container */
   Container = "Container"
 }
 
@@ -3983,8 +4304,11 @@ export type DataMoveLevel = string;
 
 /** Known values of {@link CreateMode} that the service accepts. */
 export enum KnownCreateMode {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Default */
   Default = "Default",
+  /** Recover */
   Recover = "Recover"
 }
 
@@ -4001,8 +4325,11 @@ export type CreateMode = string;
 
 /** Known values of {@link BackupEngineType} that the service accepts. */
 export enum KnownBackupEngineType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** DpmBackupEngine */
   DpmBackupEngine = "DpmBackupEngine",
+  /** AzureBackupServerEngine */
   AzureBackupServerEngine = "AzureBackupServerEngine"
 }
 
@@ -4017,62 +4344,22 @@ export enum KnownBackupEngineType {
  */
 export type BackupEngineType = string;
 
-/** Known values of {@link ContainerType} that the service accepts. */
-export enum KnownContainerType {
-  Invalid = "Invalid",
-  Unknown = "Unknown",
-  IaasVMContainer = "IaasVMContainer",
-  IaasVMServiceContainer = "IaasVMServiceContainer",
-  DPMContainer = "DPMContainer",
-  AzureBackupServerContainer = "AzureBackupServerContainer",
-  MABContainer = "MABContainer",
-  Cluster = "Cluster",
-  AzureSqlContainer = "AzureSqlContainer",
-  Windows = "Windows",
-  VCenter = "VCenter",
-  VMAppContainer = "VMAppContainer",
-  SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
-  StorageContainer = "StorageContainer",
-  GenericContainer = "GenericContainer",
-  MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
-  MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
-  AzureWorkloadContainer = "AzureWorkloadContainer"
-}
-
-/**
- * Defines values for ContainerType. \
- * {@link KnownContainerType} can be used interchangeably with ContainerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Unknown** \
- * **IaasVMContainer** \
- * **IaasVMServiceContainer** \
- * **DPMContainer** \
- * **AzureBackupServerContainer** \
- * **MABContainer** \
- * **Cluster** \
- * **AzureSqlContainer** \
- * **Windows** \
- * **VCenter** \
- * **VMAppContainer** \
- * **SQLAGWorkLoadContainer** \
- * **StorageContainer** \
- * **GenericContainer** \
- * **Microsoft.ClassicCompute\/virtualMachines** \
- * **Microsoft.Compute\/virtualMachines** \
- * **AzureWorkloadContainer**
- */
-export type ContainerType = string;
-
 /** Known values of {@link ProtectionState} that the service accepts. */
 export enum KnownProtectionState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** IRPending */
   IRPending = "IRPending",
+  /** Protected */
   Protected = "Protected",
+  /** ProtectionError */
   ProtectionError = "ProtectionError",
+  /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
-  ProtectionPaused = "ProtectionPaused"
+  /** ProtectionPaused */
+  ProtectionPaused = "ProtectionPaused",
+  /** BackupsSuspended */
+  BackupsSuspended = "BackupsSuspended"
 }
 
 /**
@@ -4085,17 +4372,24 @@ export enum KnownProtectionState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused**
+ * **ProtectionPaused** \
+ * **BackupsSuspended**
  */
 export type ProtectionState = string;
 
 /** Known values of {@link ResourceHealthStatus} that the service accepts. */
 export enum KnownResourceHealthStatus {
+  /** Healthy */
   Healthy = "Healthy",
+  /** TransientDegraded */
   TransientDegraded = "TransientDegraded",
+  /** PersistentDegraded */
   PersistentDegraded = "PersistentDegraded",
+  /** TransientUnhealthy */
   TransientUnhealthy = "TransientUnhealthy",
+  /** PersistentUnhealthy */
   PersistentUnhealthy = "PersistentUnhealthy",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -4115,10 +4409,15 @@ export type ResourceHealthStatus = string;
 
 /** Known values of {@link RecoveryType} that the service accepts. */
 export enum KnownRecoveryType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** OriginalLocation */
   OriginalLocation = "OriginalLocation",
+  /** AlternateLocation */
   AlternateLocation = "AlternateLocation",
+  /** RestoreDisks */
   RestoreDisks = "RestoreDisks",
+  /** Offline */
   Offline = "Offline"
 }
 
@@ -4137,10 +4436,15 @@ export type RecoveryType = string;
 
 /** Known values of {@link CopyOptions} that the service accepts. */
 export enum KnownCopyOptions {
+  /** Invalid */
   Invalid = "Invalid",
+  /** CreateCopy */
   CreateCopy = "CreateCopy",
+  /** Skip */
   Skip = "Skip",
+  /** Overwrite */
   Overwrite = "Overwrite",
+  /** FailOnConflict */
   FailOnConflict = "FailOnConflict"
 }
 
@@ -4159,8 +4463,11 @@ export type CopyOptions = string;
 
 /** Known values of {@link RestoreRequestType} that the service accepts. */
 export enum KnownRestoreRequestType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** FullShareRestore */
   FullShareRestore = "FullShareRestore",
+  /** ItemLevelRestore */
   ItemLevelRestore = "ItemLevelRestore"
 }
 
@@ -4177,21 +4484,38 @@ export type RestoreRequestType = string;
 
 /** Known values of {@link WorkloadType} that the service accepts. */
 export enum KnownWorkloadType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** VM */
   VM = "VM",
+  /** FileFolder */
   FileFolder = "FileFolder",
+  /** AzureSqlDb */
   AzureSqlDb = "AzureSqlDb",
+  /** Sqldb */
   Sqldb = "SQLDB",
+  /** Exchange */
   Exchange = "Exchange",
+  /** Sharepoint */
   Sharepoint = "Sharepoint",
+  /** VMwareVM */
   VMwareVM = "VMwareVM",
+  /** SystemState */
   SystemState = "SystemState",
+  /** Client */
   Client = "Client",
+  /** GenericDataSource */
   GenericDataSource = "GenericDataSource",
+  /** SQLDataBase */
   SQLDataBase = "SQLDataBase",
+  /** AzureFileShare */
   AzureFileShare = "AzureFileShare",
+  /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
-  SAPAseDatabase = "SAPAseDatabase"
+  /** SAPAseDatabase */
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -4213,18 +4537,29 @@ export enum KnownWorkloadType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type WorkloadType = string;
 
 /** Known values of {@link PolicyType} that the service accepts. */
 export enum KnownPolicyType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Full */
   Full = "Full",
+  /** Differential */
   Differential = "Differential",
+  /** Log */
   Log = "Log",
+  /** CopyOnlyFull */
   CopyOnlyFull = "CopyOnlyFull",
-  Incremental = "Incremental"
+  /** Incremental */
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4237,15 +4572,72 @@ export enum KnownPolicyType {
  * **Differential** \
  * **Log** \
  * **CopyOnlyFull** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type PolicyType = string;
 
+/** Known values of {@link TieringMode} that the service accepts. */
+export enum KnownTieringMode {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** TierRecommended */
+  TierRecommended = "TierRecommended",
+  /** TierAfter */
+  TierAfter = "TierAfter",
+  /** DoNotTier */
+  DoNotTier = "DoNotTier"
+}
+
+/**
+ * Defines values for TieringMode. \
+ * {@link KnownTieringMode} can be used interchangeably with TieringMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **TierRecommended** \
+ * **TierAfter** \
+ * **DoNotTier**
+ */
+export type TieringMode = string;
+
+/** Known values of {@link RetentionDurationType} that the service accepts. */
+export enum KnownRetentionDurationType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Days */
+  Days = "Days",
+  /** Weeks */
+  Weeks = "Weeks",
+  /** Months */
+  Months = "Months",
+  /** Years */
+  Years = "Years"
+}
+
+/**
+ * Defines values for RetentionDurationType. \
+ * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Days** \
+ * **Weeks** \
+ * **Months** \
+ * **Years**
+ */
+export type RetentionDurationType = string;
+
 /** Known values of {@link HealthStatus} that the service accepts. */
 export enum KnownHealthStatus {
+  /** Passed */
   Passed = "Passed",
+  /** ActionRequired */
   ActionRequired = "ActionRequired",
+  /** ActionSuggested */
   ActionSuggested = "ActionSuggested",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -4263,8 +4655,11 @@ export type HealthStatus = string;
 
 /** Known values of {@link IaasvmPolicyType} that the service accepts. */
 export enum KnownIaasvmPolicyType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** V1 */
   V1 = "V1",
+  /** V2 */
   V2 = "V2"
 }
 
@@ -4281,12 +4676,20 @@ export type IaasvmPolicyType = string;
 
 /** Known values of {@link ProtectedItemState} that the service accepts. */
 export enum KnownProtectedItemState {
+  /** Invalid */
   Invalid = "Invalid",
+  /** IRPending */
   IRPending = "IRPending",
+  /** Protected */
   Protected = "Protected",
+  /** ProtectionError */
   ProtectionError = "ProtectionError",
+  /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
-  ProtectionPaused = "ProtectionPaused"
+  /** ProtectionPaused */
+  ProtectionPaused = "ProtectionPaused",
+  /** BackupsSuspended */
+  BackupsSuspended = "BackupsSuspended"
 }
 
 /**
@@ -4299,15 +4702,20 @@ export enum KnownProtectedItemState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused**
+ * **ProtectionPaused** \
+ * **BackupsSuspended**
  */
 export type ProtectedItemState = string;
 
 /** Known values of {@link LastBackupStatus} that the service accepts. */
 export enum KnownLastBackupStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Unhealthy */
   Unhealthy = "Unhealthy",
+  /** IRPending */
   IRPending = "IRPending"
 }
 
@@ -4325,10 +4733,15 @@ export type LastBackupStatus = string;
 
 /** Known values of {@link ProtectedItemHealthStatus} that the service accepts. */
 export enum KnownProtectedItemHealthStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Unhealthy */
   Unhealthy = "Unhealthy",
+  /** NotReachable */
   NotReachable = "NotReachable",
+  /** IRPending */
   IRPending = "IRPending"
 }
 
@@ -4347,11 +4760,20 @@ export type ProtectedItemHealthStatus = string;
 
 /** Known values of {@link RestorePointType} that the service accepts. */
 export enum KnownRestorePointType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Full */
   Full = "Full",
+  /** Log */
   Log = "Log",
+  /** Differential */
   Differential = "Differential",
-  Incremental = "Incremental"
+  /** Incremental */
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4363,14 +4785,19 @@ export enum KnownRestorePointType {
  * **Full** \
  * **Log** \
  * **Differential** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type RestorePointType = string;
 
 /** Known values of {@link OverwriteOptions} that the service accepts. */
 export enum KnownOverwriteOptions {
+  /** Invalid */
   Invalid = "Invalid",
+  /** FailOnConflict */
   FailOnConflict = "FailOnConflict",
+  /** Overwrite */
   Overwrite = "Overwrite"
 }
 
@@ -4387,8 +4814,11 @@ export type OverwriteOptions = string;
 
 /** Known values of {@link RecoveryMode} that the service accepts. */
 export enum KnownRecoveryMode {
+  /** Invalid */
   Invalid = "Invalid",
+  /** FileRecovery */
   FileRecovery = "FileRecovery",
+  /** WorkloadRecovery */
   WorkloadRecovery = "WorkloadRecovery"
 }
 
@@ -4405,8 +4835,11 @@ export type RecoveryMode = string;
 
 /** Known values of {@link SQLDataDirectoryType} that the service accepts. */
 export enum KnownSQLDataDirectoryType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Data */
   Data = "Data",
+  /** Log */
   Log = "Log"
 }
 
@@ -4423,13 +4856,24 @@ export type SQLDataDirectoryType = string;
 
 /** Known values of {@link RestorePointQueryType} that the service accepts. */
 export enum KnownRestorePointQueryType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Full */
   Full = "Full",
+  /** Log */
   Log = "Log",
+  /** Differential */
   Differential = "Differential",
+  /** FullAndDifferential */
   FullAndDifferential = "FullAndDifferential",
+  /** All */
   All = "All",
-  Incremental = "Incremental"
+  /** Incremental */
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4443,40 +4887,27 @@ export enum KnownRestorePointQueryType {
  * **Differential** \
  * **FullAndDifferential** \
  * **All** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type RestorePointQueryType = string;
 
-/** Known values of {@link RetentionDurationType} that the service accepts. */
-export enum KnownRetentionDurationType {
-  Invalid = "Invalid",
-  Days = "Days",
-  Weeks = "Weeks",
-  Months = "Months",
-  Years = "Years"
-}
-
-/**
- * Defines values for RetentionDurationType. \
- * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Days** \
- * **Weeks** \
- * **Months** \
- * **Years**
- */
-export type RetentionDurationType = string;
-
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Completed */
   Completed = "Completed",
+  /** Failed */
   Failed = "Failed",
+  /** CompletedWithWarnings */
   CompletedWithWarnings = "CompletedWithWarnings",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Cancelling */
   Cancelling = "Cancelling"
 }
 
@@ -4497,16 +4928,27 @@ export type JobStatus = string;
 
 /** Known values of {@link JobOperationType} that the service accepts. */
 export enum KnownJobOperationType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Register */
   Register = "Register",
+  /** UnRegister */
   UnRegister = "UnRegister",
+  /** ConfigureBackup */
   ConfigureBackup = "ConfigureBackup",
+  /** Backup */
   Backup = "Backup",
+  /** Restore */
   Restore = "Restore",
+  /** DisableBackup */
   DisableBackup = "DisableBackup",
+  /** DeleteBackupData */
   DeleteBackupData = "DeleteBackupData",
+  /** CrossRegionRestore */
   CrossRegionRestore = "CrossRegionRestore",
+  /** Undelete */
   Undelete = "Undelete",
+  /** UpdateCustomerManagedKey */
   UpdateCustomerManagedKey = "UpdateCustomerManagedKey"
 }
 
@@ -4531,8 +4973,11 @@ export type JobOperationType = string;
 
 /** Known values of {@link RetentionScheduleFormat} that the service accepts. */
 export enum KnownRetentionScheduleFormat {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Daily */
   Daily = "Daily",
+  /** Weekly */
   Weekly = "Weekly"
 }
 
@@ -4549,20 +4994,35 @@ export type RetentionScheduleFormat = string;
 
 /** Known values of {@link MabServerType} that the service accepts. */
 export enum KnownMabServerType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Unknown */
   Unknown = "Unknown",
+  /** IaasVMContainer */
   IaasVMContainer = "IaasVMContainer",
+  /** IaasVMServiceContainer */
   IaasVMServiceContainer = "IaasVMServiceContainer",
+  /** DPMContainer */
   DPMContainer = "DPMContainer",
+  /** AzureBackupServerContainer */
   AzureBackupServerContainer = "AzureBackupServerContainer",
+  /** MABContainer */
   MABContainer = "MABContainer",
+  /** Cluster */
   Cluster = "Cluster",
+  /** AzureSqlContainer */
   AzureSqlContainer = "AzureSqlContainer",
+  /** Windows */
   Windows = "Windows",
+  /** VCenter */
   VCenter = "VCenter",
+  /** VMAppContainer */
   VMAppContainer = "VMAppContainer",
+  /** SqlagWorkLoadContainer */
   SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
+  /** StorageContainer */
   StorageContainer = "StorageContainer",
+  /** GenericContainer */
   GenericContainer = "GenericContainer"
 }
 
@@ -4591,9 +5051,13 @@ export type MabServerType = string;
 
 /** Known values of {@link HealthState} that the service accepts. */
 export enum KnownHealthState {
+  /** Passed */
   Passed = "Passed",
+  /** ActionRequired */
   ActionRequired = "ActionRequired",
+  /** ActionSuggested */
   ActionSuggested = "ActionSuggested",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -4611,9 +5075,13 @@ export type HealthState = string;
 
 /** Known values of {@link ScheduleRunType} that the service accepts. */
 export enum KnownScheduleRunType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Daily */
   Daily = "Daily",
+  /** Weekly */
   Weekly = "Weekly",
+  /** Hourly */
   Hourly = "Hourly"
 }
 
@@ -4631,8 +5099,11 @@ export type ScheduleRunType = string;
 
 /** Known values of {@link AzureFileShareType} that the service accepts. */
 export enum KnownAzureFileShareType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Xsmb */
   Xsmb = "XSMB",
+  /** XSync */
   XSync = "XSync"
 }
 
@@ -4649,8 +5120,11 @@ export type AzureFileShareType = string;
 
 /** Known values of {@link OperationType} that the service accepts. */
 export enum KnownOperationType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Register */
   Register = "Register",
+  /** Reregister */
   Reregister = "Reregister"
 }
 
@@ -4667,7 +5141,9 @@ export type OperationType = string;
 
 /** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
 export enum KnownAcquireStorageAccountLock {
+  /** Acquire */
   Acquire = "Acquire",
+  /** NotAcquire */
   NotAcquire = "NotAcquire"
 }
 
@@ -4683,8 +5159,11 @@ export type AcquireStorageAccountLock = string;
 
 /** Known values of {@link InquiryStatus} that the service accepts. */
 export enum KnownInquiryStatus {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Success */
   Success = "Success",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -4701,12 +5180,22 @@ export type InquiryStatus = string;
 
 /** Known values of {@link BackupType} that the service accepts. */
 export enum KnownBackupType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** Full */
   Full = "Full",
+  /** Differential */
   Differential = "Differential",
+  /** Log */
   Log = "Log",
+  /** CopyOnlyFull */
   CopyOnlyFull = "CopyOnlyFull",
-  Incremental = "Incremental"
+  /** Incremental */
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4719,19 +5208,30 @@ export enum KnownBackupType {
  * **Differential** \
  * **Log** \
  * **CopyOnlyFull** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type BackupType = string;
 
 /** Known values of {@link WorkloadItemType} that the service accepts. */
 export enum KnownWorkloadItemType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** SQLInstance */
   SQLInstance = "SQLInstance",
+  /** SQLDataBase */
   SQLDataBase = "SQLDataBase",
+  /** SAPHanaSystem */
   SAPHanaSystem = "SAPHanaSystem",
+  /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
+  /** SAPAseSystem */
   SAPAseSystem = "SAPAseSystem",
-  SAPAseDatabase = "SAPAseDatabase"
+  /** SAPAseDatabase */
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -4745,14 +5245,18 @@ export enum KnownWorkloadItemType {
  * **SAPHanaSystem** \
  * **SAPHanaDatabase** \
  * **SAPAseSystem** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type WorkloadItemType = string;
 
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** BackupProtectedItemCountSummary */
   BackupProtectedItemCountSummary = "BackupProtectedItemCountSummary",
+  /** BackupProtectionContainerCountSummary */
   BackupProtectionContainerCountSummary = "BackupProtectionContainerCountSummary"
 }
 
@@ -4769,8 +5273,11 @@ export type Type = string;
 
 /** Known values of {@link IntentItemType} that the service accepts. */
 export enum KnownIntentItemType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** SQLInstance */
   SQLInstance = "SQLInstance",
+  /** SQLAvailabilityGroupContainer */
   SQLAvailabilityGroupContainer = "SQLAvailabilityGroupContainer"
 }
 
@@ -4785,23 +5292,100 @@ export enum KnownIntentItemType {
  */
 export type IntentItemType = string;
 
+/** Known values of {@link ContainerType} that the service accepts. */
+export enum KnownContainerType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** IaasVMContainer */
+  IaasVMContainer = "IaasVMContainer",
+  /** IaasVMServiceContainer */
+  IaasVMServiceContainer = "IaasVMServiceContainer",
+  /** DPMContainer */
+  DPMContainer = "DPMContainer",
+  /** AzureBackupServerContainer */
+  AzureBackupServerContainer = "AzureBackupServerContainer",
+  /** MABContainer */
+  MABContainer = "MABContainer",
+  /** Cluster */
+  Cluster = "Cluster",
+  /** AzureSqlContainer */
+  AzureSqlContainer = "AzureSqlContainer",
+  /** Windows */
+  Windows = "Windows",
+  /** VCenter */
+  VCenter = "VCenter",
+  /** VMAppContainer */
+  VMAppContainer = "VMAppContainer",
+  /** SqlagWorkLoadContainer */
+  SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
+  /** StorageContainer */
+  StorageContainer = "StorageContainer",
+  /** GenericContainer */
+  GenericContainer = "GenericContainer",
+  /** HanaHSRContainer */
+  HanaHSRContainer = "HanaHSRContainer"
+}
+
+/**
+ * Defines values for ContainerType. \
+ * {@link KnownContainerType} can be used interchangeably with ContainerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Unknown** \
+ * **IaasVMContainer** \
+ * **IaasVMServiceContainer** \
+ * **DPMContainer** \
+ * **AzureBackupServerContainer** \
+ * **MABContainer** \
+ * **Cluster** \
+ * **AzureSqlContainer** \
+ * **Windows** \
+ * **VCenter** \
+ * **VMAppContainer** \
+ * **SQLAGWorkLoadContainer** \
+ * **StorageContainer** \
+ * **GenericContainer** \
+ * **HanaHSRContainer**
+ */
+export type ContainerType = string;
+
 /** Known values of {@link BackupItemType} that the service accepts. */
 export enum KnownBackupItemType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** VM */
   VM = "VM",
+  /** FileFolder */
   FileFolder = "FileFolder",
+  /** AzureSqlDb */
   AzureSqlDb = "AzureSqlDb",
+  /** Sqldb */
   Sqldb = "SQLDB",
+  /** Exchange */
   Exchange = "Exchange",
+  /** Sharepoint */
   Sharepoint = "Sharepoint",
+  /** VMwareVM */
   VMwareVM = "VMwareVM",
+  /** SystemState */
   SystemState = "SystemState",
+  /** Client */
   Client = "Client",
+  /** GenericDataSource */
   GenericDataSource = "GenericDataSource",
+  /** SQLDataBase */
   SQLDataBase = "SQLDataBase",
+  /** AzureFileShare */
   AzureFileShare = "AzureFileShare",
+  /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
-  SAPAseDatabase = "SAPAseDatabase"
+  /** SAPAseDatabase */
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -4823,13 +5407,16 @@ export enum KnownBackupItemType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type BackupItemType = string;
 
 /** Known values of {@link RehydrationPriority} that the service accepts. */
 export enum KnownRehydrationPriority {
+  /** Standard */
   Standard = "Standard",
+  /** High */
   High = "High"
 }
 
@@ -4891,6 +5478,26 @@ export type HttpStatusCode =
   | "ServiceUnavailable"
   | "GatewayTimeout"
   | "HttpVersionNotSupported";
+/** Defines values for ProtectableContainerType. */
+export type ProtectableContainerType =
+  | "Invalid"
+  | "Unknown"
+  | "IaasVMContainer"
+  | "IaasVMServiceContainer"
+  | "DPMContainer"
+  | "AzureBackupServerContainer"
+  | "MABContainer"
+  | "Cluster"
+  | "AzureSqlContainer"
+  | "Windows"
+  | "VCenter"
+  | "VMAppContainer"
+  | "SQLAGWorkLoadContainer"
+  | "StorageContainer"
+  | "GenericContainer"
+  | "Microsoft.ClassicCompute/virtualMachines"
+  | "Microsoft.Compute/virtualMachines"
+  | "AzureWorkloadContainer";
 /** Defines values for RecoveryPointTierType. */
 export type RecoveryPointTierType =
   | "Invalid"
@@ -4915,6 +5522,11 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
+/** Defines values for TargetDiskNetworkAccessOption. */
+export type TargetDiskNetworkAccessOption =
+  | "SameAsOnSourceDisks"
+  | "EnablePrivateAccessForAllDisks"
+  | "EnablePublicAccessForAllDisks";
 /** Defines values for WeekOfMonth. */
 export type WeekOfMonth =
   | "First"
@@ -5010,12 +5622,7 @@ export type BackupProtectionIntentListResponse = ProtectionIntentResourceList;
 
 /** Optional parameters. */
 export interface BackupProtectionIntentListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupProtectionIntentListNextResponse = ProtectionIntentResourceList;
@@ -5201,10 +5808,7 @@ export type RecoveryPointsGetResponse = RecoveryPointResource;
 
 /** Optional parameters. */
 export interface RecoveryPointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecoveryPointsListNextResponse = RecoveryPointResourceList;
@@ -5230,10 +5834,7 @@ export type BackupPoliciesListResponse = ProtectionPolicyResourceList;
 
 /** Optional parameters. */
 export interface BackupPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupPoliciesListNextResponse = ProtectionPolicyResourceList;
@@ -5282,12 +5883,7 @@ export type BackupJobsListResponse = JobResourceList;
 
 /** Optional parameters. */
 export interface BackupJobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupJobsListNextResponse = JobResourceList;
@@ -5334,12 +5930,7 @@ export type BackupProtectedItemsListResponse = ProtectedItemResourceList;
 
 /** Optional parameters. */
 export interface BackupProtectedItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupProtectedItemsListNextResponse = ProtectedItemResourceList;
@@ -5400,12 +5991,7 @@ export type BackupEnginesGetResponse = BackupEngineBaseResource;
 
 /** Optional parameters. */
 export interface BackupEnginesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupEnginesListNextResponse = BackupEngineBaseResourceList;
@@ -5426,10 +6012,7 @@ export type ProtectableContainersListResponse = ProtectableContainerResourceList
 
 /** Optional parameters. */
 export interface ProtectableContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProtectableContainersListNextResponse = ProtectableContainerResourceList;
@@ -5480,12 +6063,7 @@ export type BackupWorkloadItemsListResponse = WorkloadItemResourceList;
 
 /** Optional parameters. */
 export interface BackupWorkloadItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupWorkloadItemsListNextResponse = WorkloadItemResourceList;
@@ -5548,12 +6126,7 @@ export type BackupProtectableItemsListResponse = WorkloadProtectableItemResource
 
 /** Optional parameters. */
 export interface BackupProtectableItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** skipToken Filter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BackupProtectableItemsListNextResponse = WorkloadProtectableItemResourceList;
@@ -5570,13 +6143,27 @@ export type BackupProtectionContainersListResponse = ProtectionContainerResource
 
 /** Optional parameters. */
 export interface BackupProtectionContainersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BackupProtectionContainersListNextResponse = ProtectionContainerResourceList;
+
+/** Optional parameters. */
+export interface DeletedProtectionContainersListOptionalParams
   extends coreClient.OperationOptions {
   /** OData filter options. */
   filter?: string;
 }
 
+/** Contains response data for the list operation. */
+export type DeletedProtectionContainersListResponse = ProtectionContainerResourceList;
+
+/** Optional parameters. */
+export interface DeletedProtectionContainersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listNext operation. */
-export type BackupProtectionContainersListNextResponse = ProtectionContainerResourceList;
+export type DeletedProtectionContainersListNextResponse = ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface SecurityPINsGetOptionalParams

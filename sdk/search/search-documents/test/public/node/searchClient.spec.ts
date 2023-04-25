@@ -8,16 +8,17 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
+  AutocompleteResult,
+  AzureKeyCredential,
+  IndexDocumentsBatch,
+  KnownQueryLanguage,
+  KnownSpeller,
   SearchClient,
   SearchIndexClient,
-  AutocompleteResult,
-  IndexDocumentsBatch,
-  KnownSpeller,
-  KnownQueryLanguage,
-  AzureKeyCredential,
+  SelectFields,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
+import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
@@ -77,6 +78,110 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         includeTotalCount: true,
       });
       assert.equal(searchResults.count, 6);
+    });
+
+    it("search narrows the result type", async function () {
+      const hotelKeys: (keyof Hotel)[] = [
+        "address",
+        "category",
+        "description",
+        "descriptionFr",
+        "hotelId",
+        "hotelName",
+        "lastRenovationDate",
+        "location",
+        "parkingIncluded",
+        "rating",
+        "rooms",
+        "smokingAllowed",
+        "tags",
+      ];
+      type Address = NonNullable<NonNullable<Hotel>["address"]>;
+      const addressKeys: (keyof Address)[] = [
+        "streetAddress",
+        "city",
+        "stateProvince",
+        "postalCode",
+        "country",
+      ];
+      type Room = NonNullable<NonNullable<Hotel>["rooms"]> extends (infer U)[] ? U : never;
+      const roomKeys: (keyof Room)[] = [
+        "description",
+        "descriptionFr",
+        "type",
+        "baseRate",
+        "bedOptions",
+        "sleepsCount",
+        "smokingAllowed",
+        "tags",
+      ];
+
+      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
+      const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
+
+      const selectPromises = [
+        searchClient.search("New", {
+          select,
+        }),
+        searchClient.search("New", {
+          select: selectNarrowed,
+        }),
+        searchClient.search("New", {
+          select: ["hotelId", "address/city", "rooms/type"],
+        }),
+      ];
+
+      const selectTestPromises = selectPromises.map(async (selectPromise) => {
+        const selectResults = await selectPromise;
+        for await (const result of selectResults.results) {
+          assert.doesNotHaveAnyKeys(
+            result.document,
+            hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
+          );
+          assert.doesNotHaveAnyKeys(
+            result.document.address,
+            addressKeys.filter((key) => key !== "city")
+          );
+          for (const room of result.document.rooms!) {
+            assert.doesNotHaveAnyKeys(
+              room,
+              roomKeys.filter((key) => key !== "type")
+            );
+            break;
+          }
+        }
+      });
+
+      await Promise.all(selectTestPromises);
+
+      const searchFields: SelectFields<Hotel>[] = ["address/city"];
+      const searchFieldsNarrowed = ["address/city"] as const;
+
+      const searchFieldsPromises = [
+        searchClient.search("New", {
+          searchFields,
+        }),
+        searchClient.search("New", {
+          searchFields: searchFieldsNarrowed,
+        }),
+        searchClient.search("New", {
+          searchFields: ["address/city"],
+        }),
+      ];
+
+      const searchFieldsTestPromises = searchFieldsPromises.map(async (searchFieldsPromise) => {
+        const searchFieldsResults = await searchFieldsPromise;
+        for await (const result of searchFieldsResults.results) {
+          const city = result.document.address?.city;
+          if (!city) {
+            assert.fail();
+          }
+          assert.hasAllKeys(result.document, hotelKeys);
+          assert.hasAllKeys(result.document.address, addressKeys);
+        }
+      });
+
+      await Promise.all(searchFieldsTestPromises);
     });
 
     it("search returns zero results for invalid query", async function () {
@@ -298,32 +403,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         });
         assert.equal(serviceVersion, client.serviceVersion);
         assert.equal(serviceVersion, client.apiVersion);
-      });
-
-      it("passing invalid apiVersion type and valid serviceVersion", () => {
-        let errorThrown = false;
-        try {
-          new SearchClient<Hotel>("", "", credential, {
-            serviceVersion,
-            apiVersion: "foo",
-          });
-        } catch (ex: any) {
-          errorThrown = true;
-        }
-        assert.isTrue(errorThrown, "Invalid apiVersion");
-      });
-
-      it("passing invalid serviceVersion type and valid apiVersion", () => {
-        let errorThrown = false;
-        try {
-          new SearchClient<Hotel>("", "", credential, {
-            apiVersion: serviceVersion,
-            serviceVersion: "foo",
-          });
-        } catch (ex: any) {
-          errorThrown = true;
-        }
-        assert.isTrue(errorThrown, "Invalid serviceVersion");
       });
 
       it("supports passing the deprecated apiVersion", () => {

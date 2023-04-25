@@ -13,16 +13,21 @@ import {
   CognitiveServicesManagementClient
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary Update the state of specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/PutPrivateEndpointConnection.json
  */
 async function putPrivateEndpointConnection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "res7687";
   const accountName = "sto9699";
   const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const properties: PrivateEndpointConnection = {
@@ -47,4 +52,8 @@ async function putPrivateEndpointConnection() {
   console.log(result);
 }
 
-putPrivateEndpointConnection().catch(console.error);
+async function main() {
+  putPrivateEndpointConnection();
+}
+
+main().catch(console.error);

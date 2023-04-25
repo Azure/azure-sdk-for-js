@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Summarizes policy states for the resources under the subscription.
@@ -21,22 +24,21 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeSubscriptionScope.json
  */
 async function summarizeAtSubscriptionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 5;
   const options: PolicyStatesSummarizeForSubscriptionOptionalParams = { queryOptions: { top: top } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForSubscription(
     policyStatesSummaryResource,
-    subscriptionId2,
+    subscriptionId,
     options
   );
   console.log(result);
 }
-
-summarizeAtSubscriptionScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Summarizes policy states for the resources under the subscription.
@@ -45,9 +47,10 @@ summarizeAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeSubscriptionScopeForPolicyGroup.json
  */
 async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 1;
   const filter = "'group1' IN PolicyDefinitionGroupNames";
   const options: PolicyStatesSummarizeForSubscriptionOptionalParams = {
@@ -63,4 +66,9 @@ async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
   console.log(result);
 }
 
-summarizeAtSubscriptionScopeForAPolicyDefinitionGroup().catch(console.error);
+async function main() {
+  summarizeAtSubscriptionScope();
+  summarizeAtSubscriptionScopeForAPolicyDefinitionGroup();
+}
+
+main().catch(console.error);

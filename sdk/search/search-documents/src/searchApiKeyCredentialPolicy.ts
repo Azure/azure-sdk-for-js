@@ -5,8 +5,8 @@ import { KeyCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
   PipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "api-key";

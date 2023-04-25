@@ -16,6 +16,9 @@ import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
+import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
+import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
+import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -46,9 +49,13 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      managedIdentityClientId;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
-
+    const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
@@ -56,6 +63,12 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         resourceId: managedResourceId,
       };
       super(managedIdentityResourceIdOptions);
+    } else if (workloadFile && workloadIdentityClientId) {
+      const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
+        ...options,
+        tenantId: tenantId,
+      };
+      super(workloadIdentityClientId, workloadIdentityCredentialOptions);
     } else if (managedIdentityClientId) {
       const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
@@ -67,12 +80,79 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     }
   }
 }
+/**
+ * A shim around WorkloadIdentityCredential that adapts it to accept
+ * `DefaultAzureCredentialOptions`.
+ *
+ * @internal
+ */
+export class DefaultWorkloadIdentityCredential extends WorkloadIdentityCredential {
+  // Constructor overload with just client id options
+  constructor(options?: DefaultAzureCredentialClientIdOptions);
+  // Constructor overload with just the other default options
+  // Last constructor overload with Union of all options not required since the above two constructor overloads have optional properties
+  constructor(options?: DefaultAzureCredentialOptions) {
+    const managedIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
+      process.env.AZURE_CLIENT_ID;
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      managedIdentityClientId;
+    const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
+    if (workloadFile && workloadIdentityClientId) {
+      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+        ...options,
+        tenantId,
+        clientId: workloadIdentityClientId,
+        federatedTokenFilePath: workloadFile,
+      };
+      super(workloadIdentityCredentialOptions);
+    } else if (tenantId) {
+      const workloadIdentityClientTenantOptions: WorkloadIdentityCredentialOptions = {
+        ...options,
+        tenantId,
+      };
+      super(workloadIdentityClientTenantOptions);
+    } else {
+      super(options as WorkloadIdentityCredentialOptions);
+    }
+  }
+}
+
+export class DefaultAzureDeveloperCliCredential extends AzureDeveloperCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+export class DefaultAzureCliCredential extends AzureCliCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
+
+export class DefaultAzurePowershellCredential extends AzurePowerShellCredential {
+  constructor(options?: DefaultAzureCredentialOptions) {
+    super({
+      processTimeoutInMs: options?.developerCredentialTimeOutInMs,
+      ...options,
+    });
+  }
+}
 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
+  DefaultWorkloadIdentityCredential,
   DefaultManagedIdentityCredential,
-  AzureCliCredential,
-  AzurePowerShellCredential,
+  DefaultAzureDeveloperCliCredential,
+  DefaultAzureCliCredential,
+  DefaultAzurePowershellCredential,
 ];
 
 /**
@@ -89,7 +169,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -109,7 +191,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -129,7 +213,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
+   * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -147,7 +233,5 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       | DefaultAzureCredentialClientIdOptions
   ) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
-    this.UnavailableMessage =
-      "DefaultAzureCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot.";
   }
 }

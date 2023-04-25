@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the available Microsoft.Education API operations.
@@ -24,4 +27,8 @@ async function getOperations() {
   console.log(result);
 }
 
-getOperations().catch(console.error);
+async function main() {
+  getOperations();
+}
+
+main().catch(console.error);

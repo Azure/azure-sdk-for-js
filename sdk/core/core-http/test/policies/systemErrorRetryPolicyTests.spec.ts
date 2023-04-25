@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { HttpHeaders, RequestPolicyOptions } from "../../src";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { RetryError } from "../../src/util/exponentialBackoffStrategy";
 import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";

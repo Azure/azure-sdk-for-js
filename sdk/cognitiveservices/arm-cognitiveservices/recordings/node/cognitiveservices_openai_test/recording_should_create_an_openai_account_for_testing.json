@@ -1,0 +1,623 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "99",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b9c1fd78-9a54-4c4a-bb01-2f2dd5219c7f"
+      },
+      "RequestBody": {
+        "kind": "OpenAI",
+        "sku": {
+          "name": "S0"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "location": "West Europe"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "azure-asyncoperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+        "Cache-Control": "no-cache",
+        "Content-Length": "1934",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:00:18 GMT",
+        "ETag": "\u00220800b298-0000-0d00-0000-642533810000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "302",
+        "x-ms-correlation-request-id": "64487e54-cea7-42f0-b080-bddcf9ea92c1",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "64c1a617-6077-4735-b63a-d1967dc06770",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T070018Z:64487e54-cea7-42f0-b080-bddcf9ea92c1"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+        "name": "sdk-test-openai",
+        "type": "Microsoft.CognitiveServices/accounts",
+        "etag": "\u00220800b298-0000-0d00-0000-642533810000\u0022",
+        "location": "West Europe",
+        "sku": {
+          "name": "S0"
+        },
+        "kind": "OpenAI",
+        "properties": {
+          "endpoint": "https://westeurope.api.cognitive.microsoft.com/",
+          "internalId": "bca7647fc60f4f079c855b225f59cb55",
+          "dateCreated": "2023-03-30T07:00:17.0607515Z",
+          "callRateLimit": {
+            "rules": [
+              {
+                "key": "openai.dalle.post",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "POST"
+                  }
+                ]
+              },
+              {
+                "key": "openai.dalle.other",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "openai",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "openai/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "default",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "*",
+                    "method": "*"
+                  }
+                ]
+              }
+            ]
+          },
+          "isMigrated": false,
+          "privateEndpointConnections": [],
+          "publicNetworkAccess": "Enabled",
+          "capabilities": [
+            {
+              "name": "VirtualNetworks"
+            },
+            {
+              "name": "MaxFineTuneCount",
+              "value": "100"
+            },
+            {
+              "name": "MaxRunningFineTuneCount",
+              "value": "1"
+            },
+            {
+              "name": "MaxUserFileCount",
+              "value": "50"
+            },
+            {
+              "name": "MaxTrainingFileSize",
+              "value": "100000000"
+            },
+            {
+              "name": "MaxUserFileImportDurationInHours",
+              "value": "1"
+            },
+            {
+              "name": "MaxFineTuneJobDurationInHours",
+              "value": "720"
+            }
+          ],
+          "endpoints": {
+            "OpenAI Language Model Instance API": "https://westeurope.api.cognitive.microsoft.com/",
+            "OpenAI Dall-E API": "https://westeurope.api.cognitive.microsoft.com/"
+          },
+          "provisioningState": "Creating"
+        },
+        "identity": {
+          "principalId": "0c446045-0db7-4965-b705-d497b983fe8c",
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "type": "SystemAssigned"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-30T07:00:14.7205177Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-30T07:00:14.7205177Z"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "96fa408d-3e02-456d-a3a6-ac608f68dea2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:10 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-correlation-request-id": "e4e2db60-a90a-462d-a257-55e53b19ff07",
+        "x-ms-ratelimit-remaining-subscription-reads": "11499",
+        "x-ms-request-id": "0d1ab4d0-0e63-4f84-9185-583e7597398f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071910Z:e4e2db60-a90a-462d-a257-55e53b19ff07"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "23d9f4ba-5c1b-4a31-a475-33623855b46a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:12 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7",
+        "x-ms-correlation-request-id": "899087a7-da1c-4407-af28-a069b0c98df3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11498",
+        "x-ms-request-id": "fea32cde-5a8e-4570-86fb-1286ce7d07fa",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071913Z:899087a7-da1c-4407-af28-a069b0c98df3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "89793a18-9a63-4249-8cfb-5f2aa772b96a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-correlation-request-id": "ad4d0243-5438-445b-846a-6cf70dc4554f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11497",
+        "x-ms-request-id": "49307dad-52b1-4d33-80ea-939c32c1fdb1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071915Z:ad4d0243-5438-445b-846a-6cf70dc4554f"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b0603487-a022-4cc3-8003-a41755f97a32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "5",
+        "x-ms-correlation-request-id": "fde135fc-4d9c-414f-8ea0-fa0451edcc00",
+        "x-ms-ratelimit-remaining-subscription-reads": "11496",
+        "x-ms-request-id": "daca6c2c-0f35-4e43-a626-6e6c5d245c0a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071917Z:fde135fc-4d9c-414f-8ea0-fa0451edcc00"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "25c6602d-5075-4033-b89d-33b577a6c38a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8",
+        "x-ms-correlation-request-id": "5ef37e80-8949-4b1a-8896-8de12bc536f7",
+        "x-ms-ratelimit-remaining-subscription-reads": "11495",
+        "x-ms-request-id": "4e217fd9-ce6c-4b3e-b215-f9883b634f37",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071919Z:5ef37e80-8949-4b1a-8896-8de12bc536f7"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9a3f7f0e-0d6b-40ed-8809-76337bbdf429"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "5",
+        "x-ms-correlation-request-id": "e80ae589-c1b5-4626-9e97-512fbb09ea4a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11494",
+        "x-ms-request-id": "c7688de9-1e99-4411-aea2-d41589570500",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071922Z:e80ae589-c1b5-4626-9e97-512fbb09ea4a"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "34ccfa42-11e3-4775-ac6a-189678bc7fc9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 07:19:23 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-correlation-request-id": "174d8fe7-f17c-4b48-9e32-469ce0f1bf6e",
+        "x-ms-ratelimit-remaining-subscription-reads": "11493",
+        "x-ms-request-id": "d892e137-7ae5-47b4-a06d-55bde2f241e9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T071924Z:174d8fe7-f17c-4b48-9e32-469ce0f1bf6e"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Creating",
+        "startTime": "2023-03-30T07:00:17Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West%20Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27?api-version=2017-04-18",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "15d3ccb5-a84b-4d49-bbbc-91b810f8c643"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 08:14:27 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-correlation-request-id": "f09b01e8-8006-4e94-9c10-030bcc09e99c",
+        "x-ms-ratelimit-remaining-subscription-reads": "10295",
+        "x-ms-request-id": "cd8fbfd1-2fc2-4adf-b407-2f1e959ac2a5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T081428Z:f09b01e8-8006-4e94-9c10-030bcc09e99c"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.CognitiveServices/locations/West Europe/operationResults/127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "name": "127c1e33-dd6f-4d86-be93-b5c0c6433b27",
+        "status": "Succeeded",
+        "startTime": "2023-03-30T07:00:17Z",
+        "endTime": "2023-03-30T08:14:28Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.1 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e03e2b5e-5d16-40f1-aa5f-665668adca20"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 30 Mar 2023 08:14:29 GMT",
+        "ETag": "\u0022080088bf-0000-0d00-0000-642544e40000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16",
+        "x-ms-correlation-request-id": "14816ff5-4bfe-45cc-96bf-bbb0aa48de23",
+        "x-ms-ratelimit-remaining-subscription-reads": "10294",
+        "x-ms-request-id": "e3b6a8d0-8003-45e7-bcc9-e57909f40d4b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230330T081429Z:14816ff5-4bfe-45cc-96bf-bbb0aa48de23"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/openai-shared/providers/Microsoft.CognitiveServices/accounts/sdk-test-openai",
+        "name": "sdk-test-openai",
+        "type": "Microsoft.CognitiveServices/accounts",
+        "etag": "\u0022080088bf-0000-0d00-0000-642544e40000\u0022",
+        "location": "West Europe",
+        "sku": {
+          "name": "S0"
+        },
+        "kind": "OpenAI",
+        "properties": {
+          "endpoint": "https://westeurope.api.cognitive.microsoft.com/",
+          "internalId": "bca7647fc60f4f079c855b225f59cb55",
+          "dateCreated": "2023-03-30T07:00:17.0607515Z",
+          "callRateLimit": {
+            "rules": [
+              {
+                "key": "openai.dalle.post",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "POST"
+                  }
+                ]
+              },
+              {
+                "key": "openai.dalle.other",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "dalle/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "openai",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "openai/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
+                "key": "default",
+                "renewalPeriod": 1,
+                "count": 30,
+                "matchPatterns": [
+                  {
+                    "path": "*",
+                    "method": "*"
+                  }
+                ]
+              }
+            ]
+          },
+          "isMigrated": false,
+          "privateEndpointConnections": [],
+          "publicNetworkAccess": "Enabled",
+          "capabilities": [
+            {
+              "name": "VirtualNetworks"
+            },
+            {
+              "name": "MaxFineTuneCount",
+              "value": "100"
+            },
+            {
+              "name": "MaxRunningFineTuneCount",
+              "value": "1"
+            },
+            {
+              "name": "MaxUserFileCount",
+              "value": "50"
+            },
+            {
+              "name": "MaxTrainingFileSize",
+              "value": "100000000"
+            },
+            {
+              "name": "MaxUserFileImportDurationInHours",
+              "value": "1"
+            },
+            {
+              "name": "MaxFineTuneJobDurationInHours",
+              "value": "720"
+            }
+          ],
+          "endpoints": {
+            "OpenAI Language Model Instance API": "https://westeurope.api.cognitive.microsoft.com/",
+            "OpenAI Dall-E API": "https://westeurope.api.cognitive.microsoft.com/"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "identity": {
+          "principalId": "0c446045-0db7-4965-b705-d497b983fe8c",
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "type": "SystemAssigned"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-30T07:00:14.7205177Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-30T07:00:14.7205177Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

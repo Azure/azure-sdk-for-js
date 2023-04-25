@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a namespace authorization rule.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAutorizationRuleDelete.json
  */
 async function relayNameSpaceAutorizationRuleDelete() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const authorizationRuleName = "example-RelayAuthRules-01";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function relayNameSpaceAutorizationRuleDelete() {
   console.log(result);
 }
 
-relayNameSpaceAutorizationRuleDelete().catch(console.error);
+async function main() {
+  relayNameSpaceAutorizationRuleDelete();
+}
+
+main().catch(console.error);

@@ -6,25 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Alerts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Alert,
   AlertsListNextOptionalParams,
   AlertsListOptionalParams,
+  AlertsListResponse,
   AlertsListByResourceGroupNextOptionalParams,
   AlertsListByResourceGroupOptionalParams,
+  AlertsListByResourceGroupResponse,
   AlertsListSubscriptionLevelByRegionNextOptionalParams,
   AlertsListSubscriptionLevelByRegionOptionalParams,
+  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionNextOptionalParams,
   AlertsListResourceGroupLevelByRegionOptionalParams,
-  AlertsListResponse,
-  AlertsListByResourceGroupResponse,
-  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionResponse,
   AlertsGetSubscriptionLevelOptionalParams,
   AlertsGetSubscriptionLevelResponse,
@@ -33,9 +40,11 @@ import {
   AlertsUpdateSubscriptionLevelStateToDismissOptionalParams,
   AlertsUpdateSubscriptionLevelStateToResolveOptionalParams,
   AlertsUpdateSubscriptionLevelStateToActivateOptionalParams,
+  AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams,
   AlertsUpdateResourceGroupLevelStateToResolveOptionalParams,
   AlertsUpdateResourceGroupLevelStateToDismissOptionalParams,
   AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
+  AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   AlertSimulatorRequestBody,
   AlertsSimulateOptionalParams,
   AlertsListNextResponse,
@@ -72,22 +81,34 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AlertsListOptionalParams
+    options?: AlertsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,19 +138,33 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AlertsListByResourceGroupOptionalParams
+    options?: AlertsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -137,7 +172,9 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -174,10 +211,14 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSubscriptionLevelByRegionPagingPage(
           ascLocation,
-          options
+          options,
+          settings
         );
       }
     };
@@ -185,14 +226,18 @@ export class AlertsImpl implements Alerts {
 
   private async *listSubscriptionLevelByRegionPagingPage(
     ascLocation: string,
-    options?: AlertsListSubscriptionLevelByRegionOptionalParams
+    options?: AlertsListSubscriptionLevelByRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listSubscriptionLevelByRegion(
-      ascLocation,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListSubscriptionLevelByRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSubscriptionLevelByRegion(ascLocation, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSubscriptionLevelByRegionNext(
         ascLocation,
@@ -200,7 +245,9 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -242,11 +289,15 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listResourceGroupLevelByRegionPagingPage(
           ascLocation,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -255,15 +306,22 @@ export class AlertsImpl implements Alerts {
   private async *listResourceGroupLevelByRegionPagingPage(
     ascLocation: string,
     resourceGroupName: string,
-    options?: AlertsListResourceGroupLevelByRegionOptionalParams
+    options?: AlertsListResourceGroupLevelByRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listResourceGroupLevelByRegion(
-      ascLocation,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListResourceGroupLevelByRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listResourceGroupLevelByRegion(
+        ascLocation,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listResourceGroupLevelByRegionNext(
         ascLocation,
@@ -272,7 +330,9 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -372,21 +432,21 @@ export class AlertsImpl implements Alerts {
 
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   getResourceGroupLevel(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams
   ): Promise<AlertsGetResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       getResourceGroupLevelOperationSpec
     );
   }
@@ -450,61 +510,100 @@ export class AlertsImpl implements Alerts {
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateSubscriptionLevelStateToInProgress(
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { ascLocation, alertName, options },
+      updateSubscriptionLevelStateToInProgressOperationSpec
+    );
+  }
+
+  /**
+   * Update the alert's state
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToResolve(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToResolveOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToDismiss(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToDismissOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToActivate(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToActivateOperationSpec
+    );
+  }
+
+  /**
+   * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateResourceGroupLevelStateToInProgress(
+    resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, ascLocation, alertName, options },
+      updateResourceGroupLevelStateToInProgressOperationSpec
     );
   }
 
@@ -515,15 +614,82 @@ export class AlertsImpl implements Alerts {
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
-  simulate(
+  async beginSimulate(
+    ascLocation: string,
+    alertSimulatorRequestBody: AlertSimulatorRequestBody,
+    options?: AlertsSimulateOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { ascLocation, alertSimulatorRequestBody, options },
+      spec: simulateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertSimulatorRequestBody Alert Simulator Request Properties
+   * @param options The options parameters.
+   */
+  async beginSimulateAndWait(
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { ascLocation, alertSimulatorRequestBody, options },
-      simulateOperationSpec
+    const poller = await this.beginSimulate(
+      ascLocation,
+      alertSimulatorRequestBody,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -614,7 +780,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -631,7 +797,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -652,7 +818,7 @@ const listSubscriptionLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -673,7 +839,7 @@ const listResourceGroupLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -695,7 +861,7 @@ const getSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -717,7 +883,7 @@ const getResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -738,7 +904,7 @@ const updateSubscriptionLevelStateToDismissOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -758,7 +924,7 @@ const updateSubscriptionLevelStateToResolveOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -778,7 +944,27 @@ const updateSubscriptionLevelStateToActivateOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateSubscriptionLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -798,7 +984,7 @@ const updateResourceGroupLevelStateToResolveOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -819,7 +1005,7 @@ const updateResourceGroupLevelStateToDismissOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -840,7 +1026,28 @@ const updateResourceGroupLevelStateToActivateOperationSpec: coreClient.Operation
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateResourceGroupLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -856,13 +1063,16 @@ const simulateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/default/simulate",
   httpMethod: "POST",
   responses: {
+    200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.alertSimulatorRequestBody,
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -883,7 +1093,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -903,7 +1112,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -924,7 +1132,6 @@ const listSubscriptionLevelByRegionNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -945,7 +1152,6 @@ const listResourceGroupLevelByRegionNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

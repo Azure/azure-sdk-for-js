@@ -355,6 +355,7 @@ export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "publicNetworkAccess",
         type: {
           name: "String"
@@ -703,6 +704,7 @@ export const ManagedGrafanaPropertiesUpdateParameters: coreClient.CompositeMappe
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "publicNetworkAccess",
         type: {
           name: "String"

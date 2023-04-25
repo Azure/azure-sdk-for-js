@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AuthorityValidationOptions } from "./authorityValidationOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
@@ -9,7 +10,8 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  */
 export interface ClientSecretCredentialOptions
   extends MultiTenantTokenCredentialOptions,
-    CredentialPersistenceOptions {
+    CredentialPersistenceOptions,
+    AuthorityValidationOptions {
   // TODO: Export again once we're ready to release this feature.
   // /**
   //  * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.

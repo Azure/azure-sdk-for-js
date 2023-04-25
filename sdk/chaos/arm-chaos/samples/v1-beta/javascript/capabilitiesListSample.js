@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ChaosManagementClient } = require("@azure/arm-chaos");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a list of Capability resources that extend a Target resource..
  *
  * @summary Get a list of Capability resources that extend a Target resource..
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/ListCapabilities.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListCapabilities.json
  */
 async function listAllCapabilitiesThatExtendAVirtualMachineTargetResource() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-  const resourceGroupName = "exampleRG";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] || "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const resourceGroupName = process.env["CHAOS_RESOURCE_GROUP"] || "exampleRG";
   const parentProviderNamespace = "Microsoft.Compute";
   const parentResourceType = "virtualMachines";
   const parentResourceName = "exampleVM";
@@ -39,4 +41,8 @@ async function listAllCapabilitiesThatExtendAVirtualMachineTargetResource() {
   console.log(resArray);
 }
 
-listAllCapabilitiesThatExtendAVirtualMachineTargetResource().catch(console.error);
+async function main() {
+  listAllCapabilitiesThatExtendAVirtualMachineTargetResource();
+}
+
+main().catch(console.error);

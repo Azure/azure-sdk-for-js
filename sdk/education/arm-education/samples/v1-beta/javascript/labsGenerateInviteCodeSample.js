@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Generate invite code for a lab
@@ -33,4 +34,8 @@ async function createLab() {
   console.log(result);
 }
 
-createLab().catch(console.error);
+async function main() {
+  createLab();
+}
+
+main().catch(console.error);
