@@ -53,8 +53,8 @@ export async function scenarioNoActivity() {
         }, processInitialize: async (context) => {
           defaultClientAppInsights.trackEvent({ name: "processInitialize", contextObjects: context, time: new Date() })
         },
-        processClose: async () => {
-          defaultClientAppInsights.trackEvent({ name: "processClose", contextObjects: context, time: new Date() })
+        processClose: async (reason, context) => {
+          defaultClientAppInsights.trackEvent({ name: "processClose", contextObjects: { reason: reason, context: context }, time: new Date() })
         }
       },
       {
