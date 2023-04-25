@@ -15,14 +15,14 @@ import {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  RemoveParticipantsOptions,
+  RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
 import {
   ListParticipantsResult,
   TransferCallResult,
   AddParticipantResult,
-  RemoveParticipantsResult,
+  RemoveParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -217,8 +217,8 @@ export class CallConnection {
    */
   public async removeParticipant(
     participant: CommunicationIdentifier,
-    options: RemoveParticipantsOptions = {}
-  ): Promise<RemoveParticipantsResult> {
+    options: RemoveParticipantsOption = {}
+  ): Promise<RemoveParticipantResult> {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
@@ -233,7 +233,7 @@ export class CallConnection {
       removeParticipantRequest,
       optionsInternal
     );
-    const removeParticipantsResult: RemoveParticipantsResult = {
+    const removeParticipantsResult: RemoveParticipantResult = {
       ...result,
     };
     return removeParticipantsResult;
