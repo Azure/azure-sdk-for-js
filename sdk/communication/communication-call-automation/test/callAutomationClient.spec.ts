@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from "uuid";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
+  let target: CallInvite;
   let client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
 
   beforeEach(() => {
@@ -40,6 +41,9 @@ describe("Call Automation Client Unit Tests", () => {
         communicationUserId: CALL_TARGET_ID_2,
       },
     ];
+    target = {
+      targetParticipant: { communicationUserId: CALL_TARGET_ID }
+    };
     // stub CallAutomationClient
     client = Sinon.createStubInstance(
       CallAutomationClient
@@ -56,6 +60,31 @@ describe("Call Automation Client Unit Tests", () => {
     assert.isNotNull(repeatabilityRequestID);
     assert.typeOf(repeatabilityFirstSent, "string");
     assert.typeOf(repeatabilityRequestID, "string");
+  });
+
+  it("CreateCall", async () => {
+    // mocks
+    const createCallResultMock: CreateCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+    };
+    client.createCall.returns(
+      new Promise((resolve) => {
+        resolve(createCallResultMock);
+      })
+    );
+
+    const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: CreateCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(client.createCall.calledWith(target, CALL_CALLBACK_URL));
+        assert.equal(result, createCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
   });
 
   it("CreateGroupCall", async () => {
