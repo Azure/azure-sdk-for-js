@@ -35,9 +35,9 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
    */
   public enableAutoCollectStandardMetrics: boolean;
   /**
-    * Sets the state of native metrics tracking (disabled by default)
-    * if true and applicationinsights-native-metrics is installed, native metrics will be collected every minute and sent to Azure Monitor
-    */
+   * Sets the state of native metrics tracking (disabled by default)
+   * if true and applicationinsights-native-metrics is installed, native metrics will be collected every minute and sent to Azure Monitor
+   */
   public enableAutoCollectNativeMetrics?: boolean;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)

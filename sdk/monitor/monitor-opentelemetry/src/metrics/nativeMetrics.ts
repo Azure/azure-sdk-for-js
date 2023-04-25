@@ -62,15 +62,9 @@ export class _NativeMetrics {
     this._garbageCollectionIncrementalMarking = this._meter.createHistogram(
       "IncrementalMarking Collection Duration"
     );
-    this._heapMemoryTotalGauge = this._meter.createObservableGauge(
-      "Memory Total (Heap)"
-    );
-    this._heapMemoryUsageGauge = this._meter.createObservableGauge(
-      "Memory Usage (Heap)"
-    );
-    this._memoryUsageNonHeapGauge = this._meter.createObservableGauge(
-      "Memory Usage (Non-Heap)"
-    );
+    this._heapMemoryTotalGauge = this._meter.createObservableGauge("Memory Total (Heap)");
+    this._heapMemoryUsageGauge = this._meter.createObservableGauge("Memory Usage (Heap)");
+    this._memoryUsageNonHeapGauge = this._meter.createObservableGauge("Memory Usage (Non-Heap)");
     this._initialize();
   }
 
@@ -108,10 +102,7 @@ export class _NativeMetrics {
         Logger.getInstance().error("Native metrics enable failed", err);
       }
       // Add histogram data collection
-      this._handle = setInterval(
-        () => this._collectHistogramData(),
-        this._collectionInterval
-      );
+      this._handle = setInterval(() => this._collectHistogramData(), this._collectionInterval);
       this._handle.unref();
       // Add observable callbacks
       this._heapMemoryTotalGauge.addCallback(this._getHeapTotal.bind(this));
