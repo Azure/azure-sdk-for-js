@@ -1,0 +1,7 @@
+scenarios:
+- Scenario: node18-noActivity
+  testTarget: scenarioNoActivity
+  image: Dockerfile
+  memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshanalluru/jseh/dockerfile:harshanalluru
+
