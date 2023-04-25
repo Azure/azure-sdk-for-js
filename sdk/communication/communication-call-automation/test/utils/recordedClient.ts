@@ -261,7 +261,7 @@ export function persistEvents(testName: string): void {
 export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
     let data: string = "";
-    console.log("path is: " + relativeRecordingsPath());
+    // Different OS has differnt file system path format.
     try {
       data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
     } catch (e) {

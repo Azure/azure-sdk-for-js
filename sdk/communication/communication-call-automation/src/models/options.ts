@@ -104,7 +104,7 @@ export interface AddParticipantOptions extends OperationOptions {
 /**
  * Options to remove participants.
  */
-export interface RemoveParticipantsOptions extends OperationOptions {
+export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
