@@ -3,7 +3,7 @@
 
 // HACK: Intentionally block to:
 //  * avoid 'duplicate sequence number' error from service (calling commands too fast?)
-export function sleep(ms: number) {
+export function sleep(ms: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 

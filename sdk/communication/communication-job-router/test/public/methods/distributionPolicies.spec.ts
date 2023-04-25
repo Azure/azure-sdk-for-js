@@ -15,6 +15,7 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
+
   const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
     testRunId
   );
@@ -28,6 +29,7 @@ describe("RouterClient", function() {
 
     afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending() && recorder) {
+        await recorder.stop();
       }
     });
 

@@ -32,6 +32,7 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
+
   const { queueId, queueRequest } = getQueueRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(

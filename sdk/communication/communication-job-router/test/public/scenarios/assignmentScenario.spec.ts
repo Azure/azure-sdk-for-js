@@ -24,6 +24,7 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
+
   const { queueId, queueRequest } = getQueueRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
@@ -80,7 +81,7 @@ describe("RouterClient", function() {
       assert.isNotNull(offer.offerTimeUtc);
       assert.isNotNull(offer.expiryTimeUtc);
 
-      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer?.id!);
+      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer.id!);
       assert.equal(acceptOfferResponse.jobId, jobId);
       assert.equal(acceptOfferResponse.workerId, workerId);
 

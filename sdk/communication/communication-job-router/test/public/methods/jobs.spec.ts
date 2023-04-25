@@ -27,6 +27,7 @@ describe("RouterClient", function() {
   let recorder: Recorder;
 
   const testRunId = uuid();
+
   const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
     testRunId
   );

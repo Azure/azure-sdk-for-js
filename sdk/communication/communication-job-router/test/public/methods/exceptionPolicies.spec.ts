@@ -14,7 +14,9 @@ describe("RouterClient", function() {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(uuid());
+  const testRunId = uuid();
+
+  const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
 
   describe("Exception Policy Operations", function() {
     this.beforeAll(async function(this: Context) {

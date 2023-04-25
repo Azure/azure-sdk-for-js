@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
@@ -19,7 +19,8 @@ describe("RouterClient", function() {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = uuid();
+  const testRunId = ["record", "playback"].includes(env.TEST_MODE!) ? "recording" : uuid();
+
   const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
     testRunId
   );
@@ -49,6 +50,7 @@ describe("RouterClient", function() {
 
     afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending() && recorder) {
+        await recorder.stop();
       }
     });
 
