@@ -12610,7 +12610,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-8/8H7e6YqlfHpsAjxiTDGanMbu9TkWFg5uwnRvkQQEtncDi5ex7T0pGzYP0FCwmqp2l729QS44GIoNDALmzWJQ==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-2TREBAkAGf26rF/3HLaw2v+BtfaR0hgYJ1hYkb5JQTcWUKN7lAdsrLaeFyH1qu+e0VMMQWR922cfNo6Wa8wo2A==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -12624,7 +12624,8 @@ packages:
       '@types/node': 14.18.42
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
