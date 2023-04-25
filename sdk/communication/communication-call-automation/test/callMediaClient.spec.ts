@@ -74,7 +74,7 @@ describe("CallMedia Unit Tests", () => {
 
   it("PlayToAll", async () => {
     const playSource: FileSource = {
-      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
+      uri: "https://example.com/audio/test.wav",
     };
     const playTo: CommunicationIdentifier[] = [];
 
@@ -197,7 +197,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
+      uri: "https://example.com/audio/test.wav",
     };
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
@@ -233,7 +233,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
+      uri: "https://example.com/audio/test.wav",
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
@@ -271,7 +271,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://acstestapp1.azurewebsites.net/audio/bot-hold-music-1.wav",
+      uri: "https://example.com/audio/test.wav",
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
