@@ -150,4 +150,14 @@ describe("AlphaIdsClient - headers", function () {
     assert.match(request.headers.get(userAgentHeader) as string, new RegExp(customHeader, "g"));
     assert.match(request.url, new RegExp(customApiVersion, "g"));
   });
+
+  it("set undefined endpoint and test the error from client", async function () {
+    const undefinedConnection: unknown = null;
+    assert.throws(() => {
+      new AlphaIdsClient(undefinedConnection as string);
+    });
+    //assert client is created correctly without options
+    const client = new AlphaIdsClient(`endpoint=${endpoint};accessKey=${accessKey}`);
+    assert.instanceOf(client, AlphaIdsClient);
+  });
 });
