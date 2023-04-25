@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as azureCore from '@azure/core-http';
+import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { Meter } from '@opentelemetry/api';
+import { MeterProvider } from '@opentelemetry/sdk-metrics';
+import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { Resource } from '@opentelemetry/resources';
+import { Span } from '@opentelemetry/sdk-trace-base';
 import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { Tracer } from '@opentelemetry/sdk-trace-base';
 import { TracerProvider } from '@opentelemetry/api';
@@ -21,52 +24,41 @@ export class AzureMonitorOpenTelemetryClient {
     getMetricHandler(): MetricHandler;
     getTraceHandler(): TraceHandler;
     shutdown(): Promise<void>;
-    start(): void;
 }
 
 // @public
 export class AzureMonitorOpenTelemetryConfig implements IConfig {
     constructor();
-    aadTokenCredential?: azureCore.TokenCredential;
-    get connectionString(): string;
-    disableOfflineStorage: boolean;
+    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+    enableAutoCollectNativeMetrics?: boolean;
     enableAutoCollectPerformance: boolean;
     enableAutoCollectStandardMetrics: boolean;
-    extendedMetrics: {
-        [type: string]: boolean;
-    };
     instrumentations: IInstrumentationsConfig;
     set resource(resource: Resource);
     get resource(): Resource;
     samplingRatio: number;
-    storageDirectory: string;
 }
 
 // @public
 export interface IConfig {
-    aadTokenCredential?: azureCore.TokenCredential;
-    connectionString: string;
-    disableOfflineStorage: boolean;
-    enableAutoCollectPerformance: boolean;
-    enableAutoCollectStandardMetrics: boolean;
-    extendedMetrics: {
-        [type: string]: boolean;
-    };
-    instrumentations: IInstrumentationsConfig;
+    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+    enableAutoCollectNativeMetrics?: boolean;
+    enableAutoCollectPerformance?: boolean;
+    enableAutoCollectStandardMetrics?: boolean;
+    instrumentations?: IInstrumentationsConfig;
     resource?: Resource;
-    samplingRatio: number;
-    storageDirectory: string;
+    samplingRatio?: number;
 }
 
 // @public
 export interface IInstrumentationsConfig {
-    azureSdk?: InstrumentationConfig;
-    http?: InstrumentationConfig;
-    mongoDb?: InstrumentationConfig;
-    mySql?: InstrumentationConfig;
-    postgreSql?: InstrumentationConfig;
-    redis?: InstrumentationConfig;
-    redis4?: InstrumentationConfig;
+    azureSdk: InstrumentationConfig;
+    http: InstrumentationConfig;
+    mongoDb: InstrumentationConfig;
+    mySql: InstrumentationConfig;
+    postgreSql: InstrumentationConfig;
+    redis: InstrumentationConfig;
+    redis4: InstrumentationConfig;
 }
 
 // @public
@@ -74,21 +66,45 @@ export class MetricHandler {
     constructor(_config: AzureMonitorOpenTelemetryConfig);
     flush(): Promise<void>;
     getMeter(): Meter;
+    getMeterProvider(): MeterProvider;
+    // @internal
+    _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined;
+    // @internal
+    _getStandardMetrics(): _StandardMetrics | undefined;
     shutdown(): Promise<void>;
-    start(): void;
+}
+
+// @internal
+export class _PerformanceCounterMetrics {
+    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
+        collectionInterval: number;
+    });
+    flush(): Promise<void>;
+    _recordSpan(span: ReadableSpan): void;
+    shutdown(): void;
+}
+
+// @internal
+export class _StandardMetrics {
+    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
+        collectionInterval: number;
+    });
+    flush(): Promise<void>;
+    _markSpanAsProcceseded(span: Span): void;
+    _recordSpan(span: ReadableSpan): void;
+    shutdown(): void;
 }
 
 // @public
 export class TraceHandler {
     constructor(_config: AzureMonitorOpenTelemetryConfig, _metricHandler?: MetricHandler | undefined);
-    addInstrumentation(instrumentation: Instrumentation): void;
+    addInstrumentation(instrumentation?: Instrumentation): void;
     addSpanProcessor(spanProcessor: SpanProcessor): void;
     disableInstrumentations(): void;
     flush(): Promise<void>;
     getTracer(): Tracer;
     getTracerProvider(): TracerProvider;
     shutdown(): Promise<void>;
-    start(): void;
 }
 
 // (No @packageDocumentation comment for this package)

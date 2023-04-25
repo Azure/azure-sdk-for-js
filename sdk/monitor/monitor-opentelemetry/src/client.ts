@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureMonitorOpenTelemetryConfig } from "./config";
+import { AzureMonitorOpenTelemetryConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
+import { Logger } from "./shared/logging";
 
 /**
  * Azure Monitor OpenTelemetry Client
@@ -19,21 +20,16 @@ export class AzureMonitorOpenTelemetryClient {
    */
   constructor(config?: AzureMonitorOpenTelemetryConfig) {
     this._config = config || new AzureMonitorOpenTelemetryConfig();
-    if (!this._config.connectionString || this._config.connectionString === "") {
+    if (
+      !this._config?.azureMonitorExporterConfig?.connectionString ||
+      this._config?.azureMonitorExporterConfig?.connectionString === ""
+    ) {
       throw new Error(
         "Connection String not found, please provide it before starting Azure Monitor OpenTelemetry Client."
       );
     }
     this._metricHandler = new MetricHandler(this._config);
     this._traceHandler = new TraceHandler(this._config);
-  }
-
-  /**
-   * Start auto collection of telemetry
-   */
-  public start() {
-    this._traceHandler.start();
-    this._metricHandler.start();
   }
 
   /**
@@ -61,8 +57,12 @@ export class AzureMonitorOpenTelemetryClient {
    *Try to send all queued telemetry if present.
    */
   public async flush(): Promise<void> {
-    await this._traceHandler.flush();
-    await this._metricHandler.flush();
+    try {
+      await this._traceHandler.flush();
+      await this._metricHandler.flush();
+    } catch (err) {
+      Logger.getInstance().error("Failed to flush telemetry", err);
+    }
   }
 
   /**

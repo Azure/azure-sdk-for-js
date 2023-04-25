@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AzureMonitorExporterOptions,
-  AzureMonitorMetricExporter,
-} from "@azure/monitor-opentelemetry-exporter";
+import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Meter } from "@opentelemetry/api";
 import {
   MeterProvider,
@@ -12,9 +9,10 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../config";
-import { PerformanceCounterMetrics } from "./performanceCounters";
-import { StandardMetrics } from "./standardMetrics";
+import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { _PerformanceCounterMetrics } from "./performanceCounters";
+import { _StandardMetrics } from "./standardMetrics";
+import { _NativeMetrics } from "./nativeMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -25,8 +23,9 @@ export class MetricHandler {
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
-  private _perfCounterMetrics?: PerformanceCounterMetrics;
-  private _standardMetrics?: StandardMetrics;
+  private _perfCounterMetrics?: _PerformanceCounterMetrics;
+  private _standardMetrics?: _StandardMetrics;
+  private _nativeMetrics?: _NativeMetrics;
 
   /**
    * Initializes a new instance of the MetricHandler class.
@@ -34,23 +33,19 @@ export class MetricHandler {
    */
   constructor(private _config: AzureMonitorOpenTelemetryConfig) {
     if (this._config.enableAutoCollectStandardMetrics) {
-      this._standardMetrics = new StandardMetrics(this._config);
+      this._standardMetrics = new _StandardMetrics(this._config);
     }
     if (this._config.enableAutoCollectPerformance) {
-      this._perfCounterMetrics = new PerformanceCounterMetrics(this._config);
+      this._perfCounterMetrics = new _PerformanceCounterMetrics(this._config);
     }
-
+    if (this._config.enableAutoCollectNativeMetrics) {
+      this._nativeMetrics = new _NativeMetrics(this._config);
+    }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
     this._meterProvider = new MeterProvider(meterProviderConfig);
-    const exporterConfig: AzureMonitorExporterOptions = {
-      connectionString: this._config.connectionString,
-      aadTokenCredential: this._config.aadTokenCredential,
-      storageDirectory: this._config.storageDirectory,
-      disableOfflineStorage: this._config.disableOfflineStorage,
-    };
-    this._azureExporter = new AzureMonitorMetricExporter(exporterConfig);
+    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: this._collectionInterval,
@@ -61,6 +56,13 @@ export class MetricHandler {
   }
 
   /**
+   *Get OpenTelemetry MeterProvider
+   */
+  public getMeterProvider(): MeterProvider {
+    return this._meterProvider;
+  }
+
+  /**
    *Get OpenTelemetry Meter
    */
   public getMeter(): Meter {
@@ -68,11 +70,19 @@ export class MetricHandler {
   }
 
   /**
-   * Start auto collection of telemetry
+   *Get StandardMetric handler
+   * @internal
    */
-  public start() {
-    this._perfCounterMetrics?.start();
-    this._standardMetrics?.start();
+  public _getStandardMetrics(): _StandardMetrics | undefined {
+    return this._standardMetrics;
+  }
+
+  /**
+   *Get PerformanceCounter handler
+   * @internal
+   */
+  public _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
+    return this._perfCounterMetrics;
   }
 
   /**
@@ -82,6 +92,7 @@ export class MetricHandler {
     this._meterProvider.shutdown();
     this._perfCounterMetrics?.shutdown();
     this._standardMetrics?.shutdown();
+    this._nativeMetrics?.shutdown();
   }
 
   /**
@@ -91,5 +102,6 @@ export class MetricHandler {
     await this._meterProvider.forceFlush();
     await this._perfCounterMetrics?.flush();
     await this._standardMetrics?.flush();
+    await this._nativeMetrics?.flush();
   }
 }

@@ -17,7 +17,6 @@ dotenv.config();
 
 let config = new AzureMonitorOpenTelemetryConfig();
 const client = new AzureMonitorOpenTelemetryClient(config);
-client.start();
 
 export async function main() {
   // Ge Tracer and create Span
