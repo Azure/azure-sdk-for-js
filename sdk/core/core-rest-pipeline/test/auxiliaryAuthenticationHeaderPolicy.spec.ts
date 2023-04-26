@@ -212,6 +212,46 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     );
   });
 
+  it("should not add auxiliary header if all tokens are invalid", async function () {
+    const tokenScopes = ["scope1", "scope2"];
+    const fakeGetToken1 = sinon.fake.returns(
+      Promise.resolve({ token: null, expiresOn: new Date() })
+    );
+    const fakeGetToken2 = sinon.fake.returns(
+      Promise.resolve({ token: null, expiresOn: new Date() })
+    );
+    const mockCredential1: TokenCredential = {
+      getToken: fakeGetToken1,
+    };
+    const mockCredential2: TokenCredential = {
+      getToken: fakeGetToken2,
+    };
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
+
+    const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
+      tokenScopes,
+      [mockCredential1, mockCredential2]
+    );
+    await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
+
+    assert(
+      fakeGetToken1.calledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+      }),
+      "fakeGetToken called incorrectly."
+    );
+    assert.isUndefined(request.headers.get("x-ms-authorization-auxiliary"));
+  });
+
   function createAuxiliaryAuthenticationHeaderPolicy(
     scopes: string | string[],
     credentials: TokenCredential[]

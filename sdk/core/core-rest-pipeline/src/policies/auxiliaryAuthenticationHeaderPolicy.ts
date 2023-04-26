@@ -86,16 +86,18 @@ export function auxiliaryAuthenticationHeaderPolicy(
           })
         );
       }
-      const auxiliaryTokens: NullableString[] = (await Promise.all(tokenPromises)).filter((token) => Boolean(token));
+      const auxiliaryTokens: NullableString[] = (await Promise.all(tokenPromises)).filter((token) =>
+        Boolean(token)
+      );
       if (!auxiliaryTokens || auxiliaryTokens.length === 0) {
-        logger.warning(`None of the auxiliary tokens are valid and skip to set ${AUTHORIZATION_AUXILIARY_HEADER} header`);
+        logger.warning(
+          `None of the auxiliary tokens are valid and skip to set ${AUTHORIZATION_AUXILIARY_HEADER} header`
+        );
         return next(request);
       }
       request.headers.set(
         AUTHORIZATION_AUXILIARY_HEADER,
-        auxiliaryTokens
-          .map((token) => `Bearer ${token}`)
-          .join(", ")
+        auxiliaryTokens.map((token) => `Bearer ${token}`).join(", ")
       );
 
       return next(request);
