@@ -5,14 +5,10 @@ import { JobAssignment, JobOffer, RouterJob, RouterWorker } from "../../../src/g
 import { RouterClient } from "../../../src/routerClient";
 
 export async function pollForJobOffer(workerId: string, client: RouterClient): Promise<JobOffer> {
-  return new Promise<JobOffer>((resolve, _reject) => {
+  return new Promise<JobOffer>(async (resolve, _reject) => {
     let worker: RouterWorker = {};
-
     while (worker.offers?.length === undefined || worker.offers.length < 1) {
-      client
-        .getWorker(workerId)
-        .then((w) => (worker = w))
-        .catch((error) => console.log(error));
+      worker = await client.getWorker(workerId);
     }
     const offer: JobOffer = worker.offers[0];
 
@@ -24,14 +20,10 @@ export async function pollForJobAssignment(
   jobId: string,
   client: RouterClient
 ): Promise<JobAssignment> {
-  return new Promise<JobAssignment>((resolve, _reject) => {
+  return new Promise<JobAssignment>(async (resolve, _reject) => {
     let job: RouterJob = {};
-
     while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
-      client
-        .getJob(jobId)
-        .then((j) => (job = j))
-        .catch((error) => console.log(error));
+      job = await client.getJob(jobId);
     }
     const assignment: JobAssignment = Object.values(job.assignments)[0];
 
@@ -40,14 +32,10 @@ export async function pollForJobAssignment(
 }
 
 export async function pollForJobQueued(jobId: string, client: RouterClient): Promise<RouterJob> {
-  return new Promise<RouterJob>((resolve, _reject) => {
+  return new Promise<RouterJob>(async (resolve, _) => {
     let job: RouterJob = {};
-
     while (job.jobStatus !== "queued") {
-      client
-        .getJob(jobId)
-        .then((j) => (job = j))
-        .catch((error) => console.log(error));
+      job = await client.getJob(jobId);
     }
 
     resolve(job);
@@ -55,14 +43,10 @@ export async function pollForJobQueued(jobId: string, client: RouterClient): Pro
 }
 
 export async function pollForJobCancelled(jobId: string, client: RouterClient): Promise<RouterJob> {
-  return new Promise<RouterJob>((resolve, _reject) => {
+  return new Promise<RouterJob>(async (resolve, _) => {
     let job: RouterJob = {};
-
     while (job.jobStatus !== "cancelled") {
-      client
-        .getJob(jobId)
-        .then((j) => (job = j))
-        .catch((error) => console.log(error));
+      job = await client.getJob(jobId);
     }
 
     resolve(job);

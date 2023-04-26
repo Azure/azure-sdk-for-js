@@ -1,0 +1,1222 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies?api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "021e21d7-cc8c-4a77-8120-5ecdd5dc9a30",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:40:04 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:40:06 GMT",
+        "trace-id": "f2f65641-7a3a-d3cc-0196-ec0f352e8bb7",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0VrZJZAAAAAC3/rQukQZRSJmhQKBg3EJXWVZSMzExMDAwMTE1MDE3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-recorded-d-policies",
+              "name": "new-name",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022dd0242a0-0000-0700-0000-6449b6560000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-recorded-c-scenario",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022bd02ad3c-0000-0700-0000-64496d480000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-recorded-a-scenario",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022bd02e535-0000-0700-0000-64496d3c0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-recording",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e80137ee-0000-0700-0000-64487fb70000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-recording1234",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e201e784-0000-0700-0000-644876030000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-574adece-f996-4b04-8a9e-7b587dfaab7b",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022db014ab9-0000-0700-0000-64486ce10000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-55661a14-e7c3-43e2-8c7a-ee35c6983018",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022da0154cd-0000-0700-0000-64486be50000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e2d37164-6173-412f-9253-8ca52bd313d1",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d901b4dc-0000-0700-0000-64486ac20000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d20169b4-0000-0700-0000-644862150000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d20122b3-0000-0700-0000-644862130000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-479fc1b9-b179-4432-ba22-286ed1831f61",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d2012cb2-0000-0700-0000-644862120000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e28ba68f-137e-4214-9e84-34b132a6d679",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d20179af-0000-0700-0000-6448620f0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-ce29c2d5-71f5-4be5-8586-3af51d92c4a3",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022d201c8ae-0000-0700-0000-6448620e0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00224101c82f-0000-0700-0000-6435ded40000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-fce01635-d55e-47db-99ae-4bb9cdeec30c",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00224101102f-0000-0700-0000-6435dece0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-254c1f33-4764-42ef-8aa6-10f657b31f79",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00224101012c-0000-0700-0000-6435deb80000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-1bd9cda4-8f40-4690-82ab-0d1605684646",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u002241019c2b-0000-0700-0000-6435deb50000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-b4558f95-d9e9-473d-a141-6a59021440ca",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u002241015f2b-0000-0700-0000-6435deb30000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-f3d2b373-01da-4680-a06e-4e737bf6b2ad",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00224101c52a-0000-0700-0000-6435deaf0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-59b335cc-af3e-4a6d-9023-f41fc37011ae",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00220a010426-0000-0700-0000-6434a9d40000\u0022"
+          }
+        ],
+        "nextLink": "/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTjB4elJHOUJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTjB4elJHOUJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "2af621ba-e328-4ef0-bc60-52847118ab1f",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:40:04 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:40:06 GMT",
+        "trace-id": "d8aa51a1-1748-e472-d379-b0b0b8ed45df",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0V7ZJZAAAAADVi1bn0ichRaCo97vDAha3WVZSMzExMDAwMTE1MDE3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-fac0b780-3535-4252-a1cc-b831adc79056",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00220a015700-0000-0700-0000-6434a8470000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e82ad2b6-3f75-4d04-8e37-d2f512fe9443",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00220901f7fd-0000-0700-0000-6434a8300000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-79e4dc7d-4948-48f2-99d1-e113ec40a779",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u002209018781-0000-0700-0000-6434a3a40000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-da57831c-0624-46a0-aca9-6e0e9c0a98fa",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00220901da31-0000-0700-0000-6434a0c80000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-059d027d-fbc5-4d3e-92d0-db697e54c17c",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u002208011d82-0000-0700-0000-64349ae00000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-f4e270ab-440b-4b39-8e09-47f18b087ef1",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00220801d274-0000-0700-0000-64349a7f0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-8fd392f3-6c7f-41cb-84ef-b76acfe40d22",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022070151ec-0000-0700-0000-643495ec0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-10d03ad1-cc92-434d-ba80-fb4345a44771",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022070179dd-0000-0700-0000-6434957f0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-4642741e-16c0-486e-aaab-2dd90b4e3c56",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u002262001761-0000-0700-0000-642e17840000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-ccfcd297-cde7-49a1-b842-bd43c02dbb8b",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00226200924c-0000-0700-0000-642e16980000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f40ae4f1-0000-0700-0000-632a4f070000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f40a15e3-0000-0700-0000-632a4e990000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-69218adf-c286-4fb8-b07a-fa09767acb73",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f40a82cf-0000-0700-0000-632a4e000000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-5718001a-9d15-4e39-9c13-3005c75f3ba3",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f40aa5bf-0000-0700-0000-632a4d6d0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f40a9a2a-0000-0700-0000-632a45e60000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-d0816462-0429-40ac-9b13-55f24c86b301",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022cc0a9e83-0000-0700-0000-632906630000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022cc0a8f50-0000-0700-0000-632904550000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-f7f43b67-c47c-4f93-886d-14b92a542a70",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022cc0afc0d-0000-0700-0000-632901070000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-32685b65-15e9-4392-87d3-e4c33829b118",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022cb0a46e9-0000-0700-0000-6328ff310000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-eabb774f-a4f2-4b7d-88c5-767861a33869",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022cb0ae0ad-0000-0700-0000-6328fc5c0000\u0022"
+          }
+        ],
+        "nextLink": "/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTm1aMWVWbEJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTm1aMWVWbEJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "deb1d319-8e06-4414-aa07-9ec2f33632cf",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:40:04 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:40:06 GMT",
+        "trace-id": "8eb69c4f-a337-7994-bacf-0330e0324807",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0V7ZJZAAAAABMT4HAvZqLR5IfgXTBx98IWVZSMzExMDAwMTE1MDE3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-7a14b71d-652e-4654-b72b-74f222600cbf",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022330aa113-0000-0700-0000-632262c60000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-578bd146-602a-4ad1-b15e-a03c6e517206",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022320aba47-0000-0700-0000-632259d10000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-1b2bad99-b066-474e-9372-92541230bbc9",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022320a5c46-0000-0700-0000-632259c20000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-10cc19da-ead6-4ad9-80b2-a43fad7f0f09",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022310ab3c5-0000-0700-0000-632254700000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-18951449-71ae-4fe3-af81-4f3bb5bc3b2c",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022310ab0b8-0000-0700-0000-632253e30000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-ce25bd23-6f39-4986-99a2-6f6390dd85f9",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022000a77ed-0000-0700-0000-6320f8fe0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-a4f1795d-5216-462e-ae11-ac603791305e",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022000a0e86-0000-0700-0000-6320f5e90000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-3145c5f0-ce31-400a-8ec3-ed567742398b",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fb09976b-0000-0700-0000-6320d2100000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-7865125d-a7f0-4f65-a537-e854c973727a",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fb097151-0000-0700-0000-6320d1520000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-78de39a1-0fba-443c-8aad-f0bb64c2d597",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fb09f300-0000-0700-0000-6320cf1e0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-0316131f-9d29-4c59-a89b-2abd26100e78",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fa09ccad-0000-0700-0000-6320cd030000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-269face0-a3aa-4063-970d-d31c072eec23",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fa09f36b-0000-0700-0000-6320cb350000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-bc07ba71-4f23-4e05-b765-5c3928e22536",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fa09625c-0000-0700-0000-6320cad00000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022fa09fe3d-0000-0700-0000-6320c9f50000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-12c5a92c-e654-4535-843e-e4366dcd09c1",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f909a24d-0000-0700-0000-6320c37c0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f909850c-0000-0700-0000-6320c1cb0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-4299900e-96a2-4bb5-9efd-2af2248be1a1",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022f809dde6-0000-0700-0000-6320c0aa0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e4097560-0000-0700-0000-6320386f0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e4094057-0000-0700-0000-6320382a0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-b14eb5d1-5778-438f-a010-5db250933e8f",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e4094635-0000-0700-0000-632037220000\u0022"
+          }
+        ],
+        "nextLink": "/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTjBkamFWbEJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTjBkamFWbEJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9EVnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFZWtKblFWSkRVVUZMYWpWVlBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "5f670871-60d3-48c7-9eb6-d857c56c71a3",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:40:05 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:40:06 GMT",
+        "trace-id": "be5b6190-1f62-52b7-4e49-35fdb05b84f6",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0V7ZJZAAAAAAX79MlZZEdTZkDWLUND3p0WVZSMzExMDAwMTE1MDE3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-148ca749-d29e-4b44-8dea-418a8ec29ec6",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e4099604-0000-0700-0000-632035bf0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-16f323d9-c3a1-435e-890f-3b63b9f65a16",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e30954f5-0000-0700-0000-632035520000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e30911ce-0000-0700-0000-632034270000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e30934b3-0000-0700-0000-632033550000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e30906a4-0000-0700-0000-632032e50000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-3975c2c5-95fb-47e3-8549-ccbfa24a88db",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e009c5ce-0000-0700-0000-63201c930000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e31d556f-a4be-4774-bd19-a1da1ae0cb0e",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e00986bf-0000-0700-0000-63201c0e0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-6249e1d1-6ceb-46e8-827f-0c4009814a63",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e0097190-0000-0700-0000-63201a7e0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-e988c088-7181-4abf-8542-e051a39027ad",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e0099571-0000-0700-0000-6320196c0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-d5f943e4-0adf-45ad-9c11-6105de003f3b",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e0092e61-0000-0700-0000-632018e00000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-3be0d316-847a-4e4c-ba86-e4e30d81ef8e",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022e009dd4c-0000-0700-0000-632018300000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-4e4e0974-088a-4112-b74b-c221a864e3cf",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022dd0990ea-0000-0700-0000-632001a70000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-9af10ecf-882c-4af9-b219-fde8bfa431b0",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022db096df0-0000-0700-0000-631ffa260000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy-021d0704-8c30-4304-8608-328fa8e76d35",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u0022da09a464-0000-0700-0000-631ff56c0000\u0022"
+          },
+          {
+            "distributionPolicy": {
+              "id": "test-d-policy",
+              "name": "test-d-policy",
+              "offerTtlSeconds": 60,
+              "mode": {
+                "kind": "longest-idle",
+                "minConcurrentOffers": 1,
+                "maxConcurrentOffers": 5,
+                "bypassSelectors": false
+              }
+            },
+            "etag": "\u00221c097152-0000-0700-0000-6318d2a50000\u0022"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

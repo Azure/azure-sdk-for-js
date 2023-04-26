@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { JobQueue, RouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
-  getQueueRequest
+  getQueueRequest,
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
 
-describe("RouterClient", function() {
+describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = uuid();
+  const testRunId = ["record", "playback"].includes(env.TEST_MODE!) ? "recorded-queues" : uuid();
 
-  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
-    testRunId
-  );
+  const { distributionPolicyId, distributionPolicyRequest } =
+    getDistributionPolicyRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { queueId, queueRequest } = getQueueRequest(testRunId);
 
-  describe("Queue Operations", function() {
-    this.beforeAll(async function(this: Context) {
+  describe("Queue Operations", function () {
+    this.beforeEach(async function (this: Context) {
       ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
         this
       ));
@@ -37,20 +36,20 @@ describe("RouterClient", function() {
         distributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
+      await administrationClient.createQueue(queueId, queueRequest);
     });
 
-    afterEach(async function(this: Context) {
+    this.afterEach(async function (this: Context) {
+      await administrationClient.deleteQueue(queueId);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
     });
 
-    this.afterAll(async function(this: Context) {
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
-      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
-    });
-
-    it("should create a queue", async function() {
+    it("should create a queue", async function () {
       const result = await administrationClient.createQueue(queueId, queueRequest);
 
       assert.isDefined(result);
@@ -58,14 +57,14 @@ describe("RouterClient", function() {
       assert.equal(result.name, queueRequest.name);
     }).timeout(timeoutMs);
 
-    it("should get a queue", async function() {
+    it("should get a queue", async function () {
       const result = await administrationClient.getQueue(queueId);
 
       assert.equal(result.id, queueId);
       assert.equal(result.name, queueRequest.name);
     }).timeout(timeoutMs);
 
-    it("should update a queue", async function() {
+    it("should update a queue", async function () {
       const patch: JobQueue = { ...queueRequest, name: "new-name" };
       const result = await administrationClient.updateQueue(queueId, patch);
 
@@ -74,7 +73,7 @@ describe("RouterClient", function() {
       assert.equal(result.name, patch.name);
     }).timeout(timeoutMs);
 
-    it("should list queues", async function() {
+    it("should list queues", async function () {
       const result: JobQueue[] = [];
       for await (const queue of administrationClient.listQueues({ maxPageSize: 20 })) {
         result.push(queue.jobQueue!);
@@ -83,7 +82,7 @@ describe("RouterClient", function() {
       assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
-    it("should delete a queue", async function() {
+    it("should delete a queue", async function () {
       const result = await administrationClient.deleteQueue(queueId);
 
       assert.isDefined(result);

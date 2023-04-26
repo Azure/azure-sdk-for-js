@@ -1,0 +1,1165 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "148",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "ed678bca-089e-41fe-922b-bd36332fda83",
+        "x-ms-content-sha256": "oEbZ\u002BLnO9rcJU8qXPm2ndsjGGab8Qbu\u002B4rDEbZJPHJc=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:24 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": {
+        "name": "test-d-policy",
+        "offerTtlSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "ETag": "\u0022dd02678c-0000-0700-0000-6449b62f0000\u0022",
+        "Last-Modified": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "trace-id": "3df86c56-6ae3-67b4-e9af-ce7858fc4a48",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0L7ZJZAAAAAA9\u002BEG2xFjDQIcD39pFCHjhWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-d-policy-recorded-workers",
+        "name": "test-d-policy",
+        "offerTtlSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "205",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "8e644baf-3674-4700-8d00-6b5f7ff7e334",
+        "x-ms-content-sha256": "DnPGZm8GTFJTh0d1bEHun9/03VZVF0xo\u002BzuWvPJk3V0=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:25 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": {
+        "name": "test-e-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceededCancel": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": {
+              "Cancel": {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "ETag": "\u00226004880b-0000-0700-0000-6449b62f0000\u0022",
+        "Last-Modified": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "trace-id": "99970be1-0126-bf19-6c2e-a6f32726172a",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0L7ZJZAAAAADl1o79v6rVSp9em4yw/MkNWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-e-policy-recorded-workers",
+        "name": "test-e-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceededCancel": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": {
+              "Cancel": {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/queues/test-queue-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "142",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "4246a972-c5a0-4508-bc33-552af332ea0d",
+        "x-ms-content-sha256": "7nsVolM/cUVjElXqyP\u002Bwu7NdfddPVLnVXAEuQwvpBeE=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:25 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": {
+        "name": "test-queue",
+        "distributionPolicyId": "test-d-policy-recorded-workers",
+        "labels": {},
+        "exceptionPolicyId": "test-e-policy-recorded-workers"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "ETag": "\u0022390083a8-0000-0700-0000-6449b6300000\u0022",
+        "Last-Modified": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "trace-id": "66fb101e-0fcb-864e-3b61-6d49f49405bc",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0L7ZJZAAAAACurjJkXgDfSZr\u002ByOpXEumdWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-queue-recorded-workers",
+        "name": "test-queue",
+        "distributionPolicyId": "test-d-policy-recorded-workers",
+        "labels": {
+          "Id": "test-queue-recorded-workers"
+        },
+        "exceptionPolicyId": "test-e-policy-recorded-workers"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/workers/test-worker-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "178",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "d35515e3-04c2-4655-976b-c03dfe972b35",
+        "x-ms-content-sha256": "4Ft8NxPglmr0bbtGoSey86x\u002Baj1GKSvKsamhjCZ30AU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:25 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": {
+        "queueAssignments": {
+          "test-queue-recorded-workers": {}
+        },
+        "totalCapacity": 1,
+        "labels": {},
+        "channelConfigurations": {
+          "test-channel": {
+            "capacityCostPerJob": 1
+          }
+        },
+        "availableForOffers": false
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "ETag": "\u002200000000-0000-0000-b121-107aaf46db08\u0022",
+        "Last-Modified": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "trace-id": "ff2ee6c6-0ba3-c71f-d97e-1670cdfd6855",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0MLZJZAAAAAAoOkmASCCxQLc/Oe9/b8BZWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-worker-recorded-workers",
+        "state": "inactive",
+        "queueAssignments": {
+          "test-queue-recorded-workers": {}
+        },
+        "totalCapacity": 1,
+        "labels": {
+          "Id": "test-worker-recorded-workers"
+        },
+        "tags": {},
+        "channelConfigurations": {
+          "test-channel": {
+            "capacityCostPerJob": 1
+          }
+        },
+        "offers": [],
+        "assignedJobs": [],
+        "loadRatio": 0,
+        "availableForOffers": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/workers?api-version=2022-07-18-preview\u0026maxpagesize=20\u0026status=all",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "266acc56-22a9-42b7-98d8-8185001795db",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "trace-id": "0c23ef83-4707-0308-3426-d3b4133f8a22",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0MLZJZAAAAAA\u002BI\u002BpTF1S7R5gQsNoMEv03WVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "routerWorker": {
+              "id": "test-worker-recorded-workers",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-recorded-workers": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-recorded-workers"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000000-0000-0000-b121-107aaf46db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-recorded-a-scenario",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-recorded-a-scenario": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-recorded-a-scenario"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000005-0000-0000-9160-5ffaa346db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-recording1234",
+              "state": "active",
+              "queueAssignments": {
+                "test-queue-recording1234": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-recording1234"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": true
+            },
+            "etag": "\u002200000006-0000-0000-2255-c9a7f045db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-574adece-f996-4b04-8a9e-7b587dfaab7b",
+              "state": "active",
+              "queueAssignments": {
+                "test-queue-574adece-f996-4b04-8a9e-7b587dfaab7b": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-574adece-f996-4b04-8a9e-7b587dfaab7b"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": true
+            },
+            "etag": "\u002200000006-0000-0000-331a-9636eb45db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-55661a14-e7c3-43e2-8c7a-ee35c6983018",
+              "state": "active",
+              "queueAssignments": {
+                "test-queue-55661a14-e7c3-43e2-8c7a-ee35c6983018": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-55661a14-e7c3-43e2-8c7a-ee35c6983018"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": true
+            },
+            "etag": "\u002200000006-0000-0000-fac2-7ba0ea45db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-e2d37164-6173-412f-9253-8ca52bd313d1",
+              "state": "active",
+              "queueAssignments": {
+                "test-queue-e2d37164-6173-412f-9253-8ca52bd313d1": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-e2d37164-6173-412f-9253-8ca52bd313d1"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": true
+            },
+            "etag": "\u002200000005-0000-0000-9e2e-caf7e945db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
+              "state": "active",
+              "queueAssignments": {
+                "test-queue-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": true
+            },
+            "etag": "\u002200000005-0000-0000-39d7-5ccbe445db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000000-0000-0000-5f01-94c1e445db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-254c1f33-4764-42ef-8aa6-10f657b31f79",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-254c1f33-4764-42ef-8aa6-10f657b31f79": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-254c1f33-4764-42ef-8aa6-10f657b31f79"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000003-0000-0000-b27d-ea635d40db08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-e82ad2b6-3f75-4d04-8e37-d2f512fe9443",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-e82ad2b6-3f75-4d04-8e37-d2f512fe9443": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-e82ad2b6-3f75-4d04-8e37-d2f512fe9443"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-5338-5868a33fdb08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-1bd9cda4-8f40-4690-82ab-0d1605684646",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-1bd9cda4-8f40-4690-82ab-0d1605684646": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-1bd9cda4-8f40-4690-82ab-0d1605684646"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000000-0000-0000-7bc2-1ce0db3adb08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-7865125d-a7f0-4f65-a537-e854c973727a",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-7865125d-a7f0-4f65-a537-e854c973727a": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-7865125d-a7f0-4f65-a537-e854c973727a"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-0dd3-92083c9bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-3145c5f0-ce31-400a-8ec3-ed567742398b",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-3145c5f0-ce31-400a-8ec3-ed567742398b": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-3145c5f0-ce31-400a-8ec3-ed567742398b"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-013f-7f083c9bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-78de39a1-0fba-443c-8aad-f0bb64c2d597",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-78de39a1-0fba-443c-8aad-f0bb64c2d597": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-78de39a1-0fba-443c-8aad-f0bb64c2d597"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-f494-1f083c9bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-0316131f-9d29-4c59-a89b-2abd26100e78",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-0316131f-9d29-4c59-a89b-2abd26100e78": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-0316131f-9d29-4c59-a89b-2abd26100e78"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-9598-68fa369bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-bc07ba71-4f23-4e05-b765-5c3928e22536",
+              "state": "draining",
+              "queueAssignments": {
+                "test-queue-bc07ba71-4f23-4e05-b765-5c3928e22536": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-bc07ba71-4f23-4e05-b765-5c3928e22536"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [
+                {
+                  "id": "d7895c44-6748-4222-966c-c95b1eba4e38",
+                  "jobId": "test-job-bc07ba71-4f23-4e05-b765-5c3928e22536",
+                  "capacityCost": 1,
+                  "assignTime": "2022-09-13T18:24:22.9716887\u002B00:00"
+                }
+              ],
+              "loadRatio": 1,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000005-0000-0000-2e64-0075359bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-f892911c-dc72-4ad0-b8e7-e5cbd07b614e": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-f892911c-dc72-4ad0-b8e7-e5cbd07b614e"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-a131-5028309bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-4299900e-96a2-4bb5-9efd-2af2248be1a1",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-4299900e-96a2-4bb5-9efd-2af2248be1a1": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-4299900e-96a2-4bb5-9efd-2af2248be1a1"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-ecfa-48bf2f9bda08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-0a27cbed-0586-46c7-ad43-ba2a0705d99b": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-0a27cbed-0586-46c7-ad43-ba2a0705d99b"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000007-0000-0000-d074-81e5df9ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
+              "state": "draining",
+              "queueAssignments": {
+                "test-queue-c1a4c386-096f-42eb-a8cf-03f7d170b0a9": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-c1a4c386-096f-42eb-a8cf-03f7d170b0a9"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [
+                {
+                  "id": "df9f59e9-0338-4ca7-96e6-33025de3be1e",
+                  "jobId": "test-job-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
+                  "capacityCost": 1,
+                  "assignTime": "2022-09-13T07:58:41.031764\u002B00:00"
+                }
+              ],
+              "loadRatio": 1,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000005-0000-0000-c38f-7ce5df9ada08\u0022"
+          }
+        ],
+        "nextLink": "/routing/workers?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVc3djMVExTVhObmVUUkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwYVpYWTRRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTGJVRkJRVUp3WjBGRFFVNUhOM1ZSUVVkQlN6SXZSVkZDUVZGeWIwRkhRVUZUWjBOeFJFVm5RVU5GUVdkQlVtOWpSV2RJUzBGRldVRk1aMEoxUVVKWlJEWkJRVWxCT1dFdk4wRkJVVUZqVVUxQlIxQTRRVVJCUTBKUGIwRkNWRmxGVFdkQk1rRm5ORUZCUVZGUlFVUnZjV0pvWnowOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIwJnN0YXR1cz1hbGw%3D"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/workers?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVc3djMVExTVhObmVUUkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwYVpYWTRRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTGJVRkJRVUp3WjBGRFFVNUhOM1ZSUVVkQlN6SXZSVkZDUVZGeWIwRkhRVUZUWjBOeFJFVm5RVU5GUVdkQlVtOWpSV2RJUzBGRldVRk1aMEoxUVVKWlJEWkJRVWxCT1dFdk4wRkJVVUZqVVUxQlIxQTRRVVJCUTBKUGIwRkNWRmxGVFdkQk1rRm5ORUZCUVZGUlFVUnZjV0pvWnowOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIwJnN0YXR1cz1hbGw%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20\u0026status=all",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "4950f275-8bad-4ad4-b10f-04a87f0d9bf7",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "trace-id": "10112e14-5518-ff36-9b55-74110b6b9976",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0MLZJZAAAAABZY252gJ7jR7yJwhN6f4X6WVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "routerWorker": {
+              "id": "test-worker-148ca749-d29e-4b44-8dea-418a8ec29ec6",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-148ca749-d29e-4b44-8dea-418a8ec29ec6": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-148ca749-d29e-4b44-8dea-418a8ec29ec6"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "channelId": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000003-0000-0000-5ba2-1803dd9ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-9af10ecf-882c-4af9-b219-fde8bfa431b0",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-9af10ecf-882c-4af9-b219-fde8bfa431b0": {}
+              },
+              "totalCapacity": 1010,
+              "labels": {
+                "Id": "test-worker-9af10ecf-882c-4af9-b219-fde8bfa431b0"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "channelId": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000005-0000-0000-0c62-f5e5b99ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-021d0704-8c30-4304-8608-328fa8e76d35",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-021d0704-8c30-4304-8608-328fa8e76d35": {}
+              },
+              "totalCapacity": 1010,
+              "labels": {
+                "Id": "test-worker-021d0704-8c30-4304-8608-328fa8e76d35"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "channelId": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000006-0000-0000-69d4-5d42b79ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-efdbaae2-d722-48b7-bf1f-34c9eac15e92",
+              "state": "inactive",
+              "queueAssignments": {},
+              "totalCapacity": 100,
+              "labels": {
+                "Id": "test-worker-efdbaae2-d722-48b7-bf1f-34c9eac15e92"
+              },
+              "tags": {},
+              "channelConfigurations": {},
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000003-0000-0000-c321-0242b79ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-01c3b947-446d-4f3b-8402-71f5d019fa3b",
+              "state": "inactive",
+              "queueAssignments": {},
+              "totalCapacity": 100,
+              "labels": {
+                "Id": "test-worker-01c3b947-446d-4f3b-8402-71f5d019fa3b"
+              },
+              "tags": {},
+              "channelConfigurations": {},
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000003-0000-0000-ed9e-f4ebb59ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-198a7122-e0d3-4836-9c57-c73d1042877d",
+              "state": "inactive",
+              "queueAssignments": {},
+              "totalCapacity": 100,
+              "labels": {
+                "Id": "test-worker-198a7122-e0d3-4836-9c57-c73d1042877d"
+              },
+              "tags": {},
+              "channelConfigurations": {},
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000003-0000-0000-db28-ddebb59ada08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker-b14eb5d1-5778-438f-a010-5db250933e8f",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue-b14eb5d1-5778-438f-a010-5db250933e8f": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker-b14eb5d1-5778-438f-a010-5db250933e8f"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000008-0000-0000-e263-d8535d95da08\u0022"
+          },
+          {
+            "routerWorker": {
+              "id": "test-worker",
+              "state": "inactive",
+              "queueAssignments": {
+                "test-queue": {}
+              },
+              "totalCapacity": 1,
+              "labels": {
+                "Id": "test-worker"
+              },
+              "tags": {},
+              "channelConfigurations": {
+                "test-channel": {
+                  "capacityCostPerJob": 1
+                }
+              },
+              "offers": [],
+              "assignedJobs": [],
+              "loadRatio": 0,
+              "availableForOffers": false
+            },
+            "etag": "\u002200000008-0000-0000-52cf-0242a45fda08\u0022"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/workers/test-worker-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "b4899a97-843b-4319-b0c1-e4bc9b7be87a",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Wed, 26 Apr 2023 23:39:29 GMT",
+        "trace-id": "3a690166-d470-01c5-c720-84205e0770d4",
+        "X-Azure-Ref": "0MbZJZAAAAABXG4bJhuHEQqnb/KCIxUk4WVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/queues/test-queue-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "ae0a9680-8ab2-4546-880d-c3a485410478",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Wed, 26 Apr 2023 23:39:29 GMT",
+        "trace-id": "f936e5d6-f570-8064-a44f-8f6007d2451f",
+        "X-Azure-Ref": "0MbZJZAAAAAAgGcQ/n7MjTZMPsRJ\u002Bwt9tWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "294d3aa6-0f3b-44bc-b01c-df81eb4ffcc3",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:27 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Wed, 26 Apr 2023 23:39:30 GMT",
+        "trace-id": "bb8844dd-e392-8372-3bed-da907f842d0a",
+        "X-Azure-Ref": "0MrZJZAAAAAAU5WvLSVLsSa91\u002BJVqJzzcWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "c4c3d589-7c80-46fa-96ec-c21466902a1e",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 26 Apr 2023 23:39:28 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "http://localhost:9876",
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Wed, 26 Apr 2023 23:39:30 GMT",
+        "trace-id": "b34f8055-3e6b-0570-3ed5-97a342cd00e8",
+        "X-Azure-Ref": "0MrZJZAAAAACYZMPPUA9fTZJcgPLFq9pYWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

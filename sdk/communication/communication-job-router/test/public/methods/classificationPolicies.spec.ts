@@ -9,29 +9,29 @@ import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
-  getQueueRequest
+  getQueueRequest,
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
 
-describe("RouterClient", function() {
+describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = ["record", "playback"].includes(env.TEST_MODE!) ? "recording" : uuid();
+  const testRunId = ["record", "playback"].includes(env.TEST_MODE!)
+    ? "recorded-c-policies"
+    : uuid();
 
-  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
-    testRunId
-  );
+  const { distributionPolicyId, distributionPolicyRequest } =
+    getDistributionPolicyRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { queueId, queueRequest } = getQueueRequest(testRunId);
-  const { classificationPolicyId, classificationPolicyRequest } = getClassificationPolicyRequest(
-    testRunId
-  );
+  const { classificationPolicyId, classificationPolicyRequest } =
+    getClassificationPolicyRequest(testRunId);
 
-  describe("Classification Policy Operations", function() {
-    this.beforeAll(async function(this: Context) {
+  describe("Classification Policy Operations", function () {
+    this.beforeEach(async function (this: Context) {
       ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
         this
       ));
@@ -48,19 +48,18 @@ describe("RouterClient", function() {
       );
     });
 
-    afterEach(async function(this: Context) {
+    this.afterEach(async function (this: Context) {
+      await administrationClient.deleteClassificationPolicy(classificationPolicyId);
+      await administrationClient.deleteQueue(queueId);
+      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
+      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
     });
 
-    this.afterAll(async function(this: Context) {
-      await administrationClient.deleteQueue(queueId);
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
-      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
-    });
-
-    it("should create a classification policy", async function() {
+    it("should create a classification policy", async function () {
       const result = await administrationClient.createClassificationPolicy(
         classificationPolicyId,
         classificationPolicyRequest
@@ -71,14 +70,14 @@ describe("RouterClient", function() {
       assert.equal(result.name, classificationPolicyRequest.name);
     }).timeout(timeoutMs);
 
-    it("should get a classification policy", async function() {
+    it("should get a classification policy", async function () {
       const result = await administrationClient.getClassificationPolicy(classificationPolicyId);
 
       assert.equal(result.id, classificationPolicyId);
       assert.equal(result.name, classificationPolicyRequest.name);
     }).timeout(timeoutMs);
 
-    it("should update a classification policy", async function() {
+    it("should update a classification policy", async function () {
       const patch: ClassificationPolicy = { ...classificationPolicyRequest, name: "new name" };
       const result = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
@@ -90,10 +89,10 @@ describe("RouterClient", function() {
       assert.equal(result.name, patch.name);
     }).timeout(timeoutMs);
 
-    it("should list classification policies", async function() {
+    it("should list classification policies", async function () {
       const result: ClassificationPolicy[] = [];
       for await (const policy of administrationClient.listClassificationPolicies({
-        maxPageSize: 20
+        maxPageSize: 20,
       })) {
         result.push(policy.classificationPolicy!);
       }
@@ -101,7 +100,7 @@ describe("RouterClient", function() {
       assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
-    it("should delete a classification policy", async function() {
+    it("should delete a classification policy", async function () {
       const result = await administrationClient.deleteClassificationPolicy(classificationPolicyId);
 
       assert.isDefined(result);

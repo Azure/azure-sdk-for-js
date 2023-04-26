@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { DistributionPolicy, RouterAdministrationClient } from "../../../src";
@@ -10,30 +10,31 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { timeoutMs } from "../utils/constants";
 import { v4 as uuid } from "uuid";
 
-describe("RouterClient", function() {
+describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = uuid();
+  const testRunId = ["record", "playback"].includes(env.TEST_MODE!)
+    ? "recorded-d-policies"
+    : uuid();
 
-  const { distributionPolicyId, distributionPolicyRequest } = getDistributionPolicyRequest(
-    testRunId
-  );
+  const { distributionPolicyId, distributionPolicyRequest } =
+    getDistributionPolicyRequest(testRunId);
 
-  describe("Distribution Policy Operations", function() {
-    this.beforeAll(async function(this: Context) {
+  describe("Distribution Policy Operations", function () {
+    this.beforeEach(async function (this: Context) {
       ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
         this
       ));
     });
 
-    afterEach(async function(this: Context) {
+    this.afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a distribution policy", async function() {
+    it("should create a distribution policy", async function () {
       const result = await administrationClient.createDistributionPolicy(
         distributionPolicyId,
         distributionPolicyRequest
@@ -44,7 +45,7 @@ describe("RouterClient", function() {
       assert.equal(result.name, distributionPolicyRequest.name);
     }).timeout(timeoutMs);
 
-    it("should get a distribution policy", async function() {
+    it("should get a distribution policy", async function () {
       const result = await administrationClient.getDistributionPolicy(distributionPolicyId);
 
       assert.equal(result.id, distributionPolicyId);
@@ -53,7 +54,7 @@ describe("RouterClient", function() {
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
 
-    it("should update a distribution policy", async function() {
+    it("should update a distribution policy", async function () {
       const patch: DistributionPolicy = { ...distributionPolicyRequest, name: "new-name" };
       const result = await administrationClient.updateDistributionPolicy(
         distributionPolicyId,
@@ -65,10 +66,10 @@ describe("RouterClient", function() {
       assert.equal(result.name, patch.name);
     }).timeout(timeoutMs);
 
-    it("should list distribution policies", async function() {
+    it("should list distribution policies", async function () {
       const result: DistributionPolicy[] = [];
       for await (const policy of administrationClient.listDistributionPolicies({
-        maxPageSize: 20
+        maxPageSize: 20,
       })) {
         result.push(policy.distributionPolicy!);
       }
@@ -76,7 +77,7 @@ describe("RouterClient", function() {
       assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
-    it("should delete a distribution policy", async function() {
+    it("should delete a distribution policy", async function () {
       const result = await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
       assert.isDefined(result);
