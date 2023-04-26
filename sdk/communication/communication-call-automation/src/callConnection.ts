@@ -9,6 +9,7 @@ import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,
   CallAutomationApiClient,
+  CallAutomationApiClientOptionalParams,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
@@ -37,7 +38,6 @@ import {
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -48,12 +48,12 @@ export class CallConnection {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly endpoint: string;
   private readonly credential: TokenCredential | KeyCredential;
-  private readonly internalPipelineOptions?: InternalPipelineOptions;
+  private readonly callAutomationApiClientOptions?: CallAutomationApiClientOptionalParams;
   constructor(
     callConnectionId: string,
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: InternalPipelineOptions
+    options?: CallAutomationApiClientOptionalParams
   ) {
     this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -62,7 +62,7 @@ export class CallConnection {
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
     this.credential = credential;
-    this.internalPipelineOptions = options;
+    this.callAutomationApiClientOptions = options;
   }
 
   /**
@@ -73,7 +73,7 @@ export class CallConnection {
       this.callConnectionId,
       this.endpoint,
       this.credential,
-      this.internalPipelineOptions
+      this.callAutomationApiClientOptions
     );
   }
 
