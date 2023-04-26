@@ -68,6 +68,7 @@ export function auxiliaryAuthenticationHeaderPolicy(
         );
       }
       if (!credentials || credentials.length === 0) {
+        logger.info(`Skip ${auxiliaryAuthenticationHeaderPolicyName} due to empty credentials`);
         return next(request);
       }
 
@@ -85,11 +86,14 @@ export function auxiliaryAuthenticationHeaderPolicy(
           })
         );
       }
-      const auxiliaryTokens: NullableString[] = await Promise.all(tokenPromises);
+      const auxiliaryTokens: NullableString[] = (await Promise.all(tokenPromises)).filter((token) => Boolean(token));
+      if (!auxiliaryTokens || auxiliaryTokens.length === 0) {
+        logger.warning(`None of the auxiliary tokens are valid and skip to set ${AUTHORIZATION_AUXILIARY_HEADER} header`);
+        return next(request);
+      }
       request.headers.set(
         AUTHORIZATION_AUXILIARY_HEADER,
         auxiliaryTokens
-          .filter((token) => Boolean(token))
           .map((token) => `Bearer ${token}`)
           .join(", ")
       );
