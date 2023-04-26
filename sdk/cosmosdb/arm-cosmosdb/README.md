@@ -6,7 +6,7 @@ Azure Cosmos DB Database Service Resource Provider REST API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cosmosdb) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
