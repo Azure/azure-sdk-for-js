@@ -110,7 +110,6 @@ export function createEventHubsConsumerClient(options?: EventHubConsumerClientOp
   if (!connectionString || !consumerGroup || !hubName) {
     throw new Error("EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!");
   }
-  console.log(consumerGroup, connectionString, hubName)
   return new EventHubConsumerClient(consumerGroup, connectionString, hubName, options);
 }
 
