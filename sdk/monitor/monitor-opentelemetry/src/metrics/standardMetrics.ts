@@ -80,7 +80,7 @@ export class _StandardMetrics {
    * Add extra attributes to Span so Ingestion doesn't aggregate the data again
    * @internal
    */
-  public _markSpanAsProcceseded(span: Span): void {
+  public _markSpanAsProcessed(span: Span): void {
     if (this._config.enableAutoCollectStandardMetrics) {
       if (span.kind === SpanKind.CLIENT) {
         span.setAttributes({

@@ -90,7 +90,7 @@ export class _StandardMetrics {
         collectionInterval: number;
     });
     flush(): Promise<void>;
-    _markSpanAsProcceseded(span: Span): void;
+    _markSpanAsProcessed(span: Span): void;
     _recordSpan(span: ReadableSpan): void;
     shutdown(): void;
 }

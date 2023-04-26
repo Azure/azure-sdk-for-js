@@ -16,7 +16,7 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
   }
 
   onStart(span: Span, _context: Context): void {
-    this._metricHandler._getStandardMetrics()?._markSpanAsProcceseded(span);
+    this._metricHandler._getStandardMetrics()?._markSpanAsProcessed(span);
   }
 
   onEnd(span: ReadableSpan): void {
