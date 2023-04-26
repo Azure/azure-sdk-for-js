@@ -47,6 +47,10 @@
       "type": "bool",
       "defaultValue": false
     },
+    "cognitiveServicesEndpointSuffix": {
+      "type": "string",
+      "defaultValue": ".cognitiveservices.azure.com"
+    },
     "storageRoleUniqueId": {
       "defaultValue": "[newGuid()]",
       "type": "String"
@@ -57,10 +61,9 @@
     }
   },
   "variables": {
-    "cognitiveServicesEndpointSuffix":  ".cognitiveservices.azure.com",
     "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
     "cognitiveAccountName": "[format('textanalytics-{0}', parameters('baseName'))]",
-    "cognitiveApiVersion": "[if(endsWith(variables('cognitiveServicesEndpointSuffix'), '.us'), '2022-03-01', '2022-12-01')]",
+    "cognitiveApiVersion": "'2022-03-01'",
     "storageApiVersion": "2022-09-01",
     "storageAccountName": "[parameters('baseName')]",
     "authorizationApiVersion": "2018-09-01-preview",
@@ -294,7 +297,7 @@
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', variables('cognitiveAccountName'), variables('cognitiveServicesEndpointSuffix'), '/')]"
+      "value": "[concat('https://', variables('cognitiveAccountName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
     },
     "STORAGE_ENDPOINT": {
       "type": "string",
