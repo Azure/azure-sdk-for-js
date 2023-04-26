@@ -3,8 +3,10 @@ scenarios:
   testTarget: scenarioNoActivity
   Scenario: node18-noActivity
   memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshanalluru/jseh/dockerfile:harshanalluru
 - image: Dockerfile
   testTarget: scenarioCheckpointStore
   Scenario: node18-checkpointStore
   memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshanalluru/jseh/dockerfile:harshanalluru
 
