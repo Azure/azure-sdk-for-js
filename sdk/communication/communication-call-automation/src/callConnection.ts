@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,
+  CallAutomationApiClient,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
-import { CallConnectionImpl, CallMediaImpl } from "./generated/src/operations";
+import { CallConnectionImpl } from "./generated/src/operations";
 import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
@@ -32,6 +36,8 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -39,23 +45,36 @@ import { v4 as uuidv4 } from "uuid";
 export class CallConnection {
   private readonly callConnectionId: string;
   private readonly callConnection: CallConnectionImpl;
-  private readonly callMedia: CallMediaImpl;
-
+  private readonly callAutomationApiClient: CallAutomationApiClient;
+  private readonly endpoint: string;
+  private readonly credential: TokenCredential | KeyCredential;
+  private readonly internalPipelineOptions?: InternalPipelineOptions;
   constructor(
     callConnectionId: string,
-    callConnection: CallConnectionImpl,
-    callMedia: CallMediaImpl
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: InternalPipelineOptions
   ) {
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
-    this.callConnection = callConnection;
-    this.callMedia = callMedia;
+    this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
+    this.endpoint = endpoint;
+    this.credential = credential;
+    this.internalPipelineOptions = options;
   }
 
   /**
    * Initializes a new instance of CallMedia.
    */
   public getCallMedia(): CallMedia {
-    return new CallMedia(this.callConnectionId, this.callMedia);
+    return new CallMedia(
+      this.callConnectionId,
+      this.endpoint,
+      this.credential,
+      this.internalPipelineOptions
+    );
   }
 
   /**

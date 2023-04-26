@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CallRecordingImpl } from "./generated/src/operations";
-import { StartCallRecordingRequest } from "./generated/src/models/index";
+import {
+  CallAutomationApiClientOptionalParams,
+  StartCallRecordingRequest,
+} from "./generated/src/models/index";
 import { RecordingStateResult } from "./models/responses";
 import {
   StartRecordingOptions,
@@ -16,6 +19,9 @@ import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import * as fs from "fs";
 import { v4 as uuidv4 } from "uuid";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { CallAutomationApiClient } from "./generated/src";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -23,10 +29,19 @@ import { v4 as uuidv4 } from "uuid";
 export class CallRecording {
   private readonly callRecordingImpl: CallRecordingImpl;
   private readonly contentDownloader: ContentDownloaderImpl;
+  private readonly callAutomationApiClient: CallAutomationApiClient;
 
-  constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl) {
-    this.callRecordingImpl = callRecordingImpl;
-    this.contentDownloader = contentDownloader;
+  constructor(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: CallAutomationApiClientOptionalParams
+  ) {
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+
+    this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
+    this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
   }
 
   /**

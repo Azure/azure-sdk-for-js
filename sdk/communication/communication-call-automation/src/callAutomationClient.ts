@@ -20,7 +20,6 @@ import {
   RedirectCallRequest,
   RejectCallRequest,
 } from "./generated/src";
-import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
@@ -37,7 +36,6 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
 import { v4 as uuidv4 } from "uuid";
 
 /**
@@ -63,12 +61,9 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
  */
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
-  private readonly callConnectionImpl: CallConnectionImpl;
-  private readonly callRecordingImpl: CallRecordingImpl;
-  private readonly contentDownloaderImpl: ContentDownloaderImpl;
-  private readonly callMediaImpl: CallMediaImpl;
   private readonly sourceIdentity?: CommunicationIdentifierModel;
-
+  private readonly credential: TokenCredential | KeyCredential;
+  private readonly internalPipelineOptions: InternalPipelineOptions;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -109,7 +104,7 @@ export class CallAutomationClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    this.internalPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
@@ -121,12 +116,9 @@ export class CallAutomationClient {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
 
-    this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
+    this.credential = credential;
+    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
     this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
-    this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
-    this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
-    this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
-    this.contentDownloaderImpl = new ContentDownloaderImpl(this.callAutomationApiClient);
     this.sourceIdentity = options.sourceIdentity
       ? communicationIdentifierModelConverter(options.sourceIdentity)
       : undefined;
@@ -137,14 +129,23 @@ export class CallAutomationClient {
    * @param callConnectionId - The CallConnection id for the CallConnection instance. (ex: 421CONTOSO-cRD6-4RDc-a078-99dRANDOMf).
    */
   public getCallConnection(callConnectionId: string): CallConnection {
-    return new CallConnection(callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+    return new CallConnection(
+      callConnectionId,
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions
+    );
   }
 
   /**
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callRecordingImpl, this.contentDownloaderImpl);
+    return new CallRecording(
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions
+    );
   }
 
   /**
@@ -182,8 +183,9 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         result.callConnectionId,
-        this.callConnectionImpl,
-        this.callMediaImpl
+        this.callAutomationApiClient.endpoint,
+        this.credential,
+        this.internalPipelineOptions
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
@@ -293,8 +295,9 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         result.callConnectionId,
-        this.callConnectionImpl,
-        this.callMediaImpl
+        this.callAutomationApiClient.endpoint,
+        this.credential,
+        this.internalPipelineOptions
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,

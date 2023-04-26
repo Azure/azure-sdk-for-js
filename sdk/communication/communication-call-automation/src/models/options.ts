@@ -28,7 +28,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
   interToneTimeoutInSeconds?: number;
   stopDtmfTones?: DtmfTone[];
-  readonly kind?: "callMediaRecognizeDtmfOptions";
+  readonly kind: "callMediaRecognizeDtmfOptions";
 }
 
 /**

@@ -10,10 +10,10 @@ import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
+import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
-import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -91,16 +91,14 @@ export interface CallConnectedEventData extends Omit<RestCallConnected, "callCon
 
 // @public
 export class CallConnection {
-    // Warning: (ae-forgotten-export) The symbol "CallConnectionImpl" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CallMediaImpl" needs to be exported by the entry point index.d.ts
-    constructor(callConnectionId: string, callConnection: CallConnectionImpl, callMedia: CallMediaImpl);
+    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: InternalPipelineOptions);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
-    removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
+    removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CallInvite, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
 
@@ -155,7 +153,8 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 
 // @public
 export class CallMedia {
-    constructor(callConnectionId: string, callMediaImpl: CallMediaImpl);
+    // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
+    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
     play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
     playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
@@ -167,7 +166,7 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
     // (undocumented)
     interToneTimeoutInSeconds?: number;
     // (undocumented)
-    readonly kind?: "callMediaRecognizeDtmfOptions";
+    readonly kind: "callMediaRecognizeDtmfOptions";
     // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
@@ -196,9 +195,7 @@ export interface CallParticipant {
 
 // @public
 export class CallRecording {
-    // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ContentDownloaderImpl" needs to be exported by the entry point index.d.ts
-    constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     delete(recordingLocationUrl: string, options?: DeleteRecordingOptions): Promise<void>;
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
@@ -285,7 +282,7 @@ export enum DtmfTone {
 // @public
 export interface FileSource extends PlaySource {
     // (undocumented)
-    readonly kind?: "fileSource";
+    readonly kind: "fileSource";
     // (undocumented)
     url: string;
 }
@@ -493,12 +490,12 @@ export interface RemoveParticipantFailedEventData extends Omit<RemoveParticipant
 }
 
 // @public
-export interface RemoveParticipantsOptions extends OperationOptions {
+export interface RemoveParticipantResult {
     operationContext?: string;
 }
 
 // @public
-export interface RemoveParticipantsResult {
+export interface RemoveParticipantsOption extends OperationOptions {
     operationContext?: string;
 }
 

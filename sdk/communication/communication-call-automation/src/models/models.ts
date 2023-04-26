@@ -68,7 +68,7 @@ export interface PlaySource {
 /** The FileSource model. */
 export interface FileSource extends PlaySource {
   url: string;
-  readonly kind?: "fileSource";
+  readonly kind: "fileSource";
 }
 
 /** A Dtmf Tone. */
