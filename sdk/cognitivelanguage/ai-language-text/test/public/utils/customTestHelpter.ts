@@ -157,9 +157,10 @@ export async function createCustomTestProject(
   await polling(client, deployTask);
 }
 
-export function isSovereignClouds(endpoint: string): boolean {
-  if (endpoint.includes(".us") || endpoint.includes(".cn")) {
-    return true;
-  }
-  return false;
+export function isUSGovCloud(endpoint: string): boolean {
+  return endpoint.includes(".us") ? true : false;
+}
+
+export function isChinaCloud(endpoint: string): boolean {
+  return endpoint.includes(".cn") ? true : false;
 }

@@ -14,7 +14,7 @@ import {
 } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
@@ -51,6 +51,7 @@ import {
   expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+import { isChinaCloud } from "./utils/customTestHelpter";
 
 const FIXME1 = {
   // FIXME: remove this check when the service updates its message
@@ -449,6 +450,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
 
           it("abstractive summarization", async function () {
+            // Abstractive summarization is not supported in China cloud
+            const endpoint = assertEnvironmentVariable("ENDPOINT");
+            if (isChinaCloud(endpoint)) {
+              this.skip();
+            }
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -469,6 +475,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
 
           it("abstractive summarization with sentenceCount", async function () {
+            // Abstractive summarization is not supported in China cloud
+            const endpoint = assertEnvironmentVariable("ENDPOINT");
+            if (isChinaCloud(endpoint)) {
+              this.skip();
+            }
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
