@@ -23,10 +23,11 @@ export interface DetectUnivariateEntireSeries200Response extends HttpResponse {
 
 export interface DetectUnivariateEntireSeriesDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
-export interface DetectUnivariateEntireSeriesDefaultResponse extends HttpResponse {
+export interface DetectUnivariateEntireSeriesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AnomalyDetectorErrorOutput;
   headers: RawHttpHeaders & DetectUnivariateEntireSeriesDefaultHeaders;
@@ -40,7 +41,7 @@ export interface DetectUnivariateLastPoint200Response extends HttpResponse {
 
 export interface DetectUnivariateLastPointDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
 export interface DetectUnivariateLastPointDefaultResponse extends HttpResponse {
@@ -57,17 +58,19 @@ export interface DetectUnivariateChangePoint200Response extends HttpResponse {
 
 export interface DetectUnivariateChangePointDefaultHeaders {
   /** Error code. */
-  "x-ms-error-code"?: string;
+  "x-ms-error-code": string;
 }
 
-export interface DetectUnivariateChangePointDefaultResponse extends HttpResponse {
+export interface DetectUnivariateChangePointDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AnomalyDetectorErrorOutput;
   headers: RawHttpHeaders & DetectUnivariateChangePointDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetMultivariateBatchDetectionResult200Response extends HttpResponse {
+export interface GetMultivariateBatchDetectionResult200Response
+  extends HttpResponse {
   status: "200";
   body: MultivariateDetectionResultOutput;
 }
@@ -77,7 +80,8 @@ export interface GetMultivariateBatchDetectionResultDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetMultivariateBatchDetectionResultDefaultResponse extends HttpResponse {
+export interface GetMultivariateBatchDetectionResultDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & GetMultivariateBatchDetectionResultDefaultHeaders;
@@ -157,14 +161,15 @@ export interface GetMultivariateModelDefaultResponse extends HttpResponse {
 }
 
 export interface DetectMultivariateBatchAnomaly202Headers {
-  /** Id of the detection result. */
+  /** ID of the detection result. */
   "operation-id": string;
   /** Location of the detection result. */
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DetectMultivariateBatchAnomaly202Response extends HttpResponse {
+export interface DetectMultivariateBatchAnomaly202Response
+  extends HttpResponse {
   status: "202";
   body: MultivariateDetectionResultOutput;
   headers: RawHttpHeaders & DetectMultivariateBatchAnomaly202Headers;
@@ -175,7 +180,8 @@ export interface DetectMultivariateBatchAnomalyDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface DetectMultivariateBatchAnomalyDefaultResponse extends HttpResponse {
+export interface DetectMultivariateBatchAnomalyDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DetectMultivariateBatchAnomalyDefaultHeaders;
@@ -192,7 +198,8 @@ export interface DetectMultivariateLastAnomalyDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface DetectMultivariateLastAnomalyDefaultResponse extends HttpResponse {
+export interface DetectMultivariateLastAnomalyDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DetectMultivariateLastAnomalyDefaultHeaders;

@@ -39,43 +39,46 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DetectUnivariateEntireSeries {
   /**
-   * This operation generates a model with an entire series, each point is detected
+   * This operation generates a model with an entire series. Each point is detected
    * with the same model. With this method, points before and after a certain point
-   * are used to determine whether it is an anomaly. The entire detection can give
+   * are used to determine whether it's an anomaly. The entire detection can give the
    * user an overall status of the time series.
    */
   post(
     options: DetectUnivariateEntireSeriesParameters
   ): StreamableMethod<
-    DetectUnivariateEntireSeries200Response | DetectUnivariateEntireSeriesDefaultResponse
+    | DetectUnivariateEntireSeries200Response
+    | DetectUnivariateEntireSeriesDefaultResponse
   >;
 }
 
 export interface DetectUnivariateLastPoint {
   /**
-   * This operation generates a model using the points that you sent into the API,
+   * This operation generates a model by using the points that you sent in to the API
    * and based on all data to determine whether the last point is anomalous.
    */
   post(
     options: DetectUnivariateLastPointParameters
   ): StreamableMethod<
-    DetectUnivariateLastPoint200Response | DetectUnivariateLastPointDefaultResponse
+    | DetectUnivariateLastPoint200Response
+    | DetectUnivariateLastPointDefaultResponse
   >;
 }
 
 export interface DetectUnivariateChangePoint {
-  /** Evaluate change point score of every series point */
+  /** Evaluate the change point score of every series point. */
   post(
     options: DetectUnivariateChangePointParameters
   ): StreamableMethod<
-    DetectUnivariateChangePoint200Response | DetectUnivariateChangePointDefaultResponse
+    | DetectUnivariateChangePoint200Response
+    | DetectUnivariateChangePointDefaultResponse
   >;
 }
 
 export interface GetMultivariateBatchDetectionResult {
   /**
-   * For asynchronous inference, get multivariate anomaly detection result based on
-   * resultId returned by the BatchDetectAnomaly api.
+   * For asynchronous inference, get a multivariate anomaly detection result based on the
+   * resultId value that the BatchDetectAnomaly API returns.
    */
   get(
     options?: GetMultivariateBatchDetectionResultParameters
@@ -88,63 +91,72 @@ export interface GetMultivariateBatchDetectionResult {
 export interface TrainMultivariateModel {
   /**
    * Create and train a multivariate anomaly detection model. The request must
-   * include a source parameter to indicate an externally accessible Azure blob
-   * storage URI.There are two types of data input: An URI pointed to an Azure blob
-   * storage folder which contains multiple CSV files, and each CSV file contains
-   * two columns, timestamp and variable. Another type of input is an URI pointed to
-   * a CSV file in Azure blob storage, which contains all the variables and a
-   * timestamp column.
+   * include a source parameter to indicate an Azure Blob
+   * Storage URI that's accessible to the service. There are two types of data input. The Blob Storage URI can point to an Azure Blob
+   * Storage folder that contains multiple CSV files, where each CSV file has
+   * two columns, time stamp and variable. Or the Blob Storage URI can point to a single blob that contains a CSV file that has all the variables and a
+   * time stamp column.
    */
   post(
     options: TrainMultivariateModelParameters
-  ): StreamableMethod<TrainMultivariateModel201Response | TrainMultivariateModelDefaultResponse>;
+  ): StreamableMethod<
+    TrainMultivariateModel201Response | TrainMultivariateModelDefaultResponse
+  >;
   /** List models of a resource. */
   get(
     options?: ListMultivariateModelsParameters
-  ): StreamableMethod<ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse>;
+  ): StreamableMethod<
+    ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse
+  >;
 }
 
 export interface DeleteMultivariateModel {
-  /** Delete an existing multivariate model according to the modelId */
+  /** Delete an existing multivariate model according to the modelId value. */
   delete(
     options?: DeleteMultivariateModelParameters
-  ): StreamableMethod<DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse>;
+  ): StreamableMethod<
+    DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse
+  >;
   /**
-   * Get detailed information of multivariate model, including the training status
+   * Get detailed information about the multivariate model, including the training status
    * and variables used in the model.
    */
   get(
     options?: GetMultivariateModelParameters
-  ): StreamableMethod<GetMultivariateModel200Response | GetMultivariateModelDefaultResponse>;
+  ): StreamableMethod<
+    GetMultivariateModel200Response | GetMultivariateModelDefaultResponse
+  >;
 }
 
 export interface DetectMultivariateBatchAnomaly {
   /**
-   * Submit multivariate anomaly detection task with the modelId of trained model
-   * and inference data, the input schema should be the same with the training
-   * request. The request will complete asynchronously and return a resultId to
-   * query the detection result.The request should be a source link to indicate an
-   * externally accessible Azure storage Uri, either pointed to an Azure blob
-   * storage folder, or pointed to a CSV file in Azure blob storage.
+   * Submit a multivariate anomaly detection task with the modelId value of a trained model
+   * and inference data. The input schema should be the same with the training
+   * request. The request will finish asynchronously and return a resultId value to
+   * query the detection result. The request should be a source link to indicate an
+   * externally accessible Azure Storage URI that either points to an Azure Blob
+   * Storage folder or points to a CSV file in Azure Blob Storage.
    */
   post(
     options: DetectMultivariateBatchAnomalyParameters
   ): StreamableMethod<
-    DetectMultivariateBatchAnomaly202Response | DetectMultivariateBatchAnomalyDefaultResponse
+    | DetectMultivariateBatchAnomaly202Response
+    | DetectMultivariateBatchAnomalyDefaultResponse
   >;
 }
 
 export interface DetectMultivariateLastAnomaly {
   /**
-   * Submit multivariate anomaly detection task with the modelId of trained model
-   * and inference data, and the inference data should be put into request body in a
-   * JSON format. The request will complete synchronously and return the detection
+   * Submit a multivariate anomaly detection task with the modelId value of a trained model
+   * and inference data. The inference data should be put into the request body in
+   * JSON format. The request will finish synchronously and return the detection
    * immediately in the response body.
    */
   post(
     options: DetectMultivariateLastAnomalyParameters
   ): StreamableMethod<
-    DetectMultivariateLastAnomaly200Response | DetectMultivariateLastAnomalyDefaultResponse
+    | DetectMultivariateLastAnomaly200Response
+    | DetectMultivariateLastAnomalyDefaultResponse
   >;
 }
 
@@ -163,7 +175,10 @@ export interface Routes {
   /** Resource for '/multivariate/models' has methods for the following verbs: post, get */
   (path: "/multivariate/models"): TrainMultivariateModel;
   /** Resource for '/multivariate/models/\{modelId\}' has methods for the following verbs: delete, get */
-  (path: "/multivariate/models/{modelId}", modelId: string): DeleteMultivariateModel;
+  (
+    path: "/multivariate/models/{modelId}",
+    modelId: string
+  ): DeleteMultivariateModel;
   /** Resource for '/multivariate/models/\{modelId\}:detect-batch' has methods for the following verbs: post */
   (
     path: "/multivariate/models/{modelId}:detect-batch",
@@ -176,6 +191,6 @@ export interface Routes {
   ): DetectMultivariateLastAnomaly;
 }
 
-export type AnomalyDetectorRestClient = Client & {
+export type AnomalyDetectorClient = Client & {
   path: Routes;
 };
