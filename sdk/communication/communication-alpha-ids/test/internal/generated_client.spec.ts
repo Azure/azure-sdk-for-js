@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PipelinePolicy, bearerTokenAuthenticationPolicy, createEmptyPipeline, bearerTokenAuthenticationPolicyName
+  PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
 import { AlphaIDsClient as AlphaIDsGeneratedClient } from "../../src/generated/src";
 import { TokenCredential } from "@azure/identity";
@@ -60,6 +63,17 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     assert.throws(() => {
       new AlphaIDsGeneratedClient(undefinedConnectionString as string);
     });
+    const client = new AlphaIDsGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`);
+    assert.instanceOf(client, AlphaIDsGeneratedClient);
+  });
+
+  it("generated client created successfully", function () {
+    let client = new AlphaIDsGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`);
+    assert.instanceOf(client, AlphaIDsGeneratedClient);
+    // send an empty pipeline and verify client is created successfully
+    client = new AlphaIDsGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`, {
+      pipeline: createEmptyPipeline(),
+    });
   });
 
   it("explicitly add bearer policy to pipeline", async function () {
@@ -80,7 +94,7 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     });
     const policies = client.pipeline.getOrderedPolicies();
     assert.isDefined(policies, "default pipeline should contain policies");
-    //verify bearer token policy exists, after explicitly adding it
+    // verify bearer token policy exists, after explicitly adding it
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
       "pipeline should have bearerTokenAuthenticationPolicyName"
@@ -97,7 +111,6 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await client.alphaIds.upsertConfiguration(true);
     sinon.assert.calledOnce(spy);
-
   });
 
   it("verify bearer policy exists without explicitly adding it", async function () {
@@ -112,10 +125,11 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
       apiVersion: "customApiVersion",
       httpClient: mockHttpClient,
       pipeline: testPipeline,
+      endpoint: "https://contoso.spool.azure.local?param1=param1",
     });
     const policies = client.pipeline.getOrderedPolicies();
     assert.isDefined(policies, "default pipeline should contain policies");
-    //verify bearer token policy exists, after explicitly adding it
+    // verify bearer token policy exists, after explicitly adding it
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
       "pipeline should have bearerTokenAuthenticationPolicyName"
@@ -132,8 +146,5 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await client.alphaIds.upsertConfiguration(true);
     sinon.assert.calledOnce(spy);
-
   });
-
-
 });
