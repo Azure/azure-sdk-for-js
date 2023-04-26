@@ -12,3 +12,6 @@ matrix:
     noActivity:
       testTarget: scenarioNoActivity
       memory: "1.5Gi"
+    checkpointStore:
+      testTarget: scenarioCheckpointStore
+      memory: "1.5Gi"
