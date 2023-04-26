@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2022-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-authorization/9.0.0 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9734aea1-47de-44e9-907c-a33bd6aa32cb"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "112",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Apr 2023 02:48:12 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Set-Cookie": "x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c9bffb34-2ece-4828-b8c9-1c6e3618cc6c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "e73b8b6f-98fe-495b-a0d5-3655ebbf8157",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230424T024812Z:c9bffb34-2ece-4828-b8c9-1c6e3618cc6c"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidRoleDefinitionId",
+          "message": "The role definition ID \u0027roleDefinitionId\u0027 is not valid."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

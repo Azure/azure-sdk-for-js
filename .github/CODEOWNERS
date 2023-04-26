@@ -56,7 +56,7 @@
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru
+/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal

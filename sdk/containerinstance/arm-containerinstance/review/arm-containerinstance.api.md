@@ -67,6 +67,11 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ConfidentialComputeProperties {
+    ccePolicy?: string;
+}
+
+// @public
 export interface Container {
     command?: string[];
     environmentVariables?: EnvironmentVariable[];
@@ -77,6 +82,7 @@ export interface Container {
     ports?: ContainerPort[];
     readinessProbe?: ContainerProbe;
     resources: ResourceRequirements;
+    securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
 
@@ -141,7 +147,11 @@ export interface ContainerGroupListResult {
 export type ContainerGroupNetworkProtocol = string;
 
 // @public
+export type ContainerGroupPriority = string;
+
+// @public
 export interface ContainerGroupProperties {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
@@ -152,10 +162,9 @@ export interface ContainerGroupProperties {
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
-    readonly isCustomProvisioningTimeout?: IsCustomProvisioningTimeout;
     osType: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
-    provisioningTimeoutInSeconds?: number;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
     subnetIds?: ContainerGroupSubnetId[];
@@ -475,6 +484,7 @@ export interface InitContainerDefinition {
     image?: string;
     readonly instanceView?: InitContainerPropertiesDefinitionInstanceView;
     name: string;
+    securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
 
@@ -497,9 +507,6 @@ export interface IpAddress {
 }
 
 // @public
-export type IsCustomProvisioningTimeout = string;
-
-// @public
 export enum KnownContainerGroupIpAddressType {
     Private = "Private",
     Public = "Public"
@@ -512,6 +519,12 @@ export enum KnownContainerGroupNetworkProtocol {
 }
 
 // @public
+export enum KnownContainerGroupPriority {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
 export enum KnownContainerGroupRestartPolicy {
     Always = "Always",
     Never = "Never",
@@ -520,6 +533,7 @@ export enum KnownContainerGroupRestartPolicy {
 
 // @public
 export enum KnownContainerGroupSku {
+    Confidential = "Confidential",
     Dedicated = "Dedicated",
     Standard = "Standard"
 }
@@ -550,12 +564,6 @@ export enum KnownGpuSku {
     K80 = "K80",
     P100 = "P100",
     V100 = "V100"
-}
-
-// @public
-export enum KnownIsCustomProvisioningTimeout {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -725,6 +733,22 @@ export interface ResourceRequirements {
 
 // @public
 export type Scheme = string;
+
+// @public
+export interface SecurityContextCapabilitiesDefinition {
+    add?: string[];
+    drop?: string[];
+}
+
+// @public
+export interface SecurityContextDefinition {
+    allowPrivilegeEscalation?: boolean;
+    capabilities?: SecurityContextCapabilitiesDefinition;
+    privileged?: boolean;
+    runAsGroup?: number;
+    runAsUser?: number;
+    seccompProfile?: string;
+}
 
 // @public
 export interface SubnetServiceAssociationLink {
