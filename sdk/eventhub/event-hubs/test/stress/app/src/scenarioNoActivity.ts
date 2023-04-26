@@ -14,9 +14,9 @@ function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   };
 }
 
+// https://github.com/Azure/azure-sdk-for-js/issues/22899
 export async function scenarioNoActivity() {
   const testOptions = sanitizeOptions(process.argv);
-
   const {
     testDurationInMs
   } = testOptions;
@@ -74,6 +74,7 @@ export async function scenarioNoActivity() {
       }
     }
   }
+  await producer.close()
   await consumerClient.close()
   await stressBase.endTest()
 }

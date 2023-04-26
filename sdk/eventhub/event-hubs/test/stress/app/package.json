@@ -13,6 +13,8 @@
   "dependencies": {
     "applicationinsights": "^1.8.8",
     "@azure/event-hubs": "latest",
+    "@azure/storage-blob":"latest",
+    "@azure/eventhubs-checkpointstore-blob": "1.0.1",
     "dotenv": "^16.0.0",
     "minimist": "^1.2.8",
     "uuid": "^8.3.0"
