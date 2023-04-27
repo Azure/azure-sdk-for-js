@@ -28,7 +28,7 @@ import {
   RemoveParticipantsOptions,
   RoomsClientOptions,
   UpdateRoomOptions,
-  UpsertParticipantsOptions,
+  AddOrUpdateParticipantsOptions,
 } from "./models/options";
 import { generateUuid } from "./models/uuid";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -310,7 +310,7 @@ export class RoomsClient {
   public async addOrUpdateParticipants(
     roomId: string,
     participants: RoomParticipantPatch[],
-    options: UpsertParticipantsOptions = {}
+    options: AddOrUpdateParticipantsOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan("RoomsClient-UpsertParticipants", options, (updatedOptions) => {
       this.client.participants.update(roomId, {

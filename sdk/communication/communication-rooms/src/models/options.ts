@@ -54,7 +54,7 @@ export type ListParticipantsOptions = OperationOptions;
 /**
  * Options to update the participants of a room.
  */
-export type UpsertParticipantsOptions = OperationOptions;
+export type AddOrUpdateParticipantsOptions = OperationOptions;
 
 /**
  * Options to remove participants from a room.

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2023-03-31-preview)
+## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -16,8 +16,6 @@
 - Removed `roomJoinPolicy` and `participants` from `UpdateRoomOptions`
 - Replaced `addParticipants` and `updateParticipants` methods with `upsertParticipants`
 - Renamed `RoleType` to `ParticipantRole`
-
-### Bugs Fixed
 
 ### Other Changes
 

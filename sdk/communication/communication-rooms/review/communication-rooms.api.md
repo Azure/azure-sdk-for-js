@@ -13,6 +13,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AddOrUpdateParticipantsOptions = OperationOptions;
+
+// @public
 export interface CommunicationRoom {
     createdAt: Date;
     id: string;
@@ -61,7 +64,7 @@ export interface RoomParticipantPatch {
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
-    addOrUpdateParticipants(roomId: string, participants: RoomParticipantPatch[], options?: UpsertParticipantsOptions): Promise<void>;
+    addOrUpdateParticipants(roomId: string, participants: RoomParticipantPatch[], options?: AddOrUpdateParticipantsOptions): Promise<void>;
     createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
@@ -80,9 +83,6 @@ export interface UpdateRoomOptions extends OperationOptions {
     validFrom?: Date;
     validUntil?: Date;
 }
-
-// @public
-export type UpsertParticipantsOptions = OperationOptions;
 
 // (No @packageDocumentation comment for this package)
 

@@ -121,11 +121,12 @@ To update the `validFrom` and `validUntil` settings of a room use the `updateRoo
 validForDays = 60;
 validUntil = validFrom.setDate(validFrom.getDate() + validForDays);
 const updateRoomOptions: UpdateRoomOptions = {
+  validFrom,
   validUntil,
 };
 
 // update the room using the room id from the creation operation
-const updatedRoom = await roomsClient.updateRoom(room.id, createRoomOptions);
+const updatedRoom = await roomsClient.updateRoom(room.id, updateRoomOptions);
 ```
 
 ### Get a room
@@ -149,9 +150,9 @@ for await (const currentRoom of roomsList) {
 }
 ```
 
-### Update or add participants
+### Add or update participants
 
-To add new participants, or update existing participants, use the `upsertParticipants` method.
+To add new participants, or update existing participants, use the `addOrUpdateParticipants` method.
 
 ```js
 const user2 = await identityClient.createUserAndToken(["voip"]);
@@ -165,11 +166,9 @@ const updateParticipantsList: InvitedRoomParticipant[] = [
   },
 ];
 
-// run upsert operation
-await roomsClient.upsertParticipants(room.id, updateParticipantsList);
+// run addOrUpdate operation
+await roomsClient.addOrUpdateParticipants(room.id, updateParticipantsList);
 ```
-
-_Note: You must call `listParticipants` to get updated participants list._
 
 ### Remove participants
 
@@ -179,8 +178,6 @@ To remove participants call the `removeParticipants` method.
 const participantsToRemove = [user1.user, user2.user];
 await roomsClient.removeParticipants(room.id, participantsToRemove);
 ```
-
-_Note: You must call `listParticipants` to get updated participants list._
 
 ### Get participants in a room
 
