@@ -89,7 +89,7 @@ export function auxiliaryAuthenticationHeaderPolicy(
       const auxiliaryTokens: NullableString[] = (await Promise.all(tokenPromises)).filter((token) =>
         Boolean(token)
       );
-      if (!auxiliaryTokens || auxiliaryTokens.length === 0) {
+      if (auxiliaryTokens.length === 0) {
         logger.warning(
           `None of the auxiliary tokens are valid and skip to set ${AUTHORIZATION_AUXILIARY_HEADER} header`
         );
