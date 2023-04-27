@@ -8,5 +8,8 @@ stages:
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           Location: 'eastus'
+        China:
+          SubscriptionConfiguration: $(sub-config-cn-test-resources)
       TimeoutInMinutes: "120"
