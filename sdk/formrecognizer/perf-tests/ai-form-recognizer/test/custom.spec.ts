@@ -6,7 +6,7 @@ import {
   AzureKeyCredential,
   DocumentModelDetails,
   DocumentAnalysisClient,
-  DocumentModelAdministrationClient
+  DocumentModelAdministrationClient,
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { v4 as generateUuid } from "uuid";
@@ -16,9 +16,8 @@ function unreachable(message?: string): never {
 }
 
 interface CustomModelRecognitionTestOptions {
-  updateIntervalInMs: number
+  updateIntervalInMs: number;
 }
-
 
 export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionTestOptions> {
   public options: PerfOptionDictionary<CustomModelRecognitionTestOptions> = {
@@ -65,12 +64,16 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
     const trainingContainerSasUrl = getEnvVar("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
     try {
-      const poller = await this.trainingClient.beginBuildDocumentModel(generateUuid(), trainingContainerSasUrl, "template");
+      const poller = await this.trainingClient.beginBuildDocumentModel(
+        generateUuid(),
+        trainingContainerSasUrl,
+        "template"
+      );
 
       CustomModelRecognitionTest.sessionModel = await poller.pollUntilDone();
 
       console.log(`Trained custom model: ${CustomModelRecognitionTest.sessionModel.modelId}`);
-    } catch (ex: any) {
+    } catch (ex) {
       console.trace(ex);
       throw ex;
     }
