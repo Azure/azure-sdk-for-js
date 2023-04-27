@@ -38,6 +38,7 @@ import {
   incomingCallContexts,
   loadPersistedEvents,
   persistEvents,
+  fileSourceUri
 } from "./utils/recordedClient";
 
 describe("CallMedia Unit Tests", () => {
@@ -197,7 +198,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: fileSourceUri,
     };
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
@@ -233,7 +234,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: fileSourceUri,
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
@@ -271,7 +272,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      uri: fileSourceUri,
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
