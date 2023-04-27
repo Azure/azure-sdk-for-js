@@ -737,19 +737,21 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@azure/ai-form-recognizer/3.2.0:
-    resolution: {integrity: sha512-cIM8a8KJ4zcJInSEJpX017Su5gRiZQCpsEP2egBKnkbMcCl1+1W21xOYVBL3eJw6M7QX+tQsvZlzOKZHraZ+lQ==}
+  /@azure/ai-form-recognizer/4.0.0:
+    resolution: {integrity: sha512-D0QoRdBYHpbEWk9yEh6UFhbes33RQzNx2Kn5qxPu1YvMrhigLIrmZBgpJbxOxpirHx2vo8yoiOA8UjHMlNJV8w==}
     engines: {node: '>=12.0.0'}
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
-      '@azure/core-http': 2.3.2
+      '@azure/core-client': 1.7.2
       '@azure/core-lro': 2.5.2
       '@azure/core-paging': 1.5.0
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-rest-pipeline': 1.10.3
+      '@azure/core-tracing': 1.0.1
       '@azure/logger': 1.0.4
       tslib: 2.5.0
     transitivePeerDependencies:
-      - encoding
+      - supports-color
     dev: false
 
   /@azure/arm-compute/17.3.1:
@@ -2476,6 +2478,10 @@ packages:
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: false
 
+  /@types/uuid/9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+    dev: false
+
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
@@ -3775,7 +3781,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230424
+      typescript: 5.1.0-dev.20230427
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8435,8 +8441,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230424:
-    resolution: {integrity: sha512-yhQpzzjyLCyXORVY8AgJYaWpm235ZzG/boelYvgloE7v+kCucAdegsBf7duLJzXc/8+wABR2diYMbjPpd5c3Ww==}
+  /typescript/5.1.0-dev.20230427:
+    resolution: {integrity: sha512-MIGWuB7N/ijl3XM+Pryw92oOoPDAW/m4/nlvFv5x+GW0oH0oqezEmM+8yUy5FUrc7VavyLy5Csg81FWAc0iCzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18016,13 +18022,14 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-LsictOHP78k7nV0AtUtBaP1HdVcaYGrsSc/gVls2jckNnyzwqyvx/lntBnqDVOywqZAVa0wUWwUYm897xbDifQ==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-uqh0Mgy6YvgoLhANQfkeNrMg+M1cm2PWNpUBhVqZ7SWQW8dL+FeXif1mHoEWcJv51caou0sMARQURGa85TjeFg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure/ai-form-recognizer': 3.2.0
+      '@azure/ai-form-recognizer': 4.0.0
       '@azure/identity': 2.1.0
       '@types/node': 14.18.42
+      '@types/uuid': 9.0.1
       dotenv: 16.0.3
       eslint: 8.39.0
       prettier: 2.8.8
@@ -18030,10 +18037,10 @@ packages:
       ts-node: 10.9.1_adlo6uxblhgvolyqo2x6kf22my
       tslib: 2.5.0
       typescript: 5.0.4
+      uuid: 9.0.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
