@@ -50,7 +50,7 @@ describe("RouterClient", function () {
   }
 
   describe("Queueing Scenario", function () {
-    this.beforeAll(async function (this: Context) {
+    this.beforeEach(async function (this: Context) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -60,28 +60,9 @@ describe("RouterClient", function () {
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
-
-      if (!this.currentTest?.isPending() && recorder) {
-        await recorder.stop();
-      }
-    });
-
-    this.beforeEach(async function (this: Context) {
-      ({ client, administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
     });
 
     this.afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending() && recorder) {
-        await recorder.stop();
-      }
-    });
-
-    this.afterAll(async function (this: Context) {
-      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
-        this
-      ));
-
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);

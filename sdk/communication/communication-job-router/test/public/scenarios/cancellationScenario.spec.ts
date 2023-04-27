@@ -23,7 +23,7 @@ describe("RouterClient", function () {
   let recorder: Recorder;
 
   const testRunId = ["record", "playback"].includes(env.TEST_MODE!)
-    ? "recorded-c-scenario2"
+    ? "recorded-cancellation-scenario"
     : uuid();
 
   const { queueId, queueRequest } = getQueueRequest(testRunId);
@@ -36,7 +36,7 @@ describe("RouterClient", function () {
   const dispositionCode = `disposition-${testRunId}`;
 
   describe("Cancellation Scenario", function () {
-    this.beforeAll(async function (this: Context) {
+    this.beforeEach(async function (this: Context) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -50,27 +50,9 @@ describe("RouterClient", function () {
         classificationPolicyId,
         classificationPolicyRequest
       );
-
-      if (!this.currentTest?.isPending() && recorder) {
-        await recorder.stop();
-      }
-    });
-
-    this.beforeEach(async function (this: Context) {
-      ({ client, administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
     });
 
     this.afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending() && recorder) {
-        await recorder.stop();
-      }
-    });
-
-    this.afterAll(async function (this: Context) {
-      ({ client, administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
-
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
