@@ -49,7 +49,7 @@ describe("ResourceConnector test", () => {
     const credential = createTestCredential();
     client = new ResourceConnectorManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "czwjstest";
     resourcename = "resourcetest";
 
   });
@@ -63,6 +63,7 @@ describe("ResourceConnector test", () => {
       resourceGroup,
       resourcename,
       {
+        identity: { type: "SystemAssigned" },
         distro: "AKSEdge",
         infrastructureConfig: { provider: "VMWare" },
         location
