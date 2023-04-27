@@ -106,8 +106,8 @@ export default leafCommand(commandInfo, async (options) => {
     } else if (!!options.has) {
       try {
         process.exit(areMigrationsApplied(options.has, migrationDate, options.quiet) ? 0 : 1);
-      } catch ({ message }) {
-        log.error(message);
+      } catch (e) {
+        log.error((e as Error).message);
         return false;
       }
     } else if (!!options.abort) {
