@@ -6,8 +6,7 @@ import {
   AzureKeyCredential,
   DocumentModelDetails,
   DocumentAnalysisClient,
-  DocumentModelAdministrationClient,
-  AnalyzeDocumentOptions
+  DocumentModelAdministrationClient
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { v4 as generateUuid } from "uuid";
@@ -16,8 +15,13 @@ function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
 }
 
-export class CustomModelRecognitionTest extends PerfTest<AnalyzeDocumentOptions> {
-  public options: PerfOptionDictionary<AnalyzeDocumentOptions> = {
+interface CustomModelRecognitionTestOptions {
+  updateIntervalInMs: number
+}
+
+
+export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionTestOptions> {
+  public options: PerfOptionDictionary<CustomModelRecognitionTestOptions> = {
     updateIntervalInMs: {
       required: false,
       description: "Polling interval in milliseconds",
