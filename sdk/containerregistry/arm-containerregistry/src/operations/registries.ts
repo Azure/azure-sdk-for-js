@@ -1104,7 +1104,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.registryNameCheckRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1185,7 +1185,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1229,7 +1229,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1330,7 +1330,7 @@ const regenerateCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1363,7 +1363,7 @@ const generateCredentialsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1396,7 +1396,7 @@ const scheduleRunOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.resourceGroupName1
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

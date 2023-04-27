@@ -352,11 +352,11 @@ export interface ApplicationGatewayConnectionDraining {
   drainTimeoutInSec: number;
 }
 
-/** Customer error of an application gateway. */
+/** Custom error of an application gateway. */
 export interface ApplicationGatewayCustomError {
-  /** Status code of the application gateway customer error. */
+  /** Status code of the application gateway custom error. */
   statusCode?: ApplicationGatewayCustomErrorStatusCode;
-  /** Error page URL of the application gateway customer error. */
+  /** Error page URL of the application gateway custom error. */
   customErrorPageUrl?: string;
 }
 
@@ -5583,6 +5583,8 @@ export interface WebApplicationFirewallCustomRule {
   readonly etag?: string;
   /** Priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
   priority: number;
+  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+  state?: WebApplicationFirewallState;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
@@ -9548,6 +9550,11 @@ export interface ExpressRouteCircuit extends Resource {
   globalReachEnabled?: boolean;
   /** The authorizationKey. */
   authorizationKey?: string;
+  /**
+   * The authorization status of the Circuit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationStatus?: string;
 }
 
 /** A ExpressRouteResourceProvider object. */
@@ -10161,6 +10168,11 @@ export interface VirtualNetwork extends Resource {
   encryption?: VirtualNetworkEncryption;
   /** Array of IpAllocation which reference this VNET. */
   ipAllocations?: SubResource[];
+  /**
+   * A collection of references to flow log resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly flowLogs?: FlowLog[];
 }
 
 /** Network Intent Policy resource. */
@@ -12161,10 +12173,26 @@ export type ApplicationGatewayCookieBasedAffinity = string;
 
 /** Known values of {@link ApplicationGatewayCustomErrorStatusCode} that the service accepts. */
 export enum KnownApplicationGatewayCustomErrorStatusCode {
+  /** HttpStatus400 */
+  HttpStatus400 = "HttpStatus400",
   /** HttpStatus403 */
   HttpStatus403 = "HttpStatus403",
+  /** HttpStatus404 */
+  HttpStatus404 = "HttpStatus404",
+  /** HttpStatus405 */
+  HttpStatus405 = "HttpStatus405",
+  /** HttpStatus408 */
+  HttpStatus408 = "HttpStatus408",
+  /** HttpStatus499 */
+  HttpStatus499 = "HttpStatus499",
+  /** HttpStatus500 */
+  HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
-  HttpStatus502 = "HttpStatus502"
+  HttpStatus502 = "HttpStatus502",
+  /** HttpStatus503 */
+  HttpStatus503 = "HttpStatus503",
+  /** HttpStatus504 */
+  HttpStatus504 = "HttpStatus504"
 }
 
 /**
@@ -12172,8 +12200,16 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * {@link KnownApplicationGatewayCustomErrorStatusCode} can be used interchangeably with ApplicationGatewayCustomErrorStatusCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **HttpStatus400** \
  * **HttpStatus403** \
- * **HttpStatus502**
+ * **HttpStatus404** \
+ * **HttpStatus405** \
+ * **HttpStatus408** \
+ * **HttpStatus499** \
+ * **HttpStatus500** \
+ * **HttpStatus502** \
+ * **HttpStatus503** \
+ * **HttpStatus504**
  */
 export type ApplicationGatewayCustomErrorStatusCode = string;
 
@@ -15363,6 +15399,24 @@ export enum KnownWebApplicationFirewallMode {
  */
 export type WebApplicationFirewallMode = string;
 
+/** Known values of {@link WebApplicationFirewallState} that the service accepts. */
+export enum KnownWebApplicationFirewallState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for WebApplicationFirewallState. \
+ * {@link KnownWebApplicationFirewallState} can be used interchangeably with WebApplicationFirewallState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type WebApplicationFirewallState = string;
+
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
   /** MatchRule */
@@ -16817,10 +16871,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResp
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Expands referenced resources. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetIpConfigurationsNext operation. */
 export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse = NetworkInterfaceIPConfigurationListResult;
@@ -18559,24 +18610,14 @@ export type NetworkManagersListResponse = NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type NetworkManagersListBySubscriptionNextResponse = NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetworkManagersListNextResponse = NetworkManagerListResult;
@@ -18635,12 +18676,7 @@ export type SubscriptionNetworkManagerConnectionsListResponse = NetworkManagerCo
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SubscriptionNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
@@ -18677,12 +18713,7 @@ export type ManagementGroupNetworkManagerConnectionsListResponse = NetworkManage
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagementGroupNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
@@ -18726,12 +18757,7 @@ export type ConnectivityConfigurationsListResponse = ConnectivityConfigurationLi
 
 /** Optional parameters. */
 export interface ConnectivityConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConnectivityConfigurationsListNextResponse = ConnectivityConfigurationListResult;
@@ -18779,12 +18805,7 @@ export type NetworkGroupsListResponse = NetworkGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkGroupsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetworkGroupsListNextResponse = NetworkGroupListResult;
@@ -18821,12 +18842,7 @@ export type StaticMembersListResponse = StaticMemberListResult;
 
 /** Optional parameters. */
 export interface StaticMembersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StaticMembersListNextResponse = StaticMemberListResult;
@@ -18863,12 +18879,7 @@ export type ScopeConnectionsListResponse = ScopeConnectionListResult;
 
 /** Optional parameters. */
 export interface ScopeConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ScopeConnectionsListNextResponse = ScopeConnectionListResult;
@@ -18912,12 +18923,7 @@ export interface SecurityAdminConfigurationsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SecurityAdminConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecurityAdminConfigurationsListNextResponse = SecurityAdminConfigurationListResult;
@@ -18961,12 +18967,7 @@ export interface AdminRuleCollectionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AdminRuleCollectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AdminRuleCollectionsListNextResponse = AdminRuleCollectionListResult;
@@ -19010,12 +19011,7 @@ export interface AdminRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AdminRulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AdminRulesListNextResponse = AdminRuleListResult;
@@ -20493,12 +20489,7 @@ export type ServiceTagInformationListResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
 export interface ServiceTagInformationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Do not return address prefixes for the tag(s). */
-  noAddressPrefixes?: boolean;
-  /** Return tag information for a particular tag. */
-  tagName?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult;
@@ -20621,12 +20612,7 @@ export type VirtualNetworksListUsageNextResponse = VirtualNetworkListUsageResult
 
 /** Optional parameters. */
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The max number of ip addresses to return. */
-  top?: number;
-  /** The skipToken that is given with nextLink. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDdosProtectionStatusNext operation. */
 export type VirtualNetworksListDdosProtectionStatusNextResponse = VirtualNetworkDdosProtectionStatusResult;
@@ -21898,6 +21884,8 @@ export interface VpnGatewaysDeleteOptionalParams
 /** Optional parameters. */
 export interface VpnGatewaysResetOptionalParams
   extends coreClient.OperationOptions {
+  /** VpnGateway ipConfigurationId to specify the gateway instance. */
+  ipConfigurationId?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a GovernanceAssignment over a given scope
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceAssignments/DeleteGovernanceAssignment_example.json
  */
 async function deleteSecurityAssignment() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/c32e05d9-7207-4e22-bdf4-4f7d9c72e5fd/resourceGroups/compute_servers/providers/Microsoft.Compute/virtualMachines/win2012";
   const assessmentName = "6b9421dd-5555-2251-9b3d-2be58e2f82cd";
@@ -29,4 +31,8 @@ async function deleteSecurityAssignment() {
   console.log(result);
 }
 
-deleteSecurityAssignment().catch(console.error);
+async function main() {
+  deleteSecurityAssignment();
+}
+
+main().catch(console.error);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fetches the result of a triggered validate operation.
  *
  * @summary Fetches the result of a triggered validate operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ValidateOperationResults.json
  */
 async function getOperationResultsOfValidateOperation() {
   const subscriptionId =

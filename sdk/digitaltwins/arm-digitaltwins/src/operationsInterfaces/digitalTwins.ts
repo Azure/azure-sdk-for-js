@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DigitalTwinsDescription,
   DigitalTwinsListOptionalParams,
@@ -71,8 +71,8 @@ export interface DigitalTwins {
     digitalTwinsCreate: DigitalTwinsDescription,
     options?: DigitalTwinsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsCreateOrUpdateResponse>,
       DigitalTwinsCreateOrUpdateResponse
     >
   >;
@@ -104,8 +104,8 @@ export interface DigitalTwins {
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
     options?: DigitalTwinsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsUpdateResponse>,
       DigitalTwinsUpdateResponse
     >
   >;
@@ -133,8 +133,8 @@ export interface DigitalTwins {
     resourceName: string,
     options?: DigitalTwinsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsDeleteResponse>,
       DigitalTwinsDeleteResponse
     >
   >;

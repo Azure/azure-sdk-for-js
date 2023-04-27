@@ -21,6 +21,9 @@ export const SipConfiguration: coreClient.CompositeMapper = {
         }
       },
       routes: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "routes",
         type: {
           name: "Sequence",
@@ -87,6 +90,9 @@ export const SipTrunkRoute: coreClient.CompositeMapper = {
         }
       },
       trunks: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "trunks",
         type: {
           name: "Sequence",
@@ -167,19 +173,22 @@ export const SipRoutingError: coreClient.CompositeMapper = {
   }
 };
 
-export const SipConfigurationPatch: coreClient.CompositeMapper = {
+export const SipConfigurationUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SipConfigurationPatch",
+    className: "SipConfigurationUpdate",
     modelProperties: {
       trunks: {
         serializedName: "trunks",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "TrunkPatch" } }
+          value: { type: { name: "Composite", className: "TrunkUpdate" } }
         }
       },
       routes: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "routes",
         type: {
           name: "Sequence",
@@ -195,15 +204,45 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
   }
 };
 
-export const TrunkPatch: coreClient.CompositeMapper = {
+export const TrunkUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TrunkPatch",
+    className: "TrunkUpdate",
     modelProperties: {
       sipSignalingPort: {
         serializedName: "sipSignalingPort",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingGetExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingGetExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingUpdateExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingUpdateExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }

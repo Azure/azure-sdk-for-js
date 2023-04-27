@@ -345,7 +345,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to read from all partitions",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen processEvents invoked for each partition.
               return (
@@ -376,7 +376,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               const sub1CloseHandlersCalled = Boolean(
                 partitionIds.filter((id) => {
@@ -393,7 +393,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to recover",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen an additional processEvent for each partition.
               return (

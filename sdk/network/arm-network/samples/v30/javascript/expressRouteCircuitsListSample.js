@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all the express route circuits in a resource group.
  *
  * @summary Gets all the express route circuits in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCircuitListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitListByResourceGroup.json
  */
 async function listExpressRouteCircuitsInAResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +30,8 @@ async function listExpressRouteCircuitsInAResourceGroup() {
   console.log(resArray);
 }
 
-listExpressRouteCircuitsInAResourceGroup().catch(console.error);
+async function main() {
+  listExpressRouteCircuitsInAResourceGroup();
+}
+
+main().catch(console.error);

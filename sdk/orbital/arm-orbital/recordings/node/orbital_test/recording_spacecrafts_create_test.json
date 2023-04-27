@@ -1,0 +1,91 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/spacecrafts/resourcetest1?api-version=2022-11-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "464",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "eb1315bd-54b5-4ef0-9254-e76d78ac2302"
+      },
+      "RequestBody": {
+        "location": "westus2",
+        "properties": {
+          "titleLine": "CONTOSO_SAT",
+          "tleLine1": "1 27424U 02022A   22167.05119303  .00000638  00000\u002B0  15103-3 0  9994",
+          "tleLine2": "2 27424  98.2477 108.9546 0000928  92.9194 327.0802 14.57300770 69982",
+          "links": [
+            {
+              "name": "uplink_lhcp1",
+              "centerFrequencyMHz": 2250,
+              "bandwidthMHz": 2,
+              "direction": "Uplink",
+              "polarization": "LHCP"
+            },
+            {
+              "name": "downlink_rhcp1",
+              "centerFrequencyMHz": 8160,
+              "bandwidthMHz": 15,
+              "direction": "Downlink",
+              "polarization": "RHCP"
+            }
+          ]
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "753",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:34 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "193bae5d-690a-4334-b802-3f4c45c56817",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "193bae5d-690a-4334-b802-3f4c45c56817",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020535Z:193bae5d-690a-4334-b802-3f4c45c56817"
+      },
+      "ResponseBody": {
+        "location": "westus2",
+        "tags": null,
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/spacecrafts/resourcetest1",
+        "name": "resourcetest1",
+        "type": "Microsoft.Orbital/spacecrafts",
+        "properties": {
+          "provisioningState": "succeeded",
+          "noradId": "",
+          "titleLine": "CONTOSO_SAT",
+          "tleLine1": "1 27424U 02022A   22167.05119303  .00000638  00000\u002B0  15103-3 0  9994",
+          "tleLine2": "2 27424  98.2477 108.9546 0000928  92.9194 327.0802 14.57300770 69982",
+          "links": [
+            {
+              "name": "uplink_lhcp1",
+              "centerFrequencyMHz": 2250.0,
+              "bandwidthMHz": 2.0,
+              "direction": "Uplink",
+              "polarization": "LHCP",
+              "authorizations": []
+            },
+            {
+              "name": "downlink_rhcp1",
+              "centerFrequencyMHz": 8160.0,
+              "bandwidthMHz": 15.0,
+              "direction": "Downlink",
+              "polarization": "RHCP",
+              "authorizations": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

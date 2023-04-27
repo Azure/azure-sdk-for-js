@@ -13,15 +13,18 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List of inbound NAT rule port mappings.
  *
  * @summary List of inbound NAT rule port mappings.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/QueryInboundNatRulePortMapping.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/QueryInboundNatRulePortMapping.json
  */
 async function queryInboundNatRulePortMapping() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const groupName = "rg1";
   const loadBalancerName = "lb1";
   const backendPoolName = "bp1";
@@ -39,4 +42,8 @@ async function queryInboundNatRulePortMapping() {
   console.log(result);
 }
 
-queryInboundNatRulePortMapping().catch(console.error);
+async function main() {
+  queryInboundNatRulePortMapping();
+}
+
+main().catch(console.error);

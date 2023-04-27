@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationGatewayPrivateEndpointConnection,
   ApplicationGatewayPrivateEndpointConnectionsListOptionalParams,
@@ -44,7 +44,7 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     applicationGatewayName: string,
     connectionName: string,
     options?: ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint connection on application gateway.
    * @param resourceGroupName The name of the resource group.
@@ -74,8 +74,8 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     parameters: ApplicationGatewayPrivateEndpointConnection,
     options?: ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ApplicationGatewayPrivateEndpointConnectionsUpdateResponse
       >,
       ApplicationGatewayPrivateEndpointConnectionsUpdateResponse

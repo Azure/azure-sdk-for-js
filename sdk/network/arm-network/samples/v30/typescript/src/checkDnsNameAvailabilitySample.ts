@@ -10,15 +10,18 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks whether a domain name in the cloudapp.azure.com zone is available for use.
  *
  * @summary Checks whether a domain name in the cloudapp.azure.com zone is available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/CheckDnsNameAvailability.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/CheckDnsNameAvailability.json
  */
 async function checkDnsNameAvailability() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const domainNameLabel = "testdns";
   const credential = new DefaultAzureCredential();
@@ -30,4 +33,8 @@ async function checkDnsNameAvailability() {
   console.log(result);
 }
 
-checkDnsNameAvailability().catch(console.error);
+async function main() {
+  checkDnsNameAvailability();
+}
+
+main().catch(console.error);

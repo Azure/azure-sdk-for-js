@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SAPVirtualInstance,
   SAPVirtualInstancesListByResourceGroupNextOptionalParams,
@@ -186,8 +190,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesCreateResponse>,
       SAPVirtualInstancesCreateResponse
     >
   > {
@@ -197,7 +201,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -230,13 +234,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesCreateResponse,
+      OperationState<SAPVirtualInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -308,8 +315,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesDeleteResponse>,
       SAPVirtualInstancesDeleteResponse
     >
   > {
@@ -319,7 +326,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -352,15 +359,18 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesDeleteResponse,
+      OperationState<SAPVirtualInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -425,8 +435,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStartResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStartResponse>,
       SAPVirtualInstancesStartResponse
     >
   > {
@@ -436,7 +446,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -469,13 +479,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesStartResponse,
+      OperationState<SAPVirtualInstancesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -512,8 +525,8 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesStopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SAPVirtualInstancesStopResponse>,
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesStopResponse>,
       SAPVirtualInstancesStopResponse
     >
   > {
@@ -523,7 +536,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     ): Promise<SAPVirtualInstancesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -556,13 +569,16 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapVirtualInstanceName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesStopResponse,
+      OperationState<SAPVirtualInstancesStopResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

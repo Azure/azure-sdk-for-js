@@ -7,8 +7,8 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { credentialLogger } from "../../util/logging";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { MSI, MSIConfiguration } from "./models";
+import { GetTokenOptions } from "@azure/core-auth";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";
@@ -77,7 +77,7 @@ export const cloudShellMsi: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (clientId) {

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all the load balancing rules in a load balancer.
  *
  * @summary Gets all the load balancing rules in a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerLoadBalancingRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancerLoadBalancingRuleList.json
  */
 async function loadBalancerLoadBalancingRuleList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function loadBalancerLoadBalancingRuleList() {
   console.log(resArray);
 }
 
-loadBalancerLoadBalancingRuleList().catch(console.error);
+async function main() {
+  loadBalancerLoadBalancingRuleList();
+}
+
+main().catch(console.error);

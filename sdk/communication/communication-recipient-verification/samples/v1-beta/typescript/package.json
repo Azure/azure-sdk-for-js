@@ -1,0 +1,38 @@
+{
+  "name": "@azure-samples/communication-recipient-verification-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Communication Services - Recipient Verification client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-recipient-verification"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "communication"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-recipient-verification",
+  "dependencies": {
+    "@azure-tools/communication-recipient-verification": "next",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "typescript": "~5.0.0",
+    "rimraf": "latest"
+  }
+}

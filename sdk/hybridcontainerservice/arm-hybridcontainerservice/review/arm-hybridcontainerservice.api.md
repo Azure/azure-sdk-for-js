@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AADProfile extends AADProfileSecret, AADProfileResponse {
@@ -123,12 +123,12 @@ export interface AgentPoolName {
 
 // @public
 export interface AgentPoolOperations {
-    beginCreateOrUpdate(resourceGroupName: string, provisionedClustersName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolCreateOrUpdateResponse>, AgentPoolCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, provisionedClustersName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolCreateOrUpdateOptionalParams): Promise<AgentPoolCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, provisionedClustersName: string, agentPoolName: string, options?: AgentPoolDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, provisionedClustersName: string, agentPoolName: string, options?: AgentPoolGetOptionalParams): Promise<AgentPoolGetResponse>;
-    listByProvisionedCluster(resourceGroupName: string, provisionedClustersName: string, options?: AgentPoolListByProvisionedClusterOptionalParams): Promise<AgentPoolListByProvisionedClusterResponse>;
-    update(resourceGroupName: string, provisionedClustersName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolUpdateOptionalParams): Promise<AgentPoolUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolCreateOrUpdateResponse>, AgentPoolCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolCreateOrUpdateOptionalParams): Promise<AgentPoolCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolGetOptionalParams): Promise<AgentPoolGetResponse>;
+    listByProvisionedCluster(resourceGroupName: string, resourceName: string, options?: AgentPoolListByProvisionedClusterOptionalParams): Promise<AgentPoolListByProvisionedClusterResponse>;
+    update(resourceGroupName: string, resourceName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolUpdateOptionalParams): Promise<AgentPoolUpdateResponse>;
 }
 
 // @public
@@ -388,10 +388,10 @@ export type HybridIdentityMetadataListByClusterResponse = HybridIdentityMetadata
 
 // @public
 export interface HybridIdentityMetadataOperations {
-    delete(resourceGroupName: string, provisionedClustersName: string, hybridIdentityMetadataResourceName: string, options?: HybridIdentityMetadataDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, provisionedClustersName: string, hybridIdentityMetadataResourceName: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadataGetResponse>;
-    listByCluster(resourceGroupName: string, provisionedClustersName: string, options?: HybridIdentityMetadataListByClusterOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
-    put(resourceGroupName: string, provisionedClustersName: string, hybridIdentityMetadataResourceName: string, body: HybridIdentityMetadata, options?: HybridIdentityMetadataPutOptionalParams): Promise<HybridIdentityMetadataPutResponse>;
+    delete(resourceGroupName: string, resourceName: string, hybridIdentityMetadataResourceName: string, options?: HybridIdentityMetadataDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, hybridIdentityMetadataResourceName: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadataGetResponse>;
+    listByCluster(resourceGroupName: string, resourceName: string, options?: HybridIdentityMetadataListByClusterOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
+    put(resourceGroupName: string, resourceName: string, hybridIdentityMetadataResourceName: string, body: HybridIdentityMetadata, options?: HybridIdentityMetadataPutOptionalParams): Promise<HybridIdentityMetadataPutResponse>;
 }
 
 // @public
@@ -587,6 +587,20 @@ export interface ProvisionedClusterIdentity {
 }
 
 // @public
+export interface ProvisionedClusterPoolUpgradeProfile {
+    readonly kubernetesVersion?: string;
+    readonly name?: string;
+    readonly osType?: OsType;
+    upgrades?: ProvisionedClusterPoolUpgradeProfileProperties[];
+}
+
+// @public
+export interface ProvisionedClusterPoolUpgradeProfileProperties {
+    readonly isPreview?: boolean;
+    readonly kubernetesVersion?: string;
+}
+
+// @public
 export interface ProvisionedClusters extends TrackedResource {
     // (undocumented)
     extendedLocation?: ProvisionedClustersExtendedLocation;
@@ -683,6 +697,13 @@ export interface ProvisionedClustersGetOptionalParams extends coreClient.Operati
 export type ProvisionedClustersGetResponse = ProvisionedClustersResponse;
 
 // @public
+export interface ProvisionedClustersGetUpgradeProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedClustersGetUpgradeProfileResponse = ProvisionedClusterUpgradeProfile;
+
+// @public
 export interface ProvisionedClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -712,12 +733,15 @@ export type ProvisionedClustersListBySubscriptionResponse = ProvisionedClustersR
 
 // @public
 export interface ProvisionedClustersOperations {
-    beginCreateOrUpdate(resourceGroupName: string, provisionedClustersName: string, provisionedClusters: ProvisionedClusters, options?: ProvisionedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ProvisionedClustersCreateOrUpdateResponse>, ProvisionedClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, provisionedClustersName: string, provisionedClusters: ProvisionedClusters, options?: ProvisionedClustersCreateOrUpdateOptionalParams): Promise<ProvisionedClustersCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, provisionedClustersName: string, provisionedClusters: ProvisionedClustersPatch, options?: ProvisionedClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ProvisionedClustersUpdateResponse>, ProvisionedClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, provisionedClustersName: string, provisionedClusters: ProvisionedClustersPatch, options?: ProvisionedClustersUpdateOptionalParams): Promise<ProvisionedClustersUpdateResponse>;
-    delete(resourceGroupName: string, provisionedClustersName: string, options?: ProvisionedClustersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, provisionedClustersName: string, options?: ProvisionedClustersGetOptionalParams): Promise<ProvisionedClustersGetResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, provisionedClusters: ProvisionedClusters, options?: ProvisionedClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClustersCreateOrUpdateResponse>, ProvisionedClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, provisionedClusters: ProvisionedClusters, options?: ProvisionedClustersCreateOrUpdateOptionalParams): Promise<ProvisionedClustersCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, resourceName: string, provisionedClusters: ProvisionedClustersPatch, options?: ProvisionedClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClustersUpdateResponse>, ProvisionedClustersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, resourceName: string, provisionedClusters: ProvisionedClustersPatch, options?: ProvisionedClustersUpdateOptionalParams): Promise<ProvisionedClustersUpdateResponse>;
+    beginUpgradeNodeImageVersionForEntireCluster(resourceGroupName: string, resourceName: string, options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginUpgradeNodeImageVersionForEntireClusterAndWait(resourceGroupName: string, resourceName: string, options?: ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, resourceName: string, options?: ProvisionedClustersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, options?: ProvisionedClustersGetOptionalParams): Promise<ProvisionedClustersGetResponse>;
+    getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: ProvisionedClustersGetUpgradeProfileOptionalParams): Promise<ProvisionedClustersGetUpgradeProfileResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ProvisionedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProvisionedClustersResponse>;
     listBySubscription(options?: ProvisionedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProvisionedClustersResponse>;
 }
@@ -779,6 +803,19 @@ export interface ProvisionedClustersUpdateOptionalParams extends coreClient.Oper
 
 // @public
 export type ProvisionedClustersUpdateResponse = ProvisionedClustersResponse;
+
+// @public
+export interface ProvisionedClustersUpgradeNodeImageVersionForEntireClusterOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProvisionedClusterUpgradeProfile extends ProxyResource {
+    agentPoolProfiles: ProvisionedClusterPoolUpgradeProfile[];
+    controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
+    readonly provisioningState?: string;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -885,9 +922,9 @@ export interface StorageSpacesListResult {
 
 // @public
 export interface StorageSpacesOperations {
-    beginCreateOrUpdate(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpaces, options?: StorageSpacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageSpacesCreateOrUpdateResponse>, StorageSpacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpaces, options?: StorageSpacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageSpacesCreateOrUpdateResponse>, StorageSpacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpaces, options?: StorageSpacesCreateOrUpdateOptionalParams): Promise<StorageSpacesCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpacesPatch, options?: StorageSpacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageSpacesUpdateResponse>, StorageSpacesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpacesPatch, options?: StorageSpacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageSpacesUpdateResponse>, StorageSpacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, storageSpacesName: string, storageSpaces: StorageSpacesPatch, options?: StorageSpacesUpdateOptionalParams): Promise<StorageSpacesUpdateResponse>;
     delete(resourceGroupName: string, storageSpacesName: string, options?: StorageSpacesDeleteOptionalParams): Promise<void>;
     listByResourceGroup(resourceGroupName: string, options?: StorageSpacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageSpaces>;
@@ -1050,9 +1087,9 @@ export interface VirtualNetworksListResult {
 
 // @public
 export interface VirtualNetworksOperations {
-    beginCreateOrUpdate(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworks, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworks, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworks, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<VirtualNetworksCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworksPatch, options?: VirtualNetworksUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksUpdateResponse>, VirtualNetworksUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworksPatch, options?: VirtualNetworksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksUpdateResponse>, VirtualNetworksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualNetworksName: string, virtualNetworks: VirtualNetworksPatch, options?: VirtualNetworksUpdateOptionalParams): Promise<VirtualNetworksUpdateResponse>;
     delete(resourceGroupName: string, virtualNetworksName: string, options?: VirtualNetworksDeleteOptionalParams): Promise<void>;
     listByResourceGroup(resourceGroupName: string, options?: VirtualNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualNetworks>;
@@ -1070,11 +1107,11 @@ export interface VirtualNetworksPatch {
 // @public
 export interface VirtualNetworksProperties {
     readonly dhcpServers?: string[];
-    readonly dnsServers?: string[];
-    readonly gateway?: string;
+    dnsServers?: string[];
+    gateway?: string;
     // (undocumented)
     infraVnetProfile?: VirtualNetworksPropertiesInfraVnetProfile;
-    readonly ipAddressPrefix?: string;
+    ipAddressPrefix?: string;
     readonly provisioningState?: ProvisioningState;
     readonly status?: VirtualNetworksPropertiesStatus;
     vipPool?: VirtualNetworksPropertiesVipPoolItem[];
@@ -1085,7 +1122,7 @@ export interface VirtualNetworksProperties {
 // @public (undocumented)
 export interface VirtualNetworksPropertiesInfraVnetProfile {
     hci?: VirtualNetworksPropertiesInfraVnetProfileHci;
-    kubevirt?: VirtualNetworksPropertiesInfraVnetProfileKubevirt;
+    networkCloud?: VirtualNetworksPropertiesInfraVnetProfileNetworkCloud;
     vmware?: VirtualNetworksPropertiesInfraVnetProfileVmware;
 }
 
@@ -1097,8 +1134,8 @@ export interface VirtualNetworksPropertiesInfraVnetProfileHci {
 }
 
 // @public
-export interface VirtualNetworksPropertiesInfraVnetProfileKubevirt {
-    vnetName?: string;
+export interface VirtualNetworksPropertiesInfraVnetProfileNetworkCloud {
+    networkId?: string;
 }
 
 // @public

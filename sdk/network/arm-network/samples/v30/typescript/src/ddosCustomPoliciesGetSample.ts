@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about the specified DDoS custom policy.
  *
  * @summary Gets information about the specified DDoS custom policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DdosCustomPolicyGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/DdosCustomPolicyGet.json
  */
 async function getDDoSCustomPolicy() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const ddosCustomPolicyName = "test-ddos-custom-policy";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +33,8 @@ async function getDDoSCustomPolicy() {
   console.log(result);
 }
 
-getDDoSCustomPolicy().catch(console.error);
+async function main() {
+  getDDoSCustomPolicy();
+}
+
+main().catch(console.error);

@@ -15,27 +15,12 @@ import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./ut
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 
-let testOnlyHttpClient: HttpClient | undefined;
-/**
- * @internal
- * Set a custom default http client for testing purposes
- */
-export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
-  testOnlyHttpClient = httpClient;
-}
-
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
   const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  let httpClient: HttpClient = (pipeline as any)._coreHttpClient;
+  const httpClient: HttpClient = (pipeline as any)._coreHttpClient;
   if (!httpClient) {
     throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
-  }
-
-  // check if we're running in a browser test mode and use the xhr client
-  if (testOnlyHttpClient && httpClient !== testOnlyHttpClient) {
-    httpClient = testOnlyHttpClient;
-    (pipeline as any)._coreHttpClient = testOnlyHttpClient;
   }
 
   const corePipeline: CorePipeline = (pipeline as any)._corePipeline;

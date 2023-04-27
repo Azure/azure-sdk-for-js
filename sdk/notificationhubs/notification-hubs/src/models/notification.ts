@@ -133,7 +133,7 @@ export interface FcmLegacyNotification extends JsonNotification {
 /**
  * Creates a notification to send to Firebase.
  * @param notification - A partial message used to create a message for Firebase.
- * @returns A newly created Firebase.
+ * @returns A newly created Firebase notification.
  */
 export function createFcmLegacyNotification(
   notification: NotificationCommon
@@ -141,6 +141,29 @@ export function createFcmLegacyNotification(
   return {
     ...notification,
     platform: "gcm",
+    contentType: Constants.JSON_CONTENT_TYPE,
+  };
+}
+
+/**
+ * Represents a Xiaomi push notification.
+ */
+export interface XiaomiNotification extends JsonNotification {
+  /**
+   * The platform for the push notification.
+   */
+  platform: "xiaomi";
+}
+
+/**
+ * Creates a notification to send to Xiaomi.
+ * @param notification - A partial message used to create a message for Xiaomi.
+ * @returns A newly created Xiaomi notification.
+ */
+export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification {
+  return {
+    ...notification,
+    platform: "xiaomi",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
@@ -289,5 +312,6 @@ export type Notification =
   | BaiduNotification
   | BrowserNotification
   | FcmLegacyNotification
+  | XiaomiNotification
   | WindowsNotification
   | TemplateNotification;

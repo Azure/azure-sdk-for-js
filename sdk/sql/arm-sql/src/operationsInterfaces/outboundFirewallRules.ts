@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OutboundFirewallRule,
   OutboundFirewallRulesListByServerOptionalParams,
@@ -63,8 +63,8 @@ export interface OutboundFirewallRules {
     parameters: OutboundFirewallRule,
     options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
       OutboundFirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface OutboundFirewallRules {
     serverName: string,
     outboundRuleFqdn: string,
     options?: OutboundFirewallRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a outbound firewall rule with a given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

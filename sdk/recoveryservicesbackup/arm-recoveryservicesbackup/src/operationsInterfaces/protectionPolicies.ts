@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProtectionPoliciesGetOptionalParams,
   ProtectionPoliciesGetResponse,
@@ -67,7 +67,7 @@ export interface ProtectionPolicies {
     resourceGroupName: string,
     policyName: string,
     options?: ProtectionPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous
    * operation. Status of the

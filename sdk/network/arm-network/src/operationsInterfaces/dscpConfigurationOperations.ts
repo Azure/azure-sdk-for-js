@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DscpConfiguration,
   DscpConfigurationListOptionalParams,
@@ -51,8 +51,8 @@ export interface DscpConfigurationOperations {
     parameters: DscpConfiguration,
     options?: DscpConfigurationCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DscpConfigurationCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DscpConfigurationCreateOrUpdateResponse>,
       DscpConfigurationCreateOrUpdateResponse
     >
   >;
@@ -79,7 +79,7 @@ export interface DscpConfigurationOperations {
     resourceGroupName: string,
     dscpConfigurationName: string,
     options?: DscpConfigurationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a DSCP Configuration.
    * @param resourceGroupName The name of the resource group.

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a virtual wan p2s vpn gateway.
  *
  * @summary Retrieves the details of a virtual wan p2s vpn gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/P2SVpnGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/P2SVpnGatewayGet.json
  */
 async function p2SVpnGatewayGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "p2sVpnGateway1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +33,8 @@ async function p2SVpnGatewayGet() {
   console.log(result);
 }
 
-p2SVpnGatewayGet().catch(console.error);
+async function main() {
+  p2SVpnGatewayGet();
+}
+
+main().catch(console.error);

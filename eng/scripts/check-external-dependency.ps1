@@ -40,7 +40,7 @@ function Get-GithubIssue($IssueTitle) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "  
+  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of [$pkgName](https://www.npmjs.com/package/$pkgName). "  
   $labels = $dependencyUpgradeLabel
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"

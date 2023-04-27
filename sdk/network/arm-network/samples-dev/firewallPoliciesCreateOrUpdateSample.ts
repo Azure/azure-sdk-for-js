@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { FirewallPolicy, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified Firewall Policy.
  *
  * @summary Creates or updates the specified Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/FirewallPolicyPut.json
  */
 async function createFirewallPolicy() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
   const parameters: FirewallPolicy = {
     dnsSettings: {
@@ -105,4 +108,8 @@ async function createFirewallPolicy() {
   console.log(result);
 }
 
-createFirewallPolicy().catch(console.error);
+async function main() {
+  createFirewallPolicy();
+}
+
+main().catch(console.error);

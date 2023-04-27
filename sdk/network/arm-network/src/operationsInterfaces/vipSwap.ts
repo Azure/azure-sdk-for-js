@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VipSwapGetOptionalParams,
   VipSwapGetResponse,
@@ -43,7 +43,7 @@ export interface VipSwap {
     resourceName: string,
     parameters: SwapResource,
     options?: VipSwapCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Performs vip swap operation on swappable cloud services.
    * @param groupName The name of the resource group.

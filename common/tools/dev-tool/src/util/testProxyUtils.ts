@@ -167,6 +167,10 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
 }
 
+export function createAssetsJson(project: ProjectInfo): Promise<void> {
+  return runMigrationScript(project, false);
+}
+
 export async function runMigrationScript(
   project: ProjectInfo,
   initialPush: boolean

@@ -5,7 +5,7 @@ import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, RecorderStartOptions, env, isLiveMode } from "@azure-tools/test-recorder";
 import {
-  ContainerRegistryBlobClient,
+  ContainerRegistryContentClient,
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src";
@@ -125,7 +125,7 @@ export function createBlobClient(
   repositoryName: string,
   serviceVersion: string,
   recorder: Recorder
-): ContainerRegistryBlobClient {
+): ContainerRegistryContentClient {
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
@@ -143,7 +143,7 @@ export function createBlobClient(
     }
   );
 
-  return new ContainerRegistryBlobClient(
+  return new ContainerRegistryContentClient(
     endpoint,
     repositoryName,
     credential,

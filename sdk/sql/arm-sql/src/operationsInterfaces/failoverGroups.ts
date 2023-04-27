@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FailoverGroup,
   FailoverGroupsListByServerOptionalParams,
@@ -70,8 +70,8 @@ export interface FailoverGroups {
     parameters: FailoverGroup,
     options?: FailoverGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FailoverGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FailoverGroupsCreateOrUpdateResponse>,
       FailoverGroupsCreateOrUpdateResponse
     >
   >;
@@ -104,7 +104,7 @@ export interface FailoverGroups {
     serverName: string,
     failoverGroupName: string,
     options?: FailoverGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a failover group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -135,8 +135,8 @@ export interface FailoverGroups {
     parameters: FailoverGroupUpdate,
     options?: FailoverGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FailoverGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FailoverGroupsUpdateResponse>,
       FailoverGroupsUpdateResponse
     >
   >;
@@ -170,8 +170,8 @@ export interface FailoverGroups {
     failoverGroupName: string,
     options?: FailoverGroupsFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FailoverGroupsFailoverResponse>,
+    SimplePollerLike<
+      OperationState<FailoverGroupsFailoverResponse>,
       FailoverGroupsFailoverResponse
     >
   >;
@@ -203,8 +203,8 @@ export interface FailoverGroups {
     failoverGroupName: string,
     options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FailoverGroupsForceFailoverAllowDataLossResponse>,
+    SimplePollerLike<
+      OperationState<FailoverGroupsForceFailoverAllowDataLossResponse>,
       FailoverGroupsForceFailoverAllowDataLossResponse
     >
   >;

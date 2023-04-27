@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomCertificate,
   WebPubSubCustomCertificatesListOptionalParams,
@@ -63,8 +63,8 @@ export interface WebPubSubCustomCertificates {
     parameters: CustomCertificate,
     options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>,
       WebPubSubCustomCertificatesCreateOrUpdateResponse
     >
   >;

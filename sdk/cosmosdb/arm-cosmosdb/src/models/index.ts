@@ -425,6 +425,16 @@ export interface DatabaseAccountConnectionString {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
+  /**
+   * Kind of the connection string key
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyKind?: Kind;
+  /**
+   * Type of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: Type;
 }
 
 /** Cosmos DB region to online or offline. */
@@ -1284,6 +1294,21 @@ export interface LocationProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupStorageRedundancies?: BackupStorageRedundancy[];
+  /**
+   * Flag indicating whether the subscription have access in region for Non-Availability Zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSubscriptionRegionAccessAllowedForRegular?: boolean;
+  /**
+   * Flag indicating whether the subscription have access in region for Availability Zones(Az).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSubscriptionRegionAccessAllowedForAz?: boolean;
+  /**
+   * Enum to indicate current buildout status of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
 }
 
 /** List of managed Cassandra clusters. */
@@ -1328,12 +1353,14 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
-  /** Number of hours to wait between taking a backup of the cluster. To disable backups, set this property to 0. */
+  /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
   deallocated?: boolean;
   /** Whether Cassandra audit logging is enabled */
   cassandraAuditLoggingEnabled?: boolean;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
 }
 
 export interface SeedNode {
@@ -1344,6 +1371,17 @@ export interface SeedNode {
 export interface Certificate {
   /** PEM formatted public key. */
   pem?: string;
+}
+
+export interface CassandraError {
+  /** The code of error that occurred. */
+  code?: string;
+  /** The message of the error. */
+  message?: string;
+  /** The target resource of the error. */
+  target?: string;
+  /** Additional information about the error. */
+  additionalErrorInfo?: string;
 }
 
 /** The core properties of ARM resources. */
@@ -1441,10 +1479,35 @@ export interface DataCenterResourceProperties {
   sku?: string;
   /** Disk SKU used for data centers. Default value is P30. */
   diskSku?: string;
-  /** Number of disk used for data centers. Default value is 4. */
+  /** Number of disks attached to each node. Default is 4. */
   diskCapacity?: number;
-  /** If the azure data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
+  /** If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
   availabilityZone?: boolean;
+  /** Ldap authentication method properties. This feature is in preview. */
+  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+  /** Whether the data center has been deallocated. */
+  deallocated?: boolean;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
+}
+
+/** Ldap authentication method properties. This feature is in preview. */
+export interface AuthenticationMethodLdapProperties {
+  /** Hostname of the LDAP server. */
+  serverHostname?: string;
+  /** Port of the LDAP server. */
+  serverPort?: number;
+  /** Distinguished name of the look up user account, who can look up user details on authentication. */
+  serviceUserDistinguishedName?: string;
+  /** Password of the look up user. */
+  serviceUserPassword?: string;
+  /** Distinguished name of the object to start the recursive search of users from. */
+  searchBaseDistinguishedName?: string;
+  /** Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login. */
+  searchFilterTemplate?: string;
+  serverCertificates?: Certificate[];
+  /** Timeout for connecting to the LDAP server in miliseconds. The default is 5000 ms. */
+  connectionTimeoutInMs?: number;
 }
 
 /** Properties of a managed Cassandra cluster public status. */
@@ -1453,6 +1516,8 @@ export interface CassandraClusterPublicStatus {
   reaperStatus?: ManagedCassandraReaperStatus;
   /** List relevant information about any connection errors to the Datacenters. */
   connectionErrors?: ConnectionError[];
+  /** List relevant information about any errors about cluster, data center and connection error. */
+  errors?: CassandraError[];
   /** List of the status of each datacenter in this cluster. */
   dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
 }
@@ -1492,6 +1557,8 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
   /** The state of the node in Cassandra ring. */
   state?: NodeState;
   status?: string;
+  /** Cassandra service status on this node */
+  cassandraProcessStatus?: string;
   /** The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted. */
   load?: string;
   /** List of tokens this node covers. */
@@ -3889,6 +3956,69 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary",
+  /** PrimaryReadonly */
+  PrimaryReadonly = "PrimaryReadonly",
+  /** SecondaryReadonly */
+  SecondaryReadonly = "SecondaryReadonly"
+}
+
+/**
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary** \
+ * **PrimaryReadonly** \
+ * **SecondaryReadonly**
+ */
+export type Kind = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Sql */
+  Sql = "Sql",
+  /** Table */
+  Table = "Table",
+  /** MongoDB */
+  MongoDB = "MongoDB",
+  /** Cassandra */
+  Cassandra = "Cassandra",
+  /** CassandraConnectorMetadata */
+  CassandraConnectorMetadata = "CassandraConnectorMetadata",
+  /** Gremlin */
+  Gremlin = "Gremlin",
+  /** SqlDedicatedGateway */
+  SqlDedicatedGateway = "SqlDedicatedGateway",
+  /** GremlinV2 */
+  GremlinV2 = "GremlinV2",
+  /** Undefined */
+  Undefined = "Undefined"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sql** \
+ * **Table** \
+ * **MongoDB** \
+ * **Cassandra** \
+ * **CassandraConnectorMetadata** \
+ * **Gremlin** \
+ * **SqlDedicatedGateway** \
+ * **GremlinV2** \
+ * **Undefined**
+ */
+export type Type = string;
+
 /** Known values of {@link KeyKind} that the service accepts. */
 export enum KnownKeyKind {
   /** Primary */
@@ -4195,6 +4325,33 @@ export enum KnownBackupStorageRedundancy {
  */
 export type BackupStorageRedundancy = string;
 
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** Uninitialized */
+  Uninitialized = "Uninitialized",
+  /** Initializing */
+  Initializing = "Initializing",
+  /** InternallyReady */
+  InternallyReady = "InternallyReady",
+  /** Online */
+  Online = "Online",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized** \
+ * **Initializing** \
+ * **InternallyReady** \
+ * **Online** \
+ * **Deleting**
+ */
+export type Status = string;
+
 /** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
 export enum KnownManagedCassandraProvisioningState {
   /** Creating */
@@ -4230,7 +4387,9 @@ export enum KnownAuthenticationMethod {
   /** None */
   None = "None",
   /** Cassandra */
-  Cassandra = "Cassandra"
+  Cassandra = "Cassandra",
+  /** Ldap */
+  Ldap = "Ldap"
 }
 
 /**
@@ -4239,7 +4398,8 @@ export enum KnownAuthenticationMethod {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
- * **Cassandra**
+ * **Cassandra** \
+ * **Ldap**
  */
 export type AuthenticationMethod = string;
 

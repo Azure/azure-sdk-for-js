@@ -23,6 +23,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `run` (execute a sample or all samples within a directory)
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 - `test-proxy`
+  - `init` (initializes `assets.json` in your package folder)
   - `push` (pushes the assets, referenced by assets.json, into git)
   - `reset` (reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes)
   - `restore` (restore the assets, referenced by assets.json, from git)

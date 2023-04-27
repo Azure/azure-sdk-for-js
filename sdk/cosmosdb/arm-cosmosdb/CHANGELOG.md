@@ -1,5 +1,31 @@
 # Release History
     
+## 15.4.0 (2023-04-23)
+    
+**Features**
+
+  - Added Interface AuthenticationMethodLdapProperties
+  - Added Interface CassandraError
+  - Added Type Alias Kind
+  - Added Type Alias Status
+  - Added Type Alias Type
+  - Interface CassandraClusterPublicStatus has a new optional parameter errors
+  - Interface ClusterResourceProperties has a new optional parameter provisionError
+  - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter cassandraProcessStatus
+  - Interface DatabaseAccountConnectionString has a new optional parameter keyKind
+  - Interface DatabaseAccountConnectionString has a new optional parameter type
+  - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
+  - Interface DataCenterResourceProperties has a new optional parameter deallocated
+  - Interface DataCenterResourceProperties has a new optional parameter provisionError
+  - Interface LocationProperties has a new optional parameter isSubscriptionRegionAccessAllowedForAz
+  - Interface LocationProperties has a new optional parameter isSubscriptionRegionAccessAllowedForRegular
+  - Interface LocationProperties has a new optional parameter status
+  - Added Enum KnownKind
+  - Added Enum KnownStatus
+  - Added Enum KnownType
+  - Enum KnownAuthenticationMethod has a new value Ldap
+    
+    
 ## 15.3.0 (2023-02-10)
     
 **Features**

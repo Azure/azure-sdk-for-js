@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CertificateResource,
   CertificatesListOptionalParams,
@@ -63,8 +63,8 @@ export interface Certificates {
     certificateResource: CertificateResource,
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CertificatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CertificatesCreateOrUpdateResponse>,
       CertificatesCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface Certificates {
     serviceName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the certificate resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of an Appliance with a specified resource group and name.
  *
  * @summary Gets the details of an Appliance with a specified resource group and name.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesGet.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesGet.json
  */
 async function getAppliance() {
   const subscriptionId =

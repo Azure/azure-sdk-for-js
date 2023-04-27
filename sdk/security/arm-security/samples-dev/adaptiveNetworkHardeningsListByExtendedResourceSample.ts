@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of Adaptive Network Hardenings resources in scope of an extended resource.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/ListByExtendedResourceAdaptiveNetworkHardenings_example.json
  */
 async function listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "rg1";
   const resourceNamespace = "Microsoft.Compute";
   const resourceType = "virtualMachines";
   const resourceName = "vm1";
@@ -37,6 +42,8 @@ async function listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource() {
   console.log(resArray);
 }
 
-listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource().catch(
-  console.error
-);
+async function main() {
+  listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource();
+}
+
+main().catch(console.error);

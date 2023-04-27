@@ -1070,6 +1070,20 @@ export const DatabaseAccountConnectionString: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyKind: {
+        serializedName: "keyKind",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3201,6 +3215,27 @@ export const LocationProperties: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      isSubscriptionRegionAccessAllowedForRegular: {
+        serializedName: "isSubscriptionRegionAccessAllowedForRegular",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      isSubscriptionRegionAccessAllowedForAz: {
+        serializedName: "isSubscriptionRegionAccessAllowedForAz",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3366,6 +3401,13 @@ export const ClusterResourceProperties: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      provisionError: {
+        serializedName: "provisionError",
+        type: {
+          name: "Composite",
+          className: "CassandraError"
+        }
       }
     }
   }
@@ -3393,6 +3435,39 @@ export const Certificate: coreClient.CompositeMapper = {
     modelProperties: {
       pem: {
         serializedName: "pem",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CassandraError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CassandraError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      additionalErrorInfo: {
+        serializedName: "additionalErrorInfo",
         type: {
           name: "String"
         }
@@ -3642,6 +3717,89 @@ export const DataCenterResourceProperties: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      authenticationMethodLdapProperties: {
+        serializedName: "authenticationMethodLdapProperties",
+        type: {
+          name: "Composite",
+          className: "AuthenticationMethodLdapProperties"
+        }
+      },
+      deallocated: {
+        serializedName: "deallocated",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisionError: {
+        serializedName: "provisionError",
+        type: {
+          name: "Composite",
+          className: "CassandraError"
+        }
+      }
+    }
+  }
+};
+
+export const AuthenticationMethodLdapProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AuthenticationMethodLdapProperties",
+    modelProperties: {
+      serverHostname: {
+        serializedName: "serverHostname",
+        type: {
+          name: "String"
+        }
+      },
+      serverPort: {
+        serializedName: "serverPort",
+        type: {
+          name: "Number"
+        }
+      },
+      serviceUserDistinguishedName: {
+        serializedName: "serviceUserDistinguishedName",
+        type: {
+          name: "String"
+        }
+      },
+      serviceUserPassword: {
+        serializedName: "serviceUserPassword",
+        type: {
+          name: "String"
+        }
+      },
+      searchBaseDistinguishedName: {
+        serializedName: "searchBaseDistinguishedName",
+        type: {
+          name: "String"
+        }
+      },
+      searchFilterTemplate: {
+        serializedName: "searchFilterTemplate",
+        type: {
+          name: "String"
+        }
+      },
+      serverCertificates: {
+        serializedName: "serverCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Certificate"
+            }
+          }
+        }
+      },
+      connectionTimeoutInMs: {
+        serializedName: "connectionTimeoutInMs",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -3673,6 +3831,18 @@ export const CassandraClusterPublicStatus: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ConnectionError"
+            }
+          }
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CassandraError"
             }
           }
         }
@@ -3820,6 +3990,12 @@ export const ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatace
       },
       status: {
         serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      cassandraProcessStatus: {
+        serializedName: "cassandraProcessStatus",
         type: {
           name: "String"
         }

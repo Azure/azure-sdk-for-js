@@ -1,0 +1,42 @@
+name: Deprecation Request
+description: Request package deprecation
+title: "[Deprecate]: "
+labels: ["bug", "needs-triage"]
+assignees:
+  - xirzec
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing this request! We'll take a look as soon as we can.
+  - type: input
+    id: package-name
+    attributes:
+      label: Package Name
+      description: What package would you like to deprecate?
+      placeholder: "@azure/example"
+    validations:
+      required: true
+  - type: textarea
+    id: deprecated-versions
+    attributes:
+      label: Deprecated Versions
+      description: Which versions should be deprecated?
+      placeholder: This can be a specific version (12.1.2), a range (12.x), or all (*)
+    validations:
+      required: true
+  - type: textarea
+    id: deprecation-message
+    attributes:
+      label: Deprecation Message
+      description: Please write the deprecation message you would like to display in npm.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is deprecation necessary?
+      description: If this deprecation is related to a bug or critical fix, please link to the issue/PR.
+      placeholder: Include any additional relevant details.
+    validations:
+      required: true

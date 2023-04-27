@@ -1,6 +1,6 @@
 # Release History
 
-## 3.2.3 (Unreleased)
+## 3.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.3.0 (2023-04-06)
+
+### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
 
 ## 3.2.2 (2023-02-02)
 

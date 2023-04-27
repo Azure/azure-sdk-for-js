@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnGateway,
   VpnGatewaysListByResourceGroupNextOptionalParams,
@@ -207,8 +211,8 @@ export class VpnGatewaysImpl implements VpnGateways {
     vpnGatewayParameters: VpnGateway,
     options?: VpnGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysCreateOrUpdateResponse>,
       VpnGatewaysCreateOrUpdateResponse
     >
   > {
@@ -218,7 +222,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     ): Promise<VpnGatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -251,15 +255,18 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, vpnGatewayParameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, vpnGatewayParameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnGatewaysCreateOrUpdateResponse,
+      OperationState<VpnGatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -300,8 +307,8 @@ export class VpnGatewaysImpl implements VpnGateways {
     vpnGatewayParameters: TagsObject,
     options?: VpnGatewaysUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysUpdateTagsResponse>,
       VpnGatewaysUpdateTagsResponse
     >
   > {
@@ -311,7 +318,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     ): Promise<VpnGatewaysUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -344,15 +351,18 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, vpnGatewayParameters, options },
-      updateTagsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, vpnGatewayParameters, options },
+      spec: updateTagsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnGatewaysUpdateTagsResponse,
+      OperationState<VpnGatewaysUpdateTagsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -390,14 +400,14 @@ export class VpnGatewaysImpl implements VpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -430,15 +440,15 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -474,8 +484,8 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysResetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysResetResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysResetResponse>,
       VpnGatewaysResetResponse
     >
   > {
@@ -485,7 +495,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     ): Promise<VpnGatewaysResetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -518,15 +528,18 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, options },
-      resetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, options },
+      spec: resetOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnGatewaysResetResponse,
+      OperationState<VpnGatewaysResetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -562,8 +575,8 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysStartPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysStartPacketCaptureResponse>,
       VpnGatewaysStartPacketCaptureResponse
     >
   > {
@@ -573,7 +586,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     ): Promise<VpnGatewaysStartPacketCaptureResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -606,15 +619,18 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, options },
-      startPacketCaptureOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, options },
+      spec: startPacketCaptureOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnGatewaysStartPacketCaptureResponse,
+      OperationState<VpnGatewaysStartPacketCaptureResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -650,8 +666,8 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysStopPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysStopPacketCaptureResponse>,
       VpnGatewaysStopPacketCaptureResponse
     >
   > {
@@ -661,7 +677,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     ): Promise<VpnGatewaysStopPacketCaptureResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -694,15 +710,18 @@ export class VpnGatewaysImpl implements VpnGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, options },
-      stopPacketCaptureOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, options },
+      spec: stopPacketCaptureOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnGatewaysStopPacketCaptureResponse,
+      OperationState<VpnGatewaysStopPacketCaptureResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -919,7 +938,7 @@ const resetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.ipConfigurationId],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1044,7 +1063,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1065,7 +1083,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
  *
  * @summary Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualRouterPeerListAdvertisedRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualRouterPeerListAdvertisedRoute.json
  */
 async function virtualRouterPeerListAdvertisedRoutes() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const hubName = "virtualRouter1";
   const connectionName = "peer1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function virtualRouterPeerListAdvertisedRoutes() {
   console.log(result);
 }
 
-virtualRouterPeerListAdvertisedRoutes().catch(console.error);
+async function main() {
+  virtualRouterPeerListAdvertisedRoutes();
+}
+
+main().catch(console.error);

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
  *
  * @summary Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayNatRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayNatRulePut.json
  */
 async function virtualNetworkGatewayNatRulePut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "gateway1";
   const natRuleName = "natRule1";
   const natRuleParameters = {
@@ -41,4 +42,8 @@ async function virtualNetworkGatewayNatRulePut() {
   console.log(result);
 }
 
-virtualNetworkGatewayNatRulePut().catch(console.error);
+async function main() {
+  virtualNetworkGatewayNatRulePut();
+}
+
+main().catch(console.error);

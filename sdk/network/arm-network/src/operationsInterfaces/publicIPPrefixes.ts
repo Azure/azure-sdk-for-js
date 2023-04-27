@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PublicIPPrefix,
   PublicIPPrefixesListAllOptionalParams,
@@ -51,7 +51,7 @@ export interface PublicIPPrefixes {
     resourceGroupName: string,
     publicIpPrefixName: string,
     options?: PublicIPPrefixesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified public IP prefix.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface PublicIPPrefixes {
     parameters: PublicIPPrefix,
     options?: PublicIPPrefixesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PublicIPPrefixesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PublicIPPrefixesCreateOrUpdateResponse>,
       PublicIPPrefixesCreateOrUpdateResponse
     >
   >;

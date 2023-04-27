@@ -10,19 +10,26 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists available Ssl options for configuring Ssl policy.
  *
  * @summary Lists available Ssl options for configuring Ssl policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayAvailableSslOptionsGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationGatewayAvailableSslOptionsGet.json
  */
 async function getAvailableSslOptions() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.applicationGateways.listAvailableSslOptions();
   console.log(result);
 }
 
-getAvailableSslOptions().catch(console.error);
+async function main() {
+  getAvailableSslOptions();
+}
+
+main().catch(console.error);

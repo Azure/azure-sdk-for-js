@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";
+import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";
 
 export class FeedResponse<TResource> {
   constructor(
@@ -23,5 +24,13 @@ export class FeedResponse<TResource> {
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
+  }
+  public get indexMetrics(): string {
+    const writer = new IndexMetricWriter();
+    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
+      this.headers[Constants.HttpHeaders.IndexUtilization],
+      true
+    );
+    return writer.writeIndexMetrics(indexUtilizationInfo);
   }
 }

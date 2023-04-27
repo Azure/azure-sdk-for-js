@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
  *
  * @summary Gets the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallGet.json
  */
 async function getAzureFirewall() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,17 +33,15 @@ async function getAzureFirewall() {
   console.log(result);
 }
 
-getAzureFirewall().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
  *
  * @summary Gets the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallGetWithAdditionalProperties.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallGetWithAdditionalProperties.json
  */
 async function getAzureFirewallWithAdditionalProperties() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -51,17 +52,15 @@ async function getAzureFirewallWithAdditionalProperties() {
   console.log(result);
 }
 
-getAzureFirewallWithAdditionalProperties().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
  *
  * @summary Gets the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallGetWithIpGroups.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallGetWithIpGroups.json
  */
 async function getAzureFirewallWithIPGroups() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -72,17 +71,15 @@ async function getAzureFirewallWithIPGroups() {
   console.log(result);
 }
 
-getAzureFirewallWithIPGroups().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
  *
  * @summary Gets the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallGetWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallGetWithZones.json
  */
 async function getAzureFirewallWithZones() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -92,18 +89,16 @@ async function getAzureFirewallWithZones() {
   );
   console.log(result);
 }
-
-getAzureFirewallWithZones().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
  *
  * @summary Gets the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallGetWithMgmtSubnet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallGetWithMgmtSubnet.json
  */
 async function getAzureFirewallWithManagementSubnet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -114,4 +109,12 @@ async function getAzureFirewallWithManagementSubnet() {
   console.log(result);
 }
 
-getAzureFirewallWithManagementSubnet().catch(console.error);
+async function main() {
+  getAzureFirewall();
+  getAzureFirewallWithAdditionalProperties();
+  getAzureFirewallWithIPGroups();
+  getAzureFirewallWithZones();
+  getAzureFirewallWithManagementSubnet();
+}
+
+main().catch(console.error);

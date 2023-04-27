@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceResource,
   ServicesListBySubscriptionOptionalParams,
@@ -80,8 +80,8 @@ export interface Services {
     resource: ServiceResource,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface Services {
     resourceGroupName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -137,8 +137,8 @@ export interface Services {
     resource: ServiceResource,
     options?: ServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesUpdateResponse>,
       ServicesUpdateResponse
     >
   >;
@@ -217,7 +217,7 @@ export interface Services {
     resourceGroupName: string,
     serviceName: string,
     options?: ServicesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -241,7 +241,7 @@ export interface Services {
     resourceGroupName: string,
     serviceName: string,
     options?: ServicesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

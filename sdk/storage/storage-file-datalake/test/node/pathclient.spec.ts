@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { join } from "path";
@@ -23,6 +23,8 @@ import {
   getDataLakeServiceClient,
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
+  getUniqueName,
+  uriSanitizers,
 } from "../utils";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
@@ -37,12 +39,23 @@ describe("DataLakePathClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    serviceClient = getDataLakeServiceClient();
-    fileSystemName = recorder.getUniqueName("filesystem");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-rename-source"],
+        },
+      },
+      ["record", "playback"]
+    );
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
-    fileName = recorder.getUniqueName("file");
+    fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     await fileClient.append(content, 0, content.length);
@@ -55,7 +68,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient create with owner", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
 
@@ -65,7 +78,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient create with group", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
 
@@ -75,7 +88,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient create with acl", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const acl: PathAccessControlItem[] = [
       {
@@ -138,7 +151,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient createIfNotExists with owner", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
 
@@ -148,7 +161,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient createIfNotExists with group", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
 
@@ -158,7 +171,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient createIfNotExists with acl", async () => {
-    const testFileName = recorder.getUniqueName("testfile");
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const acl: PathAccessControlItem[] = [
       {
@@ -221,7 +234,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient create with owner", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
 
@@ -231,7 +244,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient create with group", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
 
@@ -241,7 +254,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient create with acl", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const acl: PathAccessControlItem[] = [
       {
@@ -304,7 +317,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient createIfNotExists with owner", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
 
@@ -314,7 +327,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient createIfNotExists with group", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
 
@@ -324,7 +337,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient createIfNotExists with acl", async () => {
-    const testDirName = recorder.getUniqueName("testdir");
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const acl: PathAccessControlItem[] = [
       {
@@ -643,14 +656,17 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move", async () => {
-    const destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileName);
     await destFileClient.getProperties();
   });
 
   it("move should encode source", async () => {
-    const destFileName = recorder.getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt");
+    const destFileName = recorder.variable(
+      " a+'%20%2F%2B%27%%25%2520.txt",
+      getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt")
+    );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
     await destFileClient.getProperties();
@@ -660,11 +676,11 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move cross file system", async () => {
-    const destFileSystemName = recorder.getUniqueName("destfilesystem");
+    const destFileSystemName = recorder.variable("destfilesystem", getUniqueName("destfilesystem"));
     const destFileSystemClient = serviceClient.getFileSystemClient(destFileSystemName);
     await destFileSystemClient.create();
 
-    const destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const destFileClient = destFileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileSystemName, destFileName);
 
@@ -674,7 +690,7 @@ describe("DataLakePathClient Node.js only", () => {
 
   it("move should not encode / in the source", async () => {
     await fileSystemClient.getDirectoryClient("path").create();
-    const destFileName = recorder.getUniqueName("path/slash");
+    const destFileName = recorder.variable("path/slash", getUniqueName("path/slash"));
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
     await destFileClient.getProperties();
@@ -684,7 +700,10 @@ describe("DataLakePathClient Node.js only", () => {
 
   it("move with destination path encoded", async () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 1").create();
-    const destFileName = recorder.getUniqueName("dest file with & and 1/char");
+    const destFileName = recorder.variable(
+      "dest file with & and 1/char",
+      getUniqueName("dest file with & and 1/char")
+    );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
     await destFileClient.getProperties();
@@ -692,18 +711,22 @@ describe("DataLakePathClient Node.js only", () => {
 
   it("move with destination path not encoded", async () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 2").create();
-    const destFileName = recorder.getUniqueName("dest file with & and 2/char");
+    const destFileName = recorder.variable(
+      "dest file with & and 2/char",
+      getUniqueName("dest file with & and 2/char")
+    );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileName);
     await destFileClient.getProperties();
   });
 
   it("move with shared key to authenticate source, SAS to authenticate destination", async () => {
-    const destFileName = recorder.getUniqueName("destfile");
-    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential(recorder, {
       fileSystemName: fileSystemClient.name,
       pathName: destFileName,
-      expiresOn: new Date(Date.now() + 60 * 1000),
+      expiresOn: new Date(now.getTime() + 60 * 1000),
       permissions: DataLakeSASPermissions.parse("rwm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
@@ -712,10 +735,11 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move with SAS to authenticate source, SAS to authenticate destination", async () => {
-    const destFileName = recorder.getUniqueName("destfile");
-    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential(recorder, {
       fileSystemName: fileSystemClient.name,
-      expiresOn: new Date(Date.now() + 60 * 1000),
+      expiresOn: new Date(now.getTime() + 60 * 1000),
       permissions: DataLakeSASPermissions.parse("rwdm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
@@ -742,7 +766,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient2.append(csvContent, 0, csvContent.length);
     await fileClient2.flush(csvContent.length);
 
-    await fileClient2.query("select * from BlobStorage", {
+    const response = await fileClient2.query("select * from BlobStorage", {
       outputTextConfiguration: {
         kind: "arrow",
         schema: [
@@ -755,6 +779,7 @@ describe("DataLakePathClient Node.js only", () => {
         ],
       },
     });
+    await bodyToString(response);
   });
 
   it("query should work with Parquet input configuration", async function (this: Context) {
@@ -805,12 +830,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    serviceClient = getDataLakeServiceClient();
-    fileSystemName = recorder.getUniqueName("filesystem");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
-    fileName = recorder.getUniqueName("file");
+    fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     await fileClient.append(content, 0, content.length);
@@ -823,13 +849,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("setAccessControlRecursive should work", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -861,13 +887,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("setAccessControlRecursive should work with options - maxBatches", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -905,13 +931,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("setAccessControlRecursive should work with options - batchSize", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -983,13 +1009,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("setAccessControlRecursive should work with aborter & resume, ", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -1061,13 +1087,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("updateAccessControlRecursive should work", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -1099,13 +1125,13 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   it("removeAccessControlRecursive should work", async () => {
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const subDirectoryClient1 = directoryClient.getSubdirectoryClient(subDirectoryName1);
@@ -1169,15 +1195,15 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     const token = "";
     const fileSystemClientOAuth = new DataLakeFileSystemClient(fileSystemClient.url, new SimpleTokenCredential(token));
 
-    const directoryName = recorder.getUniqueName("directory");
-    const subDirectoryName1 = recorder.getUniqueName("subdirectory1");
-    const fileName1 = recorder.getUniqueName("fileName1");
-    const fileName2 = recorder.getUniqueName("fileName2");
-    const subDirectoryName2 = recorder.getUniqueName("subdirectory2");
-    const fileName3 = recorder.getUniqueName("fileName3");
-    const fileName4 = recorder.getUniqueName("fileName4");
-    const fileName5 = recorder.getUniqueName("fileName5");
-    const fileName6 = recorder.getUniqueName("fileName6");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const subDirectoryName1 = recorder.variable("subdirectory1", getUniqueName("subdirectory1"));
+    const fileName1 = recorder.variable("fileName1", getUniqueName("fileName1"));
+    const fileName2 = recorder.variable("fileName2", getUniqueName("fileName2"));
+    const subDirectoryName2 = recorder.variable("subdirectory2", getUniqueName("subdirectory2"));
+    const fileName3 = recorder.variable("fileName3", getUniqueName("fileName3"));
+    const fileName4 = recorder.variable("fileName4", getUniqueName("fileName4"));
+    const fileName5 = recorder.variable("fileName5", getUniqueName("fileName5"));
+    const fileName6 = recorder.variable("fileName6", getUniqueName("fileName6"));
 
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const directoryClientOAuth = fileSystemClientOAuth.getDirectoryClient(directoryName);

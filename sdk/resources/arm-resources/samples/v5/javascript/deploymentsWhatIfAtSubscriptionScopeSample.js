@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ResourceManagementClient } = require("@azure/arm-resources");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PostDeploymentWhatIfOnSubscription.json
  */
 async function predictTemplateChangesAtSubscriptionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000001";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
   const deploymentName = "my-deployment";
   const parameters = {
     location: "westus",
@@ -33,4 +35,8 @@ async function predictTemplateChangesAtSubscriptionScope() {
   console.log(result);
 }
 
-predictTemplateChangesAtSubscriptionScope().catch(console.error);
+async function main() {
+  predictTemplateChangesAtSubscriptionScope();
+}
+
+main().catch(console.error);

@@ -5,6 +5,7 @@ import { AbortError } from "@azure/abort-controller";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
 import { ServiceBusError } from "../serviceBusError";
+import { receiveDrainTimeoutInMs } from "../util/constants";
 
 /**
  * Wraps the receiver with some higher level operations for managing state
@@ -126,12 +127,19 @@ export class ReceiverHelper {
     );
 
     const drainPromise = new Promise<void>((resolve) => {
+      const timer = setTimeout(async () => {
+        logger.warning(`${logPrefix} Time out when draining credits in suspend().`);
+        // Close the receiver link since we have not received the receiver_drained event
+        // to prevent out-of-sync link state between local and remote
+        await receiver?.close();
+        resolve();
+      }, receiveDrainTimeoutInMs);
       receiver.once(ReceiverEvents.receiverDrained, () => {
         logger.verbose(`${logPrefix} Receiver has been drained.`);
         receiver.drain = false;
+        clearTimeout(timer);
         resolve();
       });
-
       receiver.drainCredit();
     });
 

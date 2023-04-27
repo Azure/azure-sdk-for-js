@@ -13,6 +13,9 @@ import {
   ResourceManagementClient
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ForceDeleteVMsAndVMSSInResourceGroup.json
  */
 async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const forceDeletionTypes =
     "Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets";
   const options: ResourceGroupsDeleteOptionalParams = { forceDeletionTypes };
@@ -35,10 +41,6 @@ async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAReso
   console.log(result);
 }
 
-forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
  *
@@ -46,8 +48,11 @@ forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup().cat
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ForceDeleteVMsInResourceGroup.json
  */
 async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const forceDeletionTypes = "Microsoft.Compute/virtualMachines";
   const options: ResourceGroupsDeleteOptionalParams = { forceDeletionTypes };
   const credential = new DefaultAzureCredential();
@@ -59,4 +64,9 @@ async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
   console.log(result);
 }
 
-forceDeleteAllTheVirtualMachinesInAResourceGroup().catch(console.error);
+async function main() {
+  forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup();
+  forceDeleteAllTheVirtualMachinesInAResourceGroup();
+}
+
+main().catch(console.error);

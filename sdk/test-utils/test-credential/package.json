@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-credential",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "sdk-type": "utility",
   "description": "Test utilities library that provides the test credential",
   "main": "dist/index.js",
@@ -65,7 +65,7 @@
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "ts-node": "^10.0.0"
   }
 }

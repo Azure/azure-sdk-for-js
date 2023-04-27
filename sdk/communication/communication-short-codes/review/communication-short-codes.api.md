@@ -63,7 +63,7 @@ export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalPa
 }
 
 // @public
-export interface ListUSProgramBriefsOptions extends OperationOptions {
+export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {
 }
 
 // @public
@@ -227,6 +227,12 @@ export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams extends cor
 
 // @public
 export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ShortCodesGetUSProgramBriefsOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
 }

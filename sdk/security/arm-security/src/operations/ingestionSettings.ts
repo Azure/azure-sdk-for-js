@@ -219,7 +219,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -236,7 +236,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -258,7 +258,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.ingestionSetting,
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -279,7 +279,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -300,7 +300,7 @@ const listTokensOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -321,7 +321,7 @@ const listConnectionStringsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -341,7 +341,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion15],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

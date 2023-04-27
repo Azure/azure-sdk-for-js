@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Monitor,
   MonitorsListNextOptionalParams,
@@ -229,8 +233,8 @@ export class MonitorsImpl implements Monitors {
     monitorParameter: Monitor,
     options?: MonitorsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsCreateResponse>,
       MonitorsCreateResponse
     >
   > {
@@ -240,7 +244,7 @@ export class MonitorsImpl implements Monitors {
     ): Promise<MonitorsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -273,13 +277,16 @@ export class MonitorsImpl implements Monitors {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, monitorParameter, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, monitorParameter, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MonitorsCreateResponse,
+      OperationState<MonitorsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -319,8 +326,8 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsDeleteResponse>,
       MonitorsDeleteResponse
     >
   > {
@@ -330,7 +337,7 @@ export class MonitorsImpl implements Monitors {
     ): Promise<MonitorsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -363,15 +370,18 @@ export class MonitorsImpl implements Monitors {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MonitorsDeleteResponse,
+      OperationState<MonitorsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

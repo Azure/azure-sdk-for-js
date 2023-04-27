@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AppServicePlan,
   AppServicePlansListOptionalParams,
@@ -152,8 +152,8 @@ export interface AppServicePlans {
     appServicePlan: AppServicePlan,
     options?: AppServicePlansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServicePlansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServicePlansCreateOrUpdateResponse>,
       AppServicePlansCreateOrUpdateResponse
     >
   >;

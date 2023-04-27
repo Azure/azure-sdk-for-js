@@ -6,7 +6,6 @@ import { Recorder, env, assertEnvironmentVariable, isLiveMode } from "@azure-too
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { isNode } from "@azure/core-util";
 
 export const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -30,23 +29,6 @@ export async function authenticate(version: string, recorder: Recorder): Promise
   const keyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
   const replacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
 
-  let attestationUri: string;
-  let replacedAttestationUri: string;
-
-  if (isNode) {
-    attestationUri = Buffer.from(
-      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
-      "base64"
-    ).toString();
-    replacedAttestationUri = Buffer.from(
-      replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI,
-      "base64"
-    ).toString();
-  } else {
-    attestationUri = btoa(assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"));
-    replacedAttestationUri = btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI);
-  }
-
   await recorder.addSanitizers({
     generalSanitizers: [
       {
@@ -54,12 +36,14 @@ export async function authenticate(version: string, recorder: Recorder): Promise
         value: "",
       },
       {
-        target: attestationUri,
-        value: replacedAttestationUri,
-      },
-      {
         target: keyVaultUriName,
         value: replacedKeyVaultUriName,
+      },
+    ],
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.release_policy.data",
+        value: "eyAic2FuaXRpemVkIjogInNhbml0aXplZCIgfQ==", // dummy base64-encoded JSON object
       },
     ],
   });

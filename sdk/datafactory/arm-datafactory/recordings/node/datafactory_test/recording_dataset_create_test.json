@@ -1,0 +1,101 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/exampleDataset?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "391",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a4b8fb51-02b9-4eb3-ad4f-2dddeca726a8"
+      },
+      "RequestBody": {
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 15 Mar 2023 07:53:02 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "950175f0-dce7-4a82-80b2-112bb03f2f0d",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "950175f0-dce7-4a82-80b2-112bb03f2f0d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T075303Z:950175f0-dce7-4a82-80b2-112bb03f2f0d"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/datasets/exampleDataset",
+        "name": "exampleDataset",
+        "type": "Microsoft.DataFactory/factories/datasets",
+        "properties": {
+          "type": "AzureBlob",
+          "linkedServiceName": {
+            "type": "LinkedServiceReference",
+            "referenceName": "exampleLinkedService"
+          },
+          "parameters": {
+            "myFileName": {
+              "type": "String"
+            },
+            "myFolderPath": {
+              "type": "String"
+            }
+          },
+          "typeProperties": {
+            "folderPath": {
+              "type": "Expression",
+              "value": "@dataset().MyFolderPath"
+            },
+            "fileName": {
+              "type": "Expression",
+              "value": "@dataset().MyFileName"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          }
+        },
+        "etag": "1500a9ad-0000-0100-0000-6411795f0000"
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a network security group tags.
  *
  * @summary Updates a network security group tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkSecurityGroupUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkSecurityGroupUpdateTags.json
  */
 async function updateNetworkSecurityGroupTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkSecurityGroupName = "testnsg";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function updateNetworkSecurityGroupTags() {
   console.log(result);
 }
 
-updateNetworkSecurityGroupTags().catch(console.error);
+async function main() {
+  updateNetworkSecurityGroupTags();
+}
+
+main().catch(console.error);

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all global reach connections associated with a private peering in an express route circuit.
  *
  * @summary Gets all global reach connections associated with a private peering in an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCircuitConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitConnectionList.json
  */
 async function listExpressRouteCircuitConnection() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "ExpressRouteARMCircuitA";
   const peeringName = "AzurePrivatePeering";
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function listExpressRouteCircuitConnection() {
   console.log(resArray);
 }
 
-listExpressRouteCircuitConnection().catch(console.error);
+async function main() {
+  listExpressRouteCircuitConnection();
+}
+
+main().catch(console.error);

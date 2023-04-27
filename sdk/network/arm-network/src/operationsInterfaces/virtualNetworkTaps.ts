@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkTap,
   VirtualNetworkTapsListAllOptionalParams,
@@ -51,7 +51,7 @@ export interface VirtualNetworkTaps {
     resourceGroupName: string,
     tapName: string,
     options?: VirtualNetworkTapsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified virtual network tap.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface VirtualNetworkTaps {
     parameters: VirtualNetworkTap,
     options?: VirtualNetworkTapsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkTapsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkTapsCreateOrUpdateResponse>,
       VirtualNetworkTapsCreateOrUpdateResponse
     >
   >;

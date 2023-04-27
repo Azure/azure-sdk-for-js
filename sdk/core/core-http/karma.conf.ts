@@ -9,7 +9,6 @@ module.exports = function(config: any) {
     plugins: [
       "karma-mocha",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher"
     ],
 

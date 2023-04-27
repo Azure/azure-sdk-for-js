@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VolumeQuotaRule,
   VolumeQuotaRulesListByVolumeOptionalParams,
@@ -43,7 +47,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * List all quota rules associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -125,7 +129,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * List all quota rules associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -146,7 +150,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Get details of the specified quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -176,7 +180,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Create the specified quota rule within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -193,8 +197,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     body: VolumeQuotaRule,
     options?: VolumeQuotaRulesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeQuotaRulesCreateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeQuotaRulesCreateResponse>,
       VolumeQuotaRulesCreateResponse
     >
   > {
@@ -204,7 +208,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     ): Promise<VolumeQuotaRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -237,9 +241,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -248,12 +252,15 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         body,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumeQuotaRulesCreateResponse,
+      OperationState<VolumeQuotaRulesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -261,7 +268,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Create the specified quota rule within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -292,7 +299,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Patch a quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -309,8 +316,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     body: VolumeQuotaRulePatch,
     options?: VolumeQuotaRulesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeQuotaRulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeQuotaRulesUpdateResponse>,
       VolumeQuotaRulesUpdateResponse
     >
   > {
@@ -320,7 +327,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     ): Promise<VolumeQuotaRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -353,9 +360,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -364,12 +371,15 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         body,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumeQuotaRulesUpdateResponse,
+      OperationState<VolumeQuotaRulesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -377,7 +387,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Patch a quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -408,7 +418,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Delete quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -422,14 +432,14 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     options?: VolumeQuotaRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -462,9 +472,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -472,12 +482,12 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         volumeQuotaRuleName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -485,7 +495,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 
   /**
    * Delete quota rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -578,7 +588,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -612,7 +622,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
  *
  * @summary Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ConfigurationPolicyGroupListByVpnServerConfiguration.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ConfigurationPolicyGroupListByVpnServerConfiguration.json
  */
 async function configurationPolicyGroupListByVpnServerConfiguration() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function configurationPolicyGroupListByVpnServerConfiguration() {
   console.log(resArray);
 }
 
-configurationPolicyGroupListByVpnServerConfiguration().catch(console.error);
+async function main() {
+  configurationPolicyGroupListByVpnServerConfiguration();
+}
+
+main().catch(console.error);

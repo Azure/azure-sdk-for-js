@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete an application control machine group
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/ApplicationWhitelistings/DeleteAdaptiveApplicationControls_example.json
  */
 async function deleteAnApplicationControlMachineGroup() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "centralus";
   const groupName = "GROUP1";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function deleteAnApplicationControlMachineGroup() {
   console.log(result);
 }
 
-deleteAnApplicationControlMachineGroup().catch(console.error);
+async function main() {
+  deleteAnApplicationControlMachineGroup();
+}
+
+main().catch(console.error);

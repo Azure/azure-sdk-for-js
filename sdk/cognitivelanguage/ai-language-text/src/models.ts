@@ -12,7 +12,6 @@ import {
   DocumentDetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
-  DynamicClassificationAction,
   Entity,
   EntityDataSource,
   EntityLinkingAction,
@@ -84,10 +83,6 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
    * The operation's display name.
    */
   displayName?: string;
-  /**
-   * Default language code to use for records requesting automatic language detection
-   */
-  defaultLanguage?: string;
 }
 
 /**
@@ -110,7 +105,6 @@ export const AnalyzeActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   LanguageDetection: "LanguageDetection",
   SentimentAnalysis: "SentimentAnalysis",
-  DynamicClassification: "DynamicClassification",
 } as const;
 
 /**
@@ -144,7 +138,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionAction;
   KeyPhraseExtraction: KeyPhraseExtractionAction;
   SentimentAnalysis: SentimentAnalysisAction;
-  DynamicClassification: DynamicClassificationAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -157,7 +150,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionResult[];
   KeyPhraseExtraction: KeyPhraseExtractionResult[];
   SentimentAnalysis: SentimentAnalysisResult[];
-  DynamicClassification: DynamicClassificationResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
@@ -171,8 +163,8 @@ export enum KnownFhirVersion {
 
 /** Options for an Abstractive Summarization action. */
 export interface AbstractiveSummarizationAction {
-  /** The max number of sentences to be part of the summary. */
-  maxSentenceCount?: number;
+  /** The approximate number of sentences to be part of the summary. */
+  sentenceCount?: number;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -473,29 +465,6 @@ export interface Opinion {
    */
   readonly assessments: AssessmentSentiment[];
 }
-
-/**
- * The result of a language detection action on a single document.
- */
-export type DynamicClassificationResult =
-  | DynamicClassificationSuccessResult
-  | DynamicClassificationErrorResult;
-
-/**
- * The result of a language detection action on a single document,
- * containing a prediction of what language the document is written in.
- */
-export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * The collection of classifications in the input document.
-   */
-  readonly classifications: ClassificationCategory[];
-}
-
-/**
- * An error result from a language detection action on a single document.
- */
-export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
  * A healthcare entity represented as a node in a directed graph where the edges are

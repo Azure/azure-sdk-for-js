@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnSiteLinkConnection,
   VpnLinkConnectionsListByVpnConnectionNextOptionalParams,
@@ -146,14 +150,14 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -186,21 +190,21 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         gatewayName,
         connectionName,
         linkConnectionName,
         options
       },
-      resetConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: resetConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -246,8 +250,8 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnLinkConnectionsGetIkeSasResponse>,
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsGetIkeSasResponse>,
       VpnLinkConnectionsGetIkeSasResponse
     >
   > {
@@ -257,7 +261,7 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     ): Promise<VpnLinkConnectionsGetIkeSasResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,21 +294,24 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         gatewayName,
         connectionName,
         linkConnectionName,
         options
       },
-      getIkeSasOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: getIkeSasOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnLinkConnectionsGetIkeSasResponse,
+      OperationState<VpnLinkConnectionsGetIkeSasResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -470,7 +477,6 @@ const listByVpnConnectionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

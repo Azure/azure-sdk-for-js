@@ -10,7 +10,6 @@ import {
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
   DocumentError,
-  DynamicClassificationTaskResult,
   EntitiesTaskResult,
   EntityLinkingLROResult,
   EntityLinkingTaskResult,
@@ -18,7 +17,6 @@ import {
   ErrorModel,
   ErrorResponse,
   ExtractiveSummarizationLROResult,
-  DynamicClassificationResult as GeneratedDynamicClassification,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -53,7 +51,6 @@ import {
   AnalyzeBatchActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   HealthcareEntity,
@@ -169,13 +166,6 @@ function toSentimentAnalysisResult(
   });
 }
 
-function toDynamicClassificationResult(
-  docIds: string[],
-  results: GeneratedDynamicClassification
-): DynamicClassificationResult[] {
-  return transformDocumentResults(docIds, results);
-}
-
 /**
  * Converts a sentence sentiment object returned by the service to another that
  * is user-friendly.
@@ -276,12 +266,6 @@ export function transformActionResult<ActionName extends AnalyzeActionName>(
     }
     case "LanguageDetectionResults": {
       return toLanguageDetectionResult(docIds, (response as LanguageDetectionTaskResult).results);
-    }
-    case "DynamicClassificationResults": {
-      return toDynamicClassificationResult(
-        docIds,
-        (response as DynamicClassificationTaskResult).results
-      );
     }
     default: {
       const __exhaust: never = response;

@@ -10,7 +10,7 @@ spec:
   containers:
     - name: sb-stressperf
       imagePullPolicy: Always
-      command: ["node", "/app/dist/src/{{ .Stress.Scenario }}.js"]
-      image: {{ .Values.image }}
+      command: ["node", "/app/dist/src/{{ .Stress.testTarget }}.js"]
+      image: {{ .Stress.imageTag }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}

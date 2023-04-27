@@ -52,6 +52,19 @@ export interface ARMResourceProperties {
 // @public
 export type AuthenticationMethod = string;
 
+// @public
+export interface AuthenticationMethodLdapProperties {
+    connectionTimeoutInMs?: number;
+    searchBaseDistinguishedName?: string;
+    searchFilterTemplate?: string;
+    // (undocumented)
+    serverCertificates?: Certificate[];
+    serverHostname?: string;
+    serverPort?: number;
+    serviceUserDistinguishedName?: string;
+    serviceUserPassword?: string;
+}
+
 // @public (undocumented)
 export interface AutoscaleSettings {
     maxThroughput?: number;
@@ -113,6 +126,7 @@ export interface Capacity {
 export interface CassandraClusterPublicStatus {
     connectionErrors?: ConnectionError[];
     dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
+    errors?: CassandraError[];
     // (undocumented)
     eTag?: string;
     // (undocumented)
@@ -269,6 +283,14 @@ export interface CassandraDataCentersUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type CassandraDataCentersUpdateResponse = DataCenterResource;
+
+// @public (undocumented)
+export interface CassandraError {
+    additionalErrorInfo?: string;
+    code?: string;
+    message?: string;
+    target?: string;
+}
 
 // @public
 export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProperties {
@@ -649,6 +671,7 @@ export interface ClusterResourceProperties {
     hoursBetweenBackups?: number;
     initialCassandraAdminPassword?: string;
     prometheusEndpoint?: SeedNode;
+    provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     repairEnabled?: boolean;
     restoreFromBackupId?: string;
@@ -760,6 +783,7 @@ export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserass
 // @public (undocumented)
 export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
     address?: string;
+    cassandraProcessStatus?: string;
     cpuUsage?: number;
     diskFreeKB?: number;
     diskUsedKB?: number;
@@ -967,6 +991,8 @@ export interface Database {
 export interface DatabaseAccountConnectionString {
     readonly connectionString?: string;
     readonly description?: string;
+    readonly keyKind?: Kind;
+    readonly type?: Type;
 }
 
 // @public
@@ -1363,15 +1389,18 @@ export interface DataCenterResource extends ARMProxyResource {
 
 // @public
 export interface DataCenterResourceProperties {
+    authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
     availabilityZone?: boolean;
     backupStorageCustomerKeyUri?: string;
     base64EncodedCassandraYamlFragment?: string;
     dataCenterLocation?: string;
+    deallocated?: boolean;
     delegatedSubnetId?: string;
     diskCapacity?: number;
     diskSku?: string;
     managedDiskCustomerKeyUri?: string;
     nodeCount?: number;
+    provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     readonly seedNodes?: SeedNode[];
     sku?: string;
@@ -1803,6 +1832,9 @@ export interface KeyWrapMetadata {
 }
 
 // @public
+export type Kind = string;
+
+// @public
 export enum KnownAnalyticalStorageSchemaType {
     FullFidelity = "FullFidelity",
     WellDefined = "WellDefined"
@@ -1821,6 +1853,7 @@ export enum KnownApiType {
 // @public
 export enum KnownAuthenticationMethod {
     Cassandra = "Cassandra",
+    Ldap = "Ldap",
     None = "None"
 }
 
@@ -1923,6 +1956,14 @@ export enum KnownKeyKind {
     PrimaryReadonly = "primaryReadonly",
     Secondary = "secondary",
     SecondaryReadonly = "secondaryReadonly"
+}
+
+// @public
+export enum KnownKind {
+    Primary = "Primary",
+    PrimaryReadonly = "PrimaryReadonly",
+    Secondary = "Secondary",
+    SecondaryReadonly = "SecondaryReadonly"
 }
 
 // @public
@@ -2046,6 +2087,15 @@ export enum KnownSpatialType {
 }
 
 // @public
+export enum KnownStatus {
+    Deleting = "Deleting",
+    Initializing = "Initializing",
+    InternallyReady = "InternallyReady",
+    Online = "Online",
+    Uninitialized = "Uninitialized"
+}
+
+// @public
 export enum KnownTriggerOperation {
     All = "All",
     Create = "Create",
@@ -2058,6 +2108,19 @@ export enum KnownTriggerOperation {
 export enum KnownTriggerType {
     Post = "Post",
     Pre = "Pre"
+}
+
+// @public
+export enum KnownType {
+    Cassandra = "Cassandra",
+    CassandraConnectorMetadata = "CassandraConnectorMetadata",
+    Gremlin = "Gremlin",
+    GremlinV2 = "GremlinV2",
+    MongoDB = "MongoDB",
+    Sql = "Sql",
+    SqlDedicatedGateway = "SqlDedicatedGateway",
+    Table = "Table",
+    Undefined = "Undefined"
 }
 
 // @public
@@ -2106,6 +2169,9 @@ export interface LocationListResult {
 export interface LocationProperties {
     readonly backupStorageRedundancies?: BackupStorageRedundancy[];
     readonly isResidencyRestricted?: boolean;
+    readonly isSubscriptionRegionAccessAllowedForAz?: boolean;
+    readonly isSubscriptionRegionAccessAllowedForRegular?: boolean;
+    readonly status?: Status;
     readonly supportsAvailabilityZone?: boolean;
 }
 
@@ -4355,6 +4421,9 @@ export interface SqlUserDefinedFunctionResource {
 }
 
 // @public
+export type Status = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -4554,6 +4623,9 @@ export type TriggerOperation = string;
 
 // @public
 export type TriggerType = string;
+
+// @public
+export type Type = string;
 
 // @public
 export interface UniqueKey {

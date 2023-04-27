@@ -53,7 +53,7 @@ export async function main() {
     Object.entries(purchaseOrderSasUrls)
       .map(async ([kind, sasUrl]) => {
         const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
-        const poller = await client.beginBuildModel(
+        const poller = await client.beginBuildDocumentModel(
           modelId,
           sasUrl,
           DocumentModelBuildMode.Neural,
@@ -73,7 +73,7 @@ export async function main() {
   // Finally, create the composed model.
 
   const composedModelId = "purchaseOrders" + random.substring(random.length - 6);
-  const poller = await client.beginComposeModel(composedModelId, modelIds, {
+  const poller = await client.beginComposeDocumentModel(composedModelId, modelIds, {
     description:
       "A composed model that classifies purchase order documents and extracts data from them.",
     onProgress(state) {
@@ -85,7 +85,7 @@ export async function main() {
 
   console.log("Model ID:", composedModel.modelId);
   console.log("Description:", composedModel.description);
-  console.log("Created:", composedModel.createdDateTime);
+  console.log("Created:", composedModel.createdOn);
 
   // The composed model should have a document type for each one of the individually built models that are composed into
   // this larger model.

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeletedBackupInstanceResource,
   DeletedBackupInstancesListOptionalParams,
@@ -54,7 +54,7 @@ export interface DeletedBackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: DeletedBackupInstancesUndeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.

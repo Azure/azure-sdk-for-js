@@ -322,6 +322,20 @@ export const CatalogMsrp: coreClient.CompositeMapper = {
           name: "Composite",
           className: "Price"
         }
+      },
+      p3Y: {
+        serializedName: "p3Y",
+        type: {
+          name: "Composite",
+          className: "Price"
+        }
+      },
+      p5Y: {
+        serializedName: "p5Y",
+        type: {
+          name: "Composite",
+          className: "Price"
+        }
       }
     }
   }

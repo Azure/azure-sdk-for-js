@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
@@ -11,6 +11,7 @@ import {
   bodyToString,
   createRandomLocalFile,
   getDataLakeServiceClient,
+  getUniqueName,
   recorderEnvSetup,
 } from "../utils";
 import {
@@ -41,28 +42,36 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient({
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
+        },
+      },
+      ["record", "playback"]
+    );
+    const serviceClient = getDataLakeServiceClient(recorder, {
       keepAliveOptions: {
         enable: true,
       },
     });
-    fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
-    fileName = recorder.getUniqueName("file");
+    fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (fileSystemClient) {
       await fileSystemClient.deleteIfExists();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   before(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -70,15 +79,11 @@ describe("Highlevel Node.js only", () => {
     tempFileLargeLength = 257 * MB;
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, MB);
     tempFileSmallLength = 15 * MB;
-
-    await recorder.stop();
   });
 
   after(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    await recorder.stop();
   });
 
   it("upload and read with cpk", async () => {
@@ -106,7 +111,10 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read(0, undefined, {
       customerProvidedKey: Test_CPK_INFO,
     });
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
     assert.ok(uploadedBuffer.equals(readBuffer));
@@ -140,7 +148,7 @@ describe("Highlevel Node.js only", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
 
-    const readFilePath = recorder.getUniqueName("readFilePath");
+    const readFilePath = recorder.variable("readFilePath", getUniqueName("readFilePath"));
     const readResponse = await fileClient.readToFile(readFilePath, 0, undefined, {
       customerProvidedKey: Test_CPK_INFO,
     });
@@ -161,13 +169,18 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   });
 
-  it("upload should work for large data", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload should work for large data", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     await fileClient.upload(uploadedBuffer);
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
     assert.ok(uploadedBuffer.equals(readBuffer));
@@ -175,13 +188,18 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("upload should work for small data", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload should work for small data", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     await fileClient.upload(uploadedBuffer);
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
     assert.ok(uploadedBuffer.equals(readBuffer));
@@ -189,8 +207,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   });
 
-  it("upload can abort for single-shot upload", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload can abort for single-shot upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const aborter = AbortController.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     try {
@@ -203,8 +223,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("upload can abort for parallel upload", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload can abort for parallel upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const aborter = AbortController.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     try {
@@ -218,11 +240,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("upload can update progress with single-shot upload", async () => {
-    recorder.skip(
-      "node",
-      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
-    );
+  it("upload can update progress with single-shot upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     const aborter = new AbortController();
@@ -244,11 +265,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("upload can update progress with parallel upload", async () => {
-    recorder.skip(
-      "node",
-      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
-    );
+  it("upload can update progress with parallel upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     const aborter = new AbortController();
@@ -369,8 +389,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
   });
 
-  it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const tempFile = await createRandomLocalFile(
       tempFolderPath,
       FILE_MAX_SINGLE_UPLOAD_THRESHOLD / MB,
@@ -380,7 +402,10 @@ describe("Highlevel Node.js only", () => {
     await fileClient.upload(uploadedBuffer);
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
     assert.ok(uploadedBuffer.equals(readBuffer));
@@ -389,8 +414,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     let exceptionCaught = false;
     try {
@@ -405,13 +432,18 @@ describe("Highlevel Node.js only", () => {
     assert.ok(exceptionCaught, "Should have thrown the expected error.");
   });
 
-  it("uploadStream should work", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadStream should work", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs);
 
     const readResponse = await fileClient.read();
-    const readFilePath = path.join(tempFolderPath, recorder.getUniqueName("readFile"));
+    const readFilePath = path.join(
+      tempFolderPath,
+      recorder.variable("readFile", getUniqueName("readFile"))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFilePath);
 
     const readBuffer = fs.readFileSync(readFilePath);
@@ -421,8 +453,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream can abort", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadStream can abort", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
 
@@ -434,8 +468,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadStream can update progress event", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadStream can update progress event", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
@@ -458,11 +494,10 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
-  it("uploadStream should success for tiny buffers", async () => {
-    recorder.skip(
-      undefined,
-      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
-    );
+  it("uploadStream should success for tiny buffers", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
@@ -475,14 +510,19 @@ describe("Highlevel Node.js only", () => {
     assert.ok(buf.equals(downloadBuffer));
   });
 
-  it("uploadFile should work for large data", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadFile should work for large data", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await fileClient.uploadFile(tempFileLarge, {
       maxConcurrency: 20,
     });
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
 
@@ -492,12 +532,17 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should success for small data", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadFile should success for small data", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await fileClient.uploadFile(tempFileSmall);
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const readFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
 
@@ -507,8 +552,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   });
 
-  it("uploadFile can abort for single-shot upload", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadFile can abort for single-shot upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const aborter = AbortController.timeout(1);
     try {
       await fileClient.uploadFile(tempFileSmall, {
@@ -520,8 +567,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should abort for parallel upload", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("uploadFile should abort for parallel upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const aborter = AbortController.timeout(1);
     try {
       await fileClient.uploadFile(tempFileSmall, {
@@ -534,11 +583,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should update progress with single-shot upload", async () => {
-    recorder.skip(
-      "node",
-      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
-    );
+  it("uploadFile should update progress with single-shot upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -557,11 +605,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should update progress with parallel upload", async () => {
-    recorder.skip(
-      "node",
-      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
-    );
+  it("uploadFile should update progress with parallel upload", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -591,21 +638,26 @@ describe("Highlevel Node.js only", () => {
   });
 
   // Skipped since creating large file (~8GB) may take too long in live tests pipeline.
-  it.skip("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-    const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
-    const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
-    try {
-      await fileClient.uploadFile(tempFile, {
-        chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
-        abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
-      });
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
+  it.skip(
+    "uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed",
+    async function (this: Context) {
+      if (!isLiveMode()) {
+        this.skip();
+      }
+      const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
+      const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
+      try {
+        await fileClient.uploadFile(tempFile, {
+          chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
+          abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
+        });
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
 
-    fs.unlinkSync(tempFile);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      fs.unlinkSync(tempFile);
+    }
+  ).timeout(timeoutForLargeFileUploadingTest);
 
   // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
   // https://github.com/Azure/azure-sdk-for-js/issues/9481
@@ -645,8 +697,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
   });
 
-  it("readToBuffer should work", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToBuffer should work", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
 
     await fileClient.uploadFile(tempFileLarge);
 
@@ -657,8 +711,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("readToBuffer should work - without passing the buffer", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToBuffer should work - without passing the buffer", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
 
     await fileClient.uploadFile(tempFileSmall);
 
@@ -667,8 +723,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   });
 
-  it("readToBuffer should throw error if the count is too large", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToBuffer should throw error if the count is too large", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     let error;
     try {
       await fileClient.uploadFile(tempFileSmall);
@@ -702,8 +760,10 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
-  it("readToBuffer can abort", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToBuffer can abort", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await fileClient.uploadFile(tempFileSmall);
 
     try {
@@ -719,8 +779,10 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("readToBuffer should update progress event", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToBuffer should update progress event", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await fileClient.uploadFile(tempFileSmall);
 
     let eventTriggered = false;
@@ -741,12 +803,14 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("readToFile should work", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToFile should work", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
 
     await fileClient.uploadFile(tempFileSmall);
 
-    const readFilePath = recorder.getUniqueName("readFilePath");
+    const readFilePath = recorder.variable("readFilePath", getUniqueName("readFilePath"));
     const readResponse = await fileClient.readToFile(readFilePath);
     assert.ok(
       readResponse.contentLength === tempFileSmallLength,
@@ -765,8 +829,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   });
 
-  it("readToFile should fail when saving to directory", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it("readToFile should fail when saving to directory", async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await fileClient.uploadFile(tempFileSmall);
 
     try {

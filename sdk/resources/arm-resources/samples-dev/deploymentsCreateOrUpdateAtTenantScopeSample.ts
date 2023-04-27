@@ -13,6 +13,9 @@ import {
   ResourceManagementClient
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentAtTenant.json
  */
 async function createDeploymentAtTenantScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const deploymentName = "tenant-dep01";
   const parameters: ScopedDeployment = {
     location: "eastus",
@@ -41,4 +46,8 @@ async function createDeploymentAtTenantScope() {
   console.log(result);
 }
 
-createDeploymentAtTenantScope().catch(console.error);
+async function main() {
+  createDeploymentAtTenantScope();
+}
+
+main().catch(console.error);

@@ -263,6 +263,43 @@ export const AppliancePropertiesInfrastructureConfig: coreClient.CompositeMapper
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -308,27 +345,13 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const ApplianceGetTelemetryConfigResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "ApplianceGetTelemetryConfigResult",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
+      telemetryInstrumentationKey: {
+        serializedName: "telemetryInstrumentationKey",
         readOnly: true,
         type: {
           name: "String"
@@ -348,80 +371,6 @@ export const PatchableAppliance: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const ApplianceListClusterCustomerUserCredentialResults: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApplianceListClusterCustomerUserCredentialResults",
-    modelProperties: {
-      kubeconfigs: {
-        serializedName: "kubeconfigs",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApplianceCredentialKubeconfig"
-            }
-          }
-        }
-      },
-      sshKeys: {
-        serializedName: "sshKeys",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "SSHKey" } }
-        }
-      }
-    }
-  }
-};
-
-export const ApplianceCredentialKubeconfig: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApplianceCredentialKubeconfig",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SSHKey: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SSHKey",
-    modelProperties: {
-      privateKey: {
-        serializedName: "privateKey",
-        type: {
-          name: "String"
-        }
-      },
-      publicKey: {
-        serializedName: "publicKey",
-        type: {
-          name: "String"
         }
       }
     }
@@ -485,6 +434,127 @@ export const HybridConnectionConfig: coreClient.CompositeMapper = {
       },
       token: {
         serializedName: "token",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplianceCredentialKubeconfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplianceCredentialKubeconfig",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplianceListKeysResults: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplianceListKeysResults",
+    modelProperties: {
+      artifactProfiles: {
+        serializedName: "artifactProfiles",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "ArtifactProfile" } }
+        }
+      },
+      kubeconfigs: {
+        serializedName: "kubeconfigs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplianceCredentialKubeconfig"
+            }
+          }
+        }
+      },
+      sshKeys: {
+        serializedName: "sshKeys",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "SSHKey" } }
+        }
+      }
+    }
+  }
+};
+
+export const ArtifactProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArtifactProfile",
+    modelProperties: {
+      endpoint: {
+        serializedName: "endpoint",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SSHKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SSHKey",
+    modelProperties: {
+      certificate: {
+        serializedName: "certificate",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      creationTimeStamp: {
+        serializedName: "creationTimeStamp",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      expirationTimeStamp: {
+        serializedName: "expirationTimeStamp",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      privateKey: {
+        serializedName: "privateKey",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        serializedName: "publicKey",
         readOnly: true,
         type: {
           name: "String"
@@ -694,13 +764,6 @@ export const Appliance: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Identity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       distro: {

@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListOperations.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListOperations.json
  */
 async function listOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listOperations() {
   console.log(resArray);
 }
 
-listOperations().catch(console.error);
+async function main() {
+  listOperations();
+}
+
+main().catch(console.error);

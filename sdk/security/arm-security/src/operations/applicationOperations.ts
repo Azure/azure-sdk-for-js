@@ -94,7 +94,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -119,7 +119,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -134,7 +134,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

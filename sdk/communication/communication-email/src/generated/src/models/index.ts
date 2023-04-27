@@ -82,7 +82,7 @@ export interface EmailMessage {
   /** Email addresses where recipients' replies will be sent to. */
   replyTo?: EmailAddress[];
   /** Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane. */
-  userEngagementTrackingDisabled?: boolean;
+  disableUserEngagementTracking?: boolean;
 }
 
 /** Content of the email. */
@@ -186,7 +186,7 @@ export type EmailGetSendResultResponse = EmailGetSendResultHeaders &
 
 /** Optional parameters. */
 export interface EmailSendOptionalParams extends coreClient.OperationOptions {
-  /** This is the ID used by the status monitor for this long running operation. */
+  /** This is the ID provided by the customer to identify the long running operation. If an ID is not provided by the customer, the service will generate one. */
   operationId?: string;
   /** Tracking ID sent with the request to help with debugging. */
   clientRequestId?: string;

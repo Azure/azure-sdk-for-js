@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a security rule in the specified network security group.
  *
  * @summary Creates or updates a security rule in the specified network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkSecurityGroupRuleCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkSecurityGroupRuleCreate.json
  */
 async function createSecurityRule() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkSecurityGroupName = "testnsg";
   const securityRuleName = "rule1";
   const securityRuleParameters = {
@@ -43,4 +44,8 @@ async function createSecurityRule() {
   console.log(result);
 }
 
-createSecurityRule().catch(console.error);
+async function main() {
+  createSecurityRule();
+}
+
+main().catch(console.error);
