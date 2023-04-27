@@ -39,7 +39,7 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
    * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
    * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
    * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/en-us/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
+   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
    * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
    * ‘additionalParameters’ as an input to Diagnostics API.
    * @param scope This is an extension resource provider and only resource level extension is supported
@@ -104,7 +104,7 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
    * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
    * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
    * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/en-us/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
+   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
    * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
    * ‘additionalParameters’ as an input to Diagnostics API.
    * @param scope This is an extension resource provider and only resource level extension is supported
