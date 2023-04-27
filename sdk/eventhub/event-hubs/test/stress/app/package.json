@@ -12,8 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "applicationinsights": "^1.8.8",
-    "@azure/event-hubs": "latest",
-    "@azure/storage-blob":"latest",
+    "@azure/event-hubs": "5.9.0",
+    "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
     "dotenv": "^16.0.0",
     "minimist": "^1.2.8",
