@@ -10,6 +10,9 @@ import {
   KnownRecognizeInputType,
   RecognizeOptions,
   DtmfOptions,
+  ContinuousDtmfRecognitionRequest,
+  SendDtmfRequest,
+  Tone,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -138,5 +141,68 @@ export class CallMedia {
    */
   public async cancelAllMediaOperations(): Promise<void> {
     return this.callMediaImpl.cancelAllMediaOperations(this.callConnectionId, {});
+  }
+
+  /**
+   *  Start continuous Dtmf recognition by subscribing to tones.
+   *  @param target - Target participant of continuous DTMF tone recognition.
+   *  @param operationContext - The value to identify context of the operation.
+   * */
+  public async startContinuousDtmfRecognition(
+    target: CommunicationIdentifier,
+    operationContext: string
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(target),
+      operationContext: operationContext,
+    };
+    return this.callMediaImpl.startContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   *  Stop continuous Dtmf recognition by unsubscribing to tones.
+   *  @param target - Target participant of continuous DTMF tone recognition.
+   *  @param operationContext - The value to identify context of the operation.
+   * */
+  public async stopContinuousDtmfRecognition(
+    target: CommunicationIdentifier,
+    operationContext: string
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(target),
+      operationContext: operationContext,
+    };
+    return this.callMediaImpl.stopContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   *  Send dtmf tones.
+   *  @param target - Target participant of Send DTMF tone.
+   *  @param tones - The captured tones.
+   *  @param operationContext - The value to identify context of the operation.
+   * */
+  public async sendDtmf(
+    target: CommunicationIdentifier,
+    tones: Tone[],
+    operationContext: string
+  ): Promise<void> {
+    const sendDtmfRequest: SendDtmfRequest = {
+      targetParticipant: serializeCommunicationIdentifier(target),
+      tones: tones,
+      operationContext: operationContext,
+    };
+    return this.callMediaImpl.sendDtmf(
+      this.callConnectionId,
+      sendDtmfRequest,
+      {}
+    );
   }
 }
