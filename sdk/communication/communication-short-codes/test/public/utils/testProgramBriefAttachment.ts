@@ -57,9 +57,13 @@ async function getProgramBriefAttachment(
   programBriefId: string,
   predicate: (attachment: ProgramBriefAttachment) => boolean
 ): Promise<null | ProgramBriefAttachment> {
-  for await (const attachment of client.listUSProgramBriefAttachments(programBriefId)) {
-    if (predicate(attachment)) {
-      return attachment;
+  const attachmentPages = client.listUSProgramBriefAttachments(programBriefId, { top: 1 }).byPage();
+  for await (const page of attachmentPages) {
+    // loop over each item in the page
+    for (const attachment of page) {
+      if (predicate(attachment)) {
+        return attachment;
+      }
     }
   }
 
