@@ -31,7 +31,7 @@ describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = ["record", "playback"].includes(env.TEST_MODE!)
+  const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
     ? "recorded-q-scenario"
     : uuid();
 
