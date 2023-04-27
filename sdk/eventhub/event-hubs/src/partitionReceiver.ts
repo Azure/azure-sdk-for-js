@@ -357,16 +357,10 @@ export function waitForEvents(
   }
 
   const aborter = new AbortController();
-  let abortListener: (() => void) | undefined;
-  if (clientAbortSignal) {
-    if (clientAbortSignal.aborted) {
-      throw new AbortError("The operation was aborted.");
-    }
-    abortListener = () => {
-      aborter.abort();
-    };
-    clientAbortSignal.addEventListener("abort", abortListener);
-  }
+  const abortListener = () => {
+    aborter.abort();
+  };
+  clientAbortSignal?.addEventListener("abort", abortListener);
 
   const updatedOptions = {
     abortSignal: aborter.signal,
@@ -384,9 +378,7 @@ export function waitForEvents(
     delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
   ]).finally(() => {
     aborter.abort();
-    if (abortListener) {
-      clientAbortSignal?.removeEventListener("abort", abortListener);
-    }
+    clientAbortSignal?.removeEventListener("abort", abortListener);
   });
 }
 
