@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-resourceconnector-ts",
+  "name": "@azure-samples/arm-resourceconnector-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript",
+  "description": " client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=14.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -29,13 +25,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourceconnector/arm-resourceconnector",
   "dependencies": {
-    "@azure/arm-resourceconnector": "latest",
+    "@azure/arm-resourceconnector": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^14.0.0",
-    "typescript": "~5.0.0",
-    "rimraf": "latest"
   }
 }
