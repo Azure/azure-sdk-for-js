@@ -509,7 +509,7 @@ export type EntityLinkingSkill = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
-// @public
+// @public @deprecated
 export type EntityRecognitionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
     categories?: EntityCategory[];
@@ -2537,7 +2537,7 @@ export interface SemanticSettings {
     configurations?: SemanticConfiguration[];
 }
 
-// @public
+// @public @deprecated
 export type SentimentSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.SentimentSkill";
     defaultLanguageCode?: SentimentSkillLanguage;
