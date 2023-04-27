@@ -199,10 +199,6 @@ export class CallMedia {
       tones: tones,
       operationContext: operationContext,
     };
-    return this.callMediaImpl.sendDtmf(
-      this.callConnectionId,
-      sendDtmfRequest,
-      {}
-    );
+    return this.callMediaImpl.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }
 }
