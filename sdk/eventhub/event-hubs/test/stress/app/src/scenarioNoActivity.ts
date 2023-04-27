@@ -10,7 +10,8 @@ interface ScenarioNoActivityOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   const options = parsedArgs<ScenarioNoActivityOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 20 days
+    testDurationInMs: options.testDurationInMs || //20 * 24 * 60 * 
+      60 * 1000, // Default = 20 days
   };
 }
 
@@ -27,7 +28,9 @@ export async function scenarioNoActivity() {
   const startedAt = new Date();
 
   const stressBase = new EventHubsStressTester({
-    testName: "noActivity"
+    testName: "noActivity",
+    snapshotIntervalInMs: 500,
+    writeSnapshotInfoToConsole: true
   });
   const partitionIds = await consumerClient.getPartitionIds();
   console.log(`partitionIds ===============> ${partitionIds}`);

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "ts-node src/scenarioNoActivity.ts --testDurationInMs=10000"
+    "test": "npm run build && node dist/src/scenarioNoActivity.js --testDurationInMs=10000"
   },
   "keywords": [],
   "author": "",
