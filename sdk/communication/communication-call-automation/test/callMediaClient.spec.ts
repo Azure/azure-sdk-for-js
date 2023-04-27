@@ -1,27 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 // External module imports
-import Sinon, { SinonStubbedInstance } from "sinon";
-import { assert } from "chai";
 import { Context } from "mocha";
 
 // Internal module imports
 import { Recorder } from "@azure-tools/test-recorder";
 import {
   CommunicationIdentifier,
-  serializeCommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, RecognizeInputType } from "../src/models/models";
-import { CallMediaImpl } from "../src/generated/src/operations";
+import { FileSource } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallAutomationClient,
-  CallInvite,
   CallConnection,
+  CallInvite
 } from "../src";
 
 // Current directory imports
@@ -38,102 +34,106 @@ import {
   incomingCallContexts,
   loadPersistedEvents,
   persistEvents,
-  fileSourceUri
+  fileSourceUrl
 } from "./utils/recordedClient";
+import sinon from "sinon";
+import { assert } from "chai";
+import { createMediaClient, generateHttpClient } from "./utils/mockClient";
+import {
+  CALL_CONNECTION_ID,
+  CALL_TARGET_ID,
+  MEDIA_UR_MP3,
+  MEDIA_URL_WAV,
+  baseUri,
+  generateToken,
+} from "./utils/connectionUtils";
 
-describe("CallMedia Unit Tests", () => {
-  let callConnectionId: string;
-  let callMediaImpl: SinonStubbedInstance<CallMediaImpl>;
+describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
 
-  beforeEach(() => {
-    callConnectionId = "test-connection-id";
-    callMediaImpl = Sinon.createStubInstance(CallMediaImpl);
-    callMedia = new CallMedia(callConnectionId, callMediaImpl as any);
+  afterEach(function () {
+    sinon.restore();
   });
 
-  it("Play", async () => {
+  it("can instantiate", async function () {
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
+  });
+
+  it("makes successful Play request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
     const playSource: FileSource = {
-      uri: "https://example.com/audio.mp3",
+      url: MEDIA_UR_MP3,
+      kind: "fileSource",
     };
-    const playTo: CommunicationIdentifier[] = [{ communicationUserId: "user1" }];
-    // Call the play function
+
+    const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
+
     await callMedia.play(playSource, playTo);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
 
-    // Check if the callMediaImpl.play was called with the correct arguments
-    assert.isTrue(
-      callMediaImpl.play.calledWith(callConnectionId, {
-        playSourceInfo: {
-          sourceType: "file",
-          fileSource: { uri: playSource.uri },
-          playSourceId: playSource.playSourceId,
-        },
-        playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
-      })
-    );
+    assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
+    assert.equal(data.playSourceInfo.sourceType, "file");
+    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(request.method, "POST");
   });
 
-  it("PlayToAll", async () => {
+  it("makes successful PlayToAll request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
     const playSource: FileSource = {
-      uri: "https://example.com/audio/test.wav",
+      url: MEDIA_URL_WAV,
+      kind: "fileSource",
     };
+
     const playTo: CommunicationIdentifier[] = [];
 
-    // Call the play function
-    await callMedia.playToAll(playSource);
+    await callMedia.play(playSource, playTo);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
 
-    // Check if the callMediaImpl.play was called with the correct arguments
-    assert.isTrue(
-      callMediaImpl.play.calledWith(callConnectionId, {
-        playSourceInfo: {
-          sourceType: "file",
-          fileSource: { uri: playSource.uri },
-          playSourceId: playSource.playSourceId,
-        },
-        playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
-      })
-    );
+    assert.equal(data.playSourceInfo.sourceType, "file");
+    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(request.method, "POST");
   });
 
-  it("StartRecognizing", async () => {
+  it("makes successful StartRecognizing request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
-      maxTonesToCollect: 5,
-      targetParticipant: { communicationUserId: "user1" },
-      recognizeInputType: RecognizeInputType.Dtmf,
+      kind: "callMediaRecognizeDtmfOptions",
     };
+    const maxTonesToCollect = 5;
 
-    // Call the startRecognizing function
-    await callMedia.startRecognizing(recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
 
-    // Check if the callMediaImpl.recognize was called with the correct arguments
-    assert.isTrue(
-      callMediaImpl.recognize.calledWith(
-        callConnectionId,
-        {
-          recognizeInputType: "dtmf",
-          playPrompt: undefined,
-          interruptCallMediaOperation: undefined,
-          recognizeOptions: {
-            interruptPrompt: undefined,
-            initialSilenceTimeoutInSeconds: 5, // Set default value here
-            targetParticipant: serializeCommunicationIdentifier(recognizeOptions.targetParticipant),
-            dtmfOptions: {
-              interToneTimeoutInSeconds: 2, // Set default value here
-              maxTonesToCollect: 5,
-              stopTones: undefined,
-            },
-          },
-          operationContext: undefined,
-        },
-        {}
-      )
-    );
+    assert.equal(data.recognizeInputType, "dtmf");
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 5);
+    assert.equal(request.method, "POST");
   });
 
-  it("CancelAllMediaOperations", async () => {
-    await callMedia.cancelAllMediaOperations();
+  it("makes successful CancelAllMediaOperations request", async function () {
+    const mockHttpClient = generateHttpClient(202);
 
-    assert.isTrue(callMediaImpl.cancelAllMediaOperations.calledOnceWith(callConnectionId, {}));
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    await callMedia.cancelAllOperations();
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.method, "POST");
   });
 });
 
@@ -179,7 +179,7 @@ describe("Call Media Client Live Tests", function () {
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
@@ -198,7 +198,8 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: fileSourceUri,
+      url: fileSourceUrl,
+      kind: "fileSource"
     };
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
@@ -215,7 +216,7 @@ describe("Call Media Client Live Tests", function () {
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
@@ -234,7 +235,8 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: fileSourceUri,
+      url: fileSourceUrl,
+      kind: "fileSource"
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
@@ -253,7 +255,7 @@ describe("Call Media Client Live Tests", function () {
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
@@ -272,11 +274,12 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
 
     const playSource: FileSource = {
-      uri: fileSourceUri,
+      url: fileSourceUrl,
+      kind: "fileSource"
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
-    await callConnection.getCallMedia().cancelAllMediaOperations();
+    await callConnection.getCallMedia().cancelAllOperations();
 
     const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);
     assert.isDefined(playCanceledEvent);
