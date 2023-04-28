@@ -14,7 +14,7 @@ import {
   CallAutomationApiClientOptionalParams,
   ContinuousDtmfRecognitionRequest,
   SendDtmfRequest,
-  Tone,  
+  Tone,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
