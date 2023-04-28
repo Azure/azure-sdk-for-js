@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the statistics from an IoT hub.
  *
  * @summary Get the statistics from an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_stats.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_stats.json
  */
 async function iotHubResourceGetStats() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] ||
+    "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName =
+    process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function iotHubResourceGetStats() {
   console.log(result);
 }
 
-iotHubResourceGetStats().catch(console.error);
+async function main() {
+  iotHubResourceGetStats();
+}
+
+main().catch(console.error);

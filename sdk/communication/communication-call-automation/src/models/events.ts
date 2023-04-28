@@ -33,22 +33,22 @@ import { CallParticipant } from "./models";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
-  | AddParticipantSucceeded
-  | AddParticipantFailed
-  | RemoveParticipantSucceeded
-  | RemoveParticipantFailed
-  | CallConnected
-  | CallDisconnected
-  | CallTransferAccepted
-  | CallTransferFailed
-  | ParticipantsUpdated
-  | RecordingStateChanged
-  | PlayCompleted
-  | PlayFailed
-  | PlayCanceled
-  | RecognizeCompleted
-  | RecognizeCanceled
-  | RecognizeFailed
+  | AddParticipantSucceededEventData
+  | AddParticipantFailedEventData
+  | RemoveParticipantSucceededEventData
+  | RemoveParticipantFailedEventData
+  | CallConnectedEventData
+  | CallDisconnectedEventData
+  | CallTransferAcceptedEventData
+  | CallTransferFailedEventData
+  | ParticipantsUpdatedEventData
+  | RecordingStateChangedEventData
+  | PlayCompletedEventData
+  | PlayFailedEventData
+  | PlayCanceledEventData
+  | RecognizeCompletedEventData
+  | RecognizeCanceledEventData
+  | RecognizeFailedEventData
   | ContinuousDtmfRecognitionToneReceived
   | ContinuousDtmfRecognitionToneFailed
   | ContinuousDtmfRecognitionStopped
@@ -89,7 +89,7 @@ export interface ResultInformation
 }
 
 /** The participant successfully added event. */
-export interface AddParticipantSucceeded
+export interface AddParticipantSucceededEventData
   extends Omit<
     RestAddParticipantSucceeded,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -109,7 +109,7 @@ export interface AddParticipantSucceeded
 }
 
 /** The failed to add participant event. */
-export interface AddParticipantFailed
+export interface AddParticipantFailedEventData
   extends Omit<
     RestAddParticipantFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -129,7 +129,7 @@ export interface AddParticipantFailed
 }
 
 /** The participant successfully removed event. */
-export interface RemoveParticipantSucceeded
+export interface RemoveParticipantSucceededEventData
   extends Omit<
     RestRemoveParticipantSucceeded,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -149,7 +149,7 @@ export interface RemoveParticipantSucceeded
 }
 
 /** The failed to remove participant event. */
-export interface RemoveParticipantFailed
+export interface RemoveParticipantFailedEventData
   extends Omit<
     RestRemoveParticipantFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -169,7 +169,7 @@ export interface RemoveParticipantFailed
 }
 
 /** Event when call was established. */
-export interface CallConnected
+export interface CallConnectedEventData
   extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -182,7 +182,7 @@ export interface CallConnected
 }
 
 /** Event when all participants left and call was terminated. */
-export interface CallDisconnected
+export interface CallDisconnectedEventData
   extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -195,7 +195,7 @@ export interface CallDisconnected
 }
 
 /** Event when transfer request was successful. */
-export interface CallTransferAccepted
+export interface CallTransferAcceptedEventData
   extends Omit<
     RestCallTransferAccepted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -213,7 +213,7 @@ export interface CallTransferAccepted
 }
 
 /** Event when transfer request was failed. */
-export interface CallTransferFailed
+export interface CallTransferFailedEventData
   extends Omit<
     RestCallTransferFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -231,7 +231,7 @@ export interface CallTransferFailed
 }
 
 /** Event when there was an update to participant(s). */
-export interface ParticipantsUpdated
+export interface ParticipantsUpdatedEventData
   extends Omit<
     RestParticipantsUpdated,
     "callConnectionId" | "serverCallId" | "correlationId" | "participants"
@@ -249,7 +249,7 @@ export interface ParticipantsUpdated
 }
 
 /** Event when Recording state has been changed. */
-export interface RecordingStateChanged
+export interface RecordingStateChangedEventData
   extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -262,7 +262,7 @@ export interface RecordingStateChanged
 }
 
 /** Event when Media play was successfully completed. */
-export interface PlayCompleted
+export interface PlayCompletedEventData
   extends Omit<
     RestPlayCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -280,7 +280,7 @@ export interface PlayCompleted
 }
 
 /** Event when Media play was failed. */
-export interface PlayFailed
+export interface PlayFailedEventData
   extends Omit<
     RestPlayFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -298,7 +298,7 @@ export interface PlayFailed
 }
 
 /** Event when Media play was canceled by Cancel operation. */
-export interface PlayCanceled
+export interface PlayCanceledEventData
   extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -311,7 +311,7 @@ export interface PlayCanceled
 }
 
 /** Event when Media recognize was successfully completed. */
-export interface RecognizeCompleted
+export interface RecognizeCompletedEventData
   extends Omit<
     RestRecognizeCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -329,7 +329,7 @@ export interface RecognizeCompleted
 }
 
 /** Event when Media recognize was failed. */
-export interface RecognizeFailed
+export interface RecognizeFailedEventData
   extends Omit<
     RestRecognizeFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -347,7 +347,7 @@ export interface RecognizeFailed
 }
 
 /** Event when Media recognize was canceled by Cancel operation. */
-export interface RecognizeCanceled
+export interface RecognizeCanceledEventData
   extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;

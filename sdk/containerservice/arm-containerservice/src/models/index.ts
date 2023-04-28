@@ -98,6 +98,35 @@ export interface OSOptionProperty {
   enableFipsImage: boolean;
 }
 
+/** Hold values properties, which is array of KubernetesVersion */
+export interface KubernetesVersionListResult {
+  /** Array of AKS supported Kubernetes versions. */
+  values?: KubernetesVersion[];
+}
+
+/** Kubernetes version profile for given major.minor release. */
+export interface KubernetesVersion {
+  /** major.minor version of Kubernetes release */
+  version?: string;
+  /** Capabilities on this Kubernetes version. */
+  capabilities?: KubernetesVersionCapabilities;
+  /** Whether this version is in preview mode. */
+  isPreview?: boolean;
+  /** Patch versions of Kubernetes release */
+  patchVersions?: { [propertyName: string]: KubernetesPatchVersion };
+}
+
+/** Capabilities on this Kubernetes version. */
+export interface KubernetesVersionCapabilities {
+  supportPlan?: KubernetesSupportPlan[];
+}
+
+/** Kubernetes patch version profile */
+export interface KubernetesPatchVersion {
+  /** Possible upgrade path for given patch version */
+  upgrades?: string[];
+}
+
 /** The response from the List Managed Clusters operation. */
 export interface ManagedClusterListResult {
   /** The list of managed clusters. */
@@ -164,12 +193,6 @@ export interface PowerState {
   code?: Code;
 }
 
-/** Data used when creating a target resource from a source resource. */
-export interface CreationData {
-  /** This is the ARM ID of the source object to be used to create the target object. */
-  sourceResourceId?: string;
-}
-
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
@@ -184,8 +207,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
-  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -194,7 +215,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   maxPods?: number;
   /** The operating system type. The default is Linux. */
   osType?: OSType;
-  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
+  /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
   osSKU?: Ossku;
   /** The maximum number of nodes for auto-scaling */
   maxCount?: number;
@@ -208,10 +229,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
   type?: AgentPoolType;
   /** A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
   mode?: AgentPoolMode;
-  /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
+  /** Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
   orchestratorVersion?: string;
   /**
-   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentOrchestratorVersion?: string;
@@ -233,8 +254,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
-  enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -265,14 +284,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
-  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
-  capacityReservationGroupID?: string;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
   hostGroupID?: string;
-  /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
-  /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -379,38 +392,10 @@ export interface SysctlConfig {
   vmVfsCachePressure?: number;
 }
 
-/** The Windows agent pool's specific profile. */
-export interface AgentPoolWindowsProfile {
-  /** The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
-  disableOutboundNat?: boolean;
-}
-
-/** Network settings of an agent pool. */
-export interface AgentPoolNetworkProfile {
-  /** IPTags of instance-level public IPs. */
-  nodePublicIPTags?: IPTag[];
-  /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
-  allowedHostPorts?: PortRange[];
-  /** The IDs of the application security groups which agent pool will associate when created. */
-  applicationSecurityGroups?: string[];
-}
-
-/** Contains the IPTag associated with the object. */
-export interface IPTag {
-  /** The IP tag type. Example: RoutingPreference. */
-  ipTagType?: string;
-  /** The value of the IP tag associated with the public IP. Example: Internet. */
-  tag?: string;
-}
-
-/** The port range. */
-export interface PortRange {
-  /** The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd. */
-  portStart?: number;
-  /** The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or equal to portStart. */
-  portEnd?: number;
-  /** The network protocol of the port. */
-  protocol?: Protocol;
+/** Data used when creating a target resource from a source resource. */
+export interface CreationData {
+  /** This is the ARM ID of the source object to be used to create the target object. */
+  sourceResourceId?: string;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -563,17 +548,11 @@ export interface ManagedClusterOidcIssuerProfile {
   enabled?: boolean;
 }
 
-/** Node resource group lockdown profile for a managed cluster. */
-export interface ManagedClusterNodeResourceGroupProfile {
-  /** The restriction level applied to the cluster's node resource group */
-  restrictionLevel?: RestrictionLevel;
-}
-
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
   networkPlugin?: NetworkPlugin;
-  /** Network plugin mode used for building the Kubernetes network. */
+  /** The mode the network plugin should use. */
   networkPluginMode?: NetworkPluginMode;
   /** Network policy used for building the Kubernetes network. */
   networkPolicy?: NetworkPolicy;
@@ -603,8 +582,6 @@ export interface ContainerServiceNetworkProfile {
   serviceCidrs?: string[];
   /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
   ipFamilies?: IpFamily[];
-  /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
-  kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -623,8 +600,6 @@ export interface ManagedClusterLoadBalancerProfile {
   idleTimeoutInMinutes?: number;
   /** Enable multiple standard load balancers per AKS cluster or not. */
   enableMultipleStandardLoadBalancers?: boolean;
-  /** The type of the managed inbound Load Balancer BackendPool. */
-  backendPoolType?: BackendPoolType;
 }
 
 /** Desired managed outbound IPs for the cluster load balancer. */
@@ -669,28 +644,6 @@ export interface ManagedClusterManagedOutboundIPProfile {
   count?: number;
 }
 
-/** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
-export interface ContainerServiceNetworkProfileKubeProxyConfig {
-  /** Whether to enable on kube-proxy on the cluster (if no 'kubeProxyConfig' exists, kube-proxy is enabled in AKS by default without these customizations). */
-  enabled?: boolean;
-  /** Specify which proxy mode to use ('IPTABLES' or 'IPVS') */
-  mode?: Mode;
-  /** Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'. */
-  ipvsConfig?: ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig;
-}
-
-/** Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'. */
-export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
-  /** IPVS scheduler, for more information please see http://www.linuxvirtualserver.org/docs/scheduling.html. */
-  scheduler?: IpvsScheduler;
-  /** The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value. */
-  tcpTimeoutSeconds?: number;
-  /** The timeout value used for IPVS TCP sessions after receiving a FIN in seconds. Must be a positive integer value. */
-  tcpFinTimeoutSeconds?: number;
-  /** The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value. */
-  udpTimeoutSeconds?: number;
-}
-
 /** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
 export interface ManagedClusterAADProfile {
   /** Whether to enable managed AAD. */
@@ -713,22 +666,6 @@ export interface ManagedClusterAADProfile {
 export interface ManagedClusterAutoUpgradeProfile {
   /** For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
   upgradeChannel?: UpgradeChannel;
-  /** The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA. */
-  nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
-}
-
-/** Settings for upgrading a cluster. */
-export interface ClusterUpgradeSettings {
-  /** Settings for overrides. */
-  overrideSettings?: UpgradeOverrideSettings;
-}
-
-/** Settings for overrides when upgrading a cluster. */
-export interface UpgradeOverrideSettings {
-  /** List of upgrade overrides when upgrading a cluster's control plane. */
-  controlPlaneOverrides?: ControlPlaneUpgradeOverride[];
-  /** Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set by default. It must be set for the overrides to take effect. */
-  until?: Date;
 }
 
 /** Parameters to be applied to the cluster-autoscaler when enabled */
@@ -781,10 +718,6 @@ export interface ManagedClusterAPIServerAccessProfile {
   enablePrivateClusterPublicFqdn?: boolean;
   /** Whether to disable run command for the cluster or not. */
   disableRunCommand?: boolean;
-  /** Whether to enable apiserver vnet integration for the cluster or not. */
-  enableVnetIntegration?: boolean;
-  /** It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable apiserver vnet integration. */
-  subnetId?: string;
 }
 
 /** A private link resource */
@@ -814,11 +747,6 @@ export interface ManagedClusterHttpProxyConfig {
   httpsProxy?: string;
   /** The endpoints that should not go through proxy. */
   noProxy?: string[];
-  /**
-   * A read-only list of all endpoints for which traffic should not be sent to the proxy. This list is a superset of noProxy and values injected by AKS.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly effectiveNoProxy?: string[];
   /** Alternative CA cert to use for connecting to proxy servers. */
   trustedCa?: string;
 }
@@ -833,10 +761,6 @@ export interface ManagedClusterSecurityProfile {
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
-  /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
-  nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
-  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the Custom CA Trust feature enabled. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) */
-  customCATrustCertificates?: Uint8Array[];
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -879,12 +803,6 @@ export interface ManagedClusterSecurityProfileImageCleaner {
   intervalHours?: number;
 }
 
-/** Node Restriction settings for the security profile. */
-export interface ManagedClusterSecurityProfileNodeRestriction {
-  /** Whether to enable Node Restriction */
-  enabled?: boolean;
-}
-
 /** Storage profile for the container service cluster. */
 export interface ManagedClusterStorageProfile {
   /** AzureDisk CSI Driver settings for the storage profile. */
@@ -901,8 +819,6 @@ export interface ManagedClusterStorageProfile {
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
   enabled?: boolean;
-  /** The version of AzureDisk CSI Driver. The default value is v1. */
-  version?: string;
 }
 
 /** AzureFile CSI Driver settings for the storage profile. */
@@ -923,30 +839,10 @@ export interface ManagedClusterStorageProfileBlobCSIDriver {
   enabled?: boolean;
 }
 
-/** Ingress profile for the container service cluster. */
-export interface ManagedClusterIngressProfile {
-  /** Web App Routing settings for the ingress profile. */
-  webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
-}
-
-/** Web App Routing settings for the ingress profile. */
-export interface ManagedClusterIngressProfileWebAppRouting {
-  /** Whether to enable Web App Routing. */
-  enabled?: boolean;
-  /** Resource ID of the DNS Zone to be associated with the web app. Used only when Web App Routing is enabled. */
-  dnsZoneResourceId?: string;
-  /**
-   * Managed identity of the Web Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly identity?: UserAssignedIdentity;
-}
-
 /** Workload Auto-scaler profile for the managed cluster. */
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
-  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
@@ -955,78 +851,26 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
   enabled: boolean;
 }
 
-export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
-  /** Whether to enable VPA. Default value is false. */
-  enabled: boolean;
-  /** Controls which resource value autoscaler will change. Default value is RequestsAndLimits. */
-  controlledValues: ControlledValues;
-  /** Each update mode level is a superset of the lower levels. Off<Initial<Recreate<=Auto. For example: if UpdateMode is Initial, it means VPA sets the recommended resources in the VerticalPodAutoscaler Custom Resource (from UpdateMode Off) and also assigns resources on pod creation (from Initial). The default value is Off. */
-  updateMode: UpdateMode;
-}
-
-/** Prometheus addon profile for the container service cluster */
+/** Azure Monitor addon profiles for monitoring the managed cluster. */
 export interface ManagedClusterAzureMonitorProfile {
-  /** Metrics profile for the prometheus service addon */
+  /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
 }
 
-/** Metrics profile for the prometheus service addon */
+/** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
 export interface ManagedClusterAzureMonitorProfileMetrics {
-  /** Whether to enable the Prometheus collector */
+  /** Whether to enable or disable the Azure Managed Prometheus addon for Prometheus monitoring. See aka.ms/AzureManagedPrometheus-aks-enable for details on enabling and disabling. */
   enabled: boolean;
-  /** Kube State Metrics for prometheus addon profile for the container service cluster */
+  /** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
   kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
 }
 
-/** Kube State Metrics for prometheus addon profile for the container service cluster */
+/** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
 export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
-  /** Comma-separated list of Kubernetes annotations keys that will be used in the resource's labels metric. */
+  /** Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric (Example: 'namespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...'). By default the metric contains only resource name and namespace labels. */
   metricLabelsAllowlist?: string;
-  /** Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric. */
+  /** Comma-separated list of Kubernetes annotation keys that will be used in the resource's labels metric (Example: 'namespaces=[kubernetes.io/team,...],pods=[kubernetes.io/team],...'). By default the metric contains only resource name and namespace labels. */
   metricAnnotationsAllowList?: string;
-}
-
-/** The Guardrails profile. */
-export interface GuardrailsProfile {
-  /**
-   * List of namespaces specified by AKS to be excluded from Guardrails
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemExcludedNamespaces?: string[];
-  /** The version of constraints to use */
-  version: string;
-  /** The guardrails level to be used. By default, Guardrails is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces */
-  level: Level;
-  /** List of namespaces excluded from guardrails checks */
-  excludedNamespaces?: string[];
-}
-
-/** Service mesh profile for a managed cluster. */
-export interface ServiceMeshProfile {
-  /** Mode of the service mesh. */
-  mode: ServiceMeshMode;
-  /** Istio service mesh configuration. */
-  istio?: IstioServiceMesh;
-}
-
-/** Istio service mesh configuration. */
-export interface IstioServiceMesh {
-  /** Istio components configuration. */
-  components?: IstioComponents;
-}
-
-/** Istio components configuration. */
-export interface IstioComponents {
-  /** Istio ingress gateways. */
-  ingressGateways?: IstioIngressGateway[];
-}
-
-/** Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`. */
-export interface IstioIngressGateway {
-  /** Mode of an ingress gateway. */
-  mode: IstioIngressGatewayMode;
-  /** Whether to enable the ingress gateway. */
-  enabled: boolean;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1165,74 +1009,6 @@ export interface TimeSpan {
   start?: Date;
   /** The end of a time span */
   end?: Date;
-}
-
-/** Maintenance window used to configure scheduled auto-upgrade for a Managed Cluster. */
-export interface MaintenanceWindow {
-  /** Recurrence schedule for the maintenance window. */
-  schedule: Schedule;
-  /** Length of maintenance window range from 4 to 24 hours. */
-  durationHours: number;
-  /** The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. */
-  utcOffset?: string;
-  /** The date the maintenance window activates. If the current date is before this date, the maintenance window is inactive and will not be used for upgrades. If not specified, the maintenance window will be active right away. */
-  startDate?: Date;
-  /** The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. 'utcOffset' applies to this field. For example: '02:00' with 'utcOffset: +02:00' means UTC time '00:00'. */
-  startTime: string;
-  /** Date ranges on which upgrade is not allowed. 'utcOffset' applies to this field. For example, with 'utcOffset: +02:00' and 'dateSpan' being '2022-12-23' to '2023-01-03', maintenance will be blocked from '2022-12-22 22:00' to '2023-01-03 22:00' in UTC time. */
-  notAllowedDates?: DateSpan[];
-}
-
-/** One and only one of the schedule types should be specified. Choose either 'daily', 'weekly', 'absoluteMonthly' or 'relativeMonthly' for your maintenance schedule. */
-export interface Schedule {
-  /** For schedules like: 'recur every day' or 'recur every 3 days'. */
-  daily?: DailySchedule;
-  /** For schedules like: 'recur every Monday' or 'recur every 3 weeks on Wednesday'. */
-  weekly?: WeeklySchedule;
-  /** For schedules like: 'recur every month on the 15th' or 'recur every 3 months on the 20th'. */
-  absoluteMonthly?: AbsoluteMonthlySchedule;
-  /** For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'. */
-  relativeMonthly?: RelativeMonthlySchedule;
-}
-
-/** For schedules like: 'recur every day' or 'recur every 3 days'. */
-export interface DailySchedule {
-  /** Specifies the number of days between each set of occurrences. */
-  intervalDays: number;
-}
-
-/** For schedules like: 'recur every Monday' or 'recur every 3 weeks on Wednesday'. */
-export interface WeeklySchedule {
-  /** Specifies the number of weeks between each set of occurrences. */
-  intervalWeeks: number;
-  /** Specifies on which day of the week the maintenance occurs. */
-  dayOfWeek: WeekDay;
-}
-
-/** For schedules like: 'recur every month on the 15th' or 'recur every 3 months on the 20th'. */
-export interface AbsoluteMonthlySchedule {
-  /** Specifies the number of months between each set of occurrences. */
-  intervalMonths: number;
-  /** The date of the month. */
-  dayOfMonth: number;
-}
-
-/** For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'. */
-export interface RelativeMonthlySchedule {
-  /** Specifies the number of months between each set of occurrences. */
-  intervalMonths: number;
-  /** Specifies on which instance of the allowed days specified in daysOfWeek the maintenance occurs. */
-  weekIndex: Type;
-  /** Specifies on which day of the week the maintenance occurs. */
-  dayOfWeek: WeekDay;
-}
-
-/** For example, between '2022-12-23' and '2023-01-05'. */
-export interface DateSpan {
-  /** The start date of the date span. */
-  start: Date;
-  /** The end date of the date span. */
-  end: Date;
 }
 
 /** Reference to another subresource. */
@@ -1482,119 +1258,6 @@ export interface SnapshotListResult {
   readonly nextLink?: string;
 }
 
-/** The response from the List Managed Cluster Snapshots operation. */
-export interface ManagedClusterSnapshotListResult {
-  /** The list of managed cluster snapshots. */
-  value?: ManagedClusterSnapshot[];
-  /**
-   * The URL to get the next set of managed cluster snapshot results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** managed cluster properties for snapshot, these properties are read only. */
-export interface ManagedClusterPropertiesForSnapshot {
-  /** The current kubernetes version. */
-  kubernetesVersion?: string;
-  /** The current managed cluster sku. */
-  sku?: ManagedClusterSKU;
-  /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
-  enableRbac?: boolean;
-  /**
-   * The current network profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkProfile?: NetworkProfileForSnapshot;
-}
-
-/** network profile for managed cluster snapshot, these properties are read only. */
-export interface NetworkProfileForSnapshot {
-  /** networkPlugin for managed cluster snapshot. */
-  networkPlugin?: NetworkPlugin;
-  /** NetworkPluginMode for managed cluster snapshot. */
-  networkPluginMode?: NetworkPluginMode;
-  /** networkPolicy for managed cluster snapshot. */
-  networkPolicy?: NetworkPolicy;
-  /** networkMode for managed cluster snapshot. */
-  networkMode?: NetworkMode;
-  /** loadBalancerSku for managed cluster snapshot. */
-  loadBalancerSku?: LoadBalancerSku;
-}
-
-/** List of trusted access roles */
-export interface TrustedAccessRoleListResult {
-  /**
-   * Role list
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: TrustedAccessRole[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Trusted access role definition. */
-export interface TrustedAccessRole {
-  /**
-   * Resource type of Azure resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceResourceType?: string;
-  /**
-   * Name of role, name is unique under a source resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rules?: TrustedAccessRoleRule[];
-}
-
-/** Rule for trusted access role */
-export interface TrustedAccessRoleRule {
-  /**
-   * List of allowed verbs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly verbs?: string[];
-  /**
-   * List of allowed apiGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiGroups?: string[];
-  /**
-   * List of allowed resources
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: string[];
-  /**
-   * List of allowed names
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceNames?: string[];
-  /**
-   * List of allowed nonResourceURLs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nonResourceURLs?: string[];
-}
-
-/** List of trusted access role bindings */
-export interface TrustedAccessRoleBindingListResult {
-  /** Role binding list */
-  value?: TrustedAccessRoleBinding[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -1614,19 +1277,6 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** Defines binding between a resource and role */
-export interface TrustedAccessRoleBinding extends Resource {
-  /**
-   * The current provisioning state of trusted access role binding.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: TrustedAccessRoleBindingProvisioningState;
-  /** The ARM resource ID of source resource that trusted access is configured for. */
-  sourceResourceId: string;
-  /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
-  roles: string[];
-}
-
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export interface MaintenanceConfiguration extends SubResource {
   /**
@@ -1638,8 +1288,6 @@ export interface MaintenanceConfiguration extends SubResource {
   timeInWeek?: TimeInWeek[];
   /** Time slots on which upgrade is not allowed. */
   notAllowedTime?: TimeSpan[];
-  /** Maintenance window for the maintenance configuration. */
-  maintenanceWindow?: MaintenanceWindow;
 }
 
 /** Agent Pool. */
@@ -1656,8 +1304,6 @@ export interface AgentPool extends SubResource {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
-  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -1666,7 +1312,7 @@ export interface AgentPool extends SubResource {
   maxPods?: number;
   /** The operating system type. The default is Linux. */
   osType?: OSType;
-  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
+  /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
   osSKU?: Ossku;
   /** The maximum number of nodes for auto-scaling */
   maxCount?: number;
@@ -1680,10 +1326,10 @@ export interface AgentPool extends SubResource {
   typePropertiesType?: AgentPoolType;
   /** A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
   mode?: AgentPoolMode;
-  /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
+  /** Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
   orchestratorVersion?: string;
   /**
-   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentOrchestratorVersion?: string;
@@ -1705,8 +1351,6 @@ export interface AgentPool extends SubResource {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
-  enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -1737,14 +1381,8 @@ export interface AgentPool extends SubResource {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
-  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
-  capacityReservationGroupID?: string;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
   hostGroupID?: string;
-  /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
-  /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Managed cluster. */
@@ -1765,17 +1403,15 @@ export interface ManagedCluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly powerState?: PowerState;
-  /** CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
   /**
    * The max number of agent pools for the managed cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maxAgentPools?: number;
-  /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
+  /** Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
   kubernetesVersion?: string;
   /**
-   * The version of Kubernetes the Managed Cluster is running.
+   * If kubernetesVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If kubernetesVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentKubernetesVersion?: string;
@@ -1814,22 +1450,18 @@ export interface ManagedCluster extends TrackedResource {
   oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
-  /** The node resource group configuration profile. */
-  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
+  /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
+  supportPlan?: KubernetesSupportPlan;
   /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
   enablePodSecurityPolicy?: boolean;
-  /** The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
-  enableNamespaceResources?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
   aadProfile?: ManagedClusterAADProfile;
   /** The auto upgrade configuration. */
   autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
-  /** Settings for upgrading a cluster. */
-  upgradeSettings?: ClusterUpgradeSettings;
   /** Parameters to be applied to the cluster-autoscaler when enabled */
   autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
   /** The access profile for managed cluster API server. */
@@ -1848,18 +1480,12 @@ export interface ManagedCluster extends TrackedResource {
   securityProfile?: ManagedClusterSecurityProfile;
   /** Storage profile for the managed cluster. */
   storageProfile?: ManagedClusterStorageProfile;
-  /** Ingress profile for the managed cluster. */
-  ingressProfile?: ManagedClusterIngressProfile;
   /** Allow or deny public network access for AKS */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Workload Auto-scaler profile for the managed cluster. */
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
-  /** Prometheus addon profile for the container service cluster */
+  /** Azure Monitor addon profiles for monitoring the managed cluster. */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
-  /** The guardrails profile holds all the guardrails information for a given cluster */
-  guardrailsProfile?: GuardrailsProfile;
-  /** Service mesh profile for a managed cluster. */
-  serviceMeshProfile?: ServiceMeshProfile;
 }
 
 /** Managed cluster Access Profile. */
@@ -1890,7 +1516,7 @@ export interface Snapshot extends TrackedResource {
    */
   readonly osType?: OSType;
   /**
-   * Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
+   * Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osSku?: Ossku;
@@ -1904,19 +1530,6 @@ export interface Snapshot extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enableFips?: boolean;
-}
-
-/** A managed cluster snapshot resource. */
-export interface ManagedClusterSnapshot extends TrackedResource {
-  /** CreationData to be used to specify the source resource ID to create this snapshot. */
-  creationData?: CreationData;
-  /** The type of a snapshot. The default is NodePool. */
-  snapshotType?: SnapshotType;
-  /**
-   * What the properties will be showed when getting managed cluster snapshot. Those properties are read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
 }
 
 /** Defines headers for ManagedClusters_delete operation. */
@@ -1937,6 +1550,12 @@ export interface ManagedClustersResetAADProfileHeaders {
   location?: string;
 }
 
+/** Defines headers for ManagedClusters_rotateClusterCertificates operation. */
+export interface ManagedClustersRotateClusterCertificatesHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
 /** Defines headers for ManagedClusters_abortLatestOperation operation. */
 export interface ManagedClustersAbortLatestOperationHeaders {
   /** URL to query for status of the operation. */
@@ -1945,15 +1564,8 @@ export interface ManagedClustersAbortLatestOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for ManagedClusters_rotateClusterCertificates operation. */
-export interface ManagedClustersRotateClusterCertificatesHeaders {
-  /** URL to query for status of the operation. */
-  location?: string;
-}
-
 /** Defines headers for ManagedClusters_rotateServiceAccountSigningKeys operation. */
 export interface ManagedClustersRotateServiceAccountSigningKeysHeaders {
-  /** URL to query for status of the operation. */
   location?: string;
 }
 
@@ -2001,6 +1613,24 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Known values of {@link KubernetesSupportPlan} that the service accepts. */
+export enum KnownKubernetesSupportPlan {
+  /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
+  KubernetesOfficial = "KubernetesOfficial",
+  /** Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support. */
+  AKSLongTermSupport = "AKSLongTermSupport"
+}
+
+/**
+ * Defines values for KubernetesSupportPlan. \
+ * {@link KnownKubernetesSupportPlan} can be used interchangeably with KubernetesSupportPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KubernetesOfficial**: Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. \
+ * **AKSLongTermSupport**: Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support.
+ */
+export type KubernetesSupportPlan = string;
+
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
   /** Base option for the AKS control plane. */
@@ -2018,6 +1648,8 @@ export type ManagedClusterSKUName = string;
 
 /** Known values of {@link ManagedClusterSKUTier} that the service accepts. */
 export enum KnownManagedClusterSKUTier {
+  /** Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. */
+  Premium = "Premium",
   /** Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. */
   Standard = "Standard",
   /** The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases. */
@@ -2029,6 +1661,7 @@ export enum KnownManagedClusterSKUTier {
  * {@link KnownManagedClusterSKUTier} can be used interchangeably with ManagedClusterSKUTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Premium**: Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. \
  * **Standard**: Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. \
  * **Free**: The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases.
  */
@@ -2108,9 +1741,7 @@ export enum KnownWorkloadRuntime {
   /** Nodes will use Kubelet to run standard OCI container workloads. */
   OCIContainer = "OCIContainer",
   /** Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). */
-  WasmWasi = "WasmWasi",
-  /** Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. */
-  KataMshvVmIsolation = "KataMshvVmIsolation"
+  WasmWasi = "WasmWasi"
 }
 
 /**
@@ -2119,8 +1750,7 @@ export enum KnownWorkloadRuntime {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **OCIContainer**: Nodes will use Kubelet to run standard OCI container workloads. \
- * **WasmWasi**: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). \
- * **KataMshvVmIsolation**: Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series.
+ * **WasmWasi**: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
  */
 export type WorkloadRuntime = string;
 
@@ -2148,8 +1778,6 @@ export enum KnownOssku {
   Ubuntu = "Ubuntu",
   /** CBLMariner */
   CBLMariner = "CBLMariner",
-  /** Mariner */
-  Mariner = "Mariner",
   /** Windows2019 */
   Windows2019 = "Windows2019",
   /** Windows2022 */
@@ -2163,7 +1791,6 @@ export enum KnownOssku {
  * ### Known values supported by the service
  * **Ubuntu** \
  * **CBLMariner** \
- * **Mariner** \
  * **Windows2019** \
  * **Windows2022**
  */
@@ -2286,24 +1913,6 @@ export enum KnownGPUInstanceProfile {
  */
 export type GPUInstanceProfile = string;
 
-/** Known values of {@link Protocol} that the service accepts. */
-export enum KnownProtocol {
-  /** TCP protocol. */
-  TCP = "TCP",
-  /** UDP protocol. */
-  UDP = "UDP"
-}
-
-/**
- * Defines values for Protocol. \
- * {@link KnownProtocol} can be used interchangeably with Protocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TCP**: TCP protocol. \
- * **UDP**: UDP protocol.
- */
-export type Protocol = string;
-
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -2352,31 +1961,13 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
  */
 export type ManagedClusterPodIdentityProvisioningState = string;
 
-/** Known values of {@link RestrictionLevel} that the service accepts. */
-export enum KnownRestrictionLevel {
-  /** All RBAC permissions are allowed on the managed node resource group */
-  Unrestricted = "Unrestricted",
-  /** Only *\/read RBAC permissions allowed on the managed node resource group */
-  ReadOnly = "ReadOnly"
-}
-
-/**
- * Defines values for RestrictionLevel. \
- * {@link KnownRestrictionLevel} can be used interchangeably with RestrictionLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unrestricted**: All RBAC permissions are allowed on the managed node resource group \
- * **ReadOnly**: Only *\/read RBAC permissions allowed on the managed node resource group
- */
-export type RestrictionLevel = string;
-
 /** Known values of {@link NetworkPlugin} that the service accepts. */
 export enum KnownNetworkPlugin {
   /** Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https:\//docs.microsoft.com\/azure\/aks\/concepts-network#azure-cni-advanced-networking) for more information. */
   Azure = "azure",
   /** Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\//docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information. */
   Kubenet = "kubenet",
-  /** Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality. */
+  /** No CNI plugin is pre-installed. See [BYO CNI](https:\//docs.microsoft.com\/en-us\/azure\/aks\/use-byo-cni) for more information. */
   None = "none"
 }
 
@@ -2387,14 +1978,14 @@ export enum KnownNetworkPlugin {
  * ### Known values supported by the service
  * **azure**: Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#azure-cni-advanced-networking) for more information. \
  * **kubenet**: Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information. \
- * **none**: Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality.
+ * **none**: No CNI plugin is pre-installed. See [BYO CNI](https:\/\/docs.microsoft.com\/en-us\/azure\/aks\/use-byo-cni) for more information.
  */
 export type NetworkPlugin = string;
 
 /** Known values of {@link NetworkPluginMode} that the service accepts. */
 export enum KnownNetworkPluginMode {
-  /** Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge. */
-  Overlay = "Overlay"
+  /** Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\//aka.ms\/aks\/azure-cni-overlay. */
+  Overlay = "overlay"
 }
 
 /**
@@ -2402,7 +1993,7 @@ export enum KnownNetworkPluginMode {
  * {@link KnownNetworkPluginMode} can be used interchangeably with NetworkPluginMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Overlay**: Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge.
+ * **overlay**: Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\/\/aka.ms\/aks\/azure-cni-overlay.
  */
 export type NetworkPluginMode = string;
 
@@ -2505,24 +2096,6 @@ export enum KnownLoadBalancerSku {
  */
 export type LoadBalancerSku = string;
 
-/** Known values of {@link BackendPoolType} that the service accepts. */
-export enum KnownBackendPoolType {
-  /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
-  NodeIPConfiguration = "NodeIPConfiguration",
-  /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
-  NodeIP = "NodeIP"
-}
-
-/**
- * Defines values for BackendPoolType. \
- * {@link KnownBackendPoolType} can be used interchangeably with BackendPoolType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NodeIPConfiguration**: The type of the managed inbound Load Balancer BackendPool. https:\/\/cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. \
- * **NodeIP**: The type of the managed inbound Load Balancer BackendPool. https:\/\/cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend.
- */
-export type BackendPoolType = string;
-
 /** Known values of {@link IpFamily} that the service accepts. */
 export enum KnownIpFamily {
   /** IPv4 */
@@ -2541,42 +2114,6 @@ export enum KnownIpFamily {
  */
 export type IpFamily = string;
 
-/** Known values of {@link Mode} that the service accepts. */
-export enum KnownMode {
-  /** IPTables proxy mode */
-  Iptables = "IPTABLES",
-  /** IPVS proxy mode. Must be using Kubernetes version >= 1.22. */
-  Ipvs = "IPVS"
-}
-
-/**
- * Defines values for Mode. \
- * {@link KnownMode} can be used interchangeably with Mode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPTABLES**: IPTables proxy mode \
- * **IPVS**: IPVS proxy mode. Must be using Kubernetes version >= 1.22.
- */
-export type Mode = string;
-
-/** Known values of {@link IpvsScheduler} that the service accepts. */
-export enum KnownIpvsScheduler {
-  /** Round Robin */
-  RoundRobin = "RoundRobin",
-  /** Least Connection */
-  LeastConnection = "LeastConnection"
-}
-
-/**
- * Defines values for IpvsScheduler. \
- * {@link KnownIpvsScheduler} can be used interchangeably with IpvsScheduler,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RoundRobin**: Round Robin \
- * **LeastConnection**: Least Connection
- */
-export type IpvsScheduler = string;
-
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
   /** Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. */
@@ -2585,7 +2122,7 @@ export enum KnownUpgradeChannel {
   Stable = "stable",
   /** Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. */
   Patch = "patch",
-  /** Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching */
+  /** Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. */
   NodeImage = "node-image",
   /** Disables auto-upgrades and keeps the cluster at its current version of Kubernetes. */
   None = "none"
@@ -2599,49 +2136,10 @@ export enum KnownUpgradeChannel {
  * **rapid**: Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. \
  * **stable**: Automatically upgrade the cluster to the latest supported patch release on minor version N-1, where N is the latest supported minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.18.6. \
  * **patch**: Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. \
- * **node-image**: Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching \
+ * **node-image**: Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. \
  * **none**: Disables auto-upgrades and keeps the cluster at its current version of Kubernetes.
  */
 export type UpgradeChannel = string;
-
-/** Known values of {@link NodeOSUpgradeChannel} that the service accepts. */
-export enum KnownNodeOSUpgradeChannel {
-  /** No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates */
-  None = "None",
-  /** OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially, and will be patched at some later time by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice */
-  Unmanaged = "Unmanaged",
-  /** AKS will update the nodes VHD with patches from the image maintainer labelled "security only" on a regular basis. Where possible, patches will also be applied without reimaging to existing nodes. Some patches, such as kernel patches, cannot be applied to existing nodes without disruption. For such patches, the VHD will be updated, and machines will be rolling reimaged to that VHD following maintenance windows and surge settings. This option incurs the extra cost of hosting the VHDs in your node resource group. */
-  SecurityPatch = "SecurityPatch",
-  /** AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. */
-  NodeImage = "NodeImage"
-}
-
-/**
- * Defines values for NodeOSUpgradeChannel. \
- * {@link KnownNodeOSUpgradeChannel} can be used interchangeably with NodeOSUpgradeChannel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates \
- * **Unmanaged**: OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially, and will be patched at some later time by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice \
- * **SecurityPatch**: AKS will update the nodes VHD with patches from the image maintainer labelled "security only" on a regular basis. Where possible, patches will also be applied without reimaging to existing nodes. Some patches, such as kernel patches, cannot be applied to existing nodes without disruption. For such patches, the VHD will be updated, and machines will be rolling reimaged to that VHD following maintenance windows and surge settings. This option incurs the extra cost of hosting the VHDs in your node resource group. \
- * **NodeImage**: AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images.
- */
-export type NodeOSUpgradeChannel = string;
-
-/** Known values of {@link ControlPlaneUpgradeOverride} that the service accepts. */
-export enum KnownControlPlaneUpgradeOverride {
-  /** Upgrade the cluster control plane version without checking for recent Kubernetes deprecations usage. */
-  IgnoreKubernetesDeprecations = "IgnoreKubernetesDeprecations"
-}
-
-/**
- * Defines values for ControlPlaneUpgradeOverride. \
- * {@link KnownControlPlaneUpgradeOverride} can be used interchangeably with ControlPlaneUpgradeOverride,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IgnoreKubernetesDeprecations**: Upgrade the cluster control plane version without checking for recent Kubernetes deprecations usage.
- */
-export type ControlPlaneUpgradeOverride = string;
 
 /** Known values of {@link Expander} that the service accepts. */
 export enum KnownExpander {
@@ -2687,12 +2185,10 @@ export type KeyVaultNetworkAccessTypes = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
-  /** Inbound\/Outbound to the managedCluster is allowed. */
+  /** Enabled */
   Enabled = "Enabled",
-  /** Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. */
-  Disabled = "Disabled",
-  /** Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters. */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  /** Disabled */
+  Disabled = "Disabled"
 }
 
 /**
@@ -2700,110 +2196,10 @@ export enum KnownPublicNetworkAccess {
  * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: Inbound\/Outbound to the managedCluster is allowed. \
- * **Disabled**: Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. \
- * **SecuredByPerimeter**: Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters.
+ * **Enabled** \
+ * **Disabled**
  */
 export type PublicNetworkAccess = string;
-
-/** Known values of {@link ControlledValues} that the service accepts. */
-export enum KnownControlledValues {
-  /** Autoscaler will control resource requests and limits. */
-  RequestsAndLimits = "RequestsAndLimits",
-  /** Autoscaler will control resource requests only. */
-  RequestsOnly = "RequestsOnly"
-}
-
-/**
- * Defines values for ControlledValues. \
- * {@link KnownControlledValues} can be used interchangeably with ControlledValues,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RequestsAndLimits**: Autoscaler will control resource requests and limits. \
- * **RequestsOnly**: Autoscaler will control resource requests only.
- */
-export type ControlledValues = string;
-
-/** Known values of {@link UpdateMode} that the service accepts. */
-export enum KnownUpdateMode {
-  /** Autoscaler never changes pod resources but provides recommendations. */
-  Off = "Off",
-  /** Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. */
-  Initial = "Initial",
-  /** Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. */
-  Recreate = "Recreate",
-  /** Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available. */
-  Auto = "Auto"
-}
-
-/**
- * Defines values for UpdateMode. \
- * {@link KnownUpdateMode} can be used interchangeably with UpdateMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Off**: Autoscaler never changes pod resources but provides recommendations. \
- * **Initial**: Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. \
- * **Recreate**: Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. \
- * **Auto**: Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available.
- */
-export type UpdateMode = string;
-
-/** Known values of {@link Level} that the service accepts. */
-export enum KnownLevel {
-  /** Off */
-  Off = "Off",
-  /** Warning */
-  Warning = "Warning",
-  /** Enforcement */
-  Enforcement = "Enforcement"
-}
-
-/**
- * Defines values for Level. \
- * {@link KnownLevel} can be used interchangeably with Level,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Off** \
- * **Warning** \
- * **Enforcement**
- */
-export type Level = string;
-
-/** Known values of {@link ServiceMeshMode} that the service accepts. */
-export enum KnownServiceMeshMode {
-  /** Istio deployed as an AKS addon. */
-  Istio = "Istio",
-  /** Mesh is disabled. */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ServiceMeshMode. \
- * {@link KnownServiceMeshMode} can be used interchangeably with ServiceMeshMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Istio**: Istio deployed as an AKS addon. \
- * **Disabled**: Mesh is disabled.
- */
-export type ServiceMeshMode = string;
-
-/** Known values of {@link IstioIngressGatewayMode} that the service accepts. */
-export enum KnownIstioIngressGatewayMode {
-  /** The ingress gateway is assigned a public IP address and is publicly accessible. */
-  External = "External",
-  /** The ingress gateway is assigned an internal IP address and cannot is accessed publicly. */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for IstioIngressGatewayMode. \
- * {@link KnownIstioIngressGatewayMode} can be used interchangeably with IstioIngressGatewayMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **External**: The ingress gateway is assigned a public IP address and is publicly accessible. \
- * **Internal**: The ingress gateway is assigned an internal IP address and cannot is accessed publicly.
- */
-export type IstioIngressGatewayMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2880,33 +2276,6 @@ export enum KnownWeekDay {
  */
 export type WeekDay = string;
 
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** First. */
-  First = "First",
-  /** Second. */
-  Second = "Second",
-  /** Third. */
-  Third = "Third",
-  /** Fourth. */
-  Fourth = "Fourth",
-  /** Last. */
-  Last = "Last"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **First**: First. \
- * **Second**: Second. \
- * **Third**: Third. \
- * **Fourth**: Fourth. \
- * **Last**: Last.
- */
-export type Type = string;
-
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Canceled */
@@ -2961,9 +2330,7 @@ export type ConnectionStatus = string;
 /** Known values of {@link SnapshotType} that the service accepts. */
 export enum KnownSnapshotType {
   /** The snapshot is a snapshot of a node pool. */
-  NodePool = "NodePool",
-  /** The snapshot is a snapshot of a managed cluster. */
-  ManagedCluster = "ManagedCluster"
+  NodePool = "NodePool"
 }
 
 /**
@@ -2971,37 +2338,9 @@ export enum KnownSnapshotType {
  * {@link KnownSnapshotType} can be used interchangeably with SnapshotType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NodePool**: The snapshot is a snapshot of a node pool. \
- * **ManagedCluster**: The snapshot is a snapshot of a managed cluster.
+ * **NodePool**: The snapshot is a snapshot of a node pool.
  */
 export type SnapshotType = string;
-
-/** Known values of {@link TrustedAccessRoleBindingProvisioningState} that the service accepts. */
-export enum KnownTrustedAccessRoleBindingProvisioningState {
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for TrustedAccessRoleBindingProvisioningState. \
- * {@link KnownTrustedAccessRoleBindingProvisioningState} can be used interchangeably with TrustedAccessRoleBindingProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Canceled** \
- * **Deleting** \
- * **Failed** \
- * **Succeeded** \
- * **Updating**
- */
-export type TrustedAccessRoleBindingProvisioningState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
@@ -3021,6 +2360,13 @@ export interface ManagedClustersGetOSOptionsOptionalParams
 
 /** Contains response data for the getOSOptions operation. */
 export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
+
+/** Optional parameters. */
+export interface ManagedClustersListKubernetesVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKubernetesVersions operation. */
+export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOptionalParams
@@ -3116,8 +2462,6 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
-  ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3146,18 +2490,6 @@ export interface ManagedClustersResetAADProfileOptionalParams
 }
 
 /** Optional parameters. */
-export interface ManagedClustersAbortLatestOperationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the abortLatestOperation operation. */
-export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLatestOperationHeaders;
-
-/** Optional parameters. */
 export interface ManagedClustersRotateClusterCertificatesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3168,6 +2500,18 @@ export interface ManagedClustersRotateClusterCertificatesOptionalParams
 
 /** Contains response data for the rotateClusterCertificates operation. */
 export type ManagedClustersRotateClusterCertificatesResponse = ManagedClustersRotateClusterCertificatesHeaders;
+
+/** Optional parameters. */
+export interface ManagedClustersAbortLatestOperationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the abortLatestOperation operation. */
+export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLatestOperationHeaders;
 
 /** Optional parameters. */
 export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
@@ -3325,8 +2669,6 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
-  ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3462,105 +2804,6 @@ export interface SnapshotsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SnapshotsListByResourceGroupNextResponse = SnapshotListResult;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedClusterSnapshotsListResponse = ManagedClusterSnapshotListResult;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ManagedClusterSnapshotsListByResourceGroupResponse = ManagedClusterSnapshotListResult;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedClusterSnapshotsGetResponse = ManagedClusterSnapshot;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ManagedClusterSnapshotsCreateOrUpdateResponse = ManagedClusterSnapshot;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateTags operation. */
-export type ManagedClusterSnapshotsUpdateTagsResponse = ManagedClusterSnapshot;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ManagedClusterSnapshotsListNextResponse = ManagedClusterSnapshotListResult;
-
-/** Optional parameters. */
-export interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedClusterSnapshotsListByResourceGroupNextResponse = ManagedClusterSnapshotListResult;
-
-/** Optional parameters. */
-export interface TrustedAccessRolesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
-
-/** Optional parameters. */
-export interface TrustedAccessRolesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
-
-/** Optional parameters. */
-export interface TrustedAccessRoleBindingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
-
-/** Optional parameters. */
-export interface TrustedAccessRoleBindingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
-
-/** Optional parameters. */
-export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
-
-/** Optional parameters. */
-export interface TrustedAccessRoleBindingsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TrustedAccessRoleBindingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams
