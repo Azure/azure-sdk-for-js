@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { RouterAdministrationClient, RouterClient, RouterJob } from "../../../src";
 import { Context } from "mocha";
@@ -14,17 +14,12 @@ import {
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
-import { v4 as uuid } from "uuid";
 import { pollForJobQueued } from "../utils/polling";
 
 describe("RouterClient", function () {
   let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
-
-  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-  //   ? "recorded-jobs"
-  //   : uuid();
 
   const testRunId = "recorded-jobs";
 

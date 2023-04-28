@@ -22,18 +22,13 @@ import {
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
-import { v4 as uuid } from "uuid";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued } from "../utils/polling";
 
 describe("RouterClient", function () {
   let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
-
-  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-  //   ? "recorded-q-scenario"
-  //   : uuid();
 
   const testRunId = "recorded-q-scenario";
 

@@ -9,9 +9,8 @@ import {
   getQueueRequest,
 } from "../utils/testData";
 import { assert } from "chai";
-import { v4 as uuid } from "uuid";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
@@ -21,10 +20,6 @@ describe("RouterClient", function () {
   let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
-
-  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-  //   ? "recorded-cancellation-scenario"
-  //   : uuid();
 
   const testRunId = "recorded-cancellation-scenario";
 

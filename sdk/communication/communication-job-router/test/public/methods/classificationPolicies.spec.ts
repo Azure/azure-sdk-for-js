@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
@@ -13,15 +13,10 @@ import {
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
-import { v4 as uuid } from "uuid";
 
 describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
-
-  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-  //   ? "recorded-c-policies"
-  //   : uuid();
 
   const testRunId = "recorded-c-policies";
 

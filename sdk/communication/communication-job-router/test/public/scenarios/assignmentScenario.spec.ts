@@ -14,18 +14,13 @@ import { JobAssignment, JobOffer, RouterAdministrationClient, RouterClient } fro
 import { Context } from "mocha";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { v4 as uuid } from "uuid";
+import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobAssignment, pollForJobOffer } from "../utils/polling";
 
 describe("RouterClient", function () {
   let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
-
-  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-  //   ? "recorded-assignment-scenario"
-  //   : uuid();
 
   const testRunId = "recorded-assignment-scenario";
 
