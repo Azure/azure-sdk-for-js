@@ -1,9 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+// External module imports
+import { Context } from "mocha";
 
+// Internal module imports
+import { Recorder } from "@azure-tools/test-recorder";
+import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
+
+// Parent directory imports
+import { CallMedia } from "../src/callMedia";
+import { FileSource } from "../src/models/models";
+import {
+  CallMediaRecognizeDtmfOptions,
+  CallAutomationClient,
+  CallConnection,
+  CallInvite,
+} from "../src";
+
+// Current directory imports
+import {
+  createRecorder,
+  createTestUser,
+  dispatcherCallback,
+  serviceBusWithNewCall,
+  createCallAutomationClient,
+  waitForIncomingCallContext,
+  waitForEvent,
+  events,
+  serviceBusReceivers,
+  incomingCallContexts,
+  loadPersistedEvents,
+  persistEvents,
+  fileSourceUrl,
+} from "./utils/recordedClient";
 import sinon from "sinon";
 import { assert } from "chai";
-import { CallMedia } from "../src/callMedia";
 import { createMediaClient, generateHttpClient } from "./utils/mockClient";
 import {
   CALL_CONNECTION_ID,
@@ -13,9 +44,6 @@ import {
   baseUri,
   generateToken,
 } from "./utils/connectionUtils";
-import { CommunicationIdentifier } from "@azure/communication-common";
-import { FileSource } from "../src/models/models";
-import { CallMediaRecognizeDtmfOptions } from "../src/models/options";
 
 describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
@@ -104,4 +132,157 @@ describe("CallMedia Unit Tests", async function () {
 
     assert.equal(request.method, "POST");
   });
+});
+
+describe("Call Media Client Live Tests", function () {
+  let recorder: Recorder;
+  let callAutomationClient: CallAutomationClient;
+  let callConnection: CallConnection;
+  let testUser: CommunicationUserIdentifier;
+  let testUser2: CommunicationUserIdentifier;
+  let testName: string;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this.currentTest);
+    testUser = await createTestUser(recorder);
+    testUser2 = await createTestUser(recorder);
+    callAutomationClient = createCallAutomationClient(recorder, testUser);
+  });
+
+  afterEach(async function (this: Context) {
+    persistEvents(testName);
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch (e) {
+        console.log("Call is terminated");
+      }
+    }
+    serviceBusReceivers.forEach((receiver) => {
+      receiver.close();
+    });
+    events.forEach((callConnectionEvents) => {
+      callConnectionEvents.clear();
+    });
+    events.clear();
+    serviceBusReceivers.clear();
+    incomingCallContexts.clear();
+    await recorder.stop();
+  });
+
+  it("Play audio to target participant", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playSource: FileSource = {
+      url: fileSourceUrl,
+      kind: "fileSource",
+    };
+
+    await callConnection.getCallMedia().play(playSource, [testUser2]);
+    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
+    assert.isDefined(playCompletedEvent);
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Play audio to all participants", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playSource: FileSource = {
+      url: fileSourceUrl,
+      kind: "fileSource",
+    };
+
+    await callConnection.getCallMedia().playToAll(playSource);
+
+    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
+    assert.isDefined(playCompletedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Cancel all media operations", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playSource: FileSource = {
+      url: fileSourceUrl,
+      kind: "fileSource",
+    };
+
+    await callConnection.getCallMedia().playToAll(playSource);
+    await callConnection.getCallMedia().cancelAllOperations();
+
+    const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);
+    assert.isDefined(playCanceledEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
 });
