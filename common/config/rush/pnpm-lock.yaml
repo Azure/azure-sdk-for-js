@@ -184,6 +184,7 @@ specifiers:
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-securitydevops': file:./projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
+  '@rush-temp/arm-selfhelp': file:./projects/arm-selfhelp.tgz
   '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
@@ -524,6 +525,7 @@ dependencies:
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-securitydevops': file:projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
+  '@rush-temp/arm-selfhelp': file:projects/arm-selfhelp.tgz
   '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
@@ -4114,7 +4116,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230425
+      typescript: 5.1.0-dev.20230428
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8827,8 +8829,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230425:
-    resolution: {integrity: sha512-r1wbkllVmbfrGl2JE5sGmMg50hrD7P9MiAuaq2v6CgUN3qPKDeHVS3V/OOFA0LRUknZMPP8WUpgZpckmQhnyNQ==}
+  /typescript/5.1.0-dev.20230428:
+    resolution: {integrity: sha512-Z4EBOQZOfz/5XOQrvEbzqtBBVIm5/Ha2hQ6AgDECgfkBq6zZbQSItUgvxP1a5TeyZk3Wcw7/uJUvyhvlJESc7g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14677,6 +14679,34 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c43y4oaxxwie3ialrfuzfwwhqq
+      tslib: 2.5.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-selfhelp.tgz:
+    resolution: {integrity: sha512-p8aapHDpKa8OpG/SM/+3ZVTZOk2UqRru20IRlBe++/8BVqP3PaOqyaX1FBM9L9v0AaetNazNSd819VRM4QehjA==, tarball: file:projects/arm-selfhelp.tgz}
+    name: '@rush-temp/arm-selfhelp'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.42
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
