@@ -1977,6 +1977,11 @@
       "packageName": "@azure/arm-selfhelp",
       "projectFolder": "sdk/selfhelp/arm-selfhelp",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azuresphere",
+      "projectFolder": "sdk/azuresphere/arm-azuresphere",
+      "versionPolicyName": "management"
     }
   ]
 }
