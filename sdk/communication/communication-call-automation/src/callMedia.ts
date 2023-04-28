@@ -144,16 +144,16 @@ export class CallMedia {
   }
 
   /**
-   *  Start continuous Dtmf recognition by subscribing to tones.
-   *  @param target - Target participant of continuous DTMF tone recognition.
-   *  @param operationContext - The value to identify context of the operation.
+   * Start continuous Dtmf recognition by subscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param operationContext - The value to identify context of the operation.
    * */
   public async startContinuousDtmfRecognition(
-    target: CommunicationIdentifier,
+    targetParticipant: CommunicationIdentifier,
     operationContext: string
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
-      targetParticipant: serializeCommunicationIdentifier(target),
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: operationContext,
     };
     return this.callMediaImpl.startContinuousDtmfRecognition(
@@ -164,16 +164,16 @@ export class CallMedia {
   }
 
   /**
-   *  Stop continuous Dtmf recognition by unsubscribing to tones.
-   *  @param target - Target participant of continuous DTMF tone recognition.
-   *  @param operationContext - The value to identify context of the operation.
+   * Stop continuous Dtmf recognition by unsubscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param operationContext - The value to identify context of the operation.
    * */
   public async stopContinuousDtmfRecognition(
-    target: CommunicationIdentifier,
+    targetParticipant: CommunicationIdentifier,
     operationContext: string
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
-      targetParticipant: serializeCommunicationIdentifier(target),
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: operationContext,
     };
     return this.callMediaImpl.stopContinuousDtmfRecognition(
@@ -184,18 +184,18 @@ export class CallMedia {
   }
 
   /**
-   *  Send dtmf tones.
-   *  @param target - Target participant of Send DTMF tone.
-   *  @param tones - The captured tones.
-   *  @param operationContext - The value to identify context of the operation.
+   * Send Dtmf tones.
+   * @param targetParticipant - Target participant.
+   * @param tones - List of tones to be sent to target participant.
+   * @param operationContext - The value to identify context of the operation.
    * */
   public async sendDtmf(
-    target: CommunicationIdentifier,
+    targetParticipant: CommunicationIdentifier,
     tones: Tone[],
     operationContext: string
   ): Promise<void> {
     const sendDtmfRequest: SendDtmfRequest = {
-      targetParticipant: serializeCommunicationIdentifier(target),
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       tones: tones,
       operationContext: operationContext,
     };
