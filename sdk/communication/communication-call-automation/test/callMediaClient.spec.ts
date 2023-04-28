@@ -106,4 +106,66 @@ describe("CallMedia Unit Tests", () => {
 
     assert.isTrue(callMediaImpl.cancelAllMediaOperations.calledOnceWith(callConnectionId, {}));
   });
+
+  it("StartContinuousDtmfRecognition", async () => {
+    const targetParticipant = { communicationUserId: "user1" };
+    const operationContext = "testoperationcontext";
+
+    // Call the startContinuousDtmfRecognition function
+    await callMedia.startContinuousDtmfRecognition(targetParticipant, operationContext);
+
+    // Check if the callMediaImpl.startContinuousDtmfRecognition was called with the correct arguments
+    assert.isTrue(
+      callMediaImpl.startContinuousDtmfRecognition.calledWith(
+        callConnectionId,
+        {
+          targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+          operationContext: operationContext,
+        },
+        {}
+      )
+    );
+  });
+
+  it("StopContinuousDtmfRecognition", async () => {
+    const targetParticipant = { communicationUserId: "user1" };
+    const operationContext = "test_operation_context";
+
+    // Call the stopContinuousDtmfRecognition function
+    await callMedia.stopContinuousDtmfRecognition(targetParticipant, operationContext);
+
+    // Check if the callMediaImpl.stopContinuousDtmfRecognition was called with the correct arguments
+    assert.isTrue(
+      callMediaImpl.stopContinuousDtmfRecognition.calledWith(
+        callConnectionId,
+        {
+          targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+          operationContext: operationContext,
+        },
+        {}
+      )
+    );
+  });
+
+  it("SendDtmf", async () => {
+    const targetParticipant = { communicationUserId: "user1" };
+    const tones = ["one", "two", "three", "pound"];
+    const operationContext = "test_operation_context";
+
+    // Call the sendDtmf function
+    await callMedia.sendDtmf(targetParticipant, tones, operationContext);
+
+    // Check if the callMediaImpl.sendDtmf was called with the correct arguments
+    assert.isTrue(
+      callMediaImpl.sendDtmf.calledWith(
+        callConnectionId,
+        {
+          targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+          tones: tones,
+          operationContext: operationContext,
+        },
+        {}
+      )
+    );
+  });
 });
