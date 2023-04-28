@@ -5,50 +5,40 @@ import { JobAssignment, JobOffer, RouterJob, RouterWorker } from "../../../src/g
 import { RouterClient } from "../../../src/routerClient";
 
 export async function pollForJobOffer(workerId: string, client: RouterClient): Promise<JobOffer> {
-  return new Promise<JobOffer>(async (resolve, _reject) => {
-    let worker: RouterWorker = {};
-    while (worker.offers?.length === undefined || worker.offers.length < 1) {
-      worker = await client.getWorker(workerId);
-    }
-    const offer: JobOffer = worker.offers[0];
+  let worker: RouterWorker = {};
+  while (worker.offers?.length === undefined || worker.offers.length < 1) {
+    worker = await client.getWorker(workerId);
+  }
 
-    resolve(offer);
-  });
+  return worker.offers[0];
 }
 
 export async function pollForJobAssignment(
   jobId: string,
   client: RouterClient
 ): Promise<JobAssignment> {
-  return new Promise<JobAssignment>(async (resolve, _reject) => {
-    let job: RouterJob = {};
-    while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
-      job = await client.getJob(jobId);
-    }
-    const assignment: JobAssignment = Object.values(job.assignments)[0];
+  let job: RouterJob = {};
+  while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
+    job = await client.getJob(jobId);
+  }
 
-    resolve(assignment);
-  });
+  return Object.values(job.assignments)[0];
 }
 
 export async function pollForJobQueued(jobId: string, client: RouterClient): Promise<RouterJob> {
-  return new Promise<RouterJob>(async (resolve, _) => {
-    let job: RouterJob = {};
-    while (job.jobStatus !== "queued") {
-      job = await client.getJob(jobId);
-    }
+  let job: RouterJob = {};
+  while (job.jobStatus !== "queued") {
+    job = await client.getJob(jobId);
+  }
 
-    resolve(job);
-  });
+  return job;
 }
 
 export async function pollForJobCancelled(jobId: string, client: RouterClient): Promise<RouterJob> {
-  return new Promise<RouterJob>(async (resolve, _) => {
-    let job: RouterJob = {};
-    while (job.jobStatus !== "cancelled") {
-      job = await client.getJob(jobId);
-    }
+  let job: RouterJob = {};
+  while (job.jobStatus !== "cancelled") {
+    job = await client.getJob(jobId);
+  }
 
-    resolve(job);
-  });
+  return job;
 }

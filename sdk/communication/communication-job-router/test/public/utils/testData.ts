@@ -6,13 +6,14 @@ import {
   ConditionalQueueSelectorAttachment,
   DistributionPolicy,
   ExceptionPolicy,
+  ExceptionRule,
   ExpressionRule,
   JobQueue,
   PassThroughQueueSelectorAttachment,
   QueueSelector,
   RouterJob,
   RouterWorker,
-  StaticQueueSelectorAttachment
+  StaticQueueSelectorAttachment,
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -30,82 +31,82 @@ const french = "FR";
 const isO365: ExpressionRule = {
   kind: "expression-rule",
   language: "powerFx",
-  expression: `If(job.Product = "${product}", true, false)`
+  expression: `If(job.Product = "${product}", true, false)`,
 };
 
 const isEnglish: ExpressionRule = {
   kind: "expression-rule",
   language: "powerFx",
-  expression: `If(job.Language = "${english}", true, false)`
+  expression: `If(job.Language = "${english}", true, false)`,
 };
 
 const isFrench: ExpressionRule = {
   kind: "expression-rule",
   language: "powerFx",
-  expression: `If(job.Language = "${french}", true, false)`
+  expression: `If(job.Language = "${french}", true, false)`,
 };
 
 function getQueueIdSelector(guid: string): QueueSelector {
   return {
     key: "Id",
     labelOperator: "equal",
-    value: { [`${queueId}-${guid}`]: `${queueId}-${guid}` }
+    value: { [`${queueId}-${guid}`]: `${queueId}-${guid}` },
   };
 }
 
 const queueDoesNotExistSelector: QueueSelector = {
   key: "Id",
   labelOperator: "equal",
-  value: { queueDoesNotExist: "queueDoesNotExist" }
+  value: { queueDoesNotExist: "queueDoesNotExist" },
 };
 
 const englishSelector: QueueSelector = {
   key: "Language",
   labelOperator: "equal",
-  value: english
+  value: english,
 };
 
 const frenchSelector: QueueSelector = {
   key: "Language",
   labelOperator: "equal",
-  value: french
+  value: french,
 };
 
 const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
   kind: "static",
-  labelSelector: queueDoesNotExistSelector
+  labelSelector: queueDoesNotExistSelector,
 };
 
 const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Region",
-  labelOperator: "equal"
+  labelOperator: "equal",
 };
 
 const passThroughProductSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Product",
-  labelOperator: "equal"
+  labelOperator: "equal",
 };
 
 function getConditionalProductSelector(guid: string): ConditionalQueueSelectorAttachment {
   return {
     kind: "conditional",
     condition: isO365,
-    labelSelectors: [getQueueIdSelector(guid)]
+    labelSelectors: [getQueueIdSelector(guid)],
   };
 }
 
 const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isEnglish,
-  labelSelectors: [englishSelector]
+  labelSelectors: [englishSelector],
 };
 
 const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isFrench,
-  labelSelectors: [frenchSelector]
+  labelSelectors: [frenchSelector],
 };
 
 export function getQueueEnglish(guid: string): JobQueue {
@@ -113,7 +114,7 @@ export function getQueueEnglish(guid: string): JobQueue {
     id: `${queueId}-english-${guid}`,
     name: `${queueId}-english-${guid}`,
     distributionPolicyId: distributionPolicyId,
-    labels: { Region: region, Product: product, Language: english }
+    labels: { Region: region, Product: product, Language: english },
   };
 }
 
@@ -122,7 +123,7 @@ export function getQueueFrench(guid: string): JobQueue {
     id: `${queueId}-french-${guid}`,
     name: `${queueId}-french-${guid}`,
     distributionPolicyId: distributionPolicyId,
-    labels: { Region: region, Product: product, Language: french }
+    labels: { Region: region, Product: product, Language: french },
   };
 }
 
@@ -131,7 +132,7 @@ export function getClassificationPolicyFallback(guid: string): ClassificationPol
     id: `${classificationPolicyId}-fallback-${guid}`,
     name: `${classificationPolicyId}-fallback`,
     fallbackQueueId: `${queueId}-${guid}`,
-    queueSelectors: [staticQueueDoesNotExistSelector]
+    queueSelectors: [staticQueueDoesNotExistSelector],
   };
 }
 
@@ -140,7 +141,7 @@ export function getClassificationPolicyConditional(guid: string): Classification
     id: `${classificationPolicyId}-conditional-${guid}`,
     name: `${classificationPolicyId}-conditional`,
     fallbackQueueId: `${queueId}-${guid}`,
-    queueSelectors: [getConditionalProductSelector(guid)]
+    queueSelectors: [getConditionalProductSelector(guid)],
   };
 }
 
@@ -149,7 +150,7 @@ export function getClassificationPolicyPassthrough(guid: string): Classification
     id: `${classificationPolicyId}-passthrough-${guid}`,
     name: `${classificationPolicyId}-passthrough`,
     fallbackQueueId: `${queueId}-${guid}`,
-    queueSelectors: [passThroughRegionSelector, passThroughProductSelector]
+    queueSelectors: [passThroughRegionSelector, passThroughProductSelector],
   };
 }
 
@@ -162,8 +163,8 @@ export function getClassificationPolicyCombined(guid: string): ClassificationPol
       passThroughRegionSelector,
       passThroughProductSelector,
       conditionalEnglishSelector,
-      conditionalFrenchSelector
-    ]
+      conditionalFrenchSelector,
+    ],
   };
 }
 
@@ -172,7 +173,7 @@ export function getJobFallback(guid: string): RouterJob {
     id: `${jobId}-fallback-${guid}`,
     channelId: "test-channel",
     priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`
+    classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`,
   };
 }
 
@@ -182,7 +183,7 @@ export function getJobConditional(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
-    labels: { Product: product }
+    labels: { Product: product },
   };
 }
 
@@ -192,7 +193,7 @@ export function getJobPassthrough(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
-    labels: { Region: region, Language: english }
+    labels: { Region: region, Language: english },
   };
 }
 
@@ -202,7 +203,7 @@ export function getJobEnglish(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: english }
+    labels: { Product: product, Region: region, Language: english },
   };
 }
 
@@ -212,7 +213,7 @@ export function getJobFrench(guid: string): RouterJob {
     channelId: "test-channel",
     priority: 1,
     classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: "FR" }
+    labels: { Product: product, Region: region, Language: "FR" },
   };
 }
 
@@ -229,8 +230,8 @@ export function getQueueRequest(guid: string): QueueRequest {
       name: queueId,
       exceptionPolicyId: `${exceptionPolicyId}-${guid}`,
       distributionPolicyId: `${distributionPolicyId}-${guid}`,
-      labels: {}
-    }
+      labels: {},
+    },
   };
 }
 
@@ -250,7 +251,7 @@ function getExceptionPolicyRequestInternal(
   guid: string,
   addReclassifyAction: boolean
 ): ExceptionPolicyRequest {
-  function getExceptionRules() {
+  function getExceptionRules(): Record<string, ExceptionRule> {
     let exceptionRules = {};
 
     exceptionRules = {
@@ -259,14 +260,14 @@ function getExceptionPolicyRequestInternal(
         actions: {
           Cancel: {
             kind: "cancel",
-            note: "wait time exceeded; cancelling"
-          }
+            note: "wait time exceeded; cancelling",
+          },
         },
         trigger: {
           kind: "wait-time",
-          thresholdSeconds: 10
-        }
-      }
+          thresholdSeconds: 10,
+        },
+      },
     };
 
     if (addReclassifyAction) {
@@ -278,15 +279,15 @@ function getExceptionPolicyRequestInternal(
               kind: "reclassify",
               classificationPolicyId: `${classificationPolicyId}-${guid}`,
               labelsToUpsert: {
-                escalated: true
-              }
-            }
+                escalated: true,
+              },
+            },
           },
           trigger: {
             kind: "wait-time",
-            thresholdSeconds: 10
-          }
-        }
+            thresholdSeconds: 10,
+          },
+        },
       };
     }
 
@@ -300,8 +301,8 @@ function getExceptionPolicyRequestInternal(
     exceptionPolicyRequest: {
       id,
       name: exceptionPolicyId,
-      exceptionRules
-    }
+      exceptionRules,
+    },
   };
 }
 
@@ -321,9 +322,9 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
         kind: "longest-idle",
         minConcurrentOffers: 1,
         maxConcurrentOffers: 5,
-        bypassSelectors: false
-      }
-    }
+        bypassSelectors: false,
+      },
+    },
   };
 }
 
@@ -338,8 +339,8 @@ export function getClassificationPolicyRequest(guid: string): ClassificationPoli
     classificationPolicyRequest: {
       id,
       name: classificationPolicyId,
-      fallbackQueueId: `${queueId}-${guid}`
-    }
+      fallbackQueueId: `${queueId}-${guid}`,
+    },
   };
 }
 
@@ -357,8 +358,8 @@ export function getJobRequest(guid: string): JobRequest {
       priority: 1,
       classificationPolicyId: `${classificationPolicyId}-${guid}`,
       queueId: `${queueId}-${guid}`,
-      labels: {}
-    }
+      labels: {},
+    },
   };
 }
 
@@ -377,14 +378,14 @@ export function getWorkerRequest(guid: string): WorkerRequest {
       totalCapacity: 1,
       availableForOffers: false,
       queueAssignments: {
-        [`${queueId}-${guid}`]: {}
+        [`${queueId}-${guid}`]: {},
       },
       channelConfigurations: {
         ["test-channel"]: {
-          capacityCostPerJob: 1
-        }
+          capacityCostPerJob: 1,
+        },
       },
-      labels: {}
-    }
+      labels: {},
+    },
   };
 }
