@@ -1,4 +1,4 @@
-# Guide to migrate from @azure-sb to @azure/notification-hubs
+# Guide to migrate from `azure-sb` to `@azure/notification-hubs`
 
 This guide will help you migrate from the deprecated `@azure-sb` package to the new `@azure/notification-hubs` package.  This will focus on a side-by-side comparison between the two libraries for similar operations between the two packages.
 
