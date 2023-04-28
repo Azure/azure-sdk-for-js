@@ -26,7 +26,7 @@ To try and improve the development experience across Azure services, a set of un
 
 ### Cross Service SDK improvements
 
-The new version of the Service Bus library also shares some of the cross-service improvements made to the Azure development experience, such as:
+The new version of the Notification Hubs library also shares some of the cross-service improvements made to the Azure development experience, such as:
 
 - Modular development that allows for tree shaking and importing only the functionality that is needed.
 - A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
