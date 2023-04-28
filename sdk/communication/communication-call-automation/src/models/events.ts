@@ -21,6 +21,12 @@ import {
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
   ResultInformation as RestResultInformation,
+  ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
+  ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
+  ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
+  SendDtmfCompleted as RestSendDtmfCompleted,
+  SendDtmfFailed as RestSendDtmfFailed,
+  ToneInfo,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -42,7 +48,12 @@ export type CallAutomationEvent =
   | PlayCanceledEventData
   | RecognizeCompletedEventData
   | RecognizeCanceledEventData
-  | RecognizeFailedEventData;
+  | RecognizeFailedEventData
+  | ContinuousDtmfRecognitionToneReceivedEventData
+  | ContinuousDtmfRecognitionToneFailedEventData
+  | ContinuousDtmfRecognitionStoppedEventData
+  | SendDtmfCompletedEventData
+  | SendDtmfFailedEventData;
 
 export {
   RestAddParticipantSucceeded,
@@ -60,6 +71,11 @@ export {
   RestRecognizeFailed,
   RestRecognizeCanceled,
   RestResultInformation,
+  RestContinuousDtmfRecognitionToneReceived,
+  RestContinuousDtmfRecognitionToneFailed,
+  RestContinuousDtmfRecognitionStopped,
+  RestSendDtmfCompleted,
+  RestSendDtmfFailed,
 };
 
 export interface ResultInformation
@@ -341,4 +357,102 @@ export interface RecognizeCanceledEventData
   correlationId: string;
   /** kind of this event. */
   kind: "RecognizeCanceled";
+}
+
+/** Event sent when Dtmf tone received from targeted participant in call. */
+export interface ContinuousDtmfRecognitionToneReceivedEventData
+  extends Omit<
+    RestContinuousDtmfRecognitionToneReceived,
+    "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+  > {
+  /** Information about Tone. */
+  toneInfo: ToneInfo;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionToneReceived";
+}
+
+/** Event sent when failed to recognize continuous Dtmf tone. */
+export interface ContinuousDtmfRecognitionToneFailedEventData
+  extends Omit<
+    RestContinuousDtmfRecognitionToneFailed,
+    "callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionToneFailed";
+}
+
+/** Event sent when continuous Dtmf recognition stopped. */
+export interface ContinuousDtmfRecognitionStoppedEventData
+  extends Omit<
+    RestContinuousDtmfRecognitionStopped,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionStopped";
+}
+
+/** Event sent when Dtmf tones send successfully. */
+export interface SendDtmfCompletedEventData
+  extends Omit<
+    RestSendDtmfCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "SendDtmfCompleted";
+}
+
+/** Event sent when Dtmf tones send failed. */
+export interface SendDtmfFailedEventData
+  extends Omit<
+    RestSendDtmfFailed,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "SendDtmfFailed";
 }
