@@ -250,6 +250,8 @@ export interface RecognizeOptions {
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
   choices?: Choice[];
+  /** Defines continuous speech recognition option. */
+  speechOptions?: SpeechOptions;
 }
 
 /** Options for DTMF recognition */
@@ -268,6 +270,28 @@ export interface Choice {
   /** List of phrases to recognize */
   phrases: string[];
   tone?: Tone;
+}
+
+/** Options for continuous speech recognition */
+export interface SpeechOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+}
+
+export interface ContinuousDtmfRecognitionRequest {
+  /** Defines options for recognition. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface SendDtmfRequest {
+  /** List of tones to be sent to target participant. */
+  tones: Tone[];
+  /** Target participant of send DTMF. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
 
 /** The response payload for getting participants of the call. */
@@ -516,10 +540,10 @@ export interface ParticipantsUpdated {
   serverCallId?: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
+  /** The Sequence Number of the event */
+  sequenceNumber?: number;
   /** The list of participants in the call. */
   participants?: CallParticipantInternal[];
-  /** Sequence number to indicate order of ParticipantsUpdated events */
-  sequenceNumber?: number;
 }
 
 /** The participant removed event. */
@@ -627,13 +651,28 @@ export interface RecognizeCompleted {
    * In case of cancel operation the this field is not set and is returned empty
    */
   recognitionType?: RecognitionType;
-  /** Defines the result for RecognitionType = Dtmf */
+  /**
+   * Defines the result for RecognitionType = Dtmf
+   * Would be replaced by DtmfResult after server sdk renewed
+   */
   collectTonesResult?: CollectTonesResult;
+  /** Defines the result for RecognitionType = Dtmf */
+  dtmfResult?: DtmfResult;
   /** Defines the result for RecognitionType = Choices */
   choiceResult?: ChoiceResult;
+  /**
+   * Defines the result for RecognitionType = Speech and SpeechOrDtmf
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly speechResult?: SpeechResult;
 }
 
 export interface CollectTonesResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tones?: Tone[];
+}
+
+export interface DtmfResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
 }
@@ -646,6 +685,12 @@ export interface ChoiceResult {
    * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
    */
   recognizedPhrase?: string;
+}
+
+/** The speech status as a result. */
+export interface SpeechResult {
+  /** The recognized speech in string. */
+  speech?: string;
 }
 
 export interface RecognizeFailed {
@@ -670,6 +715,78 @@ export interface RecognizeCanceled {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+}
+
+export interface ContinuousDtmfRecognitionToneFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface ContinuousDtmfRecognitionToneReceived {
+  /** Information about Tone. */
+  toneInfo?: ToneInfo;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+/** The information about the tone. */
+export interface ToneInfo {
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  tone: Tone;
+  /** The id of participant. */
+  participantId?: string;
+}
+
+export interface ContinuousDtmfRecognitionStopped {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
@@ -862,6 +979,10 @@ export type Gender = string;
 export enum KnownRecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** SpeechOrDtmf */
+  SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
   Choices = "choices"
 }
@@ -872,6 +993,8 @@ export enum KnownRecognizeInputType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **dtmf** \
+ * **speech** \
+ * **speechOrDtmf** \
  * **choices**
  */
 export type RecognizeInputType = string;
@@ -1051,6 +1174,10 @@ export type RecordingState = string;
 export enum KnownRecognitionType {
   /** Dtmf */
   Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** SpeechOrDtmf */
+  SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
   Choices = "choices"
 }
@@ -1061,6 +1188,8 @@ export enum KnownRecognitionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **dtmf** \
+ * **speech** \
+ * **speechOrDtmf** \
  * **choices**
  */
 export type RecognitionType = string;
@@ -1106,14 +1235,14 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCall operation. */
 export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallConnectionTerminateCallOptionalParams
@@ -1138,7 +1267,7 @@ export type CallConnectionTransferToParticipantResponse = TransferCallResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipants operation. */
 export type CallConnectionGetParticipantsResponse = GetParticipantsResponse;
@@ -1193,22 +1322,34 @@ export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipant operation. */
 export type CallConnectionGetParticipantResponse = CallParticipantInternal;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaRecognizeOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStartContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSendDtmfOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
@@ -1224,22 +1365,22 @@ export type CallRecordingStartRecordingResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingGetRecordingPropertiesOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
 export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingPauseRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams
