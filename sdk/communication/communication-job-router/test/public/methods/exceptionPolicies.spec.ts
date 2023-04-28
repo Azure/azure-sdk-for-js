@@ -14,9 +14,11 @@ describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-    ? "recorded-e-policies"
-    : uuid();
+  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
+  //   ? "recorded-e-policies"
+  //   : uuid();
+
+  const testRunId = "recorded-e-policies";
 
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
 

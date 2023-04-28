@@ -23,9 +23,11 @@ describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-    ? "recorded-assignment-scenario"
-    : uuid();
+  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
+  //   ? "recorded-assignment-scenario"
+  //   : uuid();
+
+  const testRunId = "recorded-assignment-scenario";
 
   const { queueId, queueRequest } = getQueueRequest(testRunId);
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);

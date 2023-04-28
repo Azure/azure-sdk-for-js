@@ -20,9 +20,11 @@ describe("RouterClient", function () {
   let administrationClient: RouterAdministrationClient;
   let recorder: Recorder;
 
-  const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
-    ? "recorded-workers"
-    : uuid();
+  // const testRunId = ["record", "playback", "undefined"].includes(env.TEST_MODE!)
+  //   ? "recorded-workers"
+  //   : uuid();
+
+  const testRunId = "recorded-workers";
 
   const { distributionPolicyId, distributionPolicyRequest } =
     getDistributionPolicyRequest(testRunId);
