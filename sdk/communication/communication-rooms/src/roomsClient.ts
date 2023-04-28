@@ -303,7 +303,7 @@ export class RoomsClient {
    * Updates the Participants in a Room asynchronously.
    * Participant is added to room if they did not exist and updated if already in room.
    * @param roomId - ID of the room.
-   * @param participants - List of participants to upsert.
+   * @param participants - List of participants to add or update.
    * @param options - Operational options.
    * @returns a list of all the participants in the room.
    */
@@ -312,12 +312,16 @@ export class RoomsClient {
     participants: RoomParticipantPatch[],
     options: AddOrUpdateParticipantsOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("RoomsClient-UpsertParticipants", options, (updatedOptions) => {
-      this.client.participants.update(roomId, {
-        ...updatedOptions,
-        participants: mapRoomParticipantToRawId(participants),
-      });
-    });
+    return tracingClient.withSpan(
+      "RoomsClient-AddOrUpdateParticipants",
+      options,
+      (updatedOptions) => {
+        this.client.participants.update(roomId, {
+          ...updatedOptions,
+          participants: mapRoomParticipantToRawId(participants),
+        });
+      }
+    );
   }
 
   /**

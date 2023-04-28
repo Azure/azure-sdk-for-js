@@ -188,6 +188,43 @@ describe("RoomsClient", function () {
       assert.equal(count, 1);
     });
 
+    it("successfully adds participants to the room with null role", async function () {
+      const testUser2 = (await createTestUser(recorder)).user;
+      const participants = [
+        {
+          id: testUser2,
+          role: null,
+        },
+      ];
+
+      await client.addOrUpdateParticipants(roomId, participants as any);
+      await pause(500);
+
+      const addParticipantsResult = await client.listParticipants(roomId);
+      assert.isDefined(addParticipantsResult);
+      assert.isNotEmpty(addParticipantsResult);
+
+      let count = 0;
+      let attendeeCount = 0;
+      for await (const participant of addParticipantsResult) {
+        if (participant) {
+          count++;
+
+          if (participant.role === "Attendee") {
+            attendeeCount++;
+          }
+
+          // rawId is sanitized so skip this check in playback mode
+          if (!isPlaybackMode()) {
+            assert.equal(participant.id.kind, "communicationUser");
+          }
+        }
+      }
+
+      assert.equal(count, 2);
+      assert.equal(attendeeCount, 1);
+    });
+
     it("successfully updates a participant", async function () {
       const participants: RoomParticipantPatch[] = [
         {
@@ -206,7 +243,7 @@ describe("RoomsClient", function () {
         }
       }
 
-      assert.equal(attendeeCount, 1);
+      assert.equal(attendeeCount, 2);
     });
 
     it("successfully removes a participant from the room", async function () {
@@ -225,7 +262,7 @@ describe("RoomsClient", function () {
         }
       }
 
-      assert.equal(count, 0);
+      assert.equal(count, 1);
     });
 
     it("successfully cleans up", async function () {

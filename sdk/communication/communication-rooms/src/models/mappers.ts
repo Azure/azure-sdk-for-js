@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { RoomParticipant, RoomParticipantPatch } from "./models";
+import { ParticipantRole, RoomParticipant, RoomParticipantPatch } from "./models";
 import {
   CommunicationIdentifier,
   getIdentifierKind,
@@ -13,6 +13,8 @@ import {
   RoomParticipant as RESTRoomParticipant,
 } from "../generated/src/models";
 import { createIdentifierFromRawId } from "@azure/communication-common";
+
+const defaultRole: ParticipantRole = "Attendee";
 
 /**
  * @internal
@@ -27,7 +29,7 @@ export const mapToRoomParticipantRestModel = (
   }
   return {
     rawId: getIdentifierRawId(id),
-    role: role || "Attendee",
+    role: role || defaultRole,
   };
 };
 
@@ -41,7 +43,7 @@ export const mapToRoomParticipantSDKModel = (
   const { rawId, role } = roomParticipant;
   return {
     id: createIdentifierFromRawId(rawId),
-    role: role || "Attendee",
+    role: role || defaultRole,
   };
 };
 
@@ -56,7 +58,7 @@ export const mapRoomParticipantToRawId = (
   const mappedParticipants: Record<string, RestModel.ParticipantProperties> = {};
   for (const participant of participants) {
     const mappedParticipant = mapToRoomParticipantRestModel(participant);
-    mappedParticipants[mappedParticipant.rawId] = { role: mappedParticipant.role };
+    mappedParticipants[mappedParticipant.rawId] = { role: mappedParticipant.role || defaultRole };
   }
 
   return mappedParticipants;
