@@ -5,10 +5,7 @@ import { Context } from "mocha";
 
 // Internal module imports
 import { Recorder } from "@azure-tools/test-recorder";
-import {
-  CommunicationIdentifier,
-  CommunicationUserIdentifier,
-} from "@azure/communication-common";
+import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
@@ -17,7 +14,7 @@ import {
   CallMediaRecognizeDtmfOptions,
   CallAutomationClient,
   CallConnection,
-  CallInvite
+  CallInvite,
 } from "../src";
 
 // Current directory imports
@@ -34,7 +31,7 @@ import {
   incomingCallContexts,
   loadPersistedEvents,
   persistEvents,
-  fileSourceUrl
+  fileSourceUrl,
 } from "./utils/recordedClient";
 import sinon from "sinon";
 import { assert } from "chai";
@@ -199,7 +196,7 @@ describe("Call Media Client Live Tests", function () {
 
     const playSource: FileSource = {
       url: fileSourceUrl,
-      kind: "fileSource"
+      kind: "fileSource",
     };
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
@@ -236,7 +233,7 @@ describe("Call Media Client Live Tests", function () {
 
     const playSource: FileSource = {
       url: fileSourceUrl,
-      kind: "fileSource"
+      kind: "fileSource",
     };
 
     await callConnection.getCallMedia().playToAll(playSource);
@@ -275,7 +272,7 @@ describe("Call Media Client Live Tests", function () {
 
     const playSource: FileSource = {
       url: fileSourceUrl,
-      kind: "fileSource"
+      kind: "fileSource",
     };
 
     await callConnection.getCallMedia().playToAll(playSource);

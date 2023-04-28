@@ -77,7 +77,7 @@ export class CallMedia {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
-        loop: false
+        loop: false,
       },
     };
 
@@ -102,7 +102,7 @@ export class CallMedia {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: [],
       playOptions: {
-        loop: false
+        loop: false,
       },
     };
 
