@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { CommunicationRoom, ParticipantRole, RoomParticipant, RoomParticipantPatch } from "./models";
+import {
+  CommunicationRoom,
+  ParticipantRole,
+  RoomParticipant,
+  RoomParticipantPatch,
+} from "./models";
 import {
   CommunicationIdentifier,
   getIdentifierKind,
@@ -84,15 +89,13 @@ export const mapRoomParticipantForRemoval = (
  * @internal
  * Mapping room rest model to room customer model.
  */
-export const mapCommunicationRoomToSDKModel = (
-  room: RestModel.RoomModel
-): CommunicationRoom => {
+export const mapCommunicationRoomToSDKModel = (room: RestModel.RoomModel): CommunicationRoom => {
   const { createdAt, ...rest } = room;
   return {
     createdOn: createdAt,
-    ...rest
-  }
-}
+    ...rest,
+  };
+};
 
 function throwException(errorMessage: string): never {
   throw new Error(errorMessage);

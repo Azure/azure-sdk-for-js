@@ -161,7 +161,7 @@ export class RoomsClient {
       const currentSetResponse = await this.client.rooms.list(options);
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(room => mapCommunicationRoomToSDKModel(room));
+        yield currentSetResponse.value.map((room) => mapCommunicationRoomToSDKModel(room));
       }
     }
 
@@ -172,7 +172,7 @@ export class RoomsClient {
       );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(room => mapCommunicationRoomToSDKModel(room));
+        yield currentSetResponse.value.map((room) => mapCommunicationRoomToSDKModel(room));
       } else {
         break;
       }
