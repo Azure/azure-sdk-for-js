@@ -2273,12 +2273,6 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: false
 
-  /@sinonjs/fake-timers/9.1.2:
-    resolution: {integrity: sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-    dev: false
-
   /@sinonjs/samsam/5.3.1:
     resolution: {integrity: sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==}
     dependencies:
@@ -2291,14 +2285,6 @@ packages:
     resolution: {integrity: sha512-nhOb2dWPeb1sd3IQXL/dVPnKHDOAFfvichtBf4xV00/rU1QbPCQqKMbvIheIjqwVjh7qIgf2AHTHi391yMOMpQ==}
     dependencies:
       '@sinonjs/commons': 1.8.6
-      lodash.get: 4.4.2
-      type-detect: 4.0.8
-    dev: false
-
-  /@sinonjs/samsam/7.0.1:
-    resolution: {integrity: sha512-zsAk2Jkiq89mhZovB2LLOdTCxJF4hqqTToGP0ASWlhp4I1hqOjcfmZGafXntCN7MDC6yySH0mFHrYtHceOeLmw==}
-    dependencies:
-      '@sinonjs/commons': 2.0.0
       lodash.get: 4.4.2
       type-detect: 4.0.8
     dev: false
@@ -7980,17 +7966,6 @@ packages:
       '@sinonjs/commons': 1.8.6
       '@sinonjs/fake-timers': 8.1.0
       '@sinonjs/samsam': 6.1.3
-      diff: 5.1.0
-      nise: 5.1.4
-      supports-color: 7.2.0
-    dev: false
-
-  /sinon/14.0.2:
-    resolution: {integrity: sha512-PDpV0ZI3ZCS3pEqx0vpNp6kzPhHrLx72wA0G+ZLaaJjLIYeE0n8INlgaohKuGy7hP0as5tbUd23QWu5U233t+w==}
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-      '@sinonjs/fake-timers': 9.1.2
-      '@sinonjs/samsam': 7.0.1
       diff: 5.1.0
       nise: 5.1.4
       supports-color: 7.2.0
@@ -16034,14 +16009,15 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-ryFCz/u09x94xMPDAM0NpGpITYkGsTT6vaHP0hjZoT+7gld5bIGv+EVopOmAy9Vslt/E3l0dGpKkOrQANOhhkA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
       '@azure/communication-common': 2.2.0
-      '@microsoft/api-extractor': 7.34.6
+      '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
+      '@types/node': 14.18.43
       '@types/sinon': 10.0.14
       '@types/uuid': 8.3.4
       chai: 4.3.7
@@ -16057,13 +16033,12 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
-      sinon: 14.0.2
+      sinon: 9.2.4
       tslib: 1.14.1
       typescript: 5.0.4
       uglify-js: 3.17.4
       uuid: 8.3.2
     transitivePeerDependencies:
-      - '@types/node'
       - bufferutil
       - debug
       - supports-color
