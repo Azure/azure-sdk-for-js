@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix a memory leak issue of linked child abort signals not being released.
+
 ### Other Changes
 
 - upgrade dependency `rhea-promise` version to `^3.0.0`.
