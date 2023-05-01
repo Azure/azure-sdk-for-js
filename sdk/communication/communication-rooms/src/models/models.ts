@@ -8,7 +8,7 @@ export interface CommunicationRoom {
   /** Unique identifier of a room. This id is server generated. */
   id: string;
   /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  createdAt: Date;
+  createdOn: Date;
   /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validFrom: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */

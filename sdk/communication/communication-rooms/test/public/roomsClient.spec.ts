@@ -62,6 +62,7 @@ describe("RoomsClient", function () {
       const createRoomResult = await client.createRoom(options);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult.id);
+      assert.isDefined(createRoomResult.createdOn);
       roomId = createRoomResult.id;
     });
 

@@ -14,6 +14,7 @@ import { logger } from "./logger";
 import { tracingClient } from "./tracing";
 import { RoomsRestClient } from "./generated/src";
 import {
+  mapCommunicationRoomToSDKModel,
   mapRoomParticipantForRemoval,
   mapRoomParticipantToRawId,
   mapToRoomParticipantSDKModel,
@@ -112,12 +113,13 @@ export class RoomsClient {
     const repeatabilityRequestId = generateUuid();
     const repeatabilityFirstSent = new Date();
     return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
-      return this.client.rooms.create({
+      const room = await this.client.rooms.create({
         ...options,
         repeatabilityFirstSent: repeatabilityFirstSent,
         repeatabilityRequestID: repeatabilityRequestId,
         participants: mapRoomParticipantToRawId(options.participants),
       });
+      return mapCommunicationRoomToSDKModel(room);
     });
   }
 
@@ -133,7 +135,8 @@ export class RoomsClient {
     options: UpdateRoomOptions = {}
   ): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-UpdateRoom", options, async () => {
-      return this.client.rooms.update(roomId, options);
+      const room = await this.client.rooms.update(roomId, options);
+      return mapCommunicationRoomToSDKModel(room);
     });
   }
 
@@ -145,7 +148,8 @@ export class RoomsClient {
    */
   public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<CommunicationRoom> {
     return tracingClient.withSpan("RoomsClient-GetRoom", options, async (updatedOptions) => {
-      return this.client.rooms.get(roomId, updatedOptions);
+      const room = await this.client.rooms.get(roomId, updatedOptions);
+      return mapCommunicationRoomToSDKModel(room);
     });
   }
 
@@ -157,7 +161,7 @@ export class RoomsClient {
       const currentSetResponse = await this.client.rooms.list(options);
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value;
+        yield currentSetResponse.value.map(room => mapCommunicationRoomToSDKModel(room));
       }
     }
 
@@ -168,7 +172,7 @@ export class RoomsClient {
       );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value;
+        yield currentSetResponse.value.map(room => mapCommunicationRoomToSDKModel(room));
       } else {
         break;
       }

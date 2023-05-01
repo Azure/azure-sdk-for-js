@@ -17,7 +17,7 @@ export type AddOrUpdateParticipantsOptions = OperationOptions;
 
 // @public
 export interface CommunicationRoom {
-    createdAt: Date;
+    createdOn: Date;
     id: string;
     validFrom: Date;
     validUntil: Date;
