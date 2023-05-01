@@ -277,7 +277,6 @@ export interface OciDescriptor {
 // @public
 export interface OciImageManifest extends Record<string, unknown> {
     annotations?: OciAnnotations;
-    // (undocumented)
     artifactType?: string;
     config: OciDescriptor;
     layers: OciDescriptor[];

@@ -119,6 +119,7 @@ export interface OciImageManifest extends Record<string, unknown> {
   schemaVersion: 2;
   /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
   mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+  /** When the manifest is used for an artifact, the type of said artifact. */
   artifactType?: string;
   /** V2 image config descriptor */
   config: OciDescriptor;
