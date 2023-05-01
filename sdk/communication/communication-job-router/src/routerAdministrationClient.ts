@@ -6,7 +6,7 @@ import {
   CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
-  parseClientArguments
+  parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -18,7 +18,7 @@ import {
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
-  JobRouterApiClient
+  JobRouterApiClient,
 } from "./generated/src";
 import {
   CreateClassificationPolicyOptions,
@@ -33,13 +33,13 @@ import {
   UpdateClassificationPolicyOptions,
   UpdateDistributionPolicyOptions,
   UpdateExceptionPolicyOptions,
-  UpdateQueueOptions
+  UpdateQueueOptions,
 } from "./models/options";
 import {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
-  JobQueueResponse
+  JobQueueResponse,
 } from "./models/responses";
 import { OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -136,8 +136,8 @@ export class RouterAdministrationClient {
       ...options,
       userAgentOptions,
       loggingOptions: {
-        logger: logger.info
-      }
+        logger: logger.info,
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
