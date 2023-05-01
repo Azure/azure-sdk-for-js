@@ -4,11 +4,8 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added file attachment support
+- Updated @azure/communication-signaling to 1.0.0-beta.18 with file attachment support.
 
 ## 1.3.2-beta.1 (2023-04-10)
 
