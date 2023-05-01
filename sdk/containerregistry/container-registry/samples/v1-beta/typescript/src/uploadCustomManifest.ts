@@ -23,8 +23,10 @@ async function main() {
 
   const mediaType = "application/vnd.docker.distribution.manifest.list.v2+json";
 
-  const manifest = Buffer.from(
-    JSON.stringify({
+  // In this sample, we define the manifest inline as a JavaScript object.
+  // If the manifest you wish to upload exists as a file on disk, you can pass
+  // a ReadableStream of the file into uploadManifest instead.
+  const manifest = {
       schemaVersion: 2,
       mediaType,
       manifests: [
@@ -48,10 +50,9 @@ async function main() {
           },
         },
       ],
-    })
-  );
-
-  await client.uploadManifest(manifest, { mediaType });
+    };
+  
+  await client.setManifest(manifest, { mediaType });
 }
 
 main().catch((err) => {
