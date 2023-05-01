@@ -215,7 +215,7 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
     return false;
   }
 
-  // Check fof a git diff. We refuse to start a new pass if there is a diff.
+  // Check for a git diff. We refuse to start a new pass if there is a diff.
   if (!process.env.DEV_TOOL_UNSAFE_FORCE && (await git.hasDiff(await resolveRoot()))) {
     log.error("Refusing to run a migration on a dirty work tree.");
     log.error("Commit or stash your changes, then run `dev-tool migrate` again.");
