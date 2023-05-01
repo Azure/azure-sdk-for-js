@@ -515,11 +515,11 @@ export const ChatAttachment: coreClient.CompositeMapper = {
         }
       },
       attachmentType: {
-        defaultValue: "teamsInlineImage",
-        isConstant: true,
         serializedName: "attachmentType",
+        required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["teamsInlineImage", "teamsImage", "file"]
         }
       },
       contentType: {
