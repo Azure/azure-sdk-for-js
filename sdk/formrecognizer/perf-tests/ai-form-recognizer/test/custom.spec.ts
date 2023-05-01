@@ -9,7 +9,7 @@ import {
   DocumentModelAdministrationClient,
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
@@ -65,7 +65,7 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
 
     try {
       const poller = await this.trainingClient.beginBuildDocumentModel(
-        generateUuid(),
+        randomUUID(),
         trainingContainerSasUrl,
         "template"
       );
