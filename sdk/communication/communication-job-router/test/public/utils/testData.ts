@@ -62,7 +62,7 @@ export const distributionPolicyRequest: DistributionPolicy = {
     maxConcurrentOffers: 5,
     bypassSelectors: false,
   },
-  offerTtlInSeconds: 120,
+  offerTtlSeconds: 120,
 };
 
 export const queueRequest: JobQueue = {
