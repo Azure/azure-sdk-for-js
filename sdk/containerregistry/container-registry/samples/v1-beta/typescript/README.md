@@ -21,7 +21,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [setImageProperties.ts][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 | [deleteBlob.ts][deleteblob]                           | Deletes the blobs associated with a given manifest from the repository.                    |
 | [deleteManifest.ts][deletemanifest]                   | Deletes a given manifest from the repository.                                              |
-| [downloadCustomManifest.ts][downloadcustommanifest]   | Downloads a manifest of custom media type.                                                 |
+| [downloadCustomManifest.ts][downloadcustommanifest]   | Downloads a manifest which may be of varying media type.                                   |
 | [downloadImage.ts][downloadimage]                     | Downloads an image from the repository.                                                    |
 | [uploadCustomManifest.ts][uploadcustommanifest]       | Uploads a manifest with custom manifest type, in this case a manifest list.                |
 | [uploadImage.ts][uploadimage]                         | Uploads an image to the repository.                                                        |
