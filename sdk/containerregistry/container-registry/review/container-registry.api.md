@@ -275,14 +275,15 @@ export interface OciDescriptor {
 }
 
 // @public
-export type OciImageManifest = {
-    schemaVersion: 2;
-    mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+export interface OciImageManifest extends Record<string, unknown> {
+    annotations?: OciAnnotations;
+    // (undocumented)
     artifactType?: string;
     config: OciDescriptor;
     layers: OciDescriptor[];
-    annotations?: OciAnnotations;
-};
+    mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+    schemaVersion: 2;
+}
 
 // @public
 export interface RegistryArtifact {

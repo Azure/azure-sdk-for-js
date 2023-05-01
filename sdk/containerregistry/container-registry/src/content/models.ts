@@ -114,7 +114,7 @@ export function isOciImageManifest(
  * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
  * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
  */
-export type OciImageManifest = {
+export interface OciImageManifest extends Record<string, unknown> {
   /** Schema version */
   schemaVersion: 2;
   /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
@@ -126,7 +126,7 @@ export type OciImageManifest = {
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
-};
+}
 
 /** Additional information provided through arbitrary metadata */
 export interface OciAnnotations extends Record<string, unknown> {
