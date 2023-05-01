@@ -94,7 +94,7 @@ export const mockMessageContent: RestModel.ChatMessageContent = {
       name: "report.docx",
       url: "url2",
       previewUrl: "previewUrl2",
-    }
+    },
   ],
   initiatorCommunicationIdentifier: mockCommunicationIdentifier,
 };
@@ -131,7 +131,7 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
         name: "report.docx",
         url: "url2",
         previewUrl: "previewUrl2",
-      }
+      },
     ],
   },
   createdOn: new Date("2020-06-26T18:06:06Z"),
