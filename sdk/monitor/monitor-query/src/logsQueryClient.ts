@@ -203,9 +203,11 @@ export class LogsQueryClient {
       "LogsQueryClient.queryResource",
       options,
       async (updatedOptions) => {
-        if (timespan) {
-          timeInterval = convertTimespanToInterval(timespan);
+        timeInterval = convertTimespanToInterval(timespan);
+        if (resourceId.startsWith("/")) {
+          resourceId = resourceId.substring(1);
         }
+
         const { flatResponse, rawResponse } = await getRawResponse(
           (paramOptions) =>
             this._logAnalytics.query.resourceExecute(

@@ -78,14 +78,13 @@ export function getMonitorWorkspaceId(): string {
   return assertEnvironmentVariable("MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(): {
-  resourceId: string;
-} {
-  return {
-    resourceId: assertEnvironmentVariable("METRICS_RESOURCE_ID"),
-  };
+export function getMetricsArmResourceId(): string {
+  return assertEnvironmentVariable("METRICS_RESOURCE_ID");
 }
 
+export function getLogsArmResourceId(): string {
+  return assertEnvironmentVariable("LOGS_RESOURCE_ID");
+}
 export function getAppInsightsConnectionString(): string {
   let appInsightsConnectionString = assertEnvironmentVariable(
     "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING"
