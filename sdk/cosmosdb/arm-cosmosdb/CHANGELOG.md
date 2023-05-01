@@ -1,212 +1,29 @@
 # Release History
-
-## 15.4.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 15.4.0-beta.1 (2023-03-10)
+    
+## 15.4.0 (2023-04-23)
     
 **Features**
 
-  - Added operation group DataTransferJobs
-  - Added operation group GraphResources
-  - Added operation CassandraClusters.getBackup
-  - Added operation CassandraClusters.listBackups
-  - Added operation CassandraResources.beginCreateUpdateCassandraView
-  - Added operation CassandraResources.beginCreateUpdateCassandraViewAndWait
-  - Added operation CassandraResources.beginDeleteCassandraView
-  - Added operation CassandraResources.beginDeleteCassandraViewAndWait
-  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscale
-  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscaleAndWait
-  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughput
-  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughputAndWait
-  - Added operation CassandraResources.beginUpdateCassandraViewThroughput
-  - Added operation CassandraResources.beginUpdateCassandraViewThroughputAndWait
-  - Added operation CassandraResources.getCassandraView
-  - Added operation CassandraResources.getCassandraViewThroughput
-  - Added operation CassandraResources.listCassandraViews
-  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMerge
-  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMergeAndWait
-  - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughput
-  - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughputAndWait
-  - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistribution
-  - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistributionAndWait
-  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughput
-  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughputAndWait
-  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistribution
-  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistributionAndWait
-  - Added operation SqlResources.beginListSqlContainerPartitionMerge
-  - Added operation SqlResources.beginListSqlContainerPartitionMergeAndWait
-  - Added operation SqlResources.beginSqlContainerRedistributeThroughput
-  - Added operation SqlResources.beginSqlContainerRedistributeThroughputAndWait
-  - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistribution
-  - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistributionAndWait
-  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughput
-  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughputAndWait
-  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistribution
-  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistributionAndWait
   - Added Interface AuthenticationMethodLdapProperties
-  - Added Interface AzureBlobDataTransferDataSourceSink
-  - Added Interface BackupResource
-  - Added Interface BackupResourceProperties
-  - Added Interface CassandraClustersGetBackupOptionalParams
-  - Added Interface CassandraClustersListBackupsOptionalParams
-  - Added Interface CassandraResourcesCreateUpdateCassandraViewHeaders
-  - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
-  - Added Interface CassandraResourcesDeleteCassandraViewHeaders
-  - Added Interface CassandraResourcesDeleteCassandraViewOptionalParams
-  - Added Interface CassandraResourcesGetCassandraViewOptionalParams
-  - Added Interface CassandraResourcesGetCassandraViewThroughputOptionalParams
-  - Added Interface CassandraResourcesListCassandraViewsOptionalParams
-  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleHeaders
-  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
-  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputHeaders
-  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
-  - Added Interface CassandraResourcesUpdateCassandraViewThroughputHeaders
-  - Added Interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
-  - Added Interface CassandraViewCreateUpdateParameters
-  - Added Interface CassandraViewGetPropertiesOptions
-  - Added Interface CassandraViewGetPropertiesResource
-  - Added Interface CassandraViewGetResults
-  - Added Interface CassandraViewListResult
-  - Added Interface CassandraViewResource
-  - Added Interface ContinuousModeProperties
-  - Added Interface CosmosCassandraDataTransferDataSourceSink
-  - Added Interface CosmosSqlDataTransferDataSourceSink
-  - Added Interface CreateJobRequest
-  - Added Interface DataTransferDataSourceSink
-  - Added Interface DataTransferJobFeedResults
-  - Added Interface DataTransferJobGetResults
-  - Added Interface DataTransferJobProperties
-  - Added Interface DataTransferJobsCancelOptionalParams
-  - Added Interface DataTransferJobsCreateOptionalParams
-  - Added Interface DataTransferJobsGetOptionalParams
-  - Added Interface DataTransferJobsListByDatabaseAccountNextOptionalParams
-  - Added Interface DataTransferJobsListByDatabaseAccountOptionalParams
-  - Added Interface DataTransferJobsPauseOptionalParams
-  - Added Interface DataTransferJobsResumeOptionalParams
-  - Added Interface DiagnosticLogSettings
-  - Added Interface GraphResource
-  - Added Interface GraphResourceCreateUpdateParameters
-  - Added Interface GraphResourceGetPropertiesOptions
-  - Added Interface GraphResourceGetPropertiesResource
-  - Added Interface GraphResourceGetResults
-  - Added Interface GraphResourcesCreateUpdateGraphHeaders
-  - Added Interface GraphResourcesCreateUpdateGraphOptionalParams
-  - Added Interface GraphResourcesDeleteGraphResourceHeaders
-  - Added Interface GraphResourcesDeleteGraphResourceOptionalParams
-  - Added Interface GraphResourcesGetGraphOptionalParams
-  - Added Interface GraphResourcesListGraphsOptionalParams
-  - Added Interface GraphResourcesListResult
-  - Added Interface ListBackups
-  - Added Interface MergeParameters
-  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeHeaders
-  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
-  - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputHeaders
-  - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
-  - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionHeaders
-  - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
-  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputHeaders
-  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
-  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionHeaders
-  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
-  - Added Interface PhysicalPartitionId
-  - Added Interface PhysicalPartitionStorageInfo
-  - Added Interface PhysicalPartitionStorageInfoCollection
-  - Added Interface PhysicalPartitionThroughputInfoProperties
-  - Added Interface PhysicalPartitionThroughputInfoResource
-  - Added Interface PhysicalPartitionThroughputInfoResult
-  - Added Interface PhysicalPartitionThroughputInfoResultPropertiesResource
-  - Added Interface RedistributeThroughputParameters
-  - Added Interface RedistributeThroughputPropertiesResource
-  - Added Interface ResourceRestoreParameters
-  - Added Interface RestoreParametersBase
-  - Added Interface RetrieveThroughputParameters
-  - Added Interface RetrieveThroughputPropertiesResource
-  - Added Interface SqlResourcesListSqlContainerPartitionMergeHeaders
-  - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
-  - Added Interface SqlResourcesSqlContainerRedistributeThroughputHeaders
-  - Added Interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
-  - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionHeaders
-  - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
-  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputHeaders
-  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
-  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders
-  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
-  - Added Type Alias CassandraClustersGetBackupResponse
-  - Added Type Alias CassandraClustersListBackupsResponse
-  - Added Type Alias CassandraResourcesCreateUpdateCassandraViewResponse
-  - Added Type Alias CassandraResourcesGetCassandraViewResponse
-  - Added Type Alias CassandraResourcesGetCassandraViewThroughputResponse
-  - Added Type Alias CassandraResourcesListCassandraViewsResponse
-  - Added Type Alias CassandraResourcesMigrateCassandraViewToAutoscaleResponse
-  - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
-  - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
-  - Added Type Alias ContinuousTier
-  - Added Type Alias DataTransferComponent
-  - Added Type Alias DataTransferDataSourceSinkUnion
-  - Added Type Alias DataTransferJobsCancelResponse
-  - Added Type Alias DataTransferJobsCreateResponse
-  - Added Type Alias DataTransferJobsGetResponse
-  - Added Type Alias DataTransferJobsListByDatabaseAccountNextResponse
-  - Added Type Alias DataTransferJobsListByDatabaseAccountResponse
-  - Added Type Alias DataTransferJobsPauseResponse
-  - Added Type Alias DataTransferJobsResumeResponse
-  - Added Type Alias EnableFullTextQuery
-  - Added Type Alias GraphResourcesCreateUpdateGraphResponse
-  - Added Type Alias GraphResourcesGetGraphResponse
-  - Added Type Alias GraphResourcesListGraphsResponse
-  - Added Type Alias MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
-  - Added Type Alias MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
-  - Added Type Alias MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-  - Added Type Alias MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
-  - Added Type Alias MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
-  - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
-  - Added Type Alias SqlResourcesSqlContainerRedistributeThroughputResponse
-  - Added Type Alias SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
-  - Added Type Alias SqlResourcesSqlDatabaseRedistributeThroughputResponse
-  - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
-  - Added Type Alias ThroughputPolicyType
-  - Interface ARMResourceProperties has a new optional parameter identity
-  - Interface ContinuousModeBackupPolicy has a new optional parameter continuousModeProperties
-  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
-  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableBurstCapacity
-  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
-  - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
-  - Interface DatabaseAccountGetResults has a new optional parameter enableBurstCapacity
-  - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
+  - Added Interface CassandraError
+  - Added Type Alias Kind
+  - Added Type Alias Status
+  - Added Type Alias Type
+  - Interface CassandraClusterPublicStatus has a new optional parameter errors
+  - Interface ClusterResourceProperties has a new optional parameter provisionError
+  - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter cassandraProcessStatus
+  - Interface DatabaseAccountConnectionString has a new optional parameter keyKind
+  - Interface DatabaseAccountConnectionString has a new optional parameter type
   - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
-  - Interface GremlinDatabaseResource has a new optional parameter createMode
-  - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
-  - Interface GremlinGraphResource has a new optional parameter createMode
-  - Interface GremlinGraphResource has a new optional parameter restoreParameters
+  - Interface DataCenterResourceProperties has a new optional parameter deallocated
+  - Interface DataCenterResourceProperties has a new optional parameter provisionError
+  - Interface LocationProperties has a new optional parameter isSubscriptionRegionAccessAllowedForAz
+  - Interface LocationProperties has a new optional parameter isSubscriptionRegionAccessAllowedForRegular
   - Interface LocationProperties has a new optional parameter status
-  - Interface MongoDBCollectionResource has a new optional parameter createMode
-  - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
-  - Interface MongoDBDatabaseResource has a new optional parameter createMode
-  - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
-  - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
-  - Interface RestoreParameters has a new optional parameter sourceBackupLocation
-  - Interface SqlContainerResource has a new optional parameter createMode
-  - Interface SqlContainerResource has a new optional parameter restoreParameters
-  - Interface SqlDatabaseResource has a new optional parameter createMode
-  - Interface SqlDatabaseResource has a new optional parameter restoreParameters
-  - Interface TableResource has a new optional parameter createMode
-  - Interface TableResource has a new optional parameter restoreParameters
-  - Added Enum KnownContinuousTier
-  - Added Enum KnownDataTransferComponent
-  - Added Enum KnownThroughputPolicyType
+  - Added Enum KnownKind
+  - Added Enum KnownStatus
+  - Added Enum KnownType
   - Enum KnownAuthenticationMethod has a new value Ldap
-  - Enum KnownOperationType has a new value Recreate
     
     
 ## 15.3.0 (2023-02-10)

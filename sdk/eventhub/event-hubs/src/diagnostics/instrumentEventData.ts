@@ -5,7 +5,7 @@ import { EventData, isAmqpAnnotatedMessage } from "../eventData";
 import { TracingContext } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { OperationOptions } from "../util/operationOptions";
-import { toSpanOptions, tracingClient } from "./tracing";
+import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
 
 /**
  * @internal
@@ -18,12 +18,14 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  * has already been instrumented.
  * @param eventData - The `EventData` or `AmqpAnnotatedMessage` to instrument.
  * @param span - The `Span` containing the context to propagate tracing information.
+ * @param operation - The type of the operation being performed.
  */
 export function instrumentEventData(
   eventData: EventData | AmqpAnnotatedMessage,
   options: OperationOptions,
   entityPath: string,
-  host: string
+  host: string,
+  operation?: MessagingOperationNames
 ): { event: EventData; spanContext: TracingContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
@@ -39,7 +41,7 @@ export function instrumentEventData(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer")
   );
   try {
     if (!messageSpan.isRecording()) {

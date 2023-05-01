@@ -17,7 +17,8 @@ import {
   JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
   QueueSelectorAttachmentUnion,
-  RouterJob,
+  WorkerSelectorAttachmentUnion,
+  RouterRuleUnion,
   WorkerSelector,
   WorkerStateSelector,
 } from "../generated/src";
@@ -50,6 +51,10 @@ export interface CreateClassificationPolicyOptions
   fallbackQueueId?: string;
   /** The queue selectors to resolve a queue for a given job. */
   queueSelectors?: QueueSelectorAttachmentUnion[];
+  /** The worker selectors to determine workers that are eligible for a given job. */
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+  /** Prioritization rule to determine the priority for a given job. */
+  prioritizationRule?: RouterRuleUnion;
 }
 
 /**
@@ -63,6 +68,10 @@ export interface UpdateClassificationPolicyOptions
   fallbackQueueId?: string;
   /** The queue selectors to resolve a queue for a given job. */
   queueSelectors?: QueueSelectorAttachmentUnion[];
+  /** The worker selectors to determine workers that are eligible for a given job. */
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+  /** Prioritization rule to determine the priority for a given job. */
+  prioritizationRule?: RouterRuleUnion;
 }
 
 /**
@@ -81,8 +90,8 @@ export interface CreateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlInSeconds?: number;
-  /** Abstract base class for defining a distribution mode */
+  offerTtlSeconds?: number;
+  /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
 
@@ -94,8 +103,8 @@ export interface UpdateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlInSeconds?: number;
-  /** Abstract base class for defining a distribution mode */
+  offerTtlSeconds?: number;
+  /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
 
@@ -195,26 +204,6 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
 export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {
   /** Request object for reclassifying a job. */
   reclassifyJobRequest?: Record<string, unknown>;
-}
-
-/**
- * Options to update or insert a job's labels.
- */
-export interface UpdateJobLabelsOptions extends OperationOptions {
-  /** Request model for patching a job */
-  patch?: RouterJob;
-  /** If set to true, will force classification. Defaults to false. */
-  forceClassification?: boolean;
-}
-
-/**
- * Options to update a job's classification.
- */
-export interface UpdateJobClassificationOptions extends OperationOptions {
-  /** Request model for patching a job */
-  patch?: RouterJob;
-  /** If set to true, will force classification. Defaults to false. */
-  forceClassification?: boolean;
 }
 
 /**

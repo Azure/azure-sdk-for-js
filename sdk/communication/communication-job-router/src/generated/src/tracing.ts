@@ -9,7 +9,7 @@
 import { createTracingClient } from "@azure/core-tracing";
 
 export const tracingClient = createTracingClient({
-  namespace: "Microsoft.Communication",
-  packageName: "azure-communication-job-router",
+  namespace: "Azure.Communication",
+  packageName: "@azure/communication-job-router",
   packageVersion: "1.0.0-beta.1"
 });

@@ -14,7 +14,7 @@ body:
     attributes:
       label: Package Name
       description: What package would you like to deprecate?
-      placeholder: @azure/example
+      placeholder: "@azure/example"
     validations:
       required: true
   - type: textarea

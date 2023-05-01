@@ -138,22 +138,6 @@ export const select: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
-export const select1: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -198,22 +182,6 @@ export const ifNoneMatch: OperationParameter = {
   }
 };
 
-export const select2: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -231,22 +199,6 @@ export const entity: OperationParameter = {
   mapper: KeyValueMapper
 };
 
-export const select3: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
 export const accept3: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -260,41 +212,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const select4: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        defaultValue: "name",
-        isConstant: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
-export const select5: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
-export const select6: OperationQueryParameter = {
+export const select1: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$Select",

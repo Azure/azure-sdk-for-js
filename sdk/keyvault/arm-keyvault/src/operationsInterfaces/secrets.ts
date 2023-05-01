@@ -42,7 +42,9 @@ export interface Secrets {
    * with vault secrets.
    * @param resourceGroupName The name of the Resource Group to which the vault belongs.
    * @param vaultName Name of the vault
-   * @param secretName Name of the secret
+   * @param secretName Name of the secret. The value you provide may be copied globally for the purpose
+   *                   of running the service. The value provided should not include personally identifiable or sensitive
+   *                   information.
    * @param parameters Parameters to create or update the secret
    * @param options The options parameters.
    */

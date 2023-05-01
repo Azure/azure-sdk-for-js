@@ -15,7 +15,7 @@ export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async run(): Promise<void> {
-    const listIterator = this.client.listIncidents({
+    const listIterator = this.client.listIncidentsForAlert({
       alertConfigId: this.alertConfigId,
       id: this.alertId,
     });
