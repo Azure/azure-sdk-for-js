@@ -151,7 +151,7 @@ export class RouterAdministrationClient {
   // Classification Policy Actions
   /**
    * Creates a classification policy.
-   * Returns classification policy with the id of the created classification policy.
+   * Returns the created classification policy.
    * @param classificationPolicyId - Id of the classification policy.
    * @param options - Operation options.
    */
@@ -169,7 +169,7 @@ export class RouterAdministrationClient {
 
   /**
    * Updates a classification policy.
-   * Returns classification policy with the id of the updated classification policy.
+   * Returns the updated classification policy.
    * @param classificationPolicyId - Id of the classification policy.
    * @param options - Operation options.
    */
@@ -193,13 +193,13 @@ export class RouterAdministrationClient {
     options: ListClassificationPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
     const listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     return this.client.jobRouterAdministration.listClassificationPolicies(listOptions);
   }
 
   /**
    * Gets a classification policy.
-   * Returns classification policy with the id of the classification policy.
+   * Returns the classification policy.
    * @param classificationPolicyId - The id of the classification policy to get.
    * @param options -  Operation options.
    */
@@ -232,7 +232,7 @@ export class RouterAdministrationClient {
   // DistributionPolicy Actions
   /**
    * Creates a distribution policy.
-   * Returns distribution policy with the id of the created distribution policy.
+   * Returns the created distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to create.
    * @param options - Operation options.
    */
@@ -250,7 +250,7 @@ export class RouterAdministrationClient {
 
   /**
    * Updates a distribution policy.
-   * Returns distribution policy with the id of the updated distribution policy.
+   * Returns the updated distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to update.
    * @param options - Operation options.
    */
@@ -274,13 +274,13 @@ export class RouterAdministrationClient {
     options: ListDistributionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
     const listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     return this.client.jobRouterAdministration.listDistributionPolicies(listOptions);
   }
 
   /**
    * Gets a distribution policy.
-   * Returns distribution policy client with the id of the distribution policy.
+   * Returns the distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to get.
    * @param options -  Operation options.
    */
@@ -313,7 +313,7 @@ export class RouterAdministrationClient {
   // ExceptionPolicy Actions
   /**
    * Creates a exception policy.
-   * Returns exception policy with the id of the created exception policy.
+   * Returns the created exception policy.
    * @param exceptionPolicyId - The id of the exception policy to create.
    * @param options - Operation options.
    */
@@ -331,7 +331,7 @@ export class RouterAdministrationClient {
 
   /**
    * Updates a exception policy.
-   * Returns exception policy with the id of the updated exception policy.
+   * Returns the updated exception policy.
    * @param exceptionPolicyId - The id of the exception policy to update.
    * @param options - Operation options.
    */
@@ -355,13 +355,13 @@ export class RouterAdministrationClient {
     options: ListExceptionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
     const listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     return this.client.jobRouterAdministration.listExceptionPolicies(listOptions);
   }
 
   /**
    * Gets an exception policy.
-   * Returns exception policy with the id of the exception policy.
+   * Returns the exception policy.
    * @param exceptionPolicyId - The id of the exception policy to get.
    * @param options -  Operation options.
    */
@@ -391,7 +391,7 @@ export class RouterAdministrationClient {
   // Queue Actions
   /**
    * Creates a queue.
-   * Returns queue with the id of the created queue.
+   * Returns the created queue.
    * @param queueId - The ID of the queue to create.
    * @param options - Operation options.
    */
@@ -410,7 +410,7 @@ export class RouterAdministrationClient {
 
   /**
    * Updates a queue.
-   * Returns queue with the id of the created queue.
+   * Returns the updated queue.
    * @param queueId - The ID of the queue to update.
    * @param options - Operation options.
    */
@@ -433,13 +433,13 @@ export class RouterAdministrationClient {
    */
   public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueueItem> {
     const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
   }
 
   /**
    * Gets a queue.
-   * Returns queue with the id of the queue.
+   * Returns the queue.
    * @param queueId - The ID of the queue to get.
    * @param options -  Operation options.
    */

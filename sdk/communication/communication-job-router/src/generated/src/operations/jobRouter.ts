@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobRouter } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +18,11 @@ import {
   RouterJobItem,
   JobRouterListJobsNextOptionalParams,
   JobRouterListJobsOptionalParams,
+  JobRouterListJobsResponse,
   RouterWorkerItem,
   JobRouterListWorkersNextOptionalParams,
   JobRouterListWorkersOptionalParams,
+  JobRouterListWorkersResponse,
   RouterJob,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertJobResponse,
@@ -34,7 +37,6 @@ import {
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionOptionalParams,
   JobRouterCloseJobActionResponse,
-  JobRouterListJobsResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
   JobRouterUnassignJobActionOptionalParams,
@@ -51,7 +53,6 @@ import {
   JobRouterGetWorkerOptionalParams,
   JobRouterGetWorkerResponse,
   JobRouterDeleteWorkerOptionalParams,
-  JobRouterListWorkersResponse,
   JobRouterListJobsNextResponse,
   JobRouterListWorkersNextResponse
 } from "../models";
@@ -84,22 +85,34 @@ export class JobRouterImpl implements JobRouter {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listJobsPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listJobsPagingPage(options, settings);
       }
     };
   }
 
   private async *listJobsPagingPage(
-    options?: JobRouterListJobsOptionalParams
+    options?: JobRouterListJobsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RouterJobItem[]> {
-    let result = await this._listJobs(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobRouterListJobsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listJobs(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listJobsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -126,22 +139,34 @@ export class JobRouterImpl implements JobRouter {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listWorkersPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listWorkersPagingPage(options, settings);
       }
     };
   }
 
   private async *listWorkersPagingPage(
-    options?: JobRouterListWorkersOptionalParams
+    options?: JobRouterListWorkersOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RouterWorkerItem[]> {
-    let result = await this._listWorkers(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobRouterListWorkersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWorkers(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWorkersNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -200,7 +225,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Deletes a job and all of its traces.
-   * @param id Id of the job.
+   * @param id
    * @param options The options parameters.
    */
   async deleteJob(
@@ -441,7 +466,7 @@ export class JobRouterImpl implements JobRouter {
   /**
    * Creates or updates a worker.
    * @param workerId Id of the worker
-   * @param patch Model of worker properties to be patched. See also:
+   * @param patch Model of worker properties to be created or patched. See also:
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
@@ -734,7 +759,7 @@ const listJobsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
+    Parameters.maxPageSize,
     Parameters.status,
     Parameters.queueId,
     Parameters.channelId,
@@ -887,7 +912,7 @@ const listWorkersOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
+    Parameters.maxPageSize,
     Parameters.queueId,
     Parameters.channelId,
     Parameters.status1,
@@ -908,14 +933,6 @@ const listJobsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.status,
-    Parameters.queueId,
-    Parameters.channelId,
-    Parameters.classificationPolicyId
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -931,14 +948,6 @@ const listWorkersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.queueId,
-    Parameters.channelId,
-    Parameters.status1,
-    Parameters.hasCapacity
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

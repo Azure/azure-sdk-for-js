@@ -11,7 +11,6 @@ import { exceptionPolicyRequest } from "./utils/testData";
 // TODO . Complete unit and integration tests https://github.com/Azure/azure-sdk-for-js/issues/23007
 describe("RouterClient", function () {
   let recorder: Recorder;
-  // let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
 
   describe("Exception Policy Operations", function () {
