@@ -167,7 +167,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/routing/exceptionPolicies?api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestUri": "https://endpoint/routing/exceptionPolicies?api-version=2022-07-18-preview\u0026maxPageSize=20",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
