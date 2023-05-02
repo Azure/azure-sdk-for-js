@@ -78,9 +78,9 @@ describe("RouterClient", function () {
       assert.equal(acceptOfferResponse.workerId, workerId);
 
       const assignment: JobAssignment = await pollForJobAssignment(jobId, client);
-      assert.isNotNull(assignment.assignedOn);
-      assert.isNotNull(assignment.completedOn);
-      assert.isNotNull(assignment.closedOn);
+      assert.isNotNull(assignment.assignTime);
+      assert.isNotNull(assignment.completeTime);
+      assert.isNotNull(assignment.closeTime);
       assert.equal(assignment.workerId, workerId);
 
       const completeJobResponse = await client.completeJob(jobId, acceptOfferResponse.assignmentId);

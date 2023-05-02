@@ -47,7 +47,7 @@ describe("RouterClient", function () {
 
       assert.equal(result.id, distributionPolicyId);
       assert.equal(result.name, distributionPolicyRequest.name);
-      assert.equal(result.offerTtlInSeconds, distributionPolicyRequest.offerTtlInSeconds);
+      assert.equal(result.offerTtlSeconds, distributionPolicyRequest.offerTtlSeconds);
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
 
