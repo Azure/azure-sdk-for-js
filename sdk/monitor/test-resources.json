@@ -234,6 +234,10 @@
       "value": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]",
       "type": "string"
     },
+    "LOGS_RESOURCE_ID": {
+      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]",
+      "type": "string"
+    },
     "METRICS_RESOURCE_NAMESPACE": {
       "value": "Microsoft.OperationalInsights/workspaces",
       "type": "string"
