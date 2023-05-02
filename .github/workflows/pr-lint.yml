@@ -1,0 +1,22 @@
+name: Lint PR
+
+on:
+  pull_request_target:
+    types: [opened, reopened, edited]
+
+# This removes all unnecessary permissions, the ones needed will be set below.
+# https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
+permissions: {}
+
+jobs:
+  lint-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: xirzec/pr-lint@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          required-sections: |
+            Packages impacted by this PR
+            Describe the problem that is addressed by this PR
