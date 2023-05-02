@@ -83,6 +83,21 @@ export default createMigration(
         return false;
       }
 
+      const allDependencies = {
+        ...ctx.project.packageJson.dependencies,
+        ...ctx.project.packageJson.devDependencies,
+      };
+
+      const currentRecorder = allDependencies["@azure-tools/test-recorder"];
+
+      // Fail if we are using a recorder that isn't ^3.0.0
+      if (currentRecorder && currentRecorder !== "^3.0.0") {
+        ctx.logger.error(
+          `This migration only supports packages using the test-recorder '^3.0.0'. This package is using ${currentRecorder}.`
+        );
+        return false;
+      }
+
       // The asset sync script assumes that the user has their git identity set up globally.
       if (
         !(await git.getConfig("user.name", { global: true })) ||
