@@ -4,9 +4,7 @@
 import { exec } from "node:child_process";
 
 const commandStack =
-  process.platform === "win32"
-    ? ["pwsh.exe", "pwsh-preview.exe", "powershell.exe"]
-    : ["pwsh", "pwsh-preview"];
+  process.platform === "win32" ? ["pwsh.exe", "pwsh-preview.exe"] : ["pwsh", "pwsh-preview"];
 
 /**
  * Determines whether or not PowerShell is installed on the system.
