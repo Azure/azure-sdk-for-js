@@ -1075,6 +1075,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/monitor-query/1.0.3:
+    resolution: {integrity: sha512-Y7KLvepULaxQXeYKCAlyhqoDgccEz0ZicnwHVx7480vfMbuFLhdqfgTW7Ngx2YANCJUqd0qkOMJ/Ooy1H0Hg3A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.3
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/msal-browser/2.36.0:
     resolution: {integrity: sha512-OrVDZ9ftO7ExqZVHripAt+doKg6G14YbP2LoSygiWQoSqoO4CejoXLRLqANc/HGg18N0p/oaRETw4IHZvwsxZw==}
     engines: {node: '>=0.8.0'}
@@ -18083,11 +18098,12 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-FhiAB/RTQCujIu6yTbUzJKAvm+LLIFWBYlyEigA0I4lFeaeNSWAQBDeJ3ogZgnAO4UkAjVxBj9dt86lh5TI01w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-sFDSZXUb3eNXvPElD8M5/p8LovO4GFK6VFnCBpZBBmk8wUowBSI2mFh2gaUBvYk17pjI3IlCuUgYdya8o2rqRA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/monitor-query': 1.0.3
       '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
@@ -18667,11 +18683,12 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-oGpEpmnic6Slrw4xMepkPffibSXj8IhQvMQgFvtAopm7H22vPE9vcJb3jfHeo8qvP1Alke02GREamt4LEGAw1w==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-+9L4HZ3JxF4XWOkZSRo1Htqc0JRvsFsRWfnWuvrUzrnKGsDIhKIu2pFVbUPiCTA/q6xCE+1mpjXOqvhoHvJpOA==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/monitor-query': 1.0.3
       '@types/node': 14.18.43
       dotenv: 16.0.3
       eslint: 8.39.0
