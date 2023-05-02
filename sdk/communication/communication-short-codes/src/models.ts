@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { ShortCodesGetShortCodesOptionalParams } from ".";
+import {
+  ShortCodesGetShortCodesOptionalParams,
+  ShortCodesGetUSProgramBriefsOptionalParams,
+} from ".";
 
 /**
  * Additional options for the delete US Program Brief request.
@@ -27,7 +30,7 @@ export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalPa
 /**
  * Additional options for the List US Program Brief request.
  */
-export interface ListUSProgramBriefsOptions extends OperationOptions {}
+export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {}
 
 export {
   ShortCode,
@@ -58,6 +61,7 @@ export {
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefsOptionalParams,
   ProgramBriefAttachment,
   AttachmentType,
   FileType,

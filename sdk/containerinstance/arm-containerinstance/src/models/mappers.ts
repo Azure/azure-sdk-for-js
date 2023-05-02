@@ -412,6 +412,13 @@ export const Container: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ContainerProbe"
         }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
+        }
       }
     }
   }
@@ -866,6 +873,83 @@ export const HttpHeader: coreClient.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityContextDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextDefinition",
+    modelProperties: {
+      privileged: {
+        serializedName: "privileged",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowPrivilegeEscalation: {
+        serializedName: "allowPrivilegeEscalation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "SecurityContextCapabilitiesDefinition"
+        }
+      },
+      runAsGroup: {
+        serializedName: "runAsGroup",
+        type: {
+          name: "Number"
+        }
+      },
+      runAsUser: {
+        serializedName: "runAsUser",
+        type: {
+          name: "Number"
+        }
+      },
+      seccompProfile: {
+        serializedName: "seccompProfile",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityContextCapabilitiesDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextCapabilitiesDefinition",
+    modelProperties: {
+      add: {
+        serializedName: "add",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      drop: {
+        serializedName: "drop",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1332,6 +1416,13 @@ export const InitContainerDefinition: coreClient.CompositeMapper = {
               className: "VolumeMount"
             }
           }
+        }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
         }
       }
     }

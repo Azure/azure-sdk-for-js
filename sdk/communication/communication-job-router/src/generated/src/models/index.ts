@@ -20,7 +20,8 @@ export type RouterRuleUnion =
   | DirectMapRule
   | ExpressionRule
   | FunctionRule
-  | StaticRule;
+  | StaticRule
+  | WebhookRule;
 export type WorkerSelectorAttachmentUnion =
   | WorkerSelectorAttachment
   | ConditionalWorkerSelectorAttachment
@@ -63,6 +64,7 @@ export interface ClassificationPolicy {
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   prioritizationRule?: RouterRuleUnion;
   /** The worker label selectors to attach to a given job. */
@@ -87,6 +89,7 @@ export interface QueueSelectorAttachment {
  * DirectMapRule:  A rule that return the same labels as the input labels.
  * ExpressionRule: A rule providing inline expression rules.
  * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+ * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
  */
 export interface RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -94,7 +97,8 @@ export interface RouterRule {
     | "direct-map-rule"
     | "expression-rule"
     | "azure-function-rule"
-    | "static-rule";
+    | "static-rule"
+    | "webhook-rule";
 }
 
 /** An attachment which attaches WorkerSelectors to workers */
@@ -111,11 +115,11 @@ export interface WorkerSelectorAttachment {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError;
+  error: JobRouterError;
 }
 
 /** The Communication Services error. */
-export interface CommunicationError {
+export interface JobRouterError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -129,12 +133,12 @@ export interface CommunicationError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: CommunicationError[];
+  readonly details?: JobRouterError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError;
+  readonly innerError?: JobRouterError;
 }
 
 /** A paged collection of classification policies. */
@@ -162,7 +166,7 @@ export interface DistributionPolicy {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlInSeconds?: number;
+  offerTtlSeconds?: number;
   /** Abstract base class for defining a distribution mode */
   mode?: DistributionModeUnion;
 }
@@ -218,13 +222,19 @@ export interface ExceptionRule {
   /** The trigger for this exception rule */
   trigger: JobExceptionTriggerUnion;
   /** A dictionary collection of actions to perform once the exception is triggered. Key is the Id of each exception action. */
-  actions: { [propertyName: string]: any };
+  actions: { [propertyName: string]: ExceptionActionUnion };
 }
 
 /** The trigger for this exception rule */
 export interface JobExceptionTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "queue-length" | "wait-time";
+}
+
+/** The action to take when the exception is triggered */
+export interface ExceptionAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "cancel" | "manual-reclassify" | "reclassify";
 }
 
 /** A paged collection of exception policies. */
@@ -260,7 +270,7 @@ export interface RouterJob {
    * The time a job was queued.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly enqueuedOn?: Date;
+  readonly enqueueTimeUtc?: Date;
   /** The channel identifier. eg. voice, chat, etc. */
   channelId?: string;
   /** The Id of the Classification policy used for classifying a job. */
@@ -323,16 +333,16 @@ export interface JobAssignment {
   /** The Id of the Worker assigned to the job. */
   workerId?: string;
   /** The assignment time of the job. */
-  assignedOn: Date;
+  assignTime: Date;
   /** The time the job was marked as completed after being assigned. */
-  completedOn?: Date;
+  completeTime?: Date;
   /** The time the job was marked as closed after being completed. */
-  closedOn?: Date;
+  closeTime?: Date;
 }
 
 /** Request payload for deleting a job */
 export interface CancelJobRequest {
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /**
    * Indicates the outcome of the job, populate this field with your own custom values.
@@ -345,7 +355,7 @@ export interface CancelJobRequest {
 export interface CompleteJobRequest {
   /** The assignment within the job to complete. */
   assignmentId: string;
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
@@ -360,7 +370,7 @@ export interface CloseJobRequest {
    * If provided, worker capacity is released along with a JobClosedEvent notification at a future time.
    */
   closeTime?: Date;
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
@@ -390,7 +400,7 @@ export interface JobPositionDetails {
   /** Length of the queue: total number of enqueued jobs. */
   queueLength: number;
   /** Estimated wait time of the job rounded up to the nearest minute */
-  estimatedWaitTimeInMinutes: number;
+  estimatedWaitTimeMinutes: number;
 }
 
 /** Response payload after a job has been successfully unassigned. */
@@ -497,6 +507,8 @@ export interface RouterWorker {
 export interface ChannelConfiguration {
   /** The amount of capacity that an instance of a job of this channel will consume of the total worker capacity. */
   capacityCostPerJob: number;
+  /** The maximum number of jobs that can be supported concurrently for this channel. */
+  maxNumberOfJobs?: number;
 }
 
 /** An offer of a job to a worker */
@@ -565,12 +577,6 @@ export interface ScoringRuleOptions {
   descendingOrder?: boolean;
 }
 
-/** The action to take when the exception is triggered */
-export interface ExceptionAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "cancel" | "manual-reclassify" | "reclassify";
-}
-
 /** Describes a condition that must be met against a set of labels for queue selection */
 export interface QueueSelector {
   /** The label key to query against */
@@ -597,10 +603,21 @@ export interface FunctionRuleCredential {
   clientId?: string;
 }
 
+/**
+ * OAuth2.0 Credentials used to Contoso's Authorization server.
+ * Reference: https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
+ */
+export interface Oauth2ClientCredential {
+  /** ClientId for Contoso Authorization server. */
+  clientId?: string;
+  /** Client secret for Contoso Authorization server. */
+  clientSecret?: string;
+}
+
 /** Contains the weight percentage and label selectors to be applied if selected for weighted distributions. */
 export interface QueueWeightedAllocation {
   /** The percentage of this weight, expressed as a fraction of 1. */
-  weightTotalAsOne: number;
+  weight: number;
   /** A collection of label selectors that will be applied if this allocation is selected. */
   labelSelectors: QueueSelector[];
 }
@@ -625,6 +642,7 @@ export interface ConditionalQueueSelectorAttachment
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   condition: RouterRuleUnion;
   /** The label selectors to attach */
@@ -654,6 +672,7 @@ export interface RuleEngineQueueSelectorAttachment
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   rule: RouterRuleUnion;
 }
@@ -709,6 +728,21 @@ export interface StaticRule extends RouterRule {
   value?: Record<string, unknown>;
 }
 
+/** A rule providing a binding to an external web server. */
+export interface WebhookRule extends RouterRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "webhook-rule";
+  /** Uri for Authorization Server. */
+  authorizationServerUri?: string;
+  /**
+   * OAuth2.0 Credentials used to Contoso's Authorization server.
+   * Reference: https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
+   */
+  clientCredential?: Oauth2ClientCredential;
+  /** Uri for Contoso's Web Server. */
+  webhookUri?: string;
+}
+
 /** Describes a set of label selectors that will be attached if the given condition resolves to true */
 export interface ConditionalWorkerSelectorAttachment
   extends WorkerSelectorAttachment {
@@ -721,6 +755,7 @@ export interface ConditionalWorkerSelectorAttachment
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   condition: RouterRuleUnion;
   /** The label selectors to attach */
@@ -752,6 +787,7 @@ export interface RuleEngineWorkerSelectorAttachment
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   rule: RouterRuleUnion;
 }
@@ -785,6 +821,7 @@ export interface BestWorkerMode extends DistributionMode {
    * DirectMapRule:  A rule that return the same labels as the input labels.
    * ExpressionRule: A rule providing inline expression rules.
    * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
    */
   scoringRule?: RouterRuleUnion;
   /** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
@@ -808,7 +845,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "queue-length";
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
-  maxJobCount: number;
+  threshold: number;
 }
 
 /** Trigger for an exception action on exceeding wait time */
@@ -929,7 +966,7 @@ export interface JobRouterAdministrationDeleteClassificationPolicyOptionalParams
 export interface JobRouterAdministrationListClassificationPoliciesOptionalParams
   extends coreClient.OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listClassificationPolicies operation. */
@@ -957,7 +994,7 @@ export interface JobRouterAdministrationDeleteDistributionPolicyOptionalParams
 export interface JobRouterAdministrationListDistributionPoliciesOptionalParams
   extends coreClient.OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listDistributionPolicies operation. */
@@ -985,7 +1022,7 @@ export interface JobRouterAdministrationDeleteExceptionPolicyOptionalParams
 export interface JobRouterAdministrationListExceptionPoliciesOptionalParams
   extends coreClient.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listExceptionPolicies operation. */
@@ -1013,7 +1050,7 @@ export interface JobRouterAdministrationDeleteQueueOptionalParams
 export interface JobRouterAdministrationListQueuesOptionalParams
   extends coreClient.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listQueues operation. */
@@ -1021,40 +1058,28 @@ export type JobRouterAdministrationListQueuesResponse = QueueCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListClassificationPoliciesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum page size */
-  maxpagesize?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClassificationPoliciesNext operation. */
 export type JobRouterAdministrationListClassificationPoliciesNextResponse = ClassificationPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListDistributionPoliciesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum page size */
-  maxpagesize?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDistributionPoliciesNext operation. */
 export type JobRouterAdministrationListDistributionPoliciesNextResponse = DistributionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListExceptionPoliciesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExceptionPoliciesNext operation. */
 export type JobRouterAdministrationListExceptionPoliciesNextResponse = ExceptionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListQueuesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueuesNext operation. */
 export type JobRouterAdministrationListQueuesNextResponse = QueueCollection;
@@ -1090,7 +1115,7 @@ export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
 /** Optional parameters. */
 export interface JobRouterCancelJobActionOptionalParams
   extends coreClient.OperationOptions {
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /**
    * Indicates the outcome of the job, populate this field with your own custom values.
@@ -1105,7 +1130,7 @@ export type JobRouterCancelJobActionResponse = Record<string, unknown>;
 /** Optional parameters. */
 export interface JobRouterCompleteJobActionOptionalParams
   extends coreClient.OperationOptions {
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
@@ -1122,7 +1147,7 @@ export interface JobRouterCloseJobActionOptionalParams
    * If provided, worker capacity is released along with a JobClosedEvent notification at a future time.
    */
   closeTime?: Date;
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
@@ -1133,7 +1158,7 @@ export type JobRouterCloseJobActionResponse = Record<string, unknown>;
 export interface JobRouterListJobsOptionalParams
   extends coreClient.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
   status?: JobStateSelector;
   /** (Optional) If specified, filter jobs by queue. */
@@ -1204,7 +1229,7 @@ export interface JobRouterDeleteWorkerOptionalParams
 export interface JobRouterListWorkersOptionalParams
   extends coreClient.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
   queueId?: string;
   /** (Optional) If specified, select workers who have a channel configuration with this channel */
@@ -1223,39 +1248,14 @@ export type JobRouterListWorkersResponse = WorkerCollection;
 
 /** Optional parameters. */
 export interface JobRouterListJobsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-  /** (Optional) If specified, filter jobs by status. */
-  status?: JobStateSelector;
-  /** (Optional) If specified, filter jobs by queue. */
-  queueId?: string;
-  /** (Optional) If specified, filter jobs by channel. */
-  channelId?: string;
-  /** (Optional) If specified, filter jobs by classificationPolicy. */
-  classificationPolicyId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listJobsNext operation. */
 export type JobRouterListJobsNextResponse = JobCollection;
 
 /** Optional parameters. */
 export interface JobRouterListWorkersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-  /** (Optional) If specified, select workers who are assigned to this queue */
-  queueId?: string;
-  /** (Optional) If specified, select workers who have a channel configuration with this channel */
-  channelId?: string;
-  /** (Optional) If specified, select workers by worker status. */
-  status?: WorkerStateSelector;
-  /**
-   * (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel
-   *             if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
-   */
-  hasCapacity?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkersNext operation. */
 export type JobRouterListWorkersNextResponse = WorkerCollection;

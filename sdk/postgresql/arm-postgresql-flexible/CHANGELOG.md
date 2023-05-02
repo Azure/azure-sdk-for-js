@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,21 @@
 
 ### Other Changes
 
+## 7.1.0 (2023-04-10)
+    
+**Features**
+
+  - Enum KnownArmServerKeyType has a new value SystemManaged
+
+**Bugs Fixed**
+
+  - Enum KnownArmServerKeyType no longer has value SystemAssigned
+  - Enum KnownReplicationRole no longer has value GeoSyncReplica
+  - Enum KnownReplicationRole no longer has value Secondary
+  - Enum KnownReplicationRole no longer has value SyncReplica
+  - Enum KnownReplicationRole no longer has value WalReplica
+    
+    
 ## 7.0.0 (2023-01-09)
     
 **Features**

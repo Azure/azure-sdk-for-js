@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Monitor,
   MonitorsListOptionalParams,
@@ -67,8 +67,8 @@ export interface Monitors {
     monitorParameter: Monitor,
     options?: MonitorsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsCreateResponse>,
       MonitorsCreateResponse
     >
   >;
@@ -96,8 +96,8 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsDeleteResponse>,
       MonitorsDeleteResponse
     >
   >;

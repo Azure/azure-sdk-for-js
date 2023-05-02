@@ -180,21 +180,9 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       },
     };
 
-    if (options.apiVersion) {
-      if (!utils.serviceVersions.includes(options.apiVersion)) {
-        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
-      }
-      this.serviceVersion = options.apiVersion;
-      this.apiVersion = options.apiVersion;
-    }
-
-    if (options.serviceVersion) {
-      if (!utils.serviceVersions.includes(options.serviceVersion)) {
-        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
-      }
-      this.serviceVersion = options.serviceVersion;
-      this.apiVersion = options.serviceVersion;
-    }
+    this.serviceVersion =
+      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,

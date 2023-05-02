@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Appliance in the specified Subscription and Resource Group.
  *
  * @summary Creates or updates an Appliance in the specified Subscription and Resource Group.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesCreate_Update.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesCreate_Update.json
  */
 async function createOrUpdateAppliance() {
   const subscriptionId =

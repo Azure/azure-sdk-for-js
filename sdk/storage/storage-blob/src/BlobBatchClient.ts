@@ -17,7 +17,7 @@ import { Service, Container } from "./generated/src/operationsInterfaces";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
-import { StorageClient as StorageClientContext } from "./generated/src/storageClient";
+import { StorageContextClient } from "./StorageContextClient";
 import {
   PipelineLike,
   StoragePipelineOptions,
@@ -106,7 +106,7 @@ export class BlobBatchClient {
       pipeline = newPipeline(credentialOrPipeline, options);
     }
 
-    const storageClientContext = new StorageClientContext(url, getCoreClientOptions(pipeline));
+    const storageClientContext = new StorageContextClient(url, getCoreClientOptions(pipeline));
 
     const path = getURLPath(url);
     if (path && path !== "/") {

@@ -14,7 +14,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { createTimerLoop, TimerLoop } from "./util/timerLoop";
-import { SimpleLogger, logObj } from "./log";
+import { SimpleLogger, logObj } from "./logger";
 
 /**
  *

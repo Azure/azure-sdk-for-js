@@ -25,10 +25,10 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { EventHubClientOptions } from "./models/public";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { EventHubReceiver } from "./eventHubReceiver";
+import { PartitionReceiver } from "./partitionReceiver";
 import { EventHubSender } from "./eventHubSender";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { isCredential } from "./util/typeGuards";
@@ -60,7 +60,7 @@ export interface ConnectionContext extends ConnectionContextBase {
   /**
    * A dictionary of the EventHub Receivers associated with this client.
    */
-  receivers: Dictionary<EventHubReceiver>;
+  receivers: Dictionary<PartitionReceiver>;
   /**
    * A dictionary of the EventHub Senders associated with this client.
    */

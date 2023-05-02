@@ -52,13 +52,13 @@ export interface TransferCallResult {
 }
 
 /** The response payload for removing participants from the call. */
-export interface RemoveParticipantsResult {
+export interface RemoveParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
-  recordingId?: string;
-  recordingState?: RecordingState;
+  recordingId: string;
+  recordingState: RecordingState;
 }

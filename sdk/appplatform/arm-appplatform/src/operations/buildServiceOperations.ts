@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   BuildService,
   BuildServiceListBuildServicesNextOptionalParams,
   BuildServiceListBuildServicesOptionalParams,
@@ -28,10 +34,13 @@ import {
   BuildServiceListBuildResultsResponse,
   BuildServiceGetBuildServiceOptionalParams,
   BuildServiceGetBuildServiceResponse,
+  BuildServiceCreateOrUpdateOptionalParams,
+  BuildServiceCreateOrUpdateResponse,
   BuildServiceGetBuildOptionalParams,
   BuildServiceGetBuildResponse,
   BuildServiceCreateOrUpdateBuildOptionalParams,
   BuildServiceCreateOrUpdateBuildResponse,
+  BuildServiceDeleteBuildOptionalParams,
   BuildServiceGetBuildResultOptionalParams,
   BuildServiceGetBuildResultResponse,
   BuildServiceGetBuildResultLogOptionalParams,
@@ -385,6 +394,115 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   }
 
   /**
+   * Create a build service resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildService Parameters for the create operation
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildService: BuildService,
+    options?: BuildServiceCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BuildServiceCreateOrUpdateResponse>,
+      BuildServiceCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<BuildServiceCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        buildService,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BuildServiceCreateOrUpdateResponse,
+      OperationState<BuildServiceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a build service resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildService Parameters for the create operation
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildService: BuildService,
+    options?: BuildServiceCreateOrUpdateOptionalParams
+  ): Promise<BuildServiceCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceName,
+      buildServiceName,
+      buildService,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * List KPack builds.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -455,6 +573,107 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       },
       createOrUpdateBuildOperationSpec
     );
+  }
+
+  /**
+   * delete a KPack build.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildName The name of the build resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteBuild(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildName: string,
+    options?: BuildServiceDeleteBuildOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        buildName,
+        options
+      },
+      spec: deleteBuildOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * delete a KPack build.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param buildName The name of the build resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteBuildAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    buildName: string,
+    options?: BuildServiceDeleteBuildOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteBuild(
+      resourceGroupName,
+      serviceName,
+      buildServiceName,
+      buildName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -772,6 +991,40 @@ const getBuildServiceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildService
+    },
+    201: {
+      bodyMapper: Mappers.BuildService
+    },
+    202: {
+      bodyMapper: Mappers.BuildService
+    },
+    204: {
+      bodyMapper: Mappers.BuildService
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.buildService,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listBuildsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds",
@@ -846,6 +1099,31 @@ const createOrUpdateBuildOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const deleteBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+    Parameters.buildName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBuildResultsOperationSpec: coreClient.OperationSpec = {

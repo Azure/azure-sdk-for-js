@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProviderInstance,
   ProviderInstancesListNextOptionalParams,
@@ -173,8 +177,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
     providerInstanceParameter: ProviderInstance,
     options?: ProviderInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   > {
@@ -184,7 +188,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     ): Promise<ProviderInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -217,19 +221,22 @@ export class ProviderInstancesImpl implements ProviderInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         monitorName,
         providerInstanceName,
         providerInstanceParameter,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProviderInstancesCreateResponse,
+      OperationState<ProviderInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -276,8 +283,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
     providerInstanceName: string,
     options?: ProviderInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesDeleteResponse>,
       ProviderInstancesDeleteResponse
     >
   > {
@@ -287,7 +294,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     ): Promise<ProviderInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -320,15 +327,18 @@ export class ProviderInstancesImpl implements ProviderInstances {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, providerInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, providerInstanceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProviderInstancesDeleteResponse,
+      OperationState<ProviderInstancesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

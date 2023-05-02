@@ -83,7 +83,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.4.0-beta.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.4.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -400,7 +400,7 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select1
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -421,11 +421,7 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select2
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -497,11 +493,7 @@ const checkKeyValueOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select3
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -527,7 +519,7 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -550,7 +542,7 @@ const checkLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -617,7 +609,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -641,7 +633,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select6
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -711,7 +703,7 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select1
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
@@ -738,7 +730,7 @@ const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
