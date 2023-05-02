@@ -151,7 +151,7 @@ export default leafCommand(commandInfo, async (options) => {
       : (await prompt("Open migration in editor? (Y/n): ")).toLowerCase();
 
     while (open !== "y" && open !== "n" && open !== "") {
-      open = await prompt("Unrecognized input. Open migration in editor (y/N): ");
+      open = await prompt("Unrecognized input. Open migration in editor (Y/n): ");
     }
 
     if (open === "y" || open === "") {
