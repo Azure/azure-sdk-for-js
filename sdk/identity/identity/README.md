@@ -68,9 +68,9 @@ While we recommend using managed identity or service principal authentication in
 
 Developers coding outside of an IDE can also use the [Azure Developer CLI][azure_developer_cli] to authenticate. Applications using the `DefaultAzureCredential` or the `AzureDeveloperCliCredential` can then use this account to authenticate calls in their application when running locally.
 
-To authenticate with the [Azure Developer CLI][azure_developer_cli], users can run the command `azd login`. For users running on a system with a default web browser, the Azure Developer CLI will launch the browser to authenticate the user.
+To authenticate with the [Azure Developer CLI][azure_developer_cli], users can run the command `azd auth login`. For users running on a system with a default web browser, the Azure Developer CLI will launch the browser to authenticate the user.
 
-For systems without a default web browser, the `azd login --use-device-code` command will use the device code authentication flow.
+For systems without a default web browser, the `azd auth login --use-device-code` command will use the device code authentication flow.
 
 #### Authenticate via the Azure CLI
 
@@ -133,7 +133,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 1. **Environment** - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
 1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` will authenticate with it.
 1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
-1. **Azure Developer CLI** - If the developer has authenticated an account via the Azure Developer CLI `azd login` command, the `DefaultAzureCredential` will authenticate with that account.
+1. **Azure Developer CLI** - If the developer has authenticated an account via the Azure Developer CLI `azd auth login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure PowerShell** - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 
