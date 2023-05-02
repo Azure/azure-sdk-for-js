@@ -184,13 +184,13 @@ describe("CallConnection Unit Tests", () => {
       })
     );
 
-    const promiseResult = callConnection.transferCallToParticipant(target);
+    const promiseResult = callConnection.transferCallToParticipant(target.targetParticipant);
 
     // asserts
     promiseResult
       .then((result: TransferCallResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.transferCallToParticipant.calledWith(target));
+        assert.isTrue(callConnection.transferCallToParticipant.calledWith(target.targetParticipant));
         assert.equal(result, transferCallResultMock);
         return;
       })
