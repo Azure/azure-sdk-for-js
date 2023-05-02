@@ -1,0 +1,117 @@
+{
+  "name": "@azure/monitor-opentelemetry",
+  "author": "Microsoft Corporation",
+  "sdk-type": "client",
+  "version": "0.0.0-beta.0",
+  "description": "Azure Monitor OpenTelemetry (Node.js)",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "types/monitor-opentelemetry.d.ts",
+  "scripts": {
+    "clean": "rimraf dist-esm types dist",
+    "build:browser": "echo skipped",
+    "build:test": "echo skipped",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build:samples": "dev-tool samples publish --force",
+    "build": "npm run build:node && npm run build:browser && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript ./swagger/README.md",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o telemetry-lintReport.html || exit 0",
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "npm run unit-test:node",
+    "test:browser": "npm run unit-test:browser",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/**/*.test.js\"",
+    "unit-test:node:debug": "nyc mocha --inspect-brk -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/**/*.test.js\"",
+    "unit-test:node:no-timeout": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "functional-test": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/functional/*.test.js\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "npm run functional-test",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "report": "nyc report --reporter=json",
+    "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
+    "prepare": "npm run build",
+    "pack": "npm pack 2>&1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist-esm/src/",
+    "dist/src/",
+    "browser/src/",
+    "types/monitor-opentelemetry.d.ts",
+    "README.md",
+    "SECURITY.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry/",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//sampleConfiguration": {
+    "productName": "Azure Monitor OpenTelemetry",
+    "productSlugs": [
+      "azure-monitor"
+    ],
+    "requiredResources": {
+      "Azure Application Insights workspace instance": "https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview"
+    }
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@microsoft/api-extractor": "^7.31.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^7.1.1",
+    "nock": "^12.0.3",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.0",
+    "sinon": "^9.0.2",
+    "ts-node": "^10.0.0",
+    "typescript": "~4.8.0"
+  },
+  "dependencies": {
+    "@azure/core-http": "^3.0.1",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.11",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.3",
+    "@opentelemetry/api": "^1.4.1",
+    "@opentelemetry/core": "^1.12.0",
+    "@opentelemetry/instrumentation": "^0.38.0",
+    "@opentelemetry/instrumentation-http": "^0.38.0",
+    "@opentelemetry/instrumentation-mongodb": "^0.34.2",
+    "@opentelemetry/instrumentation-mysql": "^0.33.1",
+    "@opentelemetry/instrumentation-pg": "^0.35.1",
+    "@opentelemetry/instrumentation-redis": "^0.34.5",
+    "@opentelemetry/instrumentation-redis-4": "^0.34.4",
+    "@opentelemetry/resources": "^1.12.0",
+    "@opentelemetry/sdk-metrics": "^1.12.0",
+    "@opentelemetry/sdk-trace-base": "^1.12.0",
+    "@opentelemetry/sdk-trace-node": "^1.12.0",
+    "@opentelemetry/semantic-conventions": "^1.12.0",
+    "tslib": "^2.2.0"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "opentelemetry",
+    "distro",
+    "cloud"
+  ]
+}

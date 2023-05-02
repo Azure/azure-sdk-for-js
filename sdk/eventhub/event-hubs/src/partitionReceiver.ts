@@ -351,13 +351,19 @@ export function waitForEvents(
     receivedAfterWait,
     receivedAlready,
   } = options;
+
+  if (queue.length >= maxEventCount) {
+    return Promise.resolve().then(receivedAlready);
+  }
+
   const aborter = new AbortController();
-  const { signal: abortSignal } = new AbortController([
-    aborter.signal,
-    ...(clientAbortSignal ? [clientAbortSignal] : []),
-  ]);
+  const abortListener = () => {
+    aborter.abort();
+  };
+  clientAbortSignal?.addEventListener("abort", abortListener);
+
   const updatedOptions = {
-    abortSignal,
+    abortSignal: aborter.signal,
     abortErrorMsg: StandardAbortMessage,
     cleanupBeforeAbort: () => {
       if (clientAbortSignal?.aborted) {
@@ -365,14 +371,15 @@ export function waitForEvents(
       }
     },
   };
-  return queue.length >= maxEventCount
-    ? Promise.resolve().then(receivedAlready)
-    : Promise.race([
-        checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions)
-          .then(() => delay(readIntervalWaitTimeInMs, updatedOptions))
-          .then(receivedAfterWait),
-        delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
-      ]).finally(() => aborter.abort());
+  return Promise.race([
+    checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions)
+      .then(() => delay(readIntervalWaitTimeInMs, updatedOptions))
+      .then(receivedAfterWait),
+    delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
+  ]).finally(() => {
+    aborter.abort();
+    clientAbortSignal?.removeEventListener("abort", abortListener);
+  });
 }
 
 function convertAMQPMesage(data: EventDataInternal): ReceivedEventData {
