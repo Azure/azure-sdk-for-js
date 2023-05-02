@@ -13,7 +13,10 @@ import {
   baseUri,
   generateToken,
 } from "./utils/connectionUtils";
-import { CommunicationIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  serializeCommunicationIdentifier,
+} from "@azure/communication-common";
 import { FileSource } from "../src/models/models";
 import { CallMediaRecognizeDtmfOptions } from "../src/models/options";
 
@@ -102,6 +105,59 @@ describe("CallMedia Unit Tests", async function () {
 
     const request = spy.getCall(0).args[0];
 
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StartContinuousDtmfRecognition request", async function () {
+    const mockHttpClient = generateHttpClient(200);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+    const operationContext = "test_operation_context";
+
+    await callMedia.startContinuousDtmfRecognition(targetParticipant, operationContext);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
+    assert.equal(data.operationContext, operationContext);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StopContinuousDtmfRecognition request", async function () {
+    const mockHttpClient = generateHttpClient(200);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+    const operationContext = "test_operation_context";
+
+    await callMedia.stopContinuousDtmfRecognition(targetParticipant, operationContext);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
+    assert.equal(data.operationContext, operationContext);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful SendDtmf request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+    const operationContext = "test_operation_context";
+    const tones = ["one", "two", "three", "pound"];
+
+    await callMedia.sendDtmf(targetParticipant, tones, operationContext);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
+    assert.deepEqual(data.tones, tones);
+    assert.equal(data.operationContext, operationContext);
     assert.equal(request.method, "POST");
   });
 });
