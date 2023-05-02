@@ -6,175 +6,162 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { Rooms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RoomsApiClient } from "../roomsApiClient";
+import { RoomsRestClient } from "../roomsRestClient";
 import {
-  CreateRoomRequest,
-  RoomsCreateRoomOptionalParams,
-  RoomsCreateRoomResponse,
-  RoomsGetRoomOptionalParams,
-  RoomsGetRoomResponse,
-  RoomsUpdateRoomOptionalParams,
-  RoomsUpdateRoomResponse,
-  RoomsDeleteRoomOptionalParams,
-  RoomsGetParticipantsOptionalParams,
-  RoomsGetParticipantsResponse,
-  AddParticipantsRequest,
-  RoomsAddParticipantsOptionalParams,
-  RoomsAddParticipantsResponse,
-  UpdateParticipantsRequest,
-  RoomsUpdateParticipantsOptionalParams,
-  RoomsUpdateParticipantsResponse,
-  RemoveParticipantsRequest,
-  RoomsRemoveParticipantsOptionalParams,
-  RoomsRemoveParticipantsResponse
+  RoomsCreateOptionalParams,
+  RoomsCreateResponse,
+  RoomsListOptionalParams,
+  RoomsListResponse,
+  RoomsGetOptionalParams,
+  RoomsGetResponse,
+  RoomsUpdateOptionalParams,
+  RoomsUpdateResponse,
+  RoomsDeleteOptionalParams,
+  RoomsListNextOptionalParams,
+  RoomsListNextResponse
 } from "../models";
 
 /** Class containing Rooms operations. */
 export class RoomsImpl implements Rooms {
-  private readonly client: RoomsApiClient;
+  private readonly client: RoomsRestClient;
 
   /**
    * Initialize a new instance of the class Rooms class.
    * @param client Reference to the service client
    */
-  constructor(client: RoomsApiClient) {
+  constructor(client: RoomsRestClient) {
     this.client = client;
   }
 
   /**
    * Creates a new room.
-   * @param createRoomRequest The create room request body.
    * @param options The options parameters.
    */
-  createRoom(
-    createRoomRequest: CreateRoomRequest,
-    options?: RoomsCreateRoomOptionalParams
-  ): Promise<RoomsCreateRoomResponse> {
-    return this.client.sendOperationRequest(
-      { createRoomRequest, options },
-      createRoomOperationSpec
+  async create(
+    options?: RoomsCreateOptionalParams
+  ): Promise<RoomsCreateResponse> {
+    return tracingClient.withSpan(
+      "RoomsRestClient.create",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          createOperationSpec
+        ) as Promise<RoomsCreateResponse>;
+      }
+    );
+  }
+
+  /**
+   * Retrieves all created rooms.
+   * @param options The options parameters.
+   */
+  async list(options?: RoomsListOptionalParams): Promise<RoomsListResponse> {
+    return tracingClient.withSpan(
+      "RoomsRestClient.list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<RoomsListResponse>;
+      }
     );
   }
 
   /**
    * Retrieves an existing room by id.
-   * @param roomId The id of the room requested
+   * @param roomId The id of the room requested.
    * @param options The options parameters.
    */
-  getRoom(
+  async get(
     roomId: string,
-    options?: RoomsGetRoomOptionalParams
-  ): Promise<RoomsGetRoomResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, options },
-      getRoomOperationSpec
+    options?: RoomsGetOptionalParams
+  ): Promise<RoomsGetResponse> {
+    return tracingClient.withSpan(
+      "RoomsRestClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roomId, options },
+          getOperationSpec
+        ) as Promise<RoomsGetResponse>;
+      }
     );
   }
 
   /**
    * Update a room with given changes.
-   * @param roomId The id of the room requested
+   * @param roomId The id of the room requested.
    * @param options The options parameters.
    */
-  updateRoom(
+  async update(
     roomId: string,
-    options?: RoomsUpdateRoomOptionalParams
-  ): Promise<RoomsUpdateRoomResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, options },
-      updateRoomOperationSpec
+    options?: RoomsUpdateOptionalParams
+  ): Promise<RoomsUpdateResponse> {
+    return tracingClient.withSpan(
+      "RoomsRestClient.update",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roomId, options },
+          updateOperationSpec
+        ) as Promise<RoomsUpdateResponse>;
+      }
     );
   }
 
   /**
    * Delete a room.
-   * @param roomId The id of the room to be deleted
+   * @param roomId The id of the room to be deleted.
    * @param options The options parameters.
    */
-  deleteRoom(
+  async delete(
     roomId: string,
-    options?: RoomsDeleteRoomOptionalParams
+    options?: RoomsDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { roomId, options },
-      deleteRoomOperationSpec
+    return tracingClient.withSpan(
+      "RoomsRestClient.delete",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roomId, options },
+          deleteOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
   /**
-   * Get participants in a room.
-   * @param roomId The id of the room to get participants from
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  getParticipants(
-    roomId: string,
-    options?: RoomsGetParticipantsOptionalParams
-  ): Promise<RoomsGetParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, options },
-      getParticipantsOperationSpec
-    );
-  }
-
-  /**
-   * Adds participants to a room. If participants already exist, no change occurs.
-   * @param roomId Room id to add participants.
-   * @param addParticipantsRequest Participants to be added to the room.
-   * @param options The options parameters.
-   */
-  addParticipants(
-    roomId: string,
-    addParticipantsRequest: AddParticipantsRequest,
-    options?: RoomsAddParticipantsOptionalParams
-  ): Promise<RoomsAddParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, addParticipantsRequest, options },
-      addParticipantsOperationSpec
-    );
-  }
-
-  /**
-   * Update participants in a room.
-   * @param roomId The room id.
-   * @param updateParticipantsRequest Participants in a room to be updated.
-   * @param options The options parameters.
-   */
-  updateParticipants(
-    roomId: string,
-    updateParticipantsRequest: UpdateParticipantsRequest,
-    options?: RoomsUpdateParticipantsOptionalParams
-  ): Promise<RoomsUpdateParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, updateParticipantsRequest, options },
-      updateParticipantsOperationSpec
-    );
-  }
-
-  /**
-   * Remove participants from a room.
-   * @param roomId Room id to remove the participants from.
-   * @param removeParticipantsRequest Participants in a room to be removed.
-   * @param options The options parameters.
-   */
-  removeParticipants(
-    roomId: string,
-    removeParticipantsRequest: RemoveParticipantsRequest,
-    options?: RoomsRemoveParticipantsOptionalParams
-  ): Promise<RoomsRemoveParticipantsResponse> {
-    return this.client.sendOperationRequest(
-      { roomId, removeParticipantsRequest, options },
-      removeParticipantsOperationSpec
+  async listNext(
+    nextLink: string,
+    options?: RoomsListNextOptionalParams
+  ): Promise<RoomsListNextResponse> {
+    return tracingClient.withSpan(
+      "RoomsRestClient.listNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listNextOperationSpec
+        ) as Promise<RoomsListNextResponse>;
+      }
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createRoomOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/rooms",
   httpMethod: "POST",
   responses: {
@@ -183,10 +170,17 @@ const createRoomOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsCreateRoomExceptionHeaders
+      headersMapper: Mappers.RoomsCreateExceptionHeaders
     }
   },
-  requestBody: Parameters.createRoomRequest,
+  requestBody: {
+    parameterPath: {
+      validFrom: ["options", "validFrom"],
+      validUntil: ["options", "validUntil"],
+      participants: ["options", "participants"]
+    },
+    mapper: { ...Mappers.CreateRoomRequest, required: true }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -198,7 +192,24 @@ const createRoomOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getRoomOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/rooms",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoomsCollection
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      headersMapper: Mappers.RoomsListExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
   httpMethod: "GET",
   responses: {
@@ -207,7 +218,7 @@ const getRoomOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsGetRoomExceptionHeaders
+      headersMapper: Mappers.RoomsGetExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -215,7 +226,7 @@ const getRoomOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateRoomOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
   httpMethod: "PATCH",
   responses: {
@@ -224,24 +235,30 @@ const updateRoomOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsUpdateRoomExceptionHeaders
+      headersMapper: Mappers.RoomsUpdateExceptionHeaders
     }
   },
-  requestBody: Parameters.patchRoomRequest,
+  requestBody: {
+    parameterPath: {
+      validFrom: ["options", "validFrom"],
+      validUntil: ["options", "validUntil"]
+    },
+    mapper: { ...Mappers.UpdateRoomRequest, required: true }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roomId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
-const deleteRoomOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/rooms/{roomId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsDeleteRoomExceptionHeaders
+      headersMapper: Mappers.RoomsDeleteExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -249,77 +266,19 @@ const deleteRoomOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getParticipantsOperationSpec: coreClient.OperationSpec = {
-  path: "/rooms/{roomId}/participants",
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ParticipantsCollection
+      bodyMapper: Mappers.RoomsCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsGetParticipantsExceptionHeaders
+      headersMapper: Mappers.RoomsListNextExceptionHeaders
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roomId],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const addParticipantsOperationSpec: coreClient.OperationSpec = {
-  path: "/rooms/{roomId}/participants:add",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ParticipantsCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsAddParticipantsExceptionHeaders
-    }
-  },
-  requestBody: Parameters.addParticipantsRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roomId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const updateParticipantsOperationSpec: coreClient.OperationSpec = {
-  path: "/rooms/{roomId}/participants:update",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ParticipantsCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsUpdateParticipantsExceptionHeaders
-    }
-  },
-  requestBody: Parameters.updateParticipantsRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roomId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const removeParticipantsOperationSpec: coreClient.OperationSpec = {
-  path: "/rooms/{roomId}/participants:remove",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ParticipantsCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.RoomsRemoveParticipantsExceptionHeaders
-    }
-  },
-  requestBody: Parameters.removeParticipantsRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roomId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer
 };

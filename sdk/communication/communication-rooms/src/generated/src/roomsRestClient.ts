@@ -12,20 +12,20 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { RoomsImpl } from "./operations";
-import { Rooms } from "./operationsInterfaces";
-import { RoomsApiClientOptionalParams } from "./models";
+import { RoomsImpl, ParticipantsImpl } from "./operations";
+import { Rooms, Participants } from "./operationsInterfaces";
+import { RoomsRestClientOptionalParams } from "./models";
 
-export class RoomsApiClient extends coreClient.ServiceClient {
+export class RoomsRestClient extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the RoomsApiClient class.
+   * Initializes a new instance of the RoomsRestClient class.
    * @param endpoint The endpoint of the Azure Communication resource.
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: RoomsApiClientOptionalParams) {
+  constructor(endpoint: string, options?: RoomsRestClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -34,7 +34,7 @@ export class RoomsApiClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: RoomsApiClientOptionalParams = {
+    const defaults: RoomsRestClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
@@ -50,15 +50,16 @@ export class RoomsApiClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-02-01";
+    this.apiVersion = options.apiVersion || "2023-03-31-preview";
     this.rooms = new RoomsImpl(this);
+    this.participants = new ParticipantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -91,4 +92,5 @@ export class RoomsApiClient extends coreClient.ServiceClient {
   }
 
   rooms: Rooms;
+  participants: Participants;
 }
