@@ -5,7 +5,7 @@
  * @summary Uploads an image to the repository.
  */
 
-const { ContainerRegistryBlobClient } = require("@azure/container-registry");
+const { ContainerRegistryContentClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -14,7 +14,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
     new DefaultAzureCredential()
@@ -27,21 +27,22 @@ async function main() {
   const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const manifest = {
+    schemaVersion: 2,
     config: {
       digest: configDigest,
-      sizeInBytes: configSize,
+      size: configSize,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
         digest: layerDigest,
-        sizeInBytes: layerSize,
+        size: layerSize,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],
   };
 
-  await client.uploadManifest(manifest, { tag: "demo" });
+  await client.setManifest(manifest, { tag: "demo" });
 }
 
 main().catch((err) => {

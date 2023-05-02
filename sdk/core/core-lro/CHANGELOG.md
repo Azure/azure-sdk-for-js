@@ -1,12 +1,6 @@
 # Release History
 
-## 2.5.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.5.3 (2023-05-04)
 
 ### Other Changes
 

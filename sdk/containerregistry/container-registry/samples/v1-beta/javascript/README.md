@@ -21,7 +21,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [setImageProperties.js][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 | [deleteBlob.js][deleteblob]                           | Deletes the blobs associated with a given manifest from the repository.                    |
 | [deleteManifest.js][deletemanifest]                   | Deletes a given manifest from the repository.                                              |
-| [downloadCustomManifest.js][downloadcustommanifest]   | Downloads a manifest of custom media type.                                                 |
+| [downloadCustomManifest.js][downloadcustommanifest]   | Downloads a manifest which may be of varying media type.                                   |
 | [downloadImage.js][downloadimage]                     | Downloads an image from the repository.                                                    |
 | [uploadCustomManifest.js][uploadcustommanifest]       | Uploads a manifest with custom manifest type, in this case a manifest list.                |
 | [uploadImage.js][uploadimage]                         | Uploads an image to the repository.                                                        |
