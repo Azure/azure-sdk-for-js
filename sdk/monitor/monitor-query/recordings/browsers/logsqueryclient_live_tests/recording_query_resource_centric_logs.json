@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://api.loganalytics.io/v1metrics-arm-resource-id/query",
+      "RequestUri": "https://api.loganalytics.io/v1/logs-arm-resource-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",

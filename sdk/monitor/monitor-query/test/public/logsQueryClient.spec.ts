@@ -307,7 +307,7 @@ describe("LogsQueryClient live tests", function () {
     }
   });
 
-  it("query resource centric logs", async () => {
+  it.only("query resource centric logs", async () => {
     const constantsQuery = `MyTable_CL | summarize count()`;
 
     const results = await logsClient.queryResource(logsResourceId, constantsQuery, {
