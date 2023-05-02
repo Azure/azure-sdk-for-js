@@ -871,6 +871,26 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-amqp/3.3.0:
+    resolution: {integrity: sha512-RYIyC8PtGpMzZRiSokADw0ezFgNq1eUkCPV8rd7tJ85dn8CAhYDEYapzMYxAwIBLWidshu14m9UWjQS7hKYDpA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-util': 1.3.1
+      '@azure/logger': 1.0.4
+      buffer: 6.0.3
+      events: 3.3.0
+      jssha: 3.3.0
+      process: 0.11.10
+      rhea: 3.0.2
+      rhea-promise: 3.0.0
+      tslib: 2.5.0
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-auth/1.4.0:
     resolution: {integrity: sha512-HFrcTgmuSuukRf/EdPmqBrc5l6Q5Uu+2TbuhaKbgaCpP2TfAeiNaQPAadxO+CYBRHGUzIDteMAjFspFLDLnKVQ==}
     engines: {node: '>=12.0.0'}
@@ -983,6 +1003,27 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       tslib: 2.5.0
+    dev: false
+
+  /@azure/event-hubs/5.9.0:
+    resolution: {integrity: sha512-RVJrXc/o93nnOsdhmzYE2We16GrU6kf8M286+fzVHNF90I/lGku71Rp1pV4hjdS4h3mah1CVcve9xjRUJgeqJw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 3.3.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.3.1
+      '@azure/logger': 1.0.4
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.0
+      process: 0.11.10
+      rhea-promise: 2.1.0
+      tslib: 2.5.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/functions/3.5.1:
@@ -2282,6 +2323,10 @@ packages:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
       '@types/node': 18.16.0
+    dev: false
+
+  /@types/heapdump/0.3.1:
+    resolution: {integrity: sha512-1BaXjnso0bPxgG+Ngh1RKXxyjaugFN++xlXZxdRQxQVosIQf7DuJ6PiIRMCQJfL3MJRe02+zp8ApTsza3sCMgg==}
     dev: false
 
   /@types/inquirer/8.2.6:
@@ -3775,7 +3820,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230424
+      typescript: 5.1.0-dev.20230502
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -4977,6 +5022,14 @@ packages:
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+    dev: false
+
+  /heapdump/0.3.15:
+    resolution: {integrity: sha512-n8aSFscI9r3gfhOcAECAtXFaQ1uy4QSke6bnaL+iymYZ/dWs9cqDqHM+rALfsHUwukUbxsdlECZ0pKmJdQ/4OA==}
+    engines: {node: '>=0.10.0'}
+    requiresBuild: true
+    dependencies:
+      nan: 2.17.0
     dev: false
 
   /hosted-git-info/2.8.9:
@@ -6422,6 +6475,10 @@ packages:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
     dev: false
 
+  /nan/2.17.0:
+    resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    dev: false
+
   /napi-build-utils/1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: false
@@ -7421,6 +7478,14 @@ packages:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: false
 
+  /rhea-promise/2.1.0:
+    resolution: {integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==}
+    dependencies:
+      debug: 3.2.7
+      rhea: 2.0.8
+      tslib: 2.5.0
+    dev: false
+
   /rhea-promise/3.0.0:
     resolution: {integrity: sha512-aj0nweqb7avqIo+PANLyOCQV6wlTw3j1Ktk+sPgfiIVUC5U6qt5l1FIXTbXUfNH6pJ3YCDT+bRIYGramJ53pAA==}
     dependencies:
@@ -7429,6 +7494,12 @@ packages:
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /rhea/2.0.8:
+    resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /rhea/3.0.2:
@@ -8435,8 +8506,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230424:
-    resolution: {integrity: sha512-yhQpzzjyLCyXORVY8AgJYaWpm235ZzG/boelYvgloE7v+kCucAdegsBf7duLJzXc/8+wABR2diYMbjPpd5c3Ww==}
+  /typescript/5.1.0-dev.20230502:
+    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18181,10 +18252,11 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-hPrRCQksJllekVjFWjLEvKOWGZhKxGdHv75rKDWVEXyvtnfy1P4xHLHWSmlZNxZ1YZzjuDSVIiV4u8nw3zSOrw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-zlL6RY7DWUnLT1VN8FTM59BcQa+Mbe/F64UVGeYLC4ZPHRLlyFpnrCl46UntZMskIPd6OGmq8j//b3a3ID+b1A==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
+      '@azure/event-hubs': 5.9.0
       '@types/node': 14.18.42
       '@types/uuid': 8.3.4
       dotenv: 16.0.3
@@ -19622,16 +19694,18 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-r30Geyf5ATr6WA8P5vo7LlXljx0Fg/lH7iJXIfheDLVIdQF9Hk0ll6ERgjOgeibrxv6gvx1AIheeVpaJzgAgVw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-E5WcovC1WQIRhkZgLGuMjZOEZCCSDYgy1Wfb/PMPikM/E7636fis98ynDOI975GQ1dFPUYiX1VzceKPEOISpDQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
       '@types/fs-extra': 9.0.13
+      '@types/heapdump': 0.3.1
       '@types/minimist': 1.2.2
       '@types/node': 14.18.42
       '@types/node-fetch': 2.6.3
       eslint: 8.39.0
       fs-extra: 10.1.0
+      heapdump: 0.3.15
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.0

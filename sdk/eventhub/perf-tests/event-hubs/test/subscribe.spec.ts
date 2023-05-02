@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  earliestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient,
   MessagingError,
   PartitionContext,
   ReceivedEventData,
+  Subscription,
 } from "@azure/event-hubs";
 import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure/test-utils-perf";
 
@@ -76,23 +76,30 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     await sendBatch(numberOfEvents, eventSize, this.parsedOptions["partitions"].value);
   }
 
-  setup() {
-    this.subscriber = this.receiver.subscribe(
-      {
-        processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
-          for (const _event of events) {
-            this.eventRaised();
-          }
+  async setup() {
+    const partitionIds = await consumer.getPartitionIds();
+    console.log(`partitionIds ===============> ${partitionIds}`);
+    let subscribers: Record<string, Subscription> = {};
+    for (let partitionId of partitionIds) {
+      console.log(`subscribe to partitionId : ${partitionId}`);
+      subscribers[partitionId] = this.receiver.subscribe(
+        partitionId,
+        {
+          processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
+            for (const _event of events) {
+              this.eventRaised();
+            }
+          },
+          processError: async (error: Error | MessagingError, _context: PartitionContext) => {
+            this.errorRaised(error);
+          },
         },
-        processError: async (error: Error | MessagingError, _context: PartitionContext) => {
-          this.errorRaised(error);
-        },
-      },
-      {
-        maxBatchSize: this.parsedOptions["max-batch-size"].value,
-        startPosition: earliestEventPosition,
-      }
-    );
+        {
+          maxBatchSize: this.parsedOptions["max-batch-size"].value,
+          startPosition: { enqueuedOn: (new Date()).setDate(new Date().getDate() - 1), isInclusive: true }
+        }
+      );
+    }
   }
 
   async cleanup() {
