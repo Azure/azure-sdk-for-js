@@ -5,7 +5,11 @@ import { Context } from "mocha";
 
 // Internal module imports
 import { Recorder } from "@azure-tools/test-recorder";
-import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+  serializeCommunicationIdentifier,
+} from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
@@ -44,12 +48,6 @@ import {
   baseUri,
   generateToken,
 } from "./utils/connectionUtils";
-import {
-  CommunicationIdentifier,
-  serializeCommunicationIdentifier,
-} from "@azure/communication-common";
-import { FileSource } from "../src/models/models";
-import { CallMediaRecognizeDtmfOptions } from "../src/models/options";
 
 describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
