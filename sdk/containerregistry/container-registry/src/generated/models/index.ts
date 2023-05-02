@@ -420,7 +420,7 @@ export interface Descriptor {
   /** Layer media type */
   mediaType?: string;
   /** Layer size */
-  sizeInBytes?: number;
+  size?: number;
   /** Layer digest */
   digest?: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -434,7 +434,7 @@ export interface Annotations {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdOn?: Date;
+  created?: Date;
   /** Contact details of the people or organization responsible for the image. */
   authors?: string;
   /** URL to find more information on the image. */
@@ -507,7 +507,7 @@ export interface Platform {
 /** Returns the requested OCI Manifest file */
 export interface OCIManifest {
   /** V2 image config descriptor */
-  configuration?: Descriptor;
+  config?: Descriptor;
   /** List of V2 image layer information */
   layers?: Descriptor[];
   /** Additional information provided through arbitrary metadata. */

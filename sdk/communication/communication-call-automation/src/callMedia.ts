@@ -79,7 +79,15 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
+      playOptions: {
+        loop: false,
+      },
     };
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
     return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 
@@ -96,7 +104,15 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: [],
+      playOptions: {
+        loop: false,
+      },
     };
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
     return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 

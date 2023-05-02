@@ -35,6 +35,8 @@ extends:
     ServiceDirectory: monitor
     RunUnitTests: true
     Artifacts:
+      - name: azure-monitor-opentelemetry
+        safeName: azuremonitoropentelemetry
       - name: azure-monitor-opentelemetry-exporter
         safeName: azuremonitoropentelemetryexporter
       - name: azure-monitor-query

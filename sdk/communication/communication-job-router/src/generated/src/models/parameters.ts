@@ -87,11 +87,11 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const maxpagesize: OperationQueryParameter = {
-  parameterPath: ["options", "maxpagesize"],
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
   mapper: {
-    defaultValue: 20,
-    serializedName: "maxpagesize",
+    defaultValue: -1,
+    serializedName: "maxPageSize",
     type: {
       name: "Number"
     }
