@@ -43,7 +43,7 @@ import {
   UpdateJobOptions,
   UpdateWorkerOptions,
 } from "./models/options";
-import { RouterJobResponse, RouterWorkerResponse, UnAssignJobResponse } from "./models/responses";
+import { RouterJobResponse, RouterWorkerResponse, UnassignJobResult } from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -142,7 +142,7 @@ export class RouterClient {
   // Job Actions
   /**
    * Creates a job.
-   * Returns job with the id of the created job.
+   * Returns the created job.
    * @param jobId - The job to be create
    * @param options - Operation options.
    */
@@ -170,8 +170,8 @@ export class RouterClient {
   }
 
   /**
-   * Gets an job.
-   * Returns job with the id of the job.
+   * Gets a job.
+   * Returns the job.
    * @param jobId - The id of the job to get.
    * @param options -  Operation options.
    */
@@ -186,7 +186,7 @@ export class RouterClient {
    */
   public listJobs(options: ListJobsOptions = {}): PagedAsyncIterableIterator<RouterJobItem> {
     const listOptions = <JobRouterListJobsOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     listOptions.status = options.jobStateSelector;
     return this.client.jobRouter.listJobs(listOptions);
   }
@@ -194,7 +194,7 @@ export class RouterClient {
   /**
    * Gets a job's position details.
    * Returns job position details.
-   * @param jobId - The ID of the job to get.
+   * @param jobId - The ID of the job to get position details.
    * @param options -  Operation options.
    */
   public async getQueuePosition(
@@ -245,7 +245,7 @@ export class RouterClient {
   /**
    * Close a job.
    * @param jobId - The ID of the job to close.
-   * @param assignmentId - The assignment within which the job is to be closed.
+   * @param assignmentId - The assignment id corresponding to the job to be closed.
    * @param options - Operation options.
    */
   public async closeJob(
@@ -258,19 +258,19 @@ export class RouterClient {
 
   /**
    * Unassign a job.
-   * @param jobId - The ID of the job to close.
-   * @param assignmentId - The assignment within which the job is to be unassigned.
+   * @param jobId - The ID of the job to unassign.
+   * @param assignmentId - The assignment id corresponding to the job to be unassigned.
    * @param options - Operation options.
    */
   public async unassignJob(
     jobId: string,
     assignmentId: string,
     options: OperationOptions = {}
-  ): Promise<UnAssignJobResponse> {
+  ): Promise<UnassignJobResult> {
     const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
     return {
       jobId: result.jobId,
-      unAssignmentCount: result.unassignmentCount,
+      unassignmentCount: result.unassignmentCount,
     };
   }
 
@@ -315,7 +315,7 @@ export class RouterClient {
   // Worker Actions
   /**
    * Creates a worker.
-   * Returns worker with the id of the registered worker.
+   * Returns the registered worker.
    * @param workerId - The ID of the worker to create.
    * @param options - Operation options.
    */
@@ -330,8 +330,9 @@ export class RouterClient {
 
   /**
    * Updates a worker.
+   * Returns the updated worker.
    * @param workerId - The ID of the worker to update.
-   * @param options - Operation options.
+   * @param options - Model of the worker to update
    */
   public async updateWorker(
     workerId: string,
@@ -344,7 +345,7 @@ export class RouterClient {
 
   /**
    * Registers a worker.
-   * Returns worker with the id of the registered worker.
+   * Returns the registered worker.
    * @param workerId - The ID of the worker to register.
    * @param options - Operation options.
    */
@@ -361,7 +362,7 @@ export class RouterClient {
 
   /**
    * De-registers a worker.
-   * Returns worker with the id of the de-registered worker.
+   * Returns the de-registered worker.
    * @param workerId - The ID of the worker to deregister.
    * @param options - Operation options.
    */
@@ -378,7 +379,7 @@ export class RouterClient {
 
   /**
    * Gets a worker.
-   * Returns worker with the id of the worker.
+   * Returns the worker.
    * @param workerId - The ID of the worker to get.
    * @param options -  Operation options.
    */
@@ -398,7 +399,7 @@ export class RouterClient {
     options: ListWorkersOptions = {}
   ): PagedAsyncIterableIterator<RouterWorkerItem> {
     const listOptions = <JobRouterListWorkersOptionalParams>options;
-    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.maxPageSize = options.maxPageSize;
     return this.client.jobRouter.listWorkers(listOptions);
   }
 

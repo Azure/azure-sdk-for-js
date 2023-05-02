@@ -317,7 +317,7 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
     distributionPolicyRequest: {
       id,
       name: distributionPolicyId,
-      offerTtlInSeconds: 60,
+      offerTtlSeconds: 60,
       mode: {
         kind: "longest-idle",
         minConcurrentOffers: 1,
