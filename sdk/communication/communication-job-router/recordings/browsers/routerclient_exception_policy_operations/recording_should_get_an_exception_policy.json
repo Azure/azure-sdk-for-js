@@ -18,10 +18,10 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "cc062515-5aef-458e-bdf4-62afb97793ea",
+        "x-ms-client-request-id": "3239559d-a74f-4b99-b64e-05d25091b7b7",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 27 Apr 2023 01:07:06 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 02 May 2023 20:45:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -30,12 +30,12 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 27 Apr 2023 01:07:09 GMT",
-        "ETag": "\u00226404c404-0000-0700-0000-6449cabc0000\u0022",
-        "Last-Modified": "Thu, 27 Apr 2023 01:07:08 GMT",
-        "trace-id": "f644c555-470b-8fa8-d993-5eb789872e85",
+        "Date": "Tue, 02 May 2023 20:45:33 GMT",
+        "ETag": "\u00224706cb1f-0000-0700-0000-6451766d0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:45:33 GMT",
+        "trace-id": "f30480a4-0f75-c815-77b3-b02397e13b23",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vcpJZAAAAAD\u002BE87xLgXeSZfw57TC34CSWVZSMzExMDAwMTE1MDUxADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0bnZRZAAAAADtyoIHIWA8RZf5KitPNFFkWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

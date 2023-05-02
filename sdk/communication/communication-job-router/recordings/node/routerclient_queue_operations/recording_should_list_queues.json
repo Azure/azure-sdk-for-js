@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "148",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "3494694c-b997-4ec7-81c0-7ef3c22337c7",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "30686d2b-fc97-4d55-8af7-cb95235e8573",
         "x-ms-content-sha256": "oEbZ\u002BLnO9rcJU8qXPm2ndsjGGab8Qbu\u002B4rDEbZJPHJc=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:26 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:20 GMT"
       },
       "RequestBody": {
         "name": "test-d-policy",
@@ -29,12 +29,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:28 GMT",
-        "ETag": "\u0022da02d827-0000-0700-0000-6449afa00000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:11:28 GMT",
-        "trace-id": "ba93bcde-9403-7daf-5b6d-291917e4babd",
+        "Date": "Tue, 02 May 2023 20:35:21 GMT",
+        "ETag": "\u00224c08c8a1-0000-0700-0000-645174090000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:35:21 GMT",
+        "trace-id": "c0850528-17e9-b76f-02c0-96ebb92ab724",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oK9JZAAAAAA1KXBbXV7HT4yLpaOfsokHWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0CHRRZAAAAACDENdMi4mmTJsUDclrP4GlWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -59,10 +59,10 @@
         "Connection": "keep-alive",
         "Content-Length": "205",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f4c8856e-0be7-4acd-aa67-e92a8e63534d",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "08ae2da4-0c60-48aa-836f-3a9642304cf8",
         "x-ms-content-sha256": "DnPGZm8GTFJTh0d1bEHun9/03VZVF0xo\u002BzuWvPJk3V0=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:26 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:21 GMT"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -85,12 +85,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:29 GMT",
-        "ETag": "\u00225e04dec5-0000-0700-0000-6449afa00000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:11:28 GMT",
-        "trace-id": "18c21338-2aa6-b225-d2a8-bb45e1c64f93",
+        "Date": "Tue, 02 May 2023 20:35:21 GMT",
+        "ETag": "\u00224606d454-0000-0700-0000-645174090000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:35:21 GMT",
+        "trace-id": "dfb15c8e-1ab0-4209-d8a1-9fee2e67e765",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oK9JZAAAAADMFge2gOcTRppJHGzg47JUWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0CXRRZAAAAAAQwRRVhmyKQbNLOBc2frrPWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -122,10 +122,10 @@
         "Connection": "keep-alive",
         "Content-Length": "140",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4f93c6b3-2e62-4a3e-8b27-e83628b0bfcf",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "687346d1-fd44-486c-a072-0744ac1a9acc",
         "x-ms-content-sha256": "hdTn4rYoaPggL2D1QSgAQysmHJpYDlQcjF/VCDRPW\u002Bc=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:26 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:21 GMT"
       },
       "RequestBody": {
         "name": "test-queue",
@@ -137,12 +137,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:29 GMT",
-        "ETag": "\u00223900ca66-0000-0700-0000-6449afa10000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:11:29 GMT",
-        "trace-id": "0935d813-8a63-f408-879a-e6d6add6d561",
+        "Date": "Tue, 02 May 2023 20:35:21 GMT",
+        "ETag": "\u00227500aaa2-0000-0700-0000-645174090000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:35:21 GMT",
+        "trace-id": "7d7f88f8-7064-1b66-d32c-36f2dc607f4c",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oa9JZAAAAACf76ffmDOdSoc19tHnf3RPWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0CXRRZAAAAACVnetWCmpFRbibB0zzTJhbWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -156,27 +156,27 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/routing/queues?api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestUri": "https://endpoint/routing/queues?api-version=2022-07-18-preview\u0026maxPageSize=20",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "24e78c71-c41f-43a0-adab-3199a1cec05b",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "12c14eaa-8066-4755-872c-53ebb8103f79",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:27 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:21 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:29 GMT",
-        "trace-id": "65b258d8-4f17-bd83-68e1-23a0311ead5a",
+        "Date": "Tue, 02 May 2023 20:35:22 GMT",
+        "trace-id": "2c6c760d-1eb8-f008-a843-f05078599f8e",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oa9JZAAAAADroetOtmbdQK65csFrwc7nWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0CnRRZAAAAAB7Tg/nyAloSbjbLMXxiuT/WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -191,31 +191,7 @@
               },
               "exceptionPolicyId": "test-e-policy-recorded-queues"
             },
-            "etag": "\u00223900ca66-0000-0700-0000-6449afa10000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-recorded-c-scenario",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-recorded-c-scenario",
-              "labels": {
-                "Id": "test-queue-recorded-c-scenario"
-              },
-              "exceptionPolicyId": "test-e-policy-recorded-c-scenario"
-            },
-            "etag": "\u0022360037c2-0000-0700-0000-64496d490000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-recorded-a-scenario",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-recorded-a-scenario",
-              "labels": {
-                "Id": "test-queue-recorded-a-scenario"
-              },
-              "exceptionPolicyId": "test-e-policy-recorded-a-scenario"
-            },
-            "etag": "\u00223600c5c1-0000-0700-0000-64496d3c0000\u0022"
+            "etag": "\u00227500aaa2-0000-0700-0000-645174090000\u0022"
           },
           {
             "jobQueue": {
@@ -422,37 +398,7 @@
               }
             },
             "etag": "\u002227009cb1-0000-0700-0000-6434a85e0000\u0022"
-          }
-        ],
-        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVc4eWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVc4eWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "13c393ab-1f47-44f5-8767-18b403604d9b",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:27 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:29 GMT",
-        "trace-id": "2502209f-12b5-d310-bce8-b21d3f3cd0d6",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oa9JZAAAAABhKNKnEgqPQ48jMmj2IMEdWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "value": [
+          },
           {
             "jobQueue": {
               "id": "test-queue-english-fac0b780-3535-4252-a1cc-b831adc79056",
@@ -478,882 +424,40 @@
               "exceptionPolicyId": "test-e-policy-fac0b780-3535-4252-a1cc-b831adc79056"
             },
             "etag": "\u002227002cb1-0000-0700-0000-6434a8480000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e82ad2b6-3f75-4d04-8e37-d2f512fe9443",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-e82ad2b6-3f75-4d04-8e37-d2f512fe9443",
-              "labels": {
-                "Id": "test-queue-e82ad2b6-3f75-4d04-8e37-d2f512fe9443"
-              },
-              "exceptionPolicyId": "test-e-policy-e82ad2b6-3f75-4d04-8e37-d2f512fe9443"
-            },
-            "etag": "\u00222700cdb0-0000-0700-0000-6434a8310000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "name": "test-queue-french-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-79e4dc7d-4948-48f2-99d1-e113ec40a779"
-              }
-            },
-            "etag": "\u002227006f9c-0000-0700-0000-6434a3bc0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "name": "test-queue-english-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-79e4dc7d-4948-48f2-99d1-e113ec40a779"
-              }
-            },
-            "etag": "\u002227006a9c-0000-0700-0000-6434a3bc0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-79e4dc7d-4948-48f2-99d1-e113ec40a779",
-              "labels": {
-                "Id": "test-queue-79e4dc7d-4948-48f2-99d1-e113ec40a779"
-              },
-              "exceptionPolicyId": "test-e-policy-79e4dc7d-4948-48f2-99d1-e113ec40a779"
-            },
-            "etag": "\u00222700ed9b-0000-0700-0000-6434a3a50000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-da57831c-0624-46a0-aca9-6e0e9c0a98fa",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-da57831c-0624-46a0-aca9-6e0e9c0a98fa"
-              }
-            },
-            "etag": "\u002227001e8f-0000-0700-0000-6434a0db0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-da57831c-0624-46a0-aca9-6e0e9c0a98fa",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-da57831c-0624-46a0-aca9-6e0e9c0a98fa"
-              }
-            },
-            "etag": "\u002227001b8f-0000-0700-0000-6434a0da0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-da57831c-0624-46a0-aca9-6e0e9c0a98fa",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-da57831c-0624-46a0-aca9-6e0e9c0a98fa",
-              "labels": {
-                "Id": "test-queue-da57831c-0624-46a0-aca9-6e0e9c0a98fa"
-              },
-              "exceptionPolicyId": "test-e-policy-da57831c-0624-46a0-aca9-6e0e9c0a98fa"
-            },
-            "etag": "\u00222700dd8e-0000-0700-0000-6434a0c90000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-a38ffeca-5aa2-4b85-8491-839094a3e7c8"
-              }
-            },
-            "etag": "\u0022ea009ab6-0000-0700-0000-632a4f150000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-a38ffeca-5aa2-4b85-8491-839094a3e7c8"
-              }
-            },
-            "etag": "\u0022ea0099b6-0000-0700-0000-632a4f150000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
-              "labels": {
-                "Id": "test-queue-a38ffeca-5aa2-4b85-8491-839094a3e7c8"
-              },
-              "exceptionPolicyId": "test-e-policy-a38ffeca-5aa2-4b85-8491-839094a3e7c8"
-            },
-            "etag": "\u0022ea0098b6-0000-0700-0000-632a4f080000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-d910b3f4-7b5d-43c5-b808-08d1a81f5542"
-              }
-            },
-            "etag": "\u0022ea008cb6-0000-0700-0000-632a4ea80000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-d910b3f4-7b5d-43c5-b808-08d1a81f5542"
-              }
-            },
-            "etag": "\u0022ea008bb6-0000-0700-0000-632a4ea70000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "labels": {
-                "Id": "test-queue-d910b3f4-7b5d-43c5-b808-08d1a81f5542"
-              },
-              "exceptionPolicyId": "test-e-policy-d910b3f4-7b5d-43c5-b808-08d1a81f5542"
-            },
-            "etag": "\u0022ea0089b6-0000-0700-0000-632a4e9a0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-69218adf-c286-4fb8-b07a-fa09767acb73"
-              }
-            },
-            "etag": "\u0022ea0079b6-0000-0700-0000-632a4e030000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-69218adf-c286-4fb8-b07a-fa09767acb73"
-              }
-            },
-            "etag": "\u0022ea0078b6-0000-0700-0000-632a4e030000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "labels": {
-                "Id": "test-queue-69218adf-c286-4fb8-b07a-fa09767acb73"
-              },
-              "exceptionPolicyId": "test-e-policy-69218adf-c286-4fb8-b07a-fa09767acb73"
-            },
-            "etag": "\u0022ea0077b6-0000-0700-0000-632a4e010000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-5718001a-9d15-4e39-9c13-3005c75f3ba3"
-              }
-            },
-            "etag": "\u0022ea0071b6-0000-0700-0000-632a4d6f0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-5718001a-9d15-4e39-9c13-3005c75f3ba3"
-              }
-            },
-            "etag": "\u0022ea0070b6-0000-0700-0000-632a4d6e0000\u0022"
           }
         ],
-        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKV1UxelEzTkJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
+        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVdzeWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSk5RbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVkZCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFWUkJVVWxCYTB4alBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D"
       }
     },
     {
-      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKV1UxelEzTkJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVdzeWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSk5RbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVkZCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFWUkJVVWxCYTB4alBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4c50104b-a2e9-4e2e-8475-38233c72a084",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e3651559-a704-4fa3-bbf0-d26a015d5318",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:27 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:22 GMT"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:30 GMT",
-        "trace-id": "c298098d-a7e2-b702-b54b-71df2e681503",
+        "Date": "Tue, 02 May 2023 20:35:22 GMT",
+        "trace-id": "b76f837f-effe-b323-f23e-c4ccb034f6cb",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oa9JZAAAAACnllF6SnuOT610bTjf2mUiWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0CnRRZAAAAABNOq793WrxTaOyKm0hC7yOWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "value": [
-          {
-            "jobQueue": {
-              "id": "test-queue-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "labels": {
-                "Id": "test-queue-5718001a-9d15-4e39-9c13-3005c75f3ba3"
-              },
-              "exceptionPolicyId": "test-e-policy-5718001a-9d15-4e39-9c13-3005c75f3ba3"
-            },
-            "etag": "\u0022ea006fb6-0000-0700-0000-632a4d6e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "labels": {
-                "Id": "test-queue-ebcbeebd-9a79-4c5a-8ffc-111a476557ac"
-              },
-              "exceptionPolicyId": "test-e-policy-ebcbeebd-9a79-4c5a-8ffc-111a476557ac"
-            },
-            "etag": "\u0022ea0011b0-0000-0700-0000-632a45e60000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-d0816462-0429-40ac-9b13-55f24c86b301",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-d0816462-0429-40ac-9b13-55f24c86b301",
-              "labels": {
-                "Id": "test-queue-d0816462-0429-40ac-9b13-55f24c86b301"
-              },
-              "exceptionPolicyId": "test-e-policy-d0816462-0429-40ac-9b13-55f24c86b301"
-            },
-            "etag": "\u0022ea00d29b-0000-0700-0000-632906640000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "labels": {
-                "Id": "test-queue-d5d39d45-02f8-4873-8bd6-1569b58d2cff"
-              },
-              "exceptionPolicyId": "test-e-policy-d5d39d45-02f8-4873-8bd6-1569b58d2cff"
-            },
-            "etag": "\u0022ea00bb9b-0000-0700-0000-632904570000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "labels": {
-                "Id": "test-queue-f7f43b67-c47c-4f93-886d-14b92a542a70"
-              },
-              "exceptionPolicyId": "test-e-policy-f7f43b67-c47c-4f93-886d-14b92a542a70"
-            },
-            "etag": "\u0022ea00969b-0000-0700-0000-632901080000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-32685b65-15e9-4392-87d3-e4c33829b118",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-32685b65-15e9-4392-87d3-e4c33829b118",
-              "labels": {
-                "Id": "test-queue-32685b65-15e9-4392-87d3-e4c33829b118"
-              },
-              "exceptionPolicyId": "test-e-policy-32685b65-15e9-4392-87d3-e4c33829b118"
-            },
-            "etag": "\u0022ea007e9b-0000-0700-0000-6328ff320000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "labels": {
-                "Id": "test-queue-eabb774f-a4f2-4b7d-88c5-767861a33869"
-              },
-              "exceptionPolicyId": "test-e-policy-eabb774f-a4f2-4b7d-88c5-767861a33869"
-            },
-            "etag": "\u0022ea00609b-0000-0700-0000-6328fc5e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french",
-              "name": "test-queue-french",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french"
-              }
-            },
-            "etag": "\u0022ea00083a-0000-0700-0000-632262d60000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-english",
-              "name": "test-queue-english",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english"
-              }
-            },
-            "etag": "\u0022ea00073a-0000-0700-0000-632262d50000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "labels": {
-                "Id": "test-queue-7a14b71d-652e-4654-b72b-74f222600cbf"
-              },
-              "exceptionPolicyId": "test-e-policy-7a14b71d-652e-4654-b72b-74f222600cbf"
-            },
-            "etag": "\u0022ea00063a-0000-0700-0000-632262c70000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-578bd146-602a-4ad1-b15e-a03c6e517206",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-578bd146-602a-4ad1-b15e-a03c6e517206",
-              "labels": {
-                "Id": "test-queue-578bd146-602a-4ad1-b15e-a03c6e517206"
-              },
-              "exceptionPolicyId": "test-e-policy-578bd146-602a-4ad1-b15e-a03c6e517206"
-            },
-            "etag": "\u0022ea009c39-0000-0700-0000-632259d20000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-1b2bad99-b066-474e-9372-92541230bbc9",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-1b2bad99-b066-474e-9372-92541230bbc9",
-              "labels": {
-                "Id": "test-queue-1b2bad99-b066-474e-9372-92541230bbc9"
-              },
-              "exceptionPolicyId": "test-e-policy-1b2bad99-b066-474e-9372-92541230bbc9"
-            },
-            "etag": "\u0022ea009839-0000-0700-0000-632259c30000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-10cc19da-ead6-4ad9-80b2-a43fad7f0f09",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-10cc19da-ead6-4ad9-80b2-a43fad7f0f09",
-              "labels": {
-                "Id": "test-queue-10cc19da-ead6-4ad9-80b2-a43fad7f0f09"
-              },
-              "exceptionPolicyId": "test-e-policy-10cc19da-ead6-4ad9-80b2-a43fad7f0f09"
-            },
-            "etag": "\u0022ea006239-0000-0700-0000-632254710000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-18951449-71ae-4fe3-af81-4f3bb5bc3b2c",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-18951449-71ae-4fe3-af81-4f3bb5bc3b2c",
-              "labels": {
-                "Id": "test-queue-18951449-71ae-4fe3-af81-4f3bb5bc3b2c"
-              },
-              "exceptionPolicyId": "test-e-policy-18951449-71ae-4fe3-af81-4f3bb5bc3b2c"
-            },
-            "etag": "\u0022ea005939-0000-0700-0000-632253e40000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-ce25bd23-6f39-4986-99a2-6f6390dd85f9",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-ce25bd23-6f39-4986-99a2-6f6390dd85f9",
-              "labels": {
-                "Id": "test-queue-ce25bd23-6f39-4986-99a2-6f6390dd85f9"
-              },
-              "exceptionPolicyId": "test-e-policy-ce25bd23-6f39-4986-99a2-6f6390dd85f9"
-            },
-            "etag": "\u0022ea002c2a-0000-0700-0000-6320f8ff0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-a4f1795d-5216-462e-ae11-ac603791305e",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-a4f1795d-5216-462e-ae11-ac603791305e",
-              "labels": {
-                "Id": "test-queue-a4f1795d-5216-462e-ae11-ac603791305e"
-              },
-              "exceptionPolicyId": "test-e-policy-a4f1795d-5216-462e-ae11-ac603791305e"
-            },
-            "etag": "\u0022ea000a2a-0000-0700-0000-6320f5eb0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-3145c5f0-ce31-400a-8ec3-ed567742398b",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-3145c5f0-ce31-400a-8ec3-ed567742398b",
-              "labels": {
-                "Id": "test-queue-3145c5f0-ce31-400a-8ec3-ed567742398b"
-              },
-              "exceptionPolicyId": "test-e-policy-3145c5f0-ce31-400a-8ec3-ed567742398b"
-            },
-            "etag": "\u0022ea002328-0000-0700-0000-6320d2100000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-7865125d-a7f0-4f65-a537-e854c973727a",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-7865125d-a7f0-4f65-a537-e854c973727a",
-              "labels": {
-                "Id": "test-queue-7865125d-a7f0-4f65-a537-e854c973727a"
-              },
-              "exceptionPolicyId": "test-e-policy-7865125d-a7f0-4f65-a537-e854c973727a"
-            },
-            "etag": "\u0022ea001a28-0000-0700-0000-6320d1530000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-              "labels": {
-                "Id": "test-queue-78de39a1-0fba-443c-8aad-f0bb64c2d597"
-              },
-              "exceptionPolicyId": "test-e-policy-78de39a1-0fba-443c-8aad-f0bb64c2d597"
-            },
-            "etag": "\u0022ea000128-0000-0700-0000-6320cf1e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-0316131f-9d29-4c59-a89b-2abd26100e78",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-0316131f-9d29-4c59-a89b-2abd26100e78",
-              "labels": {
-                "Id": "test-queue-0316131f-9d29-4c59-a89b-2abd26100e78"
-              },
-              "exceptionPolicyId": "test-e-policy-0316131f-9d29-4c59-a89b-2abd26100e78"
-            },
-            "etag": "\u0022ea00ec27-0000-0700-0000-6320cd030000\u0022"
-          }
-        ],
-        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWWl0T2VYTkJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWWl0T2VYTkJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b19a5470-c811-4695-a7e2-6b06c8e2bc35",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:27 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:30 GMT",
-        "trace-id": "a75931b9-d620-08eb-13f2-c64cb8951a0d",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oq9JZAAAAACCLbLwb/ogTqxNNLK5EkI5WVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "value": [
-          {
-            "jobQueue": {
-              "id": "test-queue-702d3c50-a16d-4b99-801a-aee143659c95",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-702d3c50-a16d-4b99-801a-aee143659c95",
-              "labels": {
-                "Id": "test-queue-702d3c50-a16d-4b99-801a-aee143659c95"
-              },
-              "exceptionPolicyId": "test-e-policy-702d3c50-a16d-4b99-801a-aee143659c95"
-            },
-            "etag": "\u0022ea00e027-0000-0700-0000-6320cc090000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-269face0-a3aa-4063-970d-d31c072eec23",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-269face0-a3aa-4063-970d-d31c072eec23",
-              "labels": {
-                "Id": "test-queue-269face0-a3aa-4063-970d-d31c072eec23"
-              },
-              "exceptionPolicyId": "test-e-policy-269face0-a3aa-4063-970d-d31c072eec23"
-            },
-            "etag": "\u0022ea00d827-0000-0700-0000-6320cb360000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-bc07ba71-4f23-4e05-b765-5c3928e22536",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-bc07ba71-4f23-4e05-b765-5c3928e22536",
-              "labels": {
-                "Id": "test-queue-bc07ba71-4f23-4e05-b765-5c3928e22536"
-              },
-              "exceptionPolicyId": "test-e-policy-bc07ba71-4f23-4e05-b765-5c3928e22536"
-            },
-            "etag": "\u0022ea00d127-0000-0700-0000-6320cad10000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-              "labels": {
-                "Id": "test-queue-eaecb312-1662-4ccd-8d57-61b040a6d2b5"
-              },
-              "exceptionPolicyId": "test-e-policy-eaecb312-1662-4ccd-8d57-61b040a6d2b5"
-            },
-            "etag": "\u0022ea00c727-0000-0700-0000-6320c9f60000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-12c5a92c-e654-4535-843e-e4366dcd09c1",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-12c5a92c-e654-4535-843e-e4366dcd09c1",
-              "labels": {
-                "Id": "test-queue-12c5a92c-e654-4535-843e-e4366dcd09c1"
-              },
-              "exceptionPolicyId": "test-e-policy-12c5a92c-e654-4535-843e-e4366dcd09c1"
-            },
-            "etag": "\u0022ea007f27-0000-0700-0000-6320c37e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-              "labels": {
-                "Id": "test-queue-f892911c-dc72-4ad0-b8e7-e5cbd07b614e"
-              },
-              "exceptionPolicyId": "test-e-policy-f892911c-dc72-4ad0-b8e7-e5cbd07b614e"
-            },
-            "etag": "\u0022ea006f27-0000-0700-0000-6320c1cd0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-              "labels": {
-                "Id": "test-queue-4299900e-96a2-4bb5-9efd-2af2248be1a1"
-              },
-              "exceptionPolicyId": "test-e-policy-4299900e-96a2-4bb5-9efd-2af2248be1a1"
-            },
-            "etag": "\u0022ea006127-0000-0700-0000-6320c0ab0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-              "labels": {
-                "Id": "test-queue-0a27cbed-0586-46c7-ad43-ba2a0705d99b"
-              },
-              "exceptionPolicyId": "test-e-policy-0a27cbed-0586-46c7-ad43-ba2a0705d99b"
-            },
-            "etag": "\u0022ea008521-0000-0700-0000-632038700000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-              "labels": {
-                "Id": "test-queue-c1a4c386-096f-42eb-a8cf-03f7d170b0a9"
-              },
-              "exceptionPolicyId": "test-e-policy-c1a4c386-096f-42eb-a8cf-03f7d170b0a9"
-            },
-            "etag": "\u0022ea008221-0000-0700-0000-6320382b0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-b14eb5d1-5778-438f-a010-5db250933e8f",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-b14eb5d1-5778-438f-a010-5db250933e8f",
-              "labels": {
-                "Id": "test-queue-b14eb5d1-5778-438f-a010-5db250933e8f"
-              },
-              "exceptionPolicyId": "test-e-policy-b14eb5d1-5778-438f-a010-5db250933e8f"
-            },
-            "etag": "\u0022ea007621-0000-0700-0000-632037230000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-148ca749-d29e-4b44-8dea-418a8ec29ec6",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-148ca749-d29e-4b44-8dea-418a8ec29ec6",
-              "labels": {
-                "Id": "test-queue-148ca749-d29e-4b44-8dea-418a8ec29ec6"
-              },
-              "exceptionPolicyId": "test-e-policy-148ca749-d29e-4b44-8dea-418a8ec29ec6"
-            },
-            "etag": "\u0022ea006521-0000-0700-0000-632035c00000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-16f323d9-c3a1-435e-890f-3b63b9f65a16",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-16f323d9-c3a1-435e-890f-3b63b9f65a16",
-              "labels": {
-                "Id": "test-queue-16f323d9-c3a1-435e-890f-3b63b9f65a16"
-              },
-              "exceptionPolicyId": "test-e-policy-16f323d9-c3a1-435e-890f-3b63b9f65a16"
-            },
-            "etag": "\u0022ea006121-0000-0700-0000-632035530000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
-              "labels": {
-                "Id": "test-queue-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3"
-              },
-              "exceptionPolicyId": "test-e-policy-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3"
-            },
-            "etag": "\u0022ea005421-0000-0700-0000-632034280000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
-              "labels": {
-                "Id": "test-queue-444c0a70-7ac9-4b8e-9ec5-373db462a4da"
-              },
-              "exceptionPolicyId": "test-e-policy-444c0a70-7ac9-4b8e-9ec5-373db462a4da"
-            },
-            "etag": "\u0022ea004821-0000-0700-0000-632033570000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
-              "labels": {
-                "Id": "test-queue-4107e182-b3f9-4d78-b3e2-82cbc804fa28"
-              },
-              "exceptionPolicyId": "test-e-policy-4107e182-b3f9-4d78-b3e2-82cbc804fa28"
-            },
-            "etag": "\u0022ea004521-0000-0700-0000-632032e60000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-3975c2c5-95fb-47e3-8549-ccbfa24a88db",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-3975c2c5-95fb-47e3-8549-ccbfa24a88db"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea005020-0000-0700-0000-63201c910000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e31d556f-a4be-4774-bd19-a1da1ae0cb0e",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-e31d556f-a4be-4774-bd19-a1da1ae0cb0e"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea004620-0000-0700-0000-63201c0d0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-6249e1d1-6ceb-46e8-827f-0c4009814a63",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-6249e1d1-6ceb-46e8-827f-0c4009814a63"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea003520-0000-0700-0000-63201a7d0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e988c088-7181-4abf-8542-e051a39027ad",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-e988c088-7181-4abf-8542-e051a39027ad"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea002820-0000-0700-0000-6320196b0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-d5f943e4-0adf-45ad-9c11-6105de003f3b",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-d5f943e4-0adf-45ad-9c11-6105de003f3b"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea001c20-0000-0700-0000-632018de0000\u0022"
-          }
-        ],
-        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVhOTlEzTkJRVUZCUVVGQlBUMGpVbFE2TkNOVVVrTTZPREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVhOTlEzTkJRVUZCUVVGQlBUMGpVbFE2TkNOVVVrTTZPREFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSkJRbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVmRCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFtaEZRMmRCZWxrMFBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhwYWdlc2l6ZT0yMA%3D%3D\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b3b31ede-d7d6-4cca-9273-fb356b73e189",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:28 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:11:30 GMT",
-        "trace-id": "1af861e0-cf9d-f5ce-acd5-e2c08cda699a",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0oq9JZAAAAAAllWKHyJMSSIKmb72b4BVlWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "value": [
-          {
-            "jobQueue": {
-              "id": "test-queue-3be0d316-847a-4e4c-ba86-e4e30d81ef8e",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-3be0d316-847a-4e4c-ba86-e4e30d81ef8e"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea000f20-0000-0700-0000-6320182e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-4e4e0974-088a-4112-b74b-c221a864e3cf",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-4e4e0974-088a-4112-b74b-c221a864e3cf"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea00fe1e-0000-0700-0000-632001a80000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-9af10ecf-882c-4af9-b219-fde8bfa431b0",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-9af10ecf-882c-4af9-b219-fde8bfa431b0"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea00a91e-0000-0700-0000-631ffa270000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-021d0704-8c30-4304-8608-328fa8e76d35",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue-021d0704-8c30-4304-8608-328fa8e76d35"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022ea00741e-0000-0700-0000-631ff56d0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Id": "test-queue"
-              },
-              "exceptionPolicyId": "test-e-policy"
-            },
-            "etag": "\u0022a700429e-0000-0700-0000-62cbdefa0000\u0022"
-          }
-        ]
+        "error": {
+          "code": "ApiVersionUnspecified",
+          "message": "An API version is required, but was not specified."
+        }
       }
     },
     {
@@ -1364,18 +468,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ca45a617-0cca-4d15-b94d-c6b0e4fb4f70",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9ff1c82d-c170-4a8c-b53d-e5a302d06c86",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:28 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:22 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:11:30 GMT",
-        "trace-id": "6eb446e9-c4e6-b4ad-c5ee-2b3495678897",
-        "X-Azure-Ref": "0oq9JZAAAAACH3ssMolSIS7QobWlwcHIkWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:35:22 GMT",
+        "trace-id": "10a15984-d241-a2ec-91e1-3bccff9b4686",
+        "X-Azure-Ref": "0CnRRZAAAAAAl6Gx3SXnbRZ7e2kEyFTGqWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -1388,18 +492,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "67c4952e-1c61-4376-b2bc-465731ca31ab",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4116141c-67fb-45e4-aa28-cec58ba7a965",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:28 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:22 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:11:31 GMT",
-        "trace-id": "3bc11ac0-3587-658a-35ff-251047924dd0",
-        "X-Azure-Ref": "0oq9JZAAAAAAZkfK6kvTJRaTZoXZiuYANWVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:35:22 GMT",
+        "trace-id": "27a90216-6ad8-ee84-9204-1ef1bbd2093c",
+        "X-Azure-Ref": "0CnRRZAAAAADBkl48njIkQIumoTbJS9eyWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -1412,18 +516,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a55599bd-3609-428f-a025-7de91004fcb1",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "02f67e9f-cfb7-4498-85bf-c0d30bb048ae",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:11:29 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:35:22 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:11:31 GMT",
-        "trace-id": "683ace19-5717-0c28-d917-c5409f90e71f",
-        "X-Azure-Ref": "0o69JZAAAAAANhGc8vzM2Spy9AJxOmYH0WVZSMzExMDAwMTE1MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:35:23 GMT",
+        "trace-id": "9a721b2d-a615-67e3-d5b4-f6344c7c2ec0",
+        "X-Azure-Ref": "0C3RRZAAAAADot3ZWA4Z2TJ3NnOqQjOy0WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null

@@ -141,9 +141,9 @@ describe("RouterClient", function () {
       await client.cancelJob(jobFrench.id!);
       await client.deleteJob(jobEnglish.id!);
       await client.deleteJob(jobFrench.id!);
+      await administrationClient.deleteClassificationPolicy(policy.id!);
       await administrationClient.deleteQueue(queueEnglish.id!);
       await administrationClient.deleteQueue(queueFrench.id!);
-      await administrationClient.deleteClassificationPolicy(policy.id!);
     }).timeout(timeoutMs);
   });
 });

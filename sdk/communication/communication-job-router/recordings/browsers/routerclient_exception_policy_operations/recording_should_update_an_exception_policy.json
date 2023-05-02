@@ -20,10 +20,10 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "6c45321f-c15f-43e7-9142-dfe85159aced",
+        "x-ms-client-request-id": "b55ff836-bbc0-46f4-a2e2-2925eb2b4f04",
         "x-ms-content-sha256": "JLfbccxT1CySych3NbVFhj1wOY4qiLQDZMupNFdvF/w=",
-        "x-ms-date": "Thu, 27 Apr 2023 01:07:06 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 02 May 2023 20:45:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
         "name": "new-name",
@@ -48,12 +48,12 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 27 Apr 2023 01:07:10 GMT",
-        "ETag": "\u00226404ea04-0000-0700-0000-6449cabe0000\u0022",
-        "Last-Modified": "Thu, 27 Apr 2023 01:07:10 GMT",
-        "trace-id": "c35cd2d9-071e-578b-3832-1d98c6066273",
+        "Date": "Tue, 02 May 2023 20:45:34 GMT",
+        "ETag": "\u002247061e20-0000-0700-0000-6451766e0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:45:34 GMT",
+        "trace-id": "851eecb7-ad9d-b8dd-9590-20e1c9ddc5fd",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vcpJZAAAAADelW/xA6zhRIJ31cO6o9xAWVZSMzExMDAwMTE1MDUxADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0bnZRZAAAAABNkhsyd5NtRJjjyXaE49nvWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

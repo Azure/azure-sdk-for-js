@@ -113,7 +113,7 @@ export function getQueueEnglish(guid: string): JobQueue {
   return {
     id: `${queueId}-english-${guid}`,
     name: `${queueId}-english-${guid}`,
-    distributionPolicyId: distributionPolicyId,
+    distributionPolicyId: `${distributionPolicyId}-${guid}`,
     labels: { Region: region, Product: product, Language: english },
   };
 }
@@ -122,7 +122,7 @@ export function getQueueFrench(guid: string): JobQueue {
   return {
     id: `${queueId}-french-${guid}`,
     name: `${queueId}-french-${guid}`,
-    distributionPolicyId: distributionPolicyId,
+    distributionPolicyId: `${distributionPolicyId}-${guid}`,
     labels: { Region: region, Product: product, Language: french },
   };
 }

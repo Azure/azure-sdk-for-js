@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "148",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "616aa610-10b0-4f12-aa90-adfb1b27d4e3",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "278a567d-9ff5-45c1-b1b7-03df621ac4c3",
         "x-ms-content-sha256": "oEbZ\u002BLnO9rcJU8qXPm2ndsjGGab8Qbu\u002B4rDEbZJPHJc=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:17 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:54 GMT"
       },
       "RequestBody": {
         "name": "test-d-policy",
@@ -29,12 +29,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:19 GMT",
-        "ETag": "\u0022d9026f85-0000-0700-0000-6449adf30000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:04:19 GMT",
-        "trace-id": "0381db59-9ab5-881c-5a5b-342646ee0249",
+        "Date": "Tue, 02 May 2023 20:34:53 GMT",
+        "ETag": "\u00224c08799a-0000-0700-0000-645173ee0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:34:54 GMT",
+        "trace-id": "f3722dc8-a6af-e5e7-000a-b19fab1a5273",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0861JZAAAAAC0g4wc\u002B9IaQZXvhwdbQnHdWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "07nNRZAAAAACa8cjUp/RoRqa\u002BNnhwVVKuWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -59,10 +59,10 @@
         "Connection": "keep-alive",
         "Content-Length": "205",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4c10f9b7-4fe4-4072-ac34-7412508a4818",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "67f07910-e37a-4c9b-a722-1fa916f62c6a",
         "x-ms-content-sha256": "DnPGZm8GTFJTh0d1bEHun9/03VZVF0xo\u002BzuWvPJk3V0=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:17 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:54 GMT"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -85,12 +85,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:20 GMT",
-        "ETag": "\u00225e046467-0000-0700-0000-6449adf40000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:04:20 GMT",
-        "trace-id": "07d7e81a-cd96-ec83-bb1b-5f9972ad8b30",
+        "Date": "Tue, 02 May 2023 20:34:54 GMT",
+        "ETag": "\u00224606d64a-0000-0700-0000-645173ee0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:34:54 GMT",
+        "trace-id": "182d53bb-0212-97c5-7e7e-e95ebe1cdc59",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09K1JZAAAAACiQwC43067SYeH7uyojeoeWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "07nNRZAAAAAAaUK\u002BJGavqR4zvNpbM27M3WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -122,10 +122,10 @@
         "Connection": "keep-alive",
         "Content-Length": "136",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ee725800-08cd-43cd-978d-f59543e966d7",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d8f31325-b555-497d-9966-f0ffb49a05b1",
         "x-ms-content-sha256": "Iu35CanCMTTxYHJVdxB2EZicK\u002Bw4yomznDINfJktFQA=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:18 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:54 GMT"
       },
       "RequestBody": {
         "name": "test-queue",
@@ -137,12 +137,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:20 GMT",
-        "ETag": "\u002239004c55-0000-0700-0000-6449adf40000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:04:20 GMT",
-        "trace-id": "c28a5814-91dc-aeec-d60a-7daf019615c3",
+        "Date": "Tue, 02 May 2023 20:34:54 GMT",
+        "ETag": "\u00227500d6a1-0000-0700-0000-645173ef0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:34:55 GMT",
+        "trace-id": "18b22d03-1777-d2cf-7441-91da922537b9",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09K1JZAAAAABFNnrxsaaTTZv6Uj9ytwkfWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "073NRZAAAAADQ\u002Bpu2it5NS6iTNa8ueyWZWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -165,10 +165,10 @@
         "Connection": "keep-alive",
         "Content-Length": "69",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "40a72fe2-3ec4-4072-a789-d7a23d5a1b57",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8b076631-6573-4743-b6f6-24b0fd8d58a5",
         "x-ms-content-sha256": "n\u002BFtt1nmNAxZTdMqG8hN\u002BjaPnFzlvGX5O5hKuLFDC\u002BQ=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:18 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:55 GMT"
       },
       "RequestBody": {
         "name": "test-c-policy",
@@ -178,12 +178,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:20 GMT",
-        "ETag": "\u00223300e8ae-0000-0700-0000-6449adf50000\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:04:21 GMT",
-        "trace-id": "037ef8b5-9024-0a86-c6fe-e3c401dc63da",
+        "Date": "Tue, 02 May 2023 20:34:56 GMT",
+        "ETag": "\u00224c004d7e-0000-0700-0000-645173ef0000\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:34:55 GMT",
+        "trace-id": "39f6cd8d-892b-af06-c6f3-a8ffeee6e929",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09K1JZAAAAAAwLpf5Tj8BSr4Yzx6eIi5zWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "073NRZAAAAAA9gk9z81ohTbDJJ\u002BKHIyNmWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -204,10 +204,10 @@
         "Connection": "keep-alive",
         "Content-Length": "145",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "85a35fc4-03f4-445c-bab1-86fa3a796535",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f826b06d-40ba-4f70-b182-49d2555802a4",
         "x-ms-content-sha256": "U8ff\u002B2KXeSzC\u002BCnNbpVTCHTWAbZOBLWAZhKReTSD\u002B38=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:19 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:55 GMT"
       },
       "RequestBody": {
         "channelId": "test-channel",
@@ -220,12 +220,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:21 GMT",
-        "ETag": "\u002200000000-0000-0000-6624-5492aa46db08\u0022",
-        "Last-Modified": "Wed, 26 Apr 2023 23:04:21 GMT",
-        "trace-id": "49a80e35-00d8-1159-1cb1-3aa3fda078e4",
+        "Date": "Tue, 02 May 2023 20:34:56 GMT",
+        "ETag": "\u002200000000-0000-0000-2a2f-17b14c4bdb08\u0022",
+        "Last-Modified": "Tue, 02 May 2023 20:34:56 GMT",
+        "trace-id": "9e7bad62-b4cd-7562-3876-b642ecb66e58",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09a1JZAAAAAArMmsBLGJuS7WX5AqYcMgfWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "08HNRZAAAAAAM\u002BXTeVR78TZHMt6WutX8pWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -244,27 +244,27 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/routing/jobs?api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestUri": "https://endpoint/routing/jobs?api-version=2022-07-18-preview\u0026maxPageSize=20",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "45149be7-4a3f-436f-9abc-7c7626acfa91",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d8d769ab-54b9-4d7f-98f3-f12e083ab7c8",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:19 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:56 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:21 GMT",
-        "trace-id": "71c91165-cdf1-d6c6-54fc-7095678cbd35",
+        "Date": "Tue, 02 May 2023 20:34:56 GMT",
+        "trace-id": "e710aafb-cee4-e901-ec32-a76f9f55a9db",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09a1JZAAAAACUtzjM5dHFQ5sMuzIyDtsUWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "08HNRZAAAAAA1Anrv4f8xSZTXDSRvtXeqWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -284,48 +284,7 @@
               "tags": {},
               "notes": {}
             },
-            "etag": "\u002200000000-0000-0000-6624-5492aa46db08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-recorded-a-scenario",
-              "jobStatus": "cancelled",
-              "enqueueTimeUtc": "2023-04-26T18:36:19.9587414\u002B00:00",
-              "channelId": "test-channel",
-              "queueId": "test-queue-recorded-a-scenario",
-              "priority": 1,
-              "dispositionCode": "None",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {
-                "2023-04-26T22:16:08.3883065\u002B00:00": "wait time exceeded; cancelling"
-              }
-            },
-            "etag": "\u00220000000d-0000-0000-3984-d0d5a346db08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-recorded-c-scenario",
-              "jobStatus": "cancelled",
-              "enqueueTimeUtc": "2023-04-26T18:36:40.097412\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-recorded-c-scenario",
-              "queueId": "test-queue",
-              "priority": 1,
-              "dispositionCode": "disposition-recorded-c-scenario",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-a750-242d8546db08\u0022"
+            "etag": "\u002200000000-0000-0000-2a2f-17b14c4bdb08\u0022"
           },
           {
             "routerJob": {
@@ -711,37 +670,7 @@
               "notes": {}
             },
             "etag": "\u002200000002-0000-0000-551b-0a6c1e3adb08\u0022"
-          }
-        ],
-        "nextLink": "/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZVU1RFJVbEJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV21nd2MwaGtRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZVU1RFJVbEJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV21nd2MwaGtRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "400698da-47b4-4f18-b5c5-16aaa83db75b",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:20 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:22 GMT",
-        "trace-id": "89f57a37-3b50-9c2a-eeaf-4560fcde7e06",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09q1JZAAAAADeZcRqS5jCT5Bl\u002BFbx2gxgWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "value": [
+          },
           {
             "routerJob": {
               "id": "test-job-french-a38ffeca-5aa2-4b85-8491-839094a3e7c8",
@@ -785,1285 +714,40 @@
               "notes": {}
             },
             "etag": "\u002200000002-0000-0000-3629-6e4d619bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:37:14.9987547\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "queueId": "test-queue-french",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-dbd6-7c0c619bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:37:14.3941827\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d910b3f4-7b5d-43c5-b808-08d1a81f5542",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-c396-200c619bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:34:28.4588066\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "queueId": "test-queue-french",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-22dc-38a9609bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:34:28.3591402\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-69218adf-c286-4fb8-b07a-fa09767acb73",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-eaa6-29a9609bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:32:02.0555946\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "queueId": "test-queue-french",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-aa80-f551609bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:32:01.4520421\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-5718001a-9d15-4e39-9c13-3005c75f3ba3",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-6568-9951609bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-429711f3-f66a-44a2-acf1-b695fcd5fbbe",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:06:36.4968803\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-429711f3-f66a-44a2-acf1-b695fcd5fbbe",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-63b7-a7c45c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-429711f3-f66a-44a2-acf1-b695fcd5fbbe",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:06:35.7844204\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-429711f3-f66a-44a2-acf1-b695fcd5fbbe",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-ec00-3bc45c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-e0932ea2-2455-418d-bf71-c4f5c3d753da",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:06:09.6108669\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-e0932ea2-2455-418d-bf71-c4f5c3d753da",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-7d3c-a1b45c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-e0932ea2-2455-418d-bf71-c4f5c3d753da",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:06:08.9988947\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-e0932ea2-2455-418d-bf71-c4f5c3d753da",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-53db-43b45c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-5d97233c-8dc1-49be-a246-6e92c0824fbd",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:04:41.2997381\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-5d97233c-8dc1-49be-a246-6e92c0824fbd",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-0507-fe7f5c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-5d97233c-8dc1-49be-a246-6e92c0824fbd",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:04:41.3398078\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-5d97233c-8dc1-49be-a246-6e92c0824fbd",
-              "queueId": "test-queue-english",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-3e24-04805c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-09410427-54ca-4de0-a48d-2246df9867f3",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:04:17.2834076\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-09410427-54ca-4de0-a48d-2246df9867f3",
-              "queueId": "test-queue-french",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-1c6d-ad715c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-09410427-54ca-4de0-a48d-2246df9867f3",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T23:04:16.2951228\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-09410427-54ca-4de0-a48d-2246df9867f3",
-              "queueId": "test-queue-french",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000002-0000-0000-3ca0-16715c9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T22:59:54.6034831\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "queueId": "test-queue-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-441c-4adb5b9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T22:59:54.1453607\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "queueId": "test-queue-ebcbeebd-9a79-4c5a-8ffc-111a476557ac",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-fd51-04db5b9bda08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-d0816462-0429-40ac-9b13-55f24c86b301",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T00:17:05.6798555\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d0816462-0429-40ac-9b13-55f24c86b301",
-              "queueId": "test-queue-d0816462-0429-40ac-9b13-55f24c86b301",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-9009-38799d9ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-d0816462-0429-40ac-9b13-55f24c86b301",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T00:17:04.4793882\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d0816462-0429-40ac-9b13-55f24c86b301",
-              "queueId": "test-queue-d0816462-0429-40ac-9b13-55f24c86b301",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-8945-89789d9ada08\u0022"
           }
         ],
-        "nextLink": "/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZW5SaFJFRkJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwYVJURkxRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw"
+        "nextLink": "/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZUhWbWFrRkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwaFZqVllRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkNRVUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JHZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5Ra0ZDUVdkQmVXcDNQVDBpTENKeVlXNW5aU0k2ZXlKdGFXNGlPaUlpTENKdFlYZ2lPaUpHUmlKOWZWMD0mbWF4UGFnZVNpemU9MjA%3D"
       }
     },
     {
-      "RequestUri": "https://endpoint/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZW5SaFJFRkJRVUZCUVVGQlBUMGpVbFE2TWlOVVVrTTZOREFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwYVJURkxRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
+      "RequestUri": "https://endpoint/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZUhWbWFrRkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwaFZqVllRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkNRVUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JHZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5Ra0ZDUVdkQmVXcDNQVDBpTENKeVlXNW5aU0k2ZXlKdGFXNGlPaUlpTENKdFlYZ2lPaUpHUmlKOWZWMD0mbWF4UGFnZVNpemU9MjA%3D",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "d74c3062-09e7-42db-ac51-624f889475b3",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b262740e-4409-46ee-a807-70000628bdc8",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:20 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:56 GMT"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:22 GMT",
-        "trace-id": "6911fa57-ae15-3f09-ba61-5d4b863daa31",
+        "Date": "Tue, 02 May 2023 20:34:56 GMT",
+        "trace-id": "ae7813a0-cbbe-c593-0ac7-0de8e8ab1f44",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09q1JZAAAAADZ8lrtHMaPQIgqKcyMFC5ZWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "08HNRZAAAAACLHWtPv7Q7TLPQLH1xbqezWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "value": [
-          {
-            "routerJob": {
-              "id": "test-job-french-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T00:08:05.5067135\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "queueId": "test-queue-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-b2cd-46379c9ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-20T00:08:04.079211\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "queueId": "test-queue-d5d39d45-02f8-4873-8bd6-1569b58d2cff",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-9d5d-67369c9ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:54:06.474767\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "queueId": "test-queue-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-7c33-75469a9ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:54:07.5212269\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "queueId": "test-queue-f7f43b67-c47c-4f93-886d-14b92a542a70",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-cf6f-c4439a9ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-32685b65-15e9-4392-87d3-e4c33829b118",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:46:16.3914077\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-32685b65-15e9-4392-87d3-e4c33829b118",
-              "queueId": "test-queue-32685b65-15e9-4392-87d3-e4c33829b118",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-2d3e-f32a999ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-32685b65-15e9-4392-87d3-e4c33829b118",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:46:15.5731377\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-32685b65-15e9-4392-87d3-e4c33829b118",
-              "queueId": "test-queue-32685b65-15e9-4392-87d3-e4c33829b118",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-e648-762a999ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:34:13.1071054\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "queueId": "test-queue-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-9655-d47b979ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-19T23:34:13.4534735\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "queueId": "test-queue-eabb774f-a4f2-4b7d-88c5-767861a33869",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-0ca5-0a7c979ada08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-french-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-14T23:25:13.380054\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "queueId": "test-queue-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "FR"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-2f12-1366a896da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-english-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-14T23:25:12.5296703\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-combined-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "queueId": "test-queue-7a14b71d-652e-4654-b72b-74f222600cbf",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "Product": "O365",
-                "Region": "NA",
-                "Language": "EN"
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-37e5-8f65a896da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-a4f1795d-5216-462e-ae11-ac603791305e",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T21:28:14.0949021\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-a4f1795d-5216-462e-ae11-ac603791305e",
-              "queueId": "test-queue-a4f1795d-5216-462e-ae11-ac603791305e",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-d1ae-f6e4ce95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-3145c5f0-ce31-400a-8ec3-ed567742398b",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T18:55:15.6820728\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-3145c5f0-ce31-400a-8ec3-ed567742398b",
-              "queueId": "test-queue-3145c5f0-ce31-400a-8ec3-ed567742398b",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "fa9640db-fa0f-4aaa-a853-0f2cb022bca0": {
-                  "id": "fa9640db-fa0f-4aaa-a853-0f2cb022bca0",
-                  "workerId": "test-worker-3145c5f0-ce31-400a-8ec3-ed567742398b",
-                  "assignTime": "2022-09-13T18:55:17.8481844\u002B00:00",
-                  "completeTime": "2022-09-13T18:55:18.8244745\u002B00:00",
-                  "closeTime": "2022-09-13T18:55:19.3102284\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-cc5b-0f81b995da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-7865125d-a7f0-4f65-a537-e854c973727a",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T18:52:06.2259409\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-7865125d-a7f0-4f65-a537-e854c973727a",
-              "queueId": "test-queue-7865125d-a7f0-4f65-a537-e854c973727a",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "555633fe-00b3-462c-b513-930ac4655f8f": {
-                  "id": "555633fe-00b3-462c-b513-930ac4655f8f",
-                  "workerId": "test-worker-7865125d-a7f0-4f65-a537-e854c973727a",
-                  "assignTime": "2022-09-13T18:52:08.4456477\u002B00:00",
-                  "completeTime": "2022-09-13T18:52:09.4829228\u002B00:00",
-                  "closeTime": "2022-09-13T18:52:10.2006002\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-f284-5710b995da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T18:42:41.7662383\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-              "queueId": "test-queue-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "5400a572-305c-4382-b640-02b7075a335c": {
-                  "id": "5400a572-305c-4382-b640-02b7075a335c",
-                  "workerId": "test-worker-78de39a1-0fba-443c-8aad-f0bb64c2d597",
-                  "assignTime": "2022-09-13T18:42:43.9244865\u002B00:00",
-                  "completeTime": "2022-09-13T18:42:44.8963502\u002B00:00",
-                  "closeTime": "2022-09-13T18:42:45.4097284\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-8445-b3bfb795da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-0316131f-9d29-4c59-a89b-2abd26100e78",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T18:33:43.2852506\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-0316131f-9d29-4c59-a89b-2abd26100e78",
-              "queueId": "test-queue-0316131f-9d29-4c59-a89b-2abd26100e78",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "ee3e67f3-284b-46f0-ae52-61e13640a9b2": {
-                  "id": "ee3e67f3-284b-46f0-ae52-61e13640a9b2",
-                  "workerId": "test-worker-0316131f-9d29-4c59-a89b-2abd26100e78",
-                  "assignTime": "2022-09-13T18:33:46.0372777\u002B00:00",
-                  "completeTime": "2022-09-13T18:33:47.3585847\u002B00:00",
-                  "closeTime": "2022-09-13T18:33:48.0772222\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-7ed6-6c7fb695da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-269face0-a3aa-4063-970d-d31c072eec23",
-              "jobStatus": "assigned",
-              "enqueueTimeUtc": "2022-09-13T18:26:01.9920926\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-269face0-a3aa-4063-970d-d31c072eec23",
-              "queueId": "test-queue-269face0-a3aa-4063-970d-d31c072eec23",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "7d3a8bd4-0a5a-4dad-9de3-e1f16afbba86": {
-                  "id": "7d3a8bd4-0a5a-4dad-9de3-e1f16afbba86",
-                  "workerId": "test-worker-269face0-a3aa-4063-970d-d31c072eec23",
-                  "assignTime": "2022-09-13T18:26:04.3409608\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-c84c-046bb595da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-bc07ba71-4f23-4e05-b765-5c3928e22536",
-              "jobStatus": "assigned",
-              "enqueueTimeUtc": "2022-09-13T18:24:20.282012\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-bc07ba71-4f23-4e05-b765-5c3928e22536",
-              "queueId": "test-queue-bc07ba71-4f23-4e05-b765-5c3928e22536",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "d7895c44-6748-4222-966c-c95b1eba4e38": {
-                  "id": "d7895c44-6748-4222-966c-c95b1eba4e38",
-                  "workerId": "test-worker-bc07ba71-4f23-4e05-b765-5c3928e22536",
-                  "assignTime": "2022-09-13T18:24:22.6570574\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-4e91-682eb595da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-              "jobStatus": "assigned",
-              "enqueueTimeUtc": "2022-09-13T18:20:41.5890312\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-              "queueId": "test-queue-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "138a3e1a-f4e7-453d-8bc1-50323349c2e4": {
-                  "id": "138a3e1a-f4e7-453d-8bc1-50323349c2e4",
-                  "workerId": "test-worker-eaecb312-1662-4ccd-8d57-61b040a6d2b5",
-                  "assignTime": "2022-09-13T18:20:44.0063338\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-6a1d-15acb495da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-12c5a92c-e654-4535-843e-e4366dcd09c1",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T17:53:05.7347059\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-12c5a92c-e654-4535-843e-e4366dcd09c1",
-              "queueId": "test-queue-12c5a92c-e654-4535-843e-e4366dcd09c1",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-87e2-0ed7b095da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T17:45:53.6960744\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-              "queueId": "test-queue-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "a9bf87a1-481d-4bd1-9c00-358d9a75178f": {
-                  "id": "a9bf87a1-481d-4bd1-9c00-358d9a75178f",
-                  "workerId": "test-worker-f892911c-dc72-4ad0-b8e7-e5cbd07b614e",
-                  "assignTime": "2022-09-13T17:45:56.7324612\u002B00:00",
-                  "completeTime": "2022-09-13T17:45:58.1572086\u002B00:00",
-                  "closeTime": "2022-09-13T17:45:59.4040373\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-350c-90d1af95da08\u0022"
-          }
-        ],
-        "nextLink": "/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZURBNGVUaEJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwUk1GQllRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/jobs?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVOWFkVGxhZURBNGVUaEJRVUZCUVVGQlBUMGpVbFE2TXlOVVVrTTZOakFqVWxSRU9uRXlWWFZ2TTJoaE1XeGhWVXRRZWxCb2RHRXlRazFJV2xwUk1GQllRVDA5STBsVFZqb3lJMGxGVHpvMk5UVTJOeU5SUTBZNk9DTkdVRU02UVdkTEswRkJORUoyWjBGRFFVcFBSM1ozUVhsQlExbHhRVUpUUVVGQlVVRkNRVU5CUVVGblFVbDNSMEZDUVVGRFFVTlJWV2RCU0VGUlowSnFhSGRUUVVJMFFsTkJRV2xCUVVGRlVXZEJhVUZIV1VGRFoxQlhRbmRCUVVWQlQwVktRVVJFUWtGRGIwRlZVMmRIUVVKRlFVRkJkMUpCUVVSQlNWRkJRVTFDUlVGQlIwUlNSVzlCUW5kblFVZG5RVVZCUlZGQlIxbElSVUpHVFVGU1FVRmlRVU5CUlZOQlNVVkpRVWRDUWtGRVFVRlFTVUZDZDBGM1FYZFNSVmRCUVRCQ1JXZEJkWEpSVjBFek5FVlBaMEUyUVdkWlEwWm5URVZPUVVaQlQwRlJTVUZRU1ZVOUlpd2ljbUZ1WjJVaU9uc2liV2x1SWpvaUlpd2liV0Y0SWpvaVJrWWlmWDFkJm1heHBhZ2VzaXplPTIw\u0026api-version=2022-07-18-preview\u0026maxpagesize=20",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ade7d618-8610-4721-90a0-9add127449cf",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:20 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:22 GMT",
-        "trace-id": "3ae94047-c91c-d5ea-b963-ab5f824d6dd4",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09q1JZAAAAADXlg2gSKHbSaqNLxkM/IkdWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "value": [
-          {
-            "routerJob": {
-              "id": "test-job-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T17:41:02.9309893\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-              "queueId": "test-queue-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "f04e0456-a86e-42fd-b891-86db28d4c372": {
-                  "id": "f04e0456-a86e-42fd-b891-86db28d4c372",
-                  "workerId": "test-worker-4299900e-96a2-4bb5-9efd-2af2248be1a1",
-                  "assignTime": "2022-09-13T17:41:05.4568926\u002B00:00",
-                  "completeTime": "2022-09-13T17:41:06.5246048\u002B00:00",
-                  "closeTime": "2022-09-13T17:41:07.5522284\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-ecfe-9a23af95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-              "jobStatus": "closed",
-              "enqueueTimeUtc": "2022-09-13T07:59:48.1789004\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-              "queueId": "test-queue-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-              "priority": 1,
-              "dispositionCode": "Closed",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "b20271f7-b2b5-4afb-bd82-11f14d684076": {
-                  "id": "b20271f7-b2b5-4afb-bd82-11f14d684076",
-                  "workerId": "test-worker-0a27cbed-0586-46c7-ad43-ba2a0705d99b",
-                  "assignTime": "2022-09-13T07:59:50.9147902\u002B00:00",
-                  "completeTime": "2022-09-13T07:59:51.9858366\u002B00:00",
-                  "closeTime": "2022-09-13T07:59:52.7838651\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000005-0000-0000-bba7-9ff05d95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-              "jobStatus": "assigned",
-              "enqueueTimeUtc": "2022-09-13T07:58:38.5731987\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-              "queueId": "test-queue-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {
-                "df9f59e9-0338-4ca7-96e6-33025de3be1e": {
-                  "id": "df9f59e9-0338-4ca7-96e6-33025de3be1e",
-                  "workerId": "test-worker-c1a4c386-096f-42eb-a8cf-03f7d170b0a9",
-                  "assignTime": "2022-09-13T07:58:40.7967949\u002B00:00"
-                }
-              },
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000003-0000-0000-cd4c-b7c55d95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-b14eb5d1-5778-438f-a010-5db250933e8f",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:54:15.252677\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-b14eb5d1-5778-438f-a010-5db250933e8f",
-              "queueId": "test-queue-b14eb5d1-5778-438f-a010-5db250933e8f",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-bdf9-d52e5d95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-148ca749-d29e-4b44-8dea-418a8ec29ec6",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:48:19.5411551\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-148ca749-d29e-4b44-8dea-418a8ec29ec6",
-              "queueId": "test-queue-148ca749-d29e-4b44-8dea-418a8ec29ec6",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-a493-c15a5c95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-16f323d9-c3a1-435e-890f-3b63b9f65a16",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:46:30.5987126\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-16f323d9-c3a1-435e-890f-3b63b9f65a16",
-              "queueId": "test-queue-16f323d9-c3a1-435e-890f-3b63b9f65a16",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-d4db-c9195c95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:41:31.514641\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
-              "queueId": "test-queue-ce23c914-fcf6-4a8e-b02d-1a6bdce2c6d3",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-82dd-96675b95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:38:02.101\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
-              "queueId": "test-queue-444c0a70-7ac9-4b8e-9ec5-373db462a4da",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-f604-b5ea5a95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T07:36:08.9096461\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
-              "queueId": "test-queue-4107e182-b3f9-4d78-b3e2-82cbc804fa28",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-45e9-58a75a95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-3975c2c5-95fb-47e3-8549-ccbfa24a88db",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T06:00:54.1789369\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-5364-3e594d95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-e31d556f-a4be-4774-bd19-a1da1ae0cb0e",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T05:58:41.326425\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-77b5-000a4d95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-6249e1d1-6ceb-46e8-827f-0c4009814a63",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T05:52:01.8504453\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-d29d-e91b4c95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-e988c088-7181-4abf-8542-e051a39027ad",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T05:47:27.9132263\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-d614-a3784b95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-d5f943e4-0adf-45ad-9c11-6105de003f3b",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T05:45:08.0352573\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-8536-47254b95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-3be0d316-847a-4e4c-ba86-e4e30d81ef8e",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-13T05:42:11.2482641\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {
-                "escalated": true
-              },
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-5271-e4bb4a95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job-45a18349-a657-4467-acab-f7f537b5e11a",
-              "jobStatus": "cancelled",
-              "enqueueTimeUtc": "2022-09-13T05:41:47.4846129\u002B00:00",
-              "channelId": "test-channel",
-              "classificationPolicyId": "test-c-policy",
-              "queueId": "test-queue",
-              "priority": 1,
-              "dispositionCode": "Cancelled",
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000006-0000-0000-fb6a-6ba74a95da08\u0022"
-          },
-          {
-            "routerJob": {
-              "id": "test-job",
-              "jobStatus": "queued",
-              "enqueueTimeUtc": "2022-09-07T17:24:22.1842382\u002B00:00",
-              "channelId": "test-channel",
-              "queueId": "test-queue",
-              "priority": 5,
-              "requestedWorkerSelectors": [],
-              "attachedWorkerSelectors": [],
-              "labels": {},
-              "assignments": {},
-              "tags": {},
-              "notes": {}
-            },
-            "etag": "\u002200000007-0000-0000-a979-14d4f590da08\u0022"
-          }
-        ]
+        "error": {
+          "code": "ApiVersionUnspecified",
+          "message": "An API version is required, but was not specified."
+        }
       }
     },
     {
@@ -2076,20 +760,20 @@
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "40f1cffa-561a-48a8-a8fa-071b46c2d0ba",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f56ff8fc-c14c-458b-82c2-117ba3315ef3",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:21 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:57 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Apr 2023 23:04:23 GMT",
-        "trace-id": "0784e0ad-d39f-eb99-93cc-fcf975c682c8",
+        "Date": "Tue, 02 May 2023 20:34:58 GMT",
+        "trace-id": "72f31d1b-aff0-60f9-ae4b-7e44530bba74",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0961JZAAAAAC\u002BajyaVHURQJoIMHKu8UzPWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "08XNRZAAAAADnt50Hg8tgR7eCi5sL3mlSWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {}
@@ -2102,18 +786,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "2bec7073-6c3c-4d3d-b766-b6f6a93499cd",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "918399f9-8945-4d2a-8b3e-58ca12e6f781",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:22 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:57 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:04:24 GMT",
-        "trace-id": "892b46e5-2d23-ccec-66a0-09f6a91aaa5a",
-        "X-Azure-Ref": "0\u002BK1JZAAAAACSQr9KkiITSaokKZlOeesWWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:34:58 GMT",
+        "trace-id": "295cfe09-3d9c-471d-acca-2eef3bc97ac3",
+        "X-Azure-Ref": "08nNRZAAAAAAxoYV5fFq3QKdw4MEHsQrhWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -2126,18 +810,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ebc61d81-cf8f-48ed-abe0-0ee8d049b5f4",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0cf3b585-afaa-40c2-ab8d-aa9f0f57031f",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:22 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:58 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:04:24 GMT",
-        "trace-id": "9c879054-a067-bbec-4845-90e4b6716a26",
-        "X-Azure-Ref": "0\u002BK1JZAAAAABfSsez2kcGQbxwNbHCp6axWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:34:59 GMT",
+        "trace-id": "4064422a-3847-4007-a86e-3fa29b5c2705",
+        "X-Azure-Ref": "08nNRZAAAAAB8UagtyMdcTKG\u002BAp\u002BzpyB2WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -2150,18 +834,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ca5e2b19-7b17-4c5e-a8a9-5f600cc34c07",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d4795787-3286-4adb-888c-7eccaab46e6e",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:23 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:59 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:04:25 GMT",
-        "trace-id": "2fe643b4-26c2-c6c8-adfb-c92bebe81b4b",
-        "X-Azure-Ref": "0\u002Ba1JZAAAAABTi\u002BKvhUyHR4JiD4sJvizQWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:34:59 GMT",
+        "trace-id": "851c43c8-92d4-62d4-a9e3-8f7a80037df3",
+        "X-Azure-Ref": "083NRZAAAAADkQFn6DuEtQI96dU0no2yLWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -2174,18 +858,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "01cf99cd-ed38-457e-8eb8-5ec6dd73670e",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0770f70e-d3e4-46dc-8f98-b1a206b6cd0f",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:23 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:59 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:04:25 GMT",
-        "trace-id": "f7af5ea3-76a7-428d-29cd-ad47195c2a15",
-        "X-Azure-Ref": "0\u002Ba1JZAAAAAD\u002B3zr4kvraTLtIogJnrNkuWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:35:00 GMT",
+        "trace-id": "04103afb-57c2-7e35-55f5-c01352651f7a",
+        "X-Azure-Ref": "083NRZAAAAACuM3AvcdFOR61zuI4nSplhWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -2198,18 +882,18 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-azure-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "da77f18d-cce7-4e43-b663-1ac9a26cb23f",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d662852e-0f6b-4c91-a52c-0a7aaeb7fb90",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 26 Apr 2023 23:04:23 GMT"
+        "x-ms-date": "Tue, 02 May 2023 20:34:59 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Wed, 26 Apr 2023 23:04:25 GMT",
-        "trace-id": "0c6d6de5-5609-13dc-f9f4-4b6da1a3bf2a",
-        "X-Azure-Ref": "0\u002Bq1JZAAAAAC9jUli3E3RSbhGI0PtdFidWVZSMzExMDAwMTE1MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Tue, 02 May 2023 20:35:00 GMT",
+        "trace-id": "540c1c48-d777-ea52-09e7-9d9433e164b1",
+        "X-Azure-Ref": "09HNRZAAAAABQQFDJHrhaS6bm9D6P6IqnWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
