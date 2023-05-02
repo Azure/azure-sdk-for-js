@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.1.0-beta.1 (2023-05-02)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added Resource centric query logs api for `LogsIngestionClient`.
 
 ## 1.0.3 (2022-10-05)
 
