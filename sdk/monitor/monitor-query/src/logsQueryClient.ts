@@ -182,14 +182,16 @@ export class LogsQueryClient {
   }
 
   /**
-   * Queries logs in a Log Analytics Resource.
+   * Executes a Kusto query on an Azure resource
    *
-   * @param resourceId - The 'Resource Id' for the Log Analytics Resource
-   * @param query - A Kusto query.
+   * @param resourceId - The identifier of the resource. The expected format is
+         '/subscriptions/<sid>/resourceGroups/<rg>/providers/<providerName>/<resourceType>/<resourceName>'.
+   * @param query - A Kusto query. Learn more about the `Kusto query syntax
+         <https://docs.microsoft.com/azure/data-explorer/kusto/query/>`
    * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
-   *  Some common durations can be found in the `Durations` object.
+   *  Some common durations can be found in the {@link Durations} object.
    * @param options - Options to adjust various aspects of the request.
-   * @returns The result of the query.
+   * @returns Returns all the Azure Monitor logs matching the given Kusto query for an Azure resource.
    */
   async queryResource(
     resourceId: string,
