@@ -190,7 +190,9 @@ describe("CallConnection Unit Tests", () => {
     promiseResult
       .then((result: TransferCallResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.transferCallToParticipant.calledWith(target.targetParticipant));
+        assert.isTrue(
+          callConnection.transferCallToParticipant.calledWith(target.targetParticipant)
+        );
         assert.equal(result, transferCallResultMock);
         return;
       })
