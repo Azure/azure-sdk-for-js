@@ -20,9 +20,7 @@ export async function hasPowerShell(): Promise<boolean> {
       cmd.on("exit", (code) => (code === 0 ? resolve(true) : resolve(false)));
     });
 
-    if (success) {
-      return true;
-    } else continue;
+    if (success) return true;
   }
 
   return false;
