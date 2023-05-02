@@ -11,6 +11,10 @@ import { createPrinter } from "../../util/printer";
 
 import { ensureDir, pathExists, writeFile } from "fs-extra";
 
+import * as prettier from "prettier";
+
+import prettierOptions from "../../../../eslint-plugin-azure-sdk/prettier.json";
+
 const log = createPrinter("create-migration");
 
 export const commandInfo = makeCommandInfo("create-migration", "scaffolds a new migration", {
@@ -138,8 +142,13 @@ export default leafCommand(commandInfo, async (options) => {
   // Get the instantiated template and write it to the migrations folder.
   const result = migrationTemplate(template);
 
+  const formattedResult = prettier.format(result, {
+    ...(prettierOptions as prettier.Options),
+    parser: "typescript",
+  });
+
   await ensureDir(path.dirname(migrationFile));
-  await writeFile(migrationFile, result);
+  await writeFile(migrationFile, formattedResult);
 
   log.success(`Migration '${id}' created successfully!`);
 
