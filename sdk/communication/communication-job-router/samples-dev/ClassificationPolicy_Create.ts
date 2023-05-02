@@ -33,14 +33,14 @@ async function createClassificationPolicy(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false
     },
-    offerTtlInSeconds: 15
+    offerTtlSeconds: 15
   };
   await routerAdministrationClient.createDistributionPolicy(distributionPolicyId, distributionPolicyRequest);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
     kind: "queue-length",
-    maxJobCount: 100
+    threshold: 100
   }
 
   const exceptionPolicyId = "exception-policy-123";

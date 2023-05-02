@@ -279,6 +279,8 @@ export class CloudEventsDispatcher {
     switch (eventType) {
       case EventType.Connect: {
         const connectRequest = await readSystemEventRequest<ConnectRequest>(request, origin);
+        // service passes out query property, assign it to queries
+        connectRequest.queries = connectRequest.query;
         logger.verbose(connectRequest);
 
         this.eventHandler.handleConnect!(

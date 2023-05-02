@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BuildServiceAgentPoolResource,
   BuildServiceAgentPoolListOptionalParams,
@@ -68,8 +68,8 @@ export interface BuildServiceAgentPool {
     agentPoolResource: BuildServiceAgentPoolResource,
     options?: BuildServiceAgentPoolUpdatePutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BuildServiceAgentPoolUpdatePutResponse>,
+    SimplePollerLike<
+      OperationState<BuildServiceAgentPoolUpdatePutResponse>,
       BuildServiceAgentPoolUpdatePutResponse
     >
   >;

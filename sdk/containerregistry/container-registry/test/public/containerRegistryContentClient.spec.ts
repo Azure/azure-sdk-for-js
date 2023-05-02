@@ -9,9 +9,6 @@ import {
 } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
-  GetManifestResult,
-  GetOciImageManifestResult,
-  isGetOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
 } from "../../src";
@@ -21,12 +18,6 @@ import { createBlobClient, recorderStartOptions, serviceVersions } from "../util
 import fs from "fs";
 import { Readable } from "stream";
 import { readStreamToEnd } from "../../src/utils/helpers";
-
-function assertIsOciManifest(
-  downloadManifestResult: GetManifestResult
-): asserts downloadManifestResult is GetOciImageManifestResult {
-  assert.isTrue(isGetOciImageManifestResult(downloadManifestResult));
-}
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryContentClient", function () {
@@ -67,13 +58,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       config: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
-        sizeInBytes: 171,
+        size: 171,
       },
       layers: [
         {
           mediaType: "application/vnd.oci.image.layer.v1.tar",
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
-          sizeInBytes: 28,
+          size: 28,
           annotations: {
             title: "artifact.txt",
           },
@@ -95,7 +86,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const uploadResult = await client.setManifest(manifest);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
@@ -114,7 +105,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.setManifest(manifestStream);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
+
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
@@ -135,7 +127,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       );
       const uploadResult = await client.setManifest(manifestBuffer);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
@@ -148,7 +140,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const uploadResult = await client.setManifest(manifest, { tag: "my_artifact" });
       const downloadResult = await client.getManifest("my_artifact");
-      assertIsOciManifest(downloadResult);
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
@@ -213,7 +205,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.setManifest(manifestStream, { tag: "my_artifact" });
       const downloadResult = await client.getManifest("my_artifact");
-      assertIsOciManifest(downloadResult);
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
@@ -271,6 +263,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const bigBlob = Buffer.alloc(bufferSize, 0x00);
       const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
       assert.equal(sizeInBytes, bufferSize);
+      await client.deleteBlob(digest);
+    });
+
+    it("deleteBlob should succeed when trying to delete a nonexistent blob", async function () {
+      // Digest is just the shasum of the string "i dont exist"
+      const digest = "sha256:b76ba664a289336a4af5d4e262d691dbc2940576dca60a71dfe1b6f73b44658a";
       await client.deleteBlob(digest);
     });
   });

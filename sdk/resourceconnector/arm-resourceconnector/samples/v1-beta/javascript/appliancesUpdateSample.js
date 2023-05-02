@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
  *
  * @summary Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesPatch.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesPatch.json
  */
 async function updateAppliance() {
   const subscriptionId =

@@ -51,21 +51,11 @@ export interface GetManifestResult {
    * The raw content of the manifest that was downloaded.
    */
   content: Buffer;
-}
-
-/**
- * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciImageManifest}) from the registry.
- */
-export interface GetOciImageManifestResult extends GetManifestResult {
-  /**
-   * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
-   */
-  mediaType: KnownManifestMediaType.OciImageManifest;
 
   /**
-   * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
+   * The deserialized manifest
    */
-  manifest: OciImageManifest;
+  manifest: Record<string, unknown>;
 }
 
 /**
@@ -98,7 +88,7 @@ export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  sizeInBytes: number;
+  size: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -107,10 +97,30 @@ export interface OciDescriptor {
   annotations?: OciAnnotations;
 }
 
-/** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
-export interface OciImageManifest {
+/**
+ * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() is an OCI image manifest.
+ */
+export function isOciImageManifest(
+  manifest: Record<string, unknown>
+): manifest is OciImageManifest {
+  return (
+    manifest.schemaVersion === 2 &&
+    typeof manifest.config === "object" &&
+    Array.isArray(manifest.layers)
+  );
+}
+
+/**
+ * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
+ * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
+ */
+export interface OciImageManifest extends Record<string, unknown> {
   /** Schema version */
-  schemaVersion?: number;
+  schemaVersion: 2;
+  /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
+  mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+  /** When the manifest is used for an artifact, the type of said artifact. */
+  artifactType?: string;
   /** V2 image config descriptor */
   config: OciDescriptor;
   /** List of V2 image layer information */
@@ -120,9 +130,9 @@ export interface OciImageManifest {
 }
 
 /** Additional information provided through arbitrary metadata */
-export interface OciAnnotations {
+export interface OciAnnotations extends Record<string, unknown> {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdOn?: Date;
+  created?: string;
   /** Contact details of the people or organization responsible for the image. */
   authors?: string;
   /** URL to find more information on the image. */
@@ -145,8 +155,6 @@ export interface OciAnnotations {
   title?: string;
   /** Human-readable description of the software packaged in the image */
   description?: string;
-  /** Additional properties */
-  [additionalProperties: string]: unknown;
 }
 
 /**
