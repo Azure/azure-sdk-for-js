@@ -51,6 +51,7 @@ export interface AddParticipantSucceededEventData extends Omit<RestAddParticipan
 export interface AnswerCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
+    operationContext?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CallResult" needs to be exported by the entry point index.d.ts
@@ -104,14 +105,16 @@ export class CallConnection {
 
 // @public
 export interface CallConnectionProperties {
+    answeredByIdentifier?: CommunicationUserIdentifier;
     callbackUrl?: string;
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
+    correlationId?: string;
     mediaSubscriptionId?: string;
     serverCallId?: string;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    sourceIdentity?: CommunicationIdentifier;
+    sourceIdentity?: CommunicationUserIdentifier;
     targetParticipants?: CommunicationIdentifier[];
 }
 
@@ -617,11 +620,15 @@ export interface RestRecognizeCompleted {
     // Warning: (ae-forgotten-export) The symbol "CollectTonesResult" needs to be exported by the entry point index.d.ts
     collectTonesResult?: CollectTonesResult;
     correlationId?: string;
+    // Warning: (ae-forgotten-export) The symbol "DtmfResult" needs to be exported by the entry point index.d.ts
+    dtmfResult?: DtmfResult;
     operationContext?: string;
     // Warning: (ae-forgotten-export) The symbol "RecognitionType" needs to be exported by the entry point index.d.ts
     recognitionType?: RecognitionType;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SpeechResult" needs to be exported by the entry point index.d.ts
+    readonly speechResult?: SpeechResult;
 }
 
 // @public (undocumented)

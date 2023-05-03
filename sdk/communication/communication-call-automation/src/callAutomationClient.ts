@@ -15,7 +15,6 @@ import { SDK_VERSION } from "./models/constants";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
-  CommunicationIdentifierModel,
   CommunicationUserIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
