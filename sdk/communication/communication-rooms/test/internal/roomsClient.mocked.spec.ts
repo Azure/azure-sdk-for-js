@@ -8,6 +8,8 @@ import {
   createRoomsClient,
   generateHttpClient,
   mockCreateRoomsResult,
+  mockListRoomsResultWithNextLink,
+  mockListRoomsResultWithoutNextLink,
   mockUpdateRoomsResult,
 } from "./utils/mockedClient";
 
@@ -18,7 +20,7 @@ describe("[Mocked] RoomsClient", async function () {
     sinon.restore();
   });
 
-  it("makes successful create Rooms request", async function () {
+  it("successfully makes create Rooms request", async function () {
     const mockHttpClient = generateHttpClient(201, mockCreateRoomsResult);
 
     roomsClient = createRoomsClient(mockHttpClient);
@@ -40,7 +42,7 @@ describe("[Mocked] RoomsClient", async function () {
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
-  it("makes update Rooms request", async function () {
+  it("successfully makes update Rooms request", async function () {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -62,7 +64,7 @@ describe("[Mocked] RoomsClient", async function () {
     assert.deepEqual(request.body as string, JSON.stringify(sendOptions));
   });
 
-  it("makes add Participant request", async function () {
+  it("successfully makes add Participant request", async function () {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -82,5 +84,36 @@ describe("[Mocked] RoomsClient", async function () {
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "PATCH");
     assert.deepEqual(request.body as string, JSON.stringify(sendOptions));
+  });
+
+  it("successfully list rooms request with nextLink", async function () {
+    let mockHttpClient = generateHttpClient(200, mockListRoomsResultWithNextLink);
+    roomsClient = createRoomsClient(mockHttpClient);
+
+    const listRoomsResult = await roomsClient.listRooms();
+
+    assert.isDefined(listRoomsResult);
+    
+    for await (const roomModel of listRoomsResult) {
+        assert.isDefined(roomModel);
+        assert.isNotEmpty(roomModel);       
+        assert.isTrue(mockListRoomsResultWithNextLink.value.some(room => room.id === roomModel.id));
+        break;
+    }
+  });
+
+  it("successfully list rooms request without nextLink", async function () {
+    let mockHttpClient = generateHttpClient(200, mockListRoomsResultWithoutNextLink);
+    roomsClient = createRoomsClient(mockHttpClient);
+
+    const listRoomsResult = await roomsClient.listRooms();
+
+    assert.isDefined(listRoomsResult);
+    
+    for await (const roomModel of listRoomsResult) {
+        assert.isDefined(roomModel);
+        assert.isNotEmpty(roomModel);       
+        assert.isTrue(mockListRoomsResultWithoutNextLink.value.some(room => room.id === roomModel.id));
+    }
   });
 });

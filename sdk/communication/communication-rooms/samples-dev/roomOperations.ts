@@ -75,6 +75,19 @@ export async function main() {
   console.log(`Successfully updated room with id: ${roomId}. Room details:`);
   printRoom(updateRoom);
 
+    
+  console.log(`List all active rooms...`);
+
+  // list available rooms
+    const listRooms = await roomsClient.listRooms();
+    console.log(`List Rooms`);
+    for await(const roomModel of listRooms)
+    {
+      printRoom(roomModel);
+    }
+
+  console.log(`Successfully list all active rooms.`);
+
   console.log(`Deleting room with id: ${roomId}...`);
 
   // deletes the specified room
