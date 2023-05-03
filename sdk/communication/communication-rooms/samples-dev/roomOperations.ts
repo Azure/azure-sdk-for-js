@@ -68,6 +68,14 @@ export async function main() {
   console.log(`Updated Room`);
   printRoom(updateRoom);
 
+    // list available rooms
+    const listRooms = await roomsClient.listRooms();
+    console.log(`List Rooms`);
+    for await(const roomModel of listRooms)
+    {
+      printRoom(roomModel);
+    }
+
   // deletes the specified room
   await roomsClient.deleteRoom(roomId);
 }

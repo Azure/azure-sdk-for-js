@@ -10,35 +10,36 @@
         "Connection": "keep-alive",
         "Content-Length": "19",
         "Content-Type": "application/json",
-        "Repeatability-First-Sent": "Fri, 28 Apr 2023 13:26:49 GMT",
-        "Repeatability-Request-ID": "6ad577d4-8506-4032-aadf-8ecb6688352e",
-        "User-Agent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.3 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ee320122-1fdf-4982-a9d9-b16b17ac8cc9",
+        "Repeatability-First-Sent": "Wed, 03 May 2023 22:31:10 GMT",
+        "Repeatability-Request-ID": "3ebb5026-4d99-48f1-add1-8181ffb82ac6",
+        "User-Agent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "51eb3e27-9920-4077-a927-987f998d9bae",
         "x-ms-content-sha256": "vhXrIgThnry4Vy9lrHrKsAYqKYXb\u002BKwOlgiPVnEdBio=",
-        "x-ms-date": "Fri, 28 Apr 2023 13:26:49 GMT"
+        "x-ms-date": "Wed, 03 May 2023 22:31:10 GMT"
       },
       "RequestBody": {
         "participants": {}
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07, 2022-02-01, 2023-03-31-preview",
+        "api-deprecated-versions": "2021-04-07",
+        "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 28 Apr 2023 13:26:52 GMT",
-        "Location": "99429044980397468",
-        "MS-CV": "Gka/x5QZqEiOwy2W2G1RyA.0",
+        "Date": "Wed, 03 May 2023 22:31:11 GMT",
+        "Location": "99433250410717086",
+        "MS-CV": "hn5pCnVUSk6JuAPUX/SQyg.0",
         "Repeatability-Result": "accepted",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230428T132651Z-apa3upnaz12m36w2sbn9uwts0n0000000580000000005sra",
+        "x-azure-ref": "20230503T223110Z-3kxbsk7sg12ux40e9gwkc8pr5c00000000mg00000000sx8t",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99429044980397468",
-        "createdAt": "2023-04-28T13:26:51.9836639\u002B00:00",
-        "validFrom": "2023-04-28T13:26:51.7125916\u002B00:00",
-        "validUntil": "2023-10-25T13:26:51.7125916\u002B00:00"
+        "id": "99433250410717086",
+        "createdAt": "2023-05-03T22:31:10.9680092\u002B00:00",
+        "validFrom": "2023-05-03T22:31:10.9036612\u002B00:00",
+        "validUntil": "2023-10-30T22:31:10.9036612\u002B00:00"
       }
     }
   ],
