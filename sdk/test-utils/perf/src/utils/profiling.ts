@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Session } from "node:inspector";
 import * as fs from "fs-extra";
 

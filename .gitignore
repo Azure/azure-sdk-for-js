@@ -172,5 +172,7 @@ code-model-*
 
 # CPU profiles
 *.cpuprofile
+# heapdump
+*.heapsnapshot
 # Temp typespec files
 TempTypeSpecFiles/

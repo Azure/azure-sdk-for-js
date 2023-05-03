@@ -12,7 +12,7 @@ import {
 } from "./options";
 import { AbortController } from "@azure/abort-controller";
 import { Snapshot } from "./snapshot";
-import heapdump from "heapdump";
+import { generateHeapDump } from "./utils/heapdump";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
@@ -20,7 +20,7 @@ import heapdump from "heapdump";
 export interface PerfTestConstructor<
   TOptions extends Record<string, unknown> = Record<string, unknown>
 > {
-  new (): PerfTestBase<TOptions>;
+  new(): PerfTestBase<TOptions>;
 }
 
 /**
@@ -95,8 +95,14 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   ): Promise<void>;
 
   public getSnapshot(): Snapshot {
-    if (this.parsedOptions.heapdump.value) {
-      heapdump.writeSnapshot(`dump-${this.lastMillisecondsElapsed}.heapsnapshot`);
+    const shouldGenerateHeapDump =
+      this.parsedOptions.heapdump.value
+      && (
+        Math.floor(this.lastMillisecondsElapsed / 1000)
+        %
+        Math.floor(this.parsedOptions.duration.value / 10) === 0);
+    if (shouldGenerateHeapDump) {
+      generateHeapDump(this.lastMillisecondsElapsed);
     }
     return {
       lastMillisecondsElapsed: this.lastMillisecondsElapsed,
