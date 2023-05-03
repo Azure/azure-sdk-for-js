@@ -15,9 +15,11 @@ Our need for enhanced package management automation is ever-increasing. One of t
 A new command, `dev-tool migrate` provides access to migration-tracking functionality. It is used as follows:
 
 - `dev-tool migrate`: Starts a new migration. If any migration is **suspended** in any package, then this command fails. If the git tree is dirty (no changes to tracked files), this command fails. **Pending** migrations are executed in order of their `date`, beginning with the oldest migration that is strictly newer than the package's `migrationDate`. If the package has no `migrationDate`, then all migrations are included. Migrations that have a `date` that is in the future relative to the current time are excluded.
-  1. If a migration has no automated `execution`, the migration is **suspended** and the command requests developer intervention to resolve the migration status and prints instructions to do so, similar to a `git merge` conflict. The command saves the **suspended** migration state and returns control to the user's shell.
-  2. If a migration has a `validation`, the result of its execution (whether performed manually or automatically) are validated according to its logic. If the validation function fails, the migration is **suspended** and control is returned to the user. This provides an opportunity to correct invalid migrations. If the migration has no `validation`, it is **suspended** so that you can confirm that it was executed correctly.
-  3. If the migration's `validation` succeeds (or if there is no validation), the migration **succeeds** and the package's `migrationDate` is updated to the `date` of the passed migration. The result of the migration is committed to git. The next migration begins (step 1), or if this is the final migration the whole procedure **succeeds**.
+  1. If a migration has a `pre-condition`, the pre-condition is executed. The pre-condition check tests that the migration's assumptions are valid. If the pre-condition check fails, the migration is **suspended**, an error message is printed, and control is returned to the user. If the migration has no pre-condition check, this step is skipped.
+  2. If the migration has an `eligibility` test, the eligibility test is executed. The eligibility test determines whether or not the migration _should_ be applied. If the `eligibility` test returns false, the migration **succeeds** immediately (the package is ineligible). This empty result is committed to git and the next migration begins (step 1), or if this is the final migration the whole procedure **succeeds**. If the `eligibility` test returns true, the migration proceeds to step 2.
+  3. If a migration has no automated `execution`, the migration is **suspended** and the command requests developer intervention to resolve the migration status and prints instructions to do so, similar to a `git merge` conflict. The command saves the **suspended** migration state and returns control to the user's shell.
+  4. If a migration has a `validation`, the result of its execution (whether performed manually or automatically) are validated according to its logic. If the validation function fails, the migration is **suspended** and control is returned to the user. This provides an opportunity to correct invalid migrations. If the migration has no `validation`, it is **suspended** so that you can confirm that it was executed correctly.
+  5. If the migration's `validation` succeeds (or if there is no validation), the migration **succeeds** and the package's `migrationDate` is updated to the `date` of the passed migration. The result of the migration is committed to git. The next migration begins (step 1), or if this is the final migration the whole procedure **succeeds**.
 - `dev-tool migrate --continue`: **continues** a **suspended** migration, if there is one. The migration's `validation` is executed if there is one. Migrations are always suspended at the `validation` step, so this command resumes a suspended migration beginning with step 3 above.
 - `dev-tool migrate --abort`: discards the migration state and returns the package to its last succeeded state (either the original state if no migrations have succeeded, or the committed state of the last successful migration step).
 - `dev-tool migrate --list`: shows all **pending** migrations for the current package.
@@ -38,6 +40,8 @@ A migration is an entity that is composed of the following information:
 - `url`: an OPTIONAL string containing a URL to a document explaining the migration in more detail (such as a design document or GitHub issue).
 - `execution`: an OPTIONAL associated procedure that partially or fully migrates a package.
 - `validation`: an OPTIONAL associated procedure that partially or fully validates that a migration was performed correctly.
+- `eligibilty`: an OPTIONAL associated procedure that determines whether or not a migration should be applied to a package.
+- `pre-condition`: an OPTIONAL associated procedure that determines whether or not a migration can be applied to a package.
 
 The repository will store a sequence of migrations in an unspecified format.
 
@@ -92,7 +96,8 @@ For example, reworking our CI processes is currently a monumental task because i
 
 ## Questions
 
-- Do we need to support running migrations out of order? I can imagine that some packages may want to skip certain migrations, but this increases the complexity of the system substantially if migrations cannot assume that previous migrations have been applied. I'm inclined to say no, that we only want to support migrations all-or-nothing and executed in order.
+- Q: Do we need to support running migrations out of order? I can imagine that some packages may want to skip certain migrations, but this increases the complexity of the system substantially if migrations cannot assume that previous migrations have been applied.
+- A: No, we do not need to support running migrations out of order. If it is required, we may support multiple in-order "channels" or sequences of migrations that can be applied sequentially. The system will not support skipping migrations if a package is eligible, as such would greatly increase the complexity of the system overall.
 
 ## Examples
 
@@ -101,4 +106,4 @@ For example, reworking our CI processes is currently a monumental task because i
 
 ## Future Enhancement
 
-TBD, comments welcome.
+- In the future, we'd like to add support for multiple migration "channels" if necessary. For example, a critical channel and a non-critical channel. The critical channel would include migrations that must be applied as soon as possible, and the non-critical channel would include less important migrations that may require intervention from the package maintainers to apply correctly.
