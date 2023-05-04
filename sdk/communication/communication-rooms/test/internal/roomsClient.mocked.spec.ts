@@ -87,33 +87,35 @@ describe("[Mocked] RoomsClient", async function () {
   });
 
   it("successfully list rooms request with nextLink", async function () {
-    let mockHttpClient = generateHttpClient(200, mockListRoomsResultWithNextLink);
+    const mockHttpClient = generateHttpClient(200, mockListRoomsResultWithNextLink);
     roomsClient = createRoomsClient(mockHttpClient);
 
     const listRoomsResult = await roomsClient.listRooms();
 
     assert.isDefined(listRoomsResult);
-    
+
     for await (const roomModel of listRoomsResult) {
-        assert.isDefined(roomModel);
-        assert.isNotEmpty(roomModel);       
-        assert.isTrue(mockListRoomsResultWithNextLink.value.some(room => room.id === roomModel.id));
-        break;
+      assert.isDefined(roomModel);
+      assert.isNotEmpty(roomModel);
+      assert.isTrue(mockListRoomsResultWithNextLink.value.some((room) => room.id === roomModel.id));
+      break;
     }
   });
 
   it("successfully list rooms request without nextLink", async function () {
-    let mockHttpClient = generateHttpClient(200, mockListRoomsResultWithoutNextLink);
+    const mockHttpClient = generateHttpClient(200, mockListRoomsResultWithoutNextLink);
     roomsClient = createRoomsClient(mockHttpClient);
 
     const listRoomsResult = await roomsClient.listRooms();
 
     assert.isDefined(listRoomsResult);
-    
+
     for await (const roomModel of listRoomsResult) {
-        assert.isDefined(roomModel);
-        assert.isNotEmpty(roomModel);       
-        assert.isTrue(mockListRoomsResultWithoutNextLink.value.some(room => room.id === roomModel.id));
+      assert.isDefined(roomModel);
+      assert.isNotEmpty(roomModel);
+      assert.isTrue(
+        mockListRoomsResultWithoutNextLink.value.some((room) => room.id === roomModel.id)
+      );
     }
   });
 });

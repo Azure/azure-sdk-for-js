@@ -75,7 +75,6 @@ export async function main() {
   console.log(`Successfully updated room with id: ${roomId}. Room details:`);
   printRoom(updateRoom);
 
-    
   console.log(`List all active rooms...`);
 
   // list available rooms
