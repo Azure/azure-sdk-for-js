@@ -8,6 +8,7 @@
 
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
+import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
@@ -41,6 +42,7 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
+    loggingOptions?: LogPolicyOptions;
 };
 
 // @public
