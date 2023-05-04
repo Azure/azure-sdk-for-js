@@ -1,5 +1,16 @@
 # Release History
 
+## 1.0.4 (2023-05-05)
+
+### Bugs Fixed
+
+- Fixed the ISO8601 value for `twentyFourHours`to reflect `P24H`, instead of `P1D` under `Durations` object.
+
+### Other Changes
+
+- Added alias `fortyEightHours` for ISO8601 value `P48H` under `Durations` object.
+- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value  to be `P48H` instead of `P2D` under `Durations` object.
+
 ## 1.1.0-beta.1 (2023-05-02)
 
 ### Features Added
@@ -7,7 +18,6 @@
 - Added Resource centric query logs api for `LogsIngestionClient`.
 
 ## 1.0.3 (2022-10-05)
-
 ### Bugs Fixed
 
 - #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
