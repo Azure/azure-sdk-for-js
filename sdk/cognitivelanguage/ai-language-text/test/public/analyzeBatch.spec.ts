@@ -482,8 +482,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
           });
-          // TODO: record
-          it.only("too many documents", async function () {
+          it("too many documents", async function () {
             const docs = Array(26).fill("random text");
             await assertRestError(
               client.beginAnalyzeBatch(
@@ -506,7 +505,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.only("payload too large", async function () {
+          it("payload too large", async function () {
             const large_doc =
               "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
                 CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -786,7 +785,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        it.only("whole batch input with auto language detection", async function () {
+        it("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
             "Este es un document escrito en Español.",
@@ -937,8 +936,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
           assert.isTrue(nonEmptyResult);
         });
-        // TODO: record
-        it.only("rehydrated polling", async function () {
+
+        it("rehydrated polling", async function () {
           const docs = [
             { id: "0", language: "en", text: "Patient does not suffer from high blood pressure." },
             { id: "1", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
@@ -995,7 +994,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it.only("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1013,7 +1012,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it.only("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [

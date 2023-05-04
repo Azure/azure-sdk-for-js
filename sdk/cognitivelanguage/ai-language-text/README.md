@@ -10,7 +10,6 @@
 - Named Entity Recognition
 - Recognition of Personally Identifiable Information
 - Entity Linking
-- Healthcare Analysis
 - Extractive Summarization
 - Abstractive Summarization
 - Custom Entity Recognition
@@ -44,8 +43,6 @@ To get started, submit a request for access [here](https://aka.ms/applyforgateds
 * [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
 * [Entity Resolutions](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-resolutions)
-* [Specifying healthcare document type for better FHIR results](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
-
 
 ## Getting started
 
@@ -203,7 +200,6 @@ if (result.error !== undefined) {
 * [Entity Linking](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityLinking.ts)
 * [Entity Regconition](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityRecognition.ts)
 * [Extractive Summarization](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/extractiveSummarization.ts)
-* [Healthcare Analysis](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/healthcare.ts)
 * [Key Phrase Extraction](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/keyPhraseExtraction.ts)
 * [Language Detection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/languageDetection.ts)
 * [Opinion Mining](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/opinionMining.ts)

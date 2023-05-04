@@ -280,68 +280,6 @@ async function main() {
 main();
 ```
 
-### Healthcare Analysis
-
-Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
-
-FHIR, or Fast Healthcare Interoperability Resource, is a standard that defines how healthcare information can be exchanged by different computer systems. To receive a FHIR bundle for a particular text document, input `4.0.1` for the `fhirVersion`. You can also pass the `document_type` if the type of document in the source text is known. Supported document types include "ClinicalTrial", "DischargeSumamry", "ProgressNote", and more, which can be found in this [reference docs](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-textanalytics/5.3.0b1/azure.ai.textanalytics.html#azure.ai.textanalytics.HealthcareDocumentType)
-
-```javascript
-const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
-
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
-
-const documents = [
-  "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure.",
-];
-
-async function main() {
-  const actions = [
-    {
-      kind: "Healthcare",
-      fhirVersion: "4.0.1",
-      documentType: KnownHealthcareDocumentType.DischargeSummary,
-    },
-  ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
-  const results = await poller.pollUntilDone();
-
-  for await (const actionResult of results) {
-    if (actionResult.kind !== "Healthcare") {
-      throw new Error(`Expected a healthcare results but got: ${actionResult.kind}`);
-    }
-    if (actionResult.error) {
-      const { code, message } = actionResult.error;
-      throw new Error(`Unexpected error (${code}): ${message}`);
-    }
-    for (const result of actionResult.results) {
-      console.log(`- Document ${result.id}`);
-      if (result.error) {
-        const { code, message } = result.error;
-        throw new Error(`Unexpected error (${code}): ${message}`);
-      }
-
-      console.log("\tRecognized Entities:");
-      for (const entity of result.entities) {
-        console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
-        if (entity.dataSources.length > 0) {
-          console.log("\t and it can be referenced in the following data sources:");
-          for (const ds of entity.dataSources) {
-            console.log(`\t\t- ${ds.name} with Entity ID: ${ds.entityId}`);
-          }
-        }
-      }
-
-      console.log("\tFHIR Bundle:")
-      console.log(JSON.stringify(result.fhirBundle, undefined, 4));
-    }
-  }
-}
-
-main();
-```
-
 ### Extractive Summarization
 
 Extractive summarization identifies sentences that summarize the article they belong to.
