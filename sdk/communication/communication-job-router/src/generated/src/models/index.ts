@@ -584,7 +584,7 @@ export interface QueueSelector {
   /** Describes how the value of the label is compared to the value defined on the label selector */
   labelOperator: LabelOperator;
   /** The value to compare against the actual label value with the given operator */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** Credentials used to access Azure function rule */

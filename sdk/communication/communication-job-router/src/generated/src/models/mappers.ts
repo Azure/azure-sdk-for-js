@@ -1457,7 +1457,8 @@ export const QueueSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
