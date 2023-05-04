@@ -27,7 +27,12 @@ import {
 
 import { FileSource } from "./models/models";
 
-import { PlayOptions, CallMediaRecognizeDtmfOptions } from "./models/options";
+import {
+  PlayOptions,
+  CallMediaRecognizeDtmfOptions,
+  ContinuousDtmfRecognitionOptions,
+  SendDtmfOptions,
+} from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
@@ -180,15 +185,15 @@ export class CallMedia {
   /**
    * Start continuous Dtmf recognition by subscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param operationContext - The value to identify context of the operation.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    operationContext?: string
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -200,15 +205,15 @@ export class CallMedia {
   /**
    * Stop continuous Dtmf recognition by unsubscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param operationContext - The value to identify context of the operation.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    operationContext?: string
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
@@ -221,17 +226,17 @@ export class CallMedia {
    * Send Dtmf tones.
    * @param targetParticipant - Target participant.
    * @param tones - List of tones to be sent to target participant.
-   * @param operationContext - The value to identify context of the operation.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for send Dtmf tones
    * */
   public async sendDtmf(
     targetParticipant: CommunicationIdentifier,
     tones: Tone[],
-    operationContext?: string
+    sendDtmfOptions: SendDtmfOptions = {}
   ): Promise<void> {
     const sendDtmfRequest: SendDtmfRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       tones: tones,
-      operationContext: operationContext,
+      operationContext: sendDtmfOptions.operationContext,
     };
     return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }

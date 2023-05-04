@@ -158,10 +158,10 @@ export class CallMedia {
     play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
     playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmf(targetParticipant: CommunicationIdentifier, tones: Tone[], operationContext?: string): Promise<void>;
-    startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, operationContext?: string): Promise<void>;
+    sendDtmf(targetParticipant: CommunicationIdentifier, tones: Tone[], sendDtmfOptions?: SendDtmfOptions): Promise<void>;
+    startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
-    stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, operationContext?: string): Promise<void>;
+    stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
 
 // @public
@@ -232,6 +232,11 @@ export interface CallTransferFailedEventData extends Omit<RestCallTransferFailed
 }
 
 // @public
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
 export interface ContinuousDtmfRecognitionStoppedEventData extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
     callConnectionId: string;
     correlationId: string;
@@ -257,7 +262,6 @@ export interface ContinuousDtmfRecognitionToneReceivedEventData extends Omit<Res
     kind: "ContinuousDtmfRecognitionToneReceived";
     resultInformation?: ResultInformation;
     serverCallId: string;
-    // Warning: (ae-forgotten-export) The symbol "ToneInfo" needs to be exported by the entry point index.d.ts
     toneInfo: ToneInfo;
 }
 
@@ -622,7 +626,7 @@ export interface RestContinuousDtmfRecognitionToneReceived {
     correlationId?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    toneInfo?: ToneInfo;
+    toneInfo?: RestToneInfo;
 }
 
 // @public
@@ -736,6 +740,14 @@ export interface RestSendDtmfFailed {
     serverCallId?: string;
 }
 
+// @public
+export interface RestToneInfo {
+    participantId?: string;
+    sequenceId: number;
+    // (undocumented)
+    tone: Tone;
+}
+
 // @public (undocumented)
 export interface ResultInformation extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
     code: number;
@@ -767,6 +779,11 @@ export interface SendDtmfFailedEventData extends Omit<RestSendDtmfFailed, "callC
 }
 
 // @public
+export interface SendDtmfOptions extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -778,6 +795,13 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
+    participantId?: string;
+    sequenceId: number;
+    tone: Tone;
+}
 
 // @public
 export interface TransferCallResult {

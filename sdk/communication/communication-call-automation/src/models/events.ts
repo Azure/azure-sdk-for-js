@@ -26,7 +26,8 @@ import {
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
   SendDtmfCompleted as RestSendDtmfCompleted,
   SendDtmfFailed as RestSendDtmfFailed,
-  ToneInfo,
+  ToneInfo as RestToneInfo,
+  Tone,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -76,6 +77,7 @@ export {
   RestContinuousDtmfRecognitionStopped,
   RestSendDtmfCompleted,
   RestSendDtmfFailed,
+  RestToneInfo,
 };
 
 export interface ResultInformation
@@ -357,6 +359,16 @@ export interface RecognizeCanceledEventData
   correlationId: string;
   /** kind of this event. */
   kind: "RecognizeCanceled";
+}
+
+/** The information about the tone. */
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  /** Defines values for Tone. */
+  tone: Tone;
+  /** The id of participant. */
+  participantId?: string;
 }
 
 /** Event sent when Dtmf tone received from targeted participant in call. */

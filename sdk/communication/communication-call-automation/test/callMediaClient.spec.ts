@@ -19,6 +19,8 @@ import {
   CallAutomationClient,
   CallConnection,
   CallInvite,
+  ContinuousDtmfRecognitionOptions,
+  SendDtmfOptions,
 } from "../src";
 
 // Current directory imports
@@ -143,14 +145,19 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const operationContext = "test_operation_context";
+    const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
+      operationContext: "test_operation_context",
+    };
 
-    await callMedia.startContinuousDtmfRecognition(targetParticipant, operationContext);
+    await callMedia.startContinuousDtmfRecognition(
+      targetParticipant,
+      continuousDtmfRecognitionOptions
+    );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
-    assert.equal(data.operationContext, operationContext);
+    assert.equal(data.operationContext, continuousDtmfRecognitionOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 
@@ -160,14 +167,19 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const operationContext = "test_operation_context";
+    const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
+      operationContext: "test_operation_context",
+    };
 
-    await callMedia.stopContinuousDtmfRecognition(targetParticipant, operationContext);
+    await callMedia.stopContinuousDtmfRecognition(
+      targetParticipant,
+      continuousDtmfRecognitionOptions
+    );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
-    assert.equal(data.operationContext, operationContext);
+    assert.equal(data.operationContext, continuousDtmfRecognitionOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 
@@ -177,16 +189,18 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const operationContext = "test_operation_context";
+    const sendDtmfOptions: SendDtmfOptions = {
+      operationContext: "test_operation_context",
+    };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(targetParticipant, tones, operationContext);
+    await callMedia.sendDtmf(targetParticipant, tones, sendDtmfOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, operationContext);
+    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });
