@@ -3,9 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownHealthcareDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
-  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -28,12 +26,9 @@ import {
   expectation17,
   expectation18,
   expectation19,
-  expectation20,
-  expectation21,
   expectation22,
   expectation23,
   expectation24,
-  expectation25,
   expectation26,
   expectation27,
   expectation28,
@@ -45,7 +40,6 @@ import {
   expectation8,
   expectation9,
   expectation33,
-  expectation32,
   expectation30,
   expectation31,
   expectation71,
@@ -62,7 +56,6 @@ const FIXME2 = {
   excludedAdditionalProps: ["warnings"],
 };
 
-const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
@@ -284,76 +277,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
-          it("healthcare", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation20);
-          });
-
-          it("healthcare with fhir", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
-          });
-
-          it("healthcare with known documents type", async function () {
-            const docs = [
-              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Patient does not suffer from high blood pressure.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                  documentType: KnownHealthcareDocumentType.DischargeSummary,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation32, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
-          });
-
           it("extractive summarization", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
@@ -559,14 +482,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
           });
-
-          it("too many documents", async function () {
+          // TODO: record
+          it.skip("too many documents", async function () {
             const docs = Array(26).fill("random text");
             await assertRestError(
               client.beginAnalyzeBatch(
                 [
                   {
-                    kind: AnalyzeBatchActionNames.Healthcare,
+                    kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   },
                 ],
                 docs,
@@ -582,8 +505,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
           });
-
-          it("payload too large", async function () {
+          // TODO: rerecord
+          it.skip("payload too large", async function () {
             const large_doc =
               "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
                 CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -603,7 +526,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client.beginAnalyzeBatch(
                 [
                   {
-                    kind: AnalyzeBatchActionNames.Healthcare,
+                    kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   },
                 ],
                 docs,
@@ -618,28 +541,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 messagePattern: /Request Payload sent is too large to be processed/,
               }
             );
-          });
-
-          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
-          it.skip("big document causes a warning", async function () {
-            let text = "";
-            for (let i = 0; i < 5121; ++i) {
-              text = text + "x";
-            }
-            const docs = [text];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
           });
         });
 
@@ -885,7 +786,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
+        // TODO: rerecord
         it.skip("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
@@ -908,9 +809,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               },
               {
                 kind: AnalyzeBatchActionNames.EntityLinking,
-              },
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
               },
             ],
             docs,
@@ -1006,9 +904,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           ];
           const actions = [
             {
-              kind: AnalyzeBatchActionNames.Healthcare,
-            },
-            {
               kind: AnalyzeBatchActionNames.EntityRecognition,
             },
             {
@@ -1043,17 +938,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
           assert.isTrue(nonEmptyResult);
         });
-
-        it("rehydrated polling", async function () {
+        // TODO: record
+        it.skip("rehydrated polling", async function () {
           const docs = [
             { id: "0", language: "en", text: "Patient does not suffer from high blood pressure." },
             { id: "1", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
           ];
           const originalPoller = await client.beginAnalyzeBatch(
             [
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
               {
                 kind: AnalyzeBatchActionNames.EntityRecognition,
               },
@@ -1103,13 +995,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
-
-          it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
-            const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
+          // TODO: rerecord
+          it.skip("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
+            const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.Healthcare,
+                  kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   stringIndexType: KnownStringIndexType.Utf16CodeUnit,
                 },
               ],
@@ -1121,13 +1013,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
-
-          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
-            const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
+          // TODO: rerecord
+          it.skip("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+            const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.Healthcare,
+                  kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   stringIndexType: KnownStringIndexType.UnicodeCodePoint,
                 },
               ],

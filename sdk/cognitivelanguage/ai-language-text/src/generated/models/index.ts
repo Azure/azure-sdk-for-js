@@ -1473,8 +1473,6 @@ export enum KnownAnalyzeTextLROTaskKind {
   KeyPhraseExtraction = "KeyPhraseExtraction",
   /** EntityLinking */
   EntityLinking = "EntityLinking",
-  /** Healthcare */
-  Healthcare = "Healthcare",
   /** ExtractiveSummarization */
   ExtractiveSummarization = "ExtractiveSummarization",
   /** CustomEntityRecognition */

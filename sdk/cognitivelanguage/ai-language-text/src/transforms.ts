@@ -19,16 +19,11 @@ import {
   ExtractiveSummarizationLROResult,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
-  HealthcareEntity as GeneratedHealthcareEntity,
-  HealthcareResult as GeneratedHealthcareResult,
   KeyPhraseResult as GeneratedKeyPhraseExtractionResult,
   LanguageDetectionResult as GeneratedLanguageDetectionResult,
   PiiResult as GeneratedPiiEntityRecognitionResult,
   SentenceSentiment as GeneratedSentenceSentiment,
   SentimentResponse as GeneratedSentimentAnalysisResult,
-  HealthcareLROResult,
-  HealthcareRelation,
-  HealthcareRelationEntity,
   InnerErrorModel,
   KeyPhraseExtractionLROResult,
   KeyPhraseTaskResult,
@@ -43,7 +38,6 @@ import {
   CustomEntitiesResultDocumentsItem,
   ExtractedSummaryDocumentResultWithDetectedLanguage,
   AbstractiveSummaryDocumentResultWithDetectedLanguage,
-  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
   CustomLabelClassificationResultDocumentsItem,
 } from "./generated";
 import {
@@ -53,11 +47,6 @@ import {
   AnalyzeResult,
   EntityLinkingResult,
   EntityRecognitionResult,
-  HealthcareEntity,
-  HealthcareEntityRelation,
-  HealthcareEntityRelationRole,
-  HealthcareResult,
-  HealthcareSuccessResult,
   KeyPhraseExtractionResult,
   LanguageDetectionResult,
   Opinion,
@@ -67,13 +56,11 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
-  WithDetectedLanguage,
 } from "./models";
 import {
   AssessmentIndex,
   extractErrorPointerIndex,
   parseAssessmentIndex,
-  parseHealthcareEntityIndex,
   sortResponseIdObjects,
 } from "./util";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -329,52 +316,6 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
   }
 }
 
-function toHealthcareResult(
-  docIds: string[],
-  results: GeneratedHealthcareResult
-): HealthcareResult[] {
-  function makeHealthcareEntity(entity: GeneratedHealthcareEntity): HealthcareEntity {
-    const { dataSources, ...rest } = entity;
-    return {
-      dataSources: dataSources ?? [],
-      ...rest,
-    };
-  }
-  function makeHealthcareRelation(
-    entities: HealthcareEntity[]
-  ): (relation: HealthcareRelation) => HealthcareEntityRelation {
-    return ({
-      entities: generatedEntities,
-      relationType,
-      confidenceScore,
-    }: HealthcareRelation): HealthcareEntityRelation => ({
-      relationType: relationType,
-      confidenceScore,
-      roles: generatedEntities.map(
-        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
-          entity: entities[parseHealthcareEntityIndex(role.ref)],
-          name: role.role,
-        })
-      ),
-    });
-  }
-  return transformDocumentResults<
-    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
-    WithDetectedLanguage<HealthcareSuccessResult>
-  >(docIds, results, {
-    processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
-      const newEntities = entities.map(makeHealthcareEntity);
-      return {
-        entities: newEntities,
-        entityRelations: relations.map(makeHealthcareRelation(newEntities)),
-        // FIXME: remove this mitigation when the API fixes the representation on their end
-        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
-        ...rest,
-      };
-    },
-  });
-}
-
 /**
  * @internal
  */
@@ -462,22 +403,6 @@ export function transformAnalyzeBatchResults(
         return {
           kind,
           results: toEntityLinkingResult(docIds, results),
-          completedOn,
-          ...(actionName ? { actionName } : {}),
-          ...(statistics ? { statistics } : {}),
-          modelVersion,
-        };
-      }
-      case "HealthcareLROResults": {
-        const kind = "Healthcare";
-        if (actionData.status === "failed") {
-          return returnErrorTask(kind, error, completedOn);
-        }
-        const { results } = actionData as HealthcareLROResult;
-        const { modelVersion, statistics } = results;
-        return {
-          kind,
-          results: toHealthcareResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

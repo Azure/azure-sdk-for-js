@@ -72,21 +72,6 @@ export function parseAssessmentIndex(pointer: string): AssessmentIndex {
 }
 
 /**
- * Parses the index of the healthcare entity from a JSON pointer.
- * @param pointer - a JSON pointer representing an entity
- * @internal
- */
-export function parseHealthcareEntityIndex(pointer: string): number {
-  const regex = new RegExp(/#\/results\/documents\/(\d+)\/entities\/(\d+)/);
-  const res = regex.exec(pointer);
-  if (res !== null) {
-    return parseInt(res[2]);
-  } else {
-    throw new Error(`Pointer "${pointer}" is not a valid healthcare entity pointer`);
-  }
-}
-
-/**
  * @internal
  */
 export function isStringArray(documents: unknown[]): documents is string[] {

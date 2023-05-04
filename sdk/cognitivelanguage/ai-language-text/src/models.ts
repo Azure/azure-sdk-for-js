@@ -13,21 +13,16 @@ import {
   DocumentSentimentLabel,
   DocumentWarning,
   Entity,
-  EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
   EntityWithResolution,
   ExtractiveSummarizationAction,
-  HealthcareAction,
-  HealthcareAssertion,
-  HealthcareEntityCategory,
   KeyPhraseExtractionAction,
   KnownErrorCode,
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
   PiiEntityRecognitionAction,
-  RelationType,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
@@ -116,7 +111,6 @@ export const AnalyzeBatchActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
-  Healthcare: "Healthcare",
   ExtractiveSummarization: "ExtractiveSummarization",
   AbstractiveSummarization: "AbstractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
@@ -152,14 +146,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
-
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
 
 /** Options for an Abstractive Summarization action. */
 export interface AbstractiveSummarizationAction {
@@ -467,124 +453,6 @@ export interface Opinion {
 }
 
 /**
- * A healthcare entity represented as a node in a directed graph where the edges are
- * a particular type of relationship between the source and target nodes.
- */
-export interface HealthcareEntity extends Entity {
-  /**
-   * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
-   */
-  readonly normalizedText?: string;
-  /**
-   * Whether the entity is negated.
-   */
-  readonly assertion?: HealthcareAssertion;
-  /**
-   * Entity references in known data sources.
-   */
-  readonly dataSources: EntityDataSource[];
-  /**
-   * Defines values for HealthcareEntityCategory.
-   * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
-   *  this enum contains the known values that the service supports.
-   * ### Known values supported by the service
-   * **BODY_STRUCTURE**
-   * **AGE**
-   * **GENDER**
-   * **EXAMINATION_NAME**
-   * **DATE**
-   * **DIRECTION**
-   * **FREQUENCY**
-   * **MEASUREMENT_VALUE**
-   * **MEASUREMENT_UNIT**
-   * **RELATIONAL_OPERATOR**
-   * **TIME**
-   * **GENE_OR_PROTEIN**
-   * **VARIANT**
-   * **ADMINISTRATIVE_EVENT**
-   * **CARE_ENVIRONMENT**
-   * **HEALTHCARE_PROFESSION**
-   * **DIAGNOSIS**
-   * **SYMPTOM_OR_SIGN**
-   * **CONDITION_QUALIFIER**
-   * **MEDICATION_CLASS**
-   * **MEDICATION_NAME**
-   * **DOSAGE**
-   * **MEDICATION_FORM**
-   * **MEDICATION_ROUTE**
-   * **FAMILY_RELATION**
-   * **TREATMENT_NAME**
-   */
-  readonly category: HealthcareEntityCategory;
-}
-
-/**
- * The type of different roles a healthcare entity can play in a relation.
- */
-export type HealthcareEntityRelationRoleType = string;
-
-/**
- * A healthcare entity that plays a specific role in a relation.
- */
-export interface HealthcareEntityRelationRole {
-  /**
-   * A healthcare entity
-   */
-  readonly entity: HealthcareEntity;
-  /**
-   * The role of the healthcare entity in a particular relation.
-   */
-  readonly name: HealthcareEntityRelationRoleType;
-}
-
-/**
- * A relationship between two or more healthcare entities.
- */
-export interface HealthcareEntityRelation {
-  /**
-   * The type of the healthcare relation.
-   */
-  readonly relationType: RelationType;
-  /**
-   * The list of healthcare entities and their roles in the healthcare relation.
-   */
-  readonly roles: HealthcareEntityRelationRole[];
-  /**
-   * The confidence score between 0 and 1 of the extracted relation.
-   */
-  readonly confidenceScore?: number;
-}
-
-/**
- * The results of a successful healthcare analysis action for a single document.
- */
-export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * Healthcare entities.
-   */
-  readonly entities: HealthcareEntity[];
-  /**
-   * Relations between healthcare entities.
-   */
-  readonly entityRelations: HealthcareEntityRelation[];
-  /**
-   * JSON bundle containing a FHIR compatible object for consumption in other
-   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
-   */
-  readonly fhirBundle?: Record<string, any>;
-}
-
-/**
- * An error result from the healthcare analysis action on a single document.
- */
-export type HealthcareErrorResult = TextAnalysisErrorResult;
-
-/**
- * The result of the healthcare analysis action on a single document.
- */
-export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
-
-/**
  * The result of the extractive summarization action on a single document.
  */
 export type ExtractiveSummarizationResult =
@@ -747,14 +615,6 @@ export interface PiiEntityRecognitionBatchAction
   kind: "PiiEntityRecognition";
 }
 
-/** Options for a healthcare batch action. */
-export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
-  /**
-   * The kind of the action.
-   */
-  kind: "Healthcare";
-}
-
 /** Options for a sentiment analysis batch action. */
 export interface SentimentAnalysisBatchAction
   extends AnalyzeBatchActionCommon,
@@ -823,7 +683,6 @@ export type AnalyzeBatchAction =
   | EntityRecognitionBatchAction
   | KeyPhraseExtractionBatchAction
   | PiiEntityRecognitionBatchAction
-  | HealthcareBatchAction
   | SentimentAnalysisBatchAction
   | ExtractiveSummarizationBatchAction
   | AbstractiveSummarizationBatchAction
@@ -957,12 +816,6 @@ export type SentimentAnalysisBatchResult = ActionMetadata &
   BatchActionResult<SentimentAnalysisResult, "SentimentAnalysis">;
 
 /**
- * The result of a healthcare batch action.
- */
-export type HealthcareBatchResult = ActionMetadata &
-  BatchActionResult<HealthcareResult, "Healthcare">;
-
-/**
  * The result of an extractive summarization batch action.
  */
 export type ExtractiveSummarizationBatchResult = ActionMetadata &
@@ -1000,7 +853,6 @@ export type AnalyzeBatchResult =
   | KeyPhraseExtractionBatchResult
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
-  | HealthcareBatchResult
   | ExtractiveSummarizationBatchResult
   | AbstractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult

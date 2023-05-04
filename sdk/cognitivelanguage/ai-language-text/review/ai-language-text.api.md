@@ -98,7 +98,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | ExtractiveSummarizationBatchAction | AbstractiveSummarizationBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | SentimentAnalysisBatchAction | ExtractiveSummarizationBatchAction | AbstractiveSummarizationBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -115,7 +115,6 @@ export const AnalyzeBatchActionNames: {
     readonly PiiEntityRecognition: "PiiEntityRecognition";
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
-    readonly Healthcare: "Healthcare";
     readonly ExtractiveSummarization: "ExtractiveSummarization";
     readonly AbstractiveSummarization: "AbstractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
@@ -143,7 +142,7 @@ export interface AnalyzeBatchOperationState extends OperationState<PagedAnalyzeB
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | AbstractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | ExtractiveSummarizationBatchResult | AbstractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -326,6 +325,7 @@ export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
     name: string;
+    // Warning: (ae-forgotten-export) The symbol "ScriptKind" needs to be exported by the entry point index.d.ts
     script?: ScriptKind;
 }
 
@@ -451,74 +451,6 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type FhirVersion = string;
-
-// @public
-export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: HealthcareDocumentType;
-    fhirVersion?: FhirVersion;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export interface HealthcareAssertion {
-    association?: EntityAssociation;
-    certainty?: EntityCertainty;
-    conditionality?: EntityConditionality;
-}
-
-// @public
-export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
-    kind: "Healthcare";
-}
-
-// @public
-export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
-
-// @public
-export type HealthcareDocumentType = string;
-
-// @public
-export interface HealthcareEntity extends Entity {
-    readonly assertion?: HealthcareAssertion;
-    readonly category: HealthcareEntityCategory;
-    readonly dataSources: EntityDataSource[];
-    readonly normalizedText?: string;
-}
-
-// @public
-export type HealthcareEntityCategory = string;
-
-// @public
-export interface HealthcareEntityRelation {
-    readonly confidenceScore?: number;
-    readonly relationType: RelationType;
-    readonly roles: HealthcareEntityRelationRole[];
-}
-
-// @public
-export interface HealthcareEntityRelationRole {
-    readonly entity: HealthcareEntity;
-    readonly name: HealthcareEntityRelationRoleType;
-}
-
-// @public
-export type HealthcareEntityRelationRoleType = string;
-
-// @public
-export type HealthcareErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
-
-// @public
-export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
-    readonly entities: HealthcareEntity[];
-    readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
-}
-
-// @public
 export interface InformationResolution extends BaseResolution, QuantityResolution {
     resolutionKind: "InformationResolution";
     unit: InformationUnit;
@@ -611,54 +543,6 @@ export enum KnownErrorCode {
 export enum KnownExtractiveSummarizationOrderingCriteria {
     Offset = "Offset",
     Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
-}
-
-// @public
-export enum KnownHealthcareDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
-}
-
-// @public
-export enum KnownHealthcareEntityCategory {
-    AdministrativeEvent = "AdministrativeEvent",
-    Age = "Age",
-    BodyStructure = "BodyStructure",
-    CareEnvironment = "CareEnvironment",
-    ConditionQualifier = "ConditionQualifier",
-    Date = "Date",
-    Diagnosis = "Diagnosis",
-    Direction = "Direction",
-    Dosage = "Dosage",
-    ExaminationName = "ExaminationName",
-    FamilyRelation = "FamilyRelation",
-    Frequency = "Frequency",
-    Gender = "Gender",
-    GeneOrProtein = "GeneOrProtein",
-    HealthcareProfession = "HealthcareProfession",
-    MeasurementUnit = "MeasurementUnit",
-    MeasurementValue = "MeasurementValue",
-    MedicationClass = "MedicationClass",
-    MedicationForm = "MedicationForm",
-    MedicationName = "MedicationName",
-    MedicationRoute = "MedicationRoute",
-    RelationalOperator = "RelationalOperator",
-    SymptomOrSign = "SymptomOrSign",
-    Time = "Time",
-    TreatmentName = "TreatmentName",
-    Variant = "Variant"
 }
 
 // @public
@@ -976,11 +860,6 @@ export enum KnownResolutionKind {
 }
 
 // @public
-export enum KnownScriptKind {
-    Latin = "Latin"
-}
-
-// @public
 export enum KnownSpeedUnit {
     CentimeterPerMillisecond = "CentimeterPerMillisecond",
     FootPerMinute = "FootPerMinute",
@@ -1262,9 +1141,6 @@ export type RelativeTo = string;
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ScriptKind = string;
 
 // @public
 export interface SentenceSentiment {

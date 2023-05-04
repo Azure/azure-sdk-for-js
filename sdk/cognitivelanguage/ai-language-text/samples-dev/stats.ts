@@ -66,42 +66,6 @@ export async function main() {
     console.log(`\t\t-Character count: ${stats.characterCount}`);
     console.log(`\t\t-Transaction count: ${stats.transactionCount}`);
   }
-
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "Healthcare",
-      },
-    ],
-    documents,
-    "en",
-    {
-      includeStatistics: true,
-    }
-  );
-  const actions = await poller.pollUntilDone();
-  console.log("Statistics for beginAnalyzeActions:");
-  for await (const action of actions) {
-    const stats = action.statistics;
-    if (!stats) {
-      throw new Error("statistics are missing");
-    }
-    console.log("\tAction statistics: ");
-    console.log(`\t\t- Documents count: ${stats.documentCount}`);
-    console.log(`\t\t- Valid documents count: ${stats.validDocumentCount}`);
-    console.log(`\t\t- Erroneous documents count: ${stats.erroneousDocumentCount}`);
-    console.log(`\t\t- Transactions count: ${stats.transactionCount}`);
-    if (!action.error) {
-      for (const doc of action.results) {
-        if (!doc.error) {
-          console.log(`\t\t- Document ID: ${doc.id}`);
-          const stats = doc.statistics!;
-          console.log(`\t\t\t- Character count: ${stats.characterCount}`);
-          console.log(`\t\t\t- Transaction count: ${stats.transactionCount}`);
-        }
-      }
-    }
-  }
 }
 
 main().catch((err) => {
