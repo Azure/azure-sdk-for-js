@@ -99,7 +99,7 @@ export class CallConnection {
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
-    transferCallToParticipant(targetParticipant: CallInvite, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
+    transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
 
 // @public
@@ -685,6 +685,12 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
 }
 
 // (No @packageDocumentation comment for this package)

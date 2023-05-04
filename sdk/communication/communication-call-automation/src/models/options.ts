@@ -88,6 +88,10 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Custom context for PSTN. */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Custom context for voip. */
+  voipHeaders?: { [propertyName: string]: string };
 }
 
 /** Options to add participants. */
