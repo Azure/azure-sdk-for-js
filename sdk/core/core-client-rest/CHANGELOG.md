@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add loggingOptions in ClientOptions for logger support.
 
 ## 1.1.2 (2023-04-06)
 
