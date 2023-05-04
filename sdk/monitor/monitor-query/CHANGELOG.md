@@ -1,7 +1,12 @@
 # Release History
 
-## 1.0.3 (2022-10-05)
+## 1.0.4 (2023-05-05)
+### Bugs Fixed
 
+- Fixed the aliases spelling error for a `Durations` constant for `fortyEightHours`.
+- Fixed the ISO8601 values for `twentyFourHours` and `fortyEightHours` to reflect `P24H` and `P48H` respectively, instead of `P1D` and `P2D`.
+
+## 1.0.3 (2022-10-05)
 ### Bugs Fixed
 
 - #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
