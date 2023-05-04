@@ -16,10 +16,6 @@ Since `1.1.0-beta.3`:
   - Renamed `OciImageManifest.configuration` to `config`.
 - Removed `GetOciImageManifestResult` and the corresponding type guard, `isGetOciImageManifestResult`.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.1.0-beta.3 (2023-04-11)
 
 ### Features Added
