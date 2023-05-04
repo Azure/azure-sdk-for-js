@@ -41,8 +41,8 @@ describe("CallRecording Unit Tests", async function () {
     callRecording = createRecordingClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const channelZeroParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID }
-    const channelAffinity: ChannelAffinity = { participant: channelZeroParticipant, channel: 0 }
+    const channelZeroParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+    const channelAffinity: ChannelAffinity = { participant: channelZeroParticipant, channel: 0 };
 
     const recOptions: StartRecordingOptions = {
       recordingStateCallbackEndpointUrl: CALL_CALLBACK_URL,
@@ -50,7 +50,7 @@ describe("CallRecording Unit Tests", async function () {
       recordingChannel: "unmixed",
       recordingFormat: "wav",
       recordingContent: "audio",
-      channelAffinity: [channelAffinity]
+      channelAffinity: [channelAffinity],
     };
 
     await callRecording.start(recOptions);
