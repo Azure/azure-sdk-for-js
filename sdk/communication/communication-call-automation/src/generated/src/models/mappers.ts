@@ -1224,6 +1224,18 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
           }
         }
       },
+      channelAffinity: {
+        serializedName: "channelAffinity",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChannelAffinity"
+            }
+          }
+        }
+      },
       externalStorage: {
         serializedName: "externalStorage",
         type: {
@@ -1256,6 +1268,32 @@ export const CallLocator: coreClient.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ChannelAffinity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChannelAffinity",
+    modelProperties: {
+      channel: {
+        constraints: {
+          InclusiveMaximum: 4,
+          InclusiveMinimum: 0
+        },
+        serializedName: "channel",
+        type: {
+          name: "Number"
+        }
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       }
     }
