@@ -128,24 +128,21 @@ describe("RoomsClient", function () {
       await client.updateRoom(roomId, options);
     });
 
-    it("successfully list rooms", async function () {
-      // TODO: Will turn this test on when there is a fix from SS side on token size
-      assert.isTrue(true);      
-      // // const listRoomsResult = await client.listRooms({});
-      // // assert.isDefined(listRoomsResult);
-      // // assert.isNotEmpty(listRoomsResult);   
+    it.skip("successfully list rooms", async function () {
+      const listRoomsResult = await client.listRooms({});
 
-      // // for await (const roomModel of listRoomsResult) {
-      // //     if (roomModel)
-      // //     {
-      // //       assert.isDefined(roomModel);
-      // //       assert.isNotEmpty(roomModel.id);
-      // //       assert.isNotEmpty(roomModel.validFrom);
-      // //       assert.isNotEmpty(roomModel.validUntil);
-      // //     }
+      assert.isDefined(listRoomsResult);
+      assert.isNotEmpty(listRoomsResult);
+      for await (const roomModel of listRoomsResult) {
+        if (roomModel) {
+          assert.isDefined(roomModel);
+          assert.isNotEmpty(roomModel.id);
+          assert.isNotEmpty(roomModel.validFrom);
+          assert.isNotEmpty(roomModel.validUntil);
+        }
 
-      // //     break;
-      // // }
+        break;
+      }
     });
 
     it("successfully deletes a room", async function () {

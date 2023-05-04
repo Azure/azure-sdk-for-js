@@ -55,9 +55,9 @@ export const mockListRoomsResultWithNextLink: RestModel.RoomsListResponse = {
       createdAt: new Date("2022-07-12T18:06:06Z"),
       validFrom: new Date("2022-08-24T18:06:06Z"),
       validUntil: new Date("2022-08-25T18:06:06Z"),
-    }
+    },
   ],
-  nextLink: "http://localhost/rooms?nextLink=abcdefgh&api-version=2023-03-31-preview"
+  nextLink: "http://localhost/rooms?nextLink=abcdefgh&api-version=2023-03-31-preview",
 };
 
 export const mockListRoomsResultWithoutNextLink: RestModel.RoomsListResponse = {
@@ -91,8 +91,8 @@ export const mockListRoomsResultWithoutNextLink: RestModel.RoomsListResponse = {
       createdAt: new Date("2022-07-12T18:06:06Z"),
       validFrom: new Date("2022-08-24T18:06:06Z"),
       validUntil: new Date("2022-08-25T18:06:06Z"),
-    }
-  ]
+    },
+  ],
 };
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
