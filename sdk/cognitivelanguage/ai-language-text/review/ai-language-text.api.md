@@ -325,7 +325,6 @@ export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "ScriptKind" needs to be exported by the entry point index.d.ts
     script?: ScriptKind;
 }
 
@@ -860,6 +859,11 @@ export enum KnownResolutionKind {
 }
 
 // @public
+export enum KnownScriptKind {
+    Latin = "Latin"
+}
+
+// @public
 export enum KnownSpeedUnit {
     CentimeterPerMillisecond = "CentimeterPerMillisecond",
     FootPerMinute = "FootPerMinute",
@@ -1141,6 +1145,9 @@ export type RelativeTo = string;
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ScriptKind = string;
 
 // @public
 export interface SentenceSentiment {
