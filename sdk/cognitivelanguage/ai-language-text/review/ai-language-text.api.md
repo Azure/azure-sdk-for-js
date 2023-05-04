@@ -204,7 +204,7 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
-    readonly results: WithDetectedLanguage<T>[];
+    readonly results: T[];
 }
 
 // @public
@@ -330,11 +330,6 @@ export interface DetectedLanguage {
 }
 
 // @public
-export interface DocumentDetectedLanguage {
-    detectedLanguage?: DetectedLanguage;
-}
-
-// @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
@@ -451,11 +446,9 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type FhirVersion = string;
-
-// @public
 export interface HealthcareAction extends ActionPrebuilt {
     documentType?: HealthcareDocumentType;
+    // Warning: (ae-forgotten-export) The symbol "FhirVersion" needs to be exported by the entry point index.d.ts
     fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
@@ -515,7 +508,6 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -616,19 +608,6 @@ export enum KnownExtractiveSummarizationOrderingCriteria {
 // @public
 export enum KnownFhirVersion {
     "4.0.1" = "4.0.1"
-}
-
-// @public
-export enum KnownHealthcareDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
 }
 
 // @public
@@ -1467,10 +1446,5 @@ export interface WeightResolution extends BaseResolution, QuantityResolution {
 
 // @public
 export type WeightUnit = string;
-
-// @public
-export type WithDetectedLanguage<T> = T & DocumentDetectedLanguage & {
-    isLanguageDefaulted?: boolean;
-};
 
 ```
