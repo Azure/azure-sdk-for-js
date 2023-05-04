@@ -131,7 +131,7 @@ declare global {
  */
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
   return (
-    packageJson[METADATA_KEY].sampleConfiguration ?? packageJson["//sampleConfiguration"] ?? {}
+    packageJson[METADATA_KEY]?.sampleConfiguration ?? packageJson["//sampleConfiguration"] ?? {}
   );
 }
 
