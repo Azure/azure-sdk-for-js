@@ -12,6 +12,7 @@ import {
   RecordingChannel,
   RecordingFormat,
   CallLocator,
+  ChannelAffinity,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -153,6 +154,12 @@ export interface StartRecordingOptions extends OperationOptions {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   */
+  channelAffinity?: ChannelAffinity[];
 }
 
 /**

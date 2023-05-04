@@ -228,6 +228,12 @@ export interface CallTransferFailedEventData extends Omit<RestCallTransferFailed
 }
 
 // @public
+export interface ChannelAffinity {
+    channel?: number;
+    participant: CommunicationIdentifier;
+}
+
+// @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
@@ -617,11 +623,15 @@ export interface RestRecognizeCompleted {
     // Warning: (ae-forgotten-export) The symbol "CollectTonesResult" needs to be exported by the entry point index.d.ts
     collectTonesResult?: CollectTonesResult;
     correlationId?: string;
+    // Warning: (ae-forgotten-export) The symbol "DtmfResult" needs to be exported by the entry point index.d.ts
+    dtmfResult?: DtmfResult;
     operationContext?: string;
     // Warning: (ae-forgotten-export) The symbol "RecognitionType" needs to be exported by the entry point index.d.ts
     recognitionType?: RecognitionType;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SpeechResult" needs to be exported by the entry point index.d.ts
+    readonly speechResult?: SpeechResult;
 }
 
 // @public (undocumented)
@@ -668,6 +678,7 @@ export type ResumeRecordingOptions = OperationOptions;
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
+    channelAffinity?: ChannelAffinity[];
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
