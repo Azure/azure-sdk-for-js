@@ -1,14 +1,20 @@
 # Release History
 
-## 1.1.0-beta.4 (Unreleased)
+## 1.1.0 (2023-05-09)
 
 ### Features Added
+ - Added `ContainerRegistryContentClient` for uploading and downloading OCI blobs and manifests.
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+Since `1.1.0-beta.3`:
+- The manifest property on GetManifestResult is now `Record<string, unknown>` instead of OciImageManifest. This property is now populated regardless of the media type of the manifest, instead of only being populated when the manifest was an OCI image manifest.
+- Added an `isOciImageManifest` type guard to check if a manifest is an OCI image manifest, providing strong typing.
+- Renamed properties on `OciImageManifest`, `OciDescriptor`, and `OciAnnotations` to match the specification exactly:
+  - Renamed `OciAnnotations.createdOn` to `created`.
+  - Renamed `OciDescriptor.sizeInBytes` to `size`.
+  - Renamed `OciImageManifest.configuration` to `config`.
+- Removed `GetOciImageManifestResult` and the corresponding type guard, `isGetOciImageManifestResult`.
 
 ## 1.1.0-beta.3 (2023-04-11)
 
