@@ -1250,7 +1250,12 @@ export type MergeSkill = SearchIndexerSkill & {
   insertPostTag?: string;
 };
 
-/** Text analytics entity recognition. */
+/**
+ * Text analytics entity recognition.
+ *
+ * @deprecated EntityRecognitionSkill has been deprecated. See
+ * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ */
 export type EntityRecognitionSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
@@ -1264,7 +1269,12 @@ export type EntityRecognitionSkill = SearchIndexerSkill & {
   minimumPrecision?: number;
 };
 
-/** Text analytics positive-negative sentiment analysis, scored as a floating point value in a range of zero to 1. */
+/**
+ * Text analytics positive-negative sentiment analysis, scored as a floating point value in a range of zero to 1.
+ *
+ * @deprecated SentimentSkill has been deprecated. See
+ * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ */
 export type SentimentSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SentimentSkill";
