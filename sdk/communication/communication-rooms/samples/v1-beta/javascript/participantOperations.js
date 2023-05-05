@@ -7,12 +7,14 @@
 
 const { RoomsClient } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
-const { getIdentifierRawId } = require("@azure/communication-common");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
+  console.log("Room Participant Operations JavaScript Sample");
+  console.log("_________________________________\n\n");
+
   const connectionString =
     process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -20,6 +22,8 @@ async function main() {
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
+
+  console.log("Creating room...");
 
   // create RoomsClient
   const roomsClient = new RoomsClient(connectionString);
@@ -42,7 +46,9 @@ async function main() {
   // create a room with the request payload
   const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
-  console.log(`Created Room with ID ${roomId}`);
+  console.log(`Successfully created room with id: ${roomId}.`);
+
+  console.log(`Add new participant to room with id: ${roomId}...`);
 
   // request payload to add participants
   const addParticipantsList = [
@@ -53,10 +59,15 @@ async function main() {
   ];
 
   // add user2 to the room with the request payload
-  await roomsClient.addParticipants(roomId, addParticipantsList);
-  const addParticipants = await roomsClient.getParticipants(roomId);
-  console.log(`Added Participants`);
-  printParticipants(addParticipants);
+  await roomsClient.addOrUpdateParticipants(roomId, addParticipantsList);
+
+  console.log(`Successfully added participant to room with id: ${roomId}.`);
+  console.log("Printing participants in room...");
+
+  const addedParticipants = await roomsClient.listParticipants(roomId);
+  printParticipants(addedParticipants);
+
+  console.log("Updating role of participant...");
 
   // request payload to update user1 with a new role
   const updateParticipantsList = [
@@ -67,9 +78,13 @@ async function main() {
   ];
 
   // update user1 with the request payload
-  await roomsClient.updateParticipants(roomId, updateParticipantsList);
-  console.log(`Updated Participants`);
-  printParticipants(await roomsClient.getParticipants(roomId));
+  await roomsClient.addOrUpdateParticipants(roomId, updateParticipantsList);
+  console.log(`Successfully updated participant in room with id: ${roomId}.`);
+  console.log("Printing updated participants in room...");
+
+  printParticipants(await roomsClient.listParticipants(roomId));
+
+  console.log("Removing participant from room...");
 
   // request payload to delete both users from the room
   // this demonstrates both objects that can be used in deleting users from rooms: RoomParticipant or CommunicationIdentifier
@@ -77,25 +92,36 @@ async function main() {
 
   // remove both users from the room with the request payload
   await roomsClient.removeParticipants(roomId, removeParticipantsList);
-  console.log(`Removed Participants`);
-  printParticipants(await roomsClient.getParticipants(roomId));
+  console.log(`Successfully removed participant from room with id: ${roomId}.`);
+  console.log("Printing updated participants in room...");
+
+  printParticipants(await roomsClient.listParticipants(roomId));
+
+  console.log(`Deleting room with id: ${roomId}...`);
 
   // deletes the room for cleanup
   await roomsClient.deleteRoom(roomId);
+
+  console.log(`Successfully deleted room with id: ${roomId}.`);
 }
 
 /**
  * Outputs the participants within a Participantsn to console.
- * @param pc - The Participants being printed to console.
+ * @param participants - The Participants being printed to console.
  */
-function printParticipants(participants) {
-  console.log(`Number of Participants: ${participants.length}`);
-  for (const participant of participants) {
-    const id = getIdentifierRawId(participant.id);
-    const role = participant.role;
-    console.log(`${id} - ${role}`);
+async function printParticipants(participants) {
+  var count = 0;
+  for await (const participant of participants) {
+    if (participant) {
+      count++;
+      const { role, id } = participant;
+      console.log(`---Participant ${count}---`);
+      console.log(`Kind: ${id?.kind}`);
+      console.log(`Role: ${role}\n\n`);
+    }
   }
 }
+
 main().catch((error) => {
   console.error("Encountered an error while sending request: ", error);
   process.exit(1);
