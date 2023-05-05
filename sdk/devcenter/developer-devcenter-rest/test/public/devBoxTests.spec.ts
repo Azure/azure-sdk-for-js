@@ -1,0 +1,438 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { env, Recorder } from "@azure-tools/test-recorder";
+import { assert, expect } from "chai";
+import { createRecordedClient, createRecorder } from "./utils/recordedClient";
+import { Context } from "mocha";
+import {
+  AzureDevCenterClient,
+  getLongRunningPoller,
+  isUnexpected,
+  PoolOutput,
+  paginate,
+  DevBoxOutput,
+  DevBoxActionOutput,
+  ScheduleOutput,
+} from "../../src/index";
+
+describe("DevBox Operations Tests", () => {
+  let recorder: Recorder;
+  let client: AzureDevCenterClient;
+
+  let endpoint: string;
+  let projectName: string;
+  let userId: string;
+  let poolName: string;
+  let devboxName: string;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+
+    endpoint = env["ENDPOINT"] || "";
+    projectName = env["DEFAULT_PROJECT_NAME"] || "";
+    userId = env["DEFAULT_USER_NAME"] || "";
+    poolName = env["DEFAULT_POOL_NAME"] || "";
+    devboxName = env["DEFAULT_DEVBOX_NAME"] || "";
+
+    client = createRecordedClient(recorder, endpoint, {
+      allowInsecureConnection: false,
+    });
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("GetPool", async function () {
+    const poolOutput = await client
+      .path("/projects/{projectName}/pools/{poolName}", projectName, poolName)
+      .get();
+
+    if (isUnexpected(poolOutput)) {
+      throw poolOutput.body.error;
+    }
+
+    expect(poolOutput.body.name).to.equal(poolName);
+  });
+
+  it("GetPools", async function () {
+    const poolsList = await client.path("/projects/{projectName}/pools", projectName).get();
+
+    if (isUnexpected(poolsList)) {
+      throw poolsList.body.error;
+    }
+
+    const pools: PoolOutput[] = [];
+    console.log("Iterating through pool results:");
+
+    for await (const pool of paginate(client, poolsList)) {
+      const { name } = pool;
+      console.log(`Received pool "${name}"`);
+      pools.push(pool);
+    }
+
+    expect(pools.length).to.equal(1);
+    expect(pools[0].name).to.equal(poolName);
+  });
+
+  it("GetSchedule", async function () {
+    await createDevBox();
+
+    const scheduleOutput = await client
+      .path(
+        "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+        projectName,
+        poolName,
+        "default"
+      )
+      .get();
+
+    if (isUnexpected(scheduleOutput)) {
+      throw scheduleOutput.body.error;
+    }
+
+    expect(scheduleOutput.body.name).to.equal("default");
+
+    await deleteDevBox();
+  });
+
+  it("GetSchedules", async function () {
+    await createDevBox();
+
+    const schedulesListResponse = await client
+      .path("/projects/{projectName}/pools/{poolName}/schedules", projectName, poolName)
+      .get();
+
+    if (isUnexpected(schedulesListResponse)) {
+      throw schedulesListResponse.body.error;
+    }
+
+    const schedules: ScheduleOutput[] = [];
+    console.log("Iterating through schedules results:");
+
+    for await (const schedule of paginate(client, schedulesListResponse)) {
+      const { name } = schedule;
+      console.log(`Received schedule "${name}"`);
+      schedules.push(schedule);
+    }
+
+    expect(schedules.length).to.equal(1);
+    expect(schedules[0].name).to.equal("default");
+
+    await deleteDevBox();
+  });
+
+  it("GetDevBox", async function () {
+    await createDevBox();
+
+    const devboxOutput = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
+        projectName,
+        userId,
+        devboxName
+      )
+      .get();
+
+    if (isUnexpected(devboxOutput)) {
+      throw devboxOutput.body.error;
+    }
+
+    expect(devboxOutput.body.name).to.equal(devboxName);
+
+    await deleteDevBox();
+  });
+
+  it("GetRemoteConnection", async function () {
+    await createDevBox();
+
+    const remoteConnectionResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection",
+        projectName,
+        userId,
+        devboxName
+      )
+      .get();
+
+    if (isUnexpected(remoteConnectionResponse)) {
+      throw remoteConnectionResponse.body.error;
+    }
+
+    assert.isTrue(isAValidUrl(remoteConnectionResponse.body.rdpConnectionUrl as string));
+
+    await deleteDevBox();
+  });
+
+  it("GetAllDevBoxes", async function () {
+    await createDevBox();
+
+    const devboxesListResponse = await client.path("/devboxes").get();
+
+    if (isUnexpected(devboxesListResponse)) {
+      throw devboxesListResponse.body.error;
+    }
+
+    const devBoxes: DevBoxOutput[] = [];
+    console.log("Iterating through dev boxes results:");
+
+    for await (const devBox of paginate(client, devboxesListResponse)) {
+      const { name } = devBox;
+      console.log(`Received DevBox "${name}"`);
+      devBoxes.push(devBox);
+    }
+
+    expect(devBoxes.length).to.equal(1);
+    expect(devBoxes[0].name).to.equal(devboxName);
+
+    await deleteDevBox();
+  });
+
+  it("GetAllDevBoxesByUser", async function () {
+    await createDevBox();
+
+    const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
+
+    if (isUnexpected(devboxesListResponse)) {
+      throw devboxesListResponse.body.error;
+    }
+
+    const devBoxes: DevBoxOutput[] = [];
+    console.log("Iterating through dev boxes results:");
+
+    for await (const devBox of paginate(client, devboxesListResponse)) {
+      const { name } = devBox;
+      console.log(`Received DevBox "${name}"`);
+      devBoxes.push(devBox);
+    }
+
+    expect(devBoxes.length).to.equal(1);
+    expect(devBoxes[0].name).to.equal(devboxName);
+
+    await deleteDevBox();
+  });
+
+  it("GetDevBoxes", async function () {
+    await createDevBox();
+
+    const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
+
+    if (isUnexpected(devboxesListResponse)) {
+      throw devboxesListResponse.body.error;
+    }
+
+    const devBoxes: DevBoxOutput[] = [];
+    console.log("Iterating through dev boxes results:");
+
+    for await (const devBox of paginate(client, devboxesListResponse)) {
+      const { name } = devBox;
+      console.log(`Received DevBox "${name}"`);
+      devBoxes.push(devBox);
+    }
+
+    expect(devBoxes.length).to.equal(1);
+    expect(devBoxes[0].name).to.equal(devboxName);
+
+    await deleteDevBox();
+  });
+
+  it("GetActions", async function () {
+    await createDevBox();
+
+    const actionsListResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions",
+        projectName,
+        userId,
+        devboxName
+      )
+      .get();
+
+    if (isUnexpected(actionsListResponse)) {
+      throw actionsListResponse.body.error;
+    }
+
+    const actions: DevBoxActionOutput[] = [];
+    console.log("Iterating through dev box actions results:");
+
+    for await (const action of paginate(client, actionsListResponse)) {
+      const { name } = action;
+      console.log(`Received DevBox action"${name}"`);
+      actions.push(action);
+    }
+
+    expect(actions.length).to.equal(1);
+    expect(actions[0].name).to.equal("schedule-default");
+
+    await deleteDevBox();
+  });
+
+  it("GetAction", async function () {
+    await createDevBox();
+
+    const actionResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}",
+        projectName,
+        userId,
+        devboxName,
+        "schedule-default"
+      )
+      .get();
+
+    if (isUnexpected(actionResponse)) {
+      throw actionResponse.body.error;
+    }
+
+    expect(actionResponse.body.name).to.equal("schedule-default");
+
+    await deleteDevBox();
+  });
+
+  it("SkipAction", async function () {
+    await createDevBox();
+
+    const skipActionResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip",
+        projectName,
+        userId,
+        devboxName,
+        "schedule-default"
+      )
+      .post();
+
+      assert.equal(
+        skipActionResponse.status,
+        "200"
+      );
+
+    await deleteDevBox();
+  });
+
+  it("DelayAction", async function () {
+    await createDevBox();
+
+    /*
+    const skipActionResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay",
+        projectName,
+        userId,
+        devboxName,
+        "schedule-default"
+      )
+      .post();
+
+    if (isUnexpected(skipActionResponse)) {
+      throw skipActionResponse.body.error;
+    }
+    */
+
+    await deleteDevBox();
+  });
+
+  it("DelayAllActions", async function () {
+    await createDevBox();
+
+    await deleteDevBox();
+  });
+
+  it("StartDevBox", async function () {
+    await createDevBox();
+
+    const startDevBoxResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start",
+        projectName,
+        userId,
+        devboxName
+      )
+      .post();
+
+    const devBoxStartPoller = getLongRunningPoller(client, startDevBoxResponse);
+    const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
+
+    if (isUnexpected(devBoxStartResult)) {
+      throw new Error(devBoxStartResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxStartResult.status,
+      "200",
+      "Dev box start long-running operation should return 200 OK."
+    );
+
+    await deleteDevBox();
+  });
+
+  it("StopDevBox", async function () {
+    await createDevBox();
+
+    const stopDevBoxResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop",
+        projectName,
+        userId,
+        devboxName
+      )
+      .post();
+
+    const devBoxStopPoller = getLongRunningPoller(client, stopDevBoxResponse);
+    const devBoxStopResult = await devBoxStopPoller.pollUntilDone();
+
+    if (isUnexpected(devBoxStopResult)) {
+      throw new Error(devBoxStopResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxStopResult.status,
+      "200",
+      "Dev box stop long-running operation should return 200 OK."
+    );
+
+    await deleteDevBox();
+  });
+
+  it("RestartDevBox", async function () {
+    await createDevBox();
+
+    const restartDevBoxResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart",
+        projectName,
+        userId,
+        devboxName
+      )
+      .post();
+
+    const devBoxRestartPoller = getLongRunningPoller(client, restartDevBoxResponse);
+    const devBoxRestartResult = await devBoxRestartPoller.pollUntilDone();
+
+    if (isUnexpected(devBoxRestartResult)) {
+      throw new Error(devBoxRestartResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxRestartResult.status,
+      "200",
+      "Dev box restart long-running operation should return 200 OK."
+    );
+
+    await deleteDevBox();
+  });
+
+  async function createDevBox() {}
+
+  async function deleteDevBox() {}
+
+  function isAValidUrl(value: string): boolean {
+    try {
+      const url = new URL(value);
+      return true;
+    } catch (TypeError) {
+      return false;
+    }
+  }
+});

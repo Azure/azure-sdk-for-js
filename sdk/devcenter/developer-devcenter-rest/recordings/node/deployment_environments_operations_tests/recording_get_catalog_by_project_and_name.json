@@ -1,0 +1,34 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog?api-version=2023-01-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "56ea7913-75bd-493c-a3a3-2dad98f8c4b2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "35",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 05 May 2023 22:06:00 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-client-request-id": "56ea7913-75bd-493c-a3a3-2dad98f8c4b2",
+        "x-ms-correlation-request-id": "35b7a2e8-e16c-4472-9f7c-9c0a13acbab5",
+        "X-Rate-Limit-Limit": "1m",
+        "X-Rate-Limit-Remaining": "286",
+        "X-Rate-Limit-Reset": "2023-05-05T22:06:15.2830960Z"
+      },
+      "ResponseBody": {
+        "name": "sdk-default-catalog"
+      }
+    }
+  ],
+  "Variables": {}
+}
