@@ -65,6 +65,7 @@ describe("DataLakePathClient Node.js only", () => {
 
     const properties = await testFileClient.getProperties();
     assert.equal(properties.owner, owner);
+    assert.equal(properties.group, "$superuser");
   });
 
   it("DataLakeFileClient create with group", async () => {
@@ -77,6 +78,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.equal(result.group, group);
 
     const properties = await testFileClient.getProperties();
+    assert.equal(properties.owner, "$superuser");
     assert.equal(properties.group, group);
   });
 
