@@ -107,7 +107,7 @@ export interface Environment extends EnvironmentUpdateProperties {
   /** Name of the catalog. */
   catalogName: string;
   /** Name of the environment definition. */
-  environmentDefinitionName: string;
+  catalogItemName: string;
   /** Provisioning error details. Populated only for error states. */
   error?: CloudErrorBody;
 }

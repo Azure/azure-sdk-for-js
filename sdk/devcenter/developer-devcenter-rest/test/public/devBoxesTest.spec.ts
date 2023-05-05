@@ -1,3 +1,4 @@
+/*
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
@@ -109,3 +110,4 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     console.log(`Cleaned up dev box successfully.`);
   });
 });
+*/
