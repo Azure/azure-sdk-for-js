@@ -31,7 +31,7 @@ export async function main() {
   const user2 = await identityClient.createUserAndToken(["voip"]);
 
   console.log("Creating room...");
-  
+
   // create RoomsClient
   const roomsClient: RoomsClient = new RoomsClient(connectionString);
 
