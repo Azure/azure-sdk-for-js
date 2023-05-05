@@ -19,11 +19,7 @@ const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";
 
 export function getTestUSProgramBrief(): USProgramBrief {
-  let programBriefId = uuid();
-
-  if (isPlaybackMode()) {
-    programBriefId = "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
-  }
+  const programBriefId = uuid();
 
   const testUSProgramBrief: USProgramBrief = {
     id: programBriefId,

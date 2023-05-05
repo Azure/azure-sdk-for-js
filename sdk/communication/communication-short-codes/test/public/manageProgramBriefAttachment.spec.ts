@@ -33,6 +33,18 @@ describe(`ShortCodesClient - manage Attachments`, function () {
 
   it("can manage Attachments", async function () {
     const uspb = getTestUSProgramBrief();
+    const attachments = [getTestProgramBriefAttachment(), getTestProgramBriefAttachment()];
+
+    // in record mode = this creates the attachment-var-# = uuid() and returns this value
+    // in playback mode this will return the variable stored in the recording
+    const programBriefId = recorder.variable(`test-brief`, uspb.id);
+    // override test brief id with variable id
+    uspb.id = programBriefId;
+    attachments.map((attachment, index) => {
+      //override attachment id with variable id
+      const attachmentTestId = recorder.variable(`attachment-var-${index}`, attachment.id);
+      attachment.id = attachmentTestId;
+    });
 
     await runTestCleaningLeftovers(uspb.id, client, async () => {
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
@@ -54,13 +66,12 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       const submitResult = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
       assert.isOk(submitResult);
 
-      const attachments = [getTestProgramBriefAttachment(), getTestProgramBriefAttachment()];
-
       assert.isFalse(
         await doesProgramBriefContainAnyAttachment(client, uspb.id),
         "Recently created Program Brief already contain attachments"
       );
 
+      // create and verify 2 test attachments
       for (const attachment of attachments) {
         const attachmentCreationResult = await client.createOrReplaceUSProgramBriefAttachment(
           uspb.id,
@@ -79,7 +90,10 @@ describe(`ShortCodesClient - manage Attachments`, function () {
         assert.equal(existingAttachment.fileName, attachment.fileName);
         assert.equal(existingAttachment.fileType, attachment.fileType);
         assert.equal(existingAttachment.type, attachment.type);
+      }
 
+      // call listUSProgramBriefAttachments
+      for (const attachment of attachments) {
         const listedAttachment = await getProgramBriefAttachmentWithId(
           client,
           uspb.id,

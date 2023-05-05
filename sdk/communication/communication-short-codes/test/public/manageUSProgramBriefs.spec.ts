@@ -29,6 +29,9 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
   it("can create, get, update, list, and delete a US Program Brief", async function () {
     const uspb = getTestUSProgramBrief();
+    const programBriefId = recorder.variable(`test-brief`, uspb.id);
+    // override test brief id with variable id
+    uspb.id = programBriefId;
 
     await runTestCleaningLeftovers(uspb.id, client, async () => {
       const createRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {

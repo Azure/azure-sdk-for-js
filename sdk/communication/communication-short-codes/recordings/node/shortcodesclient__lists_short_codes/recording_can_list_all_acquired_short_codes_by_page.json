@@ -11,7 +11,7 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Fri, 05 May 2023 19:20:02 GMT"
+        "x-ms-date": "Fri, 05 May 2023 19:20:03 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -19,10 +19,10 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "17",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 05 May 2023 19:20:02 GMT",
-        "MS-CV": "JokKWLcL0EaOg8MzClfcZw.0",
+        "Date": "Fri, 05 May 2023 19:20:03 GMT",
+        "MS-CV": "3ildWhsr6UizF4w1MvlDHQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "04lZVZAAAAABMYeZB/c8uSZW5RmsSOc4ZREZXMzBFREdFMTYxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "041ZVZAAAAABW\u002BltVRzxkQp2kjA4fqa5hREZXMzBFREdFMTYxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "187ms"
       },
