@@ -2,9 +2,9 @@
 
 For more samples, check out the [`samples-dev` folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples-dev)
 
-### Entity Resolutions
+### Entity Recognition
 
-Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. Resolutions provide predictable formats for common quantifiable types and can normalize values to a single, well-known format.
+Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. 
 
 The `languageCode` parameter is optional. If it is not specified, the default English model will be used.
 
@@ -46,15 +46,6 @@ async function main() {
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
         console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
-
-        if (entity.resolutions) {
-          console.log("\tRecognized Resolution:");
-          for (const resolution of entity.resolutions) {
-            const { resolutionKind, ...resolutionInfo } = resolution;
-            console.log(`\t- Resolution of type ${resolutionKind}`);
-            console.log(`\t- Resolution information ${JSON.stringify(resolutionInfo)}`);
-          }
-        }
       }
     }
   }
