@@ -69,7 +69,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01";
     this.analyzeText = new AnalyzeTextImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
