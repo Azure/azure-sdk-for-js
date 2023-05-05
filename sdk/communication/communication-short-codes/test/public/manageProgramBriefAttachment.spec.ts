@@ -41,7 +41,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
     // override test brief id with variable id
     uspb.id = programBriefId;
     attachments.map((attachment, index) => {
-      //override attachment id with variable id
+      // override attachment id with variable id
       const attachmentTestId = recorder.variable(`attachment-var-${index}`, attachment.id);
       attachment.id = attachmentTestId;
     });
