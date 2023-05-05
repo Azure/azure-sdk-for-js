@@ -234,7 +234,7 @@ export interface CallTransferFailedEventData extends Omit<RestCallTransferFailed
 // @public
 export interface ChannelAffinity {
     channel?: number;
-    participant: CommunicationIdentifier;
+    targetParticipant: CommunicationIdentifier;
 }
 
 // @public
