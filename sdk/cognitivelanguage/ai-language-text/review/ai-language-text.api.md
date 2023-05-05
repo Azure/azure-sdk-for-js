@@ -448,8 +448,6 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 // @public
 export interface HealthcareAction extends ActionPrebuilt {
     documentType?: HealthcareDocumentType;
-    // Warning: (ae-forgotten-export) The symbol "FhirVersion" needs to be exported by the entry point index.d.ts
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -603,11 +601,6 @@ export enum KnownErrorCode {
 export enum KnownExtractiveSummarizationOrderingCriteria {
     Offset = "Offset",
     Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
 }
 
 // @public

@@ -152,14 +152,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
-
 /** Options for an Abstractive Summarization action. */
 export interface AbstractiveSummarizationAction {
   /** The approximate number of sentences to be part of the summary. */
