@@ -21,6 +21,10 @@ export const Durations = {
   twentyFourHours: "P24H",
   /** Alias for ISO8601 value 'P48H' */
   fortyEightHours: "P48H",
+  /**
+   * @deprecated Alias name `fourtyEightHours` for ISO8601 value 'P48H' is deprecated
+   */
+  fourtyEightHours: "P48H",
   /** Alias for ISO8601 value 'PT30M' */
   thirtyMinutes: "PT30M",
   /** Alias for ISO8601 value 'PT5M' */

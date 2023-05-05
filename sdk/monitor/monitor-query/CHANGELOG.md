@@ -1,10 +1,15 @@
 # Release History
 
 ## 1.0.4 (2023-05-05)
+
 ### Bugs Fixed
 
-- Fixed the aliases spelling error for a `Durations` constant for `fortyEightHours`.
-- Fixed the ISO8601 values for `twentyFourHours` and `fortyEightHours` to reflect `P24H` and `P48H` respectively, instead of `P1D` and `P2D`.
+- Fixed the ISO8601 value for `twentyFourHours`to reflect `P24H`, instead of `P1D` under `Durations` object.
+
+### Other Changes
+
+- Added alias `fortyEightHours` for ISO8601 value `P48H` under `Durations` object.
+- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value  to be `P48H` instead of `P2D` under `Durations` object.
 
 ## 1.0.3 (2022-10-05)
 ### Bugs Fixed

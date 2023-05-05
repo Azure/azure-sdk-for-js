@@ -22,6 +22,7 @@ export const Durations: {
     readonly fourHours: "PT4H";
     readonly twentyFourHours: "P24H";
     readonly fortyEightHours: "P48H";
+    readonly fourtyEightHours: "P48H";
     readonly thirtyMinutes: "PT30M";
     readonly fiveMinutes: "PT5M";
 };
