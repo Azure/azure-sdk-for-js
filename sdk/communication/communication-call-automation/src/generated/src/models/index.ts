@@ -410,6 +410,13 @@ export interface StartCallRecordingRequest {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   * ///
+   */
+  channelAffinity?: ChannelAffinity[];
   /** Optional property to specify location where recording will be stored */
   externalStorage?: ExternalStorage;
 }
@@ -422,6 +429,17 @@ export interface CallLocator {
   serverCallId?: string;
   /** The call locator kind. */
   kind?: CallLocatorKind;
+}
+
+/** Channel affinity for a participant */
+export interface ChannelAffinity {
+  /** Channel number to which bitstream from a particular participant will be written. */
+  channel?: number;
+  /**
+   * The identifier for the participant whose bitstream will be written to the channel
+   * represented by the channel number.
+   */
+  participant: CommunicationIdentifierModel;
 }
 
 export interface ExternalStorage {
