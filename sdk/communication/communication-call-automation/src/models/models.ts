@@ -151,5 +151,5 @@ export interface ChannelAffinity {
    * The identifier for the participant whose bitstream will be written to the channel
    * represented by the channel number.
    */
-  participant: CommunicationIdentifier;
+  targetParticipant: CommunicationIdentifier;
 }

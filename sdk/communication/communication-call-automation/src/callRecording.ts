@@ -63,7 +63,7 @@ export class CallRecording {
       startCallRecordingRequest.channelAffinity = [];
       options.channelAffinity.forEach((identifier) => {
         startCallRecordingRequest.channelAffinity?.push({
-          participant: communicationIdentifierModelConverter(identifier.participant),
+          participant: communicationIdentifierModelConverter(identifier.targetParticipant),
           channel: identifier.channel,
         });
       });
