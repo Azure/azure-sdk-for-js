@@ -232,6 +232,12 @@ export interface CallTransferFailedEventData extends Omit<RestCallTransferFailed
 }
 
 // @public
+export interface ChannelAffinity {
+    channel?: number;
+    targetParticipant: CommunicationIdentifier;
+}
+
+// @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationContext?: string;
 }
@@ -787,6 +793,7 @@ export interface SendDtmfOptions extends OperationOptions {
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
+    channelAffinity?: ChannelAffinity[];
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
