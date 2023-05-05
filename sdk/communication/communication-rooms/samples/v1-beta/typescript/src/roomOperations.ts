@@ -63,7 +63,7 @@ export async function main() {
   printRoom(getRoom);
 
   console.log(`Updating room with id: ${roomId}...`);
-  
+
   // request payload to update a room
   const updateRoomOptions: UpdateRoomOptions = {
     validFrom,

@@ -13,7 +13,7 @@ require("dotenv").config();
 
 async function main() {
   console.log("Room Participant Operations JavaScript Sample");
-  console.log("_________________________________\n\n");
+  console.log("_________________________________\n");
 
   const connectionString =
     process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
@@ -48,7 +48,7 @@ async function main() {
   const roomId = createRoom.id;
   console.log(`Successfully created room with id: ${roomId}.`);
 
-  console.log(`Add new participant to room with id: ${roomId}...`);
+  console.log(`Adding new participant to room with id: ${roomId}...`);
 
   // request payload to add participants
   const addParticipantsList = [
@@ -64,8 +64,10 @@ async function main() {
   console.log(`Successfully added participant to room with id: ${roomId}.`);
   console.log("Printing participants in room...");
 
-  const addedParticipants = await roomsClient.listParticipants(roomId);
-  printParticipants(addedParticipants);
+  let participantsInRoom = await roomsClient.listParticipants(roomId);
+  await printParticipants(participantsInRoom);
+
+  await pause(500);
 
   console.log("Updating role of participant...");
 
@@ -82,7 +84,10 @@ async function main() {
   console.log(`Successfully updated participant in room with id: ${roomId}.`);
   console.log("Printing updated participants in room...");
 
-  printParticipants(await roomsClient.listParticipants(roomId));
+  participantsInRoom = await roomsClient.listParticipants(roomId);
+  await printParticipants(participantsInRoom);
+
+  await pause(500);
 
   console.log("Removing participant from room...");
 
@@ -93,9 +98,11 @@ async function main() {
   // remove both users from the room with the request payload
   await roomsClient.removeParticipants(roomId, removeParticipantsList);
   console.log(`Successfully removed participant from room with id: ${roomId}.`);
-  console.log("Printing updated participants in room...");
 
-  printParticipants(await roomsClient.listParticipants(roomId));
+  participantsInRoom = await roomsClient.listParticipants(roomId);
+  await printParticipants(participantsInRoom);
+
+  await pause(500);
 
   console.log(`Deleting room with id: ${roomId}...`);
 
@@ -117,9 +124,13 @@ async function printParticipants(participants) {
       const { role, id } = participant;
       console.log(`---Participant ${count}---`);
       console.log(`Kind: ${id?.kind}`);
-      console.log(`Role: ${role}\n\n`);
+      console.log(`Role: ${role}`);
     }
   }
+}
+
+async function pause(time) {
+  await new Promise((resolve) => setTimeout(resolve, time));
 }
 
 main().catch((error) => {
