@@ -157,15 +157,26 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         recorder
       );
 
-      const manifestStream = () =>
-        fs.createReadStream("test/data/docker/hello-world/manifest.json");
-      await helloWorldClient.setManifest(manifestStream(), {
+      const manifestStream = fs.createReadStream("test/data/docker/hello-world/manifest.json");
+      await helloWorldClient.setManifest(manifestStream, {
         mediaType: KnownManifestMediaType.DockerManifest,
       });
+    });
 
+    it("must specify media type when uploading Docker manifest", async () => {
+      const helloWorldClient = createBlobClient(
+        assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
+        "library/hello-world",
+        serviceVersion,
+        recorder
+      );
+
+      const manifestStream =
+        fs.createReadStream("test/data/docker/hello-world/manifest.json");
+      
       try {
         // Need to provide the correct media type.
-        await helloWorldClient.setManifest(manifestStream());
+        await helloWorldClient.setManifest(manifestStream);
         assert.fail("Expected exception to be thrown");
       } catch {
         // ignore expected exception
@@ -246,11 +257,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     });
 
     it("can upload a big blob with size a multiple of 4MB", async function (this: Mocha.Context) {
-      // Skip in record and playback due to large recording size
-      if (!isLiveMode()) {
-        this.skip();
-      }
-
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();
