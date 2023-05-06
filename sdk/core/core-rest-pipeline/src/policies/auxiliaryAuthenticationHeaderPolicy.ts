@@ -88,7 +88,7 @@ export function auxiliaryAuthenticationHeaderPolicy(
           })
         );
       }
-      const auxiliaryTokens: NullableString[] = (await Promise.all(tokenPromises)).filter((token) =>
+      const auxiliaryTokens = (await Promise.all(tokenPromises)).filter((token): token is string =>
         Boolean(token)
       );
       if (auxiliaryTokens.length === 0) {
