@@ -91,7 +91,7 @@ export function auxiliaryAuthenticationHeaderPolicy(
       );
       if (auxiliaryTokens.length === 0) {
         logger.warning(
-          `None of the auxiliary tokens are valid and skip to set ${AUTHORIZATION_AUXILIARY_HEADER} header`
+          `None of the auxiliary tokens are valid. ${AUTHORIZATION_AUXILIARY_HEADER} header will not be set.`
         );
         return next(request);
       }
