@@ -250,19 +250,19 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 }
 
 // @public
-export interface OciAnnotations extends Record<string, unknown> {
-    authors?: string;
-    created?: string;
-    description?: string;
-    documentation?: string;
-    licenses?: string;
-    name?: string;
-    revision?: string;
-    source?: string;
-    title?: string;
-    url?: string;
-    vendor?: string;
-    version?: string;
+export interface OciAnnotations extends Record<string, string | undefined> {
+    "org.opencontainers.image.authors"?: string;
+    "org.opencontainers.image.created"?: string;
+    "org.opencontainers.image.description"?: string;
+    "org.opencontainers.image.documentation"?: string;
+    "org.opencontainers.image.licenses"?: string;
+    "org.opencontainers.image.ref.name"?: string;
+    "org.opencontainers.image.revision"?: string;
+    "org.opencontainers.image.source"?: string;
+    "org.opencontainers.image.title"?: string;
+    "org.opencontainers.image.url"?: string;
+    "org.opencontainers.image.vendor"?: string;
+    "org.opencontainers.image.version"?: string;
 }
 
 // @public

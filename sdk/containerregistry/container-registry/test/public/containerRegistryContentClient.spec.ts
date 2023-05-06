@@ -11,6 +11,7 @@ import {
   ContainerRegistryContentClient,
   KnownManifestMediaType,
   OciImageManifest,
+  isOciImageManifest,
 } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
@@ -66,7 +67,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
           size: 28,
           annotations: {
-            title: "artifact.txt",
+            "org.opencontainers.image.title": "artifact.txt",
           },
         },
       ],
@@ -189,9 +190,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const result = await helloWorldClient.getManifest(digest);
 
       assert.equal(result.digest, digest);
-
-      // Since this is not an OCI manifest we expect `manifest` to be undefined.
-      assert.doesNotHaveAnyKeys(result, ["manifest"]);
+      assert.isFalse(isOciImageManifest(result.manifest));
     });
 
     it.skip("can upload OCI manifest stream with tag", async function (this: Mocha.Context) {
