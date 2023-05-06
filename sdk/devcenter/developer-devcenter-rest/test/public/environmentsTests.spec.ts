@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { assert, expect } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
@@ -311,4 +310,3 @@ describe("Deployment Environments Operations Tests", () => {
     console.log("Cleaned up environment successfully.");
   }
 });
-*/

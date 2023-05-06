@@ -14,6 +14,9 @@ import {
   DevBoxOutput,
   DevBoxActionOutput,
   ScheduleOutput,
+  DevBoxesDelayAllActionsParameters,
+  DevBoxActionDelayResultOutput,
+  DevBoxesCreateDevBoxParameters,
 } from "../../src/index";
 
 describe("DevBox Operations Tests", () => {
@@ -303,10 +306,7 @@ describe("DevBox Operations Tests", () => {
       )
       .post();
 
-      assert.equal(
-        skipActionResponse.status,
-        "200"
-      );
+    assert.equal(skipActionResponse.status, "204");
 
     await deleteDevBox();
   });
@@ -335,6 +335,35 @@ describe("DevBox Operations Tests", () => {
 
   it("DelayAllActions", async function () {
     await createDevBox();
+
+    const delayActionsParameters: DevBoxesDelayAllActionsParameters = {
+      queryParameters: {
+        until: "2023-05-06T00:00:00Z",
+      },
+    };
+
+    const delayActionsResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay",
+        projectName,
+        userId,
+        devboxName
+      )
+      .post(delayActionsParameters);
+
+    if (isUnexpected(delayActionsResponse)) {
+      throw new Error(delayActionsResponse.body?.error.message);
+    }
+
+    const actionDelayResults: DevBoxActionDelayResultOutput[] = [];
+
+    for await (const actionDelay of paginate(client, delayActionsResponse)) {
+      const { name } = actionDelay;
+      actionDelayResults.push(actionDelay);
+    }
+
+    expect(actionDelayResults.length).to.equal(1);
+    expect(actionDelayResults[0].result).to.equal("Succeeded");
 
     await deleteDevBox();
   });
@@ -423,9 +452,77 @@ describe("DevBox Operations Tests", () => {
     await deleteDevBox();
   });
 
-  async function createDevBox() {}
+  async function createDevBox() {
+    const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
+      contentType: "application/json",
+      body: { poolName: poolName },
+    };
 
-  async function deleteDevBox() {}
+    // Provision a dev box
+    const devBoxCreateResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
+        projectName,
+        userId,
+        devboxName
+      )
+      .put(devBoxCreateParameters);
+
+    if (isUnexpected(devBoxCreateResponse)) {
+      console.log(`Unexpected ${JSON.stringify(devBoxCreateResponse)}`);
+      throw new Error(devBoxCreateResponse.body?.error.message);
+    }
+
+    assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
+
+    const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse);
+    const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
+
+    if (isUnexpected(devBoxCreateResult)) {
+      throw new Error(devBoxCreateResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxCreateResult.status,
+      "200",
+      "Dev box creation long-running operation should return 200 OK."
+    );
+
+    assert.equal(devBoxCreateResult.body.name, devboxName);
+    console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
+  }
+
+  async function deleteDevBox() {
+    const devBoxDeleteResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
+        projectName,
+        "me",
+        devboxName
+      )
+      .delete();
+
+    if (isUnexpected(devBoxDeleteResponse)) {
+      throw new Error(devBoxDeleteResponse.body?.error.message);
+    }
+
+    assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
+
+    const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse);
+    const devBoxDeleteResult = await devBoxDeletePoller.pollUntilDone();
+
+    if (isUnexpected(devBoxDeleteResult)) {
+      throw new Error(devBoxDeleteResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxDeleteResult.status,
+      "200",
+      "Dev box delete long-running operation should return 200 OK."
+    );
+
+    console.log(`Cleaned up dev box successfully.`);
+  }
 
   function isAValidUrl(value: string): boolean {
     try {
