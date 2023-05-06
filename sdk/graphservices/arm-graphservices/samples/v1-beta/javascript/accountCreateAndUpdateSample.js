@@ -25,6 +25,7 @@ async function createAccountResource() {
   const resourceName = "11111111-aaaa-1111-bbbb-1111111111111";
   const accountResource = {
     properties: { appId: "11111111-aaaa-1111-bbbb-111111111111" },
+    location: "global",
     tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
