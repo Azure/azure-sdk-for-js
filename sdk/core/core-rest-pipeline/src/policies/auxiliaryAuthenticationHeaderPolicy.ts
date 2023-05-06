@@ -34,9 +34,7 @@ export interface AuxiliaryAuthenticationHeaderPolicyOptions {
   logger?: AzureLogger;
 }
 
-type NullableString = string | null | undefined;
-
-async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<NullableString> {
+async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<string> {
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
@@ -68,16 +66,18 @@ export function auxiliaryAuthenticationHeaderPolicy(
         );
       }
       if (!credentials || credentials.length === 0) {
-        logger.info(`Skip ${auxiliaryAuthenticationHeaderPolicyName} due to empty credentials`);
+        logger.info(
+          `${auxiliaryAuthenticationHeaderPolicyName} header will not be set due to empty credentials.`
+        );
         return next(request);
       }
 
-      const tokenPromises: Promise<NullableString>[] = [];
+      const tokenPromises: Promise<string>[] = [];
       for (const credential of credentials) {
         let getAccessToken = tokenCyclerMap.get(credential);
         if (!getAccessToken) {
-           getAccessToken = createTokenCycler(credential);
-           tokenCyclerMap.set(credential, getAccessToken);
+          getAccessToken = createTokenCycler(credential);
+          tokenCyclerMap.set(credential, getAccessToken);
         }
         tokenPromises.push(
           sendAuthorizeRequest({
@@ -88,9 +88,7 @@ export function auxiliaryAuthenticationHeaderPolicy(
           })
         );
       }
-      const auxiliaryTokens = (await Promise.all(tokenPromises)).filter((token): token is string =>
-        Boolean(token)
-      );
+      const auxiliaryTokens = (await Promise.all(tokenPromises)).filter((token) => Boolean(token));
       if (auxiliaryTokens.length === 0) {
         logger.warning(
           `None of the auxiliary tokens are valid. ${AUTHORIZATION_AUXILIARY_HEADER} header will not be set.`
