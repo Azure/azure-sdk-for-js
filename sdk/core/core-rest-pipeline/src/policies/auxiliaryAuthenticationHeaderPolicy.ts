@@ -43,7 +43,7 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<N
     tracingOptions: request.tracingOptions,
   };
 
-  return (await getAccessToken(scopes, getTokenOptions))?.token;
+  return (await getAccessToken(scopes, getTokenOptions))?.token ?? "";
 }
 
 /**
