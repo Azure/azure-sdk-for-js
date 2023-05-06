@@ -74,14 +74,16 @@ export function auxiliaryAuthenticationHeaderPolicy(
 
       const tokenPromises: Promise<NullableString>[] = [];
       for (const credential of credentials) {
-        if (!tokenCyclerMap.has(credential)) {
-          tokenCyclerMap.set(credential, createTokenCycler(credential));
+        let getAccessToken = tokenCyclerMap.get(credential);
+        if (!getAccessToken) {
+           getAccessToken = createTokenCycler(credential);
+           tokenCyclerMap.set(credential, getAccessToken);
         }
         tokenPromises.push(
           sendAuthorizeRequest({
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             request,
-            getAccessToken: tokenCyclerMap.get(credential)!,
+            getAccessToken,
             logger,
           })
         );
