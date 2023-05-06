@@ -4,9 +4,18 @@
 
 ### Features Added
 
+- Added `listRooms` method
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Renamed `getParticipants` to `listParticipants` with `Promise<PagedAsyncIterableIterator<Partial<RoomParticipant>>>` return type
+- Removed `participants` from `Room`
+- Removed `roomJoinPolicy` from `Room`, all rooms are invite-only by default
+- Renamed `createdDateTime` to `createdAt` in `Room`
+- Rename `Room` to `CommunicationRoom`
+- Removed `roomJoinPolicy` and `participants` from `UpdateRoomOptions`
+- Replaced `addParticipants` and `updateParticipants` methods with `upsertParticipants`
+- Renamed `RoleType` to `ParticipantRole`
 
 ### Other Changes
 

@@ -4,19 +4,23 @@
 import { PerfOptionDictionary, PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
-  BeginRecognizeCustomFormsOptions,
-  CustomFormModel,
-  FormRecognizerClient,
-  FormTrainingClient,
+  DocumentModelDetails,
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { randomUUID } from "@azure/core-util";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
 }
 
-export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFormsOptions> {
-  public options: PerfOptionDictionary<BeginRecognizeCustomFormsOptions> = {
+interface CustomModelRecognitionTestOptions {
+  updateIntervalInMs: number;
+}
+
+export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionTestOptions> {
+  public options: PerfOptionDictionary<CustomModelRecognitionTestOptions> = {
     updateIntervalInMs: {
       required: false,
       description: "Polling interval in milliseconds",
@@ -30,10 +34,10 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
    * Not thrilled about this, but `globalSetup` only runs once overall, while `setup`
    * shouldn't have to train the model every time.
    */
-  static sessionModel: CustomFormModel | undefined = undefined;
+  static sessionModel: DocumentModelDetails | undefined = undefined;
 
-  private recognizerClient: FormRecognizerClient;
-  private trainingClient: FormTrainingClient;
+  private recognizerClient: DocumentAnalysisClient;
+  private trainingClient: DocumentModelAdministrationClient;
 
   private documentUrl: string;
 
@@ -50,8 +54,8 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
 
     const endpoint = getEnvVar("FORM_RECOGNIZER_ENDPOINT");
 
-    this.trainingClient = new FormTrainingClient(endpoint, credential);
-    this.recognizerClient = new FormRecognizerClient(endpoint, credential);
+    this.trainingClient = new DocumentModelAdministrationClient(endpoint, credential);
+    this.recognizerClient = new DocumentAnalysisClient(endpoint, credential);
 
     this.documentUrl = getEnvVar("FORM_RECOGNIZER_TEST_DOCUMENT_URL");
   }
@@ -60,12 +64,16 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
     const trainingContainerSasUrl = getEnvVar("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
     try {
-      const poller = await this.trainingClient.beginTraining(trainingContainerSasUrl, true);
+      const poller = await this.trainingClient.beginBuildDocumentModel(
+        randomUUID(),
+        trainingContainerSasUrl,
+        "template"
+      );
 
       CustomModelRecognitionTest.sessionModel = await poller.pollUntilDone();
 
       console.log(`Trained custom model: ${CustomModelRecognitionTest.sessionModel.modelId}`);
-    } catch (ex: any) {
+    } catch (ex) {
       console.trace(ex);
       throw ex;
     }
@@ -75,7 +83,7 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
     const modelId = CustomModelRecognitionTest.sessionModel?.modelId;
     if (modelId) {
       console.log(`Deleting ${modelId}`);
-      await this.trainingClient.deleteModel(modelId);
+      await this.trainingClient.deleteDocumentModel(modelId);
     }
   }
 
@@ -85,7 +93,7 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
       return unreachable("Failed to initialize model.");
     }
 
-    const poller = await this.recognizerClient.beginRecognizeCustomFormsFromUrl(
+    const poller = await this.recognizerClient.beginAnalyzeDocumentFromUrl(
       modelId,
       this.documentUrl,
       {

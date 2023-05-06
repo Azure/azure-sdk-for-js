@@ -25,7 +25,7 @@ async function createDistributionPolicy(): Promise<void> {
       maxConcurrentOffers: 5,
       bypassSelectors: false
     },
-    offerTtlInSeconds: 120
+    offerTtlSeconds: 120
   };
 
 
