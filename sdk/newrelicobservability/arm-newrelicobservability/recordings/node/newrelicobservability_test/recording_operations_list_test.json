@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/NewRelic.Observability/operations?api-version=2022-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-newrelicobservability/1.0.0 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6319b9aa-dd51-46ca-af59-68f529ec851e"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "227",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 06 May 2023 03:20:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5b868c95-feea-42b9-816f-6205abf8f204",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "5b868c95-feea-42b9-816f-6205abf8f204",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230506T032019Z:5b868c95-feea-42b9-816f-6205abf8f204"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027operations\u0027 could not be found in the namespace \u0027NewRelic.Observability\u0027 for api version \u00272022-07-01\u0027. The supported api-versions are \u00272022-07-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
