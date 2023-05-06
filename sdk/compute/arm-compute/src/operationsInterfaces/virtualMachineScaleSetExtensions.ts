@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetExtension,
   VirtualMachineScaleSetExtensionsListOptionalParams,
@@ -50,10 +50,8 @@ export interface VirtualMachineScaleSetExtensions {
     extensionParameters: VirtualMachineScaleSetExtension,
     options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualMachineScaleSetExtensionsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>,
       VirtualMachineScaleSetExtensionsCreateOrUpdateResponse
     >
   >;
@@ -87,8 +85,8 @@ export interface VirtualMachineScaleSetExtensions {
     extensionParameters: VirtualMachineScaleSetExtensionUpdate,
     options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetExtensionsUpdateResponse>,
       VirtualMachineScaleSetExtensionsUpdateResponse
     >
   >;
@@ -119,7 +117,7 @@ export interface VirtualMachineScaleSetExtensions {
     vmScaleSetName: string,
     vmssExtensionName: string,
     options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The name of the resource group.

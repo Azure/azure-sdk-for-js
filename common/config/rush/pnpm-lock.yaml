@@ -3874,7 +3874,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230502
+      typescript: 5.1.0-dev.20230506
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8554,8 +8554,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230502:
-    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
+  /typescript/5.1.0-dev.20230506:
+    resolution: {integrity: sha512-sxjBy7zph+G4ZbPnMpqhYcrV4OTX7FXNe8OuayCnRMkAQiLvdCdrCHXV1n2vU+9MLNoXjEdbiIRGEU3Vhee7ug==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10669,7 +10669,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-zrrx9+8z5HrJsgov5cnZHrdmbo1dGaFESx8ZgvU3XtKaXPt91C7gODYbc12mZDiiQeur7l9jCwgm3VYa+nff+w==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-N0VNlJQwWORE33T9YBjkuj9ttrCgs0Y8r3YnL39X+cXeSj2OjproAGQiR+J8+0HKaL5JihgXpRHYDGIJSN3NJA==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -10685,7 +10685,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15895,7 +15895,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
