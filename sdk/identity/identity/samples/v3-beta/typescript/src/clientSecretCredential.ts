@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates with an app registration’s client Id and secret.
+ * @summary Authenticates with an app registration’s client ID and secret.
  */
 
 import { ClientSecretCredential } from "@azure/identity";

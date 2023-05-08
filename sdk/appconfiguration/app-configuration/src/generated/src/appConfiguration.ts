@@ -112,7 +112,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.4.0-beta.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.4.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -665,6 +665,7 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -990,6 +991,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -1013,6 +1015,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
+    Parameters.select
     Parameters.select
   ],
   urlParameters: [Parameters.endpoint],

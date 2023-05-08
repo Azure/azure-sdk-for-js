@@ -398,6 +398,8 @@ export enum KnownKeyValueFields {
 /**
  * Defines values for KeyValueFields. \
  * {@link KnownKeyValueFields} can be used interchangeably with KeyValueFields,
+ * Defines values for KeyValueFields. \
+ * {@link KnownKeyValueFields} can be used interchangeably with KeyValueFields,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **key** \
@@ -409,6 +411,7 @@ export enum KnownKeyValueFields {
  * **locked** \
  * **etag**
  */
+export type KeyValueFields = string;
 export type KeyValueFields = string;
 
 /** Known values of {@link SnapshotFields} that the service accepts. */
@@ -595,6 +598,8 @@ export interface GetKeyValueOptionalParams extends coreClient.OperationOptions {
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
@@ -639,6 +644,8 @@ export interface CheckKeyValueOptionalParams
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
   label?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: KeyValueFields[];
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -738,6 +745,7 @@ export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: LabelFields[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabels operation. */
@@ -753,6 +761,7 @@ export interface CheckLabelsOptionalParams extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
+  select?: LabelFields[];
   select?: LabelFields[];
 }
 
@@ -798,6 +807,7 @@ export interface GetRevisionsOptionalParams
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisions operation. */
@@ -816,6 +826,7 @@ export interface CheckRevisionsOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
+  select?: KeyValueFields[];
   select?: KeyValueFields[];
 }
 

@@ -12,9 +12,3 @@ To run the live tests, you will need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned if you want to run live without recording. Assign `record` to run live with recording.
 - `COMMUNICATION_CONNECTION_STRING`: The primary connection string of the Communication Services resource in your account.
-- `BASE_URL`: The endpoint of the Azure Communication resource.
-
-[azure_sub]: https://azure.microsoft.com/free/
-[azure_portal]: https://portal.azure.com
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-router%2FREADME.png)

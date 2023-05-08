@@ -11,7 +11,6 @@ import {
   assertEnvironmentVariable,
   isRecordMode,
   isPlaybackMode,
-  relativeRecordingsPath,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
@@ -28,7 +27,7 @@ import {
   CallAutomationClient,
   CallAutomationClientOptions,
   CallAutomationEvent,
-  CallAutomationEventParser,
+  parseCallAutomationEvent,
 } from "../../src";
 import { CommunicationIdentifierModel } from "../../src/generated/src";
 import { assert } from "chai";
@@ -53,6 +52,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   DISPATCHER_ENDPOINT: "https://redacted.azurewebsites.net",
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
+  FILE_SOURCE_URL: "https://example.com/audio/test.wav",
 };
 
 const fakeToken = generateToken();
@@ -60,6 +60,8 @@ const dispatcherEndpoint: string =
   env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"];
 const serviceBusConnectionString: string =
   env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"];
+export const fileSourceUrl: string =
+  env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
@@ -141,8 +143,7 @@ async function eventBodyHandler(body: any): Promise<void> {
     const key: string = removeAllNonChar(callerRawId + calleeRawId);
     incomingCallContexts.set(key, incomingCallContext);
   } else {
-    const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
-    const event: CallAutomationEvent = await eventParser.parse(body);
+    const event: CallAutomationEvent = await parseCallAutomationEvent(body);
     if (event.callConnectionId) {
       if (events.has(event.callConnectionId)) {
         events.get(event.callConnectionId)?.set(event.kind, event);
@@ -262,7 +263,7 @@ export function persistEvents(testName: string): void {
 export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
     let data: string = "";
-    console.log("path is: " + relativeRecordingsPath());
+    // Different OS has differnt file system path format.
     try {
       data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
     } catch (e) {

@@ -5,7 +5,19 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CallConnectionProperties,
+  CallParticipant,
+  ListParticipantsResult,
+  AddParticipantResult,
+  TransferCallResult,
+  RemoveParticipantResult,
+} from "../src";
+import Sinon, { SinonStubbedInstance } from "sinon";
+import { CALL_TARGET_ID } from "./utils/connectionUtils";
 import {
   createRecorder,
   createTestUser,
@@ -20,6 +32,195 @@ import {
   persistEvents,
   loadPersistedEvents,
 } from "./utils/recordedClient";
+
+describe("CallConnection Unit Tests", () => {
+  let target: CallInvite;
+  let callConnection: SinonStubbedInstance<CallConnection> & CallConnection;
+
+  beforeEach(() => {
+    // set up
+    target = {
+      targetParticipant: { communicationUserId: CALL_TARGET_ID },
+    };
+
+    // stub CallConnection
+    callConnection = Sinon.createStubInstance(
+      CallConnection
+    ) as SinonStubbedInstance<CallConnection> & CallConnection;
+  });
+
+  it("GetCallConnectionProperties", async () => {
+    // mocks
+    const callConnectionPropertiesMock: CallConnectionProperties = {};
+    callConnection.getCallConnectionProperties.returns(
+      new Promise((resolve) => {
+        resolve(callConnectionPropertiesMock);
+      })
+    );
+
+    const promiseResult = callConnection.getCallConnectionProperties();
+
+    // asserts
+    promiseResult
+      .then((result: CallConnectionProperties) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.getCallConnectionProperties.calledWith());
+        assert.equal(result, callConnectionPropertiesMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("HangUp", async () => {
+    // mocks
+    callConnection.hangUp.returns(
+      new Promise((resolve) => {
+        resolve(undefined);
+      })
+    );
+
+    const promiseResult = callConnection.hangUp(false);
+
+    // asserts
+    promiseResult
+      .then(() => {
+        assert.isTrue(callConnection.hangUp.calledWith(false));
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("Terminate", async () => {
+    // mocks
+    callConnection.hangUp.returns(
+      new Promise((resolve) => {
+        resolve(undefined);
+      })
+    );
+
+    const promiseResult = callConnection.hangUp(true);
+
+    // asserts
+    promiseResult
+      .then(() => {
+        assert.isTrue(callConnection.hangUp.calledWith(true));
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("GetParticipant", async () => {
+    // mocks
+    const callParticipantMock: CallParticipant = {};
+    callConnection.getParticipant.returns(
+      new Promise((resolve) => {
+        resolve(callParticipantMock);
+      })
+    );
+
+    const promiseResult = callConnection.getParticipant(target.targetParticipant);
+
+    // asserts
+    promiseResult
+      .then((result: CallParticipant) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.getParticipant.calledWith(target.targetParticipant));
+        assert.equal(result, callParticipantMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("ListParticipants", async () => {
+    // mocks
+    const listParticipantsResultMock: ListParticipantsResult = {};
+    callConnection.listParticipants.returns(
+      new Promise((resolve) => {
+        resolve(listParticipantsResultMock);
+      })
+    );
+
+    const promiseResult = callConnection.listParticipants();
+
+    // asserts
+    promiseResult
+      .then((result: ListParticipantsResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.listParticipants.calledWith());
+        assert.equal(result, listParticipantsResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("AddParticipant", async () => {
+    // mocks
+    const addParticipantResultMock: AddParticipantResult = {};
+    callConnection.addParticipant.returns(
+      new Promise((resolve) => {
+        resolve(addParticipantResultMock);
+      })
+    );
+
+    const promiseResult = callConnection.addParticipant(target);
+
+    // asserts
+    promiseResult
+      .then((result: AddParticipantResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.addParticipant.calledWith(target));
+        assert.equal(result, addParticipantResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("TransferCallToParticipant", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {};
+    callConnection.transferCallToParticipant.returns(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      })
+    );
+
+    const promiseResult = callConnection.transferCallToParticipant(target.targetParticipant);
+
+    // asserts
+    promiseResult
+      .then((result: TransferCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(
+          callConnection.transferCallToParticipant.calledWith(target.targetParticipant)
+        );
+        assert.equal(result, transferCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("RemoveParticipant", async () => {
+    // mocks
+    const removeParticipantResultMock: RemoveParticipantResult = {};
+    callConnection.removeParticipant.returns(
+      new Promise((resolve) => {
+        resolve(removeParticipantResultMock);
+      })
+    );
+
+    const promiseResult = callConnection.removeParticipant(target.targetParticipant);
+
+    // asserts
+    promiseResult
+      .then((result: TransferCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
+        assert.equal(result, removeParticipantResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+});
 
 describe("CallConnection Live Tests", function () {
   let recorder: Recorder;
@@ -64,7 +265,7 @@ describe("CallConnection Live Tests", function () {
       : "list_all_participants";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
@@ -90,7 +291,7 @@ describe("CallConnection Live Tests", function () {
       : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
@@ -106,7 +307,7 @@ describe("CallConnection Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
-    const participantInvite = new CallInvite(testUser3);
+    const participantInvite: CallInvite = { targetParticipant: testUser3 };
     const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
     const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
 
@@ -134,7 +335,7 @@ describe("CallConnection Live Tests", function () {
       : "remove_a_participant";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);

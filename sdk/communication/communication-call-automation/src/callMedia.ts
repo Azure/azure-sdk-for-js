@@ -10,35 +10,55 @@ import {
   KnownRecognizeInputType,
   RecognizeOptions,
   DtmfOptions,
+  CallAutomationApiClient,
+  CallAutomationApiClientOptionalParams,
+  ContinuousDtmfRecognitionRequest,
+  SendDtmfRequest,
+  Tone,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
 
 import {
   CommunicationIdentifier,
+  createCommunicationAuthPolicy,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
 import { FileSource } from "./models/models";
 
-import { PlayOptions, CallMediaRecognizeDtmfOptions } from "./models/options";
+import {
+  PlayOptions,
+  CallMediaRecognizeDtmfOptions,
+  ContinuousDtmfRecognitionOptions,
+  SendDtmfOptions,
+} from "./models/options";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
  * CallMedia class represents call media related APIs.
  */
 export class CallMedia {
   private readonly callConnectionId: string;
-  private readonly callMediaImpl: CallMediaImpl;
-
-  constructor(callConnectionId: string, callMediaImpl: CallMediaImpl) {
+  private readonly callMedia: CallMediaImpl;
+  private readonly callAutomationApiClient: CallAutomationApiClient;
+  constructor(
+    callConnectionId: string,
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: CallAutomationApiClientOptionalParams
+  ) {
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
-    this.callMediaImpl = callMediaImpl;
+    this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
 
   private createPlaySourceInternal(playSource: FileSource): PlaySourceInternal {
     if (playSource.kind === "fileSource" || playSource.kind === undefined) {
       const fileSource: FileSourceInternal = {
-        uri: playSource.uri,
+        uri: playSource.url,
       };
       return {
         sourceType: KnownPlaySourceType.File,
@@ -64,8 +84,16 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
+      playOptions: {
+        loop: false,
+      },
     };
-    return this.callMediaImpl.play(this.callConnectionId, playRequest, playOptions);
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
+    return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 
   /**
@@ -81,11 +109,21 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: [],
+      playOptions: {
+        loop: false,
+      },
     };
-    return this.callMediaImpl.play(this.callConnectionId, playRequest, playOptions);
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
+    return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 
   private createRecognizeRequest(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
     recognizeOptions: CallMediaRecognizeDtmfOptions
   ): RecognizeRequest {
     if (
@@ -96,7 +134,7 @@ export class CallMedia {
         interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
           ? recognizeOptions.interToneTimeoutInSeconds
           : 2,
-        maxTonesToCollect: recognizeOptions.maxTonesToCollect,
+        maxTonesToCollect: maxTonesToCollect,
         stopTones: recognizeOptions.stopDtmfTones,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -104,7 +142,7 @@ export class CallMedia {
         initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
           ? recognizeOptions.initialSilenceTimeoutInSeconds
           : 5,
-        targetParticipant: serializeCommunicationIdentifier(recognizeOptions.targetParticipant),
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         dtmfOptions: dtmfOptionsInternal,
       };
       return {
@@ -125,10 +163,14 @@ export class CallMedia {
    *  Recognize participant input.
    *  @param recognizeOptions - Different attributes for recognize.
    * */
-  public async startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
-    return this.callMediaImpl.recognize(
+  public async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
+    recognizeOptions: CallMediaRecognizeDtmfOptions
+  ): Promise<void> {
+    return this.callMedia.recognize(
       this.callConnectionId,
-      this.createRecognizeRequest(recognizeOptions),
+      this.createRecognizeRequest(targetParticipant, maxTonesToCollect, recognizeOptions),
       {}
     );
   }
@@ -136,7 +178,66 @@ export class CallMedia {
   /**
    * Cancels all the queued media operations.
    */
-  public async cancelAllMediaOperations(): Promise<void> {
-    return this.callMediaImpl.cancelAllMediaOperations(this.callConnectionId, {});
+  public async cancelAllOperations(): Promise<void> {
+    return this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
+  }
+
+  /**
+   * Start continuous Dtmf recognition by subscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
+   * */
+  public async startContinuousDtmfRecognition(
+    targetParticipant: CommunicationIdentifier,
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
+    };
+    return this.callMedia.startContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   * Stop continuous Dtmf recognition by unsubscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
+   * */
+  public async stopContinuousDtmfRecognition(
+    targetParticipant: CommunicationIdentifier,
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
+    };
+    return this.callMedia.stopContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   * Send Dtmf tones.
+   * @param targetParticipant - Target participant.
+   * @param tones - List of tones to be sent to target participant.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for send Dtmf tones
+   * */
+  public async sendDtmf(
+    targetParticipant: CommunicationIdentifier,
+    tones: Tone[],
+    sendDtmfOptions: SendDtmfOptions = {}
+  ): Promise<void> {
+    const sendDtmfRequest: SendDtmfRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      tones: tones,
+      operationContext: sendDtmfOptions.operationContext,
+    };
+    return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }
 }

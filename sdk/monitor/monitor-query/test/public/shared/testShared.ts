@@ -12,10 +12,14 @@ import { createClientLogger } from "@azure/logger";
 import { LogsQueryClient, LogsTable, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
+const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
+  ? "/logs-arm-resource-id"
+  : "logs-arm-resource-id";
 
 const envSetupForPlayback: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
   METRICS_RESOURCE_ID: "metrics-arm-resource-id",
+  LOGS_RESOURCE_ID: replacementForLogsResourceId,
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
@@ -78,14 +82,13 @@ export function getMonitorWorkspaceId(): string {
   return assertEnvironmentVariable("MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(): {
-  resourceId: string;
-} {
-  return {
-    resourceId: assertEnvironmentVariable("METRICS_RESOURCE_ID"),
-  };
+export function getMetricsArmResourceId(): string {
+  return assertEnvironmentVariable("METRICS_RESOURCE_ID");
 }
 
+export function getLogsArmResourceId(): string {
+  return assertEnvironmentVariable("LOGS_RESOURCE_ID");
+}
 export function getAppInsightsConnectionString(): string {
   let appInsightsConnectionString = assertEnvironmentVariable(
     "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING"

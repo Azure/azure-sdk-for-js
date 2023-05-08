@@ -275,6 +275,12 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      runningState: {
+        serializedName: "runningState",
+        type: {
+          name: "String"
+        }
+      },
       ledgerType: {
         serializedName: "ledgerType",
         type: {
@@ -440,22 +446,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Tags: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Tags",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
         }
       }
     }
@@ -673,13 +663,6 @@ export const ConfidentialLedger: coreClient.CompositeMapper = {
     className: "ConfidentialLedger",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      ...Tags.type.modelProperties,
-      runningState: {
-        serializedName: "runningState",
-        type: {
-          name: "String"
-        }
-      },
       properties: {
         serializedName: "properties",
         type: {

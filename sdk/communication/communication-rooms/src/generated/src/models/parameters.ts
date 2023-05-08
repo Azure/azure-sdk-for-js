@@ -14,9 +14,7 @@ import {
 import {
   CreateRoomRequest as CreateRoomRequestMapper,
   UpdateRoomRequest as UpdateRoomRequestMapper,
-  AddParticipantsRequest as AddParticipantsRequestMapper,
-  UpdateParticipantsRequest as UpdateParticipantsRequestMapper,
-  RemoveParticipantsRequest as RemoveParticipantsRequestMapper
+  UpdateParticipantsRequest as UpdateParticipantsRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -31,11 +29,6 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const createRoomRequest: OperationParameter = {
-  parameterPath: "createRoomRequest",
-  mapper: CreateRoomRequestMapper
-};
-
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -46,6 +39,21 @@ export const accept: OperationParameter = {
       name: "String"
     }
   }
+};
+
+export const validFrom: OperationParameter = {
+  parameterPath: ["options", "validFrom"],
+  mapper: CreateRoomRequestMapper
+};
+
+export const validUntil: OperationParameter = {
+  parameterPath: ["options", "validUntil"],
+  mapper: CreateRoomRequestMapper
+};
+
+export const participants: OperationParameter = {
+  parameterPath: ["options", "participants"],
+  mapper: CreateRoomRequestMapper
 };
 
 export const endpoint: OperationURLParameter = {
@@ -63,7 +71,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-01",
+    defaultValue: "2023-03-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -87,7 +95,7 @@ export const repeatabilityFirstSent: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {
-      name: "DateTime"
+      name: "DateTimeRfc1123"
     }
   }
 };
@@ -103,22 +111,41 @@ export const roomId: OperationURLParameter = {
   }
 };
 
-export const patchRoomRequest: OperationParameter = {
-  parameterPath: ["options", "patchRoomRequest"],
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const validFrom1: OperationParameter = {
+  parameterPath: ["options", "validFrom"],
   mapper: UpdateRoomRequestMapper
 };
 
-export const addParticipantsRequest: OperationParameter = {
-  parameterPath: "addParticipantsRequest",
-  mapper: AddParticipantsRequestMapper
+export const validUntil1: OperationParameter = {
+  parameterPath: ["options", "validUntil"],
+  mapper: UpdateRoomRequestMapper
 };
 
-export const updateParticipantsRequest: OperationParameter = {
-  parameterPath: "updateParticipantsRequest",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const participants1: OperationParameter = {
+  parameterPath: ["options", "participants"],
   mapper: UpdateParticipantsRequestMapper
-};
-
-export const removeParticipantsRequest: OperationParameter = {
-  parameterPath: "removeParticipantsRequest",
-  mapper: RemoveParticipantsRequestMapper
 };

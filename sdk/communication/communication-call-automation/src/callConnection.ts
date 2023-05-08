@@ -1,28 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,
+  CallAutomationApiClient,
+  CallAutomationApiClientOptionalParams,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
-import { CallConnectionImpl, CallMediaImpl } from "./generated/src/operations";
+import { CallConnectionImpl } from "./generated/src/operations";
 import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  RemoveParticipantsOptions,
+  RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
 import {
   ListParticipantsResult,
   TransferCallResult,
   AddParticipantResult,
-  RemoveParticipantsResult,
+  RemoveParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -32,30 +37,44 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
  * CallConnection class represents call connection based APIs.
  */
 export class CallConnection {
   private readonly callConnectionId: string;
-  private readonly callConnectionImpl: CallConnectionImpl;
-  private readonly callMediaImpl: CallMediaImpl;
-
+  private readonly callConnection: CallConnectionImpl;
+  private readonly callAutomationApiClient: CallAutomationApiClient;
+  private readonly endpoint: string;
+  private readonly credential: TokenCredential | KeyCredential;
+  private readonly callAutomationApiClientOptions?: CallAutomationApiClientOptionalParams;
   constructor(
     callConnectionId: string,
-    callConnectionImpl: CallConnectionImpl,
-    callMediaImpl: CallMediaImpl
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options?: CallAutomationApiClientOptionalParams
   ) {
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
-    this.callConnectionImpl = callConnectionImpl;
-    this.callMediaImpl = callMediaImpl;
+    this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
+    this.endpoint = endpoint;
+    this.credential = credential;
+    this.callAutomationApiClientOptions = options;
   }
 
   /**
    * Initializes a new instance of CallMedia.
    */
   public getCallMedia(): CallMedia {
-    return new CallMedia(this.callConnectionId, this.callMediaImpl);
+    return new CallMedia(
+      this.callConnectionId,
+      this.endpoint,
+      this.credential,
+      this.callAutomationApiClientOptions
+    );
   }
 
   /**
@@ -64,13 +83,13 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const result = await this.callConnectionImpl.getCall(this.callConnectionId, options);
+    const result = await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
       sourceIdentity: result.sourceIdentity
         ? communicationIdentifierConverter(result.sourceIdentity)
         : undefined,
-      targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+      targetParticipants: result.targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: result.sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
         : undefined,
@@ -83,16 +102,16 @@ export class CallConnection {
    *
    * @param isForEveryOne - Determine if every one in the call would be hung up or not.
    */
-  public async hangUp(isForEveryOne: boolean, options: HangUpOptions = {}): Promise<void> {
-    if (isForEveryOne) {
+  public async hangUp(isForEveryone: boolean, options: HangUpOptions = {}): Promise<void> {
+    if (isForEveryone) {
       const optionsInternal = {
         ...options,
         repeatabilityFirstSent: new Date().toUTCString(),
         repeatabilityRequestID: uuidv4(),
       };
-      await this.callConnectionImpl.terminateCall(this.callConnectionId, optionsInternal);
+      await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
     } else {
-      await this.callConnectionImpl.hangupCall(this.callConnectionId, options);
+      await this.callConnection.hangupCall(this.callConnectionId, options);
     }
     return;
   }
@@ -100,17 +119,16 @@ export class CallConnection {
   /**
    * Get a participant from the call
    *
-   * @param participantMri - The MRI of requested participant.
+   * @param targetParticipant - The communication identifier of requested participant.
    */
   public async getParticipant(
-    participantMri: string,
+    targetParticipant: CommunicationIdentifier,
     options: GetParticipantOptions = {}
   ): Promise<CallParticipant> {
-    const result = await this.callConnectionImpl.getParticipant(
-      this.callConnectionId,
-      participantMri,
-      options
-    );
+    const rawId: string = communicationIdentifierModelConverter(targetParticipant).rawId || "";
+    if (!rawId) throw Error("Invalid targetParticipant");
+
+    const result = await this.callConnection.getParticipant(this.callConnectionId, rawId, options);
     const callParticipant: CallParticipant = {
       identifier: result.identifier
         ? communicationIdentifierConverter(result.identifier)
@@ -126,7 +144,7 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnectionImpl.getParticipants(this.callConnectionId, options);
+    const result = await this.callConnection.getParticipants(this.callConnectionId, options);
     const listParticipantResponse: ListParticipantsResult = {
       ...result,
       values: result?.values?.map((acsCallParticipant) =>
@@ -142,18 +160,20 @@ export class CallConnection {
    * @param participant - The participant is going to be added.
    */
   public async addParticipant(
-    participant: CallInvite,
+    targetParticipant: CallInvite,
     options: AddParticipantOptions = {}
   ): Promise<AddParticipantResult> {
     const addParticipantRequest: AddParticipantRequest = {
-      participantToAdd: communicationIdentifierModelConverter(participant.target),
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(participant.sourceCallIdNumber),
-      sourceDisplayName: participant.sourceDisplayName,
+      participantToAdd: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
+        targetParticipant.sourceCallIdNumber
+      ),
+      sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: participant.sipHeaders,
-        voipHeaders: participant.voipHeaders,
+        sipHeaders: targetParticipant.sipHeaders,
+        voipHeaders: targetParticipant.voipHeaders,
       },
     };
     const optionsInternal = {
@@ -161,7 +181,7 @@ export class CallConnection {
       repeatabilityFirstSent: new Date().toUTCString(),
       repeatabilityRequestID: uuidv4(),
     };
-    const result = await this.callConnectionImpl.addParticipant(
+    const result = await this.callConnection.addParticipant(
       this.callConnectionId,
       addParticipantRequest,
       optionsInternal
@@ -181,18 +201,18 @@ export class CallConnection {
   /**
    * Transfer the call to a target participant
    *
-   * @param target - The target is going to be transferred to.
+   * @param targetParticipant - The target to be transferred to.
    */
   public async transferCallToParticipant(
-    target: CallInvite,
+    targetParticipant: CommunicationIdentifier,
     options: TransferCallToParticipantOptions = {}
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
-      targetParticipant: communicationIdentifierModelConverter(target.target),
+      targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: target.sipHeaders,
-        voipHeaders: target.voipHeaders,
+        sipHeaders: options.sipHeaders,
+        voipHeaders: options.voipHeaders,
       },
     };
     const optionsInternal = {
@@ -200,7 +220,7 @@ export class CallConnection {
       repeatabilityFirstSent: new Date().toUTCString(),
       repeatabilityRequestID: uuidv4(),
     };
-    const result = await this.callConnectionImpl.transferToParticipant(
+    const result = await this.callConnection.transferToParticipant(
       this.callConnectionId,
       transferToParticipantRequest,
       optionsInternal
@@ -216,8 +236,8 @@ export class CallConnection {
    */
   public async removeParticipant(
     participant: CommunicationIdentifier,
-    options: RemoveParticipantsOptions = {}
-  ): Promise<RemoveParticipantsResult> {
+    options: RemoveParticipantsOption = {}
+  ): Promise<RemoveParticipantResult> {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
@@ -227,12 +247,12 @@ export class CallConnection {
       repeatabilityFirstSent: new Date().toUTCString(),
       repeatabilityRequestID: uuidv4(),
     };
-    const result = await this.callConnectionImpl.removeParticipant(
+    const result = await this.callConnection.removeParticipant(
       this.callConnectionId,
       removeParticipantRequest,
       optionsInternal
     );
-    const removeParticipantsResult: RemoveParticipantsResult = {
+    const removeParticipantsResult: RemoveParticipantResult = {
       ...result,
     };
     return removeParticipantsResult;

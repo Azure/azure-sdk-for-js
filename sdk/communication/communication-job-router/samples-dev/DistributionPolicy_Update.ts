@@ -23,7 +23,7 @@ async function updateDistributionPolicy(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false
     },
-    offerTtlInSeconds: 15
+    offerTtlSeconds: 15
   };
 
 
