@@ -16,6 +16,6 @@ export default leafCommand(commandInfo, async () => {
   const project = await resolveProject(cwd());
 
   await createAssetsJson(project);
-  
+
   return true;
 });
