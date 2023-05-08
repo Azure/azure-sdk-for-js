@@ -79,7 +79,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceededEventData | AddParticipantFailedEventData | RemoveParticipantSucceededEventData | RemoveParticipantFailedEventData | CallConnectedEventData | CallDisconnectedEventData | CallTransferAcceptedEventData | CallTransferFailedEventData | ParticipantsUpdatedEventData | RecordingStateChangedEventData | PlayCompletedEventData | PlayFailedEventData | PlayCanceledEventData | RecognizeCompletedEventData | RecognizeCanceledEventData | RecognizeFailedEventData;
+export type CallAutomationEvent = AddParticipantSucceededEventData | AddParticipantFailedEventData | RemoveParticipantSucceededEventData | RemoveParticipantFailedEventData | CallConnectedEventData | CallDisconnectedEventData | CallTransferAcceptedEventData | CallTransferFailedEventData | ParticipantsUpdatedEventData | RecordingStateChangedEventData | PlayCompletedEventData | PlayFailedEventData | PlayCanceledEventData | RecognizeCompletedEventData | RecognizeCanceledEventData | RecognizeFailedEventData | ContinuousDtmfRecognitionToneReceivedEventData | ContinuousDtmfRecognitionToneFailedEventData | ContinuousDtmfRecognitionStoppedEventData | SendDtmfCompletedEventData | SendDtmfFailedEventData;
 
 // @public
 export interface CallConnectedEventData extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -100,7 +100,7 @@ export class CallConnection {
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
-    transferCallToParticipant(targetParticipant: CallInvite, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
+    transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
 
 // @public
@@ -160,7 +160,11 @@ export class CallMedia {
     cancelAllOperations(): Promise<void>;
     play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
     playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
+    sendDtmf(targetParticipant: CommunicationIdentifier, tones: Tone[], sendDtmfOptions?: SendDtmfOptions): Promise<void>;
+    startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
 
 // @public
@@ -228,6 +232,46 @@ export interface CallTransferFailedEventData extends Omit<RestCallTransferFailed
     kind: "CallTransferFailed";
     resultInformation?: ResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface ChannelAffinity {
+    channel?: number;
+    targetParticipant: CommunicationIdentifier;
+}
+
+// @public
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface ContinuousDtmfRecognitionStoppedEventData extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "ContinuousDtmfRecognitionStopped";
+    operationContext: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface ContinuousDtmfRecognitionToneFailedEventData extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "ContinuousDtmfRecognitionToneFailed";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface ContinuousDtmfRecognitionToneReceivedEventData extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "ContinuousDtmfRecognitionToneReceived";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+    toneInfo: ToneInfo;
 }
 
 // @public
@@ -568,6 +612,32 @@ export interface RestCallTransferFailed {
     serverCallId?: string;
 }
 
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionStopped {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneReceived {
+    callConnectionId?: string;
+    correlationId?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    toneInfo?: RestToneInfo;
+}
+
 // @public
 export interface RestParticipantsUpdated {
     callConnectionId?: string;
@@ -662,6 +732,32 @@ export interface RestResultInformation {
 }
 
 // @public (undocumented)
+export interface RestSendDtmfCompleted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestSendDtmfFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestToneInfo {
+    participantId?: string;
+    sequenceId: number;
+    // (undocumented)
+    tone: Tone;
+}
+
+// @public (undocumented)
 export interface ResultInformation extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
     code: number;
     message: string;
@@ -672,9 +768,35 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
+export interface SendDtmfCompletedEventData extends Omit<RestSendDtmfCompleted, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "SendDtmfCompleted";
+    operationContext: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface SendDtmfFailedEventData extends Omit<RestSendDtmfFailed, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "SendDtmfFailed";
+    operationContext: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface SendDtmfOptions extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
+    channelAffinity?: ChannelAffinity[];
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
@@ -685,6 +807,13 @@ export interface StartRecordingOptions extends OperationOptions {
 export type StopRecordingOptions = OperationOptions;
 
 // @public
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
+    participantId?: string;
+    sequenceId: number;
+    tone: Tone;
+}
+
+// @public
 export interface TransferCallResult {
     operationContext?: string;
 }
@@ -692,6 +821,12 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
 }
 
 // (No @packageDocumentation comment for this package)

@@ -82,10 +82,9 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0"
+    "typescript": "~5.0.0"
   },
   "dependencies": {
-    "@azure/core-http": "^3.0.1",
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.11",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.3",
     "@opentelemetry/api": "^1.4.1",

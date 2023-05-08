@@ -59,6 +59,16 @@ export class CallRecording {
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
 
+    if (options.channelAffinity) {
+      startCallRecordingRequest.channelAffinity = [];
+      options.channelAffinity.forEach((identifier) => {
+        startCallRecordingRequest.channelAffinity?.push({
+          participant: communicationIdentifierModelConverter(identifier.targetParticipant),
+          channel: identifier.channel,
+        });
+      });
+    }
+
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
       options.audioChannelParticipantOrdering.forEach((identifier) => {

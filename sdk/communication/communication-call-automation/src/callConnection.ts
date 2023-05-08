@@ -210,15 +210,15 @@ export class CallConnection {
    * @param targetParticipant - The target to be transferred to.
    */
   public async transferCallToParticipant(
-    targetParticipant: CallInvite,
+    targetParticipant: CommunicationIdentifier,
     options: TransferCallToParticipantOptions = {}
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
-      targetParticipant: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
+      targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: options.sipHeaders,
+        voipHeaders: options.voipHeaders,
       },
     };
     const optionsInternal = {

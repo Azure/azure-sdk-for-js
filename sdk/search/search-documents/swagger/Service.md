@@ -341,3 +341,26 @@ directive:
   transform: >
     $["x-ms-client-name"] = "name";
 ```
+
+### Deprecations
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.EntityRecognitionSkill")]
+  transform: $.description += "\n\n@deprecated EntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.SentimentSkill")]
+  transform: $.description += "\n\n@deprecated SentimentSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
+  transform: $.description += "\n\n@deprecated NamedEntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+```

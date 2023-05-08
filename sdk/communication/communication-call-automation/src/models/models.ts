@@ -146,3 +146,14 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 /** The storage type of a call recording. */
 export type RecordingStorage = "acs" | "blobStorage";
+
+/** Channel affinity for a participant */
+export interface ChannelAffinity {
+  /** Channel number to which bitstream from a particular participant will be written. */
+  channel?: number;
+  /**
+   * The identifier for the participant whose bitstream will be written to the channel
+   * represented by the channel number.
+   */
+  targetParticipant: CommunicationIdentifier;
+}

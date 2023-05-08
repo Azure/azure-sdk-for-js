@@ -5,6 +5,7 @@ import { RequestContext } from "../../../src";
 import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
+import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {
@@ -14,6 +15,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let requestCount = 0;
     const FAILCOUNT = 2;
@@ -55,6 +57,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let requestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {
@@ -97,6 +100,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let innerRequestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {
