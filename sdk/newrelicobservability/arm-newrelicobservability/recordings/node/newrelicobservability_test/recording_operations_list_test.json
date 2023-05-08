@@ -30,8 +30,8 @@
       },
       "ResponseBody": {
         "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027operations\u0027 could not be found in the namespace \u0027NewRelic.Observability\u0027 for api version \u00272022-07-01\u0027. The supported api-versions are \u00272022-07-01-preview\u0027."
+          "code": "The long-running operation has failed",
+          "message": "abc"
         }
       }
     }
