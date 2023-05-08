@@ -23,7 +23,6 @@ async function main() {
   const actions = [
     {
       kind: "EntityRecognition",
-      modelVersion: "2022-10-01-preview",
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
