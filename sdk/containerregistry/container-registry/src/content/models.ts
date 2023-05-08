@@ -98,37 +98,10 @@ export interface OciDescriptor {
 }
 
 /**
- * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() satisfies the OCI image manifest schema.
- */
-export function isOciImageManifest(
-  manifest: Record<string, unknown>
-): manifest is OciImageManifest {
-  // schemaVersion must be 2
-  if (manifest.schemaVersion !== 2) {
-    return false;
-  }
-
-  // Media type can be unset, but if it is set it must match the OCI image manifest media type
-  if (manifest.mediaType && manifest.mediaType !== KnownManifestMediaType.OciImageManifest) {
-    return false;
-  }
-
-  if (typeof manifest.config !== "object" || manifest.config === null) {
-    return false;
-  }
-
-  if (!Array.isArray(manifest.layers)) {
-    return false;
-  }
-
-  return true;
-}
-
-/**
  * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
  * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
  */
-export interface OciImageManifest extends Record<string, unknown> {
+export type OciImageManifest = {
   /** Schema version */
   schemaVersion: 2;
   /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
@@ -146,7 +119,7 @@ export interface OciImageManifest extends Record<string, unknown> {
 /** Additional information provided through arbitrary metadata.
  * See the specification at https://github.com/opencontainers/image-spec/blob/main/annotations.md for more information.
  */
-export interface OciAnnotations extends Record<string, string | undefined> {
+export interface OciAnnotations extends Record<string, unknown> {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
   "org.opencontainers.image.created"?: string;
   /** Contact details of the people or organization responsible for the image. */

@@ -302,13 +302,13 @@ main().catch((err) => {
 #### Download images
 
 ```javascript
-const { ContainerRegistryContentClient, isOciImageManifest } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const fs = require("fs");
+import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest, isOciImageManifest } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+import fs from "fs";
 dotenv.config();
 
-function trimSha(digest) {
+function trimSha(digest: string) {
   const index = digest.indexOf(":");
   return index === -1 ? digest : digest.substring(index);
 }
@@ -327,10 +327,11 @@ async function main() {
   // Download the manifest to obtain the list of files in the image based on the tag
   const result = await client.getManifest("demo");
 
-  const manifest = result.manifest;
-  if (!isOciImageManifest(manifest)) {
+  if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
+
+  const manifest = result.manifest as OciImageManifest;
 
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
   fs.writeFileSync("manifest.json", result.content);
@@ -384,9 +385,10 @@ main().catch((err) => {
 #### Delete blob
 
 ```javascript
-const { ContainerRegistryContentClient, isOciImageManifest } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 async function main() {
   // Get the service endpoint from the environment
@@ -401,11 +403,11 @@ async function main() {
 
   const downloadResult = await client.getManifest("latest");
 
-  if (!isOciImageManifest(downloadResult.manifest)) {
+  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
 
-  for (const layer of downloadResult.manifest.layers) {
+  for (const layer of (downloadResult.manifest as OciImageManifest).layers) {
     await client.deleteBlob(layer.digest);
   }
 }

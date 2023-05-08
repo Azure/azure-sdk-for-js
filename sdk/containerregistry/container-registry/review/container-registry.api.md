@@ -83,7 +83,7 @@ export class ContainerRegistryContentClient {
     readonly endpoint: string;
     getManifest(tagOrDigest: string, options?: GetManifestOptions): Promise<GetManifestResult>;
     readonly repositoryName: string;
-    setManifest(manifest: Buffer | NodeJS.ReadableStream | Record<string, unknown>, options?: SetManifestOptions): Promise<SetManifestResult>;
+    setManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest | Record<string, unknown>, options?: SetManifestOptions): Promise<SetManifestResult>;
     uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
 }
 
@@ -178,9 +178,6 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isOciImageManifest(manifest: Record<string, unknown>): manifest is OciImageManifest;
-
-// @public
 export enum KnownArtifactArchitecture {
     Amd64 = "amd64",
     Arm = "arm",
@@ -250,7 +247,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 }
 
 // @public
-export interface OciAnnotations extends Record<string, string | undefined> {
+export interface OciAnnotations extends Record<string, unknown> {
     "org.opencontainers.image.authors"?: string;
     "org.opencontainers.image.created"?: string;
     "org.opencontainers.image.description"?: string;
@@ -275,14 +272,14 @@ export interface OciDescriptor {
 }
 
 // @public
-export interface OciImageManifest extends Record<string, unknown> {
-    annotations?: OciAnnotations;
+export type OciImageManifest = {
+    schemaVersion: 2;
+    mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
     artifactType?: string;
     config: OciDescriptor;
     layers: OciDescriptor[];
-    mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
-    schemaVersion: 2;
-}
+    annotations?: OciAnnotations;
+};
 
 // @public
 export interface RegistryArtifact {

@@ -24,6 +24,7 @@ import {
   UploadBlobResult,
   SetManifestOptions,
   SetManifestResult,
+  OciImageManifest,
 } from "./models";
 import { CommonClientOptions } from "@azure/core-client";
 import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
@@ -189,7 +190,7 @@ export class ContainerRegistryContentClient {
    * @param manifest - the manifest to upload.
    */
   public async setManifest(
-    manifest: Buffer | NodeJS.ReadableStream | Record<string, unknown>,
+    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest | Record<string, unknown>,
     options: SetManifestOptions = {}
   ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
@@ -231,8 +232,7 @@ export class ContainerRegistryContentClient {
    * Downloads the manifest for an OCI artifact.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
-   * @returns - the downloaded manifest. To test if the downloaded manifest is an OCI manifest, use `isOciManifest` on the `manifest`
-   *            property of the result, in addition to checking the mediaType property on the result.
+   * @returns - the downloaded manifest.
    */
   public async getManifest(
     tagOrDigest: string,

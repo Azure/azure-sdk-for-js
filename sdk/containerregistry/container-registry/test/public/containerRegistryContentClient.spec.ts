@@ -11,7 +11,6 @@ import {
   ContainerRegistryContentClient,
   KnownManifestMediaType,
   OciImageManifest,
-  isOciImageManifest,
 } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
@@ -88,7 +87,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const uploadResult = await client.setManifest(manifest);
       const downloadResult = await client.getManifest(uploadResult.digest);
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -108,7 +106,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const downloadResult = await client.getManifest(uploadResult.digest);
 
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -130,7 +127,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const downloadResult = await client.getManifest(uploadResult.digest);
 
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -144,7 +140,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const downloadResult = await client.getManifest("my_artifact");
 
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -202,7 +197,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const result = await helloWorldClient.getManifest(digest);
 
       assert.equal(result.digest, digest);
-      assert.isFalse(isOciImageManifest(result.manifest));
     });
 
     it("can upload blob", async () => {
