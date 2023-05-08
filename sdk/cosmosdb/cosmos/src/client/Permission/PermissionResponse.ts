@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
@@ -14,9 +15,10 @@ export class PermissionResponse extends ResourceResponse<
     resource: PermissionDefinition & PermissionBody & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    permission: Permission
+    permission: Permission,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.permission = permission;
   }
   /** A reference to the {@link Permission} corresponding to the returned {@link PermissionDefinition}. */

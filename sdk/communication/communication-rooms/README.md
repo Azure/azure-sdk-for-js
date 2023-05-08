@@ -93,7 +93,8 @@ const roomsClient: RoomsClient = new RoomsClient(CONNECTION_STRING);
 
 const validFrom = new Date(Date.now());
 let validForDays = 10;
-let validUntil = validFrom.setDate(validFrom.getTime() + validForDays);
+let validUntil = new Date(validFrom.getTime());
+validUntil.setDate(validFrom.getDate() + validForDays);
 
 // options payload to create a room
 const createRoomOptions: CreateRoomOptions = {
@@ -119,7 +120,7 @@ To update the `validFrom` and `validUntil` settings of a room use the `updateRoo
 
 ```js
 validForDays = 60;
-validUntil = validFrom.setDate(validFrom.getDate() + validForDays);
+validUntil.setDate(validFrom.getDate() + validForDays);
 const updateRoomOptions: UpdateRoomOptions = {
   validFrom,
   validUntil,

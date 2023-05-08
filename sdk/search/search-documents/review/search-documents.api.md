@@ -509,7 +509,7 @@ export type EntityLinkingSkill = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
-// @public
+// @public @deprecated
 export type EntityRecognitionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
     categories?: EntityCategory[];
@@ -2047,24 +2047,24 @@ export interface SearchAlias {
 }
 
 // @public
-export class SearchClient<Model extends object> implements IndexDocumentsClient<Model> {
+export class SearchClient<TModel extends object> implements IndexDocumentsClient<TModel> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
     readonly apiVersion: string;
-    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions<Model>): Promise<AutocompleteResult>;
-    deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions<TModel>): Promise<AutocompleteResult>;
+    deleteDocuments(documents: TModel[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    deleteDocuments(keyName: keyof TModel, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<NarrowedModel<Model, Fields>>;
+    getDocument<Fields extends SelectFields<TModel>>(key: string, options?: GetDocumentOptions<TModel, Fields>): Promise<NarrowedModel<TModel, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
+    indexDocuments(batch: IndexDocumentsBatch<TModel>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
-    mergeDocuments(documents: Model[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
-    mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<Model, Fields>>;
+    mergeDocuments(documents: TModel[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: TModel[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends SelectFields<TModel>>(searchText?: string, options?: SearchOptions<TModel, Fields>): Promise<SearchDocumentsResult<TModel, Fields>>;
     readonly serviceVersion: string;
-    suggest<Fields extends SelectFields<Model> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
-    uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    suggest<Fields extends SelectFields<TModel> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TModel, Fields>): Promise<SuggestDocumentsResult<TModel, Fields>>;
+    uploadDocuments(documents: TModel[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
@@ -2537,7 +2537,7 @@ export interface SemanticSettings {
     configurations?: SemanticConfiguration[];
 }
 
-// @public
+// @public @deprecated
 export type SentimentSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.SentimentSkill";
     defaultLanguageCode?: SentimentSkillLanguage;

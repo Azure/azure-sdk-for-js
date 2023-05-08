@@ -15,7 +15,6 @@ import {
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
-  EntityWithResolution,
   ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
@@ -244,7 +243,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
   /**
    * The collection of entities identified in the input document.
    */
-  readonly entities: EntityWithResolution[];
+  readonly entities: Entity[];
 }
 
 /**
