@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../Resource";
@@ -12,9 +13,10 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
     resource: DatabaseDefinition & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    database: Database
+    database: Database,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.database = database;
   }
   /** A reference to the {@link Database} that the returned {@link DatabaseDefinition} corresponds to. */
