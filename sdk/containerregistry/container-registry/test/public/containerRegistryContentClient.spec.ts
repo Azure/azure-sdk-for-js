@@ -88,7 +88,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const uploadResult = await client.setManifest(manifest);
       const downloadResult = await client.getManifest(uploadResult.digest);
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-
+      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -108,7 +108,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const downloadResult = await client.getManifest(uploadResult.digest);
 
       assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-
+      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -128,8 +128,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       );
       const uploadResult = await client.setManifest(manifestBuffer);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
+      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -141,8 +142,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const uploadResult = await client.setManifest(manifest, { tag: "my_artifact" });
       const downloadResult = await client.getManifest("my_artifact");
-      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
 
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
+      assert.isTrue(isOciImageManifest(downloadResult.manifest));
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -171,9 +173,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         recorder
       );
 
-      const manifestStream =
-        fs.createReadStream("test/data/docker/hello-world/manifest.json");
-      
+      const manifestStream = fs.createReadStream("test/data/docker/hello-world/manifest.json");
+
       try {
         // Need to provide the correct media type.
         await helloWorldClient.setManifest(manifestStream);
@@ -202,25 +203,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       assert.equal(result.digest, digest);
       assert.isFalse(isOciImageManifest(result.manifest));
-    });
-
-    it.skip("can upload OCI manifest stream with tag", async function (this: Mocha.Context) {
-      if (isPlaybackMode()) {
-        // Temporarily skip during playback while dealing with recorder issue
-        this.skip();
-      }
-
-      await uploadManifestPrerequisites();
-
-      const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
-      const uploadResult = await client.setManifest(manifestStream, { tag: "my_artifact" });
-      const downloadResult = await client.getManifest("my_artifact");
-      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
-
-      assert.equal(downloadResult.digest, uploadResult.digest);
-      assert.deepStrictEqual(downloadResult.manifest, manifest);
-
-      await client.deleteManifest(uploadResult.digest);
     });
 
     it("can upload blob", async () => {

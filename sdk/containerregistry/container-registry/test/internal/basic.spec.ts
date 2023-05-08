@@ -3,7 +3,11 @@
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
-import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
+import {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience,
+  isOciImageManifest,
+} from "../../src";
 import { assert } from "chai";
 import { calculateDigest } from "../../src/utils/digest";
 import { Readable } from "stream";
@@ -147,5 +151,84 @@ describe("WWW-Authenticate parser", () => {
       service: "dummy.azurecr.io",
       scope: "repository:dummyrepo:pull,push",
     });
+  });
+});
+
+describe("isOciImageManifest", function () {
+  it("should return true for OCI image manifest", function () {
+    const ociManifest = {
+      schemaVersion: 2,
+      mediaType: "application/vnd.oci.image.manifest.v1+json",
+      config: {
+        mediaType: "application/vnd.oci.image.config.v1+json",
+        digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
+        size: 171,
+      },
+      layers: [
+        {
+          mediaType: "application/vnd.oci.image.layer.v1.tar",
+          digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
+          size: 28,
+          annotations: {
+            "org.opencontainers.image.title": "artifact.txt",
+          },
+        },
+      ],
+    };
+
+    assert.isTrue(isOciImageManifest(ociManifest));
+  });
+
+  it("should return true for OCI image manifest without mediaType", function () {
+    const ociManifest = {
+      schemaVersion: 2,
+      config: {
+        mediaType: "application/vnd.oci.image.config.v1+json",
+        digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
+        size: 171,
+      },
+      layers: [
+        {
+          mediaType: "application/vnd.oci.image.layer.v1.tar",
+          digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
+          size: 28,
+          annotations: {
+            "org.opencontainers.image.title": "artifact.txt",
+          },
+        },
+      ],
+    };
+
+    assert.isTrue(isOciImageManifest(ociManifest));
+  });
+
+  it("should return false for Docker image manifest v2 schema 2", function () {
+    const dockerManifest = {
+      schemaVersion: 2,
+      mediaType: "application/vnd.docker.distribution.manifest.v2+json",
+      manifests: [
+        {
+          mediaType: "application/vnd.docker.distribution.manifest.v2+json",
+          digest: "sha256:e692418e4cbaf90ca69d05a66403747baa33ee08806650b51fab815ad7fc331f",
+          size: 7143,
+          platform: {
+            architecture: "ppc64le",
+            os: "linux",
+          },
+        },
+        {
+          mediaType: "application/vnd.docker.distribution.manifest.v2+json",
+          digest: "sha256:5b0bcabd1ed22e9fb1310cf6c2dec7cdef19f0ad69efa1f392e94a4333501270",
+          size: 7682,
+          platform: {
+            architecture: "amd64",
+            os: "linux",
+            features: ["sse4"],
+          },
+        },
+      ],
+    };
+
+    assert.isFalse(isOciImageManifest(dockerManifest));
   });
 });
