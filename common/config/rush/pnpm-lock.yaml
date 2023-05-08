@@ -927,6 +927,15 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-lro/2.5.0:
+    resolution: {integrity: sha512-Vsd5Sl04RG/p5ui/p0dAFMov5I/W4dmRjOrtWGXVs4vY/hNMPefiFH7cZEOr+1u0XrBKkpvt634IyUUD9bVRuQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/logger': 1.0.4
+      tslib: 2.5.0
+    dev: false
+
   /@azure/core-lro/2.5.2:
     resolution: {integrity: sha512-tucUutPhBwCPu6v16KEFYML81npEL6gnT+iwewXvK5ZD55sr0/Vw2jfQETMiKVeARRrXHB2QQ3SpxxGi1zAUWg==}
     engines: {node: '>=14.0.0'}
@@ -3874,7 +3883,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230502
+      typescript: 5.1.0-dev.20230507
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8554,8 +8563,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230502:
-    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
+  /typescript/5.1.0-dev.20230507:
+    resolution: {integrity: sha512-tryqqLOHFRM+DepQpQpA+V67gotkUQak5NJdOVhUd2rvGqximHRciL8x+HObVirAT0VxYejccoc4gpvwkXq6cQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13345,6 +13354,7 @@ packages:
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
+      '@azure/core-lro': 2.5.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -14225,7 +14235,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-cX52nUSMX3/BnjRv2SDCtvgfrOgkDRhIxUedOlRRha9MxhXZh1FLKEioPoSiYEGXUfVZyOfoyhUyeidVdkdjsA==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-7kIyYfNjRk3j4Cpi7YS2zuToAspLBxEcyCjk3u7FT3GjjlvPr2Okdsa9KSaYmOIbJFkulyLUEg5GB8fuiAUITw==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -14239,7 +14249,8 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15895,7 +15906,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:

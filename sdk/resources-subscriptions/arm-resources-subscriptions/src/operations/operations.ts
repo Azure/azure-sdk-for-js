@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Tenants } from "../operationsInterfaces";
+import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClient } from "../subscriptionClient";
 import {
-  TenantIdDescription,
-  TenantsListNextOptionalParams,
-  TenantsListOptionalParams,
-  TenantsListResponse,
-  TenantsListNextResponse
+  Operation,
+  OperationsListNextOptionalParams,
+  OperationsListOptionalParams,
+  OperationsListResponse,
+  OperationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Tenants operations. */
-export class TenantsImpl implements Tenants {
+/** Class containing Operations operations. */
+export class OperationsImpl implements Operations {
   private readonly client: SubscriptionClient;
 
   /**
-   * Initialize a new instance of the class Tenants class.
+   * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
   constructor(client: SubscriptionClient) {
@@ -35,12 +35,12 @@ export class TenantsImpl implements Tenants {
   }
 
   /**
-   * Gets the tenants for your account.
+   * Lists all of the available Microsoft.Resources REST API operations.
    * @param options The options parameters.
    */
   public list(
-    options?: TenantsListOptionalParams
-  ): PagedAsyncIterableIterator<TenantIdDescription> {
+    options?: OperationsListOptionalParams
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +59,10 @@ export class TenantsImpl implements Tenants {
   }
 
   private async *listPagingPage(
-    options?: TenantsListOptionalParams,
+    options?: OperationsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<TenantIdDescription[]> {
-    let result: TenantsListResponse;
+  ): AsyncIterableIterator<Operation[]> {
+    let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,20 +81,20 @@ export class TenantsImpl implements Tenants {
   }
 
   private async *listPagingAll(
-    options?: TenantsListOptionalParams
-  ): AsyncIterableIterator<TenantIdDescription> {
+    options?: OperationsListOptionalParams
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the tenants for your account.
+   * Lists all of the available Microsoft.Resources REST API operations.
    * @param options The options parameters.
    */
   private _list(
-    options?: TenantsListOptionalParams
-  ): Promise<TenantsListResponse> {
+    options?: OperationsListOptionalParams
+  ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -105,8 +105,8 @@ export class TenantsImpl implements Tenants {
    */
   private _listNext(
     nextLink: string,
-    options?: TenantsListNextOptionalParams
-  ): Promise<TenantsListNextResponse> {
+    options?: OperationsListNextOptionalParams
+  ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -117,11 +117,11 @@ export class TenantsImpl implements Tenants {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/tenants",
+  path: "/providers/Microsoft.Resources/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantListResult
+      bodyMapper: Mappers.OperationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -137,7 +137,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantListResult
+      bodyMapper: Mappers.OperationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

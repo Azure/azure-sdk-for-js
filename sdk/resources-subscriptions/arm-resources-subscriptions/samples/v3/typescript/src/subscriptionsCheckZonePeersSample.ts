@@ -8,30 +8,37 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
+import {
+  CheckZonePeersRequest,
+  SubscriptionClient
+} from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets details about a specified subscription.
+ * This sample demonstrates how to Compares a subscriptions logical zone mapping
  *
- * @summary Gets details about a specified subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetSubscription.json
+ * @summary Compares a subscriptions logical zone mapping
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/PostCheckZonePeers.json
  */
-async function getASingleSubscription() {
+async function getLogicalZoneMapping() {
   const subscriptionId =
     process.env["RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID"] ||
-    "291bba3f-e0a5-47bc-a099-3bdcb2a50a05";
+    "8d65815f-a5b6-402f-9298-045155da7d74";
+  const parameters: CheckZonePeersRequest = {
+    location: "eastus",
+    subscriptionIds: ["subscriptions/11111111-1111-1111-1111-111111111111"]
+  };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential, subscriptionId);
-  const result = await client.subscriptions.get();
+  const result = await client.subscriptions.checkZonePeers(parameters);
   console.log(result);
 }
 
 async function main() {
-  getASingleSubscription();
+  getLogicalZoneMapping();
 }
 
 main().catch(console.error);

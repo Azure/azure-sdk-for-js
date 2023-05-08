@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-resources-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the tenants for your account.
  *
  * @summary Gets the tenants for your account.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-01-01/examples/GetTenants.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetTenants.json
  */
 async function getAllTenants() {
+  const subscriptionId =
+    process.env["RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new SubscriptionClient(credential);
+  const client = new SubscriptionClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.tenants.list()) {
     resArray.push(item);
@@ -27,4 +31,8 @@ async function getAllTenants() {
   console.log(resArray);
 }
 
-getAllTenants().catch(console.error);
+async function main() {
+  getAllTenants();
+}
+
+main().catch(console.error);
