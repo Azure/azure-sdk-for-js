@@ -98,23 +98,10 @@ export interface OciDescriptor {
 }
 
 /**
- * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() is an OCI image manifest.
- */
-export function isOciImageManifest(
-  manifest: Record<string, unknown>
-): manifest is OciImageManifest {
-  return (
-    manifest.schemaVersion === 2 &&
-    typeof manifest.config === "object" &&
-    Array.isArray(manifest.layers)
-  );
-}
-
-/**
  * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
  * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
  */
-export interface OciImageManifest extends Record<string, unknown> {
+export type OciImageManifest = {
   /** Schema version */
   schemaVersion: 2;
   /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
@@ -127,34 +114,36 @@ export interface OciImageManifest extends Record<string, unknown> {
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
-}
+};
 
-/** Additional information provided through arbitrary metadata */
+/** Additional information provided through arbitrary metadata.
+ * See the specification at https://github.com/opencontainers/image-spec/blob/main/annotations.md for more information.
+ */
 export interface OciAnnotations extends Record<string, unknown> {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  created?: string;
+  "org.opencontainers.image.created"?: string;
   /** Contact details of the people or organization responsible for the image. */
-  authors?: string;
+  "org.opencontainers.image.authors"?: string;
   /** URL to find more information on the image. */
-  url?: string;
+  "org.opencontainers.image.url"?: string;
   /** URL to get documentation on the image. */
-  documentation?: string;
+  "org.opencontainers.image.documentation"?: string;
   /** URL to get source code for building the image. */
-  source?: string;
+  "org.opencontainers.image.source"?: string;
   /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
-  version?: string;
+  "org.opencontainers.image.version"?: string;
   /** Source control revision identifier for the packaged software. */
-  revision?: string;
+  "org.opencontainers.image.revision"?: string;
   /** Name of the distributing entity, organization or individual. */
-  vendor?: string;
+  "org.opencontainers.image.vendor"?: string;
   /** License(s) under which contained software is distributed as an SPDX License Expression. */
-  licenses?: string;
+  "org.opencontainers.image.licenses"?: string;
   /** Name of the reference for a target. */
-  name?: string;
+  "org.opencontainers.image.ref.name"?: string;
   /** Human-readable title of the image */
-  title?: string;
+  "org.opencontainers.image.title"?: string;
   /** Human-readable description of the software packaged in the image */
-  description?: string;
+  "org.opencontainers.image.description"?: string;
 }
 
 /**
