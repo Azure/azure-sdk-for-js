@@ -3648,18 +3648,6 @@ export const HealthcareAction: coreClient.CompositeMapper = {
     className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      fhirVersion: {
-        serializedName: "fhirVersion",
-        type: {
-          name: "String"
-        }
-      },
-      documentType: {
-        serializedName: "documentType",
-        type: {
-          name: "String"
-        }
-      },
       stringIndexType: {
         defaultValue: "Utf16CodeUnit",
         serializedName: "stringIndexType",

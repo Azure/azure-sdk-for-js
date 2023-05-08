@@ -3,9 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownHealthcareDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
-  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -33,7 +31,6 @@ import {
   expectation22,
   expectation23,
   expectation24,
-  expectation25,
   expectation26,
   expectation27,
   expectation28,
@@ -44,7 +41,6 @@ import {
   expectation7,
   expectation8,
   expectation9,
-  expectation32,
   expectation30,
   expectation31,
   expectation71,
@@ -61,7 +57,6 @@ const FIXME2 = {
   excludedAdditionalProps: ["warnings"],
 };
 
-const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
@@ -276,55 +271,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation20);
-          });
-
-          it("healthcare with fhir", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
-          });
-
-          it("healthcare with known documents type", async function () {
-            const docs = [
-              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Patient does not suffer from high blood pressure.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                  documentType: KnownHealthcareDocumentType.DischargeSummary,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation32, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
           });
 
           it("extractive summarization", async function () {
