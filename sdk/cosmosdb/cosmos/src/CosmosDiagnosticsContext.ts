@@ -79,6 +79,19 @@ export class CosmosDiagnosticContext {
 
   //   public recordResponse() {}
 
+  public reset() {
+    this.requestStartTimeUTCinMs = 0;
+    this.requestEndTimeUTCinMs = 0;
+    this.retryStartTimeUTCinMs = 0;
+    this.headers = {};
+    this.retryAttemptNumber = 0;
+    this.failedAttempts = [];
+    this.metadataLookups = [];
+    this.requestPayloadLength = 0;
+    this.responsePayloadLength = 0;
+    this.locationEndpointsContacted = new Map();
+  }
+
   public mergeDiagnostics(diagnostics: CosmosDiagnostics): void {
     diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach((endpoint) =>
       this.locationEndpointsContacted.set(endpoint.databaseAccountEndpoint, endpoint)
@@ -93,6 +106,12 @@ export class CosmosDiagnosticContext {
 
   public recordEndpointContactEvent(location: Location): void {
     this.locationEndpointsContacted.set(location.databaseAccountEndpoint, location);
+  }
+
+  public resetAndGetDiagnostics(): CosmosDiagnostics {
+    const diagnostic = this.getDiagnostics();
+    this.reset();
+    return diagnostic;
   }
 
   public getDiagnostics(): CosmosDiagnostics {
