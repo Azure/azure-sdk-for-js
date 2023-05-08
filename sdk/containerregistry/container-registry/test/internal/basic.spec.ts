@@ -3,10 +3,7 @@
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
-import {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} from "../../src";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
 import { calculateDigest } from "../../src/utils/digest";
 import { Readable } from "stream";

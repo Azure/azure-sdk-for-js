@@ -114,7 +114,7 @@ export type OciImageManifest = {
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
-}
+};
 
 /** Additional information provided through arbitrary metadata.
  * See the specification at https://github.com/opencontainers/image-spec/blob/main/annotations.md for more information.

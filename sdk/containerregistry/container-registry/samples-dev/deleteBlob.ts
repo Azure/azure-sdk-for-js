@@ -6,7 +6,11 @@
  * @azsdk-weight 3
  */
 
-import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest } from "@azure/container-registry";
+import {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+  OciImageManifest,
+} from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
