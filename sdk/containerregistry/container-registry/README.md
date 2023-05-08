@@ -302,13 +302,16 @@ main().catch((err) => {
 #### Download images
 
 ```javascript
-import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest, isOciImageManifest } from "@azure/container-registry";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-import fs from "fs";
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+const fs = require("fs");
 dotenv.config();
 
-function trimSha(digest: string) {
+function trimSha(digest) {
   const index = digest.indexOf(":");
   return index === -1 ? digest : digest.substring(index);
 }
@@ -331,7 +334,7 @@ async function main() {
     throw new Error("Expected an OCI image manifest");
   }
 
-  const manifest = result.manifest as OciImageManifest;
+  const manifest = result.manifest;
 
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
   fs.writeFileSync("manifest.json", result.content);
@@ -352,7 +355,6 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
 ```
 
 #### Delete manifest
@@ -385,10 +387,12 @@ main().catch((err) => {
 #### Delete blob
 
 ```javascript
-import { ContainerRegistryContentClient, KnownManifestMediaType, OciImageManifest } from "@azure/container-registry";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 async function main() {
   // Get the service endpoint from the environment
@@ -407,15 +411,10 @@ async function main() {
     throw new Error("Expected an OCI image manifest");
   }
 
-  for (const layer of (downloadResult.manifest as OciImageManifest).layers) {
+  for (const layer of downloadResult.manifest.layers) {
     await client.deleteBlob(layer.digest);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-
 ```
 
 ## Troubleshooting
