@@ -169,12 +169,16 @@ export class CallAutomationClient {
       answeredByIdentifier,
       targets,
       sourceCallerIdNumber,
+      sourceIdentity,
       ...result
     } = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
+        sourceIdentity: sourceIdentity
+          ? communicationIdentifierConverter(sourceIdentity)
+          : undefined,
         answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
@@ -293,12 +297,16 @@ export class CallAutomationClient {
       targets,
       sourceCallerIdNumber,
       answeredByIdentifier,
+      sourceIdentity,
       ...result
     } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
+        sourceIdentity: sourceIdentity
+          ? communicationIdentifierConverter(sourceIdentity)
+          : undefined,
         answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
