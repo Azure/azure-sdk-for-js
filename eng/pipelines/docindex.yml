@@ -124,6 +124,7 @@ jobs:
             -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
         displayName: Generate ToC for Daily docs
 
+      # This is just a comment, will not be checked in.
       - task: Powershell@2
         inputs:
           pwsh: true
