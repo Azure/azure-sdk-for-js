@@ -98,17 +98,30 @@ export interface OciDescriptor {
 }
 
 /**
- * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() is an OCI image manifest.
+ * Helper used to determine whether a given manifest downloaded using ContainerRegistryBlobClient.getManifest() satisfies the OCI image manifest schema.
  */
 export function isOciImageManifest(
   manifest: Record<string, unknown>
 ): manifest is OciImageManifest {
-  return (
-    manifest.schemaVersion === 2 &&
-    manifest.mediaType === KnownManifestMediaType.OciImageManifest &&
-    typeof manifest.config === "object" &&
-    Array.isArray(manifest.layers)
-  );
+  // schemaVersion must be 2
+  if (manifest.schemaVersion !== 2) {
+    return false;
+  }
+
+  // Media type can be unset, but if it is set it must match the OCI image manifest media type
+  if (manifest.mediaType && manifest.mediaType !== KnownManifestMediaType.OciImageManifest) {
+    return false;
+  }
+
+  if (typeof manifest.config !== "object" || manifest.config === null) {
+    return false;
+  }
+
+  if (!Array.isArray(manifest.layers)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**

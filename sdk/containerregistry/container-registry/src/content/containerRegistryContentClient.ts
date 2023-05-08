@@ -230,11 +230,9 @@ export class ContainerRegistryContentClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciImageManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
-   * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
-   *
    * @param tagOrDigest - a tag or digest that identifies the artifact
-   * @returns - the downloaded manifest
+   * @returns - the downloaded manifest. To test if the downloaded manifest is an OCI manifest, use `isOciManifest` on the `manifest`
+   *            property of the result, in addition to checking the mediaType property on the result.
    */
   public async getManifest(
     tagOrDigest: string,
