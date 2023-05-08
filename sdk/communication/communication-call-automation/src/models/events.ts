@@ -59,6 +59,8 @@ export type CallAutomationEvent =
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
+  RestRemoveParticipantSucceeded,
+  RestRemoveParticipantFailed,
   RestCallConnected,
   RestCallDisconnected,
   RestCallTransferAccepted,

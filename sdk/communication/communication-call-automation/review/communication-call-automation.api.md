@@ -520,10 +520,8 @@ export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RemoveParticipantFailed_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface RemoveParticipantFailed extends Omit<RemoveParticipantFailed_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+export interface RemoveParticipantFailed extends Omit<RestRemoveParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RemoveParticipantFailed";
@@ -542,10 +540,8 @@ export interface RemoveParticipantsOption extends OperationOptions {
     operationContext?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RemoveParticipantSucceeded_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface RemoveParticipantSucceeded extends Omit<RemoveParticipantSucceeded_2, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+export interface RemoveParticipantSucceeded extends Omit<RestRemoveParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RemoveParticipantSucceeded";
@@ -716,6 +712,26 @@ export interface RestRecordingStateChanged {
     readonly startDateTime?: Date;
     // (undocumented)
     state?: RecordingState;
+}
+
+// @public
+export interface RestRemoveParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestRemoveParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
 }
 
 // @public (undocumented)
