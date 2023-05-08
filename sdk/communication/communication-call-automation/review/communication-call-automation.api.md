@@ -114,8 +114,7 @@ export interface CallConnectionProperties {
     serverCallId?: string;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
-    sourceIdentity?: CommunicationIdentifierModel;
+    sourceIdentity?: CommunicationIdentifier;
     targetParticipants?: CommunicationIdentifier[];
 }
 
@@ -563,6 +562,7 @@ export interface RestAddParticipantFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     participant?: CommunicationIdentifierModel;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
