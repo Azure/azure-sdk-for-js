@@ -227,8 +227,8 @@ export type ClientSideRequestStatistics = {
     locationEndpointsContacted: Location_2[];
     retryDiagnostics: RetryDiagnostics;
     metadataDiagnostics: MetadataLookUpDiagnostics;
-    requestPayloadLength: number;
-    responsePayloadLength: number;
+    requestPayloadLengthInBytes: number;
+    responsePayloadLengthInBytes: number;
 };
 
 // @public
