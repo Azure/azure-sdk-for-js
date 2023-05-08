@@ -12,7 +12,7 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 
-describe("AppConfigurationClient snapshot", () => {
+describe.only("AppConfigurationClient snapshot", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key1: string;

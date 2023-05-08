@@ -665,7 +665,6 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
-  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -991,7 +990,6 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select
-    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -1015,7 +1013,6 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
     Parameters.select
   ],
   urlParameters: [Parameters.endpoint],

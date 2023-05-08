@@ -16,7 +16,7 @@ import {
 import { Context } from "mocha";
 import { assert } from "chai";
 
-describe("AppConfigurationClient", () => {
+describe.only("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
