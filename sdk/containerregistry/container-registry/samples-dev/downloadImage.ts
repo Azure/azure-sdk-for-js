@@ -6,7 +6,11 @@
  * @azsdk-weight 3
  */
 
-import { ContainerRegistryContentClient, isOciImageManifest } from "@azure/container-registry";
+import {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+  OciImageManifest,
+} from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import fs from "fs";
@@ -31,10 +35,11 @@ async function main() {
   // Download the manifest to obtain the list of files in the image based on the tag
   const result = await client.getManifest("demo");
 
-  const manifest = result.manifest;
-  if (!isOciImageManifest(manifest)) {
+  if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
+
+  const manifest = result.manifest as OciImageManifest;
 
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
   fs.writeFileSync("manifest.json", result.content);
