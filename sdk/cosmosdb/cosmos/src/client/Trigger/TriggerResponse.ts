@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
@@ -11,9 +12,10 @@ export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resour
     resource: TriggerDefinition & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    trigger: Trigger
+    trigger: Trigger,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.trigger = trigger;
   }
   /** A reference to the {@link Trigger} corresponding to the returned {@link TriggerDefinition}. */
