@@ -371,36 +371,21 @@ export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTypeNext operation. */
 export type RecordSetsListByTypeNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDnsZoneNext operation. */
 export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListAllByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordSetNameSuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllByDnsZoneNext operation. */
 export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult;
@@ -463,20 +448,14 @@ export type ZonesListResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ZonesListByResourceGroupNextResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ZonesListNextResponse = ZoneListResult;

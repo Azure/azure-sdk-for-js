@@ -1,15 +1,19 @@
 # Release History
+    
+## 5.2.0 (2023-05-08)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RecordSetsListAllByDnsZoneNextOptionalParams no longer has parameter recordSetNameSuffix
+  - Interface RecordSetsListAllByDnsZoneNextOptionalParams no longer has parameter top
+  - Interface RecordSetsListByDnsZoneNextOptionalParams no longer has parameter recordsetnamesuffix
+  - Interface RecordSetsListByDnsZoneNextOptionalParams no longer has parameter top
+  - Interface RecordSetsListByTypeNextOptionalParams no longer has parameter recordsetnamesuffix
+  - Interface RecordSetsListByTypeNextOptionalParams no longer has parameter top
+  - Interface ZonesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ZonesListNextOptionalParams no longer has parameter top
+    
+    
 ## 5.1.0 (2022-11-22)
     
 **Features**

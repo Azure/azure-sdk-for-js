@@ -739,11 +739,6 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -766,11 +761,6 @@ const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -792,11 +782,6 @@ const listAllByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordSetNameSuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

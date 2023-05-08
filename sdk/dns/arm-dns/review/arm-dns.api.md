@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AaaaRecord {
@@ -181,8 +181,6 @@ export type RecordSetsGetResponse = RecordSet;
 
 // @public
 export interface RecordSetsListAllByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-    recordSetNameSuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -199,8 +197,6 @@ export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
 
 // @public
 export interface RecordSetsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -217,8 +213,6 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
 
 // @public
 export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {
-    recordsetnamesuffix?: string;
-    top?: number;
 }
 
 // @public
@@ -309,7 +303,7 @@ export interface ZoneListResult {
 
 // @public
 export interface Zones {
-    beginDelete(resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Zone, options?: ZonesCreateOrUpdateOptionalParams): Promise<ZonesCreateOrUpdateResponse>;
     get(resourceGroupName: string, zoneName: string, options?: ZonesGetOptionalParams): Promise<ZonesGetResponse>;
@@ -343,7 +337,6 @@ export type ZonesGetResponse = Zone;
 
 // @public
 export interface ZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -359,7 +352,6 @@ export type ZonesListByResourceGroupResponse = ZoneListResult;
 
 // @public
 export interface ZonesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

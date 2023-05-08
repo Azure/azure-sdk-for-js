@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DnsManagementClient } = require("@azure/arm-dns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListARecordset.json
  */
 async function listARecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "A";
   const credential = new DefaultAzureCredential();
@@ -31,8 +32,6 @@ async function listARecordsets() {
   console.log(resArray);
 }
 
-listARecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -40,8 +39,8 @@ listARecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListAAAARecordset.json
  */
 async function listAaaaRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "AAAA";
   const credential = new DefaultAzureCredential();
@@ -53,8 +52,6 @@ async function listAaaaRecordsets() {
   console.log(resArray);
 }
 
-listAaaaRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -62,8 +59,8 @@ listAaaaRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListCaaRecordset.json
  */
 async function listCaaRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "CAA";
   const credential = new DefaultAzureCredential();
@@ -75,8 +72,6 @@ async function listCaaRecordsets() {
   console.log(resArray);
 }
 
-listCaaRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -84,8 +79,8 @@ listCaaRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListCNAMERecordset.json
  */
 async function listCnameRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "CNAME";
   const credential = new DefaultAzureCredential();
@@ -97,8 +92,6 @@ async function listCnameRecordsets() {
   console.log(resArray);
 }
 
-listCnameRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -106,8 +99,8 @@ listCnameRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListMXRecordset.json
  */
 async function listMxRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "MX";
   const credential = new DefaultAzureCredential();
@@ -119,8 +112,6 @@ async function listMxRecordsets() {
   console.log(resArray);
 }
 
-listMxRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -128,8 +119,8 @@ listMxRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListNSRecordset.json
  */
 async function listNsRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "NS";
   const credential = new DefaultAzureCredential();
@@ -141,8 +132,6 @@ async function listNsRecordsets() {
   console.log(resArray);
 }
 
-listNsRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -150,8 +139,8 @@ listNsRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListPTRRecordset.json
  */
 async function listPtrRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
   const recordType = "PTR";
   const credential = new DefaultAzureCredential();
@@ -163,8 +152,6 @@ async function listPtrRecordsets() {
   console.log(resArray);
 }
 
-listPtrRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -172,8 +159,8 @@ listPtrRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListSOARecordset.json
  */
 async function listSoaRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "SOA";
   const credential = new DefaultAzureCredential();
@@ -185,8 +172,6 @@ async function listSoaRecordsets() {
   console.log(resArray);
 }
 
-listSoaRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -194,8 +179,8 @@ listSoaRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListSRVRecordset.json
  */
 async function listSrvRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "SRV";
   const credential = new DefaultAzureCredential();
@@ -207,8 +192,6 @@ async function listSrvRecordsets() {
   console.log(resArray);
 }
 
-listSrvRecordsets().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
  *
@@ -216,8 +199,8 @@ listSrvRecordsets().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListTXTRecordset.json
  */
 async function listTxtRecordsets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const recordType = "TXT";
   const credential = new DefaultAzureCredential();
@@ -229,4 +212,17 @@ async function listTxtRecordsets() {
   console.log(resArray);
 }
 
-listTxtRecordsets().catch(console.error);
+async function main() {
+  listARecordsets();
+  listAaaaRecordsets();
+  listCaaRecordsets();
+  listCnameRecordsets();
+  listMxRecordsets();
+  listNsRecordsets();
+  listPtrRecordsets();
+  listSoaRecordsets();
+  listSrvRecordsets();
+  listTxtRecordsets();
+}
+
+main().catch(console.error);

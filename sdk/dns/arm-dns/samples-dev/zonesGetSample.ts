@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetZone.json
  */
 async function getZone() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
@@ -27,4 +30,8 @@ async function getZone() {
   console.log(result);
 }
 
-getZone().catch(console.error);
+async function main() {
+  getZone();
+}
+
+main().catch(console.error);

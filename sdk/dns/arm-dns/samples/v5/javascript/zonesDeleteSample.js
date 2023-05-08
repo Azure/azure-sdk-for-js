@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DnsManagementClient } = require("@azure/arm-dns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot be undone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteZone.json
  */
 async function deleteZone() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function deleteZone() {
   console.log(result);
 }
 
-deleteZone().catch(console.error);
+async function main() {
+  deleteZone();
+}
+
+main().catch(console.error);

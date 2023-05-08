@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all record sets in a DNS zone.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListRecordSetsByZone.json
  */
 async function listRecordsetsByZone() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function listRecordsetsByZone() {
   console.log(resArray);
 }
 
-listRecordsetsByZone().catch(console.error);
+async function main() {
+  listRecordsetsByZone();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   DnsManagementClient
 } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the DNS records specified by the referencing targetResourceIds.
@@ -21,7 +24,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetDnsResourceReference.json
  */
 async function listZonesByResourceGroup() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const parameters: DnsResourceReferenceRequest = {
     targetResources: [
       {
@@ -38,4 +41,8 @@ async function listZonesByResourceGroup() {
   console.log(result);
 }
 
-listZonesByResourceGroup().catch(console.error);
+async function main() {
+  listZonesByResourceGroup();
+}
+
+main().catch(console.error);

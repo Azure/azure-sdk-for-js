@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteARecordset.json
  */
 async function deleteARecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -34,8 +37,6 @@ async function deleteARecordset() {
   console.log(result);
 }
 
-deleteARecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -43,8 +44,8 @@ deleteARecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteAAAARecordset.json
  */
 async function deleteAaaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "AAAA";
@@ -59,8 +60,6 @@ async function deleteAaaaRecordset() {
   console.log(result);
 }
 
-deleteAaaaRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -68,8 +67,8 @@ deleteAaaaRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteCaaRecordset.json
  */
 async function deleteCaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CAA";
@@ -84,8 +83,6 @@ async function deleteCaaRecordset() {
   console.log(result);
 }
 
-deleteCaaRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -93,8 +90,8 @@ deleteCaaRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteARecordset.json
  */
 async function deleteCnameRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -108,8 +105,6 @@ async function deleteCnameRecordset() {
   );
   console.log(result);
 }
-
-deleteCnameRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
@@ -118,8 +113,8 @@ deleteCnameRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteARecordset.json
  */
 async function deleteMxRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -133,8 +128,6 @@ async function deleteMxRecordset() {
   );
   console.log(result);
 }
-
-deleteMxRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
@@ -143,8 +136,8 @@ deleteMxRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteARecordset.json
  */
 async function deleteNsRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -159,8 +152,6 @@ async function deleteNsRecordset() {
   console.log(result);
 }
 
-deleteNsRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -168,8 +159,8 @@ deleteNsRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeletePTRRecordset.json
  */
 async function deletePtrRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
   const relativeRecordSetName = "1";
   const recordType = "PTR";
@@ -184,8 +175,6 @@ async function deletePtrRecordset() {
   console.log(result);
 }
 
-deletePtrRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -193,8 +182,8 @@ deletePtrRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteSRVRecordset.json
  */
 async function deleteSrvRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "SRV";
@@ -209,8 +198,6 @@ async function deleteSrvRecordset() {
   console.log(result);
 }
 
-deleteSrvRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone.
  *
@@ -218,8 +205,8 @@ deleteSrvRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/DeleteTXTRecordset.json
  */
 async function deleteTxtRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "TXT";
@@ -234,4 +221,16 @@ async function deleteTxtRecordset() {
   console.log(result);
 }
 
-deleteTxtRecordset().catch(console.error);
+async function main() {
+  deleteARecordset();
+  deleteAaaaRecordset();
+  deleteCaaRecordset();
+  deleteCnameRecordset();
+  deleteMxRecordset();
+  deleteNsRecordset();
+  deletePtrRecordset();
+  deleteSrvRecordset();
+  deleteTxtRecordset();
+}
+
+main().catch(console.error);

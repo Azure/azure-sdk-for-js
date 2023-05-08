@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DnsManagementClient } = require("@azure/arm-dns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the DNS zones in all resource groups in a subscription.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListZonesBySubscription.json
  */
 async function listZonesBySubscription() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listZonesBySubscription() {
   console.log(resArray);
 }
 
-listZonesBySubscription().catch(console.error);
+async function main() {
+  listZonesBySubscription();
+}
+
+main().catch(console.error);

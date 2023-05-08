@@ -3874,7 +3874,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230502
+      typescript: 5.1.0-dev.20230508
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8554,8 +8554,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230502:
-    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
+  /typescript/5.1.0-dev.20230508:
+    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11636,7 +11636,7 @@ packages:
     dev: false
 
   file:projects/arm-dns.tgz:
-    resolution: {integrity: sha512-oMp5u+IM0Sd2+2Bq9HDhWui5fVmPfHRJ2BxRcE5Lns1TCVeKJPBRrWIvgT1x908Kh8waE0gnIlr+NOCHI0hmHA==, tarball: file:projects/arm-dns.tgz}
+    resolution: {integrity: sha512-aM/Y+MH9z2mS6Q08EIaOfXiZMuZmFjrRN/SMfXEQICTh8r0PLFHLaEsG/mIJicLj//ZOlYFh2lip9JEHsfqxpA==, tarball: file:projects/arm-dns.tgz}
     name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
@@ -11650,7 +11650,8 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15895,7 +15896,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:

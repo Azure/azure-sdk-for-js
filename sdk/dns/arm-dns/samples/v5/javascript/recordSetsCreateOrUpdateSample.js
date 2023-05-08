@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DnsManagementClient } = require("@azure/arm-dns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordset.json
  */
 async function createARecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -40,8 +41,6 @@ async function createARecordset() {
   console.log(result);
 }
 
-createARecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -49,8 +48,8 @@ createARecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordsetAlias.json
  */
 async function createARecordsetWithAliasTargetResource() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -73,8 +72,6 @@ async function createARecordsetWithAliasTargetResource() {
   console.log(result);
 }
 
-createARecordsetWithAliasTargetResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -82,8 +79,8 @@ createARecordsetWithAliasTargetResource().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateAAAARecordset.json
  */
 async function createAaaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "AAAA";
@@ -104,8 +101,6 @@ async function createAaaaRecordset() {
   console.log(result);
 }
 
-createAaaaRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -113,8 +108,8 @@ createAaaaRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCaaRecordset.json
  */
 async function createCaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CAA";
@@ -135,8 +130,6 @@ async function createCaaRecordset() {
   console.log(result);
 }
 
-createCaaRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -144,8 +137,8 @@ createCaaRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCNAMERecordset.json
  */
 async function createCnameRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CNAME";
@@ -166,8 +159,6 @@ async function createCnameRecordset() {
   console.log(result);
 }
 
-createCnameRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -175,8 +166,8 @@ createCnameRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateMXRecordset.json
  */
 async function createMxRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "MX";
@@ -197,8 +188,6 @@ async function createMxRecordset() {
   console.log(result);
 }
 
-createMxRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -206,8 +195,8 @@ createMxRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateNSRecordset.json
  */
 async function createNsRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "NS";
@@ -228,8 +217,6 @@ async function createNsRecordset() {
   console.log(result);
 }
 
-createNsRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -237,8 +224,8 @@ createNsRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdatePTRRecordset.json
  */
 async function createPtrRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
   const relativeRecordSetName = "1";
   const recordType = "PTR";
@@ -259,8 +246,6 @@ async function createPtrRecordset() {
   console.log(result);
 }
 
-createPtrRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -268,8 +253,8 @@ createPtrRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSOARecordset.json
  */
 async function createSoaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "@";
   const recordType = "SOA";
@@ -298,8 +283,6 @@ async function createSoaRecordset() {
   console.log(result);
 }
 
-createSoaRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -307,8 +290,8 @@ createSoaRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSRVRecordset.json
  */
 async function createSrvRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "SRV";
@@ -329,8 +312,6 @@ async function createSrvRecordset() {
   console.log(result);
 }
 
-createSrvRecordset().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a record set within a DNS zone.
  *
@@ -338,8 +319,8 @@ createSrvRecordset().catch(console.error);
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateTXTRecordset.json
  */
 async function createTxtRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "TXT";
@@ -360,4 +341,18 @@ async function createTxtRecordset() {
   console.log(result);
 }
 
-createTxtRecordset().catch(console.error);
+async function main() {
+  createARecordset();
+  createARecordsetWithAliasTargetResource();
+  createAaaaRecordset();
+  createCaaRecordset();
+  createCnameRecordset();
+  createMxRecordset();
+  createNsRecordset();
+  createPtrRecordset();
+  createSoaRecordset();
+  createSrvRecordset();
+  createTxtRecordset();
+}
+
+main().catch(console.error);
