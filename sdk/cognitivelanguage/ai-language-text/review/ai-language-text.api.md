@@ -447,7 +447,6 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 
 // @public
 export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: HealthcareDocumentType;
     stringIndexType?: StringIndexType;
 }
 
@@ -465,9 +464,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 // @public
 export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
-
-// @public
-export type HealthcareDocumentType = string;
 
 // @public
 export interface HealthcareEntity extends Entity {

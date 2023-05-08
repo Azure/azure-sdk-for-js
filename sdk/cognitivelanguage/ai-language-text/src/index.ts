@@ -55,7 +55,6 @@ export {
   EntityAssociation,
   EntityCertainty,
   EntityConditionality,
-  HealthcareDocumentType,
   SummaryContext,
   AbstractiveSummary,
   ScriptKind,
