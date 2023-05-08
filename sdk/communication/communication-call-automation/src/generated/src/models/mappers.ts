@@ -309,7 +309,7 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
         serializedName: "sourceIdentity",
         type: {
           name: "Composite",
-          className: "CommunicationUserIdentifierModel"
+          className: "CommunicationIdentifierModel"
         }
       },
       correlationId: {

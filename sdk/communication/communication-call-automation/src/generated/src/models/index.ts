@@ -101,7 +101,7 @@ export interface CallConnectionPropertiesInternal {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationUserIdentifierModel;
+  sourceIdentity?: CommunicationIdentifierModel;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */

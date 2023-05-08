@@ -6,7 +6,7 @@ import {
   CommunicationUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import { CallConnectionStateModel, CommunicationIdentifierModel } from "../generated/src";
 
 export {
   CallConnectionStateModel,
@@ -35,7 +35,7 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationUserIdentifier;
+  sourceIdentity?: CommunicationIdentifierModel;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
