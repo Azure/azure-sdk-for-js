@@ -4,7 +4,7 @@ For more samples, check out the [`samples-dev` folder](https://github.com/Azure/
 
 ### Entity Recognition
 
-Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. 
+Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
 
 The `languageCode` parameter is optional. If it is not specified, the default English model will be used.
 
