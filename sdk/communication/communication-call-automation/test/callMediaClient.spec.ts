@@ -207,7 +207,8 @@ describe("CallMedia Unit Tests", async function () {
 
 describe("Call Media Client Live Tests", function () {
   let recorder: Recorder;
-  let callAutomationClient: CallAutomationClient;
+  let callerCallAutomationClient: CallAutomationClient;
+  let receiverCallAutomationClient: CallAutomationClient;
   let callConnection: CallConnection;
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
@@ -217,7 +218,8 @@ describe("Call Media Client Live Tests", function () {
     recorder = await createRecorder(this.currentTest);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
-    callAutomationClient = createCallAutomationClient(recorder, testUser);
+    callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
+    receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
   afterEach(async function (this: Context) {
@@ -251,7 +253,7 @@ describe("Call Media Client Live Tests", function () {
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -259,7 +261,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -288,7 +290,7 @@ describe("Call Media Client Live Tests", function () {
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -296,7 +298,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -327,7 +329,7 @@ describe("Call Media Client Live Tests", function () {
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -335,7 +337,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
