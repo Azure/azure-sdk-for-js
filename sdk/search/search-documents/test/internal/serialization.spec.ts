@@ -116,7 +116,7 @@ describe("serialization.deserialize", () => {
     assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
   });
 
-  it("Date with truncated ms field", function() {
+  it("Date with truncated ms field", function () {
     const result = deserialize({ a: "1975-04-04T00:00:00.0Z" });
     assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
   });
