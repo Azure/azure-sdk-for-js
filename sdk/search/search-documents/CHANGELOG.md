@@ -29,6 +29,7 @@
     - `SearchRequestOptions`
     - `SuggestRequest`
 - Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix ISO8601 deserialization [#25801](https://github.com/Azure/azure-sdk-for-js/pull/25801)
 
 ### Other Changes
 
