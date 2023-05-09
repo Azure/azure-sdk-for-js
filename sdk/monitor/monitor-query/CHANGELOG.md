@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Bugs Fixed
-
-### Breaking Changes
-
-### Other Changes
+- Added Resource centric query logs api for `LogsIngestionClient` from (`1.1.0-beta.1` release).
 
 ## 1.0.4 (2023-05-05)
 
