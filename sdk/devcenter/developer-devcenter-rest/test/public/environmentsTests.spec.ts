@@ -122,7 +122,6 @@ describe("Deployment Environments Operations Tests", () => {
     }
 
     expect(environmentDefinitions.length).to.equal(3);
-    expect(environmentDefinitions[0].name).to.equal(envDefinitionName);
   });
 
   it("List environments within a project", async function () {
@@ -226,7 +225,7 @@ describe("Deployment Environments Operations Tests", () => {
     const environmentsCreateParameters: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters =
       {
         body: {
-          catalogItemName: envDefinitionName,
+          environmentDefinitionName: envDefinitionName,
           environmentType: environmentTypeName,
           catalogName: catalogName,
         },

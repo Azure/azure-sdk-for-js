@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog?api-version=2023-01-01-preview",
+      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog?api-version=2023-01-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "56ea7913-75bd-493c-a3a3-2dad98f8c4b2"
+        "x-ms-client-request-id": "7398cbe9-5933-4e4a-b48b-87330b2a2338"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,13 +17,13 @@
         "Connection": "keep-alive",
         "Content-Length": "35",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 05 May 2023 22:06:00 GMT",
+        "Date": "Tue, 09 May 2023 17:03:44 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "56ea7913-75bd-493c-a3a3-2dad98f8c4b2",
-        "x-ms-correlation-request-id": "35b7a2e8-e16c-4472-9f7c-9c0a13acbab5",
+        "x-ms-client-request-id": "7398cbe9-5933-4e4a-b48b-87330b2a2338",
+        "x-ms-correlation-request-id": "5f7a45ac-3f46-4c7e-b2d8-5879fb6cb061",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "286",
-        "X-Rate-Limit-Reset": "2023-05-05T22:06:15.2830960Z"
+        "X-Rate-Limit-Remaining": "299",
+        "X-Rate-Limit-Reset": "2023-05-09T17:04:44.1986916Z"
       },
       "ResponseBody": {
         "name": "sdk-default-catalog"

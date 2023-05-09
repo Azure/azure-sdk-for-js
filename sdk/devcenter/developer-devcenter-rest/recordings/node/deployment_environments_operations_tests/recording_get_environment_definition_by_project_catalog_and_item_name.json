@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog/environmentDefinitions/Sandbox?api-version=2023-01-01-preview",
+      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions/Sandbox?api-version=2023-01-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7092f85e-2c11-48b9-8397-771a878f25ea"
+        "x-ms-client-request-id": "af175f0a-48dc-4288-9201-035288ea4893"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,17 +17,17 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 05 May 2023 22:06:02 GMT",
+        "Date": "Tue, 09 May 2023 17:03:46 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-client-request-id": "7092f85e-2c11-48b9-8397-771a878f25ea",
-        "x-ms-correlation-request-id": "e2ad2043-15d3-4db0-8128-f558c4cd1345",
+        "x-ms-client-request-id": "af175f0a-48dc-4288-9201-035288ea4893",
+        "x-ms-correlation-request-id": "ea5691d4-0655-448f-bc3f-1090a184acd4",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "288",
-        "X-Rate-Limit-Reset": "2023-05-05T22:06:48.4027705Z"
+        "X-Rate-Limit-Remaining": "297",
+        "X-Rate-Limit-Reset": "2023-05-09T17:04:10.8765224Z"
       },
       "ResponseBody": {
-        "id": "8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd:sdk-dc-fmzegocvsahko:sdk-default-catalog:sandbox",
+        "id": "/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions/sandbox",
         "name": "Sandbox",
         "catalogName": "sdk-default-catalog",
         "description": "Deploys an empty sandbox environment",
