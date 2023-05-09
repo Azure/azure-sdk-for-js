@@ -214,7 +214,7 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
+      sourceIdentity: this.sourceIdentity?.communicationUser,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
@@ -245,7 +245,7 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
+      sourceIdentity: this.sourceIdentity?.communicationUser,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
