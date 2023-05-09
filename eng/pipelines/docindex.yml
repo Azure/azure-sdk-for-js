@@ -33,7 +33,7 @@ jobs:
           ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
           ImageId: "$(DocValidationImageId)"
 
-      # Call update docs ci script to onboard packages
+      # Call update docs ci script to onboard packages - JRS won't be checked in
       - task: Powershell@2
         inputs:
           pwsh: true
