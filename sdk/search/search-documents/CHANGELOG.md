@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0-beta.1 (Unreleased)
+## 12.0.0-beta.1 (2023-05-09)
 
 ### Features Added
 
@@ -34,6 +34,7 @@
 ### Other Changes
 
 - Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+
   - Affects these types:
     - `IndexDocumentsClient`
     - `SearchClient`
@@ -44,6 +45,8 @@
     - `SearchResult`
     - `SuggestDocumentsResult`
     - `SuggestResult`
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
 ## 11.3.0-beta.8 (2022-09-06)
 
