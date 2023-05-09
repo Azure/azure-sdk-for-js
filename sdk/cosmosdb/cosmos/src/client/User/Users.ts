@@ -80,7 +80,13 @@ export class Users {
       options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(response.result, response.headers, response.code, ref);
+    return new UserResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 
   /**
@@ -104,6 +110,12 @@ export class Users {
       options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(response.result, response.headers, response.code, ref);
+    return new UserResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 }

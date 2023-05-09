@@ -40,7 +40,13 @@ export class Offer {
       resourceId: this.id,
       options,
     });
-    return new OfferResponse(response.result, response.headers, response.code, this);
+    return new OfferResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 
   /**
@@ -59,6 +65,12 @@ export class Offer {
       resourceId: this.id,
       options,
     });
-    return new OfferResponse(response.result, response.headers, response.code, this);
+    return new OfferResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 }

@@ -20,7 +20,7 @@ override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
-package-version: 1.1.0-beta.4
+package-version: 1.1.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -141,23 +141,6 @@ directive:
         };
 ```
 
-# Rename created to createdOn in OciAnnotations
-
-to make our naming consistent
-
-```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.Annotations
-  transform: >
-    $.properties["org.opencontainers.image.created"] = {
-      "description": "Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6)",
-      "type": "string",
-      "format": "date-time",
-      "x-ms-client-name": "CreatedOn"
-    }
-```
-
 # Add escaping to second and third periods of property names
 
 to work around a code generator bug where only the first period is escaped.
@@ -203,17 +186,6 @@ directive:
       }
     };
 ```
-
-# Rename Descriptor.size to sizeInBytes
-
-```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.Descriptor
-  transform: >
-    $.properties.size["x-ms-client-name"] = "sizeInBytes";
-```
-
 # Remove security definitions
 
 ```yaml
@@ -223,16 +195,6 @@ directive:
     transform: >
       delete $["securityDefinitions"];
       delete $["security"];
-```
-
-# Rename `config` to `configuration` in OciManifest
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.OCIManifest
-    transform: >
-      $.properties.config["x-ms-client-name"] = "configuration";
 ```
 
 # Make `deleteBlob` succeed on 404

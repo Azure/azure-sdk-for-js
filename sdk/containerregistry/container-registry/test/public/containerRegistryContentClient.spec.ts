@@ -9,9 +9,6 @@ import {
 } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
-  GetManifestResult,
-  GetOciImageManifestResult,
-  isGetOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
 } from "../../src";
@@ -21,12 +18,6 @@ import { createBlobClient, recorderStartOptions, serviceVersions } from "../util
 import fs from "fs";
 import { Readable } from "stream";
 import { readStreamToEnd } from "../../src/utils/helpers";
-
-function assertIsOciManifest(
-  downloadManifestResult: GetManifestResult
-): asserts downloadManifestResult is GetOciImageManifestResult {
-  assert.isTrue(isGetOciImageManifestResult(downloadManifestResult));
-}
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryContentClient", function () {
@@ -64,18 +55,18 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     const manifest: OciImageManifest = {
       schemaVersion: 2,
-      configuration: {
+      config: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
-        sizeInBytes: 171,
+        size: 171,
       },
       layers: [
         {
           mediaType: "application/vnd.oci.image.layer.v1.tar",
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
-          sizeInBytes: 28,
+          size: 28,
           annotations: {
-            title: "artifact.txt",
+            "org.opencontainers.image.title": "artifact.txt",
           },
         },
       ],
@@ -95,8 +86,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const uploadResult = await client.setManifest(manifest);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
-
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -114,8 +104,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.setManifest(manifestStream);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
 
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -135,8 +125,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       );
       const uploadResult = await client.setManifest(manifestBuffer);
       const downloadResult = await client.getManifest(uploadResult.digest);
-      assertIsOciManifest(downloadResult);
 
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -148,8 +138,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const uploadResult = await client.setManifest(manifest, { tag: "my_artifact" });
       const downloadResult = await client.getManifest("my_artifact");
-      assertIsOciManifest(downloadResult);
 
+      assert.equal(downloadResult.mediaType, KnownManifestMediaType.OciImageManifest);
       assert.equal(downloadResult.digest, uploadResult.digest);
       assert.deepStrictEqual(downloadResult.manifest, manifest);
 
@@ -164,15 +154,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         recorder
       );
 
-      const manifestStream = () =>
-        fs.createReadStream("test/data/docker/hello-world/manifest.json");
-      await helloWorldClient.setManifest(manifestStream(), {
+      const manifestStream = fs.createReadStream("test/data/docker/hello-world/manifest.json");
+      await helloWorldClient.setManifest(manifestStream, {
         mediaType: KnownManifestMediaType.DockerManifest,
       });
+    });
+
+    it("must specify media type when uploading Docker manifest", async () => {
+      const helloWorldClient = createBlobClient(
+        assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
+        "library/hello-world",
+        serviceVersion,
+        recorder
+      );
+
+      const manifestStream = fs.createReadStream("test/data/docker/hello-world/manifest.json");
 
       try {
         // Need to provide the correct media type.
-        await helloWorldClient.setManifest(manifestStream());
+        await helloWorldClient.setManifest(manifestStream);
         assert.fail("Expected exception to be thrown");
       } catch {
         // ignore expected exception
@@ -197,28 +197,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const result = await helloWorldClient.getManifest(digest);
 
       assert.equal(result.digest, digest);
-
-      // Since this is not an OCI manifest we expect `manifest` to be undefined.
-      assert.doesNotHaveAnyKeys(result, ["manifest"]);
-    });
-
-    it.skip("can upload OCI manifest stream with tag", async function (this: Mocha.Context) {
-      if (isPlaybackMode()) {
-        // Temporarily skip during playback while dealing with recorder issue
-        this.skip();
-      }
-
-      await uploadManifestPrerequisites();
-
-      const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
-      const uploadResult = await client.setManifest(manifestStream, { tag: "my_artifact" });
-      const downloadResult = await client.getManifest("my_artifact");
-      assertIsOciManifest(downloadResult);
-
-      assert.equal(downloadResult.digest, uploadResult.digest);
-      assert.deepStrictEqual(downloadResult.manifest, manifest);
-
-      await client.deleteManifest(uploadResult.digest);
     });
 
     it("can upload blob", async () => {
@@ -255,11 +233,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     });
 
     it("can upload a big blob with size a multiple of 4MB", async function (this: Mocha.Context) {
-      // Skip in record and playback due to large recording size
-      if (!isLiveMode()) {
-        this.skip();
-      }
-
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();
