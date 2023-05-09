@@ -63,17 +63,20 @@ describe("ShortCodesGeneratedClient - constructor", function () {
     assert.throws(() => {
       new ShortCodesGeneratedClient(undefinedConnectionString as string);
     });
+  });
+
+  it("generated client created successfully, no additional options", function () {
+    // make sure client is created successfully with no additional options
     const client = new ShortCodesGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`);
     assert.instanceOf(client, ShortCodesGeneratedClient);
   });
 
-  it("generated client created successfully", function () {
-    let client = new ShortCodesGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`);
-    assert.instanceOf(client, ShortCodesGeneratedClient);
+  it("generated client created successfully with empty pipeline", function () {
     // send an empty pipeline and verify client is created successfully
-    client = new ShortCodesGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`, {
+    const client = new ShortCodesGeneratedClient(`endpoint=${endpoint};accesskey=${accessKey}`, {
       pipeline: createEmptyPipeline(),
     });
+    assert.instanceOf(client, ShortCodesGeneratedClient);
   });
 
   it("explicitly add bearer policy to pipeline", async function () {
