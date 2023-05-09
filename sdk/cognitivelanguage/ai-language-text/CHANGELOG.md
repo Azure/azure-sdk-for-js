@@ -6,7 +6,15 @@
 
 ### Breaking Changes
 
-- Remove the Dynamic Classification feature from the `analyze` method.
+> These changes do not impact the API of stable versions such as 1.0.0
+> Only code written agaisnt a beta version such as 1.1.0-beta.1 will be affected.
+
+Remove the following features added in the "2022-10-01-preview" API - version "1.1.0-beta.1"
+
+- Dynamic Classification feature from the `analyze` method 
+- Entity resolution in entity recognition 
+- FHIR in `beginAnalyzeBatch`
+- Automatic language detection in `beginAnalyzeBatch`
 
 ### Bugs Fixed
 
