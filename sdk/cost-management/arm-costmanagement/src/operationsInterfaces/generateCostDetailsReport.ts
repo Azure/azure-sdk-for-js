@@ -29,7 +29,7 @@ export interface GenerateCostDetailsReport {
    * that are available for download. The details on the file(s) available for download will be available
    * in the polling response body. To Understand cost details (formerly known as usage details) fields
    * found in files ,see
-   * https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields
+   * https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields
    * @param scope The ARM Resource ID for subscription, resource group, billing account, or other billing
    *              scopes. For details, see https://aka.ms/costmgmt/scopes.
    * @param parameters Parameters supplied to the Create cost details operation.
@@ -57,7 +57,7 @@ export interface GenerateCostDetailsReport {
    * that are available for download. The details on the file(s) available for download will be available
    * in the polling response body. To Understand cost details (formerly known as usage details) fields
    * found in files ,see
-   * https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields
+   * https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields
    * @param scope The ARM Resource ID for subscription, resource group, billing account, or other billing
    *              scopes. For details, see https://aka.ms/costmgmt/scopes.
    * @param parameters Parameters supplied to the Create cost details operation.
