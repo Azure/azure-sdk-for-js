@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the Rules Engine Configurations within a Front Door.
  *
  * @summary Lists all of the Rules Engine Configurations within a Front Door.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/FrontdoorRulesEngineList.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorRulesEngineList.json
  */
 async function listRulesEngineConfigurationsInAFrontDoor() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function listRulesEngineConfigurationsInAFrontDoor() {
   console.log(resArray);
 }
 
-listRulesEngineConfigurationsInAFrontDoor().catch(console.error);
+async function main() {
+  listRulesEngineConfigurationsInAFrontDoor();
+}
+
+main().catch(console.error);
