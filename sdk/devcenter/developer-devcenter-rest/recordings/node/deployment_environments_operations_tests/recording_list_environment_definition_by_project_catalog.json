@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-fmzegocvsahko.eastus.devcenter.azure.com/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions?api-version=2023-01-01-preview",
+      "RequestUri": "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-4qb444onnk2tc.centraluseuap.devcenter.azure.com/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog/environmentDefinitions?api-version=2023-04-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -29,7 +29,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions/webapp",
+            "id": "/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog/environmentDefinitions/webapp",
             "name": "WebApp",
             "catalogName": "sdk-default-catalog",
             "description": "Deploys an Azure Web App without a data store",
@@ -38,7 +38,7 @@
             "templatePath": "Environments/WebApp/azuredeploy.json"
           },
           {
-            "id": "/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions/functionapp",
+            "id": "/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog/environmentDefinitions/functionapp",
             "name": "FunctionApp",
             "catalogName": "sdk-default-catalog",
             "description": "Deploys an Azure Function App, Storage Account, and Application Insights",
@@ -47,7 +47,7 @@
             "templatePath": "Environments/FunctionApp/azuredeploy.json"
           },
           {
-            "id": "/projects/sdk-project-tum3smsgozvm2/catalogs/sdk-default-catalog/environmentDefinitions/sandbox",
+            "id": "/projects/sdk-project-x2z4o4ohvwcbi/catalogs/sdk-default-catalog/environmentDefinitions/sandbox",
             "name": "Sandbox",
             "catalogName": "sdk-default-catalog",
             "description": "Deploys an empty sandbox environment",

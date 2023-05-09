@@ -314,8 +314,13 @@ describe("DevBox Operations Tests", () => {
   it("DelayAction", async function () {
     await createDevBox();
 
-    /*
-    const skipActionResponse = await client
+    const delayActionParameters: DevBoxesDelayAllActionsParameters = {
+      queryParameters: {
+        until: "2023-05-06T00:00:00Z",
+      },
+    };
+    
+    const delayActionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay",
         projectName,
@@ -323,13 +328,14 @@ describe("DevBox Operations Tests", () => {
         devboxName,
         "schedule-default"
       )
-      .post();
+      .post(delayActionParameters);
 
-    if (isUnexpected(skipActionResponse)) {
-      throw skipActionResponse.body.error;
-    }
-    */
-
+    assert.equal(
+      delayActionResponse.status,
+      "200",
+      "Delaying DevBox action should return 200 OK."
+    );
+    
     await deleteDevBox();
   });
 
