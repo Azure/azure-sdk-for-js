@@ -1,5 +1,15 @@
 # Release History
 
+## 1.1.0 (2023-05-09)
+
+### Features Added
+
+### Bugs Fixed
+
+### Breaking Changes
+
+### Other Changes
+
 ## 1.0.4 (2023-05-05)
 
 ### Bugs Fixed
