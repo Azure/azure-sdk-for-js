@@ -1,5 +1,11 @@
 # Release History
 
+## 11.3.2 (2023-05-09)
+
+### Bugs Fixed
+
+- Fix ISO8601 deserialization [#25802](https://github.com/Azure/azure-sdk-for-js/pull/25802)
+
 ## 11.3.1 (2022-11-18)
 
 ### Bugs Fixed
