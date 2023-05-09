@@ -4429,7 +4429,7 @@ export const expectation71: any = [
 
 export const expectation72: LanguageDetectionResult[] = [
   {
-    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
+    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1 },
     id: "0",
     warnings: [],
   },

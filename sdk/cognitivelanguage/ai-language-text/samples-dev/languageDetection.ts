@@ -45,9 +45,6 @@ export async function main() {
       console.log(
         `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`
       );
-      if (doc.primaryLanguage.script) {
-        console.log(`Detected script: ${doc.primaryLanguage.script}`);
-      }
     }
   }
 }
