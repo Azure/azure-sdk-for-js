@@ -1982,6 +1982,11 @@
       "packageName": "@azure/arm-selfhelp",
       "projectFolder": "sdk/selfhelp/arm-selfhelp",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
     }
   ]
 }

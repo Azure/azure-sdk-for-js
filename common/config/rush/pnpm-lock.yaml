@@ -144,6 +144,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkcloud': file:./projects/arm-networkcloud.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-newrelicobservability': file:./projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
@@ -485,6 +486,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkcloud': file:projects/arm-networkcloud.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-newrelicobservability': file:projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
@@ -3874,7 +3876,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230502
+      typescript: 5.1.0-dev.20230508
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8554,8 +8556,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230502:
-    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
+  /typescript/5.1.0-dev.20230508:
+    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13313,6 +13315,34 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/arm-networkcloud.tgz:
+    resolution: {integrity: sha512-cHWm3T/AtDMfqqcJ5pGQE1VwgTNhMekMLzxL4oRhrLwqfAMUHeUKShOxKjnK3ijV29GLU2NzOxWLnHnKKHijZA==, tarball: file:projects/arm-networkcloud.tgz}
+    name: '@rush-temp/arm-networkcloud'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.43
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
+      tslib: 2.5.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-networkfunction.tgz:
     resolution: {integrity: sha512-SEo8YLW6VV9/d2QX9L7Y3x8p1ZKc2f5wSLDiSS9HXkSlUJkfuheVs2jNocksczuf7oV3/bz6wjzZ72nvaSh9jg==, tarball: file:projects/arm-networkfunction.tgz}
     name: '@rush-temp/arm-networkfunction'
@@ -15895,7 +15925,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
