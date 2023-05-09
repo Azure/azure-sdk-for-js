@@ -16,13 +16,15 @@ import {
   DigitalTwinModelsImpl,
   QueryImpl,
   DigitalTwinsImpl,
-  EventRoutesImpl
+  EventRoutesImpl,
+  ImportJobsImpl
 } from "./operations";
 import {
   DigitalTwinModels,
   Query,
   DigitalTwins,
-  EventRoutes
+  EventRoutes,
+  ImportJobs
 } from "./operationsInterfaces";
 import { AzureDigitalTwinsAPIOptionalParams } from "./models";
 
@@ -62,11 +64,12 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://digitaltwins-hostname";
-    this.apiVersion = options.apiVersion || "2020-10-31";
+    this.apiVersion = options.apiVersion || "2023-06-30";
     this.digitalTwinModels = new DigitalTwinModelsImpl(this);
     this.query = new QueryImpl(this);
     this.digitalTwins = new DigitalTwinsImpl(this);
     this.eventRoutes = new EventRoutesImpl(this);
+    this.importJobs = new ImportJobsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -102,4 +105,5 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
   query: Query;
   digitalTwins: DigitalTwins;
   eventRoutes: EventRoutes;
+  importJobs: ImportJobs;
 }

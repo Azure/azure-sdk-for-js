@@ -27,7 +27,7 @@ export interface DigitalTwinsModelData {
 /** Error response. */
 export interface ErrorResponse {
   /** The error details. */
-  error?: ErrorModel;
+  error: ErrorModel;
 }
 
 /** Error definition. */
@@ -62,7 +62,7 @@ export interface InnerError {
 /** A collection of DigitalTwinsModelData objects. */
 export interface PagedDigitalTwinsModelDataCollection {
   /** The DigitalTwinsModelData objects. */
-  value?: DigitalTwinsModelData[];
+  value: DigitalTwinsModelData[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
@@ -78,7 +78,7 @@ export interface QuerySpecification {
 /** The results of a query operation and an optional continuation token. */
 export interface QueryResult {
   /** The query results. */
-  value?: Record<string, unknown>[];
+  value: Record<string, unknown>[];
   /** A token which can be used to construct a new QuerySpecification to retrieve the next set of results. */
   continuationToken?: string;
 }
@@ -86,14 +86,14 @@ export interface QueryResult {
 /** A collection of relationships which relate digital twins together. */
 export interface RelationshipCollection {
   /** The relationship objects. */
-  value?: Record<string, unknown>[];
+  value: Record<string, unknown>[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
 
 /** A collection of incoming relationships which relate digital twins together. */
 export interface IncomingRelationshipCollection {
-  value?: IncomingRelationship[];
+  value: IncomingRelationship[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
@@ -113,7 +113,7 @@ export interface IncomingRelationship {
 /** A collection of EventRoute objects. */
 export interface EventRouteCollection {
   /** The EventRoute objects. */
-  value?: EventRoute[];
+  value: EventRoute[];
   /** A URI to retrieve the next page of results. */
   nextLink?: string;
 }
@@ -129,6 +129,54 @@ export interface EventRoute {
   endpointName: string;
   /** An expression which describes the events which are routed to the endpoint. */
   filter: string;
+}
+
+/** A collection of import job objects. */
+export interface ImportJobCollection {
+  /** The list of import job objects. */
+  value: ImportJob[];
+  /** A URI to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** A job which contains a reference to the operations to perform, results, and execution metadata. */
+export interface ImportJob {
+  /**
+   * The identifier of the import job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The path to the input Azure storage blob that contains file(s) describing the operations to perform in the job. */
+  inputBlobUri: string;
+  /** The path to the output Azure storage blob that will contain the errors and progress logs of import job. */
+  outputBlobUri: string;
+  /**
+   * Status of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
+  /**
+   * Start time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * Last time service performed any action from the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastActionDateTime?: Date;
+  /**
+   * End time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly finishedDateTime?: Date;
+  /**
+   * Time at which job will be purged by the service from the system. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purgeDateTime?: Date;
+  /** Details of the error(s) that occurred executing the import job. */
+  error?: ErrorModel;
 }
 
 /** Defines headers for Query_queryTwins operation. */
@@ -185,12 +233,18 @@ export interface DigitalTwinsUpdateComponentHeaders {
   etag?: string;
 }
 
+/** Defines values for Status. */
+export type Status =
+  | "notstarted"
+  | "running"
+  | "failed"
+  | "succeeded"
+  | "cancelling"
+  | "cancelled";
+
 /** Optional parameters. */
 export interface DigitalTwinModelsAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** An array of models to add. */
-  models?: Record<string, unknown>[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the add operation. */
 export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
@@ -198,7 +252,7 @@ export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
 /** Optional parameters. */
 export interface DigitalTwinModelsListOptionalParams
   extends coreClient.OperationOptions {
-  /** The set of the models which will have their dependencies retrieved. If omitted, all models are retrieved. */
+  /** If specified, only return the set of the specified models along with their dependencies. If omitted, all models are retrieved. */
   dependenciesFor?: string[];
   /** When true the model definition will be returned as part of the result. */
   includeModelDefinition?: boolean;
@@ -252,8 +306,9 @@ export interface DigitalTwinsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsAddOptionalParams
@@ -263,8 +318,9 @@ export interface DigitalTwinsAddOptionalParams
 }
 
 /** Contains response data for the add operation. */
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsDeleteOptionalParams
@@ -288,8 +344,9 @@ export interface DigitalTwinsGetRelationshipByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRelationshipById operation. */
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsAddRelationshipOptionalParams
@@ -299,8 +356,9 @@ export interface DigitalTwinsAddRelationshipOptionalParams
 }
 
 /** Contains response data for the addRelationship operation. */
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsDeleteRelationshipOptionalParams
@@ -355,8 +413,9 @@ export interface DigitalTwinsGetComponentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getComponent operation. */
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsUpdateComponentOptionalParams
@@ -401,10 +460,7 @@ export type EventRoutesGetByIdResponse = EventRoute;
 
 /** Optional parameters. */
 export interface EventRoutesAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** The event route data */
-  eventRoute?: EventRoute;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface EventRoutesDeleteOptionalParams
@@ -419,6 +475,51 @@ export interface EventRoutesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type EventRoutesListNextResponse = EventRouteCollection;
+
+/** Optional parameters. */
+export interface ImportJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ImportJobsListResponse = ImportJobCollection;
+
+/** Optional parameters. */
+export interface ImportJobsAddOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the add operation. */
+export type ImportJobsAddResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsGetByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getById operation. */
+export type ImportJobsGetByIdResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ImportJobsCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancel operation. */
+export type ImportJobsCancelResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ImportJobsListNextResponse = ImportJobCollection;
 
 /** Optional parameters. */
 export interface AzureDigitalTwinsAPIOptionalParams

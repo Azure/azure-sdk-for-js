@@ -10,3 +10,4 @@ export * from "./digitalTwinModels";
 export * from "./query";
 export * from "./digitalTwins";
 export * from "./eventRoutes";
+export * from "./importJobs";

@@ -112,12 +112,17 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    *   * ModelVersionNotSupported - The version of DTDL used is not supported.
    * * 409 Conflict
    *   * ModelAlreadyExists - The model provided already exists.
+   * @param models An array of models to add.
    * @param options The options parameters.
    */
   add(
+    models: Record<string, unknown>[],
     options?: DigitalTwinModelsAddOptionalParams
   ): Promise<DigitalTwinModelsAddResponse> {
-    return this.client.sendOperationRequest({ options }, addOperationSpec);
+    return this.client.sendOperationRequest(
+      { models, options },
+      addOperationSpec
+    );
   }
 
   /**

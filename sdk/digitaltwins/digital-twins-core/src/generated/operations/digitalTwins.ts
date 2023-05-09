@@ -634,7 +634,6 @@ const addOperationSpec: coreClient.OperationSpec = {
       },
       headersMapper: Mappers.DigitalTwinsAddHeaders
     },
-    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -668,7 +667,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "PATCH",
   responses: {
-    202: {},
     204: {
       headersMapper: Mappers.DigitalTwinsUpdateHeaders
     },
@@ -864,7 +862,6 @@ const updateComponentOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}",
   httpMethod: "PATCH",
   responses: {
-    202: {},
     204: {
       headersMapper: Mappers.DigitalTwinsUpdateComponentHeaders
     },

@@ -146,6 +146,7 @@ export const PagedDigitalTwinsModelDataCollection: coreClient.CompositeMapper = 
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -194,6 +195,7 @@ export const QueryResult: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -221,6 +223,7 @@ export const RelationshipCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -248,6 +251,7 @@ export const IncomingRelationshipCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -308,6 +312,7 @@ export const EventRouteCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -352,6 +357,114 @@ export const EventRoute: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ImportJobCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImportJob"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ImportJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJob",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      inputBlobUri: {
+        serializedName: "inputBlobUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      outputBlobUri: {
+        serializedName: "outputBlobUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notstarted",
+            "running",
+            "failed",
+            "succeeded",
+            "cancelling",
+            "cancelled"
+          ]
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      finishedDateTime: {
+        serializedName: "finishedDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      purgeDateTime: {
+        serializedName: "purgeDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
         }
       }
     }

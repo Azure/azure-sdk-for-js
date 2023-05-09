@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   QuerySpecification as QuerySpecificationMapper,
-  EventRoute as EventRouteMapper
+  EventRoute as EventRouteMapper,
+  ImportJob as ImportJobMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -29,13 +30,14 @@ export const contentType: OperationParameter = {
 };
 
 export const models: OperationParameter = {
-  parameterPath: ["options", "models"],
+  parameterPath: "models",
   mapper: {
     constraints: {
       MinItems: 1,
       UniqueItems: true
     },
     serializedName: "models",
+    required: true,
     type: {
       name: "Sequence",
       element: {
@@ -75,7 +77,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-10-31",
+    defaultValue: "2023-06-30",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -305,6 +307,11 @@ export const componentPath: OperationURLParameter = {
 };
 
 export const eventRoute: OperationParameter = {
-  parameterPath: ["options", "eventRoute"],
+  parameterPath: "eventRoute",
   mapper: EventRouteMapper
+};
+
+export const importJob: OperationParameter = {
+  parameterPath: "importJob",
+  mapper: ImportJobMapper
 };
