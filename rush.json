@@ -1982,6 +1982,11 @@
       "packageName": "@azure/arm-selfhelp",
       "projectFolder": "sdk/selfhelp/arm-selfhelp",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
     }
   ]
 }
