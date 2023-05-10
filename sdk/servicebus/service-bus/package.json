@@ -173,7 +173,7 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "promise": "^8.0.3",
-    "puppeteer": "^19.2.2",
+    "puppeteer": "^20.1.2",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
     "rollup-plugin-shim": "^1.0.0",
