@@ -1336,10 +1336,10 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const SummarySentence: coreClient.CompositeMapper = {
+export const ExtractiveSummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SummarySentence",
+    className: "ExtractiveSummarySentence",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -1503,7 +1503,7 @@ export const AbstractiveSummary: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SummaryContext"
+              className: "AbstractiveSummaryContext"
             }
           }
         }
@@ -1512,10 +1512,10 @@ export const AbstractiveSummary: coreClient.CompositeMapper = {
   }
 };
 
-export const SummaryContext: coreClient.CompositeMapper = {
+export const AbstractiveSummaryContext: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SummaryContext",
+    className: "AbstractiveSummaryContext",
     modelProperties: {
       offset: {
         serializedName: "offset",
@@ -2156,7 +2156,7 @@ export const ExtractedSummaryDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SummarySentence"
+              className: "ExtractiveSummarySentence"
             }
           }
         }

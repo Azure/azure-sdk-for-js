@@ -445,7 +445,7 @@ export interface Match {
 }
 
 /** A sentence that is part of the extracted summary. */
-export interface SummarySentence {
+export interface ExtractiveSummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
@@ -497,11 +497,11 @@ export interface AbstractiveSummary {
   /** The text of the summary. */
   text: string;
   /** The context list of the summary. */
-  contexts: SummaryContext[];
+  contexts: AbstractiveSummaryContext[];
 }
 
 /** The context of the summary. */
-export interface SummaryContext {
+export interface AbstractiveSummaryContext {
   /** Start position for the context. Use of different 'stringIndexType' values can affect the offset returned. */
   offset: number;
   /** The length of the context. Use of different 'stringIndexType' values can affect the length returned. */
@@ -670,7 +670,7 @@ export interface PiiEntitiesDocumentResult extends DocumentResult {
 
 export interface ExtractedSummaryDocumentResult extends DocumentResult {
   /** A ranked list of sentences representing the extracted summary. */
-  sentences: SummarySentence[];
+  sentences: ExtractiveSummarySentence[];
 }
 
 export interface KeyPhrasesDocumentResult extends DocumentResult {

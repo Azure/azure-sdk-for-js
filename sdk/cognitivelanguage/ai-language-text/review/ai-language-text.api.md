@@ -40,8 +40,14 @@ export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSucce
 
 // @public
 export interface AbstractiveSummary {
-    contexts: SummaryContext[];
+    contexts: AbstractiveSummaryContext[];
     text: string;
+}
+
+// @public
+export interface AbstractiveSummaryContext {
+    length: number;
+    offset: number;
 }
 
 // @public
@@ -384,7 +390,15 @@ export type ExtractiveSummarizationResult = ExtractiveSummarizationSuccessResult
 
 // @public
 export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
-    readonly sentences: SummarySentence[];
+    readonly sentences: ExtractiveSummarySentence[];
+}
+
+// @public
+export interface ExtractiveSummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
 }
 
 // @public
@@ -962,20 +976,6 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type StringIndexType = string;
-
-// @public
-export interface SummaryContext {
-    length: number;
-    offset: number;
-}
-
-// @public
-export interface SummarySentence {
-    length: number;
-    offset: number;
-    rankScore: number;
-    text: string;
-}
 
 // @public
 export interface TargetConfidenceScores {

@@ -263,8 +263,13 @@ directive:
   - from: swagger-document
     where: $.definitions.ExtractedSummarySentence
     transform: >
-      $["x-ms-client-name"] = "SummarySentence";
+      $["x-ms-client-name"] = "ExtractiveSummarySentence";
       $.description = "A sentence that is part of the extracted summary.";
+
+  - from: swagger-document
+    where: $.definitions.SummaryContext
+    transform: >
+      $["x-ms-client-name"] = "AbstractiveSummaryContext";
 
   - from: swagger-document
     where: $.definitions.Entity.properties.subcategory
