@@ -51,6 +51,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 export interface AnswerCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
+    operationContext?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CallResult" needs to be exported by the entry point index.d.ts
@@ -104,9 +105,11 @@ export class CallConnection {
 
 // @public
 export interface CallConnectionProperties {
+    answeredByIdentifier?: CommunicationUserIdentifier;
     callbackUrl?: string;
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
+    correlationId?: string;
     mediaSubscriptionId?: string;
     serverCallId?: string;
     sourceCallerIdNumber?: PhoneNumberIdentifier;

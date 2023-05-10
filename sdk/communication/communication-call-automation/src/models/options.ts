@@ -63,6 +63,8 @@ export interface AnswerCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /**
