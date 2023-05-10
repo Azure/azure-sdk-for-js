@@ -1,0 +1,18 @@
+{
+  "init": {
+    "initScript": {
+      "path": ".scripts/automation_init.sh"
+    }
+  },
+  "generateAndBuild": {
+    "generateAndBuildScript": {
+      "path": ".scripts/automation_generate.sh",
+      "stdout": {
+        "storeLogByFilter": "Error: |error |throw|exception"
+      },
+      "stderr": {
+        "storeLogByFilter": "Error: |error |throw|exception"
+      }
+    }
+  }
+}

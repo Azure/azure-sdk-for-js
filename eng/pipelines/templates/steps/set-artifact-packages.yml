@@ -1,0 +1,12 @@
+parameters:
+  Artifacts: []
+steps:
+  - pwsh: |
+      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+      $packages = ""
+      foreach ($artifact in $artifacts)
+      {
+        $packages += "$($artifact.name),"
+      }
+      echo "##vso[task.setvariable variable=ArtifactPackageNames]$packages"
+    displayName: "Find Packages to build"

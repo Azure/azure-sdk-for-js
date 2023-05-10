@@ -2,6 +2,9 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: not-specified
+  - name: TestProxy
+    type: boolean
+    default: true
   - name: Artifacts
     type: object
     default: []
@@ -37,7 +40,6 @@ jobs:
     pool:
       name: $(Pool)
       vmImage: $(OSVmImage)
-
     ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
       # Add a default so the job doesn't fail when the matrix is empty
       container: $[ variables['Container'] ]
@@ -52,3 +54,4 @@ jobs:
         parameters:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestProxy: ${{ parameters.TestProxy }}

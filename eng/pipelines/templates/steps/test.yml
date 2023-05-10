@@ -1,6 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  TestProxy: true
 
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -11,34 +12,47 @@ steps:
       node common/scripts/install-run-rush.js install
     displayName: "Install dependencies"
 
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build:test "${{parameters.ServiceDirectory}}" --verbose -p max
+      node eng/tools/rush-runner.js build:test "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build test assets"
 
   - template: ../steps/use-node-test-version.yml
 
+  - ${{ if eq(parameters.TestProxy, true) }}:
+    - template: /eng/common/testproxy/test-proxy-tool.yml
+  
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
+      node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
+      node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
+  - ${{ if eq(parameters.TestProxy, true) }}:
+    - pwsh: |
+        cat $(Build.SourcesDirectory)/test-proxy.log
+      displayName: 'Dump Test Proxy logs'
+      condition: succeededOrFailed()
+      
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   # Retry for 30 seconds, since this command may fail with error "Another rush command is already

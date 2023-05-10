@@ -1,5 +1,5 @@
 {
-  "name": "analyze-deps",
+  "name": "@azure-tools/analyze-deps",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,6 +14,6 @@
     "jju": "^1.4.0",
     "js-yaml": "^4.0.0",
     "semver": "^7.3.4",
-    "tar": "^6.1.0"
+    "tar": "^6.1.11"
   }
 }
