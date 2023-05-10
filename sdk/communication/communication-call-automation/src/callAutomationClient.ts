@@ -305,6 +305,7 @@ export class CallAutomationClient {
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
+        callConnectionId: callConnectionId,
         sourceIdentity: sourceIdentity
           ? communicationIdentifierConverter(sourceIdentity)
           : undefined,
