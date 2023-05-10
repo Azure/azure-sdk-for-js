@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common/interfaces";
 import {
   createAzureMessagingEventGrid,
@@ -26,11 +26,11 @@ export class AzureMessagingEventGrid {
   private _client: AzureMessagingEventGridContext;
 
   /** Azure Messaging EventGrid Client */
-  constructor(
-    endpoint: string,
-    credential: AzureKeyCredential | TokenCredential,
-    options: ClientOptions = {}
-  ) {
+  constructor(endpoint: string, credential: AzureKeyCredential, options: ClientOptions = {}) {
+    credential.update(`SharedAccessKey ${credential.key}`);
+    options.credentials = {
+      apiKeyHeaderName: "Authorization",
+    };
     this._client = createAzureMessagingEventGrid(endpoint, credential, options);
   }
 

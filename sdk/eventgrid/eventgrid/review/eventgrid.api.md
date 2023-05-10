@@ -1259,7 +1259,7 @@ export interface DeviceTwinMetadata {
 
 // @public (undocumented)
 export class EventGridClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: ClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
     // Warning: (ae-forgotten-export) The symbol "acknowledgeCloudEventsOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
