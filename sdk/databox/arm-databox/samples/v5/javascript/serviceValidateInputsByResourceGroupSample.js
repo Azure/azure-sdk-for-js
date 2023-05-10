@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CreateJobValidations,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DataBoxManagementClient } = require("@azure/arm-databox");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This method does all necessary pre-job creation validation under resource group.
@@ -24,12 +19,10 @@ dotenv.config();
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateInputsByResourceGroup.json
  */
 async function validateInputsByResourceGroup() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
-  const validationRequest: CreateJobValidations = {
+  const validationRequest = {
     individualRequestDetails: [
       {
         dataImportDetails: [
@@ -37,13 +30,13 @@ async function validateInputsByResourceGroup() {
             accountDetails: {
               dataAccountType: "StorageAccount",
               storageAccountId:
-                "/subscriptions/YourSubscriptionId/resourcegroups/YourResourceGroupName/providers/Microsoft.Storage/storageAccounts/YourStorageAccountName"
-            }
-          }
+                "/subscriptions/YourSubscriptionId/resourcegroups/YourResourceGroupName/providers/Microsoft.Storage/storageAccounts/YourStorageAccountName",
+            },
+          },
         ],
         deviceType: "DataBox",
         transferType: "ImportToAzure",
-        validationType: "ValidateDataTransferDetails"
+        validationType: "ValidateDataTransferDetails",
       },
       {
         deviceType: "DataBox",
@@ -55,10 +48,10 @@ async function validateInputsByResourceGroup() {
           postalCode: "00000",
           stateOrProvince: "XX",
           streetAddress1: "XXXX XXXX",
-          streetAddress2: "XXXX XXXX"
+          streetAddress2: "XXXX XXXX",
         },
         transportPreferences: { preferredShipmentType: "MicrosoftManaged" },
-        validationType: "ValidateAddress"
+        validationType: "ValidateAddress",
       },
       { validationType: "ValidateSubscriptionIsAllowedToCreateJob" },
       {
@@ -66,18 +59,18 @@ async function validateInputsByResourceGroup() {
         deviceType: "DataBox",
         location: "westus",
         transferType: "ImportToAzure",
-        validationType: "ValidateSkuAvailability"
+        validationType: "ValidateSkuAvailability",
       },
       { deviceType: "DataBox", validationType: "ValidateCreateOrderLimit" },
       {
         deviceType: "DataBox",
         preference: {
-          transportPreferences: { preferredShipmentType: "MicrosoftManaged" }
+          transportPreferences: { preferredShipmentType: "MicrosoftManaged" },
         },
-        validationType: "ValidatePreferences"
-      }
+        validationType: "ValidatePreferences",
+      },
     ],
-    validationCategory: "JobCreationValidation"
+    validationCategory: "JobCreationValidation",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);

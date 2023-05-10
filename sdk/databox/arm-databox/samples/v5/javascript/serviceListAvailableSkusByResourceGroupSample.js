@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AvailableSkuRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DataBoxManagementClient } = require("@azure/arm-databox");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This method provides the list of available skus for the given subscription, resource group and location.
@@ -24,15 +19,13 @@ dotenv.config();
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/AvailableSkusPost.json
  */
 async function availableSkusPost() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
-  const availableSkuRequest: AvailableSkuRequest = {
+  const availableSkuRequest = {
     country: "XX",
     location: "westus",
-    transferType: "ImportToAzure"
+    transferType: "ImportToAzure",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);

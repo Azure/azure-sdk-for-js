@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  RegionConfigurationRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DataBoxManagementClient } = require("@azure/arm-databox");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This API provides configuration details specific to given region/location at Subscription level.
@@ -24,21 +19,17 @@ dotenv.config();
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfiguration.json
  */
 async function regionConfiguration() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
-  const regionConfigurationRequest: RegionConfigurationRequest = {
+  const regionConfigurationRequest = {
     scheduleAvailabilityRequest: {
       skuName: "DataBox",
-      storageLocation: "westus"
-    }
+      storageLocation: "westus",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.regionConfiguration(
-    location,
-    regionConfigurationRequest
-  );
+  const result = await client.service.regionConfiguration(location, regionConfigurationRequest);
   console.log(result);
 }
 

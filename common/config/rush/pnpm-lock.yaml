@@ -339,7 +339,6 @@ specifiers:
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:./projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -680,7 +679,6 @@ dependencies:
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
 
 packages:
 
@@ -3813,7 +3811,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230508
+      typescript: 5.1.0-dev.20230510
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8381,8 +8379,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230508:
-    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
+  /typescript/5.1.0-dev.20230510:
+    resolution: {integrity: sha512-jtCZp40/FBD7Tlj916Dv7bbr+NJK1ZYXoODwxKNBSuZTGeuijogC3k78zp84rij3uxY+F+HFl30cIpMm5i/iAQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10910,7 +10908,7 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-Prgz1lvCwSNdBcoHEnyVXXfY/ROgpbD0/D95IHZanrzQh2nS/yQjddaPLyvdEtiCf293j1cUCDBKV68qC/fIBg==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-NNK8uCtJkT9YSSnjTaJSdBQChmAFDT9FvNHFrIp6ViWwGqJNwvENr2cBPT081FRxjcV42jyklDF/sqEJ6F1dNA==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
@@ -10924,7 +10922,8 @@ packages:
       '@types/node': 14.18.43
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17767,7 +17766,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cWwEWvsr9xH/Ajng6lc+JH0W0lw4RJai73j3tDgNvXem8y15gKKvQzYZz0p4AttBdNinBvs0kj7Csu6hwlp91g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-yV+EJqMoAKH6mWoIlnSZxgc4Q26azQNJ6xsPRYLGYvsaBIrI7zUHMTb4z77Ec8wV3Hx6LDLswf9Q0cZR6ZK7Jw==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18351,7 +18350,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-+9L4HZ3JxF4XWOkZSRo1Htqc0JRvsFsRWfnWuvrUzrnKGsDIhKIu2pFVbUPiCTA/q6xCE+1mpjXOqvhoHvJpOA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-oGpEpmnic6Slrw4xMepkPffibSXj8IhQvMQgFvtAopm7H22vPE9vcJb3jfHeo8qvP1Alke02GREamt4LEGAw1w==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:

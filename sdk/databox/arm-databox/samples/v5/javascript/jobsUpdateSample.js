@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  JobResourceUpdateParameter,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DataBoxManagementClient } = require("@azure/arm-databox");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the properties of an existing job.
@@ -24,18 +19,16 @@ dotenv.config();
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
  */
 async function jobsPatch() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
-  const jobResourceUpdateParameter: JobResourceUpdateParameter = {
+  const jobResourceUpdateParameter = {
     details: {
       contactDetails: {
         contactName: "XXXX XXXX",
         emailList: ["xxxx@xxxx.xxx"],
         phone: "0000000000",
-        phoneExtension: ""
+        phoneExtension: "",
       },
       shippingAddress: {
         addressType: "Commercial",
@@ -45,9 +38,9 @@ async function jobsPatch() {
         postalCode: "00000",
         stateOrProvince: "XX",
         streetAddress1: "XXXX XXXX",
-        streetAddress2: "XXXX XXXX"
-      }
-    }
+        streetAddress2: "XXXX XXXX",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
@@ -66,20 +59,18 @@ async function jobsPatch() {
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
  */
 async function jobsPatchCmk() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
-  const jobResourceUpdateParameter: JobResourceUpdateParameter = {
+  const jobResourceUpdateParameter = {
     details: {
       keyEncryptionKey: {
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
@@ -98,17 +89,16 @@ async function jobsPatchCmk() {
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
 async function jobsPatchSystemAssignedToUserAssigned() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
-  const jobResourceUpdateParameter: JobResourceUpdateParameter = {
+  const jobResourceUpdateParameter = {
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity": {}
-      }
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
+          {},
+      },
     },
     details: {
       keyEncryptionKey: {
@@ -116,15 +106,15 @@ async function jobsPatchSystemAssignedToUserAssigned() {
           type: "UserAssigned",
           userAssigned: {
             resourceId:
-              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity"
-          }
+              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity",
+          },
         },
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
