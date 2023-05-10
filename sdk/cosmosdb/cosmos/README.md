@@ -278,7 +278,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 
 * Queries with COUNT from a DISTINCT subquery​
 * Direct TCP Mode access​
-* Continuation token for cross partitions queries
+* Non-streamable cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens,  and buffer the entire result set in memory. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 * Change Feed: Processor
 * Change Feed: Read multiple partitions key values
 * Change Feed: Read specific time
@@ -298,6 +298,28 @@ Currently the features below are **not supported**. For alternatives options, ch
 You can achieve cross partition queries with continuation token support by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
+
+### Executing non-stremable cross-partition query
+
+To execute non-streamable queries without the use of continuation tokens, you can create a query iterator with the required query specification and options. The following sample code demonstrates how to use a query iterator to fetch all results without the need for a continuation token:
+
+```javascript
+const querySpec = {
+  query: "SELECT * FROM c WHERE c.status = @status",
+  parameters: [{ name: "@status", value: "active" }],
+};
+const queryOptions = {
+  maxItemCount: 10, // maximum number of items to return per page
+  enableCrossPartitionQuery: true,
+};
+const querIterator = await container.items.query(querySpec, queryOptions);
+while (querIterator.hasMoreResults()) {
+  const { resources: result } = await querIterator.fetchNext();
+  //Do something with result
+}
+```
+
+This approach can also be used for streamable queries.
 
 ### Control Plane operations
 Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://docs.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://docs.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://docs.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.
