@@ -8,9 +8,8 @@ require("dotenv").config();
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const devCenter = process.env.AZURE_DEVCENTER_NAME || "";
+  const client = createClient(devCenter, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
   if (isUnexpected(projectList)) {
