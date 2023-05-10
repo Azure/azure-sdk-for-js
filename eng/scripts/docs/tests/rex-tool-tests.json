@@ -16,12 +16,12 @@
   },
   {
     "Package": "@azure/identity-cache-persistence@1.0.0",
-    "ExpectedResult": false,
+    "ExpectedResult": true,
     "Comment": "Valid as of 2.x, passes build"
   },
   {
     "Package": "@azure/identity-vscode@1.0.0",
-    "ExpectedResult": false,
+    "ExpectedResult": true,
     "Comment": "Valid as of 2.x, passes build"
   },
   {
@@ -32,6 +32,6 @@
   {
     "Package": "@azure/package-which-doesnt-exist",
     "ExpectedResult": false,
-    "Comment": "Package does not exist, fails build"
+    "Comment": "Package has defect, fails build"
   }
 ]
