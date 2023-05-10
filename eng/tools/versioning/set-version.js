@@ -17,12 +17,6 @@ let argv = require("yargs")
       describe: "the date of intended release",
       demandOption: false
     },
-    "replace-latest-entry-title": {
-      type: "string",
-      default: true,
-      describe: "indicates if to replace the latest changelog entry",
-      demandOption: false
-    },
     "repo-root": {
       type: "string",
       default: "../../../",
@@ -37,13 +31,12 @@ let argv = require("yargs")
 
 const path = require("path");
 const versionUtils = require("./VersionUtils");
-const packageUtils = require("@azure-tools/eng-package-utils");
+const packageUtils = require("eng-package-utils");
 
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const newVersion = argv["new-version"];
   const releaseDate = argv["release-date"];
-  const replaceLatestEntryTitle = argv["replace-latest-entry-title"];
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
@@ -80,7 +73,7 @@ async function main(argv) {
     repoRoot,
     newVersion,
     false,
-    replaceLatestEntryTitle,
+    true,
     releaseDate
   );
   if (!updateStatus) {

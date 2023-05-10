@@ -3,48 +3,6 @@ const path = require("path");
 const process = require("process");
 const { spawnSync } = require("child_process");
 
-const reducedDependencyTestMatrix = {
-  'core': ['@azure-rest/core-client',
-    '@azure-tests/perf-storage-blob',
-    '@azure/ai-text-analytics',
-    '@azure/arm-compute',
-    '@azure/dev-tool',
-    '@azure/identity',
-    '@azure/identity-cache-persistence',
-    '@azure/identity-vscode',
-    '@azure/service-bus',
-    '@azure/storage-blob',
-    '@azure/template',
-    '@azure/test-utils',
-    '@azure/test-utils-perf',
-    '@azure-tools/test-recorder',
-    '@azure/synapse-monitoring'
-  ],
-  'test-utils': [
-    '@azure-tests/perf-storage-blob',
-    '@azure-tests/perf-data-tables',
-    '@azure/arm-eventgrid',
-    '@azure/ai-text-analytics',
-    '@azure/identity',
-    '@azure/identity-cache-persistence',
-    '@azure/identity-vscode',
-    '@azure/storage-file-share',
-    '@azure/template'
-  ],
-  'identity': [
-    '@azure-rest/core-client',
-    '@azure-tests/perf-storage-blob',
-    '@azure/ai-text-analytics',
-    '@azure/arm-compute',
-    '@azure/identity-cache-persistence',
-    '@azure/identity-vscode',
-    '@azure/service-bus',
-    '@azure/storage-blob',
-    '@azure/template',
-    '@azure/synapse-monitoring'
-  ],
-};
-
 const parseArgs = () => {
   if (
     process.argv.length < 3 ||
@@ -56,43 +14,47 @@ const parseArgs = () => {
   }
 
   let inFlags = false;
-  let isPackageFilter = false;
-  let artifactNames = "";
   const services = [],
     flags = [];
   const [scriptPath, action, ...givenArgs] = process.argv.slice(1);
   const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
 
   for (const arg of givenArgs) {
-    if (arg === "-packages") {
-      isPackageFilter = true;
-      continue;
-    }
-    else if (!inFlags && arg.startsWith("-")) {
+    if (!inFlags && arg.startsWith("-")) {
       inFlags = true;
     }
 
     if (inFlags) {
       flags.push(arg);
-    }
-    else if (isPackageFilter) {
-      artifactNames = arg;
-      isPackageFilter = false;
-    }
-    else {
+    } else {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
         services.push(arg);
       }
     }
   }
-  return [baseDir, action, services, flags, artifactNames];
+  return [baseDir, action, services, flags];
+};
+
+const getAllPackageJsonPaths = (baseDir) => {
+  // Find and return path to all packages in repo
+  const packagePaths = [];
+  const serviceDirs = fs
+    .readdirSync(path.resolve(path.join(baseDir, "sdk")))
+    .filter((f) => !f.startsWith("."))
+    .map((f) => path.resolve(path.join(baseDir, "sdk", f)));
+
+  for (const serviceDir of serviceDirs) {
+    for (const pkgPath of getPackageJsons(serviceDir)) packagePaths.push(pkgPath);
+  }
+  return packagePaths;
 };
 
 const getPackageJsons = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
   const sdkDirectories = fs
     .readdirSync(searchDir)
+    .filter((f) => !f.startsWith("arm-")) // exclude libraries starting with "arm-"
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
@@ -108,25 +70,21 @@ const getPackageJsons = (searchDir) => {
   return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
-const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
-  const packageNames = [];
-  const packageDirs = [];
-  let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
-  console.log(`Packages to build: ${artifactNames}`);
-  const artifacts = artifactNames.split(",");
+const getServicePackages = (baseDir, serviceDirs) => {
+  const packageNames = [],
+    packageDirs = [];
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      const artifactName = contents.name.replace("@", "").replace("/", "-");
-      if (validSdkTypes.includes(contents["sdk-type"]) && (artifactNames.length === 0 || artifacts.includes(artifactName))) {
+      if (contents["sdk-type"] === "client") {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
     }
   }
-  console.log(`Packages eligible to run rush task: ${packageNames}`);
+
   return [packageNames, packageDirs];
 };
 
@@ -148,9 +106,9 @@ const flatMap = (arr, f) => {
   return [].concat(...result);
 };
 
-const [baseDir, action, serviceDirs, rushParams, artifactNames] = parseArgs();
+const [baseDir, action, serviceDirs, rushParams] = parseArgs();
 
-const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, artifactNames);
+const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
 
 /**
  * Helper function to provide the rush logic that is used frequently below
@@ -176,54 +134,36 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
-const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
-if (isReducedTestScopeEnabled) {
-  // If a service is configured to have reduced test matrix then run rush for those reduced projects
-  console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
-  packageNames.push(...reducedDependencyTestMatrix[serviceDirs]);
-}
-const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
   const actionComponents = action.toLowerCase().split(":");
   switch (actionComponents[0]) {
     case "build":
-      // Build command without any additional option should build the project and downstream
-      // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
-      // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
-      var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled) {
-        // reduced preconfigured set of projects and it's required projects
-        rushCommandFlag = "--to";
+      if (actionComponents.length == 1) {
+        rushRunAll("--from", packageNames);
       }
-      else if (actionComponents.length == 1) {
-        rushCommandFlag = "--from";
+      else {
+        // build:samples or build:test doesn't have to build dependent packages
+        // This should use impacted-by to build from current package to downstream
+        rushRunAll("--impacted-by", packageNames);
       }
-
-      rushRunAll(rushCommandFlag, packageNames);
       break;
 
     case "test":
     case "unit-test":
     case "integration-test":
-      var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled) {
-        // If a service is configured to have reduced test matrix then run rush test only for those projects
-        rushCommandFlag = "--only";
-      }
-
-      rushRunAll(rushCommandFlag, packageNames);
+      rushRunAll("--impacted-by", packageNames);
       break;
 
     case "lint":
       for (const packageDir of packageDirs) {
-        spawnNode(packageDir, rushx_runner_path, action);
+        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
       }
       break;
     case "check-format":
       for (const packageDir of packageDirs) {
-        if (spawnNode(packageDir, rushx_runner_path, action) !== 0) {
+        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
           console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
         }
       }

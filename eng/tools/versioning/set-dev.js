@@ -22,7 +22,7 @@ let argv = require("yargs")
 const process = require("process");
 const semver = require("semver");
 const path = require("path");
-const packageUtils = require("@azure-tools/eng-package-utils");
+const packageUtils = require("eng-package-utils");
 
 const commitChanges = async (rushPackages, package) => {
   // Commit the new version to the JSON document
@@ -77,6 +77,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
 
       const parsedPackageVersion = semver.parse(packageVersion);
       const parsedDepMinVersion = semver.minVersion(depVersionRange);
+
       if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
@@ -136,10 +137,9 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       rushPackages[depName].newVer !== undefined
     ) {
 
-      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb so that this automatically matches 
+      // Setting version to ^[major.minor.patch]-alpha so that this automatically matches 
       // with the latest dev version published on npm
-      const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
-      dependencySection[depName] = `>=${versionPrefix}-alpha <${versionPrefix}-alphb`;
+      dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-alpha`;
     }
   }
   return rushPackages;
@@ -173,8 +173,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
       if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
-        const versionPrefix = `${parsedSearchVersion.major}.${parsedSearchVersion.minor}.${parsedSearchVersion.patch}`;
-        var devVersionRange = ">=" + versionPrefix + "-alpha <" + versionPrefix + "-alphb";
+        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }
@@ -200,7 +199,7 @@ async function main(argv) {
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
     if (
-      ["client", "core", "management"].includes(rushPackages[package].versionPolicy) &&
+      ["client", "core"].includes(rushPackages[package].versionPolicy) &&
       rushPackages[package].projectFolder.startsWith(`sdk/${service}`) &&
       !rushPackages[package].json["private"]
     ) {

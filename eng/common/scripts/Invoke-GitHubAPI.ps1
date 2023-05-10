@@ -37,9 +37,10 @@ function Set-GitHubAPIParameters ($members,  $parameterName, $parameters, $allow
 
 function Get-GitHubPullRequests {
   param (
+    [Parameter(Mandatory = $true)]
     $RepoOwner,
+    [Parameter(Mandatory = $true)]
     $RepoName,
-    $RepoId = "$RepoOwner/$RepoName",
     [ValidateSet("open","closed","all")]
     $State = "open",
     $Head,
@@ -52,7 +53,8 @@ function Get-GitHubPullRequests {
     [ValidateNotNullOrEmpty()]
     $AuthToken
   )
-  $uri = "$GithubAPIBaseURI/$RepoId/pulls"
+
+  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/pulls"
   if ($State -or $Head -or $Base -or $Sort -or $Direction) { $uri += '?' }
   if ($State) { $uri += "state=$State&" }
   if ($Head) { $uri += "head=$Head&" }
@@ -75,15 +77,17 @@ Pass 'heads/<branchame> ,tags/<tag name>, or nothing
 #>
 function Get-GitHubSourceReferences {
   param (
+    [Parameter(Mandatory = $true)]
     $RepoOwner,
+    [Parameter(Mandatory = $true)]
     $RepoName,
-    $RepoId = "$RepoOwner/$RepoName",
     $Ref,
     [ValidateNotNullOrEmpty()]
     [Parameter(Mandatory = $true)]
     $AuthToken
   )
-  $uri = "$GithubAPIBaseURI/$RepoId/git/matching-refs/"
+
+  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/git/matching-refs/"
   if ($Ref) { $uri += "$Ref" }
 
   return Invoke-RestMethod `
@@ -95,9 +99,10 @@ function Get-GitHubSourceReferences {
 
 function Get-GitHubPullRequest {
   param (
+    [Parameter(Mandatory = $true)]
     $RepoOwner,
+    [Parameter(Mandatory = $true)]
     $RepoName,
-    $RepoId = "$RepoOwner/$RepoName",
     [Parameter(Mandatory = $true)]
     $PullRequestNumber,
     [ValidateNotNullOrEmpty()]
@@ -105,7 +110,7 @@ function Get-GitHubPullRequest {
     $AuthToken
   )
 
-  $uri = "$GithubAPIBaseURI/$RepoId/pulls/$PullRequestNumber"
+  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/pulls/$PullRequestNumber"
 
   return Invoke-RestMethod `
           -Method GET `
@@ -116,6 +121,7 @@ function Get-GitHubPullRequest {
 
 function New-GitHubPullRequest {
   param (
+    [Parameter(Mandatory = $true)]
     $RepoOwner,
     [Parameter(Mandatory = $true)]
     $RepoName,
@@ -149,84 +155,6 @@ function New-GitHubPullRequest {
           -Uri $uri `
           -Headers (Get-GitHubApiHeaders -token $AuthToken) `
           -MaximumRetryCount 3
-}
-
-function Close-GitHubPullRequest {
-  param (
-    [Parameter(Mandatory = $true)]
-    $apiurl,
-    [ValidateNotNullOrEmpty()]
-    [Parameter(Mandatory = $true)]
-    $AuthToken
-  )
-
-  $parameters = @{
-    state                 = "closed"
-  }
-
-  return Invoke-RestMethod `
-          -Method PATCH `
-          -Uri $apiurl `
-          -Body ($parameters | ConvertTo-Json) `
-          -Headers (Get-GitHubApiHeaders -token $AuthToken) `
-          -MaximumRetryCount 3
-}
-
-function New-GitHubIssue {
-  param (
-    [Parameter(Mandatory = $true)]
-    $RepoOwner,
-    [Parameter(Mandatory = $true)]
-    $RepoName,
-    [Parameter(Mandatory = $true)]
-    $Title,
-    [Parameter(Mandatory = $true)]
-    $Description,
-    [ValidateNotNullOrEmpty()]
-    [Parameter(Mandatory = $true)]
-    $AuthToken
-  )
-
-  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues"
-
-  $parameters = @{
-    title = $Title
-    body = $Description
-  }
-
-  return Invoke-RestMethod `
-    -Method POST `
-    -Body ($parameters | ConvertTo-Json) `
-    -Uri $uri `
-    -Headers (Get-GitHubApiHeaders -token $AuthToken) `
-    -MaximumRetryCount 3
-}
-
-function Get-GitHubIssues {
-  param (
-    [Parameter(Mandatory = $true)]
-    $RepoOwner,
-    [Parameter(Mandatory = $true)]
-    $RepoName,
-    $CreatedBy,
-    [Parameter(Mandatory = $true)]
-    $Labels,
-    [ValidateNotNullOrEmpty()]
-    [Parameter(Mandatory = $true)]
-    $AuthToken
-  )
-
-  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues?labels=$Labels&per_page=100"
-
-  if ($CreatedBy) {
-    $uri += "&creator=$CreatedBy"
-  }
-
-  return Invoke-RestMethod `
-    -Method GET `
-    -Uri $uri `
-    -Headers (Get-GitHubApiHeaders -token $AuthToken) `
-    -MaximumRetryCount 3
 }
 
 function Add-GitHubIssueComment {
@@ -407,47 +335,28 @@ function Update-GitHubIssue {
 
 function Remove-GitHubSourceReferences  {
   param (
+    [Parameter(Mandatory = $true)]
     $RepoOwner,
+    [Parameter(Mandatory = $true)]
     $RepoName,
-    $RepoId = "$RepoOwner/$RepoName",
     [ValidateNotNullOrEmpty()]
     [Parameter(Mandatory = $true)]
-    $Ref, # Using the format of "refs/heads/<branch>" or "heads/<branch>" for branch, and "tags/<tag>" for tag
+    $Ref,
     [ValidateNotNullOrEmpty()]
     [Parameter(Mandatory = $true)]
     $AuthToken
   )
+
   if ($Ref.Trim().Length -eq 0)
   {
     throw "You must supply a valid 'Ref' Parameter to 'Delete-GithubSourceReferences'."
   }
-  # Github is using branch in format of "heads/{branch_name}". Trim the "refs/heads/..." to "heads/..."
-  $Ref = $Ref -replace "refs/"
-  $uri = "$GithubAPIBaseURI/$RepoId/git/refs/$Ref"
+
+  $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/git/refs/$Ref"
 
   return Invoke-RestMethod `
           -Method DELETE `
           -Uri $uri `
           -Headers (Get-GitHubApiHeaders -token $AuthToken) `
           -MaximumRetryCount 3
-}
-
-
-function Get-GithubReferenceCommitDate($commitUrl, $AuthToken) {
-  $commitResponse = ""
-  if ($AuthToken) 
-  {
-    $commitResponse = Invoke-RestMethod $commitUrl `
-                        -Headers (Get-GitHubApiHeaders -token $AuthToken) `
-                        -MaximumRetryCount 3 
-  }
-  else 
-  {
-    $commitResponse = Invoke-RestMethod $commitUrl -MaximumRetryCount 3 
-  }
-  if (!$commitResponse.committer -or !$commitResponse.committer.date) {
-    LogDebug "No date returned from the commit sha. "
-    return $null
-  }
-  return $commitResponse.committer.date
 }

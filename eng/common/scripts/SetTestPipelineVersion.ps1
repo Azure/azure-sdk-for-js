@@ -2,55 +2,32 @@
 
 param (
   [Parameter(mandatory = $true)]
-  [string]$BuildID,
+  $BuildID,
   [Parameter(mandatory = $true)]
-  [string]$PackageNames,
+  $PackageName,
   [Parameter(mandatory = $true)]
-  [string]$ServiceDirectory
+  $ServiceDirectory
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
 
-Write-Host "PackageNames: $PackageNames"
-Write-Host "ServiceDirectory: $ServiceDirectory"
-Write-Host "BuildID: $BuildID"
+$latestTags = git tag -l "${PackageName}_*"
+$semVars = @()
 
-$packageNamesArray = @()
-
-if ([String]::IsNullOrWhiteSpace($PackageNames)) {
-  LogError "PackageNames cannot be empty."
-  exit 1
-} else {
-  $packageNamesArray = $PackageNames.Split(',')
+Foreach ($tags in $latestTags)
+{
+  $semVars += $tags.Replace("${PackageName}_", "")
 }
 
-foreach ($packageName in $packageNamesArray) {
-  Write-Host "Processing $packageName"
-  $newVersion = [AzureEngSemanticVersion]::new("1.0.0")
-  $latestTags = git tag -l "${packageName}_*"
+$semVarsSorted = [AzureEngSemanticVersion]::SortVersionStrings($semVars)
+LogDebug "Last Published Version $($semVarsSorted[0])"
 
-  Write-Host "Get Latest Tag : git tag -l ${packageName}_*"
-  $semVars = @()
+$newVersion = [AzureEngSemanticVersion]::new($semVarsSorted[0])
+$newVersion.PrereleaseLabel = $newVersion.DefaultPrereleaseLabel
+$newVersion.PrereleaseNumber = $BuildID
 
-  if ($latestTags -and ($latestTags.Length -gt 0))
-  {
-    foreach ($tags in $latestTags)
-    {
-      $semVars += $tags.Replace("${packageName}_", "")
-    }
+LogDebug "Version to publish [ $($newVersion.ToString()) ]"
 
-    $semVarsSorted = [AzureEngSemanticVersion]::SortVersionStrings($semVars)
-    Write-Host "Last Published Version $($semVarsSorted[0])"
-    $newVersion = [AzureEngSemanticVersion]::new($semVarsSorted[0])
-  }
-
-  $newVersion.PrereleaseLabel = $newVersion.DefaultPrereleaseLabel
-  $newVersion.PrereleaseNumber = $BuildID
-  $newVersion.IsPrerelease = $True
-
-  Write-Host "Version to publish [ $($newVersion.ToString()) ]"
-
-  SetPackageVersion -PackageName $packageName `
-    -Version $newVersion.ToString() `
-    -ServiceDirectory $ServiceDirectory
-}
+SetPackageVersion -PackageName $PackageName `
+  -Version $newVersion `
+  -ServiceDirectory $ServiceDirectory

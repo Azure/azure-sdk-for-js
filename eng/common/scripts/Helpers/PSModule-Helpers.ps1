@@ -1,7 +1,7 @@
 $DefaultPSRepositoryUrl = "https://www.powershellgallery.com/api/v2"
 $global:CurrentUserModulePath = ""
 
-function Update-PSModulePathForCI()
+function Update-PSModulePath()
 {
   # Information on PSModulePath taken from docs
   # https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath
@@ -22,9 +22,9 @@ function Update-PSModulePathForCI()
   $modulePaths = $modulePaths.Where({ !$_.StartsWith($hostedAgentModulePath) })
 
   # Add any "az_" paths from the agent which is the lastest set of azure modules
-  $AzModuleCachePath = (Get-ChildItem "$hostedAgentModulePath/az_*" -Attributes Directory) -join $moduleSeperator
-  if ($AzModuleCachePath -and $env:PSModulePath -notcontains $AzModuleCachePath) {
-    $modulePaths += $AzModuleCachePath
+  $AzModuleCachPath = (Get-ChildItem "$hostedAgentModulePath/az_*" -Attributes Directory) -join $moduleSeperator
+  if ($AzModuleCachPath -and $env.PSModulePath -notcontains $AzModuleCachPath) {
+    $modulePaths += $AzModuleCachPath
   }
 
   $env:PSModulePath = $modulePaths -join $moduleSeperator
@@ -48,15 +48,8 @@ function Update-PSModulePathForCI()
 }
 
 # If we want to use another default repository other then PSGallery we can update the default parameters
-function Install-ModuleIfNotInstalled()
+function Install-ModuleIfNotInstalled($moduleName, $version, $repositoryUrl = $DefaultPSRepositoryUrl)
 {
-  [CmdletBinding(SupportsShouldProcess = $true)]
-  param(
-    [string]$moduleName,
-    [string]$version,
-    [string]$repositoryUrl = $DefaultPSRepositoryUrl
-  )
-
   # Check installed modules
   $modules = (Get-Module -ListAvailable $moduleName)
   if ($version -as [Version]) {
@@ -101,6 +94,4 @@ function Install-ModuleIfNotInstalled()
   return $modules[0]
 }
 
-if ($null -ne $env:SYSTEM_TEAMPROJECTID) {
-    Update-PSModulePathForCI
-}
+Update-PSModulePath

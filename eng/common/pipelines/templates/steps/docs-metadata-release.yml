@@ -26,7 +26,7 @@ parameters:
     default: ''
   - name: PRBranchName
     type: string
-    default: 'main-rdme'
+    default: 'master-rdme'
   - name: PRLabels
     type: string
     default: 'auto-merge'
@@ -81,7 +81,7 @@ steps:
 - ${{ if parameters.SparseCheckoutPaths }}:
   - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
     parameters:
-      SkipCheckoutNone: true
+      SkipDefaultCheckout: true
       Repositories:
         - Name: ${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }}
           WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo

@@ -3,38 +3,6 @@ $ReleaseDevOpsOrgParameters =  @("--organization", "https://dev.azure.com/azure-
 $ReleaseDevOpsCommonParameters =  $ReleaseDevOpsOrgParameters + @("--output", "json")
 $ReleaseDevOpsCommonParametersWithProject = $ReleaseDevOpsCommonParameters + @("--project", "Release")
 
-function Get-DevOpsRestHeaders()
-{
-  $headers = $null
-  if (Get-Variable -Name "devops_pat" -ValueOnly -ErrorAction "Ignore")
-  {
-    $encodedToken = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes([string]::Format("{0}:{1}", "", $devops_pat)))
-    $headers = @{ Authorization = "Basic $encodedToken" }
-  }
-  else
-  {
-    # Get a temp access token from the logged in az cli user for azure devops resource
-    $jwt_accessToken = (az account get-access-token --resource "499b84ac-1321-427f-aa17-267ca6975798" --query "accessToken" --output tsv)
-    $headers = @{ Authorization = "Bearer $jwt_accessToken" }
-  }
-
-  return $headers
-}
-
-function CheckDevOpsAccess()
-{
-  # Dummy test query to validate permissions
-  $query = "SELECT [System.ID] FROM WorkItems WHERE [Work Item Type] = 'Package' AND [Package] = 'azure-sdk-template'"
-
-  $response = Invoke-RestMethod -Method POST `
-    -Uri "https://dev.azure.com/azure-sdk/Release/_apis/wit/wiql/?api-version=6.0" `
-    -Headers (Get-DevOpsRestHeaders) -Body "{ ""query"": ""$query"" }" -ContentType "application/json" | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashTable
-
-  if ($response -isnot [HashTable] -or !$response.ContainsKey("workItems")) {
-    throw "Failed to run test query against Azure DevOps. Please ensure you are logged into the public azure cloud. Consider running 'az logout' and then 'az login'."
-  }
-}
-
 function Invoke-AzBoardsCmd($subCmd, $parameters, $output = $true)
 {
   $azCmdStr = "az boards ${subCmd} $($parameters -join ' ')"
@@ -44,72 +12,13 @@ function Invoke-AzBoardsCmd($subCmd, $parameters, $output = $true)
   return Invoke-Expression "$azCmdStr" | ConvertFrom-Json -AsHashTable
 }
 
-function Invoke-Query($fields, $wiql, $output = $true)
-{
-  #POST https://dev.azure.com/{organization}/{project}/{team}/_apis/wit/wiql?timePrecision={timePrecision}&$top={$top}&api-version=6.1-preview.2
-
-  $body = @"
-{
-  "query": "$wiql"
-}
-"@
-
-  if ($output) {
-    Write-Host "Executing query $wiql"
-  }
-
-  $response = Invoke-RestMethod -Method POST `
-    -Uri "https://dev.azure.com/azure-sdk/Release/_apis/wit/wiql/?`$top=10000&api-version=6.0" `
-    -Headers (Get-DevOpsRestHeaders) -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashTable
-
-  if ($response -isnot [HashTable] -or !$response.ContainsKey("workItems") -or $response.workItems.Count -eq 0) {
-    Write-Verbose "Query returned no items. $wiql"
-    return ,@()
-  }
-
-  $workItems = @()
-  $i = 0
-  do
-  {
-    $idBatch = @()
-    while ($idBatch.Count -lt 200 -and $i -lt $response.workItems.Count)
-    {
-      $idBatch += $response.workItems[$i].id
-      $i++
-    }
-
-    $uri = "https://dev.azure.com/azure-sdk/Release/_apis/wit/workitems?ids=$($idBatch -join ',')&fields=$($fields -join ',')&api-version=6.0"
-
-    Write-Verbose "Pulling work items $uri "
-
-    $batchResponse = Invoke-RestMethod -Method GET -Uri $uri `
-      -Headers (Get-DevOpsRestHeaders) -ContentType "application/json" -MaximumRetryCount 3 | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashTable
-
-      if ($batchResponse.value)
-      {
-        $batchResponse.value | ForEach-Object { $workItems += $_ }
-      }
-      else
-      {
-        Write-Warning "Batch return no items from $uri"
-      }
-  }
-  while ($i -lt $response.workItems.Count)
-
-  if ($output) {
-    Write-Host "Query return $($workItems.Count) items"
-  }
-
-  return $workItems
-}
-
 function LoginToAzureDevops([string]$devops_pat)
 {
   if (!$devops_pat) {
     return
   }
-  # based on the docs at https://aka.ms/azure-devops-cli-auth the recommendation is to set this env variable to login
-  $env:AZURE_DEVOPS_EXT_PAT = $devops_pat
+  $azCmdStr = "'$devops_pat' | az devops login $($ReleaseDevOpsOrgParameters -join ' ')"
+  Invoke-Expression $azCmdStr
 }
 
 function BuildHashKeyNoNull()
@@ -155,14 +64,13 @@ function FindParentWorkItem($serviceName, $packageDisplayName, $outputCommand = 
     $serviceCondition = "[ServiceName] <> ''"
   }
 
-  $query = "SELECT [ID], [ServiceName], [PackageDisplayName], [Parent] FROM WorkItems WHERE [Work Item Type] = 'Epic' AND ${serviceCondition}"
+  $parameters = $ReleaseDevOpsCommonParametersWithProject
+  $parameters += "--wiql"
+  $parameters += "`"SELECT [ID], [ServiceName], [PackageDisplayName], [Parent] FROM WorkItems WHERE [Work Item Type] = 'Epic' AND ${serviceCondition}`""
 
-  $fields = @("System.Id", "Custom.ServiceName", "Custom.PackageDisplayName", "System.Parent")
+  $workItems = Invoke-AzBoardsCmd "query" $parameters $outputCommand
 
-  $workItems = Invoke-Query $fields $query $outputCommand
-
-  foreach ($wi in $workItems)
-  {
+  foreach ($wi in $workItems) {
     $localKey = BuildHashKey $wi.fields["Custom.ServiceName"] $wi.fields["Custom.PackageDisplayName"]
     if (!$localKey) { continue }
     if ($parentWorkItems.ContainsKey($localKey) -and $parentWorkItems[$localKey].id -ne $wi.id) {
@@ -199,7 +107,9 @@ function FindLatestPackageWorkItem($lang, $packageName, $outputCommand = $true)
       continue
     }
 
-    if (($wi.fields["Custom.PackageVersionMajorMinor"] -as [Version]) -gt ($latestWI.fields["Custom.PackageVersionMajorMinor"] -as [Version])) {
+    # Note this only does string sorting which is enough for our current usages
+    # if we need absolute sorting at some point we would need to parse these versions
+    if ($wi.fields["Custom.PackageVersionMajorMinor"] -gt $latestWI.fields["Custom.PackageVersionMajorMinor"]) {
       $latestWI = $wi
     }
   }
@@ -214,27 +124,26 @@ function FindPackageWorkItem($lang, $packageName, $version, $outputCommand = $tr
   }
 
   $fields = @()
-  $fields += "System.ID"
-  $fields += "System.State"
+  $fields += "ID"
+  $fields += "State"
   $fields += "System.AssignedTo"
-  $fields += "System.Parent"
-  $fields += "Custom.Language"
-  $fields += "Custom.Package"
-  $fields += "Custom.PackageDisplayName"
-  $fields += "System.Title"
-  $fields += "Custom.PackageType"
-  $fields += "Custom.PackageTypeNewLibrary"
-  $fields += "Custom.PackageVersionMajorMinor"
-  $fields += "Custom.PackageRepoPath"
-  $fields += "Custom.ServiceName"
-  $fields += "Custom.PlannedPackages"
-  $fields += "Custom.ShippedPackages"
-  $fields += "Custom.PackageBetaVersions"
-  $fields += "Custom.PackageGAVersion"
-  $fields += "Custom.PackagePatchVersions"
-  $fields += "Custom.Generated"
-  $fields += "Custom.RoadmapState"
-  $fields += "Microsoft.VSTS.Common.StateChangeDate"
+  $fields += "Parent"
+  $fields += "Language"
+  $fields += "Package"
+  $fields += "PackageDisplayName"
+  $fields += "Title"
+  $fields += "PackageType"
+  $fields += "PackageTypeNewLibrary"
+  $fields += "PackageVersionMajorMinor"
+  $fields += "PackageRepoPath"
+  $fields += "ServiceName"
+  $fields += "Planned Packages"
+  $fields += "Shipped Packages"
+  $fields += "PackageBetaVersions"
+  $fields += "PackageGAVersion"
+  $fields += "PackagePatchVersions"
+  $fields += "Generated"
+  $fields += "RoadmapState"
 
   $fieldList = ($fields | ForEach-Object { "[$_]"}) -join ", "
   $query = "SELECT ${fieldList} FROM WorkItems WHERE [Work Item Type] = 'Package'"
@@ -251,8 +160,14 @@ function FindPackageWorkItem($lang, $packageName, $version, $outputCommand = $tr
   if ($version) {
     $query += " AND [PackageVersionMajorMinor] = '${version}'"
   }
+  $parameters = $ReleaseDevOpsCommonParametersWithProject
+  $parameters += "--wiql", "`"${query}`""
 
-  $workItems = Invoke-Query $fields $query $outputCommand
+  $workItems = Invoke-AzBoardsCmd "query" $parameters $outputCommand
+
+  if ($workItems -and $workItems.Count -eq 1000) {
+    Write-Warning "Retrieved the max of 1000 items so item list might not be complete."
+  }
 
   foreach ($wi in $workItems)
   {
@@ -401,24 +316,19 @@ function FindOrCreateClonePackageWorkItem($lang, $pkg, $verMajorMinor, $allowPro
         $pkg.RepoPath = $pkg.fields["Custom.PackageRepoPath"]
       }
 
-      if ($latestVersionItem.fields["Custom.Generated"]) {
-        $extraFields += "`"Generated=" + $latestVersionItem.fields["Custom.Generated"] + "`""
-      }
-
-      if ($latestVersionItem.fields["Custom.RoadmapState"]) {
-        $extraFields += "`"RoadmapState=" +  $latestVersionItem.fields["Custom.RoadmapState"] + "`""
-      }
+      $extraFields += "`"Generated=" + $latestVersionItem.fields["Custom.Generated"] + "`""
+      $extraFields += "`"RoadmapState=" +  $latestVersionItem.fields["Custom.RoadmapState"] + "`""
     }
 
     if ($allowPrompt) {
       if (!$pkg.DisplayName) {
-        Write-Host "Display name is used to identify this package across languages and is usually the friendly name (i.e. For 'Azure Anomaly Detector' it would be 'Anomaly Detector'. For 'Azure Cognitive Search' it would be 'Search'.). See https://aka.ms/azsdk/mark-release-status for more info."
+        Write-Host "We need a package display name to be used in various places and it should be consistent across languages for similar packages."
         while (($readInput = Read-Host -Prompt "Input the display name") -eq "") { }
         $packageInfo.DisplayName = $readInput
       }
 
       if (!$pkg.ServiceName) {
-        Write-Host "This is the friendly service name for this package that is used to align it with other packages and languages (i.e., no need to include 'Azure' or 'Microsoft' in the title). The service name is sometimes the same as the `Package Display Name` if there is only one package for a service. (i.e. For 'Azure Anomaly Detector' it would be 'Anomaly Detector'). For services that ship multiple packages be sure to list the service only. (i.e. For 'Schema Registry Avro', the service name is just 'Schema Registry'; For 'Key Vault Certificates', the service name is simply Key Vault.). See https://aka.ms/azsdk/mark-release-status for more info."
+        Write-Host "We need a package service name to be used in various places and it should be consistent across languages for similar packages."
         while (($readInput = Read-Host -Prompt "Input the service name") -eq "") { }
         $packageInfo.ServiceName = $readInput
       }
@@ -467,7 +377,7 @@ function CreateOrUpdatePackageWorkItem($lang, $pkg, $verMajorMinor, $existingIte
     if ($pkgName -ne $existingItem.fields["Custom.Package"]) { $changedField = "Custom.Package" }
     if ($verMajorMinor -ne $existingItem.fields["Custom.PackageVersionMajorMinor"]) { $changedField = "Custom.PackageVersionMajorMinor" }
     if ($pkgDisplayName -ne $existingItem.fields["Custom.PackageDisplayName"]) { $changedField = "Custom.PackageDisplayName" }
-    if ($pkgType -ne [string]$existingItem.fields["Custom.PackageType"]) { $changedField = "Custom.PackageType" }
+    if ($pkgType -ne $existingItem.fields["Custom.PackageType"]) { $changedField = "Custom.PackageType" }
     if ($pkgNewLibrary -ne $existingItem.fields["Custom.PackageTypeNewLibrary"]) { $changedField = "Custom.PackageTypeNewLibrary" }
     if ($pkgRepoPath -ne $existingItem.fields["Custom.PackageRepoPath"]) { $changedField = "Custom.PackageRepoPath" }
     if ($serviceName -ne $existingItem.fields["Custom.ServiceName"]) { $changedField = "Custom.ServiceName" }
@@ -885,25 +795,6 @@ function UpdatePackageVersions($pkgWorkItem, $plannedVersions, $shippedVersions)
   "value": "$shippedPackages"
 }
 "@
-
-    # If we shipped a version after we set "In Release" state then reset the state to "Next Release Unknown"
-    if ($pkgWorkItem.fields["System.State"] -eq "In Release")
-    {
-      $lastShippedDate = [DateTime]$newShippedVersions[0].Date
-      $markedInReleaseDate = ([DateTime]$pkgWorkItem.fields["Microsoft.VSTS.Common.StateChangeDate"])
-
-      # We just shipped so lets set the state to "Next Release Unknown"
-      if ($markedInReleaseDate -le $lastShippedDate)
-      {
-        $fieldUpdates += @'
-{
-  "op": "replace",
-  "path": "/fields/State",
-  "value": "Next Release Unknown"
-}
-'@
-      }
-    }
   }
 
   # Full merged version set
@@ -931,8 +822,20 @@ function UpdatePackageVersions($pkgWorkItem, $plannedVersions, $shippedVersions)
 
   $body = "[" + ($fieldUpdates -join ',') + "]"
 
+  $headers = $null
+  if (Get-Variable -Name "devops_pat" -ValueOnly -ErrorAction "Ignore")
+  {
+    $encodedToken = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes([string]::Format("{0}:{1}", "", $devops_pat)))
+    $headers = @{ Authorization = "Basic $encodedToken" }
+  }
+  else
+  {
+    # Get a temp access token from the logged in az cli user for azure devops resource
+    $jwt_accessToken = (az account get-access-token --resource "499b84ac-1321-427f-aa17-267ca6975798" --query "accessToken" --output tsv)
+    $headers = @{ Authorization = "Bearer $jwt_accessToken" }
+  }
   $response = Invoke-RestMethod -Method PATCH `
     -Uri "https://dev.azure.com/azure-sdk/_apis/wit/workitems/${id}?api-version=6.0" `
-    -Headers (Get-DevOpsRestHeaders) -Body $body -ContentType "application/json-patch+json" | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashTable
+    -Headers $headers -Body $body -ContentType "application/json-patch+json" | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashTable
   return $response
 }

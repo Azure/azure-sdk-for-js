@@ -27,7 +27,7 @@
   List of http status codes that count as broken links. Defaults to 400, 401, 404, SocketError.HostNotFound = 11001, SocketError.NoData = 11004.
 
   .PARAMETER branchReplaceRegex
-  Regex to check if the link needs to be replaced. E.g. ^(https://github.com/.*/(?:blob|tree)/)main(/.*)$
+  Regex to check if the link needs to be replaced. E.g. ^(https://github.com/.*/(?:blob|tree)/)master(/.*)$
 
   .PARAMETER branchReplacementName
   The substitute branch name or SHA commit.
@@ -43,9 +43,6 @@
 
   .PARAMETER outputCacheFile
   Path to a file that the script will output all the validated links after running all checks.
-
-  .PARAMETER requestTimeoutSec
-  The number of seconds before we timeout when sending an individual web request. Default is 15 seconds.
 
   .EXAMPLE
   PS> .\Verify-Links.ps1 C:\README.md
@@ -70,8 +67,7 @@ param (
   [bool] $checkLinkGuidance = $false,
   [string] $userAgent,
   [string] $inputCacheFile,
-  [string] $outputCacheFile,
-  [string] $requestTimeoutSec  = 15
+  [string] $outputCacheFile
 )
 
 $ProgressPreference = "SilentlyContinue"; # Disable invoke-webrequest progress dialog
@@ -224,14 +220,14 @@ function CheckLink ([System.Uri]$linkUri, $allowRetry=$true)
       $headRequestSucceeded = $true
       try {
         # Attempt HEAD request first
-        $response = Invoke-WebRequest -Uri $linkUri -Method HEAD -UserAgent $userAgent -TimeoutSec $requestTimeoutSec
+        $response = Invoke-WebRequest -Uri $linkUri -Method HEAD -UserAgent $userAgent
       }
       catch {
         $headRequestSucceeded = $false
       }
       if (!$headRequestSucceeded) {
         # Attempt a GET request if the HEAD request failed.
-        $response = Invoke-WebRequest -Uri $linkUri -Method GET -UserAgent $userAgent -TimeoutSec $requestTimeoutSec
+        $response = Invoke-WebRequest -Uri $linkUri -Method GET -UserAgent $userAgent
       }
       $statusCode = $response.StatusCode
       if ($statusCode -ne 200) {
@@ -248,10 +244,10 @@ function CheckLink ([System.Uri]$linkUri, $allowRetry=$true)
 
       if ($statusCode -in $errorStatusCodes) {
         if ($originalLinkUri -ne $linkUri) {
-          LogError "[$statusCode] broken link $originalLinkUri (resolved to $linkUri)"
+          LogWarning "[$statusCode] broken link $originalLinkUri (resolved to $linkUri)"
         }
         else {
-          LogError "[$statusCode] broken link $linkUri"
+          LogWarning "[$statusCode] broken link $linkUri"
         }
 
         $linkValid = $false
@@ -332,7 +328,7 @@ function GetLinks([System.Uri]$pageUri)
 {
   if ($pageUri.Scheme.StartsWith("http")) {
     try {
-      $response = Invoke-WebRequest -Uri $pageUri -UserAgent $userAgent -TimeoutSec $requestTimeoutSec -MaximumRetryCount 3
+      $response = Invoke-WebRequest -Uri $pageUri -UserAgent $userAgent
       $content = $response.Content
 
       if ($pageUri.ToString().EndsWith(".md")) {
@@ -341,7 +337,7 @@ function GetLinks([System.Uri]$pageUri)
     }
     catch {
       $statusCode = $_.Exception.Response.StatusCode.value__
-      LogError "Invalid page [$statusCode] $pageUri"
+      Write-Error "Invalid page [$statusCode] $pageUri"
     }
   }
   elseif ($pageUri.IsFile -and (Test-Path $pageUri.LocalPath)) {
@@ -363,7 +359,7 @@ function GetLinks([System.Uri]$pageUri)
     }
   }
   else {
-    LogError "Don't know how to process uri $pageUri"
+    Write-Error "Don't know how to process uri $pageUri"
   }
 
   $links = ParseLinks $pageUri $content
@@ -396,12 +392,12 @@ if ($inputCacheFile)
   $cacheContent = ""
   if ($inputCacheFile.StartsWith("http")) {
     try {
-      $response = Invoke-WebRequest -Uri $inputCacheFile -TimeoutSec $requestTimeoutSec -MaximumRetryCount 3
+      $response = Invoke-WebRequest -Uri $inputCacheFile
       $cacheContent = $response.Content
     }
     catch {
       $statusCode = $_.Exception.Response.StatusCode.value__
-      LogError "Failed to read cache file from  page [$statusCode] $inputCacheFile"
+      Write-Error "Failed to read cache file from  page [$statusCode] $inputCacheFile"
     }
   }
   elseif (Test-Path $inputCacheFile) {
@@ -427,9 +423,6 @@ foreach ($url in $urls) {
   $pageUrisToCheck.Enqueue($uri);
 }
 
-if ($devOpsLogging) {
-  Write-Host "##[group]Link checking details"
-}
 while ($pageUrisToCheck.Count -ne 0)
 {
   $pageUri = $pageUrisToCheck.Dequeue();
@@ -437,7 +430,7 @@ while ($pageUrisToCheck.Count -ne 0)
   $checkedPages[$pageUri] = $true;
 
   $linkUris = GetLinks $pageUri
-  Write-Host "Checking $($linkUris.Count) links found on page $pageUri";
+  Write-Host "Found $($linkUris.Count) links on page $pageUri";
   $badLinksPerPage = @();
   foreach ($linkUri in $linkUris) {
     $isLinkValid = CheckLink $linkUri
@@ -457,9 +450,6 @@ while ($pageUrisToCheck.Count -ne 0)
     $badLinks[$pageUri] = $badLinksPerPage
   }
 }
-if ($devOpsLogging) {
-  Write-Host "##[endgroup]"
-}
 
 if ($badLinks.Count -gt 0) {
   Write-Host "Summary of broken links:"
@@ -474,7 +464,7 @@ foreach ($pageLink in $badLinks.Keys) {
 $linksChecked = $checkedLinks.Count - $cachedLinksCount
 
 if ($badLinks.Count -gt 0) {
-  Write-Host "Checked $linksChecked links with $($badLinks.Count) broken link(s) found."
+  LogError "Checked $linksChecked links with $($badLinks.Count) page(s) broken."
 }
 else {
   Write-Host "Checked $linksChecked links. No broken links found."

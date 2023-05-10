@@ -14,17 +14,12 @@ param (
     [Parameter(Mandatory=$False)][string] $DisplayNameFilter,
     [Parameter(Mandatory=$False)][array] $Filters,
     [Parameter(Mandatory=$False)][array] $Replace,
-    [Parameter(Mandatory=$False)][array] $NonSparseParameters,
-    [Parameter()][switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
+    [Parameter(Mandatory=$False)][array] $NonSparseParameters
 )
 
 . $PSScriptRoot/job-matrix-functions.ps1
 
-if (!(Test-Path $ConfigPath)) {
-    Write-Error "ConfigPath '$ConfigPath' does not exist."
-    exit 1
-}
-$config = GetMatrixConfigFromFile (Get-Content $ConfigPath -Raw)
+$config = GetMatrixConfigFromJson (Get-Content $ConfigPath)
 # Strip empty string filters in order to be able to use azure pipelines yaml join()
 $Filters = $Filters | Where-Object { $_ }
 
@@ -39,7 +34,4 @@ $Filters = $Filters | Where-Object { $_ }
 $serialized = SerializePipelineMatrix $matrix
 
 Write-Output $serialized.pretty
-
-if ($CI) {
-    Write-Output "##vso[task.setVariable variable=matrix;isOutput=true]$($serialized.compressed)"
-}
+Write-Output "##vso[task.setVariable variable=matrix;isOutput=true]$($serialized.compressed)"
