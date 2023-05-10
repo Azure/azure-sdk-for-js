@@ -1,7 +1,6 @@
 # Release History
 
-## 3.2.1 (2023-05-11)
-
+## 3.2.1 (2023-05-10)
 
 ### Bug Fixes
  - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check.
