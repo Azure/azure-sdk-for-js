@@ -1,5 +1,11 @@
 # Release History
 
+## 3.2.1
+
+ - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check.
+   Related issue [#25827](https://github.com/Azure/azure-sdk-for-js/issues/25827) with the fix [#25829](https://github.com/Azure/azure-sdk-for-js/pull/25829).
+
+
 ## 3.2.0 (2023-05-09)
 
 ### Breaking Changes
