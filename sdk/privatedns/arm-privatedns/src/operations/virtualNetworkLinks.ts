@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PrivateDnsManagementClient } from "../privateDnsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualNetworkLink,
   VirtualNetworkLinksListNextOptionalParams,
@@ -138,8 +142,8 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
       VirtualNetworkLinksCreateOrUpdateResponse
     >
   > {
@@ -149,7 +153,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     ): Promise<VirtualNetworkLinksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -182,19 +186,22 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateZoneName,
         virtualNetworkLinkName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkLinksCreateOrUpdateResponse,
+      OperationState<VirtualNetworkLinksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -241,8 +248,8 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksUpdateResponse>,
       VirtualNetworkLinksUpdateResponse
     >
   > {
@@ -252,7 +259,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     ): Promise<VirtualNetworkLinksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -285,19 +292,22 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateZoneName,
         virtualNetworkLinkName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkLinksUpdateResponse,
+      OperationState<VirtualNetworkLinksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -343,14 +353,14 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     options?: VirtualNetworkLinksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -383,13 +393,18 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateZoneName, virtualNetworkLinkName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateZoneName,
+        virtualNetworkLinkName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -635,7 +650,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

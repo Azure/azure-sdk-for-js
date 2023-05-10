@@ -393,20 +393,14 @@ export type PrivateZonesListByResourceGroupResponse = PrivateZoneListResult;
 
 /** Optional parameters. */
 export interface PrivateZonesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of Private DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PrivateZonesListNextResponse = PrivateZoneListResult;
 
 /** Optional parameters. */
 export interface PrivateZonesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PrivateZonesListByResourceGroupNextResponse = PrivateZoneListResult;
@@ -471,10 +465,7 @@ export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkLinksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of virtual network links to return. If not specified, returns up to 100 virtual network links. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualNetworkLinksListNextResponse = VirtualNetworkLinkListResult;
@@ -541,24 +532,14 @@ export type RecordSetsListResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTypeNext operation. */
 export type RecordSetsListByTypeNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecordSetsListNextResponse = RecordSetListResult;
