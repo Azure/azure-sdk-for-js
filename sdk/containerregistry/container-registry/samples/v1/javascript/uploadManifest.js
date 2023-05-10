@@ -49,7 +49,7 @@ async function main() {
         digest: layerDigest,
         size: layerSize,
         annotations: {
-          title: "artifact.txt",
+          "org.opencontainers.image.title": "artifact.txt",
         },
       },
     ],

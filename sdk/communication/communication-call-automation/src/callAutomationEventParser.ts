@@ -7,27 +7,27 @@ import { communicationIdentifierConverter, callParticipantConverter } from "./ut
 
 import {
   CallAutomationEvent,
-  AddParticipantSucceededEventData,
-  AddParticipantFailedEventData,
-  CallConnectedEventData,
-  CallDisconnectedEventData,
-  CallTransferAcceptedEventData,
-  CallTransferFailedEventData,
-  ParticipantsUpdatedEventData,
-  RecordingStateChangedEventData,
-  PlayCompletedEventData,
-  PlayFailedEventData,
-  PlayCanceledEventData,
-  RecognizeCompletedEventData,
-  RecognizeCanceledEventData,
-  RecognizeFailedEventData,
-  RemoveParticipantSucceededEventData,
-  RemoveParticipantFailedEventData,
-  ContinuousDtmfRecognitionToneReceivedEventData,
-  ContinuousDtmfRecognitionToneFailedEventData,
-  ContinuousDtmfRecognitionStoppedEventData,
-  SendDtmfCompletedEventData,
-  SendDtmfFailedEventData,
+  AddParticipantSucceeded,
+  AddParticipantFailed,
+  CallConnected,
+  CallDisconnected,
+  CallTransferAccepted,
+  CallTransferFailed,
+  ParticipantsUpdated,
+  RecordingStateChanged,
+  PlayCompleted,
+  PlayFailed,
+  PlayCanceled,
+  RecognizeCompleted,
+  RecognizeCanceled,
+  RecognizeFailed,
+  RemoveParticipantSucceeded,
+  RemoveParticipantFailed,
+  ContinuousDtmfRecognitionToneReceived,
+  ContinuousDtmfRecognitionToneFailed,
+  ContinuousDtmfRecognitionStopped,
+  SendDtmfCompleted,
+  SendDtmfFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -53,78 +53,78 @@ export function parseCallAutomationEvent(
   let parsed: any = data;
   switch (eventType) {
     case "Microsoft.Communication.AddParticipantSucceeded":
-      callbackEvent = { kind: "AddParticipantSucceeded" } as AddParticipantSucceededEventData;
+      callbackEvent = { kind: "AddParticipantSucceeded" } as AddParticipantSucceeded;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.AddParticipantFailed":
-      callbackEvent = { kind: "AddParticipantFailed" } as AddParticipantFailedEventData;
+      callbackEvent = { kind: "AddParticipantFailed" } as AddParticipantFailed;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.RemoveParticipantSucceeded":
-      callbackEvent = { kind: "RemoveParticipantSucceeded" } as RemoveParticipantSucceededEventData;
+      callbackEvent = { kind: "RemoveParticipantSucceeded" } as RemoveParticipantSucceeded;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.RemoveParticipantFailed":
-      callbackEvent = { kind: "RemoveParticipantFailed" } as RemoveParticipantFailedEventData;
+      callbackEvent = { kind: "RemoveParticipantFailed" } as RemoveParticipantFailed;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.CallConnected":
-      callbackEvent = { kind: "CallConnected" } as CallConnectedEventData;
+      callbackEvent = { kind: "CallConnected" } as CallConnected;
       break;
     case "Microsoft.Communication.CallDisconnected":
-      callbackEvent = { kind: "CallDisconnected" } as CallDisconnectedEventData;
+      callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
       break;
     case "Microsoft.Communication.CallTransferAccepted":
-      callbackEvent = { kind: "CallTransferAccepted" } as CallTransferAcceptedEventData;
+      callbackEvent = { kind: "CallTransferAccepted" } as CallTransferAccepted;
       break;
     case "Microsoft.Communication.CallTransferFailed":
-      callbackEvent = { kind: "CallTransferFailed" } as CallTransferFailedEventData;
+      callbackEvent = { kind: "CallTransferFailed" } as CallTransferFailed;
       break;
     case "Microsoft.Communication.ParticipantsUpdated":
-      callbackEvent = { kind: "ParticipantsUpdated" } as ParticipantsUpdatedEventData;
+      callbackEvent = { kind: "ParticipantsUpdated" } as ParticipantsUpdated;
       parsed = participantsParserForEvent(data);
       break;
     case "Microsoft.Communication.RecordingStateChanged":
-      callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChangedEventData;
+      callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
     case "Microsoft.Communication.PlayCompleted":
-      callbackEvent = { kind: "PlayCompleted" } as PlayCompletedEventData;
+      callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;
       break;
     case "Microsoft.Communication.PlayFailed":
-      callbackEvent = { kind: "PlayFailed" } as PlayFailedEventData;
+      callbackEvent = { kind: "PlayFailed" } as PlayFailed;
       break;
     case "Microsoft.Communication.PlayCanceled":
-      callbackEvent = { kind: "PlayCanceled" } as PlayCanceledEventData;
+      callbackEvent = { kind: "PlayCanceled" } as PlayCanceled;
       break;
     case "Microsoft.Communication.RecognizeCompleted":
-      callbackEvent = { kind: "RecognizeCompleted" } as RecognizeCompletedEventData;
+      callbackEvent = { kind: "RecognizeCompleted" } as RecognizeCompleted;
       break;
     case "Microsoft.Communication.RecognizeCanceled":
-      callbackEvent = { kind: "RecognizeCanceled" } as RecognizeCanceledEventData;
+      callbackEvent = { kind: "RecognizeCanceled" } as RecognizeCanceled;
       break;
     case "Microsoft.Communication.RecognizeFailed":
-      callbackEvent = { kind: "RecognizeFailed" } as RecognizeFailedEventData;
+      callbackEvent = { kind: "RecognizeFailed" } as RecognizeFailed;
       break;
     case "Microsoft.Communication.ContinuousDtmfRecognitionToneReceived":
       callbackEvent = {
         kind: "ContinuousDtmfRecognitionToneReceived",
-      } as ContinuousDtmfRecognitionToneReceivedEventData;
+      } as ContinuousDtmfRecognitionToneReceived;
       break;
     case "Microsoft.Communication.ContinuousDtmfRecognitionToneFailed":
       callbackEvent = {
         kind: "ContinuousDtmfRecognitionToneFailed",
-      } as ContinuousDtmfRecognitionToneFailedEventData;
+      } as ContinuousDtmfRecognitionToneFailed;
       break;
     case "Microsoft.Communication.ContinuousDtmfRecognitionStopped":
       callbackEvent = {
         kind: "ContinuousDtmfRecognitionStopped",
-      } as ContinuousDtmfRecognitionStoppedEventData;
+      } as ContinuousDtmfRecognitionStopped;
       break;
     case "Microsoft.Communication.SendDtmfCompleted":
-      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompletedEventData;
+      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
       break;
     case "Microsoft.Communication.SendDtmfFailed":
-      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailedEventData;
+      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

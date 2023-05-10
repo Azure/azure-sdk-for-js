@@ -184,7 +184,7 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
-    readonly results: WithDetectedLanguage<T>[];
+    readonly results: T[];
 }
 
 // @public
@@ -284,11 +284,6 @@ export interface DetectedLanguage {
     iso6391Name: string;
     name: string;
     script?: ScriptKind;
-}
-
-// @public
-export interface DocumentDetectedLanguage {
-    detectedLanguage?: DetectedLanguage;
 }
 
 // @public
@@ -403,12 +398,7 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type FhirVersion = string;
-
-// @public
 export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: HealthcareDocumentType;
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -426,9 +416,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 // @public
 export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
-
-// @public
-export type HealthcareDocumentType = string;
 
 // @public
 export interface HealthcareEntity extends Entity {
@@ -467,7 +454,6 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -557,24 +543,6 @@ export enum KnownErrorCode {
 export enum KnownExtractiveSummarizationOrderingCriteria {
     Offset = "Offset",
     Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
-}
-
-// @public
-export enum KnownHealthcareDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
 }
 
 // @public
@@ -1326,10 +1294,5 @@ export type WarningCode = string;
 
 // @public
 export type WeightUnit = string;
-
-// @public
-export type WithDetectedLanguage<T> = T & DocumentDetectedLanguage & {
-    isLanguageDefaulted?: boolean;
-};
 
 ```

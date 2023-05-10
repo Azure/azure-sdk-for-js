@@ -24,6 +24,7 @@ import {
   UploadBlobResult,
   SetManifestOptions,
   SetManifestResult,
+  OciImageManifest,
 } from "./models";
 import { CommonClientOptions } from "@azure/core-client";
 import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
@@ -189,7 +190,7 @@ export class ContainerRegistryContentClient {
    * @param manifest - the manifest to upload.
    */
   public async setManifest(
-    manifest: Buffer | NodeJS.ReadableStream | Record<string, unknown>,
+    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest | Record<string, unknown>,
     options: SetManifestOptions = {}
   ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
@@ -230,11 +231,8 @@ export class ContainerRegistryContentClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciImageManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
-   * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
-   *
    * @param tagOrDigest - a tag or digest that identifies the artifact
-   * @returns - the downloaded manifest
+   * @returns - the downloaded manifest.
    */
   public async getManifest(
     tagOrDigest: string,
