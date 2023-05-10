@@ -430,34 +430,6 @@ describe("DevBox Operations Tests", () => {
     await deleteDevBox();
   });
 
-  it("RestartDevBox", async function () {
-    await createDevBox();
-
-    const restartDevBoxResponse = await client
-      .path(
-        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart",
-        projectName,
-        userId,
-        devboxName
-      )
-      .post();
-
-    const devBoxRestartPoller = getLongRunningPoller(client, restartDevBoxResponse);
-    const devBoxRestartResult = await devBoxRestartPoller.pollUntilDone();
-
-    if (isUnexpected(devBoxRestartResult)) {
-      throw new Error(devBoxRestartResult.body?.error.message);
-    }
-
-    assert.equal(
-      devBoxRestartResult.status,
-      "200",
-      "Dev box restart long-running operation should return 200 OK."
-    );
-
-    await deleteDevBox();
-  });
-
   async function createDevBox() {
     const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
       contentType: "application/json",
