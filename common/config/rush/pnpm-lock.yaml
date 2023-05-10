@@ -339,7 +339,6 @@ specifiers:
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:./projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
   path-scurry: 1.6.3
 
 dependencies:
@@ -681,7 +680,6 @@ dependencies:
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
   path-scurry: 1.6.3
 
 packages:
@@ -3815,7 +3813,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230508
+      typescript: 5.1.0-dev.20230510
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8373,8 +8371,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230508:
-    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
+  /typescript/5.1.0-dev.20230510:
+    resolution: {integrity: sha512-jtCZp40/FBD7Tlj916Dv7bbr+NJK1ZYXoODwxKNBSuZTGeuijogC3k78zp84rij3uxY+F+HFl30cIpMm5i/iAQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15311,7 +15309,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-FPNjYkMGdUZniAZmeCYI256enk10lzjVvo8SEwA1GrMVSrHIsTt89nSF2QpJBbWVPYP+hqF5dmC866NE/Nqymw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-VD8/xJ8qDjSBZ3htdyTZqINjSvcFCsYNKGH3BqlXWRatiTFz4pVLg0UrV/obOxHrb7cuXUeofu/lee3nVv0UUw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -17762,7 +17760,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cWwEWvsr9xH/Ajng6lc+JH0W0lw4RJai73j3tDgNvXem8y15gKKvQzYZz0p4AttBdNinBvs0kj7Csu6hwlp91g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-yV+EJqMoAKH6mWoIlnSZxgc4Q26azQNJ6xsPRYLGYvsaBIrI7zUHMTb4z77Ec8wV3Hx6LDLswf9Q0cZR6ZK7Jw==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18346,7 +18344,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-+9L4HZ3JxF4XWOkZSRo1Htqc0JRvsFsRWfnWuvrUzrnKGsDIhKIu2pFVbUPiCTA/q6xCE+1mpjXOqvhoHvJpOA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-oGpEpmnic6Slrw4xMepkPffibSXj8IhQvMQgFvtAopm7H22vPE9vcJb3jfHeo8qvP1Alke02GREamt4LEGAw1w==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:

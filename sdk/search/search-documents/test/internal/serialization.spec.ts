@@ -116,6 +116,11 @@ describe("serialization.deserialize", function () {
     assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
   });
 
+  it("Date with truncated ms field", function () {
+    const result = deserialize({ a: "1975-04-04T00:00:00.0Z" });
+    assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
+  });
+
   it("doesn't deserialize as Date if text before", function () {
     const value = "before 1975-04-04T00:00:00.000Z";
     const result = deserialize({ a: value });
