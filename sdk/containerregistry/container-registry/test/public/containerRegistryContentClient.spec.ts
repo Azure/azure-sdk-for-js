@@ -89,7 +89,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     }
 
     async function uploadDockerManifestPrerequisites() {
-      const layer = fs.createReadStream("test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016");
+      const layer = fs.createReadStream(
+        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016"
+      );
       await helloWorldClient.uploadBlob(layer);
       const config = fs.createReadStream("test/data/docker/config.json");
       await helloWorldClient.uploadBlob(config);
@@ -174,7 +176,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const configStream = fs.createReadStream("test/data/docker/config.json");
       await helloWorldClient.uploadBlob(configStream);
-      const blobStream = fs.createReadStream("test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016");
+      const blobStream = fs.createReadStream(
+        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016"
+      );
       await helloWorldClient.uploadBlob(blobStream);
 
       const manifestStream = fs.createReadStream("test/data/docker/hello-world/manifest.json");
