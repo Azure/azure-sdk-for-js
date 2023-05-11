@@ -20,11 +20,22 @@ export function isDigest(tagOrDigest: string): boolean {
   return tagOrDigest.includes(":");
 }
 
-export async function readStreamToEnd(stream: NodeJS.ReadableStream): Promise<Buffer> {
+export async function readStreamToEnd(
+  stream: NodeJS.ReadableStream,
+  maxLength?: number
+): Promise<Buffer> {
   const buffers: Buffer[] = [];
+  let bytesRead = 0;
 
   return new Promise((resolve, reject) => {
-    stream.on("data", (chunk) => buffers.push(chunk));
+    stream.on("data", (chunk) => {
+      buffers.push(chunk);
+      bytesRead += chunk.length;
+
+      if (maxLength && bytesRead > maxLength) {
+        reject(new Error(`Stream exceeded maximum allowed length of ${maxLength} bytes.`));
+      }
+    });
     stream.on("end", () => resolve(Buffer.concat(buffers)));
     stream.on("error", (err) => reject(err));
   });
