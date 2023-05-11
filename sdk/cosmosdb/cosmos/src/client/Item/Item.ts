@@ -11,6 +11,7 @@ import {
   StatusCodes,
 } from "../../common";
 import { PartitionKey } from "../../documents";
+import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
 import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
@@ -78,6 +79,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
@@ -144,6 +146,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
@@ -188,6 +191,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
@@ -227,6 +231,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 

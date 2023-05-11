@@ -135,15 +135,11 @@ export class StoredProcedure {
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
-    if (partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      partitionKey = undefinedPartitionKey(partitionKeyDefinition);
-    }
     let diagnosticContext: CosmosDiagnosticContext;
     if (partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
+      partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
     }
     const response = await this.clientContext.execute<T>({
       sprocLink: this.url,
