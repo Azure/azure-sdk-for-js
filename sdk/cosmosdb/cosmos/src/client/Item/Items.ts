@@ -470,7 +470,6 @@ export class Items {
               resourceId: this.container.url,
               bulkOptions,
               options,
-              diagnosticContext,
             });
             diagnosticContext.mergeDiagnostics(response.diagnostics);
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
