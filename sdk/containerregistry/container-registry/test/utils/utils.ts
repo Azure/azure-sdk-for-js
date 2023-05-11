@@ -51,8 +51,8 @@ export const recorderStartOptions: RecorderStartOptions = {
       {
         regex: true,
         target: `sig=([^&]+)`,
-        value: `sig=sanitized`
-      }
+        value: `sig=sanitized`,
+      },
     ],
     bodyKeySanitizers: [
       {
