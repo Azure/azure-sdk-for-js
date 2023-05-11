@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/rooms/99498814104152746/participants?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/9947917840481232/participants?api-version=2023-03-31-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -20,9 +20,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2673d4b0-4f46-4209-9590-be00822d84d4",
-        "x-ms-content-sha256": "GCdr488U4kb71ssVF2slXXJF1sKR1wuovquCGU8URus=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:26 GMT",
+        "x-ms-client-request-id": "46e353f9-df32-42a6-95a2-ef1cbb1ca0c1",
+        "x-ms-content-sha256": "yatfM9cIC7mlNsjkF38DKjkTMotDIgEhvrgZsBk/Vn0=",
+        "x-ms-date": "Thu, 11 May 2023 16:06:53 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -37,17 +37,17 @@
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:26 GMT",
-        "MS-CV": "igGGaxm\u002B2ke2a3h4Da43zA.0",
+        "Date": "Thu, 11 May 2023 16:06:54 GMT",
+        "MS-CV": "zrQYr8/dH0O5o4RqtFDMZQ.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vuBSZAAAAABDV/I0wOWgQ7OPFw803SmvWVZSMzExMDAwMTE1MDIzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0nhJdZAAAAABqR/lux6BzTKNqs/yN/LQkWVZSMzExMDAwMTE1MDQ1AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {}
     },
     {
-      "RequestUri": "https://endpoint/rooms/99498814104152746/participants?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/9947917840481232/participants?api-version=2023-03-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -64,9 +64,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "11a259ae-4494-4659-bf59-442bdb0d1212",
+        "x-ms-client-request-id": "92e76cff-1ffc-46b9-824b-24e3b0509e13",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:26 GMT",
+        "x-ms-date": "Thu, 11 May 2023 16:06:53 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -75,11 +75,11 @@
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:26 GMT",
-        "MS-CV": "lGrcSGwRQE2O7VfnB8IVHA.0",
+        "Date": "Thu, 11 May 2023 16:06:54 GMT",
+        "MS-CV": "ckP\u002BMsYjH0uaNHT3qyXrVw.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vuBSZAAAAAANuzU/YEPcR6vwu62YblMBWVZSMzExMDAwMTE1MDIzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0nxJdZAAAAAC8PJnN80FZSKhtRLMiQIjXWVZSMzExMDAwMTE1MDQ1AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

@@ -10,12 +10,12 @@
         "Connection": "keep-alive",
         "Content-Length": "19",
         "Content-Type": "application/json",
-        "Repeatability-First-Sent": "Wed, 03 May 2023 22:31:10 GMT",
-        "Repeatability-Request-ID": "3ebb5026-4d99-48f1-add1-8181ffb82ac6",
+        "Repeatability-First-Sent": "Thu, 11 May 2023 16:06:19 GMT",
+        "Repeatability-Request-ID": "d7804778-15c8-4b86-a1ea-95da9ba2cb32",
         "User-Agent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "51eb3e27-9920-4077-a927-987f998d9bae",
+        "x-ms-client-request-id": "65f3b440-b6b7-4d24-91da-31aa19c9e352",
         "x-ms-content-sha256": "vhXrIgThnry4Vy9lrHrKsAYqKYXb\u002BKwOlgiPVnEdBio=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:10 GMT"
+        "x-ms-date": "Thu, 11 May 2023 16:06:19 GMT"
       },
       "RequestBody": {
         "participants": {}
@@ -26,20 +26,20 @@
         "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:11 GMT",
-        "Location": "99433250410717086",
-        "MS-CV": "hn5pCnVUSk6JuAPUX/SQyg.0",
+        "Date": "Thu, 11 May 2023 16:06:21 GMT",
+        "Location": "99476156690982244",
+        "MS-CV": "0jYB5/1CD0G\u002BbrNQy3R2bA.0",
         "Repeatability-Result": "accepted",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230503T223110Z-3kxbsk7sg12ux40e9gwkc8pr5c00000000mg00000000sx8t",
+        "x-azure-ref": "20230511T160620Z-pmrnm132gh2mf31p3f68paerz400000005rg00000000umt8",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99433250410717086",
-        "createdAt": "2023-05-03T22:31:10.9680092\u002B00:00",
-        "validFrom": "2023-05-03T22:31:10.9036612\u002B00:00",
-        "validUntil": "2023-10-30T22:31:10.9036612\u002B00:00"
+        "id": "99476156690982244",
+        "createdAt": "2023-05-11T16:06:20.9700789\u002B00:00",
+        "validFrom": "2023-05-11T16:06:20.7287357\u002B00:00",
+        "validUntil": "2023-11-07T16:06:20.7287357\u002B00:00"
       }
     }
   ],

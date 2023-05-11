@@ -128,7 +128,7 @@ describe("RoomsClient", function () {
       await client.updateRoom(roomId, options);
     });
 
-    it.skip("successfully list rooms", async function () {
+    it("successfully list rooms", async function () {
       const listRoomsResult = await client.listRooms({});
 
       assert.isDefined(listRoomsResult);
@@ -137,8 +137,8 @@ describe("RoomsClient", function () {
         if (roomModel) {
           assert.isDefined(roomModel);
           assert.isNotEmpty(roomModel.id);
-          assert.isNotEmpty(roomModel.validFrom);
-          assert.isNotEmpty(roomModel.validUntil);
+          assert.isNotEmpty(roomModel.validFrom.toString());
+          assert.isNotEmpty(roomModel.validUntil.toString());
         }
 
         break;

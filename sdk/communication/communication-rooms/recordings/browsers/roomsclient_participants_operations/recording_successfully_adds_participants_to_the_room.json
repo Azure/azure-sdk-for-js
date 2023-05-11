@@ -20,9 +20,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "30773720-c0c9-4c02-8ef3-f272ec49220d",
+        "x-ms-client-request-id": "03e4e66b-ae15-4d00-99dc-a1e79ad657e5",
         "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:24 GMT",
+        "x-ms-date": "Thu, 11 May 2023 16:06:51 GMT",
         "x-ms-useragent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -36,27 +36,27 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-08-01",
         "Content-Length": "220",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:24 GMT",
-        "MS-CV": "qlyzg5j08EiLAeZW\u002BFxQFA.0",
+        "Date": "Thu, 11 May 2023 16:06:52 GMT",
+        "MS-CV": "ys3CV22YEE2NWv8MfuK6Dg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0vOBSZAAAAACCAbVTxvDTS4aITRSaRppKWVZSMzExMDAwMTE1MDIzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0nBJdZAAAAADPEWIbAFD/Tb6BDBhbySn7WVZSMzExMDAwMTE1MDQ1AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE",
-        "x-ms-client-request-id": "30773720-c0c9-4c02-8ef3-f272ec49220d",
-        "X-Processing-Time": "27ms"
+        "x-ms-client-request-id": "03e4e66b-ae15-4d00-99dc-a1e79ad657e5",
+        "X-Processing-Time": "24ms"
       },
       "ResponseBody": {
         "identity": {
           "id": "Sanitized"
         },
         "accessToken": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODMxNTY2NzguNTg5fQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
-          "expiresOn": "2023-05-04T22:31:24.8429566\u002B00:00"
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM4MjQ3ODkuMjY0fQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "expiresOn": "2023-05-12T16:06:52.9712643\u002B00:00"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms/99498814104152746/participants?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/9947917840481232/participants?api-version=2023-03-31-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,9 +75,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "369e88e3-16db-4f20-ae85-06d5ee4d1c04",
-        "x-ms-content-sha256": "Tq9QUAJZY3/lDEKlA4KF0eRnHd3vkcIG8vuvtcqp1cw=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:24 GMT",
+        "x-ms-client-request-id": "9ede26b3-bc5d-4a39-8f03-91e1ecbe7f0b",
+        "x-ms-content-sha256": "CMsKOGr3FN7xGGhaKc8OwIjT/EeewJ/5AzbjJ9KxGaI=",
+        "x-ms-date": "Thu, 11 May 2023 16:06:51 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -92,17 +92,17 @@
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:25 GMT",
-        "MS-CV": "gD2rsoEZMUK8tE8lMOLYUQ.0",
+        "Date": "Thu, 11 May 2023 16:06:53 GMT",
+        "MS-CV": "MAIYvc1\u002BXk2k\u002BsDNAo1r7w.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vOBSZAAAAABr7xstipvQTp2GFGcZYU9lWVZSMzExMDAwMTE1MDIzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0nRJdZAAAAACP002sctXaRpuVYrCRqWjrWVZSMzExMDAwMTE1MDQ1AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {}
     },
     {
-      "RequestUri": "https://endpoint/rooms/99498814104152746/participants?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/9947917840481232/participants?api-version=2023-03-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -119,9 +119,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "61fb99eb-5749-47aa-8c70-939f227c91c1",
+        "x-ms-client-request-id": "82e4c836-894c-42cc-89a7-6d921df93c9e",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 03 May 2023 22:31:25 GMT",
+        "x-ms-date": "Thu, 11 May 2023 16:06:52 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -130,11 +130,11 @@
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2022-02-01, 2023-03-31-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 03 May 2023 22:31:25 GMT",
-        "MS-CV": "uqDmyTIStkquDLyaTLdXXg.0",
+        "Date": "Thu, 11 May 2023 16:06:53 GMT",
+        "MS-CV": "TWWZaJns00eCBl1NQIK9LA.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0veBSZAAAAABZTR32dqEMS7xGS2qw80rpWVZSMzExMDAwMTE1MDIzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0nRJdZAAAAAAmZ/rPTAXQQ4Vh2ysrE6JfWVZSMzExMDAwMTE1MDQ1AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
