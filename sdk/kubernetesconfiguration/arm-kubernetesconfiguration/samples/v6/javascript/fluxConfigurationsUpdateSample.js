@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  FluxConfigurationPatch,
-  SourceControlConfigurationClient
-} from "@azure/arm-kubernetesconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an existing Kubernetes Flux Configuration.
@@ -24,37 +19,32 @@ dotenv.config();
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/PatchFluxConfiguration.json
  */
 async function patchFluxConfiguration() {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
+  const resourceGroupName = process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
   const clusterRp = "Microsoft.Kubernetes";
   const clusterResourceName = "connectedClusters";
   const clusterName = "clusterName1";
   const fluxConfigurationName = "srs-fluxconfig";
-  const fluxConfigurationPatch: FluxConfigurationPatch = {
+  const fluxConfigurationPatch = {
     gitRepository: {
-      url: "https://github.com/jonathan-innis/flux2-kustomize-helm-example.git"
+      url: "https://github.com/jonathan-innis/flux2-kustomize-helm-example.git",
     },
     kustomizations: {
       srsKustomization1: {},
       srsKustomization2: {
         path: "./test/alt-path",
         dependsOn: [],
-        syncIntervalInSeconds: 300
+        syncIntervalInSeconds: 300,
       },
       srsKustomization3: {
         path: "./test/another-path",
-        syncIntervalInSeconds: 300
-      }
+        syncIntervalInSeconds: 300,
+      },
     },
-    suspend: true
+    suspend: true,
   };
   const credential = new DefaultAzureCredential();
-  const client = new SourceControlConfigurationClient(
-    credential,
-    subscriptionId
-  );
+  const client = new SourceControlConfigurationClient(credential, subscriptionId);
   const result = await client.fluxConfigurations.beginUpdateAndWait(
     resourceGroupName,
     clusterRp,

@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Extension,
-  SourceControlConfigurationClient
-} from "@azure/arm-kubernetesconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a new Kubernetes Cluster Extension.
@@ -24,30 +19,25 @@ dotenv.config();
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateExtension.json
  */
 async function createExtension() {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
+  const resourceGroupName = process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
   const clusterRp = "Microsoft.Kubernetes";
   const clusterResourceName = "connectedClusters";
   const clusterName = "clusterName1";
   const extensionName = "ClusterMonitor";
-  const extension: Extension = {
+  const extension = {
     autoUpgradeMinorVersion: true,
     configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
     configurationSettings: {
       omsagentEnvClusterName: "clusterName1",
-      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b"
+      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b",
     },
     extensionType: "azuremonitor-containers",
     releaseTrain: "Preview",
-    scope: { cluster: { releaseNamespace: "kube-system" } }
+    scope: { cluster: { releaseNamespace: "kube-system" } },
   };
   const credential = new DefaultAzureCredential();
-  const client = new SourceControlConfigurationClient(
-    credential,
-    subscriptionId
-  );
+  const client = new SourceControlConfigurationClient(credential, subscriptionId);
   const result = await client.extensions.beginCreateAndWait(
     resourceGroupName,
     clusterRp,
@@ -66,29 +56,24 @@ async function createExtension() {
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateExtensionWithPlan.json
  */
 async function createExtensionWithPlan() {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
+  const resourceGroupName = process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
   const clusterRp = "Microsoft.Kubernetes";
   const clusterResourceName = "connectedClusters";
   const clusterName = "clusterName1";
   const extensionName = "azureVote";
-  const extension: Extension = {
+  const extension = {
     autoUpgradeMinorVersion: true,
     extensionType: "azure-vote",
     plan: {
       name: "azure-vote-standard",
       product: "azure-vote-standard-offer-id",
-      publisher: "Microsoft"
+      publisher: "Microsoft",
     },
-    releaseTrain: "Preview"
+    releaseTrain: "Preview",
   };
   const credential = new DefaultAzureCredential();
-  const client = new SourceControlConfigurationClient(
-    credential,
-    subscriptionId
-  );
+  const client = new SourceControlConfigurationClient(credential, subscriptionId);
   const result = await client.extensions.beginCreateAndWait(
     resourceGroupName,
     clusterRp,
