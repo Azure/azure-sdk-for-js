@@ -19,6 +19,10 @@
       {
         "path": "swagger/README.md",
         "prefix": "package-version"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "const SDK_VERSION"
       }
     ]
   },
