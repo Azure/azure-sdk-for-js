@@ -39,6 +39,9 @@ import {
   EventRoutesListOptionalParams as ListEventRoutesOptions,
   DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
   DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
+  ImportJob,
+  ImportJobsGetByIdResponse,
+  ImportJobsListOptionalParams as ListImportJobsOptions,
 } from "./generated/models";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
@@ -49,6 +52,7 @@ export {
   ListEventRoutesOptions,
   ListIncomingRelationshipsOptions,
   ListRelationshipsOptions,
+  ListImportJobsOptions,
 };
 
 /**
@@ -689,5 +693,99 @@ export class DigitalTwinsClient {
       },
       byPage: (settings: PageSettings = {}) => this.queryTwinsPage(query, options, settings),
     };
+  }
+
+  /**
+   * Get an import job.
+   *
+   * @param importJobId - The Id of the import job.
+   * @param options - The operation options
+   * @returns The application/json import job.
+   */
+  public getImportJob(
+    importJobId: string,
+    options: OperationOptions = {}
+  ): Promise<ImportJobsGetByIdResponse> {
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getImportJob",
+      options,
+      async (updatedOptions) => {
+        return this.client.importJobs.getById(importJobId, updatedOptions);
+      }
+    );
+  }
+
+  /**
+   * List the import jobs.
+   *
+   * @param options - Options for listImportJobs.
+   * @returns The application/json import job.
+   */
+  public listImportJobs(options?: ListImportJobsOptions): PagedAsyncIterableIterator<ImportJob> {
+    return this.client.importJobs.list(options);
+  }
+
+  /**
+   * Create or update an import job.
+   *
+   * @param importJobId - The Id of the import job to create or update.
+   * @param inputBlobUri - The endpoint of the input blob file
+   * @param outputBlobUri - The endpoint of the output blob file
+   * @param options - The operation options
+
+   */
+  public upsertImportJob(
+    importJobId: string,
+    inputBlobUri: string,
+    outputBlobUri: string,
+    options: OperationOptions = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.upsertImportJob",
+      {
+        ImportJob: {
+          endpointName: inputBlobUri,
+          outputBlobUri: outputBlobUri,
+        },
+        ...options,
+      },
+      async (updatedOptions) => {
+        return this.client.importJobs.add(importJobId, updatedOptions);
+      }
+    );
+  }
+
+  /**
+   * Delete an import job
+   *
+   * @param importJobId - The Id of the ImportJob to delete.
+   * @param options - The operation options
+
+   */
+  public deleteImportJob(importJobId: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.deleteImportJob",
+      options,
+      async (updatedOptions) => {
+        return this.client.importJobs.delete(importJobId, updatedOptions);
+      }
+    );
+  }
+
+  /**
+   * Cancel an import job
+   *
+   * @param importJobId - The Id of the ImportJob to cancel.
+   * @param options - The operation options
+
+   */
+  public cancelImportJob(importJobId: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.cancelImportJob",
+      options,
+      async (updatedOptions) => {
+        return this.client.importJobs.cancel(importJobId, updatedOptions);
+      }
+    );
   }
 }
