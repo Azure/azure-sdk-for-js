@@ -14,7 +14,7 @@ import {
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
-import { pollForJobQueued } from "../utils/polling";
+import { pollForJobQueued, retry } from "../utils/polling";
 
 describe("RouterClient", function () {
   let client: RouterClient;
@@ -49,15 +49,23 @@ describe("RouterClient", function () {
     });
 
     this.afterEach(async function (this: Context) {
-      await sleep(700);
-      if (this.currentTest?.fullTitle() !== "RouterClient Job Operations should delete a job") {
-        await client.cancelJob(jobId);
-        await client.deleteJob(jobId);
-      }
-      await administrationClient.deleteClassificationPolicy(classificationPolicyId);
-      await administrationClient.deleteQueue(queueId);
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
-      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+      await retry(
+        async () => {
+          if (this.currentTest?.fullTitle() !== "RouterClient Job Operations should delete a job") {
+            var job = await client.getJob(jobId);
+            if (job.jobStatus != 'cancelled') {
+              await client.cancelJob(jobId);
+            }
+            
+            await client.deleteJob(jobId);
+          }
+          await administrationClient.deleteClassificationPolicy(classificationPolicyId);
+          await administrationClient.deleteQueue(queueId);
+          await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
+          await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+        },
+        { retries: 5, retryIntervalMs: 1500 }
+      );
 
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
@@ -105,7 +113,13 @@ describe("RouterClient", function () {
 
     it("should reclassify a job", async function () {
       await client.createJob(jobId, jobRequest);
-      const result = await client.reclassifyJob(jobId);
+      var result;
+      await retry(
+        async () => {
+          result = await client.reclassifyJob(jobId);
+        },
+        { retries: 3, retryIntervalMs: 1500 }
+      );
 
       assert.isDefined(result);
     }).timeout(timeoutMs);
@@ -123,8 +137,13 @@ describe("RouterClient", function () {
 
     it("should cancel a job", async function () {
       await client.createJob(jobId, jobRequest);
-      await sleep(500); // This test is flaky
-      const result = await client.cancelJob(jobId);
+      var result;
+      await retry(
+        async () => {
+          result = await client.cancelJob(jobId)
+        },
+        { retries: 3, retryIntervalMs: 1500 }
+      );
 
       assert.isDefined(result);
     }).timeout(timeoutMs);

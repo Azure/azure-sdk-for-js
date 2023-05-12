@@ -8,20 +8,20 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b8af1e40-a61c-40b8-b658-54d8699b644d",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2e0f48a2-cb41-4c34-9b96-78f99c71842f",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:34:18 GMT"
+        "x-ms-date": "Fri, 12 May 2023 21:17:44 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:34:17 GMT",
-        "trace-id": "7e68bc93-c077-5747-8a89-664ac0f6d0b8",
+        "Date": "Fri, 12 May 2023 21:17:42 GMT",
+        "trace-id": "d4792be7-dca5-1a4d-8433-6a21a0c2bf8e",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ynNRZAAAAAAIK1yz0Rd9R64DNa3NSg9fWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "096xeZAAAAAB8kqj5YouATYAGdrSSJuueWVRPMjIxMDkwODE4MDE5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -38,307 +38,36 @@
                 "bypassSelectors": false
               }
             },
-            "etag": "\u00224c08338b-0000-0700-0000-645173ca0000\u0022"
+            "etag": "\u002210158bbd-0000-0700-0000-645eacf70000\u0022"
           },
           {
             "distributionPolicy": {
-              "id": "test-d-policy-recorded-jobs",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
+              "id": "AlaskaAir_30s_RoundRobin",
+              "offerTtlSeconds": 30,
               "mode": {
-                "kind": "longest-idle",
+                "kind": "round-robin",
                 "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
+                "maxConcurrentOffers": 1,
                 "bypassSelectors": false
               }
             },
-            "etag": "\u0022b00743f3-0000-0700-0000-6450abc00000\u0022"
+            "etag": "\u00224e00396d-0000-0700-0000-6440f1300000\u0022"
           },
           {
             "distributionPolicy": {
-              "id": "test-d-policy-recording",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
+              "id": "Default",
+              "name": "Default",
+              "offerTtlSeconds": 120,
               "mode": {
                 "kind": "longest-idle",
                 "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
+                "maxConcurrentOffers": 1,
                 "bypassSelectors": false
               }
             },
-            "etag": "\u0022e80137ee-0000-0700-0000-64487fb70000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-recording1234",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022e201e784-0000-0700-0000-644876030000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-574adece-f996-4b04-8a9e-7b587dfaab7b",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022db014ab9-0000-0700-0000-64486ce10000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-55661a14-e7c3-43e2-8c7a-ee35c6983018",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022da0154cd-0000-0700-0000-64486be50000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-e2d37164-6173-412f-9253-8ca52bd313d1",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d901b4dc-0000-0700-0000-64486ac20000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d20169b4-0000-0700-0000-644862150000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d20122b3-0000-0700-0000-644862130000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-479fc1b9-b179-4432-ba22-286ed1831f61",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d2012cb2-0000-0700-0000-644862120000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-e28ba68f-137e-4214-9e84-34b132a6d679",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d20179af-0000-0700-0000-6448620f0000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-ce29c2d5-71f5-4be5-8586-3af51d92c4a3",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u0022d201c8ae-0000-0700-0000-6448620e0000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00224101c82f-0000-0700-0000-6435ded40000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-fce01635-d55e-47db-99ae-4bb9cdeec30c",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00224101102f-0000-0700-0000-6435dece0000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-254c1f33-4764-42ef-8aa6-10f657b31f79",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00224101012c-0000-0700-0000-6435deb80000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-1bd9cda4-8f40-4690-82ab-0d1605684646",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u002241019c2b-0000-0700-0000-6435deb50000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-b4558f95-d9e9-473d-a141-6a59021440ca",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u002241015f2b-0000-0700-0000-6435deb30000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-f3d2b373-01da-4680-a06e-4e737bf6b2ad",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00224101c52a-0000-0700-0000-6435deaf0000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-59b335cc-af3e-4a6d-9023-f41fc37011ae",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00220a010426-0000-0700-0000-6434a9d40000\u0022"
-          },
-          {
-            "distributionPolicy": {
-              "id": "test-d-policy-fac0b780-3535-4252-a1cc-b831adc79056",
-              "name": "test-d-policy",
-              "offerTtlSeconds": 60,
-              "mode": {
-                "kind": "longest-idle",
-                "minConcurrentOffers": 1,
-                "maxConcurrentOffers": 5,
-                "bypassSelectors": false
-              }
-            },
-            "etag": "\u00220a015700-0000-0700-0000-6434a8470000\u0022"
+            "etag": "\u0022ef01a182-0000-0700-0000-643a0a860000\u0022"
           }
-        ],
-        "nextLink": "/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTm5aelJHOUJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9YQnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFTWtKQlFXeHFhRXRNSWl3aWNtRnVaMlVpT25zaWJXbHVJam9pSWl3aWJXRjRJam9pUmtZaWZYMWQmbWF4UGFnZVNpemU9MjA%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/distributionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVcGpkQzFoTm5aelJHOUJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBkYU9YQnJlVUZFUTBGc1RFRldaME4xUVhJMFFVcG5RVXhCUTBGb1FVVktVVUZKU1VWQlExVkNRVUZSUTJKbmQwaEJRMGxCZEdkQlZFRkRRVVpCUVVKQlFVVkJVa0ZuVVdGQmJXaFJRVzV2UlVWblFrVkJRVUZzUTJkSUt6VkZiMEZEWjBGeFFVTkpRMkpEUVVKR2FYUkpSMGxSUVVOSlQyZEZRVUpoUzBJMFJIRkZaME5QY0V0bFFYbzBURlJuVUdGSFpGbEJlRUZCUTBsSE5FUnlRbWRDVTBGUlFWaENaMFI1UldkQmVrNVJRMEpCUWtWQ1FVTnhSa00wUVV0blNESkJhMWxFTWtKQlFXeHFhRXRNSWl3aWNtRnVaMlVpT25zaWJXbHVJam9pSWl3aWJXRjRJam9pUmtZaWZYMWQmbWF4UGFnZVNpemU9MjA%3D",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v14.19.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "61798488-fbb2-4e39-9caf-035bc7931350",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:34:18 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 400,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:34:17 GMT",
-        "trace-id": "64d903c7-7e05-0aab-6b89-dbe40252c41f",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ynNRZAAAAAA1Lo6dyLYgQYpkF46uSGBTWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "ApiVersionUnspecified",
-          "message": "An API version is required, but was not specified."
-        }
+        ]
       }
     }
   ],

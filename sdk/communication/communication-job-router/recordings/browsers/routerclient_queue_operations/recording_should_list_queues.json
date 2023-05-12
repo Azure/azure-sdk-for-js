@@ -20,9 +20,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "19743bd8-c0e9-4d16-8826-83b4a3b5a4d3",
+        "x-ms-client-request-id": "0c153421-79ca-4e48-994e-ee26678c7e02",
         "x-ms-content-sha256": "oEbZ\u002BLnO9rcJU8qXPm2ndsjGGab8Qbu\u002B4rDEbZJPHJc=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:37 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:46 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -41,12 +41,12 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:46:37 GMT",
-        "ETag": "\u00224e086910-0000-0700-0000-645176ad0000\u0022",
-        "Last-Modified": "Tue, 02 May 2023 20:46:37 GMT",
-        "trace-id": "6255037a-bf65-8283-3370-853a134d11b3",
+        "Date": "Fri, 12 May 2023 21:21:44 GMT",
+        "ETag": "\u002211157639-0000-0700-0000-645eade90000\u0022",
+        "Last-Modified": "Fri, 12 May 2023 21:21:45 GMT",
+        "trace-id": "ab9a8faa-ec3c-c6ea-ccca-4f36902e4846",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rXZRZAAAAAD/SXg1w7\u002ByR4qNvB\u002BxsaDFWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "06a1eZAAAAADMCORs2h1ESqo/J0FDjelJWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -81,9 +81,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "b21c86dd-0d8f-4d92-aa35-16c1241a2764",
+        "x-ms-client-request-id": "ea022d65-13c8-4ecb-a60f-b375b1161a62",
         "x-ms-content-sha256": "DnPGZm8GTFJTh0d1bEHun9/03VZVF0xo\u002BzuWvPJk3V0=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:37 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -109,12 +109,12 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:46:38 GMT",
-        "ETag": "\u002247062e36-0000-0700-0000-645176ae0000\u0022",
-        "Last-Modified": "Tue, 02 May 2023 20:46:38 GMT",
-        "trace-id": "9d72d616-6844-505e-1cb4-7b11a37681a1",
+        "Date": "Fri, 12 May 2023 21:21:45 GMT",
+        "ETag": "\u0022e309b893-0000-0700-0000-645eade90000\u0022",
+        "Last-Modified": "Fri, 12 May 2023 21:21:45 GMT",
+        "trace-id": "589bf181-526c-686f-a49f-206613b4cc1b",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rnZRZAAAAADXvA38V6aaR4c0DJX2EUpXWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "06a1eZAAAAABQVqEJa/6qQ4edDa69H4DrWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -156,9 +156,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2dfec4a7-b439-45a8-9b0d-1336b1aa8fc3",
+        "x-ms-client-request-id": "71da2203-73d5-4606-a8ed-94880f165d4e",
         "x-ms-content-sha256": "hdTn4rYoaPggL2D1QSgAQysmHJpYDlQcjF/VCDRPW\u002Bc=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:38 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
@@ -173,12 +173,12 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:46:38 GMT",
-        "ETag": "\u0022750083b5-0000-0700-0000-645176ae0000\u0022",
-        "Last-Modified": "Tue, 02 May 2023 20:46:38 GMT",
-        "trace-id": "08bfff26-50d8-827e-dc04-a3fe38da78c2",
+        "Date": "Fri, 12 May 2023 21:21:45 GMT",
+        "ETag": "\u0022d4008db7-0000-0700-0000-645eadea0000\u0022",
+        "Last-Modified": "Fri, 12 May 2023 21:21:46 GMT",
+        "trace-id": "4d905b9e-2291-f21d-8316-18252a8b20b1",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rnZRZAAAAABgZD/5bLDeSLP3tV6W39xmWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "06q1eZAAAAAAATBJSq\u002BFFS7awRX6P\u002BxmyWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -209,9 +209,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2b3d179e-62d6-4163-b1dd-543301fa7a26",
+        "x-ms-client-request-id": "56ac0898-0cde-4735-9375-d026e0c98c7e",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:38 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -221,10 +221,10 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:46:38 GMT",
-        "trace-id": "9ba8c13f-3611-b42d-313e-eb685c6cbed2",
+        "Date": "Fri, 12 May 2023 21:21:45 GMT",
+        "trace-id": "48b3cf04-b8f2-03de-e6ce-8320d073eabc",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rnZRZAAAAACsf2ZFbf3rS59rMTN4b9IKWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "06q1eZAAAAACiV18WAUAHTJ4aAVaYxX0lWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -239,285 +239,67 @@
               },
               "exceptionPolicyId": "test-e-policy-recorded-queues"
             },
-            "etag": "\u0022750083b5-0000-0700-0000-645176ae0000\u0022"
+            "etag": "\u0022d4008db7-0000-0700-0000-645eadea0000\u0022"
           },
           {
             "jobQueue": {
-              "id": "test-queue-recording",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-recording",
+              "id": "Alaska_VIP",
+              "distributionPolicyId": "AlaskaAir_30s_RoundRobin",
               "labels": {
-                "Id": "test-queue-recording"
-              },
-              "exceptionPolicyId": "test-e-policy-recording"
-            },
-            "etag": "\u00222d00f081-0000-0700-0000-64487fb70000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-recording1234",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-recording1234",
-              "labels": {
-                "Id": "test-queue-recording1234"
-              },
-              "exceptionPolicyId": "test-e-policy-recording1234"
-            },
-            "etag": "\u00222d00c62f-0000-0700-0000-644876030000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-574adece-f996-4b04-8a9e-7b587dfaab7b",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-574adece-f996-4b04-8a9e-7b587dfaab7b",
-              "labels": {
-                "Id": "test-queue-574adece-f996-4b04-8a9e-7b587dfaab7b"
-              },
-              "exceptionPolicyId": "test-e-policy-574adece-f996-4b04-8a9e-7b587dfaab7b"
-            },
-            "etag": "\u00222c0072e3-0000-0700-0000-64486ce20000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-55661a14-e7c3-43e2-8c7a-ee35c6983018",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-55661a14-e7c3-43e2-8c7a-ee35c6983018",
-              "labels": {
-                "Id": "test-queue-55661a14-e7c3-43e2-8c7a-ee35c6983018"
-              },
-              "exceptionPolicyId": "test-e-policy-55661a14-e7c3-43e2-8c7a-ee35c6983018"
-            },
-            "etag": "\u00222c00dadb-0000-0700-0000-64486be50000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e2d37164-6173-412f-9253-8ca52bd313d1",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-e2d37164-6173-412f-9253-8ca52bd313d1",
-              "labels": {
-                "Id": "test-queue-e2d37164-6173-412f-9253-8ca52bd313d1"
-              },
-              "exceptionPolicyId": "test-e-policy-e2d37164-6173-412f-9253-8ca52bd313d1"
-            },
-            "etag": "\u00222c00d3d2-0000-0700-0000-64486ac30000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
-              "labels": {
-                "Id": "test-queue-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6"
-              },
-              "exceptionPolicyId": "test-e-policy-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6"
-            },
-            "etag": "\u00222c003a86-0000-0700-0000-644862150000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
-              "labels": {
-                "Id": "test-queue-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f"
-              },
-              "exceptionPolicyId": "test-e-policy-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f"
-            },
-            "etag": "\u00222c002a86-0000-0700-0000-644862140000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-479fc1b9-b179-4432-ba22-286ed1831f61",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-479fc1b9-b179-4432-ba22-286ed1831f61",
-              "labels": {
-                "Id": "test-queue-479fc1b9-b179-4432-ba22-286ed1831f61"
-              },
-              "exceptionPolicyId": "test-e-policy-479fc1b9-b179-4432-ba22-286ed1831f61"
-            },
-            "etag": "\u00222c001d86-0000-0700-0000-644862120000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-e28ba68f-137e-4214-9e84-34b132a6d679",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-e28ba68f-137e-4214-9e84-34b132a6d679",
-              "labels": {
-                "Id": "test-queue-e28ba68f-137e-4214-9e84-34b132a6d679"
-              },
-              "exceptionPolicyId": "test-e-policy-e28ba68f-137e-4214-9e84-34b132a6d679"
-            },
-            "etag": "\u00222c000786-0000-0700-0000-644862100000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a",
-              "labels": {
-                "Id": "test-queue-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a"
-              },
-              "exceptionPolicyId": "test-e-policy-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a"
-            },
-            "etag": "\u00222c00b0af-0000-0700-0000-6435ded50000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-fce01635-d55e-47db-99ae-4bb9cdeec30c",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-fce01635-d55e-47db-99ae-4bb9cdeec30c",
-              "labels": {
-                "Id": "test-queue-fce01635-d55e-47db-99ae-4bb9cdeec30c"
-              },
-              "exceptionPolicyId": "test-e-policy-fce01635-d55e-47db-99ae-4bb9cdeec30c"
-            },
-            "etag": "\u00222c0097af-0000-0700-0000-6435decf0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-254c1f33-4764-42ef-8aa6-10f657b31f79",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-254c1f33-4764-42ef-8aa6-10f657b31f79",
-              "labels": {
-                "Id": "test-queue-254c1f33-4764-42ef-8aa6-10f657b31f79"
-              },
-              "exceptionPolicyId": "test-e-policy-254c1f33-4764-42ef-8aa6-10f657b31f79"
-            },
-            "etag": "\u00222c0023af-0000-0700-0000-6435deb90000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-1bd9cda4-8f40-4690-82ab-0d1605684646",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-1bd9cda4-8f40-4690-82ab-0d1605684646",
-              "labels": {
-                "Id": "test-queue-1bd9cda4-8f40-4690-82ab-0d1605684646"
-              },
-              "exceptionPolicyId": "test-e-policy-1bd9cda4-8f40-4690-82ab-0d1605684646"
-            },
-            "etag": "\u00222c001aaf-0000-0700-0000-6435deb60000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-b4558f95-d9e9-473d-a141-6a59021440ca",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-b4558f95-d9e9-473d-a141-6a59021440ca",
-              "labels": {
-                "Id": "test-queue-b4558f95-d9e9-473d-a141-6a59021440ca"
-              },
-              "exceptionPolicyId": "test-e-policy-b4558f95-d9e9-473d-a141-6a59021440ca"
-            },
-            "etag": "\u00222c0010af-0000-0700-0000-6435deb40000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-f3d2b373-01da-4680-a06e-4e737bf6b2ad",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-f3d2b373-01da-4680-a06e-4e737bf6b2ad",
-              "labels": {
-                "Id": "test-queue-f3d2b373-01da-4680-a06e-4e737bf6b2ad"
-              },
-              "exceptionPolicyId": "test-e-policy-f3d2b373-01da-4680-a06e-4e737bf6b2ad"
-            },
-            "etag": "\u00222c0000af-0000-0700-0000-6435deb00000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-59b335cc-af3e-4a6d-9023-f41fc37011ae",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-59b335cc-af3e-4a6d-9023-f41fc37011ae",
-              "labels": {
-                "Id": "test-queue-59b335cc-af3e-4a6d-9023-f41fc37011ae"
-              },
-              "exceptionPolicyId": "test-e-policy-59b335cc-af3e-4a6d-9023-f41fc37011ae"
-            },
-            "etag": "\u0022270090b7-0000-0700-0000-6434a9d50000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-french-fac0b780-3535-4252-a1cc-b831adc79056",
-              "name": "test-queue-french-fac0b780-3535-4252-a1cc-b831adc79056",
-              "distributionPolicyId": "test-d-policy",
-              "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "FR",
-                "Id": "test-queue-french-fac0b780-3535-4252-a1cc-b831adc79056"
+                "Id": "Alaska_VIP"
               }
             },
-            "etag": "\u002227009cb1-0000-0700-0000-6434a85e0000\u0022"
+            "etag": "\u0022140046b6-0000-0700-0000-6440f1300000\u0022"
           },
           {
             "jobQueue": {
-              "id": "test-queue-english-fac0b780-3535-4252-a1cc-b831adc79056",
-              "name": "test-queue-english-fac0b780-3535-4252-a1cc-b831adc79056",
-              "distributionPolicyId": "test-d-policy",
+              "id": "magenta-mobile",
+              "name": "Mobilies",
+              "distributionPolicyId": "Default",
               "labels": {
-                "Region": "NA",
-                "Product": "O365",
-                "Language": "EN",
-                "Id": "test-queue-english-fac0b780-3535-4252-a1cc-b831adc79056"
-              }
-            },
-            "etag": "\u0022270096b1-0000-0700-0000-6434a85e0000\u0022"
-          },
-          {
-            "jobQueue": {
-              "id": "test-queue-fac0b780-3535-4252-a1cc-b831adc79056",
-              "name": "test-queue",
-              "distributionPolicyId": "test-d-policy-fac0b780-3535-4252-a1cc-b831adc79056",
-              "labels": {
-                "Id": "test-queue-fac0b780-3535-4252-a1cc-b831adc79056"
+                "Id": "magenta-mobile"
               },
-              "exceptionPolicyId": "test-e-policy-fac0b780-3535-4252-a1cc-b831adc79056"
+              "exceptionPolicyId": "Default"
             },
-            "etag": "\u002227002cb1-0000-0700-0000-6434a8480000\u0022"
+            "etag": "\u00223e004a47-0000-0700-0000-643a0a880000\u0022"
+          },
+          {
+            "jobQueue": {
+              "id": "magenta-home",
+              "name": "Homies",
+              "distributionPolicyId": "Default",
+              "labels": {
+                "Id": "magenta-home"
+              },
+              "exceptionPolicyId": "Default"
+            },
+            "etag": "\u00223e004647-0000-0700-0000-643a0a880000\u0022"
+          },
+          {
+            "jobQueue": {
+              "id": "magenta",
+              "name": "All",
+              "distributionPolicyId": "Default",
+              "labels": {
+                "Id": "magenta"
+              },
+              "exceptionPolicyId": "Default"
+            },
+            "etag": "\u00223e004547-0000-0700-0000-643a0a880000\u0022"
+          },
+          {
+            "jobQueue": {
+              "id": "magenta-tv",
+              "name": "TVies",
+              "distributionPolicyId": "Default",
+              "labels": {
+                "Id": "magenta-tv"
+              },
+              "exceptionPolicyId": "Default"
+            },
+            "etag": "\u00223e004b47-0000-0700-0000-643a0a890000\u0022"
           }
-        ],
-        "nextLink": "/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVdzeWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSk5RbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVkZCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFWUkJVVWxCTm1KalBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/queues?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMUhZbXRKWVdzeWEwVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjB0bFFVSk5RbTVuUVVOQlN6WXhja0ZCZVVGRFpYWkxTVUpKWjFCUlFVRm9RMEZCUVdkQlEwSkVhMEZDUzBGQlFrRkNRVUZMVVdWdlZVaG5RV0ZCVHpSQlEzZENRVWxDUlVGU1owRnRRVUZaUTJ0blVsZEJjbEZCVFVGUVJVaG5TVUY0UVVOQlExVlJRVUZqU3pSQlJtZENabXg0ZFVGRmIwRldaMEZ4UVRsd1JUQkNaMEUwVDBGQ2IwRkJORUZDZDBWVlFVMUZXa0ZIYUhoQlFVRmhWVkZEVWtGU1YwRjNhRkZCZFVaQlFVVkJSVkZCVFVsQlowSkJTa0ZOWVVWRE5FRk9aMG9yUVhSSlFWUkJVVWxCTm1KalBTSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-GB",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Origin": "http://localhost:9876",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "8b250b3e-5720-4eaa-9ccc-f134f55c358e",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:38 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 400,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "http://localhost:9876",
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:46:39 GMT",
-        "trace-id": "3296edd5-84fe-518b-f043-95c870a6e4d4",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0r3ZRZAAAAAAYCp5Ane8PSrFOtl8riV\u002B7WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "ApiVersionUnspecified",
-          "message": "An API version is required, but was not specified."
-        }
+        ]
       }
     },
     {
@@ -538,9 +320,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "ad65d3ea-7152-4d88-bc49-fe3aa869f141",
+        "x-ms-client-request-id": "1469e4fe-40c8-4044-ad7a-9b18eb93aa2b",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:38 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -549,9 +331,9 @@
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Tue, 02 May 2023 20:46:39 GMT",
-        "trace-id": "3b9d6e58-fa56-08f9-dbe9-06b1dbbf6c06",
-        "X-Azure-Ref": "0r3ZRZAAAAACEZWS/hyvaSbEOtSzdiq\u002BWWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Fri, 12 May 2023 21:21:46 GMT",
+        "trace-id": "75e389c0-1af8-8c89-0cbe-46131185540d",
+        "X-Azure-Ref": "06q1eZAAAAACD5R7Ga3hXToT7pK2D2urzWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -574,9 +356,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "e1d70c23-47ac-4cb3-a2fc-82772bf22f4f",
+        "x-ms-client-request-id": "c353913b-b0d1-47fe-9b60-a35bdcc5b3da",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:39 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:48 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -585,9 +367,9 @@
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Tue, 02 May 2023 20:46:39 GMT",
-        "trace-id": "6dcd65e1-199b-f2d3-7c40-9e604ed2744a",
-        "X-Azure-Ref": "0r3ZRZAAAAABYttau\u002B1GLR7hfng\u002BLBeYnWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Fri, 12 May 2023 21:21:46 GMT",
+        "trace-id": "b20192d6-bff5-14e8-82bb-218a7b27a95e",
+        "X-Azure-Ref": "0661eZAAAAADn2z2SQWq5RJ4XidCsX9tMWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
@@ -610,9 +392,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "e77ce23a-bc04-4868-9ec5-229a7b264bec",
+        "x-ms-client-request-id": "96839b20-8589-4cb9-a664-354b312398a4",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:46:39 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:21:48 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -621,9 +403,9 @@
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Date": "Tue, 02 May 2023 20:46:40 GMT",
-        "trace-id": "dbaf5662-7ded-3fb4-0999-407f6d7a5034",
-        "X-Azure-Ref": "0r3ZRZAAAAADqesR9kTsoTb9nn22/jSNOWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "Date": "Fri, 12 May 2023 21:21:46 GMT",
+        "trace-id": "33793826-f8a0-6cc0-c2ac-b4a9842bb9c0",
+        "X-Azure-Ref": "0661eZAAAAAAdrhC0j8ypSIrQlZskDweDWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null

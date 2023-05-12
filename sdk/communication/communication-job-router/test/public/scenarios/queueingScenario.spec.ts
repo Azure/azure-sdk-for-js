@@ -23,7 +23,7 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
-import { pollForJobQueued } from "../utils/polling";
+import { pollForJobQueued, retry } from "../utils/polling";
 
 describe("RouterClient", function () {
   let client: RouterClient;
@@ -60,9 +60,14 @@ describe("RouterClient", function () {
     });
 
     this.afterEach(async function (this: Context) {
-      await administrationClient.deleteQueue(queueId);
-      await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
-      await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+      await retry(
+        async () => {
+          await administrationClient.deleteQueue(queueId);
+          await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
+          await administrationClient.deleteDistributionPolicy(distributionPolicyId);
+        },
+        { retries: 1, retryIntervalMs: 500 }
+      );
 
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();

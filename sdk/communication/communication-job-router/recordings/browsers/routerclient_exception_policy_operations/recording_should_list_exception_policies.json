@@ -18,9 +18,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "a98c466f-d55d-42c5-b72f-b869ffa4c7eb",
+        "x-ms-client-request-id": "82ee2090-7eff-49e0-860a-99bfa0aa9b2d",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:45:34 GMT",
+        "x-ms-date": "Fri, 12 May 2023 21:20:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
@@ -30,10 +30,10 @@
         "Access-Control-Allow-Origin": "http://localhost:9876",
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:45:34 GMT",
-        "trace-id": "3124c432-73bd-5834-2e52-8a21b365b51f",
+        "Date": "Fri, 12 May 2023 21:20:46 GMT",
+        "trace-id": "fc57b842-6a5f-64a5-c8cb-69bbb9fcbafd",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0b3ZRZAAAAADtqEn9x3DRT55jUJrBCuk7WVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0rq1eZAAAAABT4NtGrvzoTolSCvryivrJWVRPMjIxMDkwODE4MDI3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -57,452 +57,31 @@
                 }
               }
             },
-            "etag": "\u002247061e20-0000-0700-0000-6451766e0000\u0022"
+            "etag": "\u0022e3094585-0000-0700-0000-645eadae0000\u0022"
           },
           {
             "exceptionPolicy": {
-              "id": "test-e-policy-recording",
-              "name": "test-e-policy",
+              "id": "Default",
+              "name": "Default",
               "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
+                "EscalateToRepresentative": {
                   "trigger": {
                     "kind": "wait-time",
-                    "thresholdSeconds": 10
+                    "thresholdSeconds": 300
                   },
                   "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
+                    "TargetRepresentative": {
+                      "kind": "reclassify",
+                      "classificationPolicyId": "AddWorkerSelectorTargetingRepresentative",
+                      "labelsToUpsert": {}
                     }
                   }
                 }
               }
             },
-            "etag": "\u002200047e19-0000-0700-0000-64487fb70000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recording1234",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fe03e23c-0000-0700-0000-644876020000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-574adece-f996-4b04-8a9e-7b587dfaab7b",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fc03cb6f-0000-0700-0000-64486ce10000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-55661a14-e7c3-43e2-8c7a-ee35c6983018",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fc03ab3b-0000-0700-0000-64486be40000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-e2d37164-6173-412f-9253-8ca52bd313d1",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fb0340fc-0000-0700-0000-64486ac20000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-e0a04131-8a4c-4363-8f1d-7f5b1838d7a6",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fa030826-0000-0700-0000-644862150000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-a3127bc0-3c0c-4eb3-ac3d-dfd677d1c18f",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fa03bb25-0000-0700-0000-644862130000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-479fc1b9-b179-4432-ba22-286ed1831f61",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fa037825-0000-0700-0000-644862120000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-e28ba68f-137e-4214-9e84-34b132a6d679",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fa030625-0000-0700-0000-644862100000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-bd4d7ae4-87f3-4812-9344-153d8e71cc88",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022fa03d724-0000-0700-0000-6448620f0000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-873ce61c-6126-4f1c-8c5a-28ca8e5ca04a",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b400fbd7-0000-0700-0000-6435ded40000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-fce01635-d55e-47db-99ae-4bb9cdeec30c",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b4004bd7-0000-0700-0000-6435decf0000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-254c1f33-4764-42ef-8aa6-10f657b31f79",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b4007ed4-0000-0700-0000-6435deb80000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-1bd9cda4-8f40-4690-82ab-0d1605684646",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b4006fd4-0000-0700-0000-6435deb60000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-b4558f95-d9e9-473d-a141-6a59021440ca",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b4004fd4-0000-0700-0000-6435deb30000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-f3d2b373-01da-4680-a06e-4e737bf6b2ad",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b4002cd4-0000-0700-0000-6435deaf0000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-c80b829f-da8a-4e17-94e4-2f7bcf98461c",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022b40022d4-0000-0700-0000-6435deae0000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-59b335cc-af3e-4a6d-9023-f41fc37011ae",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u00229c00e5f2-0000-0700-0000-6434a9d40000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-fac0b780-3535-4252-a1cc-b831adc79056",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u00229c007aeb-0000-0700-0000-6434a8470000\u0022"
+            "etag": "\u002212010f56-0000-0700-0000-643a0a870000\u0022"
           }
-        ],
-        "nextLink": "/routing/exceptionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMTBMWGt5UWpoemFVVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBZMmFVaHZiMEZPTmtWMVNVTm9RbWRaUVVKUlVYTkJRVUZuUTFBMFppOUVNRUZSWjBOblFVSTJRWE5SVG1kRVdVTkNURFJKUTNkQlJVSkJVVU5IUTJkQ1lYTm9UVUZCYUZGUlFVRkVLMmgzYjBGVlZFaEJWa05KUW1oM1FVRkJXV2REUVUxSFRpSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/routing/exceptionPolicies?continuationToken=Y29udGludWF0aW9uVG9rZW49VzNzaWRHOXJaVzRpT2lJclVrbEVPbjVXUkd4UFFVMTBMWGt5UWpoemFVVkJRVUZCUVVGQlBUMGpVbFE2TVNOVVVrTTZNakFqVWxSRU9rRkJQVDBqU1ZOV09qSWpTVVZQT2pZMU5UWTNJMUZEUmpvNEkwWlFRenBCWjBZMmFVaHZiMEZPTmtWMVNVTm9RbWRaUVVKUlVYTkJRVUZuUTFBMFppOUVNRUZSWjBOblFVSTJRWE5SVG1kRVdVTkNURFJKUTNkQlJVSkJVVU5IUTJkQ1lYTm9UVUZCYUZGUlFVRkVLMmgzYjBGVlZFaEJWa05KUW1oM1FVRkJXV2REUVUxSFRpSXNJbkpoYm1kbElqcDdJbTFwYmlJNklpSXNJbTFoZUNJNklrWkdJbjE5WFE9PSZtYXhQYWdlU2l6ZT0yMA%3D%3D",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-GB",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Origin": "http://localhost:9876",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "5afbb4f4-2962-4e2d-adc4-ebfc5d0e463b",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 May 2023 20:45:35 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.10.4 OS"
-      },
-      "RequestBody": null,
-      "StatusCode": 400,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "http://localhost:9876",
-        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 May 2023 20:45:34 GMT",
-        "trace-id": "5c5f0519-5c8c-26d6-daac-66111678b9be",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0b3ZRZAAAAACPbiwI3rDkTolhN\u002BGpKp3IWVZSMzExMDAwMTE1MDIzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-        "X-Cache": "CONFIG_NOCACHE"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "ApiVersionUnspecified",
-          "message": "An API version is required, but was not specified."
-        }
+        ]
       }
     }
   ],
