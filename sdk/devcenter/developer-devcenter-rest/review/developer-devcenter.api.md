@@ -17,75 +17,28 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public
-export interface ActionRequest {
-    actionId: string;
-    parameters?: Record<string, unknown>;
-}
-
 // @public (undocumented)
 export type AzureDevCenterClient = Client & {
     path: Routes;
 };
 
 // @public
-export interface CatalogItemActionOutput {
-    description?: string;
-    id?: string;
-    name?: string;
-    parameters?: Array<CatalogItemParameterOutput>;
-    parametersSchema?: string;
-    runner?: string;
-    type?: "Custom" | "Deploy" | "Delete";
-    typeName?: string;
-}
-
-// @public
-export interface CatalogItemListResultOutput {
+export interface CatalogListResultOutput {
     nextLink?: string;
-    value: Array<CatalogItemOutput>;
+    value: Array<CatalogOutput>;
 }
 
 // @public
-export interface CatalogItemOutput {
-    catalogName?: string;
-    id?: string;
-    name?: string;
+export interface CatalogOutput {
+    name: string;
 }
 
 // @public
-export interface CatalogItemParameterOutput {
-    allowed?: Array<Record<string, unknown>>;
-    default?: Record<string, unknown>;
-    description?: string;
-    id?: string;
-    name?: string;
-    readOnly?: boolean;
-    required?: boolean;
-    type?: "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
-}
-
-// @public
-export interface CatalogItemVersionListResultOutput {
-    nextLink?: string;
-    value: Array<CatalogItemVersionOutput>;
-}
-
-// @public
-export interface CatalogItemVersionOutput {
-    actions?: Array<CatalogItemActionOutput>;
-    catalogItemId?: string;
-    catalogItemName?: string;
-    catalogName?: string;
-    description?: string;
-    eligibleForLatestVersion?: boolean;
-    parameters?: Array<CatalogItemParameterOutput>;
-    parametersSchema?: string;
-    runner?: string;
-    status?: "Enabled" | "Disabled";
-    summary?: string;
-    templatePath?: string;
-    version?: string;
+export interface CloudErrorBody {
+    code: string;
+    details?: Array<CloudErrorBody>;
+    message: string;
+    target?: string;
 }
 
 // @public
@@ -105,25 +58,485 @@ export interface CloudErrorOutput {
 function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): AzureDevCenterClient;
 export default createClient;
 
+// @public (undocumented)
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironment201Headers {
+    "operation-location"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironment201Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsCreateOrUpdateEnvironment201Headers;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentBodyParam {
+    body: Environment;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters = DeploymentEnvironmentsCreateOrUpdateEnvironmentMediaTypesParam & DeploymentEnvironmentsCreateOrUpdateEnvironmentBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsDeleteEnvironment202Headers {
+    "operation-location"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsDeleteEnvironment202Response extends HttpResponse {
+    // (undocumented)
+    body: OperationStatusOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsDeleteEnvironment202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface DeploymentEnvironmentsDeleteEnvironment204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsDeleteEnvironmentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsDeleteEnvironmentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsDeleteEnvironmentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsDeleteEnvironmentParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetCatalog {
+    get(options?: DeploymentEnvironmentsGetCatalogParameters): StreamableMethod<DeploymentEnvironmentsGetCatalog200Response | DeploymentEnvironmentsGetCatalogDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetCatalog200Response extends HttpResponse {
+    // (undocumented)
+    body: CatalogOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetCatalogDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetCatalogDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsGetCatalogDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsGetCatalogParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetEnvironment {
+    delete(options?: DeploymentEnvironmentsDeleteEnvironmentParameters): StreamableMethod<DeploymentEnvironmentsDeleteEnvironment202Response | DeploymentEnvironmentsDeleteEnvironment204Response | DeploymentEnvironmentsDeleteEnvironmentDefaultResponse>;
+    get(options?: DeploymentEnvironmentsGetEnvironmentParameters): StreamableMethod<DeploymentEnvironmentsGetEnvironment200Response | DeploymentEnvironmentsGetEnvironmentDefaultResponse>;
+    put(options: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters): StreamableMethod<DeploymentEnvironmentsCreateOrUpdateEnvironment201Response | DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetEnvironment200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetEnvironmentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetEnvironmentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsGetEnvironmentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetEnvironmentDefinition {
+    get(options?: DeploymentEnvironmentsGetEnvironmentDefinitionParameters): StreamableMethod<DeploymentEnvironmentsGetEnvironmentDefinition200Response | DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetEnvironmentDefinition200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentDefinitionOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsGetEnvironmentDefinitionDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsGetEnvironmentDefinitionDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsGetEnvironmentDefinitionParameters = RequestParameters;
+
+// @public (undocumented)
+export type DeploymentEnvironmentsGetEnvironmentParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListAllEnvironments {
+    get(options?: DeploymentEnvironmentsListAllEnvironmentsParameters): StreamableMethod<DeploymentEnvironmentsListAllEnvironments200Response | DeploymentEnvironmentsListAllEnvironmentsDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListAllEnvironments200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListAllEnvironmentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListAllEnvironmentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListAllEnvironmentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListAllEnvironmentsParameters = DeploymentEnvironmentsListAllEnvironmentsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListAllEnvironmentsQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListAllEnvironmentsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListAllEnvironmentsQueryParamProperties {
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListCatalogs {
+    get(options?: DeploymentEnvironmentsListCatalogsParameters): StreamableMethod<DeploymentEnvironmentsListCatalogs200Response | DeploymentEnvironmentsListCatalogsDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListCatalogs200Response extends HttpResponse {
+    // (undocumented)
+    body: CatalogListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListCatalogsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListCatalogsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListCatalogsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListCatalogsParameters = DeploymentEnvironmentsListCatalogsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListCatalogsQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListCatalogsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListCatalogsQueryParamProperties {
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitions {
+    get(options?: DeploymentEnvironmentsListEnvironmentDefinitionsParameters): StreamableMethod<DeploymentEnvironmentsListEnvironmentDefinitions200Response | DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentDefinitions200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentDefinitionListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog {
+    get(options?: DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogParameters): StreamableMethod<DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentDefinitionListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogParameters = DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties {
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListEnvironmentDefinitionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListEnvironmentDefinitionsParameters = DeploymentEnvironmentsListEnvironmentDefinitionsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListEnvironmentDefinitionsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentDefinitionsQueryParamProperties {
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironments {
+    get(options?: DeploymentEnvironmentsListEnvironmentsParameters): StreamableMethod<DeploymentEnvironmentsListEnvironments200Response | DeploymentEnvironmentsListEnvironmentsDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironments200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListEnvironmentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListEnvironmentsParameters = DeploymentEnvironmentsListEnvironmentsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentsQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListEnvironmentsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentsQueryParamProperties {
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentTypes {
+    get(options?: DeploymentEnvironmentsListEnvironmentTypesParameters): StreamableMethod<DeploymentEnvironmentsListEnvironmentTypes200Response | DeploymentEnvironmentsListEnvironmentTypesDefaultResponse>;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentTypes200Response extends HttpResponse {
+    // (undocumented)
+    body: EnvironmentTypeListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentTypesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DeploymentEnvironmentsListEnvironmentTypesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeploymentEnvironmentsListEnvironmentTypesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeploymentEnvironmentsListEnvironmentTypesParameters = DeploymentEnvironmentsListEnvironmentTypesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentTypesQueryParam {
+    // (undocumented)
+    queryParameters?: DeploymentEnvironmentsListEnvironmentTypesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeploymentEnvironmentsListEnvironmentTypesQueryParamProperties {
+    top?: number;
+}
+
 // @public
 export interface DevBox {
     actionState?: string;
     createdTime?: Date | string;
-    errorDetails?: ProvisioningError;
+    error?: CloudErrorBody;
     hardwareProfile?: HardwareProfile;
-    hibernateSupport?: "Disabled" | "Enabled";
+    hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
     imageReference?: ImageReference;
     localAdministrator?: "Enabled" | "Disabled";
     location?: string;
     name?: string;
     osType?: "Windows";
     poolName: string;
-    powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+    powerState?: "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated";
     projectName?: string;
     provisioningState?: string;
     storageProfile?: StorageProfile;
     uniqueId?: string;
     user?: string;
+}
+
+// @public
+export interface DevBoxActionDelayResultOutput {
+    action?: DevBoxActionOutput;
+    error?: CloudErrorBodyOutput;
+    name: string;
+    result: "Succeeded" | "Failed";
+}
+
+// @public
+export interface DevBoxActionOutput {
+    actionType: "Stop";
+    name: string;
+    next?: DevBoxNextActionOutput;
+    sourceId: string;
+    suspendedUntil?: string;
+}
+
+// @public
+export interface DevBoxActionsDelayMultipleResultOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionDelayResultOutput>;
+}
+
+// @public
+export interface DevBoxActionsListResultOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionOutput>;
 }
 
 // @public
@@ -171,45 +584,87 @@ export interface DevBoxesCreateDevBoxMediaTypesParam {
 export type DevBoxesCreateDevBoxParameters = DevBoxesCreateDevBoxMediaTypesParam & DevBoxesCreateDevBoxBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesDelayUpcomingAction {
-    post(options: DevBoxesDelayUpcomingActionParameters): StreamableMethod<DevBoxesDelayUpcomingAction200Response | DevBoxesDelayUpcomingActionDefaultResponse>;
+export interface DevBoxesDelayAction {
+    post(options: DevBoxesDelayActionParameters): StreamableMethod<DevBoxesDelayAction200Response | DevBoxesDelayActionDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesDelayUpcomingAction200Response extends HttpResponse {
+export interface DevBoxesDelayAction200Response extends HttpResponse {
     // (undocumented)
-    body: UpcomingActionOutput;
+    body: DevBoxActionOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface DevBoxesDelayUpcomingActionDefaultHeaders {
+export interface DevBoxesDelayActionDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesDelayUpcomingActionDefaultResponse extends HttpResponse {
+export interface DevBoxesDelayActionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesDelayUpcomingActionDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesDelayActionDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesDelayUpcomingActionParameters = DevBoxesDelayUpcomingActionQueryParam & RequestParameters;
+export type DevBoxesDelayActionParameters = DevBoxesDelayActionQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesDelayUpcomingActionQueryParam {
+export interface DevBoxesDelayActionQueryParam {
     // (undocumented)
-    queryParameters: DevBoxesDelayUpcomingActionQueryParamProperties;
+    queryParameters: DevBoxesDelayActionQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface DevBoxesDelayUpcomingActionQueryParamProperties {
-    delayUntil: Date | string;
+export interface DevBoxesDelayActionQueryParamProperties {
+    until: Date | string;
+}
+
+// @public (undocumented)
+export interface DevBoxesDelayAllActions {
+    post(options: DevBoxesDelayAllActionsParameters): StreamableMethod<DevBoxesDelayAllActions200Response | DevBoxesDelayAllActionsDefaultResponse>;
+}
+
+// @public
+export interface DevBoxesDelayAllActions200Response extends HttpResponse {
+    // (undocumented)
+    body: DevBoxActionsDelayMultipleResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DevBoxesDelayAllActionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DevBoxesDelayAllActionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DevBoxesDelayAllActionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DevBoxesDelayAllActionsParameters = DevBoxesDelayAllActionsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DevBoxesDelayAllActionsQueryParam {
+    // (undocumented)
+    queryParameters: DevBoxesDelayAllActionsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DevBoxesDelayAllActionsQueryParamProperties {
+    until: Date | string;
 }
 
 // @public (undocumented)
@@ -220,7 +675,7 @@ export interface DevBoxesDeleteDevBox202Headers {
 // @public
 export interface DevBoxesDeleteDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
+    body: OperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & DevBoxesDeleteDevBox202Headers;
     // (undocumented)
@@ -254,14 +709,45 @@ export interface DevBoxesDeleteDevBoxDefaultResponse extends HttpResponse {
 export type DevBoxesDeleteDevBoxParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesGetDevBoxByUser {
+export interface DevBoxesGetAction {
+    get(options?: DevBoxesGetActionParameters): StreamableMethod<DevBoxesGetAction200Response | DevBoxesGetActionDefaultResponse>;
+}
+
+// @public
+export interface DevBoxesGetAction200Response extends HttpResponse {
+    // (undocumented)
+    body: DevBoxActionOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DevBoxesGetActionDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DevBoxesGetActionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DevBoxesGetActionDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DevBoxesGetActionParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DevBoxesGetDevBox {
     delete(options?: DevBoxesDeleteDevBoxParameters): StreamableMethod<DevBoxesDeleteDevBox202Response | DevBoxesDeleteDevBox204Response | DevBoxesDeleteDevBoxDefaultResponse>;
-    get(options?: DevBoxesGetDevBoxByUserParameters): StreamableMethod<DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserDefaultResponse>;
+    get(options?: DevBoxesGetDevBoxParameters): StreamableMethod<DevBoxesGetDevBox200Response | DevBoxesGetDevBoxDefaultResponse>;
     put(options: DevBoxesCreateDevBoxParameters): StreamableMethod<DevBoxesCreateDevBox200Response | DevBoxesCreateDevBox201Response | DevBoxesCreateDevBoxDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesGetDevBoxByUser200Response extends HttpResponse {
+export interface DevBoxesGetDevBox200Response extends HttpResponse {
     // (undocumented)
     body: DevBoxOutput;
     // (undocumented)
@@ -269,22 +755,22 @@ export interface DevBoxesGetDevBoxByUser200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevBoxesGetDevBoxByUserDefaultHeaders {
+export interface DevBoxesGetDevBoxDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesGetDevBoxByUserDefaultResponse extends HttpResponse {
+export interface DevBoxesGetDevBoxDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesGetDevBoxByUserDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesGetDevBoxDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesGetDevBoxByUserParameters = RequestParameters;
+export type DevBoxesGetDevBoxParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DevBoxesGetPool {
@@ -349,12 +835,12 @@ export interface DevBoxesGetRemoteConnectionDefaultResponse extends HttpResponse
 export type DevBoxesGetRemoteConnectionParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesGetScheduleByPool {
-    get(options?: DevBoxesGetScheduleByPoolParameters): StreamableMethod<DevBoxesGetScheduleByPool200Response | DevBoxesGetScheduleByPoolDefaultResponse>;
+export interface DevBoxesGetSchedule {
+    get(options?: DevBoxesGetScheduleParameters): StreamableMethod<DevBoxesGetSchedule200Response | DevBoxesGetScheduleDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesGetScheduleByPool200Response extends HttpResponse {
+export interface DevBoxesGetSchedule200Response extends HttpResponse {
     // (undocumented)
     body: ScheduleOutput;
     // (undocumented)
@@ -362,61 +848,61 @@ export interface DevBoxesGetScheduleByPool200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevBoxesGetScheduleByPoolDefaultHeaders {
+export interface DevBoxesGetScheduleDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesGetScheduleByPoolDefaultResponse extends HttpResponse {
+export interface DevBoxesGetScheduleDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesGetScheduleByPoolDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesGetScheduleDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesGetScheduleByPoolParameters = RequestParameters;
+export type DevBoxesGetScheduleParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesGetUpcomingAction {
-    get(options?: DevBoxesGetUpcomingActionParameters): StreamableMethod<DevBoxesGetUpcomingAction200Response | DevBoxesGetUpcomingActionDefaultResponse>;
+export interface DevBoxesListActions {
+    get(options?: DevBoxesListActionsParameters): StreamableMethod<DevBoxesListActions200Response | DevBoxesListActionsDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesGetUpcomingAction200Response extends HttpResponse {
+export interface DevBoxesListActions200Response extends HttpResponse {
     // (undocumented)
-    body: UpcomingActionOutput;
+    body: DevBoxActionsListResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface DevBoxesGetUpcomingActionDefaultHeaders {
+export interface DevBoxesListActionsDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesGetUpcomingActionDefaultResponse extends HttpResponse {
+export interface DevBoxesListActionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesGetUpcomingActionDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesListActionsDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesGetUpcomingActionParameters = RequestParameters;
+export type DevBoxesListActionsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesListDevBoxesByUser {
-    get(options?: DevBoxesListDevBoxesByUserParameters): StreamableMethod<DevBoxesListDevBoxesByUser200Response | DevBoxesListDevBoxesByUserDefaultResponse>;
+export interface DevBoxesListAllDevBoxes {
+    get(options?: DevBoxesListAllDevBoxesParameters): StreamableMethod<DevBoxesListAllDevBoxes200Response | DevBoxesListAllDevBoxesDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesListDevBoxesByUser200Response extends HttpResponse {
+export interface DevBoxesListAllDevBoxes200Response extends HttpResponse {
     // (undocumented)
     body: DevBoxListResultOutput;
     // (undocumented)
@@ -424,31 +910,117 @@ export interface DevBoxesListDevBoxesByUser200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevBoxesListDevBoxesByUserDefaultHeaders {
+export interface DevBoxesListAllDevBoxesByUser {
+    get(options?: DevBoxesListAllDevBoxesByUserParameters): StreamableMethod<DevBoxesListAllDevBoxesByUser200Response | DevBoxesListAllDevBoxesByUserDefaultResponse>;
+}
+
+// @public
+export interface DevBoxesListAllDevBoxesByUser200Response extends HttpResponse {
+    // (undocumented)
+    body: DevBoxListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DevBoxesListAllDevBoxesByUserDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesListDevBoxesByUserDefaultResponse extends HttpResponse {
+export interface DevBoxesListAllDevBoxesByUserDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesListDevBoxesByUserDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesListAllDevBoxesByUserDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesListDevBoxesByUserParameters = DevBoxesListDevBoxesByUserQueryParam & RequestParameters;
+export type DevBoxesListAllDevBoxesByUserParameters = DevBoxesListAllDevBoxesByUserQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesListDevBoxesByUserQueryParam {
+export interface DevBoxesListAllDevBoxesByUserQueryParam {
     // (undocumented)
-    queryParameters?: DevBoxesListDevBoxesByUserQueryParamProperties;
+    queryParameters?: DevBoxesListAllDevBoxesByUserQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface DevBoxesListDevBoxesByUserQueryParamProperties {
+export interface DevBoxesListAllDevBoxesByUserQueryParamProperties {
+    filter?: string;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DevBoxesListAllDevBoxesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DevBoxesListAllDevBoxesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DevBoxesListAllDevBoxesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DevBoxesListAllDevBoxesParameters = DevBoxesListAllDevBoxesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DevBoxesListAllDevBoxesQueryParam {
+    // (undocumented)
+    queryParameters?: DevBoxesListAllDevBoxesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DevBoxesListAllDevBoxesQueryParamProperties {
+    filter?: string;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DevBoxesListDevBoxes {
+    get(options?: DevBoxesListDevBoxesParameters): StreamableMethod<DevBoxesListDevBoxes200Response | DevBoxesListDevBoxesDefaultResponse>;
+}
+
+// @public
+export interface DevBoxesListDevBoxes200Response extends HttpResponse {
+    // (undocumented)
+    body: DevBoxListResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DevBoxesListDevBoxesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface DevBoxesListDevBoxesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DevBoxesListDevBoxesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DevBoxesListDevBoxesParameters = DevBoxesListDevBoxesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DevBoxesListDevBoxesQueryParam {
+    // (undocumented)
+    queryParameters?: DevBoxesListDevBoxesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DevBoxesListDevBoxesQueryParamProperties {
     filter?: string;
     top?: number;
 }
@@ -497,12 +1069,12 @@ export interface DevBoxesListPoolsQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface DevBoxesListSchedulesByPool {
-    get(options?: DevBoxesListSchedulesByPoolParameters): StreamableMethod<DevBoxesListSchedulesByPool200Response | DevBoxesListSchedulesByPoolDefaultResponse>;
+export interface DevBoxesListSchedules {
+    get(options?: DevBoxesListSchedulesParameters): StreamableMethod<DevBoxesListSchedules200Response | DevBoxesListSchedulesDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesListSchedulesByPool200Response extends HttpResponse {
+export interface DevBoxesListSchedules200Response extends HttpResponse {
     // (undocumented)
     body: ScheduleListResultOutput;
     // (undocumented)
@@ -510,73 +1082,80 @@ export interface DevBoxesListSchedulesByPool200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevBoxesListSchedulesByPoolDefaultHeaders {
+export interface DevBoxesListSchedulesDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesListSchedulesByPoolDefaultResponse extends HttpResponse {
+export interface DevBoxesListSchedulesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesListSchedulesByPoolDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesListSchedulesDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesListSchedulesByPoolParameters = DevBoxesListSchedulesByPoolQueryParam & RequestParameters;
+export type DevBoxesListSchedulesParameters = DevBoxesListSchedulesQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesListSchedulesByPoolQueryParam {
+export interface DevBoxesListSchedulesQueryParam {
     // (undocumented)
-    queryParameters?: DevBoxesListSchedulesByPoolQueryParamProperties;
+    queryParameters?: DevBoxesListSchedulesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface DevBoxesListSchedulesByPoolQueryParamProperties {
+export interface DevBoxesListSchedulesQueryParamProperties {
     filter?: string;
     top?: number;
 }
 
 // @public (undocumented)
-export interface DevBoxesListUpcomingActions {
-    get(options?: DevBoxesListUpcomingActionsParameters): StreamableMethod<DevBoxesListUpcomingActions200Response | DevBoxesListUpcomingActionsDefaultResponse>;
-}
-
-// @public
-export interface DevBoxesListUpcomingActions200Response extends HttpResponse {
-    // (undocumented)
-    body: UpcomingActionsListResultOutput;
-    // (undocumented)
-    status: "200";
+export interface DevBoxesRestartDevBox {
+    post(options?: DevBoxesRestartDevBoxParameters): StreamableMethod<DevBoxesRestartDevBox202Response | DevBoxesRestartDevBoxDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface DevBoxesListUpcomingActionsDefaultHeaders {
+export interface DevBoxesRestartDevBox202Headers {
+    "operation-location"?: string;
+}
+
+// @public
+export interface DevBoxesRestartDevBox202Response extends HttpResponse {
+    // (undocumented)
+    body: OperationStatusOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DevBoxesRestartDevBox202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface DevBoxesRestartDevBoxDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesListUpcomingActionsDefaultResponse extends HttpResponse {
+export interface DevBoxesRestartDevBoxDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesListUpcomingActionsDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesRestartDevBoxDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesListUpcomingActionsParameters = RequestParameters;
+export type DevBoxesRestartDevBoxParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DevBoxesSkipUpcomingAction {
-    post(options?: DevBoxesSkipUpcomingActionParameters): StreamableMethod<DevBoxesSkipUpcomingAction204Response | DevBoxesSkipUpcomingActionDefaultResponse>;
+export interface DevBoxesSkipAction {
+    post(options?: DevBoxesSkipActionParameters): StreamableMethod<DevBoxesSkipAction204Response | DevBoxesSkipActionDefaultResponse>;
 }
 
 // @public
-export interface DevBoxesSkipUpcomingAction204Response extends HttpResponse {
+export interface DevBoxesSkipAction204Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -584,22 +1163,22 @@ export interface DevBoxesSkipUpcomingAction204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevBoxesSkipUpcomingActionDefaultHeaders {
+export interface DevBoxesSkipActionDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevBoxesSkipUpcomingActionDefaultResponse extends HttpResponse {
+export interface DevBoxesSkipActionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevBoxesSkipUpcomingActionDefaultHeaders;
+    headers: RawHttpHeaders & DevBoxesSkipActionDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DevBoxesSkipUpcomingActionParameters = RequestParameters;
+export type DevBoxesSkipActionParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DevBoxesStartDevBox {
@@ -614,7 +1193,7 @@ export interface DevBoxesStartDevBox202Headers {
 // @public
 export interface DevBoxesStartDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
+    body: OperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & DevBoxesStartDevBox202Headers;
     // (undocumented)
@@ -652,7 +1231,7 @@ export interface DevBoxesStopDevBox202Headers {
 // @public
 export interface DevBoxesStopDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
+    body: OperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & DevBoxesStopDevBox202Headers;
     // (undocumented)
@@ -695,19 +1274,24 @@ export interface DevBoxListResultOutput {
 }
 
 // @public
+export interface DevBoxNextActionOutput {
+    scheduledTime: string;
+}
+
+// @public
 export interface DevBoxOutput {
     actionState?: string;
     createdTime?: string;
-    errorDetails?: ProvisioningErrorOutput;
+    error?: CloudErrorBodyOutput;
     hardwareProfile?: HardwareProfileOutput;
-    hibernateSupport?: "Disabled" | "Enabled";
+    hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
     imageReference?: ImageReferenceOutput;
     localAdministrator?: "Enabled" | "Disabled";
     location?: string;
     name?: string;
     osType?: "Windows";
     poolName: string;
-    powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+    powerState?: "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated";
     projectName?: string;
     provisioningState?: string;
     storageProfile?: StorageProfileOutput;
@@ -738,92 +1322,6 @@ export interface DevCenterGetProjectDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DevCenterGetProjectParameters = RequestParameters;
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxes {
-    get(options?: DevCenterListAllDevBoxesParameters): StreamableMethod<DevCenterListAllDevBoxes200Response | DevCenterListAllDevBoxesDefaultResponse>;
-}
-
-// @public
-export interface DevCenterListAllDevBoxes200Response extends HttpResponse {
-    // (undocumented)
-    body: DevBoxListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesByUser {
-    get(options?: DevCenterListAllDevBoxesByUserParameters): StreamableMethod<DevCenterListAllDevBoxesByUser200Response | DevCenterListAllDevBoxesByUserDefaultResponse>;
-}
-
-// @public
-export interface DevCenterListAllDevBoxesByUser200Response extends HttpResponse {
-    // (undocumented)
-    body: DevBoxListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesByUserDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface DevCenterListAllDevBoxesByUserDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DevCenterListAllDevBoxesByUserDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type DevCenterListAllDevBoxesByUserParameters = DevCenterListAllDevBoxesByUserQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesByUserQueryParam {
-    // (undocumented)
-    queryParameters?: DevCenterListAllDevBoxesByUserQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesByUserQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface DevCenterListAllDevBoxesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DevCenterListAllDevBoxesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type DevCenterListAllDevBoxesParameters = DevCenterListAllDevBoxesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesQueryParam {
-    // (undocumented)
-    queryParameters?: DevCenterListAllDevBoxesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DevCenterListAllDevBoxesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
 
 // @public (undocumented)
 export interface DevCenterListProjects {
@@ -863,11 +1361,43 @@ export interface DevCenterListProjectsQueryParamProperties {
 
 // @public
 export interface Environment extends EnvironmentUpdateProperties {
+    catalogName: string;
+    environmentDefinitionName: string;
     environmentType: string;
+    error?: CloudErrorBody;
     name?: string;
     provisioningState?: string;
     resourceGroupId?: string;
     user?: string;
+}
+
+// @public
+export interface EnvironmentDefinitionListResultOutput {
+    nextLink?: string;
+    value: Array<EnvironmentDefinitionOutput>;
+}
+
+// @public
+export interface EnvironmentDefinitionOutput {
+    catalogName: string;
+    description?: string;
+    id: string;
+    name: string;
+    parameters?: Array<EnvironmentDefinitionParameterOutput>;
+    parametersSchema?: string;
+    templatePath?: string;
+}
+
+// @public
+export interface EnvironmentDefinitionParameterOutput {
+    allowed?: Array<string>;
+    default?: string;
+    description?: string;
+    id: string;
+    name?: string;
+    readOnly?: boolean;
+    required: boolean;
+    type: "array" | "boolean" | "integer" | "number" | "object" | "string";
 }
 
 // @public
@@ -878,566 +1408,15 @@ export interface EnvironmentListResultOutput {
 
 // @public
 export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
+    catalogName: string;
+    environmentDefinitionName: string;
     environmentType: string;
+    error?: CloudErrorBodyOutput;
     name?: string;
     provisioningState?: string;
     resourceGroupId?: string;
     user?: string;
 }
-
-// @public
-export interface EnvironmentsCreateOrUpdateEnvironment200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsCreateOrUpdateEnvironment201Headers {
-    "operation-location"?: string;
-}
-
-// @public
-export interface EnvironmentsCreateOrUpdateEnvironment201Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsCreateOrUpdateEnvironment201Headers;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface EnvironmentsCreateOrUpdateEnvironmentBodyParam {
-    body: Environment;
-}
-
-// @public (undocumented)
-export interface EnvironmentsCreateOrUpdateEnvironmentDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsCreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsCreateOrUpdateEnvironmentDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EnvironmentsCreateOrUpdateEnvironmentParameters = EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam & EnvironmentsCreateOrUpdateEnvironmentBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsCustomEnvironmentAction {
-    post(options: EnvironmentsCustomEnvironmentActionParameters): StreamableMethod<EnvironmentsCustomEnvironmentAction200Response | EnvironmentsCustomEnvironmentAction202Response | EnvironmentsCustomEnvironmentActionDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsCustomEnvironmentAction200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsCustomEnvironmentAction202Headers {
-    "operation-location"?: string;
-}
-
-// @public
-export interface EnvironmentsCustomEnvironmentAction202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsCustomEnvironmentAction202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface EnvironmentsCustomEnvironmentActionBodyParam {
-    body: ActionRequest;
-}
-
-// @public (undocumented)
-export interface EnvironmentsCustomEnvironmentActionDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsCustomEnvironmentActionDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsCustomEnvironmentActionDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface EnvironmentsCustomEnvironmentActionMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EnvironmentsCustomEnvironmentActionParameters = EnvironmentsCustomEnvironmentActionMediaTypesParam & EnvironmentsCustomEnvironmentActionBodyParam & RequestParameters;
-
-// @public
-export interface EnvironmentsDeleteEnvironment200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeleteEnvironment202Headers {
-    "operation-location"?: string;
-}
-
-// @public
-export interface EnvironmentsDeleteEnvironment202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsDeleteEnvironment202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public
-export interface EnvironmentsDeleteEnvironment204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeleteEnvironmentDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsDeleteEnvironmentDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsDeleteEnvironmentDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsDeleteEnvironmentParameters = RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsDeployEnvironmentAction {
-    post(options: EnvironmentsDeployEnvironmentActionParameters): StreamableMethod<EnvironmentsDeployEnvironmentAction200Response | EnvironmentsDeployEnvironmentAction202Response | EnvironmentsDeployEnvironmentActionDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsDeployEnvironmentAction200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeployEnvironmentAction202Headers {
-    "operation-location"?: string;
-}
-
-// @public
-export interface EnvironmentsDeployEnvironmentAction202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsDeployEnvironmentAction202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeployEnvironmentActionBodyParam {
-    body: ActionRequest;
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeployEnvironmentActionDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsDeployEnvironmentActionDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsDeployEnvironmentActionDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface EnvironmentsDeployEnvironmentActionMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EnvironmentsDeployEnvironmentActionParameters = EnvironmentsDeployEnvironmentActionMediaTypesParam & EnvironmentsDeployEnvironmentActionBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsGetCatalogItem {
-    get(options?: EnvironmentsGetCatalogItemParameters): StreamableMethod<EnvironmentsGetCatalogItem200Response | EnvironmentsGetCatalogItemDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsGetCatalogItem200Response extends HttpResponse {
-    // (undocumented)
-    body: CatalogItemOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsGetCatalogItemDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsGetCatalogItemDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsGetCatalogItemDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsGetCatalogItemParameters = RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsGetCatalogItemVersion {
-    get(options?: EnvironmentsGetCatalogItemVersionParameters): StreamableMethod<EnvironmentsGetCatalogItemVersion200Response | EnvironmentsGetCatalogItemVersionDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsGetCatalogItemVersion200Response extends HttpResponse {
-    // (undocumented)
-    body: CatalogItemVersionOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsGetCatalogItemVersionDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsGetCatalogItemVersionDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsGetCatalogItemVersionDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsGetCatalogItemVersionParameters = RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsGetEnvironmentByUser {
-    delete(options?: EnvironmentsDeleteEnvironmentParameters): StreamableMethod<EnvironmentsDeleteEnvironment200Response | EnvironmentsDeleteEnvironment202Response | EnvironmentsDeleteEnvironment204Response | EnvironmentsDeleteEnvironmentDefaultResponse>;
-    get(options?: EnvironmentsGetEnvironmentByUserParameters): StreamableMethod<EnvironmentsGetEnvironmentByUser200Response | EnvironmentsGetEnvironmentByUserDefaultResponse>;
-    patch(options: EnvironmentsUpdateEnvironmentParameters): StreamableMethod<EnvironmentsUpdateEnvironment200Response | EnvironmentsUpdateEnvironmentDefaultResponse>;
-    put(options: EnvironmentsCreateOrUpdateEnvironmentParameters): StreamableMethod<EnvironmentsCreateOrUpdateEnvironment200Response | EnvironmentsCreateOrUpdateEnvironment201Response | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsGetEnvironmentByUser200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsGetEnvironmentByUserDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsGetEnvironmentByUserDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsGetEnvironmentByUserDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsGetEnvironmentByUserParameters = RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItems {
-    get(options?: EnvironmentsListCatalogItemsParameters): StreamableMethod<EnvironmentsListCatalogItems200Response | EnvironmentsListCatalogItemsDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsListCatalogItems200Response extends HttpResponse {
-    // (undocumented)
-    body: CatalogItemListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsListCatalogItemsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsListCatalogItemsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsListCatalogItemsParameters = EnvironmentsListCatalogItemsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemsQueryParam {
-    // (undocumented)
-    queryParameters?: EnvironmentsListCatalogItemsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemsQueryParamProperties {
-    top?: number;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemVersions {
-    get(options?: EnvironmentsListCatalogItemVersionsParameters): StreamableMethod<EnvironmentsListCatalogItemVersions200Response | EnvironmentsListCatalogItemVersionsDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsListCatalogItemVersions200Response extends HttpResponse {
-    // (undocumented)
-    body: CatalogItemVersionListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemVersionsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsListCatalogItemVersionsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsListCatalogItemVersionsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsListCatalogItemVersionsParameters = EnvironmentsListCatalogItemVersionsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemVersionsQueryParam {
-    // (undocumented)
-    queryParameters?: EnvironmentsListCatalogItemVersionsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListCatalogItemVersionsQueryParamProperties {
-    top?: number;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironments {
-    get(options?: EnvironmentsListEnvironmentsParameters): StreamableMethod<EnvironmentsListEnvironments200Response | EnvironmentsListEnvironmentsDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsListEnvironments200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsByUser {
-    get(options?: EnvironmentsListEnvironmentsByUserParameters): StreamableMethod<EnvironmentsListEnvironmentsByUser200Response | EnvironmentsListEnvironmentsByUserDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsListEnvironmentsByUser200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsByUserDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsListEnvironmentsByUserDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsListEnvironmentsByUserDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsListEnvironmentsByUserParameters = EnvironmentsListEnvironmentsByUserQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsByUserQueryParam {
-    // (undocumented)
-    queryParameters?: EnvironmentsListEnvironmentsByUserQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsByUserQueryParamProperties {
-    top?: number;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsListEnvironmentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsListEnvironmentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsListEnvironmentsParameters = EnvironmentsListEnvironmentsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsQueryParam {
-    // (undocumented)
-    queryParameters?: EnvironmentsListEnvironmentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentsQueryParamProperties {
-    top?: number;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentTypes {
-    get(options?: EnvironmentsListEnvironmentTypesParameters): StreamableMethod<EnvironmentsListEnvironmentTypes200Response | EnvironmentsListEnvironmentTypesDefaultResponse>;
-}
-
-// @public
-export interface EnvironmentsListEnvironmentTypes200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentTypeListResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentTypesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsListEnvironmentTypesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsListEnvironmentTypesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type EnvironmentsListEnvironmentTypesParameters = EnvironmentsListEnvironmentTypesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentTypesQueryParam {
-    // (undocumented)
-    queryParameters?: EnvironmentsListEnvironmentTypesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsListEnvironmentTypesQueryParamProperties {
-    top?: number;
-}
-
-// @public
-export interface EnvironmentsUpdateEnvironment200Response extends HttpResponse {
-    // (undocumented)
-    body: EnvironmentOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EnvironmentsUpdateEnvironmentBodyParam {
-    body: EnvironmentUpdateProperties;
-}
-
-// @public (undocumented)
-export interface EnvironmentsUpdateEnvironmentDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface EnvironmentsUpdateEnvironmentDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & EnvironmentsUpdateEnvironmentDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface EnvironmentsUpdateEnvironmentMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type EnvironmentsUpdateEnvironmentParameters = EnvironmentsUpdateEnvironmentMediaTypesParam & EnvironmentsUpdateEnvironmentBodyParam & RequestParameters;
 
 // @public
 export interface EnvironmentTypeListResultOutput {
@@ -1447,29 +1426,19 @@ export interface EnvironmentTypeListResultOutput {
 
 // @public
 export interface EnvironmentTypeOutput {
-    deploymentTargetId?: string;
-    name?: string;
-    status?: "Enabled" | "Disabled";
+    deploymentTargetId: string;
+    name: string;
+    status: "Enabled" | "Disabled";
 }
 
 // @public
 export interface EnvironmentUpdateProperties {
-    catalogItemName?: string;
-    catalogName?: string;
-    description?: string;
     parameters?: Record<string, unknown>;
-    scheduledTasks?: Record<string, ScheduledTask>;
-    tags?: Record<string, string>;
 }
 
 // @public
 export interface EnvironmentUpdatePropertiesOutput {
-    catalogItemName?: string;
-    catalogName?: string;
-    description?: string;
     parameters?: Record<string, unknown>;
-    scheduledTasks?: Record<string, ScheduledTaskOutput>;
-    tags?: Record<string, string>;
 }
 
 // @public
@@ -1523,28 +1492,28 @@ export function isUnexpected(response: DevCenterListProjects200Response | DevCen
 export function isUnexpected(response: DevCenterGetProject200Response | DevCenterGetProjectDefaultResponse): response is DevCenterGetProjectDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevCenterListAllDevBoxes200Response | DevCenterListAllDevBoxesDefaultResponse): response is DevCenterListAllDevBoxesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DevCenterListAllDevBoxesByUser200Response | DevCenterListAllDevBoxesByUserDefaultResponse): response is DevCenterListAllDevBoxesByUserDefaultResponse;
-
-// @public (undocumented)
 export function isUnexpected(response: DevBoxesListPools200Response | DevBoxesListPoolsDefaultResponse): response is DevBoxesListPoolsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DevBoxesGetPool200Response | DevBoxesGetPoolDefaultResponse): response is DevBoxesGetPoolDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesListSchedulesByPool200Response | DevBoxesListSchedulesByPoolDefaultResponse): response is DevBoxesListSchedulesByPoolDefaultResponse;
+export function isUnexpected(response: DevBoxesListSchedules200Response | DevBoxesListSchedulesDefaultResponse): response is DevBoxesListSchedulesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesGetScheduleByPool200Response | DevBoxesGetScheduleByPoolDefaultResponse): response is DevBoxesGetScheduleByPoolDefaultResponse;
+export function isUnexpected(response: DevBoxesGetSchedule200Response | DevBoxesGetScheduleDefaultResponse): response is DevBoxesGetScheduleDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesListDevBoxesByUser200Response | DevBoxesListDevBoxesByUserDefaultResponse): response is DevBoxesListDevBoxesByUserDefaultResponse;
+export function isUnexpected(response: DevBoxesListAllDevBoxes200Response | DevBoxesListAllDevBoxesDefaultResponse): response is DevBoxesListAllDevBoxesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserDefaultResponse): response is DevBoxesGetDevBoxByUserDefaultResponse;
+export function isUnexpected(response: DevBoxesListAllDevBoxesByUser200Response | DevBoxesListAllDevBoxesByUserDefaultResponse): response is DevBoxesListAllDevBoxesByUserDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DevBoxesListDevBoxes200Response | DevBoxesListDevBoxesDefaultResponse): response is DevBoxesListDevBoxesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DevBoxesGetDevBox200Response | DevBoxesGetDevBoxDefaultResponse): response is DevBoxesGetDevBoxDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DevBoxesCreateDevBox200Response | DevBoxesCreateDevBox201Response | DevBoxesCreateDevBoxDefaultResponse): response is DevBoxesCreateDevBoxDefaultResponse;
@@ -1559,58 +1528,77 @@ export function isUnexpected(response: DevBoxesStartDevBox202Response | DevBoxes
 export function isUnexpected(response: DevBoxesStopDevBox202Response | DevBoxesStopDevBoxDefaultResponse): response is DevBoxesStopDevBoxDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: DevBoxesRestartDevBox202Response | DevBoxesRestartDevBoxDefaultResponse): response is DevBoxesRestartDevBoxDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: DevBoxesGetRemoteConnection200Response | DevBoxesGetRemoteConnectionDefaultResponse): response is DevBoxesGetRemoteConnectionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesListUpcomingActions200Response | DevBoxesListUpcomingActionsDefaultResponse): response is DevBoxesListUpcomingActionsDefaultResponse;
+export function isUnexpected(response: DevBoxesListActions200Response | DevBoxesListActionsDefaultResponse): response is DevBoxesListActionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesGetUpcomingAction200Response | DevBoxesGetUpcomingActionDefaultResponse): response is DevBoxesGetUpcomingActionDefaultResponse;
+export function isUnexpected(response: DevBoxesGetAction200Response | DevBoxesGetActionDefaultResponse): response is DevBoxesGetActionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesSkipUpcomingAction204Response | DevBoxesSkipUpcomingActionDefaultResponse): response is DevBoxesSkipUpcomingActionDefaultResponse;
+export function isUnexpected(response: DevBoxesSkipAction204Response | DevBoxesSkipActionDefaultResponse): response is DevBoxesSkipActionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevBoxesDelayUpcomingAction200Response | DevBoxesDelayUpcomingActionDefaultResponse): response is DevBoxesDelayUpcomingActionDefaultResponse;
+export function isUnexpected(response: DevBoxesDelayAction200Response | DevBoxesDelayActionDefaultResponse): response is DevBoxesDelayActionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsListEnvironments200Response | EnvironmentsListEnvironmentsDefaultResponse): response is EnvironmentsListEnvironmentsDefaultResponse;
+export function isUnexpected(response: DevBoxesDelayAllActions200Response | DevBoxesDelayAllActionsDefaultResponse): response is DevBoxesDelayAllActionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsListEnvironmentsByUser200Response | EnvironmentsListEnvironmentsByUserDefaultResponse): response is EnvironmentsListEnvironmentsByUserDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListAllEnvironments200Response | DeploymentEnvironmentsListAllEnvironmentsDefaultResponse): response is DeploymentEnvironmentsListAllEnvironmentsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsGetEnvironmentByUser200Response | EnvironmentsGetEnvironmentByUserDefaultResponse): response is EnvironmentsGetEnvironmentByUserDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListEnvironments200Response | DeploymentEnvironmentsListEnvironmentsDefaultResponse): response is DeploymentEnvironmentsListEnvironmentsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsCreateOrUpdateEnvironment200Response | EnvironmentsCreateOrUpdateEnvironment201Response | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse): response is EnvironmentsCreateOrUpdateEnvironmentDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsGetEnvironment200Response | DeploymentEnvironmentsGetEnvironmentDefaultResponse): response is DeploymentEnvironmentsGetEnvironmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsUpdateEnvironment200Response | EnvironmentsUpdateEnvironmentDefaultResponse): response is EnvironmentsUpdateEnvironmentDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsCreateOrUpdateEnvironment201Response | DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse): response is DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsDeleteEnvironment200Response | EnvironmentsDeleteEnvironment202Response | EnvironmentsDeleteEnvironment204Response | EnvironmentsDeleteEnvironmentDefaultResponse): response is EnvironmentsDeleteEnvironmentDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsDeleteEnvironment202Response | DeploymentEnvironmentsDeleteEnvironment204Response | DeploymentEnvironmentsDeleteEnvironmentDefaultResponse): response is DeploymentEnvironmentsDeleteEnvironmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsDeployEnvironmentAction200Response | EnvironmentsDeployEnvironmentAction202Response | EnvironmentsDeployEnvironmentActionDefaultResponse): response is EnvironmentsDeployEnvironmentActionDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListCatalogs200Response | DeploymentEnvironmentsListCatalogsDefaultResponse): response is DeploymentEnvironmentsListCatalogsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsCustomEnvironmentAction200Response | EnvironmentsCustomEnvironmentAction202Response | EnvironmentsCustomEnvironmentActionDefaultResponse): response is EnvironmentsCustomEnvironmentActionDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsGetCatalog200Response | DeploymentEnvironmentsGetCatalogDefaultResponse): response is DeploymentEnvironmentsGetCatalogDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsListCatalogItems200Response | EnvironmentsListCatalogItemsDefaultResponse): response is EnvironmentsListCatalogItemsDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListEnvironmentDefinitions200Response | DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse): response is DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsGetCatalogItem200Response | EnvironmentsGetCatalogItemDefaultResponse): response is EnvironmentsGetCatalogItemDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response | DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse): response is DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsListCatalogItemVersions200Response | EnvironmentsListCatalogItemVersionsDefaultResponse): response is EnvironmentsListCatalogItemVersionsDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsGetEnvironmentDefinition200Response | DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse): response is DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: EnvironmentsGetCatalogItemVersion200Response | EnvironmentsGetCatalogItemVersionDefaultResponse): response is EnvironmentsGetCatalogItemVersionDefaultResponse;
+export function isUnexpected(response: DeploymentEnvironmentsListEnvironmentTypes200Response | DeploymentEnvironmentsListEnvironmentTypesDefaultResponse): response is DeploymentEnvironmentsListEnvironmentTypesDefaultResponse;
 
-// @public (undocumented)
-export function isUnexpected(response: EnvironmentsListEnvironmentTypes200Response | EnvironmentsListEnvironmentTypesDefaultResponse): response is EnvironmentsListEnvironmentTypesDefaultResponse;
+// @public
+export interface OperationStatusErrorOutput {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface OperationStatusOutput {
+    endTime?: string;
+    error?: OperationStatusErrorOutput;
+    id?: string;
+    name?: string;
+    percentComplete?: number;
+    properties?: Record<string, unknown>;
+    resourceId?: string;
+    startTime?: string;
+    status: string;
+}
 
 // @public
 export interface OSDisk {
@@ -1646,12 +1634,14 @@ export interface PoolListResultOutput {
 // @public
 export interface PoolOutput {
     hardwareProfile?: HardwareProfileOutput;
-    hibernateSupport?: "Disabled" | "Enabled";
+    healthStatus: "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhealthy";
+    hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
     imageReference?: ImageReferenceOutput;
     localAdministrator?: "Enabled" | "Disabled";
-    location?: string;
-    name?: string;
+    location: string;
+    name: string;
     osType?: "Windows";
+    stopOnDisconnect?: StopOnDisconnectConfigurationOutput;
     storageProfile?: StorageProfileOutput;
 }
 
@@ -1664,19 +1654,8 @@ export interface ProjectListResultOutput {
 // @public
 export interface ProjectOutput {
     description?: string;
-    name?: string;
-}
-
-// @public
-export interface ProvisioningError {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface ProvisioningErrorOutput {
-    code?: string;
-    message?: string;
+    maxDevBoxesPerUser?: number;
+    name: string;
 }
 
 // @public
@@ -1689,45 +1668,32 @@ export interface RemoteConnectionOutput {
 export interface Routes {
     (path: "/projects"): DevCenterListProjects;
     (path: "/projects/{projectName}", projectName: string): DevCenterGetProject;
-    (path: "/devboxes"): DevCenterListAllDevBoxes;
-    (path: "/users/{userId}/devboxes", userId: string): DevCenterListAllDevBoxesByUser;
     (path: "/projects/{projectName}/pools", projectName: string): DevBoxesListPools;
     (path: "/projects/{projectName}/pools/{poolName}", projectName: string, poolName: string): DevBoxesGetPool;
-    (path: "/projects/{projectName}/pools/{poolName}/schedules", projectName: string, poolName: string): DevBoxesListSchedulesByPool;
-    (path: "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}", projectName: string, poolName: string, scheduleName: string): DevBoxesGetScheduleByPool;
-    (path: "/projects/{projectName}/users/{userId}/devboxes", projectName: string, userId: string): DevBoxesListDevBoxesByUser;
-    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}", projectName: string, userId: string, devBoxName: string): DevBoxesGetDevBoxByUser;
+    (path: "/projects/{projectName}/pools/{poolName}/schedules", projectName: string, poolName: string): DevBoxesListSchedules;
+    (path: "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}", projectName: string, poolName: string, scheduleName: string): DevBoxesGetSchedule;
+    (path: "/devboxes"): DevBoxesListAllDevBoxes;
+    (path: "/users/{userId}/devboxes", userId: string): DevBoxesListAllDevBoxesByUser;
+    (path: "/projects/{projectName}/users/{userId}/devboxes", projectName: string, userId: string): DevBoxesListDevBoxes;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}", projectName: string, userId: string, devBoxName: string): DevBoxesGetDevBox;
     (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start", projectName: string, userId: string, devBoxName: string): DevBoxesStartDevBox;
     (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop", projectName: string, userId: string, devBoxName: string): DevBoxesStopDevBox;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart", projectName: string, userId: string, devBoxName: string): DevBoxesRestartDevBox;
     (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection", projectName: string, userId: string, devBoxName: string): DevBoxesGetRemoteConnection;
-    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions", projectName: string, userId: string, devBoxName: string): DevBoxesListUpcomingActions;
-    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}", projectName: string, userId: string, devBoxName: string, upcomingActionId: string): DevBoxesGetUpcomingAction;
-    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:skip", projectName: string, userId: string, devBoxName: string, upcomingActionId: string): DevBoxesSkipUpcomingAction;
-    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:delay", projectName: string, userId: string, devBoxName: string, upcomingActionId: string): DevBoxesDelayUpcomingAction;
-    (path: "/projects/{projectName}/environments", projectName: string): EnvironmentsListEnvironments;
-    (path: "/projects/{projectName}/users/{userId}/environments", projectName: string, userId: string): EnvironmentsListEnvironmentsByUser;
-    (path: "/projects/{projectName}/users/{userId}/environments/{environmentName}", projectName: string, userId: string, environmentName: string): EnvironmentsGetEnvironmentByUser;
-    (path: "/projects/{projectName}/users/{userId}/environments/{environmentName}:deploy", projectName: string, userId: string, environmentName: string): EnvironmentsDeployEnvironmentAction;
-    (path: "/projects/{projectName}/users/{userId}/environments/{environmentName}:custom", projectName: string, userId: string, environmentName: string): EnvironmentsCustomEnvironmentAction;
-    (path: "/projects/{projectName}/catalogItems", projectName: string): EnvironmentsListCatalogItems;
-    (path: "/projects/{projectName}/catalogItems/{catalogItemId}", projectName: string, catalogItemId: string): EnvironmentsGetCatalogItem;
-    (path: "/projects/{projectName}/catalogItems/{catalogItemId}/versions", projectName: string, catalogItemId: string): EnvironmentsListCatalogItemVersions;
-    (path: "/projects/{projectName}/catalogItems/{catalogItemId}/versions/{version}", projectName: string, catalogItemId: string, version: string): EnvironmentsGetCatalogItemVersion;
-    (path: "/projects/{projectName}/environmentTypes", projectName: string): EnvironmentsListEnvironmentTypes;
-}
-
-// @public
-export interface ScheduledTask {
-    enabled?: "Enabled" | "Disabled";
-    startTime: Date | string;
-    type: "AutoExpire";
-}
-
-// @public
-export interface ScheduledTaskOutput {
-    enabled?: "Enabled" | "Disabled";
-    startTime: string;
-    type: "AutoExpire";
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions", projectName: string, userId: string, devBoxName: string): DevBoxesListActions;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}", projectName: string, userId: string, devBoxName: string, actionName: string): DevBoxesGetAction;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip", projectName: string, userId: string, devBoxName: string, actionName: string): DevBoxesSkipAction;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay", projectName: string, userId: string, devBoxName: string, actionName: string): DevBoxesDelayAction;
+    (path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay", projectName: string, userId: string, devBoxName: string): DevBoxesDelayAllActions;
+    (path: "/projects/{projectName}/environments", projectName: string): DeploymentEnvironmentsListAllEnvironments;
+    (path: "/projects/{projectName}/users/{userId}/environments", projectName: string, userId: string): DeploymentEnvironmentsListEnvironments;
+    (path: "/projects/{projectName}/users/{userId}/environments/{environmentName}", projectName: string, userId: string, environmentName: string): DeploymentEnvironmentsGetEnvironment;
+    (path: "/projects/{projectName}/catalogs", projectName: string): DeploymentEnvironmentsListCatalogs;
+    (path: "/projects/{projectName}/catalogs/{catalogName}", projectName: string, catalogName: string): DeploymentEnvironmentsGetCatalog;
+    (path: "/projects/{projectName}/environmentDefinitions", projectName: string): DeploymentEnvironmentsListEnvironmentDefinitions;
+    (path: "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions", projectName: string, catalogName: string): DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog;
+    (path: "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}", projectName: string, catalogName: string, definitionName: string): DeploymentEnvironmentsGetEnvironmentDefinition;
+    (path: "/projects/{projectName}/environmentTypes", projectName: string): DeploymentEnvironmentsListEnvironmentTypes;
 }
 
 // @public
@@ -1738,11 +1704,17 @@ export interface ScheduleListResultOutput {
 
 // @public
 export interface ScheduleOutput {
-    frequency?: "Daily";
-    name?: string;
-    time?: string;
-    timeZone?: string;
-    type?: "StopDevBox";
+    frequency: "Daily";
+    name: string;
+    time: string;
+    timeZone: string;
+    type: "StopDevBox";
+}
+
+// @public
+export interface StopOnDisconnectConfigurationOutput {
+    gracePeriodMinutes?: number;
+    status: "Enabled" | "Disabled";
 }
 
 // @public
@@ -1753,22 +1725,6 @@ export interface StorageProfile {
 // @public
 export interface StorageProfileOutput {
     osDisk?: OSDiskOutput;
-}
-
-// @public
-export interface UpcomingActionOutput {
-    actionType?: "Stop";
-    id?: string;
-    originalScheduledTime?: string;
-    reason?: "Schedule";
-    scheduledTime?: string;
-    sourceId?: string;
-}
-
-// @public
-export interface UpcomingActionsListResultOutput {
-    nextLink?: string;
-    value: Array<UpcomingActionOutput>;
 }
 
 // (No @packageDocumentation comment for this package)
