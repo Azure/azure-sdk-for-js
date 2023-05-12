@@ -8184,6 +8184,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /strip-json-comments/5.0.0:
+    resolution: {integrity: sha512-V1LGY4UUo0jgwC+ELQ2BNWfPa17TIuwBLg+j1AA/9RPzKINl1lhxVEu2r+ZTTO8aetIsUzE5Qj6LMSBkoGYKKw==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /strnum/1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     dev: false
@@ -15895,7 +15900,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-MWKqSMfk8nSMa06UaTb9zmyhqNzJHHdxqKvtjLUGw3ULCN+SopfAL4owdy0rfkvZ+2UEH3OBmxnbwJbuASIIWA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -16729,7 +16734,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-lXaYwrgeWF5Z3Ee9aiOWU9OkoiiO45VckW07grgqKbRyPSNInAWUY6QrGIAinc1Vw2d0+LnN+E/XxkB9KCv4rg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-nKOqgRv83Ca+C01ePbD7/EOm6E60didslS/OG9AB8TWxIBwdqI+WH7yv424BpmW/IlWV60ebMW5lBeZIxIPU4Q==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16775,6 +16780,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       rollup-plugin-visualizer: 5.9.0_rollup@2.79.1
       semver: 7.5.0
+      strip-json-comments: 5.0.0
       ts-node: 10.9.1_37cl5ouahn3p3uoosme6w742uy
       tslib: 2.5.0
       typescript: 5.0.4

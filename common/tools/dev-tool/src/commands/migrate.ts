@@ -432,9 +432,9 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
       printMigrationError(migration, state);
       return false;
     }
-    case "skipped": {
+    case "skipped":
       panic("unreachable: resumed migration should not be skipped");
-    }
+
     default:
       unreachable(state);
   }
