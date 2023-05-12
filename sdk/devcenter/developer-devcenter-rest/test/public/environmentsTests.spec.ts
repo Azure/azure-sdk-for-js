@@ -35,7 +35,6 @@ describe("Deployment Environments Operations Tests", () => {
     endpoint = env["ENDPOINT"] || "";
     projectName = env["DEFAULT_PROJECT_NAME"] || "";
     catalogName = env["DEFAULT_CATALOG_NAME"] || "";
-    catalogItemName = env["DEFAULT_CATALOG_ITEM_NAME"] || "";
     envDefinitionName = env["DEFAULT_ENVIRONMENT_DEFINITION_NAME"] || "";
     environmentTypeName = env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "";
     environmentName = env["DEFAULT_ENVIRONMENT_NAME"] || "";
