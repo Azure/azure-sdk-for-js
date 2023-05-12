@@ -364,13 +364,11 @@ export interface RecognizeCanceled
 }
 
 /** The information about the tone. */
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
   /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
   sequenceId: number;
   /** Defines values for Tone. */
   tone: Tone;
-  /** The id of participant. */
-  participantId?: string;
 }
 
 /** Event sent when Dtmf tone received from targeted participant in call. */

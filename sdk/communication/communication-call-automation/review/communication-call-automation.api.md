@@ -161,7 +161,7 @@ export class CallMedia {
     play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
     playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmf(targetParticipant: CommunicationIdentifier, tones: Tone[], sendDtmfOptions?: SendDtmfOptions): Promise<void>;
+    sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
@@ -621,6 +621,7 @@ export interface RestContinuousDtmfRecognitionStopped {
 export interface RestContinuousDtmfRecognitionToneFailed {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -629,6 +630,7 @@ export interface RestContinuousDtmfRecognitionToneFailed {
 export interface RestContinuousDtmfRecognitionToneReceived {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
     toneInfo?: RestToneInfo;
@@ -767,7 +769,6 @@ export interface RestSendDtmfFailed {
 
 // @public
 export interface RestToneInfo {
-    participantId?: string;
     sequenceId: number;
     // (undocumented)
     tone: Tone;
@@ -823,8 +824,7 @@ export interface StartRecordingOptions extends OperationOptions {
 export type StopRecordingOptions = OperationOptions;
 
 // @public
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
-    participantId?: string;
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
     sequenceId: number;
     tone: Tone;
 }
