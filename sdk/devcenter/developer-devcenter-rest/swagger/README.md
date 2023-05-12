@@ -16,7 +16,7 @@ rest-level-client: true
 security: AADToken
 security-scopes: https://devcenter.azure.com/.default
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.2"
+  "@autorest/typescript": "6.0.1"
 
 input-file:
   - https://github.com/Azure/azure-rest-api-specs/blob/552eaca3fb1940d5ec303746017d1764861031e6/specification/devcenter/data-plane/Microsoft.DevCenter/stable/2023-04-01/devcenter.json
