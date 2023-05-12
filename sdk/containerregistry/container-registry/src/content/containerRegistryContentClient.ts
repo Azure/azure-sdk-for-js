@@ -36,6 +36,7 @@ import { RetriableReadableStream } from "../utils/retriableReadableStream";
 const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
+const MAX_MANIFEST_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB
 
 const ACCEPTED_MANIFEST_MEDIA_TYPES = [
   KnownManifestMediaType.OciImageManifest,
@@ -254,7 +255,7 @@ export class ContainerRegistryContentClient {
         assertHasProperty(response, "mediaType");
 
         const content = response.readableStreamBody
-          ? await readStreamToEnd(response.readableStreamBody)
+          ? await readStreamToEnd(response.readableStreamBody, MAX_MANIFEST_SIZE_BYTES)
           : Buffer.alloc(0);
 
         const expectedDigest = await calculateDigest(content);

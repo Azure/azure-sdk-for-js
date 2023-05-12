@@ -171,3 +171,25 @@ export function callParticipantConverter(
   };
   return callParticipant;
 }
+
+/** Convert CommunicationUserIdentifier to CommunicationUserIdentifierModel (Internal usage class) */
+export function communicationUserIdentifierModelConverter(
+  identifier: CommunicationUserIdentifier | undefined
+): CommunicationUserIdentifierModel | undefined {
+  if (!identifier || !identifier.communicationUserId) {
+    return undefined;
+  }
+
+  return { id: identifier.communicationUserId };
+}
+
+/** Convert CommunicationUserIdentifierModel to CommunicationUserIdentifier (Public usage class) */
+export function communicationUserIdentifierConverter(
+  identifier: CommunicationUserIdentifierModel | undefined
+): CommunicationUserIdentifier | undefined {
+  if (!identifier || !identifier.id) {
+    return undefined;
+  }
+
+  return { communicationUserId: identifier.id };
+}
