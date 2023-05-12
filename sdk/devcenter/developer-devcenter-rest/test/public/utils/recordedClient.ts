@@ -18,6 +18,8 @@ const envSetupForPlayback: Record<string, string> = {
   DEFAULT_DEVBOX_NAME: "mydevbox",
   DEFAULT_USER_NAME: "me",
   DEFAULT_CATALOG_NAME: "sdk-default-catalog",
+  DEFAULT_ENVIRONMENT_DEFINITION_NAME: "Sandbox",
+  DEFAULT_ENVIRONMENT_NAME: "envname",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
