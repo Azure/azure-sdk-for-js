@@ -339,7 +339,6 @@ specifiers:
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:./projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -680,7 +679,6 @@ dependencies:
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
-  '@types/trusted-types': 2.0.2
 
 packages:
 
@@ -747,6 +745,21 @@ packages:
   /@azure/arm-compute/17.3.1:
     resolution: {integrity: sha512-Yk2griZ/NiWzYCd5X6jS9dmKckp2A9f4LO57v8uQalqJNhgAZtSK8IvIYZEDQdPSinF3a1VHD4M5sfGSpl9hMw==}
     engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.2
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.3
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-cosmosdb/15.4.0:
+    resolution: {integrity: sha512-UiORZFvBaAq5Q4fKuxz+lwtB12u+9fIZd5h0Fj1AlH7qPCigijZ/LEFu1MBhPldHmZa2UWZaQ7itAZZB8qpD/A==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
@@ -3813,7 +3826,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230508
+      typescript: 5.1.0-dev.20230511
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8381,8 +8394,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230508:
-    resolution: {integrity: sha512-87gFJLsUB0IWN6/MUhh0QHS+qnLR5gTGwZr5vU5dYEVPv+VTNv/g2oXLWr5LCEP+hyj+a4LXx8QjCD7x6v+5wg==}
+  /typescript/5.1.0-dev.20230511:
+    resolution: {integrity: sha512-T/GsNgbl4YWUZwSxCrj9uq2aIj7OC/5EyXqj4exIhRbwZEpjPIflv2TEqm6K5fFQhqKQpFATE8OBvY0Qzu8D1A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10326,10 +10339,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-Op4XH6fvPLU1mch3iN6qkSorU58ZcEkhf/bL0sqtEOyga4kRpdg80iOhXUdxfh2B95PT0O/GF9ySCFi71UTrWw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-e5+ZTX1EBJa4UY76xUEDUvy59k4mAjpbAnXNo5IpVtGv0a/W5jOR5sH4sXJbK19vzNjMlEVBkQp6gDIf7HhjRg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 15.4.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -10827,7 +10841,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-/cXAXd6ZDWA/sgZVwJSyEG2UdHr2R6yonrsI/ffxgZ5hE0yajoVkjKxvkKjcnoykCP107tSxF20gdoCtqJ6/zQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-GhMeA9zGlCN6kjlilaQeXtjhC8JA1lZdFu1sE2qkfdUyTjYbIxzp4+djfZJWdv1zv2fPuIVlsAAsJP29c0ZWrg==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10848,7 +10862,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       tslib: 2.5.0
-      typescript: 4.8.4
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15316,7 +15330,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-FPNjYkMGdUZniAZmeCYI256enk10lzjVvo8SEwA1GrMVSrHIsTt89nSF2QpJBbWVPYP+hqF5dmC866NE/Nqymw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-VD8/xJ8qDjSBZ3htdyTZqINjSvcFCsYNKGH3BqlXWRatiTFz4pVLg0UrV/obOxHrb7cuXUeofu/lee3nVv0UUw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -17767,7 +17781,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cWwEWvsr9xH/Ajng6lc+JH0W0lw4RJai73j3tDgNvXem8y15gKKvQzYZz0p4AttBdNinBvs0kj7Csu6hwlp91g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-yV+EJqMoAKH6mWoIlnSZxgc4Q26azQNJ6xsPRYLGYvsaBIrI7zUHMTb4z77Ec8wV3Hx6LDLswf9Q0cZR6ZK7Jw==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18351,7 +18365,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-+9L4HZ3JxF4XWOkZSRo1Htqc0JRvsFsRWfnWuvrUzrnKGsDIhKIu2pFVbUPiCTA/q6xCE+1mpjXOqvhoHvJpOA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-oGpEpmnic6Slrw4xMepkPffibSXj8IhQvMQgFvtAopm7H22vPE9vcJb3jfHeo8qvP1Alke02GREamt4LEGAw1w==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:

@@ -1819,6 +1819,20 @@ export const ThroughputSettingsResource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      instantMaximumThroughput: {
+        serializedName: "instantMaximumThroughput",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      softAllowedMaximumThroughput: {
+        serializedName: "softAllowedMaximumThroughput",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4608,6 +4622,12 @@ export const RestorableDatabaseAccountGetResult: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
+      oldestRestorableTime: {
+        serializedName: "properties.oldestRestorableTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       apiType: {
         serializedName: "properties.apiType",
         readOnly: true,
@@ -5846,6 +5866,21 @@ export const PeriodicModeProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ContinuousModeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuousModeProperties",
+    modelProperties: {
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5978,7 +6013,14 @@ export const ContinuousModeBackupPolicy: coreClient.CompositeMapper = {
     uberParent: "BackupPolicy",
     polymorphicDiscriminator: BackupPolicy.type.polymorphicDiscriminator,
     modelProperties: {
-      ...BackupPolicy.type.modelProperties
+      ...BackupPolicy.type.modelProperties,
+      continuousModeProperties: {
+        serializedName: "continuousModeProperties",
+        type: {
+          name: "Composite",
+          className: "ContinuousModeProperties"
+        }
+      }
     }
   }
 };
