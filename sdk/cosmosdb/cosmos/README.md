@@ -278,7 +278,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 
 * Queries with COUNT from a DISTINCT subquery​
 * Direct TCP Mode access​
-* Non-streamable cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens,  and buffer the entire result set in memory. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
+* Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 * Change Feed: Processor
 * Change Feed: Read multiple partitions key values
 * Change Feed: Read specific time
