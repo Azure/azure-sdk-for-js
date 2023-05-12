@@ -130,12 +130,10 @@ describe("RoomsClient", function () {
 
     it("successfully list rooms", async function () {
       const listRoomsResult = await client.listRooms({});
-
       assert.isDefined(listRoomsResult);
-      assert.isNotEmpty(listRoomsResult);
+
       for await (const roomModel of listRoomsResult) {
         if (roomModel) {
-          assert.isDefined(roomModel);
           assert.isNotEmpty(roomModel.id);
           assert.isNotEmpty(roomModel.validFrom.toString());
           assert.isNotEmpty(roomModel.validUntil.toString());
