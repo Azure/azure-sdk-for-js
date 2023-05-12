@@ -219,7 +219,7 @@ describe("Deployment Environments Operations Tests", () => {
     await deleteDevelopmentEnvironment();
   });
 
-  async function createDevelopmentEnvironment() : Promise<void> {
+  async function createDevelopmentEnvironment(): Promise<void> {
     const environmentsCreateParameters: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters =
       {
         body: {

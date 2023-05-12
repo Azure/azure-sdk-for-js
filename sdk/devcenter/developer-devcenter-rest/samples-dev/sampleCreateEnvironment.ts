@@ -40,18 +40,19 @@ async function createEnvironment() {
   const catalogName: string = catalog.name;
 
   const environmentDefinitionsList = await client
-      .path(
-        "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
-        projectName,
-        catalogName
-      )
-      .get();
+    .path(
+      "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+      projectName,
+      catalogName
+    )
+    .get();
 
   if (isUnexpected(environmentDefinitionsList)) {
     throw environmentDefinitionsList.body.error;
   }
 
-  const environmentDefinition: EnvironmentDefinitionOutput = environmentDefinitionsList.body.value[0];
+  const environmentDefinition: EnvironmentDefinitionOutput =
+    environmentDefinitionsList.body.value[0];
   const environmentDefinitionName: string = environmentDefinition.name;
 
   const environmentTypeList = await client

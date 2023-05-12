@@ -319,7 +319,7 @@ describe("DevBox Operations Tests", () => {
         until: "2023-05-06T00:00:00Z",
       },
     };
-    
+
     const delayActionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay",
@@ -330,12 +330,8 @@ describe("DevBox Operations Tests", () => {
       )
       .post(delayActionParameters);
 
-    assert.equal(
-      delayActionResponse.status,
-      "200",
-      "Delaying DevBox action should return 200 OK."
-    );
-    
+    assert.equal(delayActionResponse.status, "200", "Delaying DevBox action should return 200 OK.");
+
     await deleteDevBox();
   });
 
@@ -504,7 +500,7 @@ describe("DevBox Operations Tests", () => {
   function isAValidUrl(value: string): boolean {
     try {
       const url = new URL(value);
-      console.log(url)
+      console.log(url);
       return true;
     } catch (TypeError) {
       return false;

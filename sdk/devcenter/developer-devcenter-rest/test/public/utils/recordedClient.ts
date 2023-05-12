@@ -11,7 +11,8 @@ import createClient from "../../../src/index";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-4qb444onnk2tc.centraluseuap.devcenter.azure.com",
+  ENDPOINT:
+    "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-4qb444onnk2tc.centraluseuap.devcenter.azure.com",
   DEFAULT_PROJECT_NAME: "sdk-project-x2z4o4ohvwcbi",
   DEFAULT_POOL_NAME: "sdk-pool-6ieikn5v2nfnu",
   DEFAULT_DEVBOX_NAME: "mydevbox",
@@ -24,7 +25,7 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 /**

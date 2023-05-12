@@ -53,7 +53,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .put(devBoxCreateParameters);
-  
+
   if (isUnexpected(devBoxCreateResponse)) {
     throw new Error(devBoxCreateResponse.body.error.message);
   }
@@ -72,7 +72,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .get();
-  
+
   if (isUnexpected(remoteConnectionResult)) {
     throw new Error(remoteConnectionResult.body.error.message);
   }
@@ -88,7 +88,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .delete();
-  
+
   if (isUnexpected(devBoxDeleteResponse)) {
     throw new Error(devBoxDeleteResponse.body.error.message);
   }
