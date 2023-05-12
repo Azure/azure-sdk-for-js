@@ -41,9 +41,12 @@ describe("DevBox Operations Tests", () => {
     client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
+
+    await createDevBox();
   });
 
   afterEach(async function () {
+    await deleteDevBox();
     await recorder.stop();
   });
 
@@ -80,8 +83,6 @@ describe("DevBox Operations Tests", () => {
   });
 
   it("GetSchedule", async function () {
-    await createDevBox();
-
     const scheduleOutput = await client
       .path(
         "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
@@ -96,13 +97,9 @@ describe("DevBox Operations Tests", () => {
     }
 
     expect(scheduleOutput.body.name).to.equal("default");
-
-    await deleteDevBox();
   });
 
   it("GetSchedules", async function () {
-    await createDevBox();
-
     const schedulesListResponse = await client
       .path("/projects/{projectName}/pools/{poolName}/schedules", projectName, poolName)
       .get();
@@ -122,13 +119,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(schedules.length).to.equal(1);
     expect(schedules[0].name).to.equal("default");
-
-    await deleteDevBox();
   });
 
   it("GetDevBox", async function () {
-    await createDevBox();
-
     const devboxOutput = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
@@ -143,13 +136,9 @@ describe("DevBox Operations Tests", () => {
     }
 
     expect(devboxOutput.body.name).to.equal(devboxName);
-
-    await deleteDevBox();
   });
 
   it("GetRemoteConnection", async function () {
-    await createDevBox();
-
     const remoteConnectionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection",
@@ -163,14 +152,10 @@ describe("DevBox Operations Tests", () => {
       throw remoteConnectionResponse.body.error;
     }
 
-    assert.isTrue(isAValidUrl(remoteConnectionResponse.body.rdpConnectionUrl as string));
-
-    await deleteDevBox();
+    assert.isTrue(stringIsAValidUrl(remoteConnectionResponse.body.rdpConnectionUrl as string));
   });
 
   it("GetAllDevBoxes", async function () {
-    await createDevBox();
-
     const devboxesListResponse = await client.path("/devboxes").get();
 
     if (isUnexpected(devboxesListResponse)) {
@@ -188,13 +173,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(devBoxes.length).to.equal(1);
     expect(devBoxes[0].name).to.equal(devboxName);
-
-    await deleteDevBox();
   });
 
   it("GetAllDevBoxesByUser", async function () {
-    await createDevBox();
-
     const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
 
     if (isUnexpected(devboxesListResponse)) {
@@ -212,13 +193,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(devBoxes.length).to.equal(1);
     expect(devBoxes[0].name).to.equal(devboxName);
-
-    await deleteDevBox();
   });
 
   it("GetDevBoxes", async function () {
-    await createDevBox();
-
     const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
 
     if (isUnexpected(devboxesListResponse)) {
@@ -236,13 +213,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(devBoxes.length).to.equal(1);
     expect(devBoxes[0].name).to.equal(devboxName);
-
-    await deleteDevBox();
   });
 
   it("GetActions", async function () {
-    await createDevBox();
-
     const actionsListResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions",
@@ -267,13 +240,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(actions.length).to.equal(1);
     expect(actions[0].name).to.equal("schedule-default");
-
-    await deleteDevBox();
   });
 
   it("GetAction", async function () {
-    await createDevBox();
-
     const actionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}",
@@ -289,13 +258,9 @@ describe("DevBox Operations Tests", () => {
     }
 
     expect(actionResponse.body.name).to.equal("schedule-default");
-
-    await deleteDevBox();
   });
 
   it("SkipAction", async function () {
-    await createDevBox();
-
     const skipActionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip",
@@ -307,13 +272,9 @@ describe("DevBox Operations Tests", () => {
       .post();
 
     assert.equal(skipActionResponse.status, "204");
-
-    await deleteDevBox();
   });
 
   it("DelayAction", async function () {
-    await createDevBox();
-
     const delayActionParameters: DevBoxesDelayAllActionsParameters = {
       queryParameters: {
         until: "2023-05-06T00:00:00Z",
@@ -331,13 +292,9 @@ describe("DevBox Operations Tests", () => {
       .post(delayActionParameters);
 
     assert.equal(delayActionResponse.status, "200", "Delaying DevBox action should return 200 OK.");
-
-    await deleteDevBox();
   });
 
   it("DelayAllActions", async function () {
-    await createDevBox();
-
     const delayActionsParameters: DevBoxesDelayAllActionsParameters = {
       queryParameters: {
         until: "2023-05-06T00:00:00Z",
@@ -365,13 +322,9 @@ describe("DevBox Operations Tests", () => {
 
     expect(actionDelayResults.length).to.equal(1);
     expect(actionDelayResults[0].result).to.equal("Succeeded");
-
-    await deleteDevBox();
   });
 
   it("StartDevBox", async function () {
-    await createDevBox();
-
     const startDevBoxResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start",
@@ -393,13 +346,9 @@ describe("DevBox Operations Tests", () => {
       "200",
       "Dev box start long-running operation should return 200 OK."
     );
-
-    await deleteDevBox();
   });
 
   it("StopDevBox", async function () {
-    await createDevBox();
-
     const stopDevBoxResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop",
@@ -421,8 +370,6 @@ describe("DevBox Operations Tests", () => {
       "200",
       "Dev box stop long-running operation should return 200 OK."
     );
-
-    await deleteDevBox();
   });
 
   async function createDevBox() {
@@ -497,12 +444,11 @@ describe("DevBox Operations Tests", () => {
     console.log(`Cleaned up dev box successfully.`);
   }
 
-  function isAValidUrl(value: string): boolean {
+  function stringIsAValidUrl(value: string): boolean {
     try {
-      const url = new URL(value);
-      console.log(url);
+      new URL(value);
       return true;
-    } catch (TypeError) {
+    } catch (err: any) {
       return false;
     }
   }
