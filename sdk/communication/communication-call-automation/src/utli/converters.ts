@@ -22,6 +22,7 @@ import {
   KnownCommunicationCloudEnvironmentModel,
   KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
+  CommunicationUserIdentifierModel,
 } from "../generated/src";
 import { CallParticipant } from "../models/models";
 
