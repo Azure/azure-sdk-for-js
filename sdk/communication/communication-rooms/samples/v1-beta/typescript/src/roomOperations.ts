@@ -7,31 +7,35 @@
 
 import {
   RoomsClient,
-  Room,
+  CommunicationRoom,
   CreateRoomOptions,
   UpdateRoomOptions,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { getIdentifierRawId } from "@azure/communication-common";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
+  console.log("Room Operations JavaScript Sample");
+  console.log("_________________________________\n\n");
+
   const connectionString =
     process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user1 = await identityClient.createUserAndToken(["voip"]);
-  const user2 = await identityClient.createUserAndToken(["voip"]);
+
+  console.log("Creating room...");
 
   // create RoomsClient
   const roomsClient: RoomsClient = new RoomsClient(connectionString);
 
   var validFrom = new Date(Date.now());
-  var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
+  var validForDays = 10;
+  var validUntil = addDays(validFrom, validForDays);
 
   // options payload to create a room
   const createRoomOptions: CreateRoomOptions = {
@@ -48,58 +52,56 @@ export async function main() {
   // create a room with the request payload
   const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
-  console.log(`Created Room`);
+  console.log("Successfully created room with following properties:");
   printRoom(createRoom);
+
+  console.log(`Fetching room with id: ${roomId}...`);
 
   // retrieves the room with corresponding ID
   const getRoom = await roomsClient.getRoom(roomId);
-  console.log(`Retrieved Room with ID ${roomId}`);
+  console.log(`Successfully fetched room with id: ${roomId}. Room details:`);
   printRoom(getRoom);
 
-  validFrom.setTime(validUntil.getTime());
-  validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
+  console.log(`Updating room with id: ${roomId}...`);
 
   // request payload to update a room
   const updateRoomOptions: UpdateRoomOptions = {
-    validFrom: validFrom,
-    validUntil: validUntil,
-    roomJoinPolicy: "CommunicationServiceUsers",
-    participants: [
-      {
-        id: user1.user,
-        role: "Consumer",
-      },
-      {
-        id: user2.user,
-        role: "Presenter",
-      },
-    ],
+    validFrom,
+    validUntil: addDays(validUntil, 10),
   };
 
   // updates the specified room with the request payload
   const updateRoom = await roomsClient.updateRoom(roomId, updateRoomOptions);
-  console.log(`Updated Room`);
+  console.log(`Successfully updated room with id: ${roomId}. Room details:`);
   printRoom(updateRoom);
+
+  console.log(`Deleting room with id: ${roomId}...`);
 
   // deletes the specified room
   await roomsClient.deleteRoom(roomId);
+
+  console.log(`Successfully deleted room with id: ${roomId}.`);
 }
 
 /**
  * Outputs the details of a Room to console.
  * @param room - The Room being printed to console.
  */
-function printRoom(room: Room): void {
+function printRoom(room: CommunicationRoom): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
-  console.log(`Valid Until: ${room.validUntil}`);
-  console.log(`Room Join Policy: ${room.joinPolicy}`);
-  console.log(`Participants:`);
-  for (const participant of room.participants!) {
-    const id = getIdentifierRawId(participant.id);
-    const role = participant.role;
-    console.log(`${id} - ${role}`);
-  }
+  console.log(`Valid Until: ${room.validUntil}\n\n`);
+}
+
+/**
+ * Adds the specified ampunt of days
+ * @param current - The original date
+ * @param days - The number of days to add
+ */
+function addDays(current: Date, days: number): Date {
+  const copied = new Date(current.getTime());
+  copied.setDate(copied.getDate() + days);
+  return copied;
 }
 
 main().catch((error) => {

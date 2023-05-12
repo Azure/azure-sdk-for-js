@@ -3,6 +3,7 @@
 
 import {
   HttpClient,
+  LogPolicyOptions,
   Pipeline,
   PipelineOptions,
   PipelinePolicy,
@@ -209,6 +210,10 @@ export type ClientOptions = PipelineOptions & {
    * Specify a custom HttpClient when making requests.
    */
   httpClient?: HttpClient;
+  /**
+   * Options to configure request/response logging.
+   */
+  loggingOptions?: LogPolicyOptions;
 };
 
 /**

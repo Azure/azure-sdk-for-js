@@ -270,26 +270,9 @@ export interface ContainerServiceClientOptionalParams extends coreClient.Service
 }
 
 // @public
-export interface ContainerServiceDiagnosticsProfile {
-    vmDiagnostics: ContainerServiceVMDiagnostics;
-}
-
-// @public
 export interface ContainerServiceLinuxProfile {
     adminUsername: string;
     ssh: ContainerServiceSshConfiguration;
-}
-
-// @public
-export interface ContainerServiceMasterProfile {
-    count?: Count;
-    dnsPrefix: string;
-    firstConsecutiveStaticIP?: string;
-    readonly fqdn?: string;
-    osDiskSizeGB?: number;
-    storageProfile?: ContainerServiceStorageProfileTypes;
-    vmSize: ContainerServiceVMSizeTypes;
-    vnetSubnetID?: string;
 }
 
 // @public
@@ -300,8 +283,10 @@ export interface ContainerServiceNetworkProfile {
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
+    networkDataplane?: NetworkDataplane;
     networkMode?: NetworkMode;
     networkPlugin?: NetworkPlugin;
+    networkPluginMode?: NetworkPluginMode;
     networkPolicy?: NetworkPolicy;
     outboundType?: OutboundType;
     podCidr?: string;
@@ -319,21 +304,6 @@ export interface ContainerServiceSshConfiguration {
 export interface ContainerServiceSshPublicKey {
     keyData: string;
 }
-
-// @public
-export type ContainerServiceStorageProfileTypes = string;
-
-// @public
-export interface ContainerServiceVMDiagnostics {
-    enabled: boolean;
-    readonly storageUri?: string;
-}
-
-// @public
-export type ContainerServiceVMSizeTypes = string;
-
-// @public
-export type Count = 1 | 3 | 5;
 
 // @public
 export type CreatedByType = string;
@@ -422,190 +392,6 @@ export enum KnownConnectionStatus {
 }
 
 // @public
-export enum KnownContainerServiceStorageProfileTypes {
-    ManagedDisks = "ManagedDisks",
-    StorageAccount = "StorageAccount"
-}
-
-// @public
-export enum KnownContainerServiceVMSizeTypes {
-    StandardA1 = "Standard_A1",
-    StandardA10 = "Standard_A10",
-    StandardA11 = "Standard_A11",
-    StandardA1V2 = "Standard_A1_v2",
-    StandardA2 = "Standard_A2",
-    StandardA2MV2 = "Standard_A2m_v2",
-    StandardA2V2 = "Standard_A2_v2",
-    StandardA3 = "Standard_A3",
-    StandardA4 = "Standard_A4",
-    StandardA4MV2 = "Standard_A4m_v2",
-    StandardA4V2 = "Standard_A4_v2",
-    StandardA5 = "Standard_A5",
-    StandardA6 = "Standard_A6",
-    StandardA7 = "Standard_A7",
-    StandardA8 = "Standard_A8",
-    StandardA8MV2 = "Standard_A8m_v2",
-    StandardA8V2 = "Standard_A8_v2",
-    StandardA9 = "Standard_A9",
-    StandardB2Ms = "Standard_B2ms",
-    StandardB2S = "Standard_B2s",
-    StandardB4Ms = "Standard_B4ms",
-    StandardB8Ms = "Standard_B8ms",
-    StandardD1 = "Standard_D1",
-    StandardD11 = "Standard_D11",
-    StandardD11V2 = "Standard_D11_v2",
-    StandardD11V2Promo = "Standard_D11_v2_Promo",
-    StandardD12 = "Standard_D12",
-    StandardD12V2 = "Standard_D12_v2",
-    StandardD12V2Promo = "Standard_D12_v2_Promo",
-    StandardD13 = "Standard_D13",
-    StandardD13V2 = "Standard_D13_v2",
-    StandardD13V2Promo = "Standard_D13_v2_Promo",
-    StandardD14 = "Standard_D14",
-    StandardD14V2 = "Standard_D14_v2",
-    StandardD14V2Promo = "Standard_D14_v2_Promo",
-    StandardD15V2 = "Standard_D15_v2",
-    StandardD16SV3 = "Standard_D16s_v3",
-    StandardD16V3 = "Standard_D16_v3",
-    StandardD1V2 = "Standard_D1_v2",
-    StandardD2 = "Standard_D2",
-    StandardD2SV3 = "Standard_D2s_v3",
-    StandardD2V2 = "Standard_D2_v2",
-    StandardD2V2Promo = "Standard_D2_v2_Promo",
-    StandardD2V3 = "Standard_D2_v3",
-    StandardD3 = "Standard_D3",
-    StandardD32SV3 = "Standard_D32s_v3",
-    StandardD32V3 = "Standard_D32_v3",
-    StandardD3V2 = "Standard_D3_v2",
-    StandardD3V2Promo = "Standard_D3_v2_Promo",
-    StandardD4 = "Standard_D4",
-    StandardD4SV3 = "Standard_D4s_v3",
-    StandardD4V2 = "Standard_D4_v2",
-    StandardD4V2Promo = "Standard_D4_v2_Promo",
-    StandardD4V3 = "Standard_D4_v3",
-    StandardD5V2 = "Standard_D5_v2",
-    StandardD5V2Promo = "Standard_D5_v2_Promo",
-    StandardD64SV3 = "Standard_D64s_v3",
-    StandardD64V3 = "Standard_D64_v3",
-    StandardD8SV3 = "Standard_D8s_v3",
-    StandardD8V3 = "Standard_D8_v3",
-    StandardDS1 = "Standard_DS1",
-    StandardDS11 = "Standard_DS11",
-    StandardDS11V2 = "Standard_DS11_v2",
-    StandardDS11V2Promo = "Standard_DS11_v2_Promo",
-    StandardDS12 = "Standard_DS12",
-    StandardDS12V2 = "Standard_DS12_v2",
-    StandardDS12V2Promo = "Standard_DS12_v2_Promo",
-    StandardDS13 = "Standard_DS13",
-    StandardDS132V2 = "Standard_DS13-2_v2",
-    StandardDS134V2 = "Standard_DS13-4_v2",
-    StandardDS13V2 = "Standard_DS13_v2",
-    StandardDS13V2Promo = "Standard_DS13_v2_Promo",
-    StandardDS14 = "Standard_DS14",
-    StandardDS144V2 = "Standard_DS14-4_v2",
-    StandardDS148V2 = "Standard_DS14-8_v2",
-    StandardDS14V2 = "Standard_DS14_v2",
-    StandardDS14V2Promo = "Standard_DS14_v2_Promo",
-    StandardDS15V2 = "Standard_DS15_v2",
-    StandardDS1V2 = "Standard_DS1_v2",
-    StandardDS2 = "Standard_DS2",
-    StandardDS2V2 = "Standard_DS2_v2",
-    StandardDS2V2Promo = "Standard_DS2_v2_Promo",
-    StandardDS3 = "Standard_DS3",
-    StandardDS3V2 = "Standard_DS3_v2",
-    StandardDS3V2Promo = "Standard_DS3_v2_Promo",
-    StandardDS4 = "Standard_DS4",
-    StandardDS4V2 = "Standard_DS4_v2",
-    StandardDS4V2Promo = "Standard_DS4_v2_Promo",
-    StandardDS5V2 = "Standard_DS5_v2",
-    StandardDS5V2Promo = "Standard_DS5_v2_Promo",
-    StandardE16SV3 = "Standard_E16s_v3",
-    StandardE16V3 = "Standard_E16_v3",
-    StandardE2SV3 = "Standard_E2s_v3",
-    StandardE2V3 = "Standard_E2_v3",
-    StandardE3216SV3 = "Standard_E32-16s_v3",
-    StandardE328SV3 = "Standard_E32-8s_v3",
-    StandardE32SV3 = "Standard_E32s_v3",
-    StandardE32V3 = "Standard_E32_v3",
-    StandardE4SV3 = "Standard_E4s_v3",
-    StandardE4V3 = "Standard_E4_v3",
-    StandardE6416SV3 = "Standard_E64-16s_v3",
-    StandardE6432SV3 = "Standard_E64-32s_v3",
-    StandardE64SV3 = "Standard_E64s_v3",
-    StandardE64V3 = "Standard_E64_v3",
-    StandardE8SV3 = "Standard_E8s_v3",
-    StandardE8V3 = "Standard_E8_v3",
-    StandardF1 = "Standard_F1",
-    StandardF16 = "Standard_F16",
-    StandardF16S = "Standard_F16s",
-    StandardF16SV2 = "Standard_F16s_v2",
-    StandardF1S = "Standard_F1s",
-    StandardF2 = "Standard_F2",
-    StandardF2S = "Standard_F2s",
-    StandardF2SV2 = "Standard_F2s_v2",
-    StandardF32SV2 = "Standard_F32s_v2",
-    StandardF4 = "Standard_F4",
-    StandardF4S = "Standard_F4s",
-    StandardF4SV2 = "Standard_F4s_v2",
-    StandardF64SV2 = "Standard_F64s_v2",
-    StandardF72SV2 = "Standard_F72s_v2",
-    StandardF8 = "Standard_F8",
-    StandardF8S = "Standard_F8s",
-    StandardF8SV2 = "Standard_F8s_v2",
-    StandardG1 = "Standard_G1",
-    StandardG2 = "Standard_G2",
-    StandardG3 = "Standard_G3",
-    StandardG4 = "Standard_G4",
-    StandardG5 = "Standard_G5",
-    StandardGS1 = "Standard_GS1",
-    StandardGS2 = "Standard_GS2",
-    StandardGS3 = "Standard_GS3",
-    StandardGS4 = "Standard_GS4",
-    StandardGS44 = "Standard_GS4-4",
-    StandardGS48 = "Standard_GS4-8",
-    StandardGS5 = "Standard_GS5",
-    StandardGS516 = "Standard_GS5-16",
-    StandardGS58 = "Standard_GS5-8",
-    StandardH16 = "Standard_H16",
-    StandardH16M = "Standard_H16m",
-    StandardH16Mr = "Standard_H16mr",
-    StandardH16R = "Standard_H16r",
-    StandardH8 = "Standard_H8",
-    StandardH8M = "Standard_H8m",
-    StandardL16S = "Standard_L16s",
-    StandardL32S = "Standard_L32s",
-    StandardL4S = "Standard_L4s",
-    StandardL8S = "Standard_L8s",
-    StandardM12832Ms = "Standard_M128-32ms",
-    StandardM12864Ms = "Standard_M128-64ms",
-    StandardM128Ms = "Standard_M128ms",
-    StandardM128S = "Standard_M128s",
-    StandardM6416Ms = "Standard_M64-16ms",
-    StandardM6432Ms = "Standard_M64-32ms",
-    StandardM64Ms = "Standard_M64ms",
-    StandardM64S = "Standard_M64s",
-    StandardNC12 = "Standard_NC12",
-    StandardNC12SV2 = "Standard_NC12s_v2",
-    StandardNC12SV3 = "Standard_NC12s_v3",
-    StandardNC24 = "Standard_NC24",
-    StandardNC24R = "Standard_NC24r",
-    StandardNC24RsV2 = "Standard_NC24rs_v2",
-    StandardNC24RsV3 = "Standard_NC24rs_v3",
-    StandardNC24SV2 = "Standard_NC24s_v2",
-    StandardNC24SV3 = "Standard_NC24s_v3",
-    StandardNC6 = "Standard_NC6",
-    StandardNC6SV2 = "Standard_NC6s_v2",
-    StandardNC6SV3 = "Standard_NC6s_v3",
-    StandardND12S = "Standard_ND12s",
-    StandardND24Rs = "Standard_ND24rs",
-    StandardND24S = "Standard_ND24s",
-    StandardND6S = "Standard_ND6s",
-    StandardNV12 = "Standard_NV12",
-    StandardNV24 = "Standard_NV24",
-    StandardNV6 = "Standard_NV6"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -660,6 +446,12 @@ export enum KnownKubeletDiskType {
 }
 
 // @public
+export enum KnownKubernetesSupportPlan {
+    AKSLongTermSupport = "AKSLongTermSupport",
+    KubernetesOfficial = "KubernetesOfficial"
+}
+
+// @public
 export enum KnownLicenseType {
     None = "None",
     WindowsServer = "Windows_Server"
@@ -683,15 +475,20 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
 
 // @public
 export enum KnownManagedClusterSKUName {
-    Base = "Base",
-    Basic = "Basic"
+    Base = "Base"
 }
 
 // @public
 export enum KnownManagedClusterSKUTier {
     Free = "Free",
-    Paid = "Paid",
+    Premium = "Premium",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownNetworkDataplane {
+    Azure = "azure",
+    Cilium = "cilium"
 }
 
 // @public
@@ -708,9 +505,15 @@ export enum KnownNetworkPlugin {
 }
 
 // @public
+export enum KnownNetworkPluginMode {
+    Overlay = "overlay"
+}
+
+// @public
 export enum KnownNetworkPolicy {
     Azure = "azure",
-    Calico = "calico"
+    Calico = "calico",
+    Cilium = "cilium"
 }
 
 // @public
@@ -824,6 +627,35 @@ export interface KubeletConfig {
 export type KubeletDiskType = string;
 
 // @public
+export interface KubernetesPatchVersion {
+    upgrades?: string[];
+}
+
+// @public
+export type KubernetesSupportPlan = string;
+
+// @public
+export interface KubernetesVersion {
+    capabilities?: KubernetesVersionCapabilities;
+    isPreview?: boolean;
+    patchVersions?: {
+        [propertyName: string]: KubernetesPatchVersion;
+    };
+    version?: string;
+}
+
+// @public
+export interface KubernetesVersionCapabilities {
+    // (undocumented)
+    supportPlan?: KubernetesSupportPlan[];
+}
+
+// @public
+export interface KubernetesVersionListResult {
+    values?: KubernetesVersion[];
+}
+
+// @public
 export type LicenseType = string;
 
 // @public
@@ -932,6 +764,7 @@ export interface ManagedCluster extends TrackedResource {
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
+    supportPlan?: KubernetesSupportPlan;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -1236,6 +1069,7 @@ export interface ManagedClusters {
     listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterAdminCredentialsOptionalParams): Promise<ManagedClustersListClusterAdminCredentialsResponse>;
     listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
     listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterUserCredentialsOptionalParams): Promise<ManagedClustersListClusterUserCredentialsResponse>;
+    listKubernetesVersions(location: string, options?: ManagedClustersListKubernetesVersionsOptionalParams): Promise<ManagedClustersListKubernetesVersionsResponse>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
@@ -1281,6 +1115,8 @@ export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
     defender?: ManagedClusterSecurityProfileDefender;
+    imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+    workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
 // @public
@@ -1291,6 +1127,17 @@ export interface ManagedClusterSecurityProfileDefender {
 
 // @public
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileImageCleaner {
+    enabled?: boolean;
+    intervalHours?: number;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileWorkloadIdentity {
     enabled?: boolean;
 }
 
@@ -1391,6 +1238,13 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams extends
 
 // @public
 export type ManagedClustersListClusterUserCredentialsResponse = CredentialResults;
+
+// @public
+export interface ManagedClustersListKubernetesVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
 
 // @public
 export interface ManagedClustersListNextOptionalParams extends coreClient.OperationOptions {
@@ -1585,10 +1439,16 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 // @public
+export type NetworkDataplane = string;
+
+// @public
 export type NetworkMode = string;
 
 // @public
 export type NetworkPlugin = string;
+
+// @public
+export type NetworkPluginMode = string;
 
 // @public
 export type NetworkPolicy = string;

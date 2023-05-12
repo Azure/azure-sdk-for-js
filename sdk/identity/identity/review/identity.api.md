@@ -88,6 +88,19 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
+    tenantId?: string;
+}
+
+// @public
+export class AzureDeveloperCliCredential implements TokenCredential {
+    constructor(options?: AzureDeveloperCliCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -99,6 +112,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 
 // @public
 export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -187,6 +201,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -267,7 +282,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 }
 
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);
@@ -363,7 +378,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 }
 
 // @public
-export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions {
+export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
 // @public
@@ -379,21 +394,15 @@ export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCrede
 
 // @public
 export class WorkloadIdentityCredential implements TokenCredential {
-    constructor(options: WorkloadIdentityCredentialOptions);
-    // @internal
-    constructor(options?: WorkloadIdentityDefaultCredentialOptions);
+    constructor(options?: WorkloadIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public
-export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
-    clientId: string;
-    federatedTokenFilePath: string;
-    tenantId: string;
-}
-
-// @public
-export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+    clientId?: string;
+    tenantId?: string;
+    tokenFilePath?: string;
 }
 
 // (No @packageDocumentation comment for this package)

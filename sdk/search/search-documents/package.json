@@ -18,6 +18,7 @@
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & wait",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -45,12 +46,20 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/data/searchClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Service.md",
+        "prefix": "package-version"
       },
       {
-        "path": "src/generated/service/searchServiceClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Data.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/generated/data/searchClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/service/searchServiceClient.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",
@@ -117,7 +126,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

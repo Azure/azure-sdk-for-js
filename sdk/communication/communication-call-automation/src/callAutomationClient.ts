@@ -15,12 +15,11 @@ import { SDK_VERSION } from "./models/constants";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
-  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
 } from "./generated/src";
-import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
@@ -34,10 +33,12 @@ import { CallConnectionProperties, CallInvite } from "./models/models";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
+  communicationUserIdentifierConverter,
+  communicationUserIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -62,12 +63,9 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
  */
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
-  private readonly callConnectionImpl: CallConnectionImpl;
-  private readonly callRecordingImpl: CallRecordingImpl;
-  private readonly contentDownloaderImpl: ContentDownloaderImpl;
-  private readonly callMediaImpl: CallMediaImpl;
-  private readonly sourceIdentity?: CommunicationIdentifierModel;
-
+  private readonly sourceIdentity?: CommunicationUserIdentifierModel;
+  private readonly credential: TokenCredential | KeyCredential;
+  private readonly internalPipelineOptions: InternalPipelineOptions;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -77,20 +75,16 @@ export class CallAutomationClient {
   constructor(connectionString: string, options?: CallAutomationClientOptions);
 
   /**
-   * Initializes a new instance of the CallAutomationClient class using an Azure KeyCredential.
+   * Initializes a new instance of the CallAutomationClient class using a TokenCredential or KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param credential - TokenCredential or KeyCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
-
-  /**
-   * Initializes a new instance of the CallAutomationClient class using a TokenCredential.
-   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - TokenCredential that is used to authenticate requests to the service.
-   * @param options - Optional. Options to configure the HTTP pipeline.
-   */
-  constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
+  constructor(
+    endpoint: string,
+    credential: TokenCredential | KeyCredential,
+    options?: CallAutomationClientOptions
+  );
 
   constructor(
     connectionStringOrUrl: string,
@@ -112,7 +106,7 @@ export class CallAutomationClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    this.internalPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
@@ -124,15 +118,10 @@ export class CallAutomationClient {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
 
-    this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
+    this.credential = credential;
+    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
     this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
-    this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
-    this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
-    this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
-    this.contentDownloaderImpl = new ContentDownloaderImpl(this.callAutomationApiClient);
-    this.sourceIdentity = options.sourceIdentity
-      ? communicationIdentifierModelConverter(options.sourceIdentity)
-      : undefined;
+    this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
 
   /**
@@ -140,79 +129,70 @@ export class CallAutomationClient {
    * @param callConnectionId - The CallConnection id for the CallConnection instance. (ex: 421CONTOSO-cRD6-4RDc-a078-99dRANDOMf).
    */
   public getCallConnection(callConnectionId: string): CallConnection {
-    return new CallConnection(callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+    return new CallConnection(
+      callConnectionId,
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions
+    );
   }
 
   /**
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callRecordingImpl, this.contentDownloaderImpl);
+    return new CallRecording(
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions
+    );
   }
 
   /**
    * Get Source Identity that is used for create and answer call
    */
   public getSourceIdentity(): CommunicationUserIdentifier | undefined {
-    return this.sourceIdentity
-      ? (communicationIdentifierConverter(this.sourceIdentity) as CommunicationUserIdentifier)
-      : undefined;
+    return communicationUserIdentifierConverter(this.sourceIdentity);
   }
 
-  /**
-   * Create an outgoing call from source to target identities.
-   * @param target - Either a single target or a group of target identities.
-   * @param callbackUri - The callback url.
-   * @param options - Additional request options contains createCallConnection api options.
-   */
-  public async createCall(
-    target: CallInvite | CommunicationIdentifier[],
-    callbackUri: string,
-    options: CreateCallOptions = {}
+  private async createCallInternal(
+    request: CreateCallRequest,
+    options?: CreateCallOptions
   ): Promise<CreateCallResult> {
-    const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
-      targets:
-        target instanceof CallInvite
-          ? [communicationIdentifierModelConverter(target.target)]
-          : target.map((m) => communicationIdentifierModelConverter(m)),
-      callbackUri: callbackUri,
-      operationContext: options.operationContext,
-      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      sourceCallerIdNumber:
-        target instanceof CallInvite
-          ? PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber)
-          : options.sourceCallIdNumber
-          ? PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber)
-          : undefined,
-      sourceDisplayName:
-        target instanceof CallInvite
-          ? target.sourceDisplayName
-          : options.sourceDisplayName
-          ? options.sourceDisplayName
-          : undefined,
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
     };
+    const {
+      callConnectionId,
+      answeredByIdentifier,
+      targets,
+      sourceCallerIdNumber,
+      sourceIdentity,
+      ...result
+    } = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
-    const result = await this.callAutomationApiClient.createCall(request, options);
-
-    if (result?.callConnectionId) {
+    if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
-        sourceIdentity: result.sourceIdentity
-          ? communicationIdentifierConverter(result.sourceIdentity)
+        callConnectionId: callConnectionId,
+        sourceIdentity: sourceIdentity
+          ? communicationIdentifierConverter(sourceIdentity)
           : undefined,
-        targets: result.targets?.map((returnedTarget) =>
+        answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+        targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
         ),
-        sourceCallerIdNumber: result.sourceCallerIdNumber
-          ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
+        sourceCallerIdNumber: sourceCallerIdNumber
+          ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
           : undefined,
       };
       const callConnection = new CallConnection(
-        result.callConnectionId,
-        this.callConnectionImpl,
-        this.callMediaImpl
+        callConnectionId,
+        this.callAutomationApiClient.endpoint,
+        this.credential,
+        this.internalPipelineOptions
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
@@ -224,40 +204,122 @@ export class CallAutomationClient {
   }
 
   /**
+   * Create an outgoing call from source to a target identity.
+   * @param targetParticipant - A single target.
+   * @param callbackUrl - The callback url.
+   * @param options - Additional request options contains createCallConnection api options.
+   */
+  public async createCall(
+    targetParticipant: CallInvite,
+    callbackUrl: string,
+    options: CreateCallOptions = {}
+  ): Promise<CreateCallResult> {
+    const request: CreateCallRequest = {
+      sourceIdentity: this.sourceIdentity,
+      targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: targetParticipant.sipHeaders,
+        voipHeaders: targetParticipant.voipHeaders,
+      },
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
+        targetParticipant.sourceCallIdNumber
+      ),
+      sourceDisplayName: targetParticipant.sourceDisplayName,
+    };
+
+    return this.createCallInternal(request, options);
+  }
+
+  /**
+   * Create an outgoing call from source to a group of targets identities.
+   * @param targetParticipants - A group of targets identities.
+   * @param callbackUrl - The callback url.
+   * @param options - Additional request options contains createCallConnection api options.
+   */
+  public async createGroupCall(
+    targetParticipants: CommunicationIdentifier[],
+    callbackUrl: string,
+    options: CreateCallOptions = {}
+  ): Promise<CreateCallResult> {
+    const request: CreateCallRequest = {
+      sourceIdentity: this.sourceIdentity,
+      targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: options.sipHeaders,
+        voipHeaders: options.voipHeaders,
+      },
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
+      sourceDisplayName: options.sourceDisplayName,
+    };
+
+    return this.createCallInternal(request, options);
+  }
+
+  /**
    * Answer the call.
    * @param incomingCallContext - The context associated with the call.
-   * @param callbackUri - The callback url.
+   * @param callbackUrl - The callback url.
    * @param options - Additional request options contains answerCall api options.
    */
   public async answerCall(
     incomingCallContext: string,
-    callbackUri: string,
+    callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
+    const {
+      mediaStreamingConfiguration,
+      azureCognitiveServicesEndpointUrl,
+      operationContext,
+      ...operationOptions
+    } = options;
     const request: AnswerCallRequest = {
-      incomingCallContext: incomingCallContext,
-      callbackUri: callbackUri,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+      incomingCallContext,
+      mediaStreamingConfiguration,
+      azureCognitiveServicesEndpointUrl,
+      operationContext,
+      callbackUri: callbackUrl,
+      answeredByIdentifier: this.sourceIdentity,
     };
+    const optionsInternal = {
+      ...operationOptions,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredByIdentifier,
+      sourceIdentity,
+      ...result
+    } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
-    const result = await this.callAutomationApiClient.answerCall(request, options);
-
-    if (result?.callConnectionId) {
+    if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
-        sourceIdentity: result.sourceIdentity
-          ? communicationIdentifierConverter(result.sourceIdentity)
+        callConnectionId: callConnectionId,
+        sourceIdentity: sourceIdentity
+          ? communicationIdentifierConverter(sourceIdentity)
           : undefined,
-        targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
-        sourceCallerIdNumber: result.sourceCallerIdNumber
-          ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
+        answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+        targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
+        sourceCallerIdNumber: sourceCallerIdNumber
+          ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
           : undefined,
       };
       const callConnection = new CallConnection(
-        result.callConnectionId,
-        this.callConnectionImpl,
-        this.callMediaImpl
+        callConnectionId,
+        this.callAutomationApiClient.endpoint,
+        this.credential,
+        this.internalPipelineOptions
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
@@ -272,20 +334,29 @@ export class CallAutomationClient {
    * Redirect the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param target - The target identity to redirect the call to.
+   * @param targetParticipant - The target identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    target: CallInvite,
+    targetParticipant: CallInvite,
     options: RedirectCallOptions = {}
   ): Promise<void> {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      target: communicationIdentifierModelConverter(target.target),
+      target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
+      customContext: {
+        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
+      },
+    };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
     };
 
-    return this.callAutomationApiClient.redirectCall(request, options);
+    return this.callAutomationApiClient.redirectCall(request, optionsInternal);
   }
 
   /**
@@ -302,7 +373,12 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       callRejectReason: options.callRejectReason,
     };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityRequestID: uuidv4(),
+    };
 
-    return this.callAutomationApiClient.rejectCall(request, options);
+    return this.callAutomationApiClient.rejectCall(request, optionsInternal);
   }
 }

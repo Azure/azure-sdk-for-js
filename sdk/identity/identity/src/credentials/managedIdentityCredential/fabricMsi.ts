@@ -129,9 +129,6 @@ export const fabricMsi: MSI = {
     });
 
     const tokenResponse = await identityClient.sendTokenRequest(request);
-    return (
-      (tokenResponse && { ...tokenResponse.accessToken, refreshesOn: tokenResponse.refreshesIn }) ||
-      null
-    );
+    return (tokenResponse && tokenResponse.accessToken) || null;
   },
 };

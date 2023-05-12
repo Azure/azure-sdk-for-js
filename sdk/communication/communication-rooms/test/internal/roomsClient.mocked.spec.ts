@@ -8,7 +8,6 @@ import {
   createRoomsClient,
   generateHttpClient,
   mockCreateRoomsResult,
-  mockSdkModelParticipant,
   mockUpdateRoomsResult,
 } from "./utils/mockedClient";
 
@@ -34,11 +33,10 @@ describe("[Mocked] RoomsClient", async function () {
     assert.equal(createRoomsResult.id, mockCreateRoomsResult.id);
     assert.deepEqual(createRoomsResult.validFrom, mockCreateRoomsResult.validFrom);
     assert.deepEqual(createRoomsResult.validUntil, mockCreateRoomsResult.validUntil);
-    assert.deepEqual(createRoomsResult.participants, [mockSdkModelParticipant]);
 
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body as string), {});
+    assert.deepEqual(JSON.parse(request.body as string), { participants: {} });
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
@@ -58,7 +56,6 @@ describe("[Mocked] RoomsClient", async function () {
     assert.equal(updateRoomResult.id, mockUpdateRoomsResult.id);
     assert.deepEqual(updateRoomResult.validFrom, mockUpdateRoomsResult.validFrom);
     assert.deepEqual(updateRoomResult.validUntil, mockUpdateRoomsResult.validUntil);
-    assert.deepEqual(updateRoomResult.participants, [mockSdkModelParticipant]);
 
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "PATCH");
@@ -81,7 +78,6 @@ describe("[Mocked] RoomsClient", async function () {
     assert.equal(updateRoomResult.id, mockUpdateRoomsResult.id);
     assert.deepEqual(updateRoomResult.validFrom, mockUpdateRoomsResult.validFrom);
     assert.deepEqual(updateRoomResult.validUntil, mockUpdateRoomsResult.validUntil);
-    assert.deepEqual(updateRoomResult.participants, [mockSdkModelParticipant]);
 
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "PATCH");

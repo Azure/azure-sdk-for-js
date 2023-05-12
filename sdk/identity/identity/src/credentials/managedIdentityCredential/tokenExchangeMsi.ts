@@ -39,7 +39,7 @@ export function tokenExchangeMsi(): MSI {
       const workloadIdentityCredential = new WorkloadIdentityCredential({
         clientId,
         tenantId: process.env.AZURE_TENANT_ID,
-        federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
+        tokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
         ...identityClientTokenCredentialOptions,
         disableInstanceDiscovery: true,
       } as WorkloadIdentityCredentialOptions);

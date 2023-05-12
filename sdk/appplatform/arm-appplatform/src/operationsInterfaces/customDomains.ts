@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomDomainResource,
   CustomDomainsListOptionalParams,
@@ -71,8 +71,8 @@ export interface CustomDomains {
     domainResource: CustomDomainResource,
     options?: CustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsCreateOrUpdateResponse>,
       CustomDomainsCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface CustomDomains {
     appName: string,
     domainName: string,
     options?: CustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the custom domain of one lifecycle application.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -144,8 +144,8 @@ export interface CustomDomains {
     domainResource: CustomDomainResource,
     options?: CustomDomainsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsUpdateResponse>,
       CustomDomainsUpdateResponse
     >
   >;

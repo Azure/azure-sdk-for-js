@@ -20,7 +20,7 @@ let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
 try {
   if (typeof self.trustedTypes !== "undefined") {
     ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
-      createHTML: (s: any) => s,
+      createHTML: (s: string) => s,
     });
   }
 } catch (e: any) {

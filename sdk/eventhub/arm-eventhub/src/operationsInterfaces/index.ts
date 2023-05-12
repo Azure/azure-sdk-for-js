@@ -7,12 +7,15 @@
  */
 
 export * from "./clusters";
-export * from "./configuration";
 export * from "./namespaces";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
-export * from "./operations";
-export * from "./eventHubs";
+export * from "./networkSecurityPerimeterConfigurationOperations";
+export * from "./networkSecurityPerimeterConfigurations";
+export * from "./configuration";
 export * from "./disasterRecoveryConfigs";
+export * from "./eventHubs";
 export * from "./consumerGroups";
+export * from "./operations";
 export * from "./schemaRegistry";
+export * from "./applicationGroupOperations";

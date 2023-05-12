@@ -88,7 +88,13 @@ export class Permissions {
       options,
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(response.result, response.headers, response.code, ref);
+    return new PermissionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 
   /**
@@ -117,6 +123,12 @@ export class Permissions {
       options,
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(response.result, response.headers, response.code, ref);
+    return new PermissionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 }

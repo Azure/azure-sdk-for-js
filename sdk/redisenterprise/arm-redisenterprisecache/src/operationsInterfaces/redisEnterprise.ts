@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   RedisEnterpriseListByResourceGroupOptionalParams,
@@ -54,8 +54,8 @@ export interface RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseCreateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseCreateResponse>,
       RedisEnterpriseCreateResponse
     >
   >;
@@ -85,8 +85,8 @@ export interface RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RedisEnterpriseUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RedisEnterpriseUpdateResponse>,
       RedisEnterpriseUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     options?: RedisEnterpriseDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RedisEnterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
