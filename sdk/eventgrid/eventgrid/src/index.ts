@@ -305,3 +305,11 @@ export {
 export { AzureMessagingEventGrid as EventGridClient } from "./cadl-generated/AzureMessagingEventGrid";
 
 export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
+
+export {
+  PublishCloudEventOptions,
+  publishCloudEventsOptions,
+  receiveCloudEventsOptions,
+  acknowledgeCloudEventsOptions,
+  releaseCloudEventsOptions,
+} from "./cadl-generated/api/operations";

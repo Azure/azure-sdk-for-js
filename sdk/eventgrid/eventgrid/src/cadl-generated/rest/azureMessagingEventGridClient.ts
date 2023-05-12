@@ -22,7 +22,7 @@ export default function createClient(
     ...options,
     credentials: {
       scopes: ["https://eventgrid.azure.net/.default"],
-      apiKeyHeaderName: "SharedAccessKey",
+      apiKeyHeaderName: "Authorization",
     },
   };
 

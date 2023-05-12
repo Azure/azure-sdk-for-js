@@ -14,6 +14,12 @@ import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export interface acknowledgeCloudEventsOptions extends RequestOptions {
+    accept?: "application/json";
+    contentType?: string;
+}
+
 // @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
@@ -1260,24 +1266,14 @@ export interface DeviceTwinMetadata {
 // @public (undocumented)
 export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "acknowledgeCloudEventsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: acknowledgeCloudEventsOptions): Promise<LockTokensResponse>;
-    // Warning: (ae-forgotten-export) The symbol "PublishCloudEventOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     publishCloudEvent(id: string, source: string, type: string, specversion: string, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "publishCloudEventsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     publishCloudEvents(events: CloudEventEvent[], topicName: string, options?: publishCloudEventsOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "receiveCloudEventsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: receiveCloudEventsOptions): Promise<ReceiveResponse>;
-    // Warning: (ae-forgotten-export) The symbol "releaseCloudEventsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     releaseCloudEvents(tokens: LockToken[], topicName: string, eventSubscriptionName: string, options?: releaseCloudEventsOptions): Promise<LockTokensResponse>;
 }
@@ -2048,6 +2044,29 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
     timestamp: string;
 }
 
+// @public (undocumented)
+export interface PublishCloudEventOptions extends RequestOptions {
+    contentType?: string;
+    data?: object;
+    dataBase64?: string;
+    datacontenttype?: string;
+    dataschema?: string;
+    subject?: string;
+    time?: Date;
+}
+
+// @public (undocumented)
+export interface publishCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface receiveCloudEventsOptions extends RequestOptions {
+    accept?: "application/json";
+    maxEvents?: number;
+    timeout?: number;
+}
+
 // @public
 export interface ReceiveDetails {
     brokerProperties: BrokerProperties;
@@ -2067,6 +2086,12 @@ export type RecordingContentType = string;
 
 // @public
 export type RecordingFormatType = string;
+
+// @public (undocumented)
+export interface releaseCloudEventsOptions extends RequestOptions {
+    accept?: "application/json";
+    contentType?: string;
+}
 
 // @public (undocumented)
 export interface RequestOptions {
