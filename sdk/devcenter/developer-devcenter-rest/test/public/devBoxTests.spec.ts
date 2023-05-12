@@ -364,7 +364,6 @@ describe("DevBox Operations Tests", () => {
     const actionDelayResults: DevBoxActionDelayResultOutput[] = [];
 
     for await (const actionDelay of paginate(client, delayActionsResponse)) {
-      const { name } = actionDelay;
       actionDelayResults.push(actionDelay);
     }
 
@@ -505,6 +504,7 @@ describe("DevBox Operations Tests", () => {
   function isAValidUrl(value: string): boolean {
     try {
       const url = new URL(value);
+      console.log(url)
       return true;
     } catch (TypeError) {
       return false;

@@ -24,7 +24,6 @@ describe("Deployment Environments Operations Tests", () => {
   let endpoint: string;
   let projectName: string;
   let catalogName: string;
-  let catalogItemName: string;
   let envDefinitionName: string;
   let environmentTypeName: string;
   let environmentName: string;
