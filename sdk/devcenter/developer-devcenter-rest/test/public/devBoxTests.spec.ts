@@ -324,31 +324,8 @@ describe("DevBox Operations Tests", () => {
     expect(actionDelayResults[0].result).to.equal("Succeeded");
   });
 
-  it("StartDevBox", async function () {
-    const startDevBoxResponse = await client
-      .path(
-        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start",
-        projectName,
-        userId,
-        devboxName
-      )
-      .post();
-
-    const devBoxStartPoller = getLongRunningPoller(client, startDevBoxResponse);
-    const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
-
-    if (isUnexpected(devBoxStartResult)) {
-      throw new Error(devBoxStartResult.body?.error.message);
-    }
-
-    assert.equal(
-      devBoxStartResult.status,
-      "200",
-      "Dev box start long-running operation should return 200 OK."
-    );
-  });
-
-  it("StopDevBox", async function () {
+  it("StartsAndStopsDevBox", async function () {
+    // Stop an already running Dev Box
     const stopDevBoxResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop",
@@ -369,6 +346,29 @@ describe("DevBox Operations Tests", () => {
       devBoxStopResult.status,
       "200",
       "Dev box stop long-running operation should return 200 OK."
+    );
+
+    // Start Dev Box
+    const startDevBoxResponse = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start",
+        projectName,
+        userId,
+        devboxName
+      )
+      .post();
+
+    const devBoxStartPoller = getLongRunningPoller(client, startDevBoxResponse);
+    const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
+
+    if (isUnexpected(devBoxStartResult)) {
+      throw new Error(devBoxStartResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxStartResult.status,
+      "200",
+      "Dev box start long-running operation should return 200 OK."
     );
   });
 
