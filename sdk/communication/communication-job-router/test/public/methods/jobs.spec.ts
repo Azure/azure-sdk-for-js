@@ -52,11 +52,11 @@ describe("RouterClient", function () {
       await retry(
         async () => {
           if (this.currentTest?.fullTitle() !== "RouterClient Job Operations should delete a job") {
-            var job = await client.getJob(jobId);
-            if (job.jobStatus != 'cancelled') {
+            const job = await client.getJob(jobId);
+            if (job.jobStatus !== "cancelled") {
               await client.cancelJob(jobId);
             }
-            
+
             await client.deleteJob(jobId);
           }
           await administrationClient.deleteClassificationPolicy(classificationPolicyId);
@@ -113,7 +113,7 @@ describe("RouterClient", function () {
 
     it("should reclassify a job", async function () {
       await client.createJob(jobId, jobRequest);
-      var result;
+      let result;
       await retry(
         async () => {
           result = await client.reclassifyJob(jobId);
@@ -137,10 +137,10 @@ describe("RouterClient", function () {
 
     it("should cancel a job", async function () {
       await client.createJob(jobId, jobRequest);
-      var result;
+      let result;
       await retry(
         async () => {
-          result = await client.cancelJob(jobId)
+          result = await client.cancelJob(jobId);
         },
         { retries: 3, retryIntervalMs: 1500 }
       );

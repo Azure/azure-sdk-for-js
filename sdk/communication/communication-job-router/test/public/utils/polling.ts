@@ -56,6 +56,7 @@ export const retry = async <T>(
   fn: () => Promise<T> | T,
   { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number }
 ): Promise<T> => {
+  const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
   try {
     return await fn();
   } catch (error) {
@@ -66,5 +67,3 @@ export const retry = async <T>(
     return retry(fn, { retries: retries - 1, retryIntervalMs });
   }
 };
-
-const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
