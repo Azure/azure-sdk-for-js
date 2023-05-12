@@ -288,7 +288,7 @@ export interface StorageTaskQueuedEventData {
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskCompleted event. */
 export interface StorageTaskCompletedEventData {
   /** The status for a storage task. */
-  status: string;
+  status: StorageTaskCompletedStatus;
   /** The time at which a storage task was completed. */
   completedDateTime: string;
   /** The execution id for a storage task. */
@@ -2007,10 +2007,22 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
-export interface AcsUserDisconnectedEventData {
-  /** The communication identifier of the user who was disconnected */
-  userCommunicationIdentifier: CommunicationIdentifierModel;
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.IncomingCall event */
+export interface AcsIncomingCallEventData {
+  /** The communication identifier of the target user. */
+  toCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The communication identifier of the user who initiated the call. */
+  fromCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The Id of the server call */
+  serverCallId: string;
+  /** Display name of caller. */
+  callerDisplayName: string;
+  /** Custom Context of Incoming Call */
+  customContext: AcsIncomingCallCustomContext;
+  /** Signed incoming call context. */
+  incomingCallContext: string;
+  /** CorrelationId (CallId). */
+  correlationId: string;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
@@ -2045,6 +2057,20 @@ export interface MicrosoftTeamsUserIdentifierModel {
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** Custom Context of Incoming Call */
+export interface AcsIncomingCallCustomContext {
+  /** Sip Headers for incoming call */
+  sipHeaders: { [propertyName: string]: string };
+  /** Voip Headers for incoming call */
+  voipHeaders: { [propertyName: string]: string };
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
+export interface AcsUserDisconnectedEventData {
+  /** The communication identifier of the user who was disconnected */
+  userCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
 /** Schema of common properties of all chat events */
@@ -2141,10 +2167,18 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   recipient: string;
   /** The Id of the email been sent */
   messageId: string;
-  /** The status of the email */
+  /** The status of the email. Any value other than Delivered is considered failed. */
   status: AcsEmailDeliveryReportStatus;
+  /** Detailed information about the status if any */
+  deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
   /** The time at which the email delivery report received timestamp */
   deliveryAttemptTimestamp: string;
+}
+
+/** Detailed information about the status if any */
+export interface AcsEmailDeliveryReportStatusDetails {
+  /** Detailed status message */
+  statusMessage: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailEngagementTrackingReportReceived event. */
@@ -2423,6 +2457,8 @@ export interface HealthcareFhirResourceDeletedEventData {
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageCreated event. */
 export interface HealthcareDicomImageCreatedEventData {
+  /** Data partition name */
+  partitionName: string;
   /** Unique identifier for the Study */
   imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
@@ -2435,8 +2471,26 @@ export interface HealthcareDicomImageCreatedEventData {
   sequenceNumber: number;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageUpdated event. */
+export interface HealthcareDicomImageUpdatedEventData {
+  /** Data partition name */
+  partitionName: string;
+  /** Unique identifier for the Study */
+  imageStudyInstanceUid: string;
+  /** Unique identifier for the Series */
+  imageSeriesInstanceUid: string;
+  /** Unique identifier for the DICOM Image */
+  imageSopInstanceUid: string;
+  /** Domain name of the DICOM account for this image. */
+  serviceHostName: string;
+  /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation, updation and deletion within the service. */
+  sequenceNumber: number;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageDeleted event. */
 export interface HealthcareDicomImageDeletedEventData {
+  /** Data partition name */
+  partitionName: string;
   /** Unique identifier for the Study */
   imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
@@ -2447,1028 +2501,6 @@ export interface HealthcareDicomImageDeletedEventData {
   serviceHostName: string;
   /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
   sequenceNumber: number;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.ApplicationDataChanged.V2 event. */
-export interface DataManagerForAgriApplicationDataChangedV2EventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Status of the resource. */
-  status: string;
-  /** Source of the farm operation data. */
-  source: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.AttachmentChanged.V2 event. */
-export interface DataManagerForAgriAttachmentChangedV2EventData {
-  /** Associated resource id for the attachment. */
-  resourceId: string;
-  /** Attachment resource type. */
-  resourceType: AttachmentResourceType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.BiomassModelJobStatusChanged.V2 event. */
-export interface DataManagerForAgriBiomassModelJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.BoundaryChanged.V2 event. */
-export interface DataManagerForAgriBoundaryChangedV2EventData {
-  /** Id of the parent it belongs to. */
-  parentId: string;
-  /** Boundary parent type enum. */
-  parentType: BoundaryParentType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.CropChanged event. */
-export interface DataManagerForAgriCropChangedEventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.CropProductChanged event. */
-export interface DataManagerForAgriCropProductChangedEventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.DeviceChanged event. */
-export interface DataManagerForAgriDeviceChangedEventData {
-  /** Id associated with the deviceDataModel. */
-  deviceDataModelId: string;
-  /** Id associated with the integration. */
-  integrationId: string;
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.DeviceDataModelChanged event. */
-export interface DataManagerForAgriDeviceDataModelChangedEventData {
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.FarmChanged.V2 event. */
-export interface DataManagerForAgriFarmChangedV2EventData {
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged.V2 event. */
-export interface DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.FieldChanged.V2 event. */
-export interface DataManagerForAgriFieldChangedV2EventData {
-  /** Id of the associated Farm. */
-  farmId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.HarvestDataChanged.V2 event. */
-export interface DataManagerForAgriHarvestDataChangedV2EventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Status of the resource. */
-  status: string;
-  /** Source of the farm operation data. */
-  source: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.ImageProcessingRasterizeJobStatusChanged.V2 event. */
-export interface DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData {
-  /** Attachment id of the shapefile for which job was created. */
-  shapefileAttachmentId: string;
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.InsightAttachmentChanged.V2 event. */
-export interface DataManagerForAgriInsightAttachmentChangedV2EventData {
-  /** Id associated with the insight resource. */
-  insightId: string;
-  /** Id of the associated model. */
-  modelId: string;
-  /** Farm hierarchy resource type. */
-  resourceType: FarmHierarchyResourceType;
-  /** Id of the associated resource. */
-  resourceId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.InsightChanged.V2 event. */
-export interface DataManagerForAgriInsightChangedV2EventData {
-  /** Id of the associated model. */
-  modelId: string;
-  /** Farm hierarchy resource type. */
-  resourceType: FarmHierarchyResourceType;
-  /** Id of the associated resource. */
-  resourceId: string;
-  /** Version of the associated model. */
-  modelVersion: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.ManagementZoneChanged.V2 event. */
-export interface DataManagerForAgriManagementZoneChangedV2EventData {
-  /** Season Id associated with the management zone. */
-  seasonId: string;
-  /** Crop Id associated with the management zone. */
-  cropId: string;
-  /** Field Id associated with the management zone. */
-  fieldId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.NutrientAnalysisChanged.V2 event. */
-export interface DataManagerForAgriNutrientAnalysisChangedV2EventData {
-  /** Id of the parent it belongs to. */
-  parentId: string;
-  /** Nutrient analysis parent type. */
-  parentType: NutrientAnalysisParentType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.PartyChanged event. */
-export interface DataManagerForAgriPartyChangedEventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.PlantTissueAnalysisChanged.V2 event. */
-export interface DataManagerForAgriPlantTissueAnalysisChangedV2EventData {
-  /** Field Id associated with the plant tissue analysis. */
-  fieldId: string;
-  /** Crop Id associated with the plant tissue analysis. */
-  cropId: string;
-  /** Crop Product Id associated with the plant tissue analysis. */
-  cropProductId: string;
-  /** Season Id associated with the plant tissue analysis. */
-  seasonId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.PlantingDataChanged.V2 event. */
-export interface DataManagerForAgriPlantingDataChangedV2EventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Status of the resource. */
-  status: string;
-  /** Source of the farm operation data. */
-  source: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.PrescriptionChanged.V2 event. */
-export interface DataManagerForAgriPrescriptionChangedV2EventData {
-  /** Associated prescription map Id. */
-  prescriptionMapId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.PrescriptionMapChanged.V2 event. */
-export interface DataManagerForAgriPrescriptionMapChangedV2EventData {
-  /** Season Id associated with the prescription map. */
-  seasonId: string;
-  /** Crop Id associated with the prescription map. */
-  cropId: string;
-  /** Field Id associated with the prescription map. */
-  fieldId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged.V2 event. */
-export interface DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SeasonChanged event. */
-export interface DataManagerForAgriSeasonChangedEventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SeasonalFieldChanged.V2 event. */
-export interface DataManagerForAgriSeasonalFieldChangedV2EventData {
-  /** Id of the season it belongs to. */
-  seasonId: string;
-  /** Id of the field it belongs to. */
-  fieldId: string;
-  /** Id of the associated Farm. */
-  farmId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SensorChanged event. */
-export interface DataManagerForAgriSensorChangedEventData {
-  /** Id associated with the sensorDataModel. */
-  sensorDataModelId: string;
-  /** Id associated with the integration. */
-  integrationId: string;
-  /** Id associated with the device. */
-  deviceId: string;
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SensorDataModelChanged event. */
-export interface DataManagerForAgriSensorDataModelChangedEventData {
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SensorMappingChanged.V2 event. */
-export interface DataManagerForAgriSensorMappingChangedV2EventData {
-  /** Id associated with the sensor. */
-  sensorId: string;
-  /** Id associated with the party. */
-  partyId: string;
-  /** Id associated with the boundary. */
-  boundaryId: string;
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SensorPartnerIntegrationChanged.V2 event. */
-export interface DataManagerForAgriSensorPartnerIntegrationChangedV2EventData {
-  /** Id of the integration. */
-  integrationId: string;
-  /** Id of the party. */
-  partyId: string;
-  /** Id associated with the sensorPartner. */
-  sensorPartnerId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SensorPlacementModelJobStatusChanged.V2 event. */
-export interface DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.SoilMoistureModelJobStatusChanged.V2 event. */
-export interface DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.TillageDataChanged.V2 event. */
-export interface DataManagerForAgriTillageDataChangedV2EventData {
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Status of the resource. */
-  status: string;
-  /** Source of the farm operation data. */
-  source: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged.V2 event. */
-export interface DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.WeatherDataRefresherJobStatusChanged.V2 event. */
-export interface DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData {
-  /** Party id for which job was created. */
-  partyId: string;
-  /** Status message to capture more details of the job. */
-  message: string;
-  /** Various states a job can be in. */
-  status: JobStatus;
-  /** Date-time when last action was taken on job, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime: string;
-  /** Flag that gets set when job cancellation is requested. */
-  isCancellationRequested: boolean;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.AgFoodPlatform.ZoneChanged.V2 event. */
-export interface DataManagerForAgriZoneChangedV2EventData {
-  /** Management Zone Id associated with the zone. */
-  managementZoneId: string;
-  /** Id of the party it belongs to. */
-  partyId: string;
-  /** Action occurred on a resource. */
-  actionType: ResourceActionType;
-  /** Status of the resource. */
-  status: string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag: string;
-  /**
-   * A list of key value pairs that describe the resource.
-   * Only string and numeral values are supported.
-   */
-  properties: { [propertyName: string]: any };
-  /** Unique id of resource. */
-  id: string;
-  /** Name to identify resource. */
-  name: string;
-  /** Textual description of resource. */
-  description: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime: string;
 }
 
 /** Event data for Microsoft.Devices.DeviceCreated event. */
@@ -3778,6 +2810,22 @@ export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThread
   properties: { [propertyName: string]: any };
 };
 
+/** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
+export const enum KnownStorageTaskCompletedStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for StorageTaskCompletedStatus. \
+ * {@link KnownStorageTaskCompletedStatus} can be used interchangeably with StorageTaskCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskCompletedStatus = string;
+
 /** Known values of {@link DataBoxStageName} that the service accepts. */
 export const enum KnownDataBoxStageName {
   /** Copy has started */
@@ -3956,10 +3004,18 @@ export type RecordingFormatType = string;
 
 /** Known values of {@link AcsEmailDeliveryReportStatus} that the service accepts. */
 export const enum KnownAcsEmailDeliveryReportStatus {
-  Failed = "Failed",
+  /** Hard bounce detected while sending the email */
+  Bounced = "Bounced",
+  /** The email was delivered */
   Delivered = "Delivered",
+  /** The email failed to be delivered */
+  Failed = "Failed",
+  /** The message was identified spam and was rejected or blocked (not quarantined). */
   FilteredSpam = "FilteredSpam",
-  Quarantined = "Quarantined"
+  /** The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). */
+  Quarantined = "Quarantined",
+  /** The email was suppressed */
+  Suppressed = "Suppressed"
 }
 
 /**
@@ -3967,10 +3023,12 @@ export const enum KnownAcsEmailDeliveryReportStatus {
  * {@link KnownAcsEmailDeliveryReportStatus} can be used interchangeably with AcsEmailDeliveryReportStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Failed** \
- * **Delivered** \
- * **FilteredSpam** \
- * **Quarantined**
+ * **Bounced**: Hard bounce detected while sending the email \
+ * **Delivered**: The email was delivered \
+ * **Failed**: The email failed to be delivered \
+ * **FilteredSpam**: The message was identified spam and was rejected or blocked (not quarantined). \
+ * **Quarantined**: The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). \
+ * **Suppressed**: The email was suppressed
  */
 export type AcsEmailDeliveryReportStatus = string;
 
@@ -4484,144 +3542,6 @@ export const enum KnownHealthcareFhirResourceType {
  * **VisionPrescription**: The FHIR resource type defined in STU3 and R4.
  */
 export type HealthcareFhirResourceType = string;
-
-/** Known values of {@link ResourceActionType} that the service accepts. */
-export const enum KnownResourceActionType {
-  Created = "Created",
-  Updated = "Updated",
-  Deleted = "Deleted"
-}
-
-/**
- * Defines values for ResourceActionType. \
- * {@link KnownResourceActionType} can be used interchangeably with ResourceActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Created** \
- * **Updated** \
- * **Deleted**
- */
-export type ResourceActionType = string;
-
-/** Known values of {@link AttachmentResourceType} that the service accepts. */
-export const enum KnownAttachmentResourceType {
-  Party = "Party",
-  Farm = "Farm",
-  Field = "Field",
-  SeasonalField = "SeasonalField",
-  Boundary = "Boundary",
-  ApplicationData = "ApplicationData",
-  HarvestData = "HarvestData",
-  TillageData = "TillageData",
-  PlantingData = "PlantingData",
-  PlantTissueAnalysis = "PlantTissueAnalysis"
-}
-
-/**
- * Defines values for AttachmentResourceType. \
- * {@link KnownAttachmentResourceType} can be used interchangeably with AttachmentResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Party** \
- * **Farm** \
- * **Field** \
- * **SeasonalField** \
- * **Boundary** \
- * **ApplicationData** \
- * **HarvestData** \
- * **TillageData** \
- * **PlantingData** \
- * **PlantTissueAnalysis**
- */
-export type AttachmentResourceType = string;
-
-/** Known values of {@link JobStatus} that the service accepts. */
-export const enum KnownJobStatus {
-  Waiting = "Waiting",
-  Running = "Running",
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Cancelled = "Cancelled"
-}
-
-/**
- * Defines values for JobStatus. \
- * {@link KnownJobStatus} can be used interchangeably with JobStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Waiting** \
- * **Running** \
- * **Succeeded** \
- * **Failed** \
- * **Cancelled**
- */
-export type JobStatus = string;
-
-/** Known values of {@link BoundaryParentType} that the service accepts. */
-export const enum KnownBoundaryParentType {
-  Field = "Field",
-  SeasonalField = "SeasonalField",
-  Zone = "Zone",
-  Prescription = "Prescription",
-  PlantTissueAnalysis = "PlantTissueAnalysis",
-  ApplicationData = "ApplicationData",
-  PlantingData = "PlantingData",
-  TillageData = "TillageData",
-  HarvestData = "HarvestData"
-}
-
-/**
- * Defines values for BoundaryParentType. \
- * {@link KnownBoundaryParentType} can be used interchangeably with BoundaryParentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Field** \
- * **SeasonalField** \
- * **Zone** \
- * **Prescription** \
- * **PlantTissueAnalysis** \
- * **ApplicationData** \
- * **PlantingData** \
- * **TillageData** \
- * **HarvestData**
- */
-export type BoundaryParentType = string;
-
-/** Known values of {@link FarmHierarchyResourceType} that the service accepts. */
-export const enum KnownFarmHierarchyResourceType {
-  Party = "Party",
-  Farm = "Farm",
-  Field = "Field",
-  SeasonalField = "SeasonalField",
-  Boundary = "Boundary"
-}
-
-/**
- * Defines values for FarmHierarchyResourceType. \
- * {@link KnownFarmHierarchyResourceType} can be used interchangeably with FarmHierarchyResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Party** \
- * **Farm** \
- * **Field** \
- * **SeasonalField** \
- * **Boundary**
- */
-export type FarmHierarchyResourceType = string;
-
-/** Known values of {@link NutrientAnalysisParentType} that the service accepts. */
-export const enum KnownNutrientAnalysisParentType {
-  PlantTissueAnalysis = "PlantTissueAnalysis"
-}
-
-/**
- * Defines values for NutrientAnalysisParentType. \
- * {@link KnownNutrientAnalysisParentType} can be used interchangeably with NutrientAnalysisParentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PlantTissueAnalysis**
- */
-export type NutrientAnalysisParentType = string;
 /** Defines values for MediaJobState. */
 export type MediaJobState =
   | "Canceled"

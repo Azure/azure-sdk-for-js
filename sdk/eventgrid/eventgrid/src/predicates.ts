@@ -152,41 +152,8 @@ import {
   ApiManagementGatewayCertificateAuthorityDeletedEventData,
   ApiManagementGatewayApiAddedEventData,
   ApiManagementGatewayApiRemovedEventData,
-  DataManagerForAgriApplicationDataChangedV2EventData,
-  DataManagerForAgriAttachmentChangedV2EventData,
-  DataManagerForAgriBiomassModelJobStatusChangedV2EventData,
-  DataManagerForAgriBoundaryChangedV2EventData,
-  DataManagerForAgriCropChangedEventData,
-  DataManagerForAgriCropProductChangedEventData,
-  DataManagerForAgriDeviceChangedEventData,
-  DataManagerForAgriDeviceDataModelChangedEventData,
-  DataManagerForAgriFarmChangedV2EventData,
-  DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData,
-  DataManagerForAgriFieldChangedV2EventData,
-  DataManagerForAgriHarvestDataChangedV2EventData,
-  DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData,
-  DataManagerForAgriInsightAttachmentChangedV2EventData,
-  DataManagerForAgriInsightChangedV2EventData,
-  DataManagerForAgriManagementZoneChangedV2EventData,
-  DataManagerForAgriNutrientAnalysisChangedV2EventData,
-  DataManagerForAgriPartyChangedEventData,
-  DataManagerForAgriPlantTissueAnalysisChangedV2EventData,
-  DataManagerForAgriPlantingDataChangedV2EventData,
-  DataManagerForAgriPrescriptionChangedV2EventData,
-  DataManagerForAgriPrescriptionMapChangedV2EventData,
-  DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData,
-  DataManagerForAgriSeasonChangedEventData,
-  DataManagerForAgriSeasonalFieldChangedV2EventData,
-  DataManagerForAgriSensorChangedEventData,
-  DataManagerForAgriSensorDataModelChangedEventData,
-  DataManagerForAgriSensorMappingChangedV2EventData,
-  DataManagerForAgriSensorPartnerIntegrationChangedV2EventData,
-  DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData,
-  DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData,
-  DataManagerForAgriTillageDataChangedV2EventData,
-  DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData,
-  DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData,
-  DataManagerForAgriZoneChangedV2EventData,
+  AcsIncomingCallEventData,
+  HealthcareDicomImageUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -501,76 +468,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.GatewayAPIRemoved" event. */
   "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ApplicationDataChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.ApplicationDataChanged.V2": DataManagerForAgriApplicationDataChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.AttachmentChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.AttachmentChanged.V2": DataManagerForAgriAttachmentChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.BiomassModelJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.BiomassModelJobStatusChanged.V2": DataManagerForAgriBiomassModelJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.BoundaryChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.BoundaryChanged.V2": DataManagerForAgriBoundaryChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropChanged" event. */
-  "Microsoft.AgFoodPlatform.CropChanged": DataManagerForAgriCropChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropProductChanged" event. */
-  "Microsoft.AgFoodPlatform.CropProductChanged": DataManagerForAgriCropProductChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.DeviceChanged" event. */
-  "Microsoft.AgFoodPlatform.DeviceChanged": DataManagerForAgriDeviceChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.DeviceDataModelChanged" event. */
-  "Microsoft.AgFoodPlatform.DeviceDataModelChanged": DataManagerForAgriDeviceDataModelChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.FarmChanged.V2": DataManagerForAgriFarmChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged.V2": DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FieldChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.FieldChanged.V2": DataManagerForAgriFieldChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.HarvestDataChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.HarvestDataChanged.V2": DataManagerForAgriHarvestDataChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ImageProcessingRasterizeJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.ImageProcessingRasterizeJobStatusChanged.V2": DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.InsightAttachmentChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.InsightAttachmentChanged.V2": DataManagerForAgriInsightAttachmentChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.InsightChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.InsightChanged.V2": DataManagerForAgriInsightChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ManagementZoneChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.ManagementZoneChanged.V2": DataManagerForAgriManagementZoneChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.NutrientAnalysisChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.NutrientAnalysisChanged.V2": DataManagerForAgriNutrientAnalysisChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PartyChanged" event. */
-  "Microsoft.AgFoodPlatform.PartyChanged": DataManagerForAgriPartyChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PlantTissueAnalysisChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.PlantTissueAnalysisChanged.V2": DataManagerForAgriPlantTissueAnalysisChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PlantingDataChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.PlantingDataChanged.V2": DataManagerForAgriPlantingDataChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PrescriptionChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.PrescriptionChanged.V2": DataManagerForAgriPrescriptionChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PrescriptionMapChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.PrescriptionMapChanged.V2": DataManagerForAgriPrescriptionMapChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged.V2": DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonChanged" event. */
-  "Microsoft.AgFoodPlatform.SeasonChanged": DataManagerForAgriSeasonChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonalFieldChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SeasonalFieldChanged.V2": DataManagerForAgriSeasonalFieldChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SensorChanged" event. */
-  "Microsoft.AgFoodPlatform.SensorChanged": DataManagerForAgriSensorChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SensorDataModelChanged" event. */
-  "Microsoft.AgFoodPlatform.SensorDataModelChanged": DataManagerForAgriSensorDataModelChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SensorMappingChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SensorMappingChanged.V2": DataManagerForAgriSensorMappingChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SensorPartnerIntegrationChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SensorPartnerIntegrationChanged.V2": DataManagerForAgriSensorPartnerIntegrationChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SensorPlacementModelJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SensorPlacementModelJobStatusChanged.V2": DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SoilMoistureModelJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.SoilMoistureModelJobStatusChanged.V2": DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.TillageDataChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.TillageDataChanged.V2": DataManagerForAgriTillageDataChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged.V2": DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.WeatherDataRefresherJobStatusChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.WeatherDataRefresherJobStatusChanged.V2": DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ZoneChanged.V2" event. */
-  "Microsoft.AgFoodPlatform.ZoneChanged.V2": DataManagerForAgriZoneChangedV2EventData;
+  /** An interface for the event data of a "Microsoft.Communication.IncomingCall" event. */
+  "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.DicomImageUpdated" event. */
+  "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
 }
 
 /**

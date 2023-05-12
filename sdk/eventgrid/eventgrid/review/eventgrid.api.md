@@ -166,6 +166,7 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 // @public
 export interface AcsEmailDeliveryReportReceivedEventData {
     deliveryAttemptTimestamp: string;
+    deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
     messageId: string;
     recipient: string;
     sender: string;
@@ -176,6 +177,11 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 export type AcsEmailDeliveryReportStatus = string;
 
 // @public
+export interface AcsEmailDeliveryReportStatusDetails {
+    statusMessage: string;
+}
+
+// @public
 export interface AcsEmailEngagementTrackingReportReceivedEventData {
     engagement: AcsUserEngagement;
     engagementContext: string;
@@ -183,6 +189,27 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
     sender: string;
     userActionTimestamp: string;
     userAgent: string;
+}
+
+// @public
+export interface AcsIncomingCallCustomContext {
+    sipHeaders: {
+        [propertyName: string]: string;
+    };
+    voipHeaders: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface AcsIncomingCallEventData {
+    callerDisplayName: string;
+    correlationId: string;
+    customContext: AcsIncomingCallCustomContext;
+    fromCommunicationIdentifier: CommunicationIdentifierModel;
+    incomingCallContext: string;
+    serverCallId: string;
+    toCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
 // @public
@@ -415,15 +442,9 @@ export interface AppServicePlanEventTypeDetail {
 // @public
 export type AsyncStatus = string;
 
-// @public
-export type AttachmentResourceType = string;
-
 export { AzureKeyCredential }
 
 export { AzureSASCredential }
-
-// @public
-export type BoundaryParentType = string;
 
 // @public
 export interface BrokerProperties {
@@ -597,604 +618,6 @@ export interface DataBoxOrderCompletedEventData {
 export type DataBoxStageName = string;
 
 // @public
-export interface DataManagerForAgriApplicationDataChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    source: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriAttachmentChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    resourceId: string;
-    resourceType: AttachmentResourceType;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriBiomassModelJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriBoundaryChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    parentId: string;
-    parentType: BoundaryParentType;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriCropChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriCropProductChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriDeviceChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    deviceDataModelId: string;
-    eTag: string;
-    id: string;
-    integrationId: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriDeviceDataModelChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriFarmChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriFieldChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    farmId: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriHarvestDataChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    source: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    shapefileAttachmentId: string;
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriInsightAttachmentChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    insightId: string;
-    modelId: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    resourceId: string;
-    resourceType: FarmHierarchyResourceType;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriInsightChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modelId: string;
-    modelVersion: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    resourceId: string;
-    resourceType: FarmHierarchyResourceType;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriManagementZoneChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    cropId: string;
-    description: string;
-    eTag: string;
-    fieldId: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    seasonId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriNutrientAnalysisChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    parentId: string;
-    parentType: NutrientAnalysisParentType;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriPartyChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriPlantingDataChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    source: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriPlantTissueAnalysisChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    cropId: string;
-    cropProductId: string;
-    description: string;
-    eTag: string;
-    fieldId: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    seasonId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriPrescriptionChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    prescriptionMapId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriPrescriptionMapChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    cropId: string;
-    description: string;
-    eTag: string;
-    fieldId: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    seasonId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriSeasonalFieldChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    farmId: string;
-    fieldId: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    seasonId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSeasonChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSensorChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    deviceId: string;
-    eTag: string;
-    id: string;
-    integrationId: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorDataModelId: string;
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSensorDataModelChangedEventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSensorMappingChangedV2EventData {
-    actionType: ResourceActionType;
-    boundaryId: string;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorId: string;
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSensorPartnerIntegrationChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    integrationId: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    sensorPartnerId: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriTillageDataChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    source: string;
-    status: string;
-}
-
-// @public
-export interface DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData {
-    createdDateTime: string;
-    description: string;
-    id: string;
-    isCancellationRequested: boolean;
-    lastActionDateTime: string;
-    message: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: JobStatus;
-}
-
-// @public
-export interface DataManagerForAgriZoneChangedV2EventData {
-    actionType: ResourceActionType;
-    createdDateTime: string;
-    description: string;
-    eTag: string;
-    id: string;
-    managementZoneId: string;
-    modifiedDateTime: string;
-    name: string;
-    partyId: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    status: string;
-}
-
-// @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
     deviceId: string;
@@ -1329,9 +752,6 @@ export interface FailedLockToken {
 }
 
 // @public
-export type FarmHierarchyResourceType = string;
-
-// @public
 export function generateSharedAccessSignature(endpointUrl: string, credential: KeyCredential, expiresOnUtc: Date, options?: GenerateSharedAccessSignatureOptions): Promise<string>;
 
 // @public (undocumented)
@@ -1344,6 +764,7 @@ export interface HealthcareDicomImageCreatedEventData {
     imageSeriesInstanceUid: string;
     imageSopInstanceUid: string;
     imageStudyInstanceUid: string;
+    partitionName: string;
     sequenceNumber: number;
     serviceHostName: string;
 }
@@ -1353,6 +774,17 @@ export interface HealthcareDicomImageDeletedEventData {
     imageSeriesInstanceUid: string;
     imageSopInstanceUid: string;
     imageStudyInstanceUid: string;
+    partitionName: string;
+    sequenceNumber: number;
+    serviceHostName: string;
+}
+
+// @public
+export interface HealthcareDicomImageUpdatedEventData {
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    partitionName: string;
     sequenceNumber: number;
     serviceHostName: string;
 }
@@ -1421,9 +853,6 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, eve
 
 // @public
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
-
-// @public
-export type JobStatus = string;
 
 // @public
 export interface KeyVaultAccessPolicyChangedEventData {
@@ -1537,14 +966,12 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 
 // @public
 export const enum KnownAcsEmailDeliveryReportStatus {
-    // (undocumented)
+    Bounced = "Bounced",
     Delivered = "Delivered",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     FilteredSpam = "FilteredSpam",
-    // (undocumented)
-    Quarantined = "Quarantined"
+    Quarantined = "Quarantined",
+    Suppressed = "Suppressed"
 }
 
 // @public
@@ -1578,100 +1005,10 @@ export const enum KnownAsyncStatus {
 }
 
 // @public
-export const enum KnownAttachmentResourceType {
-    // (undocumented)
-    ApplicationData = "ApplicationData",
-    // (undocumented)
-    Boundary = "Boundary",
-    // (undocumented)
-    Farm = "Farm",
-    // (undocumented)
-    Field = "Field",
-    // (undocumented)
-    HarvestData = "HarvestData",
-    // (undocumented)
-    Party = "Party",
-    // (undocumented)
-    PlantingData = "PlantingData",
-    // (undocumented)
-    PlantTissueAnalysis = "PlantTissueAnalysis",
-    // (undocumented)
-    SeasonalField = "SeasonalField",
-    // (undocumented)
-    TillageData = "TillageData"
-}
-
-// @public
-export const enum KnownBoundaryParentType {
-    // (undocumented)
-    ApplicationData = "ApplicationData",
-    // (undocumented)
-    Field = "Field",
-    // (undocumented)
-    HarvestData = "HarvestData",
-    // (undocumented)
-    PlantingData = "PlantingData",
-    // (undocumented)
-    PlantTissueAnalysis = "PlantTissueAnalysis",
-    // (undocumented)
-    Prescription = "Prescription",
-    // (undocumented)
-    SeasonalField = "SeasonalField",
-    // (undocumented)
-    TillageData = "TillageData",
-    // (undocumented)
-    Zone = "Zone"
-}
-
-// @public
 export const enum KnownDataBoxStageName {
     CopyCompleted = "CopyCompleted",
     CopyStarted = "CopyStarted",
     OrderCompleted = "OrderCompleted"
-}
-
-// @public
-export const enum KnownFarmHierarchyResourceType {
-    // (undocumented)
-    Boundary = "Boundary",
-    // (undocumented)
-    Farm = "Farm",
-    // (undocumented)
-    Field = "Field",
-    // (undocumented)
-    Party = "Party",
-    // (undocumented)
-    SeasonalField = "SeasonalField"
-}
-
-// @public
-export const enum KnownJobStatus {
-    // (undocumented)
-    Cancelled = "Cancelled",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Running = "Running",
-    // (undocumented)
-    Succeeded = "Succeeded",
-    // (undocumented)
-    Waiting = "Waiting"
-}
-
-// @public
-export const enum KnownNutrientAnalysisParentType {
-    // (undocumented)
-    PlantTissueAnalysis = "PlantTissueAnalysis"
-}
-
-// @public
-export const enum KnownResourceActionType {
-    // (undocumented)
-    Created = "Created",
-    // (undocumented)
-    Deleted = "Deleted",
-    // (undocumented)
-    Updated = "Updated"
 }
 
 // @public
@@ -2004,9 +1341,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
 }
 
 // @public
-export type NutrientAnalysisParentType = string;
-
-// @public
 export interface PhoneNumberIdentifierModel {
     value: string;
 }
@@ -2155,9 +1489,6 @@ export interface ResourceActionSuccessEventData {
     subscriptionId: string;
     tenantId: string;
 }
-
-// @public
-export type ResourceActionType = string;
 
 // @public
 export interface ResourceAuthorization {
@@ -2462,11 +1793,14 @@ export interface StorageLifecyclePolicyCompletedEventData {
 // @public
 export interface StorageTaskCompletedEventData {
     completedDateTime: string;
-    status: string;
+    status: StorageTaskCompletedStatus;
     summaryReportBlobUrl: string;
     taskExecutionId: string;
     taskName: string;
 }
+
+// @public
+export type StorageTaskCompletedStatus = string;
 
 // @public
 export interface StorageTaskQueuedEventData {
@@ -2487,41 +1821,6 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
-    "Microsoft.AgFoodPlatform.ApplicationDataChanged.V2": DataManagerForAgriApplicationDataChangedV2EventData;
-    "Microsoft.AgFoodPlatform.AttachmentChanged.V2": DataManagerForAgriAttachmentChangedV2EventData;
-    "Microsoft.AgFoodPlatform.BiomassModelJobStatusChanged.V2": DataManagerForAgriBiomassModelJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.BoundaryChanged.V2": DataManagerForAgriBoundaryChangedV2EventData;
-    "Microsoft.AgFoodPlatform.CropChanged": DataManagerForAgriCropChangedEventData;
-    "Microsoft.AgFoodPlatform.CropProductChanged": DataManagerForAgriCropProductChangedEventData;
-    "Microsoft.AgFoodPlatform.DeviceChanged": DataManagerForAgriDeviceChangedEventData;
-    "Microsoft.AgFoodPlatform.DeviceDataModelChanged": DataManagerForAgriDeviceDataModelChangedEventData;
-    "Microsoft.AgFoodPlatform.FarmChanged.V2": DataManagerForAgriFarmChangedV2EventData;
-    "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged.V2": DataManagerForAgriFarmOperationDataIngestionJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.FieldChanged.V2": DataManagerForAgriFieldChangedV2EventData;
-    "Microsoft.AgFoodPlatform.HarvestDataChanged.V2": DataManagerForAgriHarvestDataChangedV2EventData;
-    "Microsoft.AgFoodPlatform.ImageProcessingRasterizeJobStatusChanged.V2": DataManagerForAgriImageProcessingRasterizeJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.InsightAttachmentChanged.V2": DataManagerForAgriInsightAttachmentChangedV2EventData;
-    "Microsoft.AgFoodPlatform.InsightChanged.V2": DataManagerForAgriInsightChangedV2EventData;
-    "Microsoft.AgFoodPlatform.ManagementZoneChanged.V2": DataManagerForAgriManagementZoneChangedV2EventData;
-    "Microsoft.AgFoodPlatform.NutrientAnalysisChanged.V2": DataManagerForAgriNutrientAnalysisChangedV2EventData;
-    "Microsoft.AgFoodPlatform.PartyChanged": DataManagerForAgriPartyChangedEventData;
-    "Microsoft.AgFoodPlatform.PlantingDataChanged.V2": DataManagerForAgriPlantingDataChangedV2EventData;
-    "Microsoft.AgFoodPlatform.PlantTissueAnalysisChanged.V2": DataManagerForAgriPlantTissueAnalysisChangedV2EventData;
-    "Microsoft.AgFoodPlatform.PrescriptionChanged.V2": DataManagerForAgriPrescriptionChangedV2EventData;
-    "Microsoft.AgFoodPlatform.PrescriptionMapChanged.V2": DataManagerForAgriPrescriptionMapChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged.V2": DataManagerForAgriSatelliteDataIngestionJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SeasonalFieldChanged.V2": DataManagerForAgriSeasonalFieldChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SeasonChanged": DataManagerForAgriSeasonChangedEventData;
-    "Microsoft.AgFoodPlatform.SensorChanged": DataManagerForAgriSensorChangedEventData;
-    "Microsoft.AgFoodPlatform.SensorDataModelChanged": DataManagerForAgriSensorDataModelChangedEventData;
-    "Microsoft.AgFoodPlatform.SensorMappingChanged.V2": DataManagerForAgriSensorMappingChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SensorPartnerIntegrationChanged.V2": DataManagerForAgriSensorPartnerIntegrationChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SensorPlacementModelJobStatusChanged.V2": DataManagerForAgriSensorPlacementModelJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.SoilMoistureModelJobStatusChanged.V2": DataManagerForAgriSoilMoistureModelJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.TillageDataChanged.V2": DataManagerForAgriTillageDataChangedV2EventData;
-    "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged.V2": DataManagerForAgriWeatherDataIngestionJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.WeatherDataRefresherJobStatusChanged.V2": DataManagerForAgriWeatherDataRefresherJobStatusChangedV2EventData;
-    "Microsoft.AgFoodPlatform.ZoneChanged.V2": DataManagerForAgriZoneChangedV2EventData;
     "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
     "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
@@ -2565,6 +1864,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
     "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
     "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
+    "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
     "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
@@ -2587,6 +1887,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
     "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
     "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
+    "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
     "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
     "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
     "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
