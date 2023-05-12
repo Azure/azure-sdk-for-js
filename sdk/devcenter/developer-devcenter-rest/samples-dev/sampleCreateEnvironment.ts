@@ -17,8 +17,8 @@ dotenv.config();
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
   if (isUnexpected(projectList)) {
