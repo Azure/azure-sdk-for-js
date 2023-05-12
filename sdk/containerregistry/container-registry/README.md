@@ -104,7 +104,9 @@ For more information please see [Container Registry Concepts](https://docs.micro
 
 ## Examples
 
-### Listing repositories
+### Registry operations
+
+#### Listing repositories
 
 Iterate through the collection of repositories in the registry.
 
@@ -135,7 +137,7 @@ main().catch((err) => {
 });
 ```
 
-### List tags with anonymous access
+#### List tags with anonymous access
 
 ```javascript
 const {
@@ -170,7 +172,7 @@ main().catch((err) => {
 });
 ```
 
-### Set artifact properties
+#### Set artifact properties
 
 ```javascript
 const {
@@ -198,7 +200,7 @@ main().catch((err) => {
 });
 ```
 
-### Delete images
+#### Delete images
 
 ```javascript
 const {
@@ -245,6 +247,174 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+```
+
+### Blob and manifest operations
+
+#### Upload images
+
+```javascript
+const { ContainerRegistryContentClient } = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
+
+async function main() {
+  // endpoint should be in the form of "https://myregistryname.azurecr.io"
+  // where "myregistryname" is the actual name of your registry
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
+  const client = new ContainerRegistryContentClient(
+    endpoint,
+    repository,
+    new DefaultAzureCredential()
+  );
+
+  const config = Buffer.from("Sample config");
+  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
+
+  const layer = Buffer.from("Sample layer");
+  const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
+
+  const manifest = {
+    schemaVersion: 2,
+    config: {
+      digest: configDigest,
+      size: configSize,
+      mediaType: "application/vnd.oci.image.config.v1+json",
+    },
+    layers: [
+      {
+        digest: layerDigest,
+        size: layerSize,
+        mediaType: "application/vnd.oci.image.layer.v1.tar",
+      },
+    ],
+  };
+
+  await client.setManifest(manifest, { tag: "demo" });
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+#### Download images
+
+```javascript
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+const fs = require("fs");
+dotenv.config();
+
+function trimSha(digest) {
+  const index = digest.indexOf(":");
+  return index === -1 ? digest : digest.substring(index);
+}
+
+async function main() {
+  // endpoint should be in the form of "https://myregistryname.azurecr.io"
+  // where "myregistryname" is the actual name of your registry
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
+  const client = new ContainerRegistryContentClient(
+    endpoint,
+    repository,
+    new DefaultAzureCredential()
+  );
+
+  // Download the manifest to obtain the list of files in the image based on the tag
+  const result = await client.getManifest("demo");
+
+  if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
+    throw new Error("Expected an OCI image manifest");
+  }
+
+  const manifest = result.manifest;
+
+  // Manifests of all media types have a buffer containing their content; this can be written to a file.
+  fs.writeFileSync("manifest.json", result.content);
+
+  const configResult = await client.downloadBlob(manifest.config.digest);
+  const configFile = fs.createWriteStream("config.json");
+  configResult.content.pipe(configFile);
+
+  // Download and write out the layers
+  for (const layer of manifest.layers) {
+    const fileName = trimSha(layer.digest);
+    const layerStream = fs.createWriteStream(fileName);
+    const downloadLayerResult = await client.downloadBlob(layer.digest);
+    downloadLayerResult.content.pipe(layerStream);
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+#### Delete manifest
+
+```javascript
+const { ContainerRegistryContentClient } = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
+
+async function main() {
+  // Get the service endpoint from the environment
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
+  // Create a new ContainerRegistryClient
+  const client = new ContainerRegistryContentClient(
+    endpoint,
+    repository,
+    new DefaultAzureCredential()
+  );
+
+  const downloadResult = await client.getManifest("latest");
+  await client.deleteManifest(downloadResult.digest);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+#### Delete blob
+
+```javascript
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
+
+async function main() {
+  // Get the service endpoint from the environment
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
+  // Create a new ContainerRegistryClient
+  const client = new ContainerRegistryContentClient(
+    endpoint,
+    repository,
+    new DefaultAzureCredential()
+  );
+
+  const downloadResult = await client.getManifest("latest");
+
+  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
+    throw new Error("Expected an OCI image manifest");
+  }
+
+  for (const layer of downloadResult.manifest.layers) {
+    await client.deleteBlob(layer.digest);
+  }
+}
 ```
 
 ## Troubleshooting

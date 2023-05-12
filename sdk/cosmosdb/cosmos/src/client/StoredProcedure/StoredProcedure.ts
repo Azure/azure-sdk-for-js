@@ -51,7 +51,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -81,7 +87,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -97,7 +109,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -126,6 +144,11 @@ export class StoredProcedure {
       options,
       partitionKey,
     });
-    return new ResourceResponse<T>(response.result, response.headers, response.code);
+    return new ResourceResponse<T>(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics
+    );
   }
 }

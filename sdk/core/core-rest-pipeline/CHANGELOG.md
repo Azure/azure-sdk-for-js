@@ -1,8 +1,10 @@
 # Release History
 
-## 1.10.4 (Unreleased)
+## 1.11.0 (Unreleased)
 
 ### Features Added
+
+- Add a policy `auxiliaryAuthenticationHeaderPolicy` for external tokens to `x-ms-authorization-auxiliary` header. This header will be used when creating a cross-tenant application we may need to handle authentication requests for resources that are in different tenants. [PR #25270](https://github.com/Azure/azure-sdk-for-js/pull/25270)
 
 ### Breaking Changes
 

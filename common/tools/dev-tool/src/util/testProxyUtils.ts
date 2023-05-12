@@ -195,8 +195,9 @@ export interface TestProxy {
 export async function startTestProxy(): Promise<TestProxy> {
   const testProxy = await runCommand(await getTestProxyExecutable(), [
     "start",
-    "-l",
+    "--storage-location",
     await resolveRoot(),
+    "--",
     `http://0.0.0.0:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/`,
     `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);

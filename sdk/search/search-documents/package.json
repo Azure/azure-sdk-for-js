@@ -46,12 +46,20 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/data/searchClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Service.md",
+        "prefix": "package-version"
       },
       {
-        "path": "src/generated/service/searchServiceClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Data.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/generated/data/searchClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/service/searchServiceClient.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",

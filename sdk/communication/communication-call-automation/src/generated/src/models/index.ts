@@ -20,7 +20,7 @@ export interface CreateCallRequest {
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
-  sourceIdentity?: CommunicationIdentifierModel;
+  sourceIdentity?: CommunicationUserIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -102,6 +102,10 @@ export interface CallConnectionPropertiesInternal {
   sourceDisplayName?: string;
   /** Source identity. */
   sourceIdentity?: CommunicationIdentifierModel;
+  /** The correlation ID. */
+  correlationId?: string;
+  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The Communication Services error response */
@@ -123,12 +127,14 @@ export interface AnswerCallRequest {
   incomingCallContext: string;
   /** The callback uri. */
   callbackUri: string;
+  /** A customer set value used to track the answering of a call. */
+  operationContext?: string;
   /** Media Streaming Configuration. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
   azureCognitiveServicesEndpointUrl?: string;
-  /** The identifier of the contoso app which answers the call */
-  answeredByIdentifier?: CommunicationIdentifierModel;
+  /** The identifier of the call automation entity which answers the call */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -250,6 +256,8 @@ export interface RecognizeOptions {
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
   choices?: Choice[];
+  /** Defines continuous speech recognition option. */
+  speechOptions?: SpeechOptions;
 }
 
 /** Options for DTMF recognition */
@@ -268,6 +276,28 @@ export interface Choice {
   /** List of phrases to recognize */
   phrases: string[];
   tone?: Tone;
+}
+
+/** Options for continuous speech recognition */
+export interface SpeechOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+}
+
+export interface ContinuousDtmfRecognitionRequest {
+  /** Defines options for recognition. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface SendDtmfRequest {
+  /** List of tones to be sent to target participant. */
+  tones: Tone[];
+  /** Target participant of send DTMF. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
 
 /** The response payload for getting participants of the call. */
@@ -386,6 +416,13 @@ export interface StartCallRecordingRequest {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   * ///
+   */
+  channelAffinity?: ChannelAffinity[];
   /** Optional property to specify location where recording will be stored */
   externalStorage?: ExternalStorage;
 }
@@ -398,6 +435,17 @@ export interface CallLocator {
   serverCallId?: string;
   /** The call locator kind. */
   kind?: CallLocatorKind;
+}
+
+/** Channel affinity for a participant */
+export interface ChannelAffinity {
+  /** Channel number to which bitstream from a particular participant will be written. */
+  channel?: number;
+  /**
+   * The identifier for the participant whose bitstream will be written to the channel
+   * represented by the channel number.
+   */
+  participant: CommunicationIdentifierModel;
 }
 
 export interface ExternalStorage {
@@ -516,10 +564,10 @@ export interface ParticipantsUpdated {
   serverCallId?: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
+  /** The Sequence Number of the event */
+  sequenceNumber?: number;
   /** The list of participants in the call. */
   participants?: CallParticipantInternal[];
-  /** Sequence number to indicate order of ParticipantsUpdated events */
-  sequenceNumber?: number;
 }
 
 /** The participant removed event. */
@@ -627,13 +675,28 @@ export interface RecognizeCompleted {
    * In case of cancel operation the this field is not set and is returned empty
    */
   recognitionType?: RecognitionType;
-  /** Defines the result for RecognitionType = Dtmf */
+  /**
+   * Defines the result for RecognitionType = Dtmf
+   * Would be replaced by DtmfResult after server sdk renewed
+   */
   collectTonesResult?: CollectTonesResult;
+  /** Defines the result for RecognitionType = Dtmf */
+  dtmfResult?: DtmfResult;
   /** Defines the result for RecognitionType = Choices */
   choiceResult?: ChoiceResult;
+  /**
+   * Defines the result for RecognitionType = Speech and SpeechOrDtmf
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly speechResult?: SpeechResult;
 }
 
 export interface CollectTonesResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tones?: Tone[];
+}
+
+export interface DtmfResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
 }
@@ -646,6 +709,12 @@ export interface ChoiceResult {
    * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
    */
   recognizedPhrase?: string;
+}
+
+/** The speech status as a result. */
+export interface SpeechResult {
+  /** The recognized speech in string. */
+  speech?: string;
 }
 
 export interface RecognizeFailed {
@@ -670,6 +739,78 @@ export interface RecognizeCanceled {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+}
+
+export interface ContinuousDtmfRecognitionToneFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface ContinuousDtmfRecognitionToneReceived {
+  /** Information about Tone. */
+  toneInfo?: ToneInfo;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+/** The information about the tone. */
+export interface ToneInfo {
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  tone: Tone;
+  /** The id of participant. */
+  participantId?: string;
+}
+
+export interface ContinuousDtmfRecognitionStopped {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
@@ -862,6 +1003,10 @@ export type Gender = string;
 export enum KnownRecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** SpeechOrDtmf */
+  SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
   Choices = "choices"
 }
@@ -872,6 +1017,8 @@ export enum KnownRecognizeInputType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **dtmf** \
+ * **speech** \
+ * **speechOrDtmf** \
  * **choices**
  */
 export type RecognizeInputType = string;
@@ -1051,6 +1198,10 @@ export type RecordingState = string;
 export enum KnownRecognitionType {
   /** Dtmf */
   Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** SpeechOrDtmf */
+  SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
   Choices = "choices"
 }
@@ -1061,6 +1212,8 @@ export enum KnownRecognitionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **dtmf** \
+ * **speech** \
+ * **speechOrDtmf** \
  * **choices**
  */
 export type RecognitionType = string;
@@ -1106,14 +1259,14 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCall operation. */
 export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallConnectionTerminateCallOptionalParams
@@ -1138,7 +1291,7 @@ export type CallConnectionTransferToParticipantResponse = TransferCallResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipants operation. */
 export type CallConnectionGetParticipantsResponse = GetParticipantsResponse;
@@ -1193,22 +1346,34 @@ export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipant operation. */
 export type CallConnectionGetParticipantResponse = CallParticipantInternal;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaRecognizeOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStartContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSendDtmfOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
@@ -1224,22 +1389,22 @@ export type CallRecordingStartRecordingResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingGetRecordingPropertiesOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
 export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingPauseRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams

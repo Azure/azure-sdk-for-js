@@ -12,6 +12,7 @@ import {
   RecordingChannel,
   RecordingFormat,
   CallLocator,
+  ChannelAffinity,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -62,6 +63,8 @@ export interface AnswerCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /**
@@ -157,6 +160,12 @@ export interface StartRecordingOptions extends OperationOptions {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   */
+  channelAffinity?: ChannelAffinity[];
 }
 
 /**
@@ -192,4 +201,20 @@ export interface DownloadRecordingOptions extends OperationOptions {
   offset?: number;
   /** Max content length in bytes. */
   length?: number;
+}
+
+/**
+ * Options to continuous Dtmf recognition.
+ */
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to send Dtmf tone.
+ */
+export interface SendDtmfOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }

@@ -26,7 +26,7 @@ export class ContentDownloaderImpl {
     this.addCustomSignUrlPolicy();
   }
 
-  private addCustomSignUrlPolicy() {
+  private addCustomSignUrlPolicy(): void {
     const signUrlPolicy = {
       name: "CustomSignUrlPolicy",
       async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {

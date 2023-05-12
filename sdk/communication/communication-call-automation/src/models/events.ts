@@ -21,32 +21,46 @@ import {
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
   ResultInformation as RestResultInformation,
+  ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
+  ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
+  ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
+  SendDtmfCompleted as RestSendDtmfCompleted,
+  SendDtmfFailed as RestSendDtmfFailed,
+  ToneInfo as RestToneInfo,
+  Tone,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
-  | AddParticipantSucceededEventData
-  | AddParticipantFailedEventData
-  | RemoveParticipantSucceededEventData
-  | RemoveParticipantFailedEventData
-  | CallConnectedEventData
-  | CallDisconnectedEventData
-  | CallTransferAcceptedEventData
-  | CallTransferFailedEventData
-  | ParticipantsUpdatedEventData
-  | RecordingStateChangedEventData
-  | PlayCompletedEventData
-  | PlayFailedEventData
-  | PlayCanceledEventData
-  | RecognizeCompletedEventData
-  | RecognizeCanceledEventData
-  | RecognizeFailedEventData;
+  | AddParticipantSucceeded
+  | AddParticipantFailed
+  | RemoveParticipantSucceeded
+  | RemoveParticipantFailed
+  | CallConnected
+  | CallDisconnected
+  | CallTransferAccepted
+  | CallTransferFailed
+  | ParticipantsUpdated
+  | RecordingStateChanged
+  | PlayCompleted
+  | PlayFailed
+  | PlayCanceled
+  | RecognizeCompleted
+  | RecognizeCanceled
+  | RecognizeFailed
+  | ContinuousDtmfRecognitionToneReceived
+  | ContinuousDtmfRecognitionToneFailed
+  | ContinuousDtmfRecognitionStopped
+  | SendDtmfCompleted
+  | SendDtmfFailed;
 
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
+  RestRemoveParticipantSucceeded,
+  RestRemoveParticipantFailed,
   RestCallConnected,
   RestCallDisconnected,
   RestCallTransferAccepted,
@@ -60,6 +74,12 @@ export {
   RestRecognizeFailed,
   RestRecognizeCanceled,
   RestResultInformation,
+  RestContinuousDtmfRecognitionToneReceived,
+  RestContinuousDtmfRecognitionToneFailed,
+  RestContinuousDtmfRecognitionStopped,
+  RestSendDtmfCompleted,
+  RestSendDtmfFailed,
+  RestToneInfo,
 };
 
 export interface ResultInformation
@@ -73,7 +93,7 @@ export interface ResultInformation
 }
 
 /** The participant successfully added event. */
-export interface AddParticipantSucceededEventData
+export interface AddParticipantSucceeded
   extends Omit<
     RestAddParticipantSucceeded,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -93,7 +113,7 @@ export interface AddParticipantSucceededEventData
 }
 
 /** The failed to add participant event. */
-export interface AddParticipantFailedEventData
+export interface AddParticipantFailed
   extends Omit<
     RestAddParticipantFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -113,7 +133,7 @@ export interface AddParticipantFailedEventData
 }
 
 /** The participant successfully removed event. */
-export interface RemoveParticipantSucceededEventData
+export interface RemoveParticipantSucceeded
   extends Omit<
     RestRemoveParticipantSucceeded,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -133,7 +153,7 @@ export interface RemoveParticipantSucceededEventData
 }
 
 /** The failed to remove participant event. */
-export interface RemoveParticipantFailedEventData
+export interface RemoveParticipantFailed
   extends Omit<
     RestRemoveParticipantFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
@@ -153,7 +173,7 @@ export interface RemoveParticipantFailedEventData
 }
 
 /** Event when call was established. */
-export interface CallConnectedEventData
+export interface CallConnected
   extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -166,7 +186,7 @@ export interface CallConnectedEventData
 }
 
 /** Event when all participants left and call was terminated. */
-export interface CallDisconnectedEventData
+export interface CallDisconnected
   extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -179,7 +199,7 @@ export interface CallDisconnectedEventData
 }
 
 /** Event when transfer request was successful. */
-export interface CallTransferAcceptedEventData
+export interface CallTransferAccepted
   extends Omit<
     RestCallTransferAccepted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -197,7 +217,7 @@ export interface CallTransferAcceptedEventData
 }
 
 /** Event when transfer request was failed. */
-export interface CallTransferFailedEventData
+export interface CallTransferFailed
   extends Omit<
     RestCallTransferFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -215,7 +235,7 @@ export interface CallTransferFailedEventData
 }
 
 /** Event when there was an update to participant(s). */
-export interface ParticipantsUpdatedEventData
+export interface ParticipantsUpdated
   extends Omit<
     RestParticipantsUpdated,
     "callConnectionId" | "serverCallId" | "correlationId" | "participants"
@@ -233,7 +253,7 @@ export interface ParticipantsUpdatedEventData
 }
 
 /** Event when Recording state has been changed. */
-export interface RecordingStateChangedEventData
+export interface RecordingStateChanged
   extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -246,7 +266,7 @@ export interface RecordingStateChangedEventData
 }
 
 /** Event when Media play was successfully completed. */
-export interface PlayCompletedEventData
+export interface PlayCompleted
   extends Omit<
     RestPlayCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -264,7 +284,7 @@ export interface PlayCompletedEventData
 }
 
 /** Event when Media play was failed. */
-export interface PlayFailedEventData
+export interface PlayFailed
   extends Omit<
     RestPlayFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -282,7 +302,7 @@ export interface PlayFailedEventData
 }
 
 /** Event when Media play was canceled by Cancel operation. */
-export interface PlayCanceledEventData
+export interface PlayCanceled
   extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -295,7 +315,7 @@ export interface PlayCanceledEventData
 }
 
 /** Event when Media recognize was successfully completed. */
-export interface RecognizeCompletedEventData
+export interface RecognizeCompleted
   extends Omit<
     RestRecognizeCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -313,7 +333,7 @@ export interface RecognizeCompletedEventData
 }
 
 /** Event when Media recognize was failed. */
-export interface RecognizeFailedEventData
+export interface RecognizeFailed
   extends Omit<
     RestRecognizeFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
@@ -331,7 +351,7 @@ export interface RecognizeFailedEventData
 }
 
 /** Event when Media recognize was canceled by Cancel operation. */
-export interface RecognizeCanceledEventData
+export interface RecognizeCanceled
   extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
   /** Call connection ID. */
   callConnectionId: string;
@@ -341,4 +361,112 @@ export interface RecognizeCanceledEventData
   correlationId: string;
   /** kind of this event. */
   kind: "RecognizeCanceled";
+}
+
+/** The information about the tone. */
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  /** Defines values for Tone. */
+  tone: Tone;
+  /** The id of participant. */
+  participantId?: string;
+}
+
+/** Event sent when Dtmf tone received from targeted participant in call. */
+export interface ContinuousDtmfRecognitionToneReceived
+  extends Omit<
+    RestContinuousDtmfRecognitionToneReceived,
+    "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+  > {
+  /** Information about Tone. */
+  toneInfo: ToneInfo;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionToneReceived";
+}
+
+/** Event sent when failed to recognize continuous Dtmf tone. */
+export interface ContinuousDtmfRecognitionToneFailed
+  extends Omit<
+    RestContinuousDtmfRecognitionToneFailed,
+    "callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionToneFailed";
+}
+
+/** Event sent when continuous Dtmf recognition stopped. */
+export interface ContinuousDtmfRecognitionStopped
+  extends Omit<
+    RestContinuousDtmfRecognitionStopped,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ContinuousDtmfRecognitionStopped";
+}
+
+/** Event sent when Dtmf tones send successfully. */
+export interface SendDtmfCompleted
+  extends Omit<
+    RestSendDtmfCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "SendDtmfCompleted";
+}
+
+/** Event sent when Dtmf tones send failed. */
+export interface SendDtmfFailed
+  extends Omit<
+    RestSendDtmfFailed,
+    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "SendDtmfFailed";
 }

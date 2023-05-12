@@ -5,10 +5,9 @@
  * @summary Uploads a manifest to a repository.
  */
 
-import { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+const { ContainerRegistryContentClient } = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
@@ -37,7 +36,7 @@ async function main() {
 
   const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
-  const manifest: OciImageManifest = {
+  const manifest = {
     schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
@@ -50,7 +49,7 @@ async function main() {
         digest: layerDigest,
         size: layerSize,
         annotations: {
-          title: "artifact.txt",
+          "org.opencontainers.image.title": "artifact.txt",
         },
       },
     ],
