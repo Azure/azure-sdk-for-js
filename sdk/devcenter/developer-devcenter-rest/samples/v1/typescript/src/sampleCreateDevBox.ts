@@ -15,9 +15,8 @@ dotenv.config();
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
   const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const client = createClient(devCenter, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
   if (isUnexpected(projectList)) {
@@ -54,6 +53,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .put(devBoxCreateParameters);
+  
   if (isUnexpected(devBoxCreateResponse)) {
     throw new Error(devBoxCreateResponse.body.error.message);
   }
@@ -72,6 +72,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .get();
+  
   if (isUnexpected(remoteConnectionResult)) {
     throw new Error(remoteConnectionResult.body.error.message);
   }
@@ -87,6 +88,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .delete();
+  
   if (isUnexpected(devBoxDeleteResponse)) {
     throw new Error(devBoxDeleteResponse.body.error.message);
   }
