@@ -219,7 +219,7 @@ describe("Deployment Environments Operations Tests", () => {
     await deleteDevelopmentEnvironment();
   });
 
-  async function createDevelopmentEnvironment() {
+  async function createDevelopmentEnvironment() : void {
     const environmentsCreateParameters: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters =
       {
         body: {
@@ -270,7 +270,7 @@ describe("Deployment Environments Operations Tests", () => {
     assert.equal(environmentCreateResult.body.provisioningState, "Succeeded");
   }
 
-  async function deleteDevelopmentEnvironment() {
+  async function deleteDevelopmentEnvironment(): void {
     // Tear down the environment when finished
     const environmentDeleteResponse = await client
       .path(
