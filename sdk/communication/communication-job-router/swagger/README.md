@@ -24,4 +24,6 @@ use-extension:
 tracing-info:
   namespace: "Azure.Communication"
   packagePrefix: "Microsoft.Communication"
+modelerfour:
+  treat-type-object-as-anything: true
 ```
