@@ -15,6 +15,7 @@
     "@azure/event-hubs": "5.9.0",
     "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
+    "@azure/core-amqp": "3.2.0",
     "dotenv": "^16.0.0",
     "minimist": "^1.2.8",
     "uuid": "^8.3.0"

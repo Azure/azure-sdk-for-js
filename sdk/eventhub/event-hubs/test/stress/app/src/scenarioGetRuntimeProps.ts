@@ -1,0 +1,55 @@
+import { EventHubConsumerClient } from "@azure/event-hubs";
+import {
+  EventHubsStressTester,
+  createEventHubsProducerClient,
+  defaultClientAppInsights,
+} from "./eventHubsStressTester";
+import parsedArgs from "minimist";
+import { delay } from "@azure/core-amqp";
+
+interface scenarioGetRuntimePropertiesOptions {
+  testDurationInMs?: number;
+}
+
+function sanitizeOptions(args: string[]): Required<scenarioGetRuntimePropertiesOptions> {
+  const options = parsedArgs<scenarioGetRuntimePropertiesOptions>(args);
+  return {
+    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 20 days
+  };
+}
+
+async function scenarioGetRuntimeProperties() {
+  const testOptions = sanitizeOptions(process.argv);
+  const { testDurationInMs } = testOptions;
+  const startedAt = new Date();
+
+  const producer = createEventHubsProducerClient();
+  const stressBase = new EventHubsStressTester({
+    testName: "GetRuntimeProperties-memLeak",
+    snapshotIntervalInMs: 1000,
+    writeSnapshotInfoToConsole: true
+  });
+  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
+  const eventHubName = process.env.EVENTHUB_NAME;
+
+  const consumerClient = new EventHubConsumerClient(
+    EventHubConsumerClient.defaultConsumerGroupName,
+    connectionString || "",
+    eventHubName || ""
+  );
+  const func = async () => {
+    while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
+      await delay(Math.random() * 100)
+      await consumerClient.getEventHubProperties();
+    }
+  }
+  await Promise.all([].concat(... new Array(100).fill([func()])));
+  await producer.close()
+  await consumerClient.close()
+  await stressBase.endTest()
+}
+
+scenarioGetRuntimeProperties().catch((err) => {
+  console.log("Error occurred: ", err);
+  defaultClientAppInsights.trackException({ exception: err, time: new Date() });
+});

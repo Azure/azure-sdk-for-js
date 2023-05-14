@@ -1,12 +1,7 @@
 scenarios:
-- Scenario: node18-noActivity
-  testTarget: scenarioNoActivity
-  image: Dockerfile
+- image: Dockerfile
+  testTarget: scenarioGetRuntimeProps
   memory: 1.5Gi
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-5-9-0/jseh/dockerfile:harshanalluru
-- Scenario: node18-checkpointStore
-  testTarget: scenarioCheckpointStore
-  image: Dockerfile
-  memory: 1.5Gi
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-5-9-0/jseh/dockerfile:harshanalluru
+  Scenario: node18-getRuntimeProps
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/core-amqp-test-3-2-0/jseh/dockerfile:harshanalluru
 
