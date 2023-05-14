@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "130",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "adca6946-2353-4025-848e-5249ac9a08da"
       },
       "RequestBody": {
@@ -50,7 +50,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "e5c40493-53c9-4e12-ab96-87ebaa1908d1"
       },
       "RequestBody": null,
@@ -85,7 +85,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "6d98b1d8-fa8a-48bc-a9c2-23936307890b"
       },
       "RequestBody": null,
@@ -120,7 +120,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "e361bd95-1f69-4e18-b33c-0018911be90e"
       },
       "RequestBody": null,
@@ -155,7 +155,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "3e6f4c37-5957-499d-869d-f8e0d9d63ae4"
       },
       "RequestBody": null,
@@ -190,7 +190,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "e0158de9-4803-4400-87d8-cc8b0c7012f8"
       },
       "RequestBody": null,
@@ -227,7 +227,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "04b786e1-eb2e-46ca-af66-7b685c7e2ca4"
       },
       "RequestBody": null,
@@ -263,7 +263,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "f43e18a5-e1cf-44b1-aa31-fcdd6af0cef4"
       },
       "RequestBody": null,
@@ -303,7 +303,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "00e5be70-9fca-4deb-9eca-3f5bb22da4c4"
       },
       "RequestBody": null,
@@ -331,7 +331,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "5bfde226-3be4-440a-ad90-fd52524ce55e"
       },
       "RequestBody": null,
@@ -366,7 +366,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "97e5eed6-2edd-4b82-8508-82ed69af0f2c"
       },
       "RequestBody": null,
@@ -401,7 +401,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.10.2 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "471e3a17-005e-42c3-8f98-fa07ca6408a8"
       },
       "RequestBody": null,
