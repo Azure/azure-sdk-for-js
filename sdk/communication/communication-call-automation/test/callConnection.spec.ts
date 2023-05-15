@@ -224,7 +224,8 @@ describe("CallConnection Unit Tests", () => {
 
 describe("CallConnection Live Tests", function () {
   let recorder: Recorder;
-  let callAutomationClient: CallAutomationClient;
+  let callerCallAutomationClient: CallAutomationClient;
+  let receiverCallAutomationClient: CallAutomationClient;
   let callConnection: CallConnection;
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
@@ -235,7 +236,8 @@ describe("CallConnection Live Tests", function () {
     recorder = await createRecorder(this.currentTest);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
-    callAutomationClient = createCallAutomationClient(recorder, testUser);
+    callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
+    receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
   afterEach(async function (this: Context) {
@@ -268,14 +270,14 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -294,14 +296,14 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
@@ -314,9 +316,16 @@ describe("CallConnection Live Tests", function () {
     const addResult = await callConnection.addParticipant(participantInvite);
     assert.isDefined(addResult);
 
+    const anotherReceiverCallAutomationClient: CallAutomationClient = createCallAutomationClient(
+      recorder,
+      testUser3
+    );
     const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
     if (anotherIncomingCallContext) {
-      await callAutomationClient.answerCall(anotherIncomingCallContext, callBackUrl2);
+      await anotherReceiverCallAutomationClient.answerCall(
+        anotherIncomingCallContext,
+        callBackUrl2
+      );
     }
     const participantAddedEvent = await waitForEvent(
       "AddParticipantSucceeded",
@@ -338,14 +347,14 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);

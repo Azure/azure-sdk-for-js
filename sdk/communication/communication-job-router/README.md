@@ -92,8 +92,8 @@ const distributionPolicy = await routerAdministrationClient.createDistributionPo
   mode: {
     objectType: "longest-idle",
     minConcurrentOffers: 1,
-    maxConcurrentOffers: 3
-  }
+    maxConcurrentOffers: 3,
+  },
 });
 ```
 
@@ -106,8 +106,8 @@ const salesQueueResponse = await routerAdministrationClient.createQueue("Sales",
   name: "Sales",
   distributionPolicyId: distributionPolicy.Id,
   labels: {
-    Department: "Xbox"
-  }
+    Department: "Xbox",
+  },
 });
 ```
 
@@ -152,7 +152,7 @@ await routerClient.createJob("asdaccfb-476e-42f9-a202-b211b41a4ea4", {
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "Voice",
   priority: 2,
-  queueId: salesQueueResponse.Id
+  queueId: salesQueueResponse.Id,
 });
 ```
 
@@ -189,8 +189,8 @@ await routerClient.createJob("fdw2rcfb-476e-42f9-a202-b211b41a4ea4", {
   channelId: "Voice",
   classificationPolicyId: classificationPolicy.Id,
   labels: {
-    department: "xbox"
-  }
+    department: "xbox",
+  },
 });
 ```
 

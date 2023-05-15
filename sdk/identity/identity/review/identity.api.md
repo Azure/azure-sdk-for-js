@@ -394,7 +394,7 @@ export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCrede
 
 // @public
 export class WorkloadIdentityCredential implements TokenCredential {
-    constructor(options: WorkloadIdentityCredentialOptions);
+    constructor(options?: WorkloadIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 

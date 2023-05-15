@@ -277,6 +277,28 @@ export interface StorageBlobInventoryPolicyCompletedEventData {
   manifestBlobUrl: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskQueued event. */
+export interface StorageTaskQueuedEventData {
+  /** The time at which a storage task was queued. */
+  queuedDateTime: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskCompleted event. */
+export interface StorageTaskCompletedEventData {
+  /** The status for a storage task. */
+  status: StorageTaskCompletedStatus;
+  /** The time at which a storage task was completed. */
+  completedDateTime: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+  /** The task name for a storage task. */
+  taskName: string;
+  /** The summary report blob url for a storage task */
+  summaryReportBlobUrl: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
@@ -582,6 +604,36 @@ export interface SubscriptionDeletedEventData {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eventSubscriptionId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyStarted event. */
+export interface DataBoxCopyStartedEventData {
+  /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
+  serialNumber: string;
+  /** Name of the current Stage */
+  stageName: DataBoxStageName;
+  /** The time at which the stage happened. */
+  stageTime: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyCompleted event. */
+export interface DataBoxCopyCompletedEventData {
+  /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
+  serialNumber: string;
+  /** Name of the current Stage */
+  stageName: DataBoxStageName;
+  /** The time at which the stage happened. */
+  stageTime: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.OrderCompleted event. */
+export interface DataBoxOrderCompletedEventData {
+  /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
+  serialNumber: string;
+  /** Name of the current Stage */
+  stageName: DataBoxStageName;
+  /** The time at which the stage happened. */
+  stageTime: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a device life cycle event (DeviceCreated, DeviceDeleted). */
@@ -1955,10 +2007,22 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
-export interface AcsUserDisconnectedEventData {
-  /** The communication identifier of the user who was disconnected */
-  userCommunicationIdentifier: CommunicationIdentifierModel;
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.IncomingCall event */
+export interface AcsIncomingCallEventData {
+  /** The communication identifier of the target user. */
+  toCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The communication identifier of the user who initiated the call. */
+  fromCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The Id of the server call */
+  serverCallId: string;
+  /** Display name of caller. */
+  callerDisplayName: string;
+  /** Custom Context of Incoming Call */
+  customContext: AcsIncomingCallCustomContext;
+  /** Signed incoming call context. */
+  incomingCallContext: string;
+  /** CorrelationId (CallId). */
+  correlationId: string;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
@@ -1993,6 +2057,20 @@ export interface MicrosoftTeamsUserIdentifierModel {
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** Custom Context of Incoming Call */
+export interface AcsIncomingCallCustomContext {
+  /** Sip Headers for incoming call */
+  sipHeaders: { [propertyName: string]: string };
+  /** Voip Headers for incoming call */
+  voipHeaders: { [propertyName: string]: string };
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
+export interface AcsUserDisconnectedEventData {
+  /** The communication identifier of the user who was disconnected */
+  userCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
 /** Schema of common properties of all chat events */
@@ -2079,6 +2157,44 @@ export interface AcsRecordingChunkInfo {
   contentLocation: string;
   /** The location to delete all chunk storage */
   deleteLocation: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
+export interface AcsEmailDeliveryReportReceivedEventData {
+  /** The Sender Email Address */
+  sender: string;
+  /** The recipient Email Address */
+  recipient: string;
+  /** The Id of the email been sent */
+  messageId: string;
+  /** The status of the email. Any value other than Delivered is considered failed. */
+  status: AcsEmailDeliveryReportStatus;
+  /** Detailed information about the status if any */
+  deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
+  /** The time at which the email delivery report received timestamp */
+  deliveryAttemptTimestamp: string;
+}
+
+/** Detailed information about the status if any */
+export interface AcsEmailDeliveryReportStatusDetails {
+  /** Detailed status message */
+  statusMessage: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailEngagementTrackingReportReceived event. */
+export interface AcsEmailEngagementTrackingReportReceivedEventData {
+  /** The Sender Email Address */
+  sender: string;
+  /** The Id of the email that has been sent */
+  messageId: string;
+  /** The time at which the user interacted with the email */
+  userActionTimestamp: string;
+  /** The context of the type of engagement user had with email */
+  engagementContext: string;
+  /** The user agent interacting with the email */
+  userAgent: string;
+  /** The type of engagement user have with email */
+  engagement: AcsUserEngagement;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2237,6 +2353,72 @@ export interface ApiManagementApiReleaseDeletedEventData {
   resourceUri: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCreated event. */
+export interface ApiManagementGatewayCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayUpdated event. */
+export interface ApiManagementGatewayUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayDeleted event. */
+export interface ApiManagementGatewayDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationCreated event. */
+export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated event. */
+export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted event. */
+export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityCreated event. */
+export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated event. */
+export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted event. */
+export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIAdded event. */
+export interface ApiManagementGatewayApiAddedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIRemoved event. */
+export interface ApiManagementGatewayApiRemovedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
+  resourceUri: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceCreated event. */
 export interface HealthcareFhirResourceCreatedEventData {
   /** Type of HL7 FHIR resource. */
@@ -2275,6 +2457,8 @@ export interface HealthcareFhirResourceDeletedEventData {
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageCreated event. */
 export interface HealthcareDicomImageCreatedEventData {
+  /** Data partition name */
+  partitionName: string;
   /** Unique identifier for the Study */
   imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
@@ -2287,8 +2471,26 @@ export interface HealthcareDicomImageCreatedEventData {
   sequenceNumber: number;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageUpdated event. */
+export interface HealthcareDicomImageUpdatedEventData {
+  /** Data partition name */
+  partitionName: string;
+  /** Unique identifier for the Study */
+  imageStudyInstanceUid: string;
+  /** Unique identifier for the Series */
+  imageSeriesInstanceUid: string;
+  /** Unique identifier for the DICOM Image */
+  imageSopInstanceUid: string;
+  /** Domain name of the DICOM account for this image. */
+  serviceHostName: string;
+  /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation, updation and deletion within the service. */
+  sequenceNumber: number;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageDeleted event. */
 export interface HealthcareDicomImageDeletedEventData {
+  /** Data partition name */
+  partitionName: string;
   /** Unique identifier for the Study */
   imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
@@ -2608,6 +2810,43 @@ export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThread
   properties: { [propertyName: string]: any };
 };
 
+/** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
+export const enum KnownStorageTaskCompletedStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for StorageTaskCompletedStatus. \
+ * {@link KnownStorageTaskCompletedStatus} can be used interchangeably with StorageTaskCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link DataBoxStageName} that the service accepts. */
+export const enum KnownDataBoxStageName {
+  /** Copy has started */
+  CopyStarted = "CopyStarted",
+  /** Copy has completed */
+  CopyCompleted = "CopyCompleted",
+  /** Order has been completed */
+  OrderCompleted = "OrderCompleted"
+}
+
+/**
+ * Defines values for DataBoxStageName. \
+ * {@link KnownDataBoxStageName} can be used interchangeably with DataBoxStageName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CopyStarted**: Copy has started \
+ * **CopyCompleted**: Copy has completed \
+ * **OrderCompleted**: Order has been completed
+ */
+export type DataBoxStageName = string;
+
 /** Known values of {@link AppAction} that the service accepts. */
 export const enum KnownAppAction {
   /** Web app was restarted. */
@@ -2762,6 +3001,52 @@ export const enum KnownRecordingFormatType {
  * **Mp4**
  */
 export type RecordingFormatType = string;
+
+/** Known values of {@link AcsEmailDeliveryReportStatus} that the service accepts. */
+export const enum KnownAcsEmailDeliveryReportStatus {
+  /** Hard bounce detected while sending the email */
+  Bounced = "Bounced",
+  /** The email was delivered */
+  Delivered = "Delivered",
+  /** The email failed to be delivered */
+  Failed = "Failed",
+  /** The message was identified spam and was rejected or blocked (not quarantined). */
+  FilteredSpam = "FilteredSpam",
+  /** The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). */
+  Quarantined = "Quarantined",
+  /** The email was suppressed */
+  Suppressed = "Suppressed"
+}
+
+/**
+ * Defines values for AcsEmailDeliveryReportStatus. \
+ * {@link KnownAcsEmailDeliveryReportStatus} can be used interchangeably with AcsEmailDeliveryReportStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Bounced**: Hard bounce detected while sending the email \
+ * **Delivered**: The email was delivered \
+ * **Failed**: The email failed to be delivered \
+ * **FilteredSpam**: The message was identified spam and was rejected or blocked (not quarantined). \
+ * **Quarantined**: The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). \
+ * **Suppressed**: The email was suppressed
+ */
+export type AcsEmailDeliveryReportStatus = string;
+
+/** Known values of {@link AcsUserEngagement} that the service accepts. */
+export const enum KnownAcsUserEngagement {
+  View = "view",
+  Click = "click"
+}
+
+/**
+ * Defines values for AcsUserEngagement. \
+ * {@link KnownAcsUserEngagement} can be used interchangeably with AcsUserEngagement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **view** \
+ * **click**
+ */
+export type AcsUserEngagement = string;
 
 /** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
 export const enum KnownHealthcareFhirResourceType {
