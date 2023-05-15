@@ -103,7 +103,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -165,7 +166,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -201,7 +203,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -239,7 +242,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 }

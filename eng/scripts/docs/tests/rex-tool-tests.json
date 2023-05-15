@@ -1,0 +1,37 @@
+[
+  {
+    "Package": "@azure/storage-blob@12.8.0",
+    "ExpectedResult": true,
+    "Comment": "Valid package, passes build"
+  },
+  {
+    "Package": "@azure/core-rest-pipeline@1.9.0",
+    "ExpectedResult": true,
+    "Comment": "Valid package, passes build"
+  },
+  {
+    "Package": "microsoft-cognitiveservices-speech-sdk@1.25.1",
+    "ExpectedResult": true,
+    "Comment": "Valid package, passes build"
+  },
+  {
+    "Package": "@azure/identity-cache-persistence@1.0.0",
+    "ExpectedResult": true,
+    "Comment": "Valid as of 2.x, passes build"
+  },
+  {
+    "Package": "@azure/identity-vscode@1.0.0",
+    "ExpectedResult": true,
+    "Comment": "Valid as of 2.x, passes build"
+  },
+  {
+    "Package": "@azure-rest/maps-search@1.0.0-beta.1",
+    "ExpectedResult": false,
+    "Comment": "Package has defect, fails build"
+  },
+  {
+    "Package": "@azure/package-which-doesnt-exist",
+    "ExpectedResult": false,
+    "Comment": "Package has defect, fails build"
+  }
+]

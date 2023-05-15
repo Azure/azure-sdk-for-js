@@ -9,14 +9,12 @@ import {
   CustomMultiLabelClassificationAction,
   CustomSingleLabelClassificationAction,
   DetectedLanguage,
-  DocumentDetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
   Entity,
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
-  EntityWithResolution,
   ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
@@ -153,14 +151,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
-
 /** Options for an Abstractive Summarization action. */
 export interface AbstractiveSummarizationAction {
   /** The approximate number of sentences to be part of the summary. */
@@ -253,7 +243,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
   /**
    * The collection of entities identified in the input document.
    */
-  readonly entities: EntityWithResolution[];
+  readonly entities: Entity[];
 }
 
 /**
@@ -567,11 +557,6 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
    * Relations between healthcare entities.
    */
   readonly entityRelations: HealthcareEntityRelation[];
-  /**
-   * JSON bundle containing a FHIR compatible object for consumption in other
-   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
-   */
-  readonly fhirBundle?: Record<string, any>;
 }
 
 /**
@@ -877,15 +862,6 @@ export interface CustomActionMetadata {
 }
 
 /**
- * Document results with potentially automatically detected language.
- */
-export type WithDetectedLanguage<T> = T &
-  DocumentDetectedLanguage & {
-    /** Indicates whether the default language hint was used */
-    isLanguageDefaulted?: boolean;
-  };
-
-/**
  * The state of a succeeded batched action.
  */
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
@@ -893,7 +869,7 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
   /**
    * The list of document results.
    */
-  readonly results: WithDetectedLanguage<T>[];
+  readonly results: T[];
   /**
    * When this action was completed by the service.
    */

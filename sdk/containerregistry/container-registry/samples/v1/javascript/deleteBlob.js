@@ -5,7 +5,10 @@
  * @summary Deletes the blobs associated with a given manifest from the repository.
  */
 
-const { ContainerRegistryContentClient, isOciImageManifest } = require("@azure/container-registry");
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -22,7 +25,7 @@ async function main() {
 
   const downloadResult = await client.getManifest("latest");
 
-  if (!isOciImageManifest(downloadResult.manifest)) {
+  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
 
