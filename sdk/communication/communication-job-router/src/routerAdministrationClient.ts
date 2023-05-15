@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
+import {
+  CommunicationTokenCredential,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
+} from "@azure/communication-common";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   ClassificationPolicyItem,
   DistributionPolicyItem,
@@ -29,25 +35,17 @@ import {
   UpdateExceptionPolicyOptions,
   UpdateQueueOptions,
 } from "./models/options";
-
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CommunicationTokenCredential,
-  createCommunicationAuthPolicy,
-  isKeyCredential,
-  parseClientArguments,
-} from "@azure/communication-common";
-
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./models/logger";
 import {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
   JobQueueResponse,
 } from "./models/responses";
+import { OperationOptions } from "@azure/core-client";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SDK_VERSION } from "./constants";
+import { logger } from "./models/logger";
 
 /**
  * Checks whether the type of a value is {@link RouterAdministrationClientOptions} or not.
