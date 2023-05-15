@@ -53,8 +53,8 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.equal(uspb.id, submitResult.id, "Program brief creation returned the wrong Id");
 
     // get program brief, verify it was created correctly
-    const getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(uspb, getRes, "get after initial create");
+    const actualProgramBrief = await client.getUSProgramBrief(uspb.id);
+    assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after initial create");
   };
 
   const _updateUSProgramBrief = async (uspb: USProgramBrief): Promise<void> => {
@@ -81,8 +81,8 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.equal(uspb.id, updateResult.id, "Update program brief returned the wrong Id");
 
     // get program brief, verify it was updated correctly
-    const getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(uspb, getRes, "get after update");
+    const actualProgramBrief = await client.getUSProgramBrief(uspb.id);
+    assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after update");
   };
 
   const _listUSProgramBriefs = async (
@@ -121,18 +121,24 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
           assertEditableFieldsAreEqual(
             pb,
             expectedBriefMap[pb.id].brief,
-            "list all program briefs, byPage"
+            "list all program briefs"
           );
         }
       }
     }
     // make sure all expected briefs were found
-    const allExpectedBriefsFound = Object.values(expectedBriefMap).every((expectedPB) => {
-      return expectedPB.found;
+    const programBriefsNotFound: string[] = [];
+    Object.values(expectedBriefMap).map((expectedPB) => {
+      if (!expectedPB.found) {
+        programBriefsNotFound.push(expectedPB.brief.id);
+      }
     });
+    const notFoundErrorMsg = byPage
+      ? "Program briefs not found while listUSProgramBriefs byPage"
+      : "Program briefs not found while listUSProgramBriefs";
     assert.isTrue(
-      allExpectedBriefsFound,
-      "Test program brief was not returned in list of all program briefs"
+      programBriefsNotFound.length === 0,
+      `${notFoundErrorMsg} : ${programBriefsNotFound.join(",")}`
     );
     return totalNumberOfbriefs;
   };
@@ -144,7 +150,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     const totalNumberOfbriefs = await _listUSProgramBriefs(expectedProgramBriefs);
 
     // test pagination, using 2 pages
-    const itemsPerPage = Math.floor(totalNumberOfbriefs / 2);
+    const itemsPerPage = totalNumberOfbriefs > 1 ? Math.floor(totalNumberOfbriefs / 2) : 1;
     await _listUSProgramBriefs(expectedProgramBriefs, true, itemsPerPage);
     return true;
   };
@@ -181,5 +187,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       });
       assert.isOk(await Promise.all(testDeleteBrief));
     });
-  }).timeout(80000);
+  }).timeout(50000);
 });
