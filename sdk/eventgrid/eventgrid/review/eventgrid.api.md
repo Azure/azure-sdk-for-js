@@ -8,6 +8,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
 import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
 import { CommonClientOptions } from '@azure/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
@@ -15,9 +16,19 @@ import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface acknowledgeCloudEventsOptions extends RequestOptions {
-    accept?: "application/json";
+export interface AcknowledgeCloudEventsOptions extends RequestOptions {
     contentType?: string;
+}
+
+// @public
+export interface AcknowledgeOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface AcknowledgeResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
 }
 
 // @public
@@ -448,7 +459,8 @@ export { AzureSASCredential }
 
 // @public
 export interface BrokerProperties {
-    lockToken: LockToken;
+    deliveryCount: number;
+    lockToken: string;
 }
 
 // @public (undocumented)
@@ -469,8 +481,13 @@ export interface CloudEvent<T> {
 }
 
 // @public
-export interface CloudEventEvent {
-    data?: object;
+export interface CloudEventSendOptions extends SendOptions {
+    channelName?: string;
+}
+
+// @public
+export interface CloudEventV2 {
+    data?: any;
     dataBase64?: string;
     datacontenttype?: string;
     dataschema?: string;
@@ -480,11 +497,6 @@ export interface CloudEventEvent {
     subject?: string;
     time?: Date;
     type: string;
-}
-
-// @public
-export interface CloudEventSendOptions extends SendOptions {
-    channelName?: string;
 }
 
 // @public
@@ -690,15 +702,19 @@ export interface DeviceTwinMetadata {
 export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
     // (undocumented)
-    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: acknowledgeCloudEventsOptions): Promise<LockTokensResponse>;
+    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
+    // Warning: (ae-forgotten-export) The symbol "PublishResult" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    publishCloudEvent(id: string, source: string, type: string, specversion: string, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
+    publishCloudEvent(event: CloudEventV2, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResult>;
     // (undocumented)
-    publishCloudEvents(events: CloudEventEvent[], topicName: string, options?: publishCloudEventsOptions): Promise<void>;
+    publishCloudEvents(events: CloudEventV2[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResult>;
     // (undocumented)
-    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: receiveCloudEventsOptions): Promise<ReceiveResponse>;
+    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult>;
     // (undocumented)
-    releaseCloudEvents(tokens: LockToken[], topicName: string, eventSubscriptionName: string, options?: releaseCloudEventsOptions): Promise<LockTokensResponse>;
+    rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
+    // (undocumented)
+    releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
 }
 
 // @public
@@ -746,9 +762,9 @@ export interface EventHubCaptureFileCreatedEventData {
 
 // @public
 export interface FailedLockToken {
-    errorCode: number;
+    errorCode: string;
     errorDescription: string;
-    lockToken: LockToken;
+    lockToken: string;
 }
 
 // @public
@@ -1020,22 +1036,6 @@ export const enum KnownStampKind {
 
 // @public
 export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
-
-// @public
-export interface LockToken {
-    lockToken: string;
-}
-
-// @public
-export interface LockTokenInput {
-    lockTokens: string[];
-}
-
-// @public
-export interface LockTokensResponse {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
-}
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
@@ -1381,34 +1381,27 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 // @public (undocumented)
 export interface PublishCloudEventOptions extends RequestOptions {
     contentType?: string;
-    data?: object;
-    dataBase64?: string;
-    datacontenttype?: string;
-    dataschema?: string;
-    subject?: string;
-    time?: Date;
 }
 
 // @public (undocumented)
-export interface publishCloudEventsOptions extends RequestOptions {
+export interface PublishCloudEventsOptions extends RequestOptions {
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface receiveCloudEventsOptions extends RequestOptions {
-    accept?: "application/json";
+export interface ReceiveCloudEventsOptions extends RequestOptions {
     maxEvents?: number;
-    timeout?: number;
+    maxWaitTime?: number;
 }
 
 // @public
 export interface ReceiveDetails {
     brokerProperties: BrokerProperties;
-    event: CloudEventEvent;
+    event: CloudEventV2;
 }
 
-// @public (undocumented)
-export interface ReceiveResponse {
+// @public
+export interface ReceiveResult {
     value: ReceiveDetails[];
 }
 
@@ -1422,9 +1415,35 @@ export type RecordingContentType = string;
 export type RecordingFormatType = string;
 
 // @public (undocumented)
-export interface releaseCloudEventsOptions extends RequestOptions {
-    accept?: "application/json";
+export interface RejectCloudEventsOptions extends RequestOptions {
     contentType?: string;
+}
+
+// @public
+export interface RejectOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface RejectResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface ReleaseOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface ReleaseResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
 }
 
 // @public (undocumented)
@@ -1432,10 +1451,9 @@ export interface RequestOptions {
     // (undocumented)
     requestOptions?: {
         headers?: RawHttpHeadersInput;
-        body?: unknown;
-        queryParameters?: Record<string, unknown>;
         allowInsecureConnection?: boolean;
         skipUrlEncoding?: boolean;
+        onResponse?: (response: HttpResponse) => void;
     };
 }
 

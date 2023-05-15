@@ -250,24 +250,28 @@ export {
 } from "./generated/models";
 
 export {
-  CloudEventEvent,
-  ReceiveResponse,
+  CloudEvent as CloudEventV2,
+  ReceiveResult,
   ReceiveDetails,
   BrokerProperties,
-  LockToken,
-  LockTokensResponse,
+  AcknowledgeOptions,
+  AcknowledgeResult,
   FailedLockToken,
-  LockTokenInput,
+  ReleaseOptions,
+  ReleaseResult,
+  RejectOptions,
+  RejectResult,
 } from "./cadl-generated/api/models";
 
-export { AzureMessagingEventGrid as EventGridClient } from "./cadl-generated/AzureMessagingEventGrid";
+export { EventGridClient } from "./cadl-generated/EventGridClient";
 
 export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
 
 export {
   PublishCloudEventOptions,
-  publishCloudEventsOptions,
-  receiveCloudEventsOptions,
-  acknowledgeCloudEventsOptions,
-  releaseCloudEventsOptions,
+  PublishCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  AcknowledgeCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RejectCloudEventsOptions,
 } from "./cadl-generated/api/operations";

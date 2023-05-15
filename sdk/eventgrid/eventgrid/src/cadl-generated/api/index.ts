@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { createEventGrid, EventGridContext } from "./EventGridContext";
 export {
-  createAzureMessagingEventGrid,
-  AzureMessagingEventGridContext,
-} from "./AzureMessagingEventGridContext";
-export {
-  CloudEventEvent,
-  ReceiveResponse,
+  PublishCloudEventRequest,
+  CloudEvent,
+  ReceiveResult,
+  PublishResult,
   ReceiveDetails,
   BrokerProperties,
-  LockToken,
-  LockTokensResponse,
+  AcknowledgeOptions,
+  AcknowledgeResult,
   FailedLockToken,
-  LockTokenInput,
+  ReleaseOptions,
+  ReleaseResult,
+  RejectOptions,
+  RejectResult,
 } from "./models";
 export {
   publishCloudEvent,
@@ -21,9 +23,11 @@ export {
   receiveCloudEvents,
   acknowledgeCloudEvents,
   releaseCloudEvents,
+  rejectCloudEvents,
   PublishCloudEventOptions,
-  publishCloudEventsOptions,
-  receiveCloudEventsOptions,
-  acknowledgeCloudEventsOptions,
-  releaseCloudEventsOptions,
+  PublishCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  AcknowledgeCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RejectCloudEventsOptions,
 } from "./operations";

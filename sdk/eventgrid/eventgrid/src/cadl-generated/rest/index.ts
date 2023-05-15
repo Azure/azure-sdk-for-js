@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import AzureMessagingEventGridClient from "./azureMessagingEventGridClient";
+import EventGridClient from "./eventGridClient";
 
-export * from "./azureMessagingEventGridClient";
+export * from "./eventGridClient";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -11,4 +11,4 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 
-export default AzureMessagingEventGridClient;
+export default EventGridClient;

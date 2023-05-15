@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 /** Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. */
-export interface CloudEventEvent {
+export interface CloudEvent {
   /** An identifier for the event. The combination of id and source must be unique for each distinct event. */
   id: string;
   /** Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. */
   source: string;
   /** Event data specific to the event type. */
-  data?: Object;
+  data?: unknown;
   /** Event data specific to the event type, encoded as a base64 string. */
   data_base64?: string;
   /** Type of event related to the originating occurrence. */
@@ -25,16 +25,20 @@ export interface CloudEventEvent {
   subject?: string;
 }
 
-export interface Object {}
-
-/** LockToken information. */
-export interface LockToken {
-  /** The token used to lock the event. */
-  lockToken: string;
+/** Array of lock token strings for the corresponding received Cloud Events to be acknowledged. */
+export interface AcknowledgeOptions {
+  /** String array of lock tokens. */
+  lockTokens: string[];
 }
 
-/** Lock token input formatting. */
-export interface LockTokenInput {
-  /** LockToken */
+/** Array of lock token strings for the corresponding received Cloud Events to be released. */
+export interface ReleaseOptions {
+  /** String array of lock tokens. */
+  lockTokens: string[];
+}
+
+/** Array of lock token strings for the corresponding received Cloud Events to be rejected. */
+export interface RejectOptions {
+  /** String array of lock tokens. */
   lockTokens: string[];
 }
