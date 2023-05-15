@@ -95,6 +95,12 @@ export class UserDefinedFunctions {
       options,
     });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, ref);
+    return new UserDefinedFunctionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 }

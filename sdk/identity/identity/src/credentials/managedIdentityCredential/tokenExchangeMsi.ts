@@ -41,7 +41,7 @@ export function tokenExchangeMsi(): MSI {
         tenantId: process.env.AZURE_TENANT_ID,
         tokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
         ...identityClientTokenCredentialOptions,
-        disableAuthorityValidationAndInstanceDiscovery: true,
+        disableInstanceDiscovery: true,
       } as WorkloadIdentityCredentialOptions);
       const token = await workloadIdentityCredential.getToken(scopes, getTokenOptions);
       return token;

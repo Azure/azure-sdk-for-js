@@ -302,7 +302,10 @@ main().catch((err) => {
 #### Download images
 
 ```javascript
-const { ContainerRegistryContentClient, isOciImageManifest } = require("@azure/container-registry");
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
@@ -327,10 +330,11 @@ async function main() {
   // Download the manifest to obtain the list of files in the image based on the tag
   const result = await client.getManifest("demo");
 
-  const manifest = result.manifest;
-  if (!isOciImageManifest(manifest)) {
+  if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
+
+  const manifest = result.manifest;
 
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
   fs.writeFileSync("manifest.json", result.content);
@@ -351,7 +355,6 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
 ```
 
 #### Delete manifest
@@ -384,7 +387,10 @@ main().catch((err) => {
 #### Delete blob
 
 ```javascript
-const { ContainerRegistryContentClient, isOciImageManifest } = require("@azure/container-registry");
+const {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -401,7 +407,7 @@ async function main() {
 
   const downloadResult = await client.getManifest("latest");
 
-  if (!isOciImageManifest(downloadResult.manifest)) {
+  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
 
@@ -409,11 +415,6 @@ async function main() {
     await client.deleteBlob(layer.digest);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-
 ```
 
 ## Troubleshooting
