@@ -1,6 +1,6 @@
 {
   "name": "@azure/container-registry",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An isomorphic client library for the Azure Container Registry service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -19,6 +19,10 @@
       {
         "path": "swagger/README.md",
         "prefix": "package-version"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "const SDK_VERSION"
       }
     ]
   },
