@@ -342,7 +342,9 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type JobRouterCancelJobActionResponse = Record<string, unknown>;
+export type JobRouterCancelJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCloseJobActionOptionalParams extends coreClient.OperationOptions {
@@ -352,7 +354,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type JobRouterCloseJobActionResponse = Record<string, unknown>;
+export type JobRouterCloseJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
@@ -360,18 +364,24 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
+export type JobRouterCompleteJobActionResponse = {
+    body: any;
+};
 
 // @public
-export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
+export type JobRouterDeclineJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
-    reclassifyJobRequest?: Record<string, unknown>;
+    reclassifyJobRequest?: any;
 }
 
 // @public
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
+export type JobRouterReclassifyJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOptions {
@@ -481,7 +491,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
 export interface QueueSelector {
     key: string;
     labelOperator: LabelOperator;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -660,7 +670,7 @@ export interface RouterWorker {
     readonly loadRatio?: number;
     readonly offers?: JobOffer[];
     queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly state?: RouterWorkerState;
     tags?: {
@@ -716,7 +726,7 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
 // @public
 export interface StaticRule extends RouterRule {
     kind: "static-rule";
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -845,7 +855,7 @@ export interface WorkerSelector {
     labelOperator: LabelOperator;
     readonly state?: WorkerSelectorState;
     ttlSeconds?: number;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
