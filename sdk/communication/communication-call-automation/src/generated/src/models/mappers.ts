@@ -43,7 +43,7 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
         serializedName: "sourceIdentity",
         type: {
           name: "Composite",
-          className: "CommunicationIdentifierModel"
+          className: "CommunicationUserIdentifierModel"
         }
       },
       operationContext: {
@@ -311,6 +311,19 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CommunicationIdentifierModel"
         }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      answeredByIdentifier: {
+        serializedName: "answeredByIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationUserIdentifierModel"
+        }
       }
     }
   }
@@ -397,6 +410,12 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
       mediaStreamingConfiguration: {
         serializedName: "mediaStreamingConfiguration",
         type: {
@@ -414,7 +433,7 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
         serializedName: "answeredByIdentifier",
         type: {
           name: "Composite",
-          className: "CommunicationIdentifierModel"
+          className: "CommunicationUserIdentifierModel"
         }
       }
     }

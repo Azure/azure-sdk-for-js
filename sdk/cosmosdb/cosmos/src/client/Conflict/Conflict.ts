@@ -48,7 +48,13 @@ export class Conflict {
       resourceId: id,
       options,
     });
-    return new ConflictResponse(response.result, response.headers, response.code, this);
+    return new ConflictResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -70,6 +76,12 @@ export class Conflict {
       options,
       partitionKey: this.partitionKey,
     });
-    return new ConflictResponse(response.result, response.headers, response.code, this);
+    return new ConflictResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 }

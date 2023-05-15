@@ -20,7 +20,7 @@ export interface CreateCallRequest {
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
-  sourceIdentity?: CommunicationIdentifierModel;
+  sourceIdentity?: CommunicationUserIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -102,6 +102,10 @@ export interface CallConnectionPropertiesInternal {
   sourceDisplayName?: string;
   /** Source identity. */
   sourceIdentity?: CommunicationIdentifierModel;
+  /** The correlation ID. */
+  correlationId?: string;
+  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The Communication Services error response */
@@ -123,12 +127,14 @@ export interface AnswerCallRequest {
   incomingCallContext: string;
   /** The callback uri. */
   callbackUri: string;
+  /** A customer set value used to track the answering of a call. */
+  operationContext?: string;
   /** Media Streaming Configuration. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
   azureCognitiveServicesEndpointUrl?: string;
-  /** The identifier of the contoso app which answers the call */
-  answeredByIdentifier?: CommunicationIdentifierModel;
+  /** The identifier of the call automation entity which answers the call */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */

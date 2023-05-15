@@ -854,6 +854,73 @@ export const StorageBlobInventoryPolicyCompletedEventData: coreClient.CompositeM
   }
 };
 
+export const StorageTaskQueuedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskQueuedEventData",
+    modelProperties: {
+      queuedDateTime: {
+        serializedName: "queuedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTaskCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskCompletedEventData",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      completedDateTime: {
+        serializedName: "completedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      summaryReportBlobUrl: {
+        serializedName: "summaryReportBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1827,6 +1894,96 @@ export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
         serializedName: "eventSubscriptionId",
         required: true,
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxCopyStartedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxCopyStartedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxCopyCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxCopyCompletedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxOrderCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxOrderCompletedEventData",
+    modelProperties: {
+      serialNumber: {
+        serializedName: "serialNumber",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageName: {
+        serializedName: "stageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      stageTime: {
+        serializedName: "stageTime",
+        required: true,
         type: {
           name: "String"
         }
@@ -5615,16 +5772,58 @@ export const WebAppServicePlanUpdatedEventDataSku: coreClient.CompositeMapper = 
   }
 };
 
-export const AcsUserDisconnectedEventData: coreClient.CompositeMapper = {
+export const AcsIncomingCallEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsUserDisconnectedEventData",
+    className: "AcsIncomingCallEventData",
     modelProperties: {
-      userCommunicationIdentifier: {
-        serializedName: "userCommunicationIdentifier",
+      toCommunicationIdentifier: {
+        serializedName: "to",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
+        }
+      },
+      fromCommunicationIdentifier: {
+        serializedName: "from",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      callerDisplayName: {
+        serializedName: "callerDisplayName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      customContext: {
+        serializedName: "customContext",
+        type: {
+          name: "Composite",
+          className: "AcsIncomingCallCustomContext"
+        }
+      },
+      incomingCallContext: {
+        serializedName: "incomingCallContext",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -5722,6 +5921,47 @@ export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
         serializedName: "cloud",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsIncomingCallCustomContext: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsIncomingCallCustomContext",
+    modelProperties: {
+      sipHeaders: {
+        serializedName: "sipHeaders",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      voipHeaders: {
+        serializedName: "voipHeaders",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsUserDisconnectedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsUserDisconnectedEventData",
+    modelProperties: {
+      userCommunicationIdentifier: {
+        serializedName: "userCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       }
     }
@@ -5986,6 +6226,124 @@ export const AcsRecordingChunkInfo: coreClient.CompositeMapper = {
       },
       deleteLocation: {
         serializedName: "deleteLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsEmailDeliveryReportReceivedEventData",
+    modelProperties: {
+      sender: {
+        serializedName: "sender",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      recipient: {
+        serializedName: "recipient",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      deliveryStatusDetails: {
+        serializedName: "deliveryStatusDetails",
+        type: {
+          name: "Composite",
+          className: "AcsEmailDeliveryReportStatusDetails"
+        }
+      },
+      deliveryAttemptTimestamp: {
+        serializedName: "deliveryAttemptTimeStamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsEmailDeliveryReportStatusDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsEmailDeliveryReportStatusDetails",
+    modelProperties: {
+      statusMessage: {
+        serializedName: "statusMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsEmailEngagementTrackingReportReceivedEventData",
+    modelProperties: {
+      sender: {
+        serializedName: "sender",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userActionTimestamp: {
+        serializedName: "userActionTimeStamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      engagementContext: {
+        serializedName: "engagementContext",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAgent: {
+        serializedName: "userAgent",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      engagement: {
+        serializedName: "engagementType",
         required: true,
         type: {
           name: "String"
@@ -6446,6 +6804,182 @@ export const ApiManagementApiReleaseDeletedEventData: coreClient.CompositeMapper
   }
 };
 
+export const ApiManagementGatewayCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayHostnameConfigurationDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayHostnameConfigurationDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityCreatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityUpdatedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayCertificateAuthorityDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayCertificateAuthorityDeletedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayApiAddedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayApiAddedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiManagementGatewayApiRemovedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayApiRemovedEventData",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareFhirResourceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6562,6 +7096,64 @@ export const HealthcareDicomImageCreatedEventData: coreClient.CompositeMapper = 
     name: "Composite",
     className: "HealthcareDicomImageCreatedEventData",
     modelProperties: {
+      partitionName: {
+        serializedName: "partitionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageStudyInstanceUid: {
+        serializedName: "imageStudyInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSeriesInstanceUid: {
+        serializedName: "imageSeriesInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSopInstanceUid: {
+        serializedName: "imageSopInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceHostName: {
+        serializedName: "serviceHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareDicomImageUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareDicomImageUpdatedEventData",
+    modelProperties: {
+      partitionName: {
+        serializedName: "partitionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       imageStudyInstanceUid: {
         serializedName: "imageStudyInstanceUid",
         required: true,
@@ -6606,6 +7198,13 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
     name: "Composite",
     className: "HealthcareDicomImageDeletedEventData",
     modelProperties: {
+      partitionName: {
+        serializedName: "partitionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       imageStudyInstanceUid: {
         serializedName: "imageStudyInstanceUid",
         required: true,

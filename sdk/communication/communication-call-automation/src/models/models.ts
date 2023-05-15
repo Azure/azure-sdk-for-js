@@ -44,6 +44,10 @@ export interface CallConnectionProperties {
   callbackUrl?: string;
   /** SubscriptionId for media streaming */
   mediaSubscriptionId?: string;
+  /** The correlation ID. */
+  correlationId?: string;
+  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  answeredByIdentifier?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
