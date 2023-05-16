@@ -58,13 +58,13 @@ async function main() {
     console.log(inspect(importJob));
   }
 
-  // Decommission import jobs
+  // Cancel import job
   let response = await serviceClient.cancelImportJob(importJobId);
   console.log(`Cancel Import Job response:`);
   console.log(inspect(response));
 
-  // Delete import jobs
-  response = await serviceClient.deleteImportJob(importJobId);
+  // Delete import job
+  await serviceClient.deleteImportJob(importJobId);
   console.log(`Delete Model response:`);
   console.log(inspect(response));
 }

@@ -40,7 +40,6 @@ import {
   DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
   DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
   ImportJob,
-  ImportJobsGetByIdResponse,
   ImportJobsListOptionalParams as ListImportJobsOptions,
 } from "./generated/models";
 import { tracingClient } from "./tracing";
@@ -705,7 +704,7 @@ export class DigitalTwinsClient {
   public getImportJob(
     importJobId: string,
     options: OperationOptions = {}
-  ): Promise<ImportJobsGetByIdResponse> {
+  ): Promise<ImportJob> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getImportJob",
       options,
@@ -739,13 +738,13 @@ export class DigitalTwinsClient {
     inputBlobUri: string,
     outputBlobUri: string,
     options: OperationOptions = {}
-  ): Promise<void> {
+  ): Promise<ImportJob> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertImportJob",
       {
         ImportJob: {
-          endpointName: inputBlobUri,
-          outputBlobUri: outputBlobUri,
+          inputBlobUri,
+          outputBlobUri,
         },
         ...options,
       },
@@ -779,7 +778,7 @@ export class DigitalTwinsClient {
    * @param options - The operation options
 
    */
-  public cancelImportJob(importJobId: string, options: OperationOptions = {}): Promise<void> {
+  public cancelImportJob(importJobId: string, options: OperationOptions = {}): Promise<ImportJob> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.cancelImportJob",
       options,
