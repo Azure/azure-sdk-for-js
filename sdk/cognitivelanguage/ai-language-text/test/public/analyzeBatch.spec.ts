@@ -251,7 +251,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
-          it.only("healthcare", async function () {
+          it("healthcare", async function () {
             const docs = [
               "Patient does not suffer from high blood pressure.",
               "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -925,7 +925,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.isTrue(nonEmptyResult);
         });
 
-        it.only("rehydrated polling", async function () {
+        it("rehydrated polling", async function () {
           const docs = [
             { id: "0", language: "en", text: "Patient does not suffer from high blood pressure." },
             { id: "1", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
@@ -967,7 +967,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         describe("stringIndexType", function () {
-          it.only("family emoji with skin tone modifier", async function () {
+          it("family emoji with skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -985,7 +985,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it.only("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1003,7 +1003,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it.only("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

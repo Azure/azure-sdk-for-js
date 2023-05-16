@@ -4120,7 +4120,7 @@ export const expectation62: EntityLinkingResult[] = [
 
 export const expectation72: LanguageDetectionResult[] = [
   {
-    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1 },
+    primaryLanguage: { name: "Hindi", iso6391Name: "hi", script: "Latin", confidenceScore: 1 },
     id: "0",
     warnings: [],
   },
