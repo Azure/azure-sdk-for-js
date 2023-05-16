@@ -130,6 +130,17 @@ describe("Policy test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
+  it("policyAssignments list by managementgroup test", async function () {
+    const filter = "atScope()";
+    const resArray = new Array();
+    for await (let item of client.policyAssignments.listForManagementGroup(groupId, {
+      filter
+    })) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("policyAssignments delete test", async function () {
     const res = await client.policyAssignments.delete(scope, policyAssignmentName);
     const resArray = new Array();

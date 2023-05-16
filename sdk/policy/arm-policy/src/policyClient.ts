@@ -27,7 +27,7 @@ import { PolicyClientOptionalParams } from "./models";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the PolicyClient class.
@@ -37,14 +37,11 @@ export class PolicyClient extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
+    subscriptionId?: string,
     options?: PolicyClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
