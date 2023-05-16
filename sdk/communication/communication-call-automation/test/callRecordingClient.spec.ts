@@ -254,7 +254,7 @@ describe("CallRecording Live Tests", function () {
       kind: "fileSource",
     };
 
-    //Call recording can fail when no audio is in call, we will play audio to avoid that.
+    // Call recording can fail when no audio is in call, we will play audio to avoid that.
     await callConnection.getCallMedia().playToAll(playSource);
 
     const recOptions: StartRecordingOptions = {
@@ -269,17 +269,17 @@ describe("CallRecording Live Tests", function () {
     };
 
     const recordingStateChanged = waitForEvent("RecordingStateChanged", callConnectionId, 8000);
-    const rec = callerCallAutomationClient.getCallRecording().start(recOptions);
+    const recordingStateResult = callerCallAutomationClient.getCallRecording().start(recOptions);
     await recordingStateChanged;
     assert.isDefined(recordingStateChanged);
 
-    //Delay for 6 seconds, this is to let the recording state change to active
-    await new Promise((f) => setTimeout(f, 6000));
+    // Delay for 6 seconds, this is to let the recording state change to active
+    await new Promise((resolve) => setTimeout(resolve, 6000));
     const recStatus = await callerCallAutomationClient
       .getCallRecording()
-      .getState((await rec.then()).recordingId);
+      .getState((await recordingStateResult).recordingId);
     assert.equal(recStatus.recordingState, "active");
-    await callerCallAutomationClient.getCallRecording().stop((await rec.then()).recordingId);
+    await callerCallAutomationClient.getCallRecording().stop((await recordingStateResult).recordingId);
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
