@@ -100,8 +100,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
         }`
       );
     }
@@ -148,9 +147,54 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: Envelope ${
-          (expectation.data?.baseData as MetricsData).metrics[0].name
+        `assertExpectation: Envelope ${(expectation.data?.baseData as MetricsData).metrics[0].name
         } found ${envelope.length} times.`
+      );
+    }
+
+    for (const [key, value] of Object.entries(expectation) as [keyof Expectation, unknown][]) {
+      const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? undefined;
+      switch (key) {
+        case "data":
+          if (envelope[0].data) {
+            assertData(envelope[0].data, value as MonitorBase);
+          }
+          break;
+        case "children":
+          //Do not check for children
+          break;
+        default:
+          assert.ok(serializedKey, `Serialized key for ${key}`);
+          assert.strictEqual(
+            envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
+            value,
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+          );
+      }
+    }
+  }
+};
+
+export const assertLogExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
+  for (const expectation of expectations) {
+    let envelope: any = null;
+    if (expectation.data!.baseData!.name) {
+      envelope = actual.filter((e) => {
+        return (
+          (e.data!.baseData as any).name ===
+          (expectation.data!.baseData as any).name
+        );
+      });
+    } else {
+      envelope = actual.filter((e) => {
+        return e.name === expectation.name;
+      });
+    }
+    if (envelope.length !== 1) {
+      assert.ok(
+        false,
+        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as any).name
+        }`
       );
     }
 
