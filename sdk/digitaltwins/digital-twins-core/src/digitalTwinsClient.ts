@@ -505,7 +505,7 @@ export class DigitalTwinsClient {
         models: dtdlModels,
       },
       async (updatedOptions) => {
-        return this.client.digitalTwinModels.add(updatedOptions);
+        return this.client.digitalTwinModels.add(updatedOptions.models, updatedOptions);
       }
     );
   }
@@ -601,12 +601,12 @@ export class DigitalTwinsClient {
       {
         eventRoute: {
           endpointName: endpointId,
-          filter,
+          filter: filter,
         },
         ...options,
       },
       async (updatedOptions) => {
-        return this.client.eventRoutes.add(eventRouteId, updatedOptions);
+        return this.client.eventRoutes.add(eventRouteId, updatedOptions.eventRoute, updatedOptions);
       }
     );
   }
@@ -742,14 +742,14 @@ export class DigitalTwinsClient {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertImportJob",
       {
-        ImportJob: {
-          inputBlobUri,
-          outputBlobUri,
+        importJob: {
+          inputBlobUri: inputBlobUri,
+          outputBlobUri: outputBlobUri,
         },
         ...options,
       },
       async (updatedOptions) => {
-        return this.client.importJobs.add(importJobId, updatedOptions);
+        return this.client.importJobs.add(importJobId, updatedOptions.importJob, updatedOptions);
       }
     );
   }
