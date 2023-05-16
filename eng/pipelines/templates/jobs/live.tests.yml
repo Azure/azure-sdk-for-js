@@ -135,8 +135,6 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
-      - template: ../steps/use-node-test-version.yml
-
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |

@@ -1,5 +1,5 @@
 parameters:
-  NodeVersion: $(NodeVersion)
+  NodeVersion: $(NodeTestVersion)
 
 steps:
   - task: NodeTool@0
