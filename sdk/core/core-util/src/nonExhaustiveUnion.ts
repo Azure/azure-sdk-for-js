@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Represents a primitive JavaScript type string, number, bigint and symbol.
  */
