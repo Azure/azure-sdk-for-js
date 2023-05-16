@@ -10,8 +10,8 @@
         "Content-Length": "157",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c4ba7343-ba57-4dac-8a7c-6538af2c158e"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1106-azure)",
+        "x-ms-client-request-id": "a9e34cd2-3315-4e09-9cb5-6646dd904589"
       },
       "RequestBody": {
         "documents": [
@@ -24,105 +24,109 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "04afd747-b416-4118-b95c-3b1669f1b862",
-        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
-        "operation-location": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8",
+        "apim-request-id": "85bb9eaa-52fa-4cb0-b4df-6aeba88149c3",
+        "Date": "Tue, 16 May 2023 22:13:26 GMT",
+        "operation-location": "https://endpointtext/analytics/v3.1/entities/health/jobs/c152ab15-823a-46a3-b5f6-adb3e36a0266",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "153"
+        "x-envoy-upstream-service-time": "242",
+        "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/c152ab15-823a-46a3-b5f6-adb3e36a0266?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4807db69-9848-4a34-ae67-03a7a15ebe23"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1106-azure)",
+        "x-ms-client-request-id": "74a29aee-46dd-4844-bb6e-49df9226cdaa"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "02b297f7-568f-4b9b-99fe-514d7a48dbb3",
+        "apim-request-id": "1b3510dd-13cd-42b2-8fcc-8074e87f601b",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
+        "Date": "Tue, 16 May 2023 22:13:27 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
+        "x-envoy-upstream-service-time": "11",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
-        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
-        "createdDateTime": "2022-07-22T02:39:01Z",
-        "expirationDateTime": "2022-07-23T02:39:01Z",
+        "jobId": "c152ab15-823a-46a3-b5f6-adb3e36a0266",
+        "lastUpdateDateTime": "2023-05-16T22:13:27Z",
+        "createdDateTime": "2023-05-16T22:13:27Z",
+        "expirationDateTime": "2023-05-17T22:13:27Z",
         "status": "notStarted",
         "errors": []
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/c152ab15-823a-46a3-b5f6-adb3e36a0266?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "a455ddc1-b7b7-4f9c-b77f-91cd97e4d2e6"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1106-azure)",
+        "x-ms-client-request-id": "91056071-762f-4e14-8fba-3518afe63a0c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "012f92f5-014c-4d43-a759-8d64a7e25088",
+        "apim-request-id": "d7fdf655-d8cb-42a0-9d68-91f92f7a33f2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
+        "Date": "Tue, 16 May 2023 22:13:27 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "30",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
-        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
-        "createdDateTime": "2022-07-22T02:39:01Z",
-        "expirationDateTime": "2022-07-23T02:39:01Z",
-        "status": "notStarted",
+        "jobId": "c152ab15-823a-46a3-b5f6-adb3e36a0266",
+        "lastUpdateDateTime": "2023-05-16T22:13:28Z",
+        "createdDateTime": "2023-05-16T22:13:27Z",
+        "expirationDateTime": "2023-05-17T22:13:27Z",
+        "status": "running",
         "errors": []
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/c152ab15-823a-46a3-b5f6-adb3e36a0266?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6d5f663a-0de0-4f43-aae7-77efd61ffd40"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1106-azure)",
+        "x-ms-client-request-id": "7965bcf4-1aee-4208-8f54-b99e47ebe925"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "fd789745-c830-4ee2-8f17-75e58dd7cb2d",
+        "apim-request-id": "4a211606-80e5-423c-80e8-a14862d728e2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 22 Jul 2022 02:39:03 GMT",
+        "Date": "Tue, 16 May 2023 22:13:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "47"
+        "x-envoy-upstream-service-time": "50",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
-        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
-        "createdDateTime": "2022-07-22T02:39:01Z",
-        "expirationDateTime": "2022-07-23T02:39:01Z",
+        "jobId": "c152ab15-823a-46a3-b5f6-adb3e36a0266",
+        "lastUpdateDateTime": "2023-05-16T22:13:29Z",
+        "createdDateTime": "2023-05-16T22:13:27Z",
+        "expirationDateTime": "2023-05-17T22:13:27Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -134,8 +138,8 @@
                   "offset": 0,
                   "length": 4,
                   "text": "Baby",
-                  "category": "Age",
-                  "confidenceScore": 0.94,
+                  "category": "FamilyRelation",
+                  "confidenceScore": 1.0,
                   "name": "Infant",
                   "links": [
                     {
@@ -183,14 +187,6 @@
                       "id": "C27956"
                     },
                     {
-                      "dataSource": "NCI_FDA",
-                      "id": "C27956"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C27956"
-                    },
-                    {
                       "dataSource": "SNOMEDCT_US",
                       "id": "133931009"
                     }
@@ -203,7 +199,8 @@
                   "category": "Diagnosis",
                   "confidenceScore": 1.0,
                   "assertion": {
-                    "certainty": "negativePossible"
+                    "certainty": "negativePossible",
+                    "association": "other"
                   },
                   "name": "Meningitis",
                   "links": [
@@ -222,10 +219,6 @@
                     {
                       "dataSource": "CCPSS",
                       "id": "1018016"
-                    },
-                    {
-                      "dataSource": "CCSR_10",
-                      "id": "NVS001"
                     },
                     {
                       "dataSource": "CCSR_ICD10CM",
@@ -316,30 +309,6 @@
                       "id": "C26828"
                     },
                     {
-                      "dataSource": "NCI_CPTAC",
-                      "id": "C26828"
-                    },
-                    {
-                      "dataSource": "NCI_CTCAE",
-                      "id": "E11458"
-                    },
-                    {
-                      "dataSource": "NCI_FDA",
-                      "id": "2389"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000471780"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C26828"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C26828"
-                    },
-                    {
                       "dataSource": "OMIM",
                       "id": "MTHU005994"
                     },
@@ -374,7 +343,10 @@
                   "length": 5,
                   "text": "fever",
                   "category": "SymptomOrSign",
-                  "confidenceScore": 0.98,
+                  "confidenceScore": 0.99,
+                  "assertion": {
+                    "conditionality": "hypothetical"
+                  },
                   "name": "Fever",
                   "links": [
                     {
@@ -400,10 +372,6 @@
                     {
                       "dataSource": "CCPSS",
                       "id": "1017166"
-                    },
-                    {
-                      "dataSource": "CCSR_10",
-                      "id": "SYM002"
                     },
                     {
                       "dataSource": "CCSR_ICD10CM",
@@ -518,30 +486,6 @@
                       "id": "C3038"
                     },
                     {
-                      "dataSource": "NCI_CTCAE",
-                      "id": "E11102"
-                    },
-                    {
-                      "dataSource": "NCI_FDA",
-                      "id": "1858"
-                    },
-                    {
-                      "dataSource": "NCI_GDC",
-                      "id": "C3038"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000450108"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C3038"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C3038"
-                    },
-                    {
                       "dataSource": "NOC",
                       "id": "070307"
                     },
@@ -644,18 +588,6 @@
                       "id": "C25189"
                     },
                     {
-                      "dataSource": "NCI_CDISC",
-                      "id": "C25189"
-                    },
-                    {
-                      "dataSource": "NCI_GDC",
-                      "id": "C25189"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C25189"
-                    },
-                    {
                       "dataSource": "PSY",
                       "id": "32140"
                     },
@@ -678,9 +610,10 @@
                   "length": 10,
                   "text": "Penicillin",
                   "category": "MedicationName",
-                  "confidenceScore": 0.84,
+                  "confidenceScore": 0.99,
                   "assertion": {
-                    "certainty": "neutralPossible"
+                    "certainty": "neutralPossible",
+                    "conditionality": "conditional"
                   },
                   "name": "penicillins",
                   "links": [
@@ -739,14 +672,6 @@
                     {
                       "dataSource": "NCI",
                       "id": "C1500"
-                    },
-                    {
-                      "dataSource": "NCI_DTP",
-                      "id": "NSC0402815"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000045296"
                     },
                     {
                       "dataSource": "NDDF",
@@ -831,14 +756,6 @@
                       "id": "C27956"
                     },
                     {
-                      "dataSource": "NCI_FDA",
-                      "id": "C27956"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C27956"
-                    },
-                    {
                       "dataSource": "SNOMEDCT_US",
                       "id": "133931009"
                     }
@@ -850,37 +767,38 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2022-03-01"
+          "modelVersion": "2023-04-01"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/c152ab15-823a-46a3-b5f6-adb3e36a0266?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2599ec00-8b2d-4abb-bd6f-00b900fe4955"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.10.3 Node/v19.7.0 OS/(x64-Linux-5.4.0-1106-azure)",
+        "x-ms-client-request-id": "3e14874b-1a3c-4853-ac3e-c7f590500537"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "97b88230-2958-4535-bee4-4630116dc4c3",
+        "apim-request-id": "fa802d4f-e4f7-4cee-8b57-10bd5d2a7362",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 22 Jul 2022 02:39:04 GMT",
+        "Date": "Tue, 16 May 2023 22:13:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "31"
+        "x-envoy-upstream-service-time": "43",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
-        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
-        "createdDateTime": "2022-07-22T02:39:01Z",
-        "expirationDateTime": "2022-07-23T02:39:01Z",
+        "jobId": "c152ab15-823a-46a3-b5f6-adb3e36a0266",
+        "lastUpdateDateTime": "2023-05-16T22:13:29Z",
+        "createdDateTime": "2023-05-16T22:13:27Z",
+        "expirationDateTime": "2023-05-17T22:13:27Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -892,8 +810,8 @@
                   "offset": 0,
                   "length": 4,
                   "text": "Baby",
-                  "category": "Age",
-                  "confidenceScore": 0.94,
+                  "category": "FamilyRelation",
+                  "confidenceScore": 1.0,
                   "name": "Infant",
                   "links": [
                     {
@@ -941,14 +859,6 @@
                       "id": "C27956"
                     },
                     {
-                      "dataSource": "NCI_FDA",
-                      "id": "C27956"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C27956"
-                    },
-                    {
                       "dataSource": "SNOMEDCT_US",
                       "id": "133931009"
                     }
@@ -961,7 +871,8 @@
                   "category": "Diagnosis",
                   "confidenceScore": 1.0,
                   "assertion": {
-                    "certainty": "negativePossible"
+                    "certainty": "negativePossible",
+                    "association": "other"
                   },
                   "name": "Meningitis",
                   "links": [
@@ -980,10 +891,6 @@
                     {
                       "dataSource": "CCPSS",
                       "id": "1018016"
-                    },
-                    {
-                      "dataSource": "CCSR_10",
-                      "id": "NVS001"
                     },
                     {
                       "dataSource": "CCSR_ICD10CM",
@@ -1074,30 +981,6 @@
                       "id": "C26828"
                     },
                     {
-                      "dataSource": "NCI_CPTAC",
-                      "id": "C26828"
-                    },
-                    {
-                      "dataSource": "NCI_CTCAE",
-                      "id": "E11458"
-                    },
-                    {
-                      "dataSource": "NCI_FDA",
-                      "id": "2389"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000471780"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C26828"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C26828"
-                    },
-                    {
                       "dataSource": "OMIM",
                       "id": "MTHU005994"
                     },
@@ -1132,7 +1015,10 @@
                   "length": 5,
                   "text": "fever",
                   "category": "SymptomOrSign",
-                  "confidenceScore": 0.98,
+                  "confidenceScore": 0.99,
+                  "assertion": {
+                    "conditionality": "hypothetical"
+                  },
                   "name": "Fever",
                   "links": [
                     {
@@ -1158,10 +1044,6 @@
                     {
                       "dataSource": "CCPSS",
                       "id": "1017166"
-                    },
-                    {
-                      "dataSource": "CCSR_10",
-                      "id": "SYM002"
                     },
                     {
                       "dataSource": "CCSR_ICD10CM",
@@ -1276,30 +1158,6 @@
                       "id": "C3038"
                     },
                     {
-                      "dataSource": "NCI_CTCAE",
-                      "id": "E11102"
-                    },
-                    {
-                      "dataSource": "NCI_FDA",
-                      "id": "1858"
-                    },
-                    {
-                      "dataSource": "NCI_GDC",
-                      "id": "C3038"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000450108"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C3038"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C3038"
-                    },
-                    {
                       "dataSource": "NOC",
                       "id": "070307"
                     },
@@ -1402,18 +1260,6 @@
                       "id": "C25189"
                     },
                     {
-                      "dataSource": "NCI_CDISC",
-                      "id": "C25189"
-                    },
-                    {
-                      "dataSource": "NCI_GDC",
-                      "id": "C25189"
-                    },
-                    {
-                      "dataSource": "NCI_caDSR",
-                      "id": "C25189"
-                    },
-                    {
                       "dataSource": "PSY",
                       "id": "32140"
                     },
@@ -1436,9 +1282,10 @@
                   "length": 10,
                   "text": "Penicillin",
                   "category": "MedicationName",
-                  "confidenceScore": 0.84,
+                  "confidenceScore": 0.99,
                   "assertion": {
-                    "certainty": "neutralPossible"
+                    "certainty": "neutralPossible",
+                    "conditionality": "conditional"
                   },
                   "name": "penicillins",
                   "links": [
@@ -1497,14 +1344,6 @@
                     {
                       "dataSource": "NCI",
                       "id": "C1500"
-                    },
-                    {
-                      "dataSource": "NCI_DTP",
-                      "id": "NSC0402815"
-                    },
-                    {
-                      "dataSource": "NCI_NCI-GLOSS",
-                      "id": "CDR0000045296"
                     },
                     {
                       "dataSource": "NDDF",
@@ -1589,14 +1428,6 @@
                       "id": "C27956"
                     },
                     {
-                      "dataSource": "NCI_FDA",
-                      "id": "C27956"
-                    },
-                    {
-                      "dataSource": "NCI_NICHD",
-                      "id": "C27956"
-                    },
-                    {
                       "dataSource": "SNOMEDCT_US",
                       "id": "133931009"
                     }
@@ -1608,7 +1439,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2022-03-01"
+          "modelVersion": "2023-04-01"
         }
       }
     }
