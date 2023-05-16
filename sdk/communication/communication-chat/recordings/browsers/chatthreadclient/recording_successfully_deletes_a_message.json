@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A1_rDv-O7sJh7jqmHnbLjvQIO4YKaEK_2DIQ1R5J_oNw1%40thread.v2/messages/1679101647816?api-version=2023-04-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3A2T-EEdoaQ_8M-udgYRhZSk71bdZZLdoVqRGktIR6Elg1%40thread.v2/messages/1684196190163?api-version=2023-07-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -13,27 +13,26 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "5e32b01f-7008-44ec-8e95-00c8ce9afd6f",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.3 OS"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "9fb6404a-aa8e-4b8a-a4ad-d2540353897b",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
-        "Connection": "keep-alive",
-        "Date": "Sat, 18 Mar 2023 01:07:31 GMT",
-        "MS-CV": "W15O0cctiEmavTdcIEsjmQ.0",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
+        "Date": "Tue, 16 May 2023 00:16:30 GMT",
+        "MS-CV": "2Pithl5\u002BhECmkvI66ptbNg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230318T010730Z-97wqt9gd4p3k1at2n17xqsnatw000000023g00000000y9p2",
+        "X-Azure-Ref": "0X8tiZAAAAACihp60g1H5RqvF8ZBZCJ0DWVZSMzExMDAwMTE1MDM3AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "275ms"
+        "X-Processing-Time": "185ms"
       },
       "ResponseBody": null
     }

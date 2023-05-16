@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A7SeKCRsilUJN_77z9hv7Fus0xUlQTH4T8Fjungj8UTY1%40thread.v2/participants/:remove?api-version=2023-04-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3ATBHY8oHJOSBrBCbM7MWkDyfrc6hLUnp0SXHZquvXOI41%40thread.v2/participants/:remove?api-version=2023-07-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,25 +10,25 @@
         "Connection": "keep-alive",
         "Content-Length": "200",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.3 Node/v14.19.0 OS/(arm64-Darwin-22.3.0)",
-        "x-ms-client-request-id": "1f7b2a6e-89ef-433c-a066-c9b910fc7b46"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.2 core-rest-pipeline/1.10.4 Node/v14.19.0 OS/(arm64-Darwin-22.4.0)",
+        "x-ms-client-request-id": "5f5b223f-fccd-4f06-b518-0a561a9959ee"
       },
       "RequestBody": {
-        "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-282c-5b3d-8e3a0d006d98",
+        "rawId": "8:acs:356ba684-a8dc-4806-b39c-0fbf447c9b2e_00000018-c1cb-e3ff-a381-094822002d71",
         "communicationUser": {
-          "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-282c-5b3d-8e3a0d006d98"
+          "id": "8:acs:356ba684-a8dc-4806-b39c-0fbf447c9b2e_00000018-c1cb-e3ff-a381-094822002d71"
         }
       },
       "StatusCode": 204,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Connection": "keep-alive",
-        "Date": "Sat, 18 Mar 2023 01:07:13 GMT",
-        "MS-CV": "8jcvAp4Nx0CC4NiHd3tleg.0",
+        "Date": "Tue, 16 May 2023 00:16:23 GMT",
+        "MS-CV": "vDulASBk/EGUxjuoWP3jgw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230318T010713Z-1vv9exqx192u70a2dzpnkg6dz800000002ug00000000dgg4",
+        "x-azure-ref": "20230516T001623Z-4a2ws5gpmh29z23dchxaxn6bec000000009g00000000618a",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "269ms"
+        "X-Processing-Time": "221ms"
       },
       "ResponseBody": null
     }
