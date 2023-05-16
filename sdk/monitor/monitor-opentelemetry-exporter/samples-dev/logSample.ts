@@ -37,9 +37,9 @@ export async function main() {
   // Add logs
   logger.emit({
     severityNumber: SeverityNumber.INFO,
-    severityText: 'INFO',
-    body: 'test message',
-    attributes: { 'key': 'value' },
+    severityText: "INFO",
+    body: "test message",
+    attributes: { key: "value" },
   });
 
   // flush and shutdown

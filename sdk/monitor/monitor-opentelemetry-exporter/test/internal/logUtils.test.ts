@@ -9,7 +9,12 @@ import {
 
 import { Tags, Properties, Measurements } from "../../src/types";
 import { getInstance } from "../../src/platform";
-import { KnownContextTagKeys, MessageData, TelemetryExceptionData, TelemetryExceptionDetails } from "../../src/generated";
+import {
+  KnownContextTagKeys,
+  MessageData,
+  TelemetryExceptionData,
+  TelemetryExceptionDetails,
+} from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { LogRecord, Logger, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
@@ -62,10 +67,7 @@ function assertEnvelope(
     ...expectedServiceTags,
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
-  assert.deepStrictEqual(
-    (envelope?.data?.baseData as any).measurements,
-    expectedMeasurements
-  );
+  assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
 }
 
@@ -76,7 +78,7 @@ describe("logUtils.ts", () => {
     it("should create a Message Envelope for Logs", () => {
       const log = new LogRecord(logger, {
         body: "Test message",
-        severityNumber: 12
+        severityNumber: 12,
       });
       const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
       log.setAttributes({
@@ -111,7 +113,7 @@ describe("logUtils.ts", () => {
     it("should create a TelemetryExceptionData Envelope for logs with exception attributes", () => {
       const log = new LogRecord(logger, {
         body: "Test exception",
-        severityNumber: 22
+        severityNumber: 22,
       });
       const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
       log.setAttributes({

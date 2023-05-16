@@ -16,7 +16,10 @@ import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes, SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SemanticResourceAttributes,
+  SemanticAttributes,
+} from "@opentelemetry/semantic-conventions";
 import { AzureMonitorLogExporter } from "../../src/export/log";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { SeverityNumber } from "@opentelemetry/api-logs";
@@ -382,13 +385,12 @@ export class LogBasicScenario implements Scenario {
   async run(): Promise<void> {
     const logger = this._provider.getLogger("basic");
 
-
     // emit a message record
     logger.emit({
       severityNumber: SeverityNumber.INFO,
-      severityText: 'INFO',
-      body: 'test message',
-      attributes: { 'foo': 'bar' },
+      severityText: "INFO",
+      body: "test message",
+      attributes: { foo: "bar" },
     });
     // emit a exception record
     let attributes: any = [];
@@ -397,7 +399,7 @@ export class LogBasicScenario implements Scenario {
     attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = "test exception stack";
     logger.emit({
       severityNumber: SeverityNumber.ERROR,
-      severityText: 'ERROR',
+      severityText: "ERROR",
       attributes: attributes,
     });
   }
@@ -434,12 +436,14 @@ export class LogBasicScenario implements Scenario {
         baseType: "TelemetryExceptionData",
         baseData: {
           version: 2,
-          exceptions: [{
-            typeName: "test exception type",
-            message: "test exception message",
-            hasFullStack: true,
-            stack: "test exception stack",
-          }],
+          exceptions: [
+            {
+              typeName: "test exception type",
+              message: "test exception message",
+              hasFullStack: true,
+              stack: "test exception stack",
+            },
+          ],
           severityLevel: "Error",
         } as any,
       },
