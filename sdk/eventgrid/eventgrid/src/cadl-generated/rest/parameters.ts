@@ -6,7 +6,7 @@ import { CloudEvent, AcknowledgeOptions, ReleaseOptions, RejectOptions } from ".
 
 export interface PublishCloudEventBodyParam {
   /** Single Cloud Event being published. */
-  body: { event: CloudEvent };
+  body: CloudEvent;
 }
 
 export interface PublishCloudEventMediaTypesParam {

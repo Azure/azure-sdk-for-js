@@ -31,6 +31,7 @@ export class EventGridClient {
 
   /** Azure Messaging EventGrid Client */
   constructor(endpoint: string, credential: AzureKeyCredential, options: ClientOptions = {}) {
+    credential.update(`SharedAccessKey ${credential.key}`);
     this._client = createEventGrid(endpoint, credential, options);
   }
 

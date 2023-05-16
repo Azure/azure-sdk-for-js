@@ -28,7 +28,7 @@ export async function publishCloudEvent(
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
     contentType: (options.contentType as any) ?? "application/cloudevents+json; charset=utf-8",
     headers: { ...options.requestOptions?.headers },
-    body: { event: event },
+    body: { ...event },
   });
 
   if (typeof options.requestOptions?.onResponse === "function") {
