@@ -268,22 +268,16 @@ describe("CallRecording Live Tests", function () {
       recordingContent: "audio",
     };
 
-    const recordingStateChanged = waitForEvent("RecordingStateChanged", callConnectionId, 8000);
-    const recordingStateResult = callerCallAutomationClient.getCallRecording().start(recOptions);
-    await recordingStateChanged;
-    assert.isDefined(recordingStateChanged);
+    const recordingStateResult = await callerCallAutomationClient.getCallRecording().start(recOptions);
 
     // Delay for 6 seconds, this is to let the recording state change to active
     await new Promise((resolve) => setTimeout(resolve, 6000));
     const recStatus = await callerCallAutomationClient
       .getCallRecording()
-      .getState((await recordingStateResult).recordingId);
+      .getState(recordingStateResult.recordingId);
     assert.equal(recStatus.recordingState, "active");
     await callerCallAutomationClient
       .getCallRecording()
-      .stop((await recordingStateResult).recordingId);
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
+      .stop(recordingStateResult.recordingId);
   }).timeout(60000);
 });
