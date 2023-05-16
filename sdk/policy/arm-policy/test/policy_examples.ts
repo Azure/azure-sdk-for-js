@@ -132,7 +132,7 @@ describe("Policy test", () => {
 
   it("policyAssignments list by managementgroup test", async function () {
     const credential = createTestCredential();
-    const client1 = new PolicyClient(credential);
+    const client1 = new PolicyClient(credential, undefined, recorder.configureClientOptions({}));
     const filter = "atScope()";
     const resArray = new Array();
     for await (let item of client1.policyAssignments.listForManagementGroup(groupId, {
