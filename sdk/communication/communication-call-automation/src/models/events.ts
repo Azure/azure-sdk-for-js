@@ -375,7 +375,12 @@ export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
 export interface ContinuousDtmfRecognitionToneReceived
   extends Omit<
     RestContinuousDtmfRecognitionToneReceived,
-    "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+    | "toneInfo"
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "operationContext"
+    | "resultInformation"
   > {
   /** Information about Tone. */
   toneInfo: ToneInfo;
@@ -385,6 +390,8 @@ export interface ContinuousDtmfRecognitionToneReceived
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
   correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -395,7 +402,7 @@ export interface ContinuousDtmfRecognitionToneReceived
 export interface ContinuousDtmfRecognitionToneFailed
   extends Omit<
     RestContinuousDtmfRecognitionToneFailed,
-    "callConnectionId" | "serverCallId" | "correlationId | resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -403,6 +410,8 @@ export interface ContinuousDtmfRecognitionToneFailed
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -413,7 +422,7 @@ export interface ContinuousDtmfRecognitionToneFailed
 export interface ContinuousDtmfRecognitionStopped
   extends Omit<
     RestContinuousDtmfRecognitionStopped,
-    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -433,7 +442,7 @@ export interface ContinuousDtmfRecognitionStopped
 export interface SendDtmfCompleted
   extends Omit<
     RestSendDtmfCompleted,
-    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -453,7 +462,7 @@ export interface SendDtmfCompleted
 export interface SendDtmfFailed
   extends Omit<
     RestSendDtmfFailed,
-    "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;

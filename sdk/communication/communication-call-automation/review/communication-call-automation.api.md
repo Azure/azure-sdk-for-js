@@ -246,7 +246,7 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 }
 
 // @public
-export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionStopped";
@@ -256,19 +256,21 @@ export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtm
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneFailed";
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo" | "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneReceived";
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
     toneInfo: ToneInfo;
@@ -785,7 +787,7 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
-export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfCompleted";
@@ -795,7 +797,7 @@ export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConn
 }
 
 // @public
-export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfFailed";
