@@ -244,7 +244,9 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": ["iddocument"]
+      "words": [
+        "iddocument"
+      ]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -404,6 +406,16 @@
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/eventgrid/eventgrid/**/**/**.**",
+      "words": [
+        "Dicom",
+        "Agri",
+        "cadl",
+        "deseralization",
+        "tsdoc"
       ]
     }
   ]
