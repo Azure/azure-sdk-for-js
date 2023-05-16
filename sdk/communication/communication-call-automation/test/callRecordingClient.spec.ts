@@ -268,7 +268,9 @@ describe("CallRecording Live Tests", function () {
       recordingContent: "audio",
     };
 
-    const recordingStateResult = await callerCallAutomationClient.getCallRecording().start(recOptions);
+    const recordingStateResult = await callerCallAutomationClient
+      .getCallRecording()
+      .start(recOptions);
 
     // Delay for 6 seconds, this is to let the recording state change to active
     await new Promise((resolve) => setTimeout(resolve, 6000));
@@ -276,8 +278,6 @@ describe("CallRecording Live Tests", function () {
       .getCallRecording()
       .getState(recordingStateResult.recordingId);
     assert.equal(recStatus.recordingState, "active");
-    await callerCallAutomationClient
-      .getCallRecording()
-      .stop(recordingStateResult.recordingId);
+    await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
   }).timeout(60000);
 });
