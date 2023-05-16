@@ -279,7 +279,9 @@ describe("CallRecording Live Tests", function () {
       .getCallRecording()
       .getState((await recordingStateResult).recordingId);
     assert.equal(recStatus.recordingState, "active");
-    await callerCallAutomationClient.getCallRecording().stop((await recordingStateResult).recordingId);
+    await callerCallAutomationClient
+      .getCallRecording()
+      .stop((await recordingStateResult).recordingId);
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
