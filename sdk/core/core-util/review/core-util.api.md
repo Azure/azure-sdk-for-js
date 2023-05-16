@@ -7,6 +7,11 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export type $NonExhaustive = {
+    [__non_exhaustive]?: never;
+};
+
+// @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
@@ -53,7 +58,13 @@ export function isObject(input: unknown): input is UnknownObject;
 export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export type NonExhaustive<T> = T | (Primitive<T> & $NonExhaustive);
+
+// @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export type Primitive<T> = T extends string ? string : T extends number ? number : T extends bigint ? bigint : T extends symbol ? symbol : unknown;
 
 // @public
 export function randomUUID(): string;

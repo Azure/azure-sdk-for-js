@@ -10,3 +10,4 @@ export { isError, getErrorMessage } from "./error";
 export { computeSha256Hash, computeSha256Hmac } from "./sha256";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards";
 export { randomUUID } from "./uuidUtils";
+export { NonExhaustive, $NonExhaustive, Primitive } from "./nonExhaustiveUnion";

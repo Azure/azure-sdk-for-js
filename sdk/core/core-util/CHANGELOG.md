@@ -1,8 +1,10 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.4.0 (Unreleased)
 
 ### Features Added
+
+- Added NonExhaustive<T> type to represent extensible enums
 
 ### Breaking Changes
 
