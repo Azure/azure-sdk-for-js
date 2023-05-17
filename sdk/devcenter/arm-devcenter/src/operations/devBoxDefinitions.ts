@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterNextOptionalParams,
@@ -269,8 +273,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     body: DevBoxDefinition,
     options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
       DevBoxDefinitionsCreateOrUpdateResponse
     >
   > {
@@ -280,7 +284,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -313,15 +317,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        devBoxDefinitionName,
+        body,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DevBoxDefinitionsCreateOrUpdateResponse,
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -367,8 +380,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     body: DevBoxDefinitionUpdate,
     options?: DevBoxDefinitionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsUpdateResponse>,
       DevBoxDefinitionsUpdateResponse
     >
   > {
@@ -378,7 +391,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     ): Promise<DevBoxDefinitionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -411,15 +424,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        devBoxDefinitionName,
+        body,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DevBoxDefinitionsUpdateResponse,
+      OperationState<DevBoxDefinitionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -462,14 +484,14 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -502,15 +524,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -808,7 +830,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -830,7 +851,6 @@ const listByProjectNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the protection policies within a resource group.
  *
  * @summary Lists all of the protection policies within a resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-11-01/examples/WafListPolicies.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListPolicies.json
  */
-async function listPoliciesInAResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getAllPoliciesInAResourceGroup() {
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +30,8 @@ async function listPoliciesInAResourceGroup() {
   console.log(resArray);
 }
 
-listPoliciesInAResourceGroup().catch(console.error);
+async function main() {
+  getAllPoliciesInAResourceGroup();
+}
+
+main().catch(console.error);
