@@ -3791,7 +3791,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230515
+      typescript: 5.2.0-dev.20230517
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8335,8 +8335,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230515:
-    resolution: {integrity: sha512-yn0MGsy6U0QAVF+lXW6LPupQmuRsyA0xUJetqw2tDqa+49231BpkhTuY6oEwLsc98tiEzCfIw7hzbLsiwVGFaA==}
+  /typescript/5.2.0-dev.20230517:
+    resolution: {integrity: sha512-mTT3ka5HTeudnNirocnOfr/0d2CEvZExrJpP8YXqAvdwlwjwNPJ4TqHHiL1y9lx3RfsUWu6HSX539ZxngUTqeA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11192,7 +11192,7 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-1w7BHandBmWbPhrhRjn/Ta0AlhK+3MTqcOfdlUysFR2uT7pWPW1y39iIRaP4MK0MTjMPDQYR+mnhMfHthagxfg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-ZNqo7bEUWI/zmBjJxnO6sGGZ8H/qibDXJoS4YAaiqFTfjjaAXkW8KPgMVj+xHGYSu3QkjX/VwX7EwylBE0a2GQ==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
@@ -11206,7 +11206,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -11776,7 +11777,7 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-CDQWFRm3vPSc++5YBSfG916SinklVmxTKsntJjjHzhHLvhhjXTo/HvNAobroRZuhn6upQhQj/Ee7OzRxC34sPQ==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-SBLZgaLzVlbCcM76jv2ozLmxvCISKF869REeCxfBsarorsjQ9GeCFmVX6RH1h7FCeK7j6EdL2/SyLQHRQfMy2w==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
@@ -11790,7 +11791,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17765,7 +17767,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-D+RyiIziNmUWOlr3UwLGvocJgx1zff5Thi5YsqR0kRGF6k7inu+hb+ob7Dr5zTixp9ijhwkqzDDw541wXY8Ffw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-lHrM4KowOjPalPQqnZ31X8Yx6g+/kzIDDYerwCnFMCHahCcbvwkQOo8KhWI2OaY8VlAUYju1iXhNrp7rODl6mw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
