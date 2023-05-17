@@ -6,11 +6,13 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 
 export async function ignoreSubscriptionNotEligibleError(
-  call: () => Promise<AlphaIdConfiguration>
+  call: () => Promise<AlphaIdConfiguration>,
+  expectedConfiguration: boolean
 ): Promise<void> {
   try {
     const configuration = await call();
     assert.isOk(configuration);
+    assert.isTrue(configuration.enabled === expectedConfiguration);
   } catch (error) {
     if (isNotEligibleError(error)) {
       return;
