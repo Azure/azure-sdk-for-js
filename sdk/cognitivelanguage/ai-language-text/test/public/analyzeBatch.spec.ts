@@ -43,7 +43,6 @@ import {
   expectation9,
   expectation30,
   expectation31,
-  expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 
@@ -804,43 +803,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
-        it.skip("whole batch input with auto language detection", async function () {
-          const docs = [
-            "I will go to the park.",
-            "Este es un document escrito en Español.",
-            "猫は幸せ",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.SentimentAnalysis,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-              {
-                kind: AnalyzeBatchActionNames.EntityLinking,
-              },
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
-            ],
-            docs,
-            "auto",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation71);
-        });
-
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
@@ -1005,7 +967,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         describe("stringIndexType", function () {
-          it("family emoji wit skin tone modifier", async function () {
+          it("family emoji with skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1023,7 +985,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1041,7 +1003,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

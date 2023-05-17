@@ -2199,6 +2199,12 @@ export const ContinuousDtmfRecognitionToneFailed: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ResultInformation"
         }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2240,6 +2246,12 @@ export const ContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapper =
           name: "Composite",
           className: "ResultInformation"
         }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2260,12 +2272,6 @@ export const ToneInfo: coreClient.CompositeMapper = {
       tone: {
         serializedName: "tone",
         required: true,
-        type: {
-          name: "String"
-        }
-      },
-      participantId: {
-        serializedName: "participantId",
         type: {
           name: "String"
         }
