@@ -1,14 +1,8 @@
 # Release History
 
-## 1.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+## 1.3.0-alpha.20230517.1 (2023-05-17)
+- Added support for the API version 2023-04-01-preview.
+- Renamed sip Patch operation to Update operation
 
 ## 1.2.0 (2023-03-28)
 

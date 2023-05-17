@@ -112,8 +112,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve a mocked trunk with health status", async () => {
       const expectedHealth = {
-        tls: { status: "ok" as TlsStatus },
-        ping: { status: "ok" as PingStatus },
+        tls: { status: "unknown" as TlsStatus },
+        ping: { status: "unknown" as PingStatus },
         activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
       await client.setTrunk({
@@ -131,8 +131,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve multiple mocked trunks with health statuses", async () => {
       const expectedHealth = {
-        tls: { status: "ok" as TlsStatus },
-        ping: { status: "ok" as PingStatus },
+        tls: { status: "unknown" as TlsStatus },
+        ping: { status: "unknown" as PingStatus },
         activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
       const expectedTrunks = [
