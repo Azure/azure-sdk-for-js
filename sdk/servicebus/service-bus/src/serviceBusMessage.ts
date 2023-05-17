@@ -3,7 +3,6 @@
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import { Buffer } from "buffer";
-import Long from "long";
 import {
   Delivery,
   DeliveryAnnotations,
@@ -15,7 +14,7 @@ import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { reorderLockToken } from "./util/utils";
+import { fromEightBytesBE, reorderLockToken } from "./util/utils";
 
 /**
  * @internal
@@ -489,7 +488,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * to use the **`Long`** type exported by this library.
    * @readonly
    */
-  readonly sequenceNumber?: Long;
+  readonly sequenceNumber?: bigint;
   /**
    * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -614,13 +613,11 @@ export function fromRheaMessage(
     }
     if (rheaMessage.message_annotations[Constants.sequenceNumber] != null) {
       if (Buffer.isBuffer(rheaMessage.message_annotations[Constants.sequenceNumber])) {
-        props.sequenceNumber = Long.fromBytesBE(
+        props.sequenceNumber = fromEightBytesBE(
           rheaMessage.message_annotations[Constants.sequenceNumber]
         );
       } else {
-        props.sequenceNumber = Long.fromNumber(
-          rheaMessage.message_annotations[Constants.sequenceNumber]
-        );
+        props.sequenceNumber = rheaMessage.message_annotations[Constants.sequenceNumber];
       }
     }
     if (rheaMessage.message_annotations[Constants.enqueuedTime] != null) {
@@ -874,7 +871,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * They roll over to 0 when the 48-64 bit range is exhausted.
    * @readonly
    */
-  readonly sequenceNumber?: Long;
+  readonly sequenceNumber?: bigint;
   /**
    * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered

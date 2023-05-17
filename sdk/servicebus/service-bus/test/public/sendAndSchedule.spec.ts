@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -378,9 +377,9 @@ describe("Sender Tests", () => {
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
     compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
 
-    function compareSequenceNumbers(sequenceNumber1: Long, sequenceNumber2: Long): void {
+    function compareSequenceNumbers(sequenceNumber1: bigint, sequenceNumber2: bigint): void {
       should.equal(
-        sequenceNumber1.compare(sequenceNumber2) !== 0,
+        sequenceNumber1 !== sequenceNumber2,
         true,
         "Returned sequence numbers for parallel requests are the same"
       );
@@ -390,7 +389,7 @@ describe("Sender Tests", () => {
     should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
     for (const seqNum of sequenceNumbers) {
       const msgWithSeqNum = receivedMsgs.find(
-        ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
+        ({ sequenceNumber }) => sequenceNumber === 0n
       );
       should.equal(
         msgWithSeqNum === undefined,
@@ -475,7 +474,7 @@ describe("Sender Tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
+        await sender.cancelScheduledMessages([0n], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
         err.message.should.equal(StandardAbortMessage);

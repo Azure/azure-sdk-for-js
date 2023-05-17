@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
 import { InvalidOperationForPeekedMessage } from "../../src/util/errors";
@@ -789,7 +788,7 @@ describe("Batching Receiver", () => {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
         try {
-          await receiver.receiveDeferredMessages([Long.ZERO], {
+          await receiver.receiveDeferredMessages([0n], {
             abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);
@@ -806,7 +805,7 @@ describe("Batching Receiver", () => {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
         try {
-          await receiver.receiveDeferredMessages([Long.ZERO], {
+          await receiver.receiveDeferredMessages([0n], {
             abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);

@@ -26,7 +26,6 @@ import {
   wrapProcessErrorHandler,
 } from "./receiverCommon";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
-import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import {
   Constants,
@@ -361,7 +360,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options: OperationOptionsBase = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();

@@ -12,7 +12,6 @@ import {
 } from "../public/utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
 import { MessagingError } from "@azure/core-amqp";
-import Long from "long";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import {
   ServiceBusSessionReceiverImpl,
@@ -108,7 +107,7 @@ describe("Retries - ManagementClient", () => {
     it("Unpartitioned Queue with Sessions: scheduleMessages", async function (): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await mockManagementClientAndVerifyRetries(async () => {
-        await sender.cancelScheduledMessages([new Long(0)]);
+        await sender.cancelScheduledMessages([0n]);
       });
     });
   });
@@ -125,7 +124,7 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: receiveDeferredMessage", async function (): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.receiveDeferredMessages(new Long(0));
+        await receiver.receiveDeferredMessages(0n);
       });
     });
 
@@ -137,7 +136,7 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: peekBySequenceNumber", async function (): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
+        await receiver.peekMessages(1, { fromSequenceNumber: 0n });
       });
     });
   });
@@ -161,13 +160,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function (): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
+        await sessionReceiver.peekMessages(1, { fromSequenceNumber: 0n });
       });
     });
 
     it("Unpartitioned Queue with Sessions: receiveDeferredMessage", async function (): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.receiveDeferredMessages(new Long(0));
+        await sessionReceiver.receiveDeferredMessages(0n);
       });
     });
 

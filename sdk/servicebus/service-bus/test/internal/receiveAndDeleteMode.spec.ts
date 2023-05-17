@@ -26,7 +26,6 @@ import {
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { DispositionType } from "../../src/serviceBusMessage";
-import Long from "long";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -345,7 +344,7 @@ describe("receive and delete", () => {
     afterEach(async () => {
       await afterEachTest();
     });
-    async function deferMessage(testClientType: TestClientType): Promise<Long> {
+    async function deferMessage(testClientType: TestClientType): Promise<bigint> {
       entityNames = await beforeEachTest(testClientType, "peekLock");
       const testMessages = entityNames.usesSessions
         ? TestMessage.getSessionSample()

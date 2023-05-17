@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
 import { logger, receiverLogger, messageLogger } from "../log";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
@@ -109,6 +108,33 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   return renewAfter;
 }
 
+export function fromEightBytesBE(buf: number[]): bigint {
+  return BigInt(buf[0]) << 56n
+    | BigInt(buf[1]) << 48n
+    | BigInt(buf[2]) << 40n
+    | BigInt(buf[3]) << 32n
+    | BigInt(buf[4]) << 24n
+    | BigInt(buf[5]) << 16n
+    | BigInt(buf[6]) << 8n
+    | BigInt(buf[7]);
+}
+
+export function toEightBytesBE(n: bigint): Uint8Array {
+  if (typeof n !== "bigint") {
+    n = BigInt(n);
+  }
+  return Uint8Array.from([
+    Number(n & 0xFF00000000000000n),
+    Number(n & 0xFF000000000000n),
+    Number(n & 0xFF0000000000n),
+    Number(n & 0xFF00000000n),
+    Number(n & 0xFF000000n),
+    Number(n & 0xFF0000n),
+    Number(n & 0xFF00n),
+    Number(n & 0xFFn),
+  ])
+}
+
 /**
  * @internal
  * Converts the .net ticks to a JS Date object.
@@ -124,10 +150,10 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  * @returns The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
-  const epochMicroDiff: number = 621355968000000000;
-  const longValue: Long = Long.fromBytesBE(buf);
-  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
-  const result = new Date(timeInMS);
+  const epochMicroDiff = 621355968000000000n;
+  const longValue: bigint = fromEightBytesBE(buf);
+  const timeInMS = (longValue - epochMicroDiff) / 10000n;
+  const result = new Date(Number(timeInMS));
   logger.verbose("The converted date is: %s", result.toString());
   return result;
 }

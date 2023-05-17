@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import Long from "long";
 const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
@@ -107,7 +106,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           chai.assert.fail("This should not have passed.");
         } catch (error: any) {
@@ -282,7 +281,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           chai.assert.fail("This should not have passed.");
         } catch (error: any) {

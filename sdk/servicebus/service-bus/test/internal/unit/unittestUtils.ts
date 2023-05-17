@@ -11,7 +11,7 @@ import {
 import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
-import { getUniqueName } from "../../../src/util/utils";
+import { getUniqueName, toEightBytesBE } from "../../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
 import { ReceiveOptions } from "../../../src/core/messageReceiver";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver";
@@ -145,7 +145,7 @@ export function createConnectionContextForTestsWithSessionId(
       };
 
       (receiver as any).properties = {
-        ["com.microsoft:locked-until-utc"]: Date.now(),
+        ["com.microsoft:locked-until-utc"]: toEightBytesBE(BigInt(Date.now())),
       };
 
       if (options?.onCreateReceiverCalled) {

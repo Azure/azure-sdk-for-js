@@ -32,7 +32,6 @@ import {
   deferMessage,
   getMessageIterator,
 } from "./receiverCommon";
-import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { LockRenewer } from "../core/autoLockRenewer";
@@ -120,7 +119,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` if the service returns an error while receiving deferred messages.
    */
   receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options?: OperationOptionsBase
   ): Promise<ServiceBusReceivedMessage[]>;
 
@@ -411,7 +410,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   async receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options: OperationOptionsBase = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();

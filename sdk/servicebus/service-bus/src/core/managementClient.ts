@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
 import {
   EventContext,
   ReceiverOptions,
@@ -37,7 +36,7 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
-import { toBuffer } from "../util/utils";
+import { fromEightBytesBE, toBuffer, toEightBytesBE } from "../util/utils";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
@@ -194,7 +193,7 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
   /**
    * Retry options.
    */
-  retryOptions: RetryOptions | undefined;
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -219,7 +218,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Provides the sequence number of the last peeked message.
    */
-  private _lastPeekedSequenceNumber: Long = Long.ZERO;
+  private _lastPeekedSequenceNumber: bigint = 0n;
   /**
    * lock token for init operation
    */
@@ -458,7 +457,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      this._lastPeekedSequenceNumber.add(1),
+      this._lastPeekedSequenceNumber + 1n,
       messageCount,
       undefined,
       omitMessageBody,
@@ -487,7 +486,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      this._lastPeekedSequenceNumber.add(1),
+      this._lastPeekedSequenceNumber + 1n,
       messageCount,
       sessionId,
       omitMessageBody,
@@ -504,7 +503,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
-    fromSequenceNumber: Long,
+    fromSequenceNumber: bigint,
     maxMessageCount: number,
     sessionId?: string,
     omitMessageBody?: boolean,
@@ -538,7 +537,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] = types.wrap_long(
-        Buffer.from(fromSequenceNumber.toBytesBE())
+        Buffer.from(toEightBytesBE(fromSequenceNumber))
       );
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
       if (isDefined(sessionId)) {
@@ -670,7 +669,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<Long[]> {
+  ): Promise<bigint[]> {
     throwErrorIfConnectionClosed(this._context);
     if (!messages.length) {
       return [];
@@ -735,12 +734,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       senderLogger.verbose("%s Schedule messages request body: %O.", this.logPrefix, request.body);
       const result = await this._makeManagementRequest(request, senderLogger, updatedOptions);
       const sequenceNumbers = result.body[Constants.sequenceNumbers];
-      const sequenceNumbersAsLong = [];
+      const sequenceNumbersAsLong: bigint[] = [];
       for (let i = 0; i < sequenceNumbers.length; i++) {
         if (typeof sequenceNumbers[i] === "number") {
-          sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+          sequenceNumbersAsLong.push(BigInt(sequenceNumbers[i]));
+        } else if (typeof sequenceNumbers[i] === "bigint") {
+          sequenceNumbersAsLong.push(sequenceNumbers[i]);
         } else {
-          sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+          sequenceNumbersAsLong.push(fromEightBytesBE(sequenceNumbers[i]));
         }
       }
       return sequenceNumbersAsLong;
@@ -759,7 +760,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    */
   async cancelScheduledMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: bigint[],
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -771,7 +772,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
       try {
-        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(toEightBytesBE(sequenceNumber)));
       } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
@@ -829,7 +830,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: bigint[],
     receiveMode: ReceiveMode,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
@@ -846,7 +847,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
       try {
-        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(toEightBytesBE(sequenceNumber)));
       } catch (err: any) {
         const error = translateServiceBusError(err);
         receiverLogger.logError(
@@ -926,10 +927,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     lockToken: string,
     dispositionType: DispositionType,
     // TODO: mgmt link retry<> will come in the next PR.
-    options?: Omit<DispositionStatusOptions, "retryOptions"> & SendManagementRequestOptions
+    options: Omit<DispositionStatusOptions, "retryOptions" | "abortSignal" | "tracingOptions"> & SendManagementRequestOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
-    if (!options) options = {};
     try {
       let dispositionStatus: "completed" | "defered" | "suspended" | "abandoned";
 

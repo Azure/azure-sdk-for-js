@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 import { logger, receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
@@ -137,19 +136,21 @@ export function throwTypeErrorIfParameterTypeMismatch(
  * @param parameterValue - Value of the parameter to type check
  */
 export function throwTypeErrorIfParameterNotLong(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: unknown
+  _connectionId: string,
+  _parameterName: string,
+  _parameterValue: unknown
 ): TypeError | undefined {
-  if (Array.isArray(parameterValue)) {
-    return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
-  }
-  if (Long.isLong(parameterValue)) {
-    return;
-  }
-  const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
-  logger.warning(`[${connectionId}] %O`, error);
-  throw error;
+  console.log("### switched to use bigint");
+  return;
+  // if (Array.isArray(parameterValue)) {
+  //   return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
+  // }
+  // if (Long.isLong(parameterValue)) {
+  //   return;
+  // }
+  // const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
+  // logger.warning(`[${connectionId}] %O`, error);
+  // throw error;
 }
 
 /**
@@ -160,16 +161,18 @@ export function throwTypeErrorIfParameterNotLong(
  * @param parameterValue - Value of the parameter to type check
  */
 export function throwTypeErrorIfParameterNotLongArray(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: any[]
+  _connectionId: string,
+  _parameterName: string,
+  _parameterValue: any[]
 ): TypeError | undefined {
-  if (parameterValue.every((item) => Long.isLong(item))) {
-    return;
-  }
-  const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
-  logger.warning(`[${connectionId}] %O`, error);
-  throw error;
+  console.log("### switched to use bigint 2");
+  return;
+  // if (parameterValue.every((item) => Long.isLong(item))) {
+  //   return;
+  // }
+  // const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
+  // logger.warning(`[${connectionId}] %O`, error);
+  // throw error;
 }
 
 /**
