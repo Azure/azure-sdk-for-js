@@ -33,8 +33,10 @@ describe(`ShortCodesClient - manage Attachments`, function () {
 
   it("can manage Attachments", async function () {
     const uspb = getTestUSProgramBrief();
+    const pbTestId = recorder.variable(`pb-var`, uspb.id);
+    uspb.id = pbTestId;
 
-    await runTestCleaningLeftovers(uspb.id, client, async () => {
+    await runTestCleaningLeftovers([uspb.id], client, async () => {
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
         body: uspb,
       };
@@ -55,6 +57,8 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       assert.isOk(submitResult);
 
       const attachment = getTestProgramBriefAttachment();
+      const attachmentTestId = recorder.variable(`attachment-var`, attachment.id);
+      attachment.id = attachmentTestId;
 
       assert.isFalse(
         await doesProgramBriefContainAnyAttachment(client, uspb.id),
