@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "sM6mIVawQv4GOUQukUphOk5Hsd8Qa/rx37c067vfCgw=",
         "x-ms-date": "Fri, 06 Jan 2023 17:36:36 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
