@@ -245,3 +245,31 @@ export {
   DataBoxStageName,
   StorageTaskCompletedStatus,
 } from "./generated/models";
+
+export {
+  CloudEvent as CloudEventV2,
+  ReceiveResult,
+  ReceiveDetails,
+  BrokerProperties,
+  AcknowledgeOptions,
+  AcknowledgeResult,
+  FailedLockToken,
+  ReleaseOptions,
+  ReleaseResult,
+  RejectOptions,
+  RejectResult,
+  PublishResult,
+} from "./cadl-generated/api/models";
+
+export { EventGridClient } from "./cadl-generated/EventGridClient";
+
+export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
+
+export {
+  PublishCloudEventOptions,
+  PublishCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  AcknowledgeCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RejectCloudEventsOptions,
+} from "./cadl-generated/api/operations";
