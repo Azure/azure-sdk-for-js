@@ -1,0 +1,35 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/shortCodes?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Fri, 12 May 2023 16:16:52 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "17",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 12 May 2023 16:16:53 GMT",
+        "MS-CV": "JHoBWYBndkyVwAOpXrW6WA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0dWZeZAAAAAAmvYdtHmsaRrNKtRSbAUgsREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "182ms"
+      },
+      "ResponseBody": {
+        "shortCodes": []
+      }
+    }
+  ],
+  "Variables": {}
+}
