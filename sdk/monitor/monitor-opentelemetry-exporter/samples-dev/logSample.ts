@@ -19,7 +19,7 @@ import * as dotenv from "dotenv";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 dotenv.config();
 
-// Logger setup
+// Logger setup.
 const loggerProvider = new LoggerProvider({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
