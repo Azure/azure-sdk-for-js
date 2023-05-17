@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DevCenter,
   DevCentersListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface DevCenters {
     body: DevCenter,
     options?: DevCentersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevCentersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevCentersCreateOrUpdateResponse>,
       DevCentersCreateOrUpdateResponse
     >
   >;
@@ -96,8 +96,8 @@ export interface DevCenters {
     body: DevCenterUpdate,
     options?: DevCentersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevCentersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevCentersUpdateResponse>,
       DevCentersUpdateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     options?: DevCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a devcenter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
