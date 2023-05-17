@@ -1,12 +1,13 @@
 # Release History
     
-## 21.0.0 (2023-05-06)
+## 21.0.0 (2023-05-17)
     
 **Features**
 
   - Added operation DedicatedHosts.listAvailableSizes
   - Added operation VirtualMachineScaleSets.beginReapply
   - Added operation VirtualMachineScaleSets.beginReapplyAndWait
+  - Added Interface CommunityGalleryImageIdentifier
   - Added Interface DedicatedHostSizeListResult
   - Added Interface DedicatedHostsListAvailableSizesOptionalParams
   - Added Interface DiskRestorePointAttributes
@@ -16,6 +17,7 @@
   - Added Interface VirtualMachineScaleSetsReapplyHeaders
   - Added Interface VirtualMachineScaleSetsReapplyOptionalParams
   - Added Type Alias DedicatedHostsListAvailableSizesResponse
+  - Added Type Alias EdgeZoneStorageAccountType
   - Added Type Alias ExpandTypeForListVMs
   - Added Type Alias ExpandTypesForListVMs
   - Added Type Alias RestorePointEncryptionType
@@ -45,13 +47,15 @@
   - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
   - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
   - Interface WindowsVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Added Enum KnownEdgeZoneStorageAccountType
   - Added Enum KnownExpandTypeForListVMs
   - Added Enum KnownExpandTypesForListVMs
   - Added Enum KnownRestorePointEncryptionType
-  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
 **Breaking Changes**
 
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from GalleryImageIdentifier to CommunityGalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from StorageAccountType to EdgeZoneStorageAccountType
   - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from ApiEntityReference to DiskRestorePointAttributes
   - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from ApiEntityReference to DiskRestorePointAttributes
     
