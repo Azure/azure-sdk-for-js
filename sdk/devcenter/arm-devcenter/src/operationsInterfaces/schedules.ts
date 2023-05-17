@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   SchedulesListByPoolOptionalParams,
@@ -69,8 +69,8 @@ export interface Schedules {
     body: Schedule,
     options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesCreateOrUpdateResponse>,
       SchedulesCreateOrUpdateResponse
     >
   >;
@@ -108,8 +108,8 @@ export interface Schedules {
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesUpdateResponse>,
       SchedulesUpdateResponse
     >
   >;
@@ -144,7 +144,7 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     options?: SchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Scheduled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

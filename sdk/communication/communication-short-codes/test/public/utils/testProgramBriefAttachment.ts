@@ -2,15 +2,10 @@
 // Licensed under the MIT license.
 
 import { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v1 as uuid } from "uuid";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
-  let attachmentId = uuid();
-
-  if (isPlaybackMode()) {
-    attachmentId = "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
-  }
+  const attachmentId = uuid();
 
   const testProgramBriefAttachment: ProgramBriefAttachment = {
     id: attachmentId,

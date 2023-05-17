@@ -1,15 +1,27 @@
 # Release History
+    
+## 5.2.0 (2023-05-09)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Policies.beginUpdate
+  - Added operation Policies.beginUpdateAndWait
+  - Added operation Policies.listBySubscription
+  - Added Interface DefaultErrorResponse
+  - Added Interface DefaultErrorResponseError
+  - Added Interface PoliciesListBySubscriptionNextOptionalParams
+  - Added Interface PoliciesListBySubscriptionOptionalParams
+  - Added Interface PoliciesUpdateOptionalParams
+  - Added Type Alias PoliciesListBySubscriptionNextResponse
+  - Added Type Alias PoliciesListBySubscriptionResponse
+  - Added Type Alias PoliciesUpdateResponse
+  - Interface FrontDoor has a new optional parameter extendedProperties
+  - Interface FrontDoorProperties has a new optional parameter extendedProperties
+  - Enum KnownActionType has a new value AnomalyScoring
+  - Enum KnownFrontDoorResourceState has a new value Migrated
+  - Enum KnownFrontDoorResourceState has a new value Migrating
+    
+    
 ## 5.1.0 (2022-11-23)
     
 **Features**
