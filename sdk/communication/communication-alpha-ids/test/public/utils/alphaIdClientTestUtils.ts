@@ -12,7 +12,10 @@ export async function ignoreSubscriptionNotEligibleError(
   try {
     const configuration = await call();
     assert.isOk(configuration);
-    assert.isTrue(configuration.enabled === expectedConfiguration);
+    assert.isTrue(
+      configuration.enabled === expectedConfiguration,
+      `The expected configuration: ${expectedConfiguration} is different than the received configuration: ${configuration.enabled}`
+    );
   } catch (error) {
     if (isNotEligibleError(error)) {
       return;
