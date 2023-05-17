@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a Timeseries for a given Experiment
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentGetTimeseries.json
  */
 async function getsATimeseriesForAGivenExperiment() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const profileName = "MyProfile";
   const experimentName = "MyExperiment";
   const startDateTimeUTC = new Date("2019-07-21T17:32:28Z");
@@ -40,4 +41,8 @@ async function getsATimeseriesForAGivenExperiment() {
   console.log(result);
 }
 
-getsATimeseriesForAGivenExperiment().catch(console.error);
+async function main() {
+  getsATimeseriesForAGivenExperiment();
+}
+
+main().catch(console.error);

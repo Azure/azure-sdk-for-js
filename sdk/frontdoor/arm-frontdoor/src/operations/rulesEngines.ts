@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RulesEngine,
   RulesEnginesListByFrontDoorNextOptionalParams,
@@ -177,8 +181,8 @@ export class RulesEnginesImpl implements RulesEngines {
     rulesEngineParameters: RulesEngine,
     options?: RulesEnginesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RulesEnginesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RulesEnginesCreateOrUpdateResponse>,
       RulesEnginesCreateOrUpdateResponse
     >
   > {
@@ -188,7 +192,7 @@ export class RulesEnginesImpl implements RulesEngines {
     ): Promise<RulesEnginesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,21 +225,24 @@ export class RulesEnginesImpl implements RulesEngines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         frontDoorName,
         rulesEngineName,
         rulesEngineParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RulesEnginesCreateOrUpdateResponse,
+      OperationState<RulesEnginesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -279,14 +286,14 @@ export class RulesEnginesImpl implements RulesEngines {
     frontDoorName: string,
     rulesEngineName: string,
     options?: RulesEnginesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,15 +326,15 @@ export class RulesEnginesImpl implements RulesEngines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, frontDoorName, rulesEngineName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, frontDoorName, rulesEngineName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -392,8 +399,8 @@ const listByFrontDoorOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName
   ],
   headerParameters: [Parameters.accept],
@@ -414,8 +421,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -447,8 +454,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -472,8 +479,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -491,11 +498,10 @@ const listByFrontDoorNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.frontDoorName
   ],

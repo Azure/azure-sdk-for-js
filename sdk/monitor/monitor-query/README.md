@@ -27,7 +27,9 @@ For more details, see our [support policy](https://github.com/Azure/azure-sdk-fo
 
 - An [Azure subscription][azure_subscription]
 - A [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) implementation, such as an [Azure Identity library credential type](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credential-classes).
-- To query Logs, you need an [Azure Log Analytics workspace][azure_monitor_create_using_portal].
+- To query Logs, you need one of the following things:
+  - An [Azure Log Analytics workspace][azure_monitor_create_using_portal]
+  - An Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.)
 - To query Metrics, you need an Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.).
 
 ### Install the package
