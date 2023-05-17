@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FrontendEndpoint,
   FrontendEndpointsListByFrontDoorOptionalParams,
@@ -59,7 +59,7 @@ export interface FrontendEndpoints {
     frontendEndpointName: string,
     customHttpsConfiguration: CustomHttpsConfiguration,
     options?: FrontendEndpointsEnableHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables a frontendEndpoint for HTTPS traffic
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -87,7 +87,7 @@ export interface FrontendEndpoints {
     frontDoorName: string,
     frontendEndpointName: string,
     options?: FrontendEndpointsDisableHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables a frontendEndpoint for HTTPS traffic
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
