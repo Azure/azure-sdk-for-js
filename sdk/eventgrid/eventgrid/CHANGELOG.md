@@ -1,5 +1,15 @@
 # Release History
 
+## 4.12.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.12.0 (2023-05-17)
 
 - No new changes for this release. This is to update the minor version of the release to indicate the new system events that were added in the `4.11.1` version.
