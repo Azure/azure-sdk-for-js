@@ -676,9 +676,7 @@ export const FieldMappingFunction: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -701,6 +699,13 @@ export const SearchIndexerCache: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
         }
       }
     }
@@ -1324,6 +1329,13 @@ export const SearchIndexerKnowledgeStore: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
+        }
       }
     }
   }
@@ -1672,6 +1684,13 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "SemanticSettings"
         }
       },
+      vectorSearch: {
+        serializedName: "vectorSearch",
+        type: {
+          name: "Composite",
+          className: "VectorSearch"
+        }
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -1761,6 +1780,23 @@ export const SearchField: coreClient.CompositeMapper = {
       normalizer: {
         serializedName: "normalizer",
         nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      dimensions: {
+        constraints: {
+          InclusiveMaximum: 2048,
+          InclusiveMinimum: 2
+        },
+        serializedName: "dimensions",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      vectorSearchConfiguration: {
+        serializedName: "vectorSearchConfiguration",
         type: {
           name: "String"
         }
@@ -2129,6 +2165,12 @@ export const SemanticSettings: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SemanticSettings",
     modelProperties: {
+      defaultConfiguration: {
+        serializedName: "defaultConfiguration",
+        type: {
+          name: "String"
+        }
+      },
       configurations: {
         serializedName: "configurations",
         type: {
@@ -2215,6 +2257,109 @@ export const SemanticField: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "fieldName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VectorSearch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorSearch",
+    modelProperties: {
+      algorithmConfigurations: {
+        serializedName: "algorithmConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VectorSearchAlgorithmConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VectorSearchAlgorithmConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorSearchAlgorithmConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      hnswParameters: {
+        serializedName: "hnswParameters",
+        type: {
+          name: "Composite",
+          className: "HnswParameters"
+        }
+      }
+    }
+  }
+};
+
+export const HnswParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HnswParameters",
+    modelProperties: {
+      m: {
+        defaultValue: 4,
+        constraints: {
+          InclusiveMaximum: 10,
+          InclusiveMinimum: 4
+        },
+        serializedName: "m",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      efConstruction: {
+        defaultValue: 400,
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "efConstruction",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      efSearch: {
+        defaultValue: 500,
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "efSearch",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      metric: {
+        serializedName: "metric",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -3508,9 +3653,7 @@ export const DocumentExtractionSkill: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -3564,6 +3707,20 @@ export const WebApiSkill: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Number"
+        }
+      },
+      authResourceId: {
+        serializedName: "authResourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      authIdentity: {
+        serializedName: "authIdentity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
         }
       }
     }
