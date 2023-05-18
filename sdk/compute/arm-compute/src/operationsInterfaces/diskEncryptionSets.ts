@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiskEncryptionSet,
   DiskEncryptionSetsListByResourceGroupOptionalParams,
@@ -71,8 +71,8 @@ export interface DiskEncryptionSets {
     diskEncryptionSet: DiskEncryptionSet,
     options?: DiskEncryptionSetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskEncryptionSetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DiskEncryptionSetsCreateOrUpdateResponse>,
       DiskEncryptionSetsCreateOrUpdateResponse
     >
   >;
@@ -108,8 +108,8 @@ export interface DiskEncryptionSets {
     diskEncryptionSet: DiskEncryptionSetUpdate,
     options?: DiskEncryptionSetsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskEncryptionSetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DiskEncryptionSetsUpdateResponse>,
       DiskEncryptionSetsUpdateResponse
     >
   >;
@@ -154,7 +154,7 @@ export interface DiskEncryptionSets {
     resourceGroupName: string,
     diskEncryptionSetName: string,
     options?: DiskEncryptionSetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a disk encryption set.
    * @param resourceGroupName The name of the resource group.
