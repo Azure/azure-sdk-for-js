@@ -1229,10 +1229,6 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
 
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
-  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirVersion?: FhirVersion;
-  /** Document type that can be provided as input for Fhir Documents. Expect to have fhirVersion provided when used. Behavior of using None enum is the same as not using the documentType parameter. */
-  documentType?: HealthcareDocumentType;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -2288,45 +2284,6 @@ export enum KnownFhirVersion {
  * **4.0.1**
  */
 export type FhirVersion = string;
-
-/** Known values of {@link HealthcareDocumentType} that the service accepts. */
-export enum KnownHealthcareDocumentType {
-  /** None */
-  None = "None",
-  /** ClinicalTrial */
-  ClinicalTrial = "ClinicalTrial",
-  /** DischargeSummary */
-  DischargeSummary = "DischargeSummary",
-  /** ProgressNote */
-  ProgressNote = "ProgressNote",
-  /** HistoryAndPhysical */
-  HistoryAndPhysical = "HistoryAndPhysical",
-  /** Consult */
-  Consult = "Consult",
-  /** Imaging */
-  Imaging = "Imaging",
-  /** Pathology */
-  Pathology = "Pathology",
-  /** ProcedureNote */
-  ProcedureNote = "ProcedureNote"
-}
-
-/**
- * Defines values for HealthcareDocumentType. \
- * {@link KnownHealthcareDocumentType} can be used interchangeably with HealthcareDocumentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **ClinicalTrial** \
- * **DischargeSummary** \
- * **ProgressNote** \
- * **HistoryAndPhysical** \
- * **Consult** \
- * **Imaging** \
- * **Pathology** \
- * **ProcedureNote**
- */
-export type HealthcareDocumentType = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {

@@ -185,7 +185,7 @@ export class CallMedia {
   /**
    * Start continuous Dtmf recognition by subscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
@@ -205,7 +205,7 @@ export class CallMedia {
   /**
    * Stop continuous Dtmf recognition by unsubscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
@@ -224,18 +224,18 @@ export class CallMedia {
 
   /**
    * Send Dtmf tones.
-   * @param targetParticipant - Target participant.
    * @param tones - List of tones to be sent to target participant.
-   * @param continuousDtmfRecognitionOptions - Additional attributes for send Dtmf tones
+   * @param targetParticipant - Target participant.
+   * @param sendDtmfOptions - Additional attributes for send Dtmf tones.
    * */
   public async sendDtmf(
-    targetParticipant: CommunicationIdentifier,
     tones: Tone[],
+    targetParticipant: CommunicationIdentifier,
     sendDtmfOptions: SendDtmfOptions = {}
   ): Promise<void> {
     const sendDtmfRequest: SendDtmfRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       tones: tones,
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfOptions.operationContext,
     };
     return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});

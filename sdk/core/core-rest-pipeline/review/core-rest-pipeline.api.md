@@ -49,6 +49,19 @@ export interface AuthorizeRequestOptions {
 }
 
 // @public
+export function auxiliaryAuthenticationHeaderPolicy(options: AuxiliaryAuthenticationHeaderPolicyOptions): PipelinePolicy;
+
+// @public
+export const auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
+
+// @public
+export interface AuxiliaryAuthenticationHeaderPolicyOptions {
+    credentials?: TokenCredential[];
+    logger?: AzureLogger;
+    scopes: string | string[];
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public

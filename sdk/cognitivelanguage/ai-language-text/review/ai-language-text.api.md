@@ -66,12 +66,6 @@ export interface ActionPrebuilt extends ActionCommon {
 }
 
 // @public
-export interface AgeResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "AgeResolution";
-    unit: AgeUnit;
-}
-
-// @public
 export type AgeUnit = string;
 
 // @public
@@ -156,12 +150,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export interface AreaResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "AreaResolution";
-    unit: AreaUnit;
-}
-
-// @public
 export type AreaUnit = string;
 
 // @public
@@ -175,14 +163,6 @@ export interface AssessmentSentiment {
 }
 
 export { AzureKeyCredential }
-
-// @public
-export interface BaseResolution {
-    resolutionKind: "AgeResolution" | "VolumeResolution" | "SpeedResolution" | "AreaResolution" | "LengthResolution" | "InformationResolution" | "TemperatureResolution" | "WeightResolution" | "CurrencyResolution" | "BooleanResolution" | "DateTimeResolution" | "NumberResolution" | "OrdinalResolution" | "TemporalSpanResolution" | "NumericRangeResolution";
-}
-
-// @public (undocumented)
-export type BaseResolutionUnion = BaseResolution | AgeResolution | VolumeResolution | SpeedResolution | AreaResolution | LengthResolution | InformationResolution | TemperatureResolution | WeightResolution | CurrencyResolution | BooleanResolution | DateTimeResolution | NumberResolution | OrdinalResolution | TemporalSpanResolution | NumericRangeResolution;
 
 // @public
 export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
@@ -204,7 +184,7 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
-    readonly results: WithDetectedLanguage<T>[];
+    readonly results: T[];
 }
 
 // @public
@@ -214,23 +194,9 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
 }
 
 // @public
-export interface BooleanResolution extends BaseResolution {
-    resolutionKind: "BooleanResolution";
-    // (undocumented)
-    value: boolean;
-}
-
-// @public
 export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
-}
-
-// @public
-export interface CurrencyResolution extends BaseResolution, QuantityResolution {
-    iso4217?: string;
-    resolutionKind: "CurrencyResolution";
-    unit: string;
 }
 
 // @public
@@ -310,15 +276,6 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 }
 
 // @public
-export interface DateTimeResolution extends BaseResolution {
-    dateTimeSubKind: DateTimeSubKind;
-    modifier?: TemporalModifier;
-    resolutionKind: "DateTimeResolution";
-    timex: string;
-    value: string;
-}
-
-// @public
 export type DateTimeSubKind = string;
 
 // @public
@@ -327,11 +284,6 @@ export interface DetectedLanguage {
     iso6391Name: string;
     name: string;
     script?: ScriptKind;
-}
-
-// @public
-export interface DocumentDetectedLanguage {
-    detectedLanguage?: DetectedLanguage;
 }
 
 // @public
@@ -413,12 +365,7 @@ export type EntityRecognitionResult = EntityRecognitionSuccessResult | EntityRec
 
 // @public
 export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
-    readonly entities: EntityWithResolution[];
-}
-
-// @public
-export interface EntityWithResolution extends Entity {
-    resolutions?: BaseResolutionUnion[];
+    readonly entities: Entity[];
 }
 
 // @public
@@ -451,12 +398,7 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type FhirVersion = string;
-
-// @public
 export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: HealthcareDocumentType;
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -474,9 +416,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 // @public
 export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
-
-// @public
-export type HealthcareDocumentType = string;
 
 // @public
 export interface HealthcareEntity extends Entity {
@@ -515,13 +454,6 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
-}
-
-// @public
-export interface InformationResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "InformationResolution";
-    unit: InformationUnit;
 }
 
 // @public
@@ -611,24 +543,6 @@ export enum KnownErrorCode {
 export enum KnownExtractiveSummarizationOrderingCriteria {
     Offset = "Offset",
     Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
-}
-
-// @public
-export enum KnownHealthcareDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
 }
 
 // @public
@@ -957,25 +871,6 @@ export enum KnownRelativeTo {
 }
 
 // @public
-export enum KnownResolutionKind {
-    AgeResolution = "AgeResolution",
-    AreaResolution = "AreaResolution",
-    BooleanResolution = "BooleanResolution",
-    CurrencyResolution = "CurrencyResolution",
-    DateTimeResolution = "DateTimeResolution",
-    InformationResolution = "InformationResolution",
-    LengthResolution = "LengthResolution",
-    NumberResolution = "NumberResolution",
-    NumericRangeResolution = "NumericRangeResolution",
-    OrdinalResolution = "OrdinalResolution",
-    SpeedResolution = "SpeedResolution",
-    TemperatureResolution = "TemperatureResolution",
-    TemporalSpanResolution = "TemporalSpanResolution",
-    VolumeResolution = "VolumeResolution",
-    WeightResolution = "WeightResolution"
-}
-
-// @public
 export enum KnownScriptKind {
     Latin = "Latin"
 }
@@ -1144,12 +1039,6 @@ export interface LanguageDetectionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export interface LengthResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "LengthResolution";
-    unit: LengthUnit;
-}
-
-// @public
 export type LengthUnit = string;
 
 // @public
@@ -1175,32 +1064,9 @@ export interface Match {
 export type NumberKind = string;
 
 // @public
-export interface NumberResolution extends BaseResolution {
-    numberKind: NumberKind;
-    resolutionKind: "NumberResolution";
-    value: number;
-}
-
-// @public
-export interface NumericRangeResolution extends BaseResolution {
-    maximum: number;
-    minimum: number;
-    rangeKind: RangeKind;
-    resolutionKind: "NumericRangeResolution";
-}
-
-// @public
 export interface Opinion {
     readonly assessments: AssessmentSentiment[];
     readonly target: TargetSentiment;
-}
-
-// @public
-export interface OrdinalResolution extends BaseResolution {
-    offset: string;
-    relativeTo: RelativeTo;
-    resolutionKind: "OrdinalResolution";
-    value: string;
 }
 
 // @public
@@ -1242,11 +1108,6 @@ export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessRe
 // @public
 export interface PollerLike<TState extends OperationState<TResult>, TResult> extends SimplePollerLike<TState, TResult> {
     sendCancellationRequest: () => Promise<void>;
-}
-
-// @public
-export interface QuantityResolution {
-    value: number;
 }
 
 // @public
@@ -1314,12 +1175,6 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export interface SpeedResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "SpeedResolution";
-    unit: SpeedUnit;
-}
-
-// @public
 export type SpeedUnit = string;
 
 // @public
@@ -1355,26 +1210,10 @@ export interface TargetSentiment {
 }
 
 // @public
-export interface TemperatureResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "TemperatureResolution";
-    unit: TemperatureUnit;
-}
-
-// @public
 export type TemperatureUnit = string;
 
 // @public
 export type TemporalModifier = string;
-
-// @public
-export interface TemporalSpanResolution extends BaseResolution {
-    begin?: string;
-    duration?: string;
-    end?: string;
-    modifier?: TemporalModifier;
-    resolutionKind: "TemporalSpanResolution";
-    timex?: string;
-}
 
 // @public
 export class TextAnalysisClient {
@@ -1448,29 +1287,12 @@ export interface TextDocumentStatistics {
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 
 // @public
-export interface VolumeResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "VolumeResolution";
-    unit: VolumeUnit;
-}
-
-// @public
 export type VolumeUnit = string;
 
 // @public
 export type WarningCode = string;
 
 // @public
-export interface WeightResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "WeightResolution";
-    unit: WeightUnit;
-}
-
-// @public
 export type WeightUnit = string;
-
-// @public
-export type WithDetectedLanguage<T> = T & DocumentDetectedLanguage & {
-    isLanguageDefaulted?: boolean;
-};
 
 ```

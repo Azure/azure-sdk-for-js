@@ -864,8 +864,17 @@ export interface ContinuousBackupRestoreLocation {
 
 // @public
 export interface ContinuousModeBackupPolicy extends BackupPolicy {
+    continuousModeProperties?: ContinuousModeProperties;
     type: "Continuous";
 }
+
+// @public
+export interface ContinuousModeProperties {
+    tier?: ContinuousTier;
+}
+
+// @public
+export type ContinuousTier = string;
 
 // @public
 export interface CorsPolicy {
@@ -1906,6 +1915,12 @@ export enum KnownConnectorOffer {
 }
 
 // @public
+export enum KnownContinuousTier {
+    Continuous30Days = "Continuous30Days",
+    Continuous7Days = "Continuous7Days"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -2037,7 +2052,8 @@ export enum KnownPrimaryAggregationType {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -3174,6 +3190,7 @@ export interface RestorableDatabaseAccountGetResult {
     readonly id?: string;
     location?: string;
     readonly name?: string;
+    oldestRestorableTime?: Date;
     readonly restorableLocations?: RestorableLocationResource[];
     readonly type?: string;
 }
@@ -4608,8 +4625,10 @@ export interface ThroughputSettingsGetResults extends ARMResourceProperties {
 // @public
 export interface ThroughputSettingsResource {
     autoscaleSettings?: AutoscaleSettingsResource;
+    readonly instantMaximumThroughput?: string;
     readonly minimumThroughput?: string;
     readonly offerReplacePending?: string;
+    readonly softAllowedMaximumThroughput?: string;
     throughput?: number;
 }
 

@@ -292,7 +292,7 @@ function _getStateFilePath(): string {
       }
     }
     case "linux": {
-      let base =
+      const base =
         process.env.XDG_STATE_HOME ??
         path.join(
           process.env.HOME ?? `/home/${process.env.USER ?? userInfo().username}/`,

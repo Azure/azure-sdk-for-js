@@ -646,9 +646,7 @@ const reclassifyJobActionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -666,9 +664,7 @@ const cancelJobActionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -692,9 +688,7 @@ const completeJobActionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -718,14 +712,10 @@ const closeJobActionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     202: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -822,9 +812,7 @@ const declineJobActionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

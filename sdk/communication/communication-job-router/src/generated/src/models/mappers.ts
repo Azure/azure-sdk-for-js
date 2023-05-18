@@ -683,8 +683,7 @@ export const WorkerSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       ttlSeconds: {
@@ -1156,9 +1155,7 @@ export const RouterWorker: coreClient.CompositeMapper = {
         serializedName: "queueAssignments",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       },
       totalCapacity: {
@@ -1457,8 +1454,7 @@ export const QueueSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -1811,8 +1807,7 @@ export const StaticRule: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }

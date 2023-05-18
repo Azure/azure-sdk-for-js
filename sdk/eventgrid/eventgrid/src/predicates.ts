@@ -134,6 +134,26 @@ import {
   WebSlotSwapStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
   WebSlotSwapWithPreviewStartedEventData,
+  StorageTaskQueuedEventData,
+  StorageTaskCompletedEventData,
+  DataBoxCopyStartedEventData,
+  DataBoxCopyCompletedEventData,
+  DataBoxOrderCompletedEventData,
+  AcsIncomingCallEventData,
+  AcsEmailDeliveryReportReceivedEventData,
+  AcsEmailEngagementTrackingReportReceivedEventData,
+  ApiManagementGatewayCreatedEventData,
+  ApiManagementGatewayUpdatedEventData,
+  ApiManagementGatewayDeletedEventData,
+  ApiManagementGatewayHostnameConfigurationCreatedEventData,
+  ApiManagementGatewayHostnameConfigurationUpdatedEventData,
+  ApiManagementGatewayHostnameConfigurationDeletedEventData,
+  ApiManagementGatewayCertificateAuthorityCreatedEventData,
+  ApiManagementGatewayCertificateAuthorityUpdatedEventData,
+  ApiManagementGatewayCertificateAuthorityDeletedEventData,
+  ApiManagementGatewayApiAddedEventData,
+  ApiManagementGatewayApiRemovedEventData,
+  HealthcareDicomImageUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -412,6 +432,46 @@ export interface SystemEventNameToEventData {
   "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
   /** An interface for the event data of a "Microsoft.Web.AppServicePlanUpdated" event. */
   "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskQueued" event. */
+  "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskCompleted" event. */
+  "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
+  /** An interface for the event data of a "Microsoft.DataBox.CopyStarted" event. */
+  "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
+  /** An interface for the event data of a "Microsoft.DataBox.CopyCompleted" event. */
+  "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
+  /** An interface for the event data of a "Microsoft.DataBox.OrderCompleted" event. */
+  "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.IncomingCall" event. */
+  "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
+  /** An interface for the event data of a "Microsoft.Communication.EmailDeliveryReportReceived" event. */
+  "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.EmailEngagementTrackingReportReceived" event. */
+  "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayCreated" event. */
+  "Microsoft.ApiManagement.GatewayCreated": ApiManagementGatewayCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayUpdated" event. */
+  "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayDeleted" event. */
+  "Microsoft.ApiManagement.GatewayDeleted": ApiManagementGatewayDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated" event. */
+  "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated" event. */
+  "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted" event. */
+  "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated" event. */
+  "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated" event. */
+  "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated": ApiManagementGatewayCertificateAuthorityUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted" event. */
+  "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted": ApiManagementGatewayCertificateAuthorityDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayAPIAdded" event. */
+  "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayAPIRemoved" event. */
+  "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.DicomImageUpdated" event. */
+  "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
 }
 
 /**
