@@ -426,7 +426,8 @@ export interface PolicyAssignmentUpdate {
 export class PolicyClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId?: string, options?: PolicyClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PolicyClientOptionalParams);
     // (undocumented)
     dataPolicyManifests: DataPolicyManifests;
     // (undocumented)
