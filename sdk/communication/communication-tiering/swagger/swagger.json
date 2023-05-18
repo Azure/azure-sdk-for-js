@@ -1,0 +1,198 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TieringClient",
+    "description": "The tiering client library retrieves limits for each capability (SMS/PSTN Calling/Phone Number purchase) for a specific resource/tier.",
+    "version": "2022-11-15"
+  },
+  "paths": {
+    "/administration/resources/{resourceId}/telephone-number-summary": {
+      "get": {
+        "tags": [
+          "ACS Tiering"
+        ],
+        "summary": "Get acquired numbers and limits for a resource.",
+        "operationId": "NumberAllotment_GetAcquiredNumberLimits",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "description": "Resource Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AssetDetails"
+              }
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get acquired numbers and limits for a resource": {
+            "$ref": "./examples/GetAcquiredNumberLimits.json"
+          }
+        }
+      }
+    }
+    },
+  "definitions": {
+    "AssetDetails": {
+      "description": "Model response for acquired number and limits.",
+      "type": "object",
+      "properties": {
+        "NumberType": {
+          "description": "Array defining the number type of the phone number.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+        },
+        "ResourceAcquiredCount": {
+          "description": "Number of phone numbers that the resource has.",
+          "type": "integer"
+        },
+        "SubscriptionAcquiredCount": {
+          "description": "Number of phone numbers that the subscription that the resource belongs to has.",
+          "type": "integer"
+        },
+        "AadTenantAcquiredCount": {
+          "description": "Number of phone numbers that the AAD tenant that the resource belongs to has.",
+          "type": "integer"
+        },
+        "TierInfo": {
+          "description": "Tier specific info.",
+          "type": "object",
+          "properties": {
+          "Scope": {
+            "description": "The level at which the tiering properties in the TierInfo are for",
+            "type": "string"
+          },
+          "Allowed": {
+            "description": "Number of phone numbers allowed that can change based on scope where scope can be (resource, subscription or tenant).",
+            "type": "integer"
+          },
+          "Acquired": {
+            "description": "Number of phone numbers acquired that can change based on scope where scope can be (resource, subscription or tenant).",
+            "type": "integer"
+          },
+          "Balance": {
+            "description": "Difference between allowed and acquired amount.",
+            "type": "integer"
+          },
+          "Limit": {
+            "description": "The standing of a customer to determine if they able to purchase more phone numbers.",
+            "type": "string"
+          }
+          }
+        }
+      }
+    },
+    "CommunicationErrorResponse": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "description": "The Communication Services error.",
+          "$ref": "#/definitions/CommunicationError"
+        }
+      }
+    },
+    "CommunicationError": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error target."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommunicationError"
+          },
+          "readOnly": true,
+          "description": "Further details about specific errors that led to this error."
+        },
+        "innererror": {
+          "x-ms-client-name": "innerError",
+          "readOnly": true,
+          "$ref": "#/definitions/CommunicationError",
+          "description": "The inner error if any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "in": "query",
+      "name": "api-version",
+      "description": "Version of API to invoke",
+      "required": true,
+      "type": "string"
+    },
+    "Endpoint": {
+      "in": "path",
+      "name": "endpoint",
+      "description": "The communication resource, for example https://resourcename.communication.azure.com",
+      "required": true,
+      "type": "string",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "client"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  }
+}
