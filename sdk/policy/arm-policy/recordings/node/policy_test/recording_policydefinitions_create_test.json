@@ -1,0 +1,166 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123?api-version=2021-04-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Length": "47",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-managementgroups/2.0.3 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0831087a-f68f-4dbd-a797-8f748571c927"
+      },
+      "RequestBody": {
+        "name": "20000000-0001-0000-0000-000000000123"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "client-request-id": "512d261a-e934-4d92-b0ba-9dbe11744fbb",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 18 May 2023 09:27:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "512d261a-e934-4d92-b0ba-9dbe11744fbb",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "x-ba-restapi": "0.0.0.0",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "512d261a-e934-4d92-b0ba-9dbe11744fbb",
+        "x-ms-ratelimit-remaining-managementgroups-requests": "59",
+        "x-ms-ratelimit-remaining-tenant-writes": "1199",
+        "x-ms-request-id": "southeastasia:512d261a-e934-4d92-b0ba-9dbe11744fbb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230518T092725Z:512d261a-e934-4d92-b0ba-9dbe11744fbb"
+      },
+      "ResponseBody": {
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123",
+        "type": "Microsoft.Management/managementGroups",
+        "name": "20000000-0001-0000-0000-000000000123",
+        "properties": {
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "displayName": "20000000-0001-0000-0000-000000000123",
+          "details": {
+            "version": 25,
+            "updatedTime": "2022-11-22T09:12:40.3329971Z",
+            "updatedBy": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "parent": {
+              "id": "/providers/Microsoft.Management/managementGroups/88888888-8888-8888-8888-888888888888",
+              "name": "88888888-8888-8888-8888-888888888888",
+              "displayName": "88888888-8888-8888-8888-888888888888"
+            }
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy?api-version=2021-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "268",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-policy/5.1.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7f01af48-7942-442b-a1b8-b1ca6b6f78ec"
+      },
+      "RequestBody": {
+        "properties": {
+          "policyType": "Custom",
+          "description": "Don\u0027t create a VM anywhere",
+          "policyRule": {
+            "if": {
+              "allof": [
+                {
+                  "source": "action",
+                  "equals": "Microsoft.Compute/virtualMachines/write"
+                },
+                {
+                  "field": "location",
+                  "in": [
+                    "eastus",
+                    "eastus2",
+                    "centralus"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "effect": "deny"
+            }
+          }
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "885",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 18 May 2023 09:27:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6cb30136-6d3e-4b1e-b481-f39a02aa4568",
+        "x-ms-ratelimit-remaining-tenant-writes": "1198",
+        "x-ms-request-id": "6cb30136-6d3e-4b1e-b481-f39a02aa4568",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230518T092725Z:6cb30136-6d3e-4b1e-b481-f39a02aa4568"
+      },
+      "ResponseBody": {
+        "properties": {
+          "policyType": "Custom",
+          "mode": "Indexed",
+          "description": "Don\u0027t create a VM anywhere",
+          "metadata": {
+            "createdBy": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "createdOn": "2023-05-18T09:27:25.3789102Z",
+            "updatedBy": null,
+            "updatedOn": null
+          },
+          "policyRule": {
+            "if": {
+              "allof": [
+                {
+                  "source": "action",
+                  "equals": "Microsoft.Compute/virtualMachines/write"
+                },
+                {
+                  "field": "location",
+                  "in": [
+                    "eastus",
+                    "eastus2",
+                    "centralus"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "effect": "deny"
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "jspolicy",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-05-18T09:27:25.3311336Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-05-18T09:27:25.3311336Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

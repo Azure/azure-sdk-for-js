@@ -37,11 +37,32 @@ export class PolicyClient extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId?: string,
+    subscriptionId: string,
+    options?: PolicyClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PolicyClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: string | PolicyClientOptionalParams,
     options?: PolicyClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+    let subscriptionId: string | undefined;
+
+    if (!subscriptionIdOrOptions) {
+      if (typeof subscriptionIdOrOptions === "string") {
+        subscriptionId = subscriptionIdOrOptions;
+        if (subscriptionId === undefined) {
+          throw new Error("'subscriptionId' cannot be null");
+        }
+      } else if (typeof subscriptionIdOrOptions === "object") {
+        options = subscriptionIdOrOptions;
+      }
     }
 
     // Initializing default values for options
@@ -53,7 +74,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.0.4`;
+    const packageDetails = `azsdk-js-arm-policy/5.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

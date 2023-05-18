@@ -6,7 +6,7 @@ To manage and control access to your resources, you can define customized polici
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-policy) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-policy) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-policy?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

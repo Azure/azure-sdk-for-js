@@ -1,0 +1,81 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-policy/5.1.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "daa8ac2b-f05e-4130-9020-b99f338ee9c5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 18 May 2023 09:27:26 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4c3f51e7-0bf0-4382-9ca4-412b68a437d2",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "4c3f51e7-0bf0-4382-9ca4-412b68a437d2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230518T092726Z:4c3f51e7-0bf0-4382-9ca4-412b68a437d2"
+      },
+      "ResponseBody": {
+        "properties": {
+          "policyType": "Custom",
+          "mode": "Indexed",
+          "description": "Don\u0027t create a VM anywhere",
+          "metadata": {
+            "createdBy": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "createdOn": "2023-05-18T09:27:25.3789102Z",
+            "updatedBy": null,
+            "updatedOn": null
+          },
+          "policyRule": {
+            "if": {
+              "allof": [
+                {
+                  "source": "action",
+                  "equals": "Microsoft.Compute/virtualMachines/write"
+                },
+                {
+                  "field": "location",
+                  "in": [
+                    "eastus",
+                    "eastus2",
+                    "centralus"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "effect": "deny"
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/20000000-0001-0000-0000-000000000123/providers/Microsoft.Authorization/policyDefinitions/jspolicy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "jspolicy",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-05-18T09:27:25.3311336Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-05-18T09:27:25.3311336Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
