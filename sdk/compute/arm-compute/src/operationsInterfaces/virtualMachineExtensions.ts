@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineExtension,
   VirtualMachineExtensionsCreateOrUpdateOptionalParams,
@@ -38,8 +38,8 @@ export interface VirtualMachineExtensions {
     extensionParameters: VirtualMachineExtension,
     options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineExtensionsCreateOrUpdateResponse>,
       VirtualMachineExtensionsCreateOrUpdateResponse
     >
   >;
@@ -73,8 +73,8 @@ export interface VirtualMachineExtensions {
     extensionParameters: VirtualMachineExtensionUpdate,
     options?: VirtualMachineExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineExtensionsUpdateResponse>,
       VirtualMachineExtensionsUpdateResponse
     >
   >;
@@ -105,7 +105,7 @@ export interface VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     options?: VirtualMachineExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The name of the resource group.
