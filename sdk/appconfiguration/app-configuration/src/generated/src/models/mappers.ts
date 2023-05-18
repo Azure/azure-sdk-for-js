@@ -264,7 +264,7 @@ export const Snapshot: coreClient.CompositeMapper = {
       retentionPeriod: {
         constraints: {
           InclusiveMaximum: 7776000,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 3600
         },
         serializedName: "retention_period",
         type: {

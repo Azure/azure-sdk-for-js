@@ -87,7 +87,7 @@ export interface Snapshot {
   readonly status?: SnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: KeyValueFilter[];
-  /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
+  /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
   compositionType?: CompositionType;
   /**
    * The time that the snapshot was created.
@@ -482,10 +482,10 @@ export type SnapshotStatus = string;
 
 /** Known values of {@link CompositionType} that the service accepts. */
 export enum KnownCompositionType {
-  /** All */
-  All = "all",
-  /** GroupByKey */
-  GroupByKey = "group_by_key"
+  /** Key */
+  Key = "key",
+  /** KeyLabel */
+  KeyLabel = "key_label"
 }
 
 /**
@@ -493,8 +493,8 @@ export enum KnownCompositionType {
  * {@link KnownCompositionType} can be used interchangeably with CompositionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **all** \
- * **group_by_key**
+ * **key** \
+ * **key_label**
  */
 export type CompositionType = string;
 
