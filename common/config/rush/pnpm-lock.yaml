@@ -11608,7 +11608,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-KJwMcIjFGH+Xv8jgoCGdbFdtpKjR5d6IFrH2vG/UVjQaLp5I8cyD/q8dRYcNBFJgcxh4YjUAXhRgI1hBKn3ZTw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-UfCM6168PcBtj14YLTheMGm1C6zO5y3y3ykUGWbqGQKN4B18LZo2p04agZQkvc3V5GpX9FHKsU/XzVW2htGFzA==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11623,7 +11623,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
