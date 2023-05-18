@@ -10781,7 +10781,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-/cXAXd6ZDWA/sgZVwJSyEG2UdHr2R6yonrsI/ffxgZ5hE0yajoVkjKxvkKjcnoykCP107tSxF20gdoCtqJ6/zQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-GhMeA9zGlCN6kjlilaQeXtjhC8JA1lZdFu1sE2qkfdUyTjYbIxzp4+djfZJWdv1zv2fPuIVlsAAsJP29c0ZWrg==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10802,7 +10802,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
-      typescript: 4.8.4
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
