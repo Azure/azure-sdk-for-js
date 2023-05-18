@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given database account.
  *
  * @summary Retrieves the metrics determined by the given filter for the given database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBDatabaseAccountGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountGetMetrics.json
  */
 async function cosmosDbDatabaseAccountGetMetrics() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
