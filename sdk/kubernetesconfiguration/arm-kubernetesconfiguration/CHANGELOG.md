@@ -1,15 +1,28 @@
 # Release History
+    
+## 6.0.0 (2023-05-11)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Added Interface AzureBlobDefinition
+  - Added Interface AzureBlobPatchDefinition
+  - Added Interface ManagedIdentityDefinition
+  - Added Interface ManagedIdentityPatchDefinition
+  - Added Interface Plan
+  - Added Interface ServicePrincipalDefinition
+  - Added Interface ServicePrincipalPatchDefinition
+  - Interface Extension has a new optional parameter currentVersion
+  - Interface Extension has a new optional parameter isSystemExtension
+  - Interface Extension has a new optional parameter plan
+  - Interface FluxConfiguration has a new optional parameter azureBlob
+  - Interface FluxConfigurationPatch has a new optional parameter azureBlob
+  - Enum KnownSourceKindType has a new value AzureBlob
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Extension no longer has parameter installedVersion
+    
+    
 ## 5.1.0 (2022-11-28)
     
 **Features**

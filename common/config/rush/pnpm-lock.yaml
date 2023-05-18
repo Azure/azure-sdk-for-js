@@ -12250,7 +12250,7 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-lK1pQ154AbvHnZ2T/GOAs2YCTO44ZOuj2SPlv6oQ9OTdyKdjrSxO/pMiwURxK9QqENCXDdnCEW7xJ04qREq0Kg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-dz4iJqMjsf1DZuz3dO/uRMjsmYU8HuhnhBXm5CTyUQATCLH7HrwIHUeiUH1sONVQ8axfdwXd4/DuddX72XahjA==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
@@ -12264,7 +12264,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
