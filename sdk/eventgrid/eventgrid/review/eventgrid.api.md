@@ -470,11 +470,13 @@ export interface ClientOptions extends ClientOptions_2 {
 // @public
 export interface CloudEvent<T> {
     data?: T;
+    dataBase64?: string;
     datacontenttype?: string;
     dataschema?: string;
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
+    specversion: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;
@@ -483,20 +485,6 @@ export interface CloudEvent<T> {
 // @public
 export interface CloudEventSendOptions extends SendOptions {
     channelName?: string;
-}
-
-// @public
-export interface CloudEventV2 {
-    data?: any;
-    dataBase64?: string;
-    datacontenttype?: string;
-    dataschema?: string;
-    id: string;
-    source: string;
-    specversion: string;
-    subject?: string;
-    time?: Date;
-    type: string;
 }
 
 // @public
@@ -704,11 +692,11 @@ export class EventGridClient {
     // (undocumented)
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
     // (undocumented)
-    publishCloudEvent(event: CloudEventV2, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResult>;
+    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResult>;
     // (undocumented)
-    publishCloudEvents(events: CloudEventV2[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResult>;
+    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResult>;
     // (undocumented)
-    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult>;
+    receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
     // (undocumented)
     rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
     // (undocumented)
@@ -1372,14 +1360,14 @@ export interface ReceiveCloudEventsOptions extends RequestOptions {
 }
 
 // @public
-export interface ReceiveDetails {
+export interface ReceiveDetails<T> {
     brokerProperties: BrokerProperties;
-    event: CloudEventV2;
+    event: CloudEvent<T>;
 }
 
 // @public
-export interface ReceiveResult {
-    value: ReceiveDetails[];
+export interface ReceiveResult<T> {
+    value: ReceiveDetails<T>[];
 }
 
 // @public

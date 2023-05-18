@@ -3,13 +3,8 @@
 
 import { RequestOptions } from "../common/interfaces";
 import { EventGridContext as Client, isUnexpected } from "../rest/index";
-import {
-  CloudEvent,
-  ReceiveResult,
-  AcknowledgeResult,
-  ReleaseResult,
-  RejectResult,
-} from "./models";
+import { ReceiveResult, AcknowledgeResult, ReleaseResult, RejectResult } from "./models";
+import { CloudEvent } from "../../models";
 
 export interface PublishCloudEventOptions extends RequestOptions {
   /** content type */
@@ -17,9 +12,9 @@ export interface PublishCloudEventOptions extends RequestOptions {
 }
 
 /** Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
-export async function publishCloudEvent(
+export async function publishCloudEvent<T>(
   context: Client,
-  event: CloudEvent,
+  event: CloudEvent<T>,
   topicName: string,
   options: PublishCloudEventOptions = { requestOptions: {} }
 ): Promise<Record<string, any>> {
@@ -48,9 +43,9 @@ export interface PublishCloudEventsOptions extends RequestOptions {
 }
 
 /** Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
-export async function publishCloudEvents(
+export async function publishCloudEvents<T>(
   context: Client,
-  events: CloudEvent[],
+  events: CloudEvent<T>[],
   topicName: string,
   options: PublishCloudEventsOptions = { requestOptions: {} }
 ): Promise<Record<string, any>> {
@@ -82,12 +77,12 @@ export interface ReceiveCloudEventsOptions extends RequestOptions {
 }
 
 /** Receive Batch of Cloud Events from the Event Subscription. */
-export async function receiveCloudEvents(
+export async function receiveCloudEvents<T>(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
   options: ReceiveCloudEventsOptions = { requestOptions: {} }
-): Promise<ReceiveResult> {
+): Promise<ReceiveResult<T>> {
   const result = await context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:receive",

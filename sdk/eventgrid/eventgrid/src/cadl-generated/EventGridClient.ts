@@ -6,7 +6,6 @@ import { ClientOptions } from "./common/interfaces";
 import {
   createEventGrid,
   EventGridContext,
-  CloudEvent,
   ReceiveResult,
   PublishResult,
   AcknowledgeResult,
@@ -25,6 +24,7 @@ import {
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
 } from "./api/index";
+import { CloudEvent } from "../models";
 
 export class EventGridClient {
   private _client: EventGridContext;
@@ -35,27 +35,27 @@ export class EventGridClient {
     this._client = createEventGrid(endpoint, credential, options);
   }
 
-  publishCloudEvent(
-    event: CloudEvent,
+  publishCloudEvent<T>(
+    event: CloudEvent<T>,
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} }
   ): Promise<PublishResult> {
     return publishCloudEvent(this._client, event, topicName, options);
   }
 
-  publishCloudEvents(
-    events: CloudEvent[],
+  publishCloudEvents<T>(
+    events: CloudEvent<T>[],
     topicName: string,
     options: PublishCloudEventsOptions = { requestOptions: {} }
   ): Promise<PublishResult> {
     return publishCloudEvents(this._client, events, topicName, options);
   }
 
-  receiveCloudEvents(
+  receiveCloudEvents<T>(
     topicName: string,
     eventSubscriptionName: string,
     options: ReceiveCloudEventsOptions = { requestOptions: {} }
-  ): Promise<ReceiveResult> {
+  ): Promise<ReceiveResult<T>> {
     return receiveCloudEvents(this._client, topicName, eventSubscriptionName, options);
   }
 

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CloudEvent as CloudEventV1 } from "../../models";
 
 /** */
-export interface PublishCloudEventRequest {
+export interface PublishCloudEventRequest<T> {
   /** */
-  event: CloudEvent;
+  event: CloudEventV1<T>;
 }
 
 /** Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. */
@@ -32,20 +33,20 @@ export interface CloudEvent {
 }
 
 /** Details of the Receive operation response. */
-export interface ReceiveResult {
+export interface ReceiveResult<T> {
   /** Array of receive responses, one per cloud event. */
-  value: ReceiveDetails[];
+  value: ReceiveDetails<T>[];
 }
 
 /** The result of the Publish operation. */
 export interface PublishResult {}
 
 /** Receive operation details per Cloud Event. */
-export interface ReceiveDetails {
+export interface ReceiveDetails<T> {
   /** The Event Broker details. */
   brokerProperties: BrokerProperties;
   /** Cloud Event details. */
-  event: CloudEvent;
+  event: CloudEventV1<T>;
 }
 
 /** Properties of the Event Broker operation. */

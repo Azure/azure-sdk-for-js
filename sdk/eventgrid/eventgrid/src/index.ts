@@ -247,7 +247,6 @@ export {
 } from "./generated/models";
 
 export {
-  CloudEvent as CloudEventV2,
   ReceiveResult,
   ReceiveDetails,
   BrokerProperties,

@@ -153,6 +153,14 @@ export interface CloudEvent<T> {
    * Additional context attributes for the event. The Cloud Event specification refers to these as "extension attributes".
    */
   extensionAttributes?: Record<string, unknown>;
+  /**
+   * The version of the CloudEvents specification which the event uses.
+   */
+  specversion: string | "1.0";
+  /**
+   * Event data specific to the event type, encoded as a base64 string.
+   */
+  dataBase64?: string;
 }
 
 /**
