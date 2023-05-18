@@ -373,6 +373,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new TestExporter();
         assert.ok(!exporter["_networkStatsbeatMetrics"]);
+        assert.ok(!exporter["_longIntervalStatsbeatMetrics"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
       });
     })
