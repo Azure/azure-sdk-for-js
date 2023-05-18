@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Catalog,
   CatalogsListByDevCenterOptionalParams,
@@ -64,8 +64,8 @@ export interface Catalogs {
     body: Catalog,
     options?: CatalogsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsCreateOrUpdateResponse>,
       CatalogsCreateOrUpdateResponse
     >
   >;
@@ -99,8 +99,8 @@ export interface Catalogs {
     body: CatalogUpdate,
     options?: CatalogsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsUpdateResponse>,
       CatalogsUpdateResponse
     >
   >;
@@ -131,7 +131,7 @@ export interface Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a catalog resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -157,7 +157,7 @@ export interface Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsSyncOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Syncs templates for a template source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
