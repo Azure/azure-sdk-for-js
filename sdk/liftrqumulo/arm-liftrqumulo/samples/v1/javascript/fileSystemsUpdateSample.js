@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  FileSystemResourceUpdate,
-  QumuloStorage
-} from "@azure/arm-liftrqumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { QumuloStorage } = require("@azure/arm-liftrqumulo");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a FileSystemResource
@@ -24,12 +19,10 @@ dotenv.config();
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_Update_MaximumSet_Gen.json
  */
 async function fileSystemsUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "ulseeqylxb";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
+  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "ulseeqylxb";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "nauwwbfoqehgbhdsmkewoboyxeqg";
-  const properties: FileSystemResourceUpdate = {
+  const properties = {
     identity: { type: "None", userAssignedIdentities: { key4522: {} } },
     properties: {
       clusterLoginUrl: "adabmuthwrbjshzfbo",
@@ -39,20 +32,16 @@ async function fileSystemsUpdateMaximumSetGen() {
         marketplaceSubscriptionStatus: "PendingFulfillmentStart",
         offerId: "eiyhbmpwgezcmzrrfoiskuxlcvwojf",
         planId: "x",
-        publisherId: "wfmokfdjbwpjhz"
+        publisherId: "wfmokfdjbwpjhz",
       },
       privateIPs: ["eugjqbaoucgjsopzfrq"],
-      userDetails: { email: "aa" }
+      userDetails: { email: "aa" },
     },
-    tags: { key7534: "jsgqvqbagquvxowbrkanyhzvo" }
+    tags: { key7534: "jsgqvqbagquvxowbrkanyhzvo" },
   };
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(
-    resourceGroupName,
-    fileSystemName,
-    properties
-  );
+  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
   console.log(result);
 }
 
@@ -63,19 +52,13 @@ async function fileSystemsUpdateMaximumSetGen() {
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_Update_MinimumSet_Gen.json
  */
 async function fileSystemsUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
+  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "aaaaaaaaaaaaaaaaa";
-  const properties: FileSystemResourceUpdate = {};
+  const properties = {};
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(
-    resourceGroupName,
-    fileSystemName,
-    properties
-  );
+  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
   console.log(result);
 }
 
