@@ -468,7 +468,7 @@ export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     parsingMode?: string;
     dataToExtract?: string;
     configuration?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 };
 
@@ -555,7 +555,7 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 }
 
@@ -2185,6 +2185,8 @@ export interface SearchIndexer {
 // @public (undocumented)
 export interface SearchIndexerCache {
     enableReprocessing?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "SearchIndexerDataIdentityUnion" needs to be exported by the entry point index.d.ts
+    identity?: SearchIndexerDataIdentityUnion;
     storageConnectionString?: string;
 }
 
@@ -2277,6 +2279,7 @@ export interface SearchIndexerError {
 
 // @public
 export interface SearchIndexerKnowledgeStore {
+    identity?: SearchIndexerDataIdentityUnion;
     projections: SearchIndexerKnowledgeStoreProjection[];
     storageConnectionString: string;
 }
@@ -2537,6 +2540,7 @@ export interface SemanticField {
 // @public
 export interface SemanticSettings {
     configurations?: SemanticConfiguration[];
+    defaultConfiguration?: string;
 }
 
 // @public @deprecated
@@ -2811,6 +2815,8 @@ export type WebApiSkill = BaseSearchIndexerSkill & {
     timeout?: string;
     batchSize?: number;
     degreeOfParallelism?: number;
+    authResourceId?: string;
+    authIdentity?: SearchIndexerDataIdentityUnion;
 };
 
 // @public

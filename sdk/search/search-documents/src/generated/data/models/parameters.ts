@@ -219,6 +219,39 @@ export const semanticConfiguration: OperationQueryParameter = {
   }
 };
 
+export const semanticErrorHandling: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticErrorHandling"],
+  mapper: {
+    serializedName: "semanticErrorHandling",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticMaxWaitInMilliseconds: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticMaxWaitInMilliseconds"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 700
+    },
+    serializedName: "semanticMaxWaitInMilliseconds",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const debug: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "debug"],
+  mapper: {
+    serializedName: "debug",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const searchFields: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "searchFields"],
   mapper: {

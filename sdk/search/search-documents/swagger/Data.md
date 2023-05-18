@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/932e261a870475e1a29115f62def7bb84e4d7b38/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e7e775e2f3fe00f25fbd0e7ca0d953e22eef93ff/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
