@@ -12334,7 +12334,7 @@ packages:
     dev: false
 
   file:projects/arm-liftrqumulo.tgz:
-    resolution: {integrity: sha512-/xbiLVqn1DUH8rEVTAxb6Enu1Gkhw+0MNakxIpinrzyC7ajSJ5s2T1deGL4BY0AbNUrr/z650KKYmia8CTww3g==, tarball: file:projects/arm-liftrqumulo.tgz}
+    resolution: {integrity: sha512-4bI57b8j/XKrd+mdt5gfrhA1XuI3AFH8+Shio/MlgMhh+UZZ5BTDcNt2NpSlQkOF1zkrqP8mWFm5q5eTrS9SfQ==, tarball: file:projects/arm-liftrqumulo.tgz}
     name: '@rush-temp/arm-liftrqumulo'
     version: 0.0.0
     dependencies:
@@ -12348,8 +12348,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
