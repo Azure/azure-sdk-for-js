@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.12 (unreleased)
+
+### Features Added
+
+- Add ability to disable statsbeat via environment variable.
+
 ## 1.0.0-beta.11 (2023-02-02)
 
 ### Features Added
