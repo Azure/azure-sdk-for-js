@@ -29,7 +29,7 @@ const client = new OpenAIClient(
   "https://<resource name>.openai.azure.com/", 
   new AzureKeyCredential("<Azure API key>")
 );
-const { id, created, choices, usage } = await client.getCompletions("<deployment ID>", "YOUR PROMPT HERE");
+const { id, created, choices, usage } = await client.getCompletions("<deployment ID>", ["YOUR PROMPT HERE"]);
 ```
 
 ### Currently supported environments
@@ -120,9 +120,9 @@ const client = new OpenAIClient(
   "https://your-azure-openai-resource.com/",
   new AzureKeyCredential("your-azure-openai-resource-api-key"));
 
-const { id, created, choices, usage } = await client.getCompletions(
+const { choices } = await client.getCompletions(
   "text-davinci-003", // assumes a matching model deployment or model name
-  "Hello, world!");
+  ["Hello, world!"]);
 
 for (const choice of choices) {
   console.log(choice.text);
@@ -142,10 +142,10 @@ const endpoint = "https://myaccount.openai.azure.com/";
 const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
 const deploymentName = "text-davinci-003";
-const prompt = "What is Azure OpenAI?";
+const prompt = ["What is Azure OpenAI?"];
 console.log(`Input: ${prompt}`);
 
-const { id, created, choices, usage } = await client.getCompletions(deploymentName, prompt);
+const { choices } = await client.getCompletions(deploymentName, prompt);
 const completion = choices[0].text;
 console.log(`Chatbot: ${completion}`);
 ```
