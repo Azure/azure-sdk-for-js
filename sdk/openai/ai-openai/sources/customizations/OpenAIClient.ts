@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { ClientOptions } from "../generated/common/interfaces.js";
 import {
   ChatMessage,
   createOpenAI,
@@ -13,6 +12,7 @@ import {
   GetEmbeddingsOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
+  OpenAIClientOptions,
 } from "../generated/api/index.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./api/operations.js";
 import { getSSEs } from "./api/sse.js";
@@ -74,7 +74,7 @@ export class OpenAIClient {
    *   This constructor initializes an OpenAIClient object that can only be used with Azure OpenAI resources.
    *   To use OpenAIClient with a non-Azure OpenAI inference endpoint, use a constructor that accepts a non-Azure OpenAI API key instead.
    */
-  constructor(endpoint: string, credential: KeyCredential, options?: ClientOptions);
+  constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
   /**
    * Initializes an instance of OpenAIClient for use with an Azure OpenAI resource.
    * @param endpoint - The URI for an Azure OpenAI resource, including protocol and hostname.
@@ -82,7 +82,7 @@ export class OpenAIClient {
    * @param credential - A token credential used to authenticate with an Azure OpenAI resource.
    * @param options - The options for configuring the client.
    */
-  constructor(endpoint: string, credential: TokenCredential, options?: ClientOptions);
+  constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
   /**
    * Initializes an instance of OpenAIClient for use with the non-Azure OpenAI endpoint.
    * @param openAiApiKey - The API key to use when connecting to the non-Azure OpenAI endpoint.
@@ -91,13 +91,13 @@ export class OpenAIClient {
    *   OpenAIClient objects initialized with this constructor can only be used with the non-Azure OpenAI inference endpoint.
    *   To use OpenAIClient with an Azure OpenAI resource, use a constructor that accepts a resource URI and Azure authentication credential instead.
    */
-  constructor(openAiApiKey: KeyCredential, options?: ClientOptions);
+  constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
   constructor(
     endpointOrOpenAiKey: string | KeyCredential,
-    credOrOptions: KeyCredential | TokenCredential | ClientOptions = {},
-    options: ClientOptions = {}
+    credOrOptions: KeyCredential | TokenCredential | OpenAIClientOptions = {},
+    options: OpenAIClientOptions = {}
   ) {
-    let opts: ClientOptions;
+    let opts: OpenAIClientOptions;
     let endpoint: string;
     let cred: KeyCredential | TokenCredential;
     if (isCred(credOrOptions)) {
