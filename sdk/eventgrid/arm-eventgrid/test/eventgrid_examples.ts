@@ -49,7 +49,7 @@ describe("Eventgrid test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new EventGridManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2";
+    location = "east us2 euap";
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";
@@ -60,7 +60,7 @@ describe("Eventgrid test", () => {
   });
 
   it("topics create test", async function () {
-    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, topicName, { location: "eastus2" }, testPollingOptions);
+    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, topicName, { location }, testPollingOptions);
     assert.equal(res.name, topicName);
   });
 
