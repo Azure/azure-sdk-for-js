@@ -83,18 +83,6 @@ export interface CompletionsLogProbabilityModel {
   textOffset: number[];
 }
 
-/** Representation of a log probabilities model for a completions generation. */
-export interface CompletionsLogProbabilityModel {
-  /** The textual forms of tokens evaluated in this probability model. */
-  tokens: string[];
-  /** A collection of log probability values for the tokens in this completions data. */
-  tokenLogprobs: (number | null)[];
-  /** A mapping of tokens to maximum log probability values in this completions data. */
-  topLogprobs: Record<string, number | null>[];
-  /** The text offsets associated with tokens in this completions data. */
-  textOffset: number[];
-}
-
 /** Representation of the manner in which a completions response concluded. */
 /** "stopped", "tokenLimitReached", "contentFiltered" */
 export type CompletionsFinishReason = string;
@@ -162,50 +150,4 @@ export interface ChatChoice {
   finishReason: CompletionsFinishReason | null;
   /** The delta message content for a streaming response. */
   delta?: ChatMessage;
-}
-
-/** */
-export interface Embeddings {
-  /** Embedding values for the prompts submitted in the request. */
-  data: EmbeddingItem[];
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsage;
-}
-
-/** */
-export interface Completions {
-  /** A unique identifier associated with this completions response. */
-  id: string;
-  /**
-   * The first timestamp associated with generation activity for this completions response,
-   * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
-   */
-  created: number;
-  /**
-   * The collection of completions choices associated with this completions response.
-   * Generally, `n` choices are generated per provided prompt with a default value of 1.
-   * Token limits and other settings may limit the number of choices generated.
-   */
-  choices: Choice[];
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsage;
-}
-
-/** */
-export interface ChatCompletions {
-  /** A unique identifier associated with this chat completions response. */
-  id: string;
-  /**
-   * The first timestamp associated with generation activity for this completions response,
-   * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
-   */
-  created: number;
-  /**
-   * The collection of completions choices associated with this completions response.
-   * Generally, `n` choices are generated per provided prompt with a default value of 1.
-   * Token limits and other settings may limit the number of choices generated.
-   */
-  choices: ChatChoice[];
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsage;
 }

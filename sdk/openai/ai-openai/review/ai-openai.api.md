@@ -28,14 +28,6 @@ export interface ChatCompletions {
     usage: CompletionsUsage;
 }
 
-// @public (undocumented)
-export interface ChatCompletions {
-    choices: ChatChoice[];
-    created: number;
-    id: string;
-    usage: CompletionsUsage;
-}
-
 // @public
 export interface ChatMessage {
     content?: string;
@@ -61,24 +53,8 @@ export interface Completions {
     usage: CompletionsUsage;
 }
 
-// @public (undocumented)
-export interface Completions {
-    choices: Choice[];
-    created: number;
-    id: string;
-    usage: CompletionsUsage;
-}
-
 // @public
 export type CompletionsFinishReason = string;
-
-// @public
-export interface CompletionsLogProbabilityModel {
-    textOffset: number[];
-    tokenLogprobs: (number | null)[];
-    tokens: string[];
-    topLogprobs: Record<string, number | null>[];
-}
 
 // @public
 export interface CompletionsLogProbabilityModel {
@@ -102,12 +78,6 @@ export interface EmbeddingItem {
 }
 
 // @public
-export interface Embeddings {
-    data: EmbeddingItem[];
-    usage: EmbeddingsUsage;
-}
-
-// @public (undocumented)
 export interface Embeddings {
     data: EmbeddingItem[];
     usage: EmbeddingsUsage;
