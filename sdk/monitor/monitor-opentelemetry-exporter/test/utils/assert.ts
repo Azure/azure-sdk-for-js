@@ -102,7 +102,8 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as MonitorDomain).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as MonitorDomain).name
         }`
       );
     }
@@ -151,7 +152,8 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: Envelope ${(expectation.data?.baseData as MetricsData).metrics[0].name
+        `assertExpectation: Envelope ${
+          (expectation.data?.baseData as MetricsData).metrics[0].name
         } found ${envelope.length} times.`
       );
     }
@@ -194,7 +196,8 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as any).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as any).name
         }`
       );
     }
