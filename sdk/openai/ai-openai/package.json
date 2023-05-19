@@ -144,7 +144,7 @@
       "openai"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://learn.microsoft.com/en-us/azure/cognitive-services/openai/how-to/create-resource"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
   }
 }

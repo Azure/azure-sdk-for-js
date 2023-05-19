@@ -79,6 +79,6 @@ Take a look at our API Documentation for more information about the APIs that ar
 [listcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/typescript/src/listCompletions.ts
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/typescript/src/openAi.ts
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/en-us/azure/cognitive-services/openai/how-to/create-resource
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/ai-openai/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
