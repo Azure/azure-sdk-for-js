@@ -146,7 +146,7 @@ const prompt = "What is Azure OpenAI?";
 console.log(`Input: ${prompt}`);
 
 const { id, created, choices, usage } = await client.getCompletions(deploymentName, prompt);
-const completion = choices?.[0].text;
+const completion = choices[0].text;
 console.log(`Chatbot: ${completion}`);
 ```
 
@@ -171,12 +171,10 @@ const examplePrompts = [
 const deploymentName = "text-davinci-003";
 
 let promptIndex = 0;
-const { id, created, choices, usage } = await client.getCompletions(deploymentName, examplePrompts);
-for (const choice of choices)
-{
-  console.log(`Input: ${examplePrompts?.[promptIndex]}`);
+const { choices } = await client.getCompletions(deploymentName, examplePrompts);
+for (const choice of choices) {
+  console.log(`Input: ${examplePrompts[promptIndex++]}`);
   console.log(`Chatbot: ${choice}`);
-  promptIndex++;
 }
 ```
 
@@ -188,13 +186,13 @@ This example generates a summarization of the given input prompt.
 const endpoint = "https://myaccount.openai.azure.com/";
 const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
-const textToSummarize = ` 
+const textToSummarize = `
   Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
 
   ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
  :`;
 
-const summarizationPrompt = ` 
+const summarizationPrompt = [`
   Summarize the following text.
 
   Text:
@@ -203,17 +201,14 @@ const summarizationPrompt = `
   """"""
 
   Summary:
-`;
+`];
 
 console.log(`Input: ${summarizationPrompt}`);
-const completionsOptions = {
-  prompt: summarizationPrompt,
-};
 
 const deploymentName = "text-davinci-003";
 
-const { id, created, choices, usage } = await client.getCompletions(deploymentName, completionsOptions);
-const completion = choices?.[0].text;
+const { choices } = await client.getCompletions(deploymentName, summarizationPrompt);
+const completion = choices[0].text;
 console.log(`Summarization: ${completion}`);
 ```
 
