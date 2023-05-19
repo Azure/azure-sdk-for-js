@@ -94,7 +94,7 @@ You will also need to [register a new AAD application][register_aad_app] and gra
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```javascript
-const { OpenAIClient, AzureKeyCredential } = require("@azure/ai-openai");
+const { OpenAIClient } = require("@azure/ai-openai");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const client = new OpenAIClient("<endpoint>", new DefaultAzureCredential());
