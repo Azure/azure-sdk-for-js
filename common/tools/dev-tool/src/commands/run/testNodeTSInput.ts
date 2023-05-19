@@ -6,12 +6,21 @@ import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node-ts-input",
-  "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes"
+  "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
+  {
+    modular: {
+      kind: "boolean",
+      description: "Whether the library follows the modular design pattern",
+      default: false,
+      allowMultiple: false,
+    },
+  }
 );
 
-export default leafCommand(commandInfo, async (options) => {
-  const defaultMochaArgs =
-    "-r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
+export default leafCommand(commandInfo, async ({ modular, ...options }) => {
+  const defaultMochaArgs = `${
+    modular ? "" : "-r esm "
+  }-r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
   );

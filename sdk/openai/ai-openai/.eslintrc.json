@@ -1,0 +1,9 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    "@azure/azure-sdk/ts-naming-options": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "tsdoc/syntax": "warn"
+  }
+}

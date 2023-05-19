@@ -10,6 +10,7 @@ specifiers:
   '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
   '@rush-temp/ai-language-textauthoring': file:./projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-openai': file:./projects/ai-openai.tgz
   '@rush-temp/ai-personalizer': file:./projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
@@ -351,6 +352,7 @@ dependencies:
   '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
   '@rush-temp/ai-language-textauthoring': file:projects/ai-language-textauthoring.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-openai': file:projects/ai-openai.tgz
   '@rush-temp/ai-personalizer': file:projects/ai-personalizer.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
@@ -3793,7 +3795,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230517
+      typescript: 5.2.0-dev.20230518
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8337,8 +8339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230517:
-    resolution: {integrity: sha512-mTT3ka5HTeudnNirocnOfr/0d2CEvZExrJpP8YXqAvdwlwjwNPJ4TqHHiL1y9lx3RfsUWu6HSX539ZxngUTqeA==}
+  /typescript/5.2.0-dev.20230518:
+    resolution: {integrity: sha512-lHSI4e0QtTokuq/T1UnAFtdh3S2bzTG1TrR0Z3n6ld6J97SlPwW3FKbtKZiSdUVyOBaL0KbEiEyjy9AzukpS4Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9223,6 +9225,59 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
+      ts-node: 10.9.1_n2cpzc5zgpasjpvencbdmlkpvi
+      tslib: 2.5.0
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-openai.tgz:
+    resolution: {integrity: sha512-MuljA/fjvPvmXxmL+v3pu03UWmTQCmkxldYBMlYdkTvXYMV/Ogt6eJdbhc2SYHG30VjQjbdYWFpj2FvuSRVE9Q==, tarball: file:projects/ai-openai.tgz}
+    name: '@rush-temp/ai-openai'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
+      '@rollup/plugin-typescript': 11.1.0_lnoztkf4lbmsnm3hpr7v4ukvdy
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.46
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.40.0
+      esm: 3.2.25
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-json-preprocessor: 0.3.3_karma@6.4.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      puppeteer: 19.11.1_typescript@5.0.4
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       ts-node: 10.9.1_n2cpzc5zgpasjpvencbdmlkpvi
       tslib: 2.5.0
       typescript: 5.0.4
@@ -10816,13 +10871,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.5
-      '@types/node': 14.18.43
+      '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -10830,7 +10885,7 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
       typescript: 5.0.4
       uglify-js: 3.17.4
@@ -19521,7 +19576,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-0wlhMPscSTP4/QUL2sOJAh1/82gAobmvkvQ0u/aJC18aYACv8wK91n2/NCQ5BIimrstfr65QkZ0ZT52iKwD8dw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-7FkAIYRwLO/bh2jLFj8gHvLmQTBFUqTOSOsUuBs+ktkNQUZYCOxgCxrGOyjvN7LkbbwZDvc6DGSYGA81MhvirQ==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -19530,6 +19585,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.46
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
