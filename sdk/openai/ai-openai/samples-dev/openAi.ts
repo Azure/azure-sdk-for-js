@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for the provided prompt using OpenAI API.
+ * Demonstrates how to get completions for the provided prompt using OpenAI hosted service.
  *
  * @summary get completions using the OpenAI API.
  * @azsdk-weight 30

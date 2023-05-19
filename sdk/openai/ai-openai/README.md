@@ -62,7 +62,7 @@ along with a corresponding key credential, token credential, or Azure identity c
 Azure OpenAI resource. To instead configure the client to connect to OpenAI's service, provide an API key from OpenAI's
 developer portal.
 
-#### Using an API Key
+#### Using an API Key from Azure
 
 Use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
 
@@ -100,7 +100,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const client = new OpenAIClient("<endpoint>", new DefaultAzureCredential());
 ```
 
-#### openai.com
+#### Using an API Key from OpenAI
 
 To instead configure the client to connect to OpenAI's service, provide an API key from OpenAI's
 developer portal. Once you have an API key, you can use the `OpenAIKeyCredential` class to authenticate the client as follows:
