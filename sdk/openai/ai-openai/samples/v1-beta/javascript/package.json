@@ -24,7 +24,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/ai-openai",
   "dependencies": {
     "@azure/ai-openai": "next",
-    "dotenv": "latest",
-    "@azure/core-auth": "^1.4.0"
+    "dotenv": "latest"
   }
 }

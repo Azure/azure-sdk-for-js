@@ -1,4 +1,4 @@
-# OpenAI REST client library for JavaScript
+# Azure OpenAI client library for JavaScript
 
 The Azure OpenAI client library for JavaScript is an adaptation of OpenAI's REST APIs that provides an idiomatic interface
 and rich integration with the rest of the Azure SDK ecosystem. It can connect to Azure OpenAI resources *or* to the
@@ -12,17 +12,18 @@ Use the client library for Azure OpenAI to:
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
-
 Key links:
 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/openai/v1/sdk/openai/ai-openai)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-openai)
+- [API reference documentation](https://aka.ms/ai-openai-js-api)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/openai/v1/sdk/openai/ai-openai/samples/v1-beta)
 
 ## Getting started
 
 ```javascript
-const { OpenAIClient } = require("@azure/ai-openai");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/ai-openai");
 
 const client = new OpenAIClient(
   "https://<resource name>.openai.azure.com/", 
@@ -48,7 +49,7 @@ from a developer account at https://platform.openai.com/.
 
 ### Install the `@azure/ai-openai` package
 
-Install the OpenAI REST client REST client library for JavaScript with `npm`:
+Install the Azure OpenAI client client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/ai-openai

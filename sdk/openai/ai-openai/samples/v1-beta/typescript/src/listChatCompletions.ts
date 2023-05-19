@@ -7,8 +7,7 @@
  * @summary list chat completions.
  */
 
-import { OpenAIClient } from "@azure/ai-openai";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { OpenAIClient, AzureKeyCredential } from "@azure/ai-openai";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

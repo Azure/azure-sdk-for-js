@@ -4,10 +4,13 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AzureKeyCredential }
 
 // @public
 export interface ChatChoice {
@@ -187,7 +190,5 @@ export interface RequestOptions {
         skipUrlEncoding?: boolean;
     };
 }
-
-// (No @packageDocumentation comment for this package)
 
 ```

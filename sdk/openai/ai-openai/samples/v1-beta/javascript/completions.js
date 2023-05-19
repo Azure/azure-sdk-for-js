@@ -7,8 +7,7 @@
  * @summary get completions.
  */
 
-const { OpenAIClient } = require("@azure/ai-openai");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/ai-openai");
 
 // Load the .env file if it exists
 require("dotenv").config();
