@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for a piece of text.
+ * Demonstrates how to get completions for the provided prompt.
  *
  * @summary get completions.
  * @azsdk-weight 100

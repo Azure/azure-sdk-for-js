@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get chat completions for a series of messages.
+ * Demonstrates how to get chat completions for a chat context.
  *
  * @summary get chat completions.
  */

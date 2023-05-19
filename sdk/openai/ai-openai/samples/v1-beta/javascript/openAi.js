@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for a piece of text using OpenAI API.
+ * Demonstrates how to get completions for the provided prompt using OpenAI API.
  *
  * @summary get completions using the OpenAI API.
  */
