@@ -109,14 +109,16 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 }
 
 export function fromEightBytesBE(buf: number[]): bigint {
-  return BigInt(buf[0]) << 56n
-    | BigInt(buf[1]) << 48n
-    | BigInt(buf[2]) << 40n
-    | BigInt(buf[3]) << 32n
-    | BigInt(buf[4]) << 24n
-    | BigInt(buf[5]) << 16n
-    | BigInt(buf[6]) << 8n
-    | BigInt(buf[7]);
+  return (
+    (BigInt(buf[0]) << 56n) |
+    (BigInt(buf[1]) << 48n) |
+    (BigInt(buf[2]) << 40n) |
+    (BigInt(buf[3]) << 32n) |
+    (BigInt(buf[4]) << 24n) |
+    (BigInt(buf[5]) << 16n) |
+    (BigInt(buf[6]) << 8n) |
+    BigInt(buf[7])
+  );
 }
 
 export function toEightBytesBE(n: bigint): Uint8Array {
@@ -124,15 +126,15 @@ export function toEightBytesBE(n: bigint): Uint8Array {
     n = BigInt(n);
   }
   return Uint8Array.from([
-    Number(n & 0xFF00000000000000n),
-    Number(n & 0xFF000000000000n),
-    Number(n & 0xFF0000000000n),
-    Number(n & 0xFF00000000n),
-    Number(n & 0xFF000000n),
-    Number(n & 0xFF0000n),
-    Number(n & 0xFF00n),
-    Number(n & 0xFFn),
-  ])
+    Number(n & 0xff00000000000000n),
+    Number(n & 0xff000000000000n),
+    Number(n & 0xff0000000000n),
+    Number(n & 0xff00000000n),
+    Number(n & 0xff000000n),
+    Number(n & 0xff0000n),
+    Number(n & 0xff00n),
+    Number(n & 0xffn),
+  ]);
 }
 
 /**

@@ -611,13 +611,14 @@ export function fromRheaMessage(
       props.enqueuedSequenceNumber =
         rheaMessage.message_annotations[Constants.enqueueSequenceNumber];
     }
-    if (rheaMessage.message_annotations[Constants.sequenceNumber] != null) {
-      if (Buffer.isBuffer(rheaMessage.message_annotations[Constants.sequenceNumber])) {
-        props.sequenceNumber = fromEightBytesBE(
-          rheaMessage.message_annotations[Constants.sequenceNumber]
-        );
+    const sn = rheaMessage.message_annotations[Constants.sequenceNumber];
+    if (sn != null) {
+      if (Buffer.isBuffer(sn)) {
+        props.sequenceNumber = fromEightBytesBE(sn as any);
+      } else if (typeof sn === "number") {
+        props.sequenceNumber = BigInt(sn);
       } else {
-        props.sequenceNumber = rheaMessage.message_annotations[Constants.sequenceNumber];
+        props.sequenceNumber = sn;
       }
     }
     if (rheaMessage.message_annotations[Constants.enqueuedTime] != null) {

@@ -927,7 +927,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     lockToken: string,
     dispositionType: DispositionType,
     // TODO: mgmt link retry<> will come in the next PR.
-    options: Omit<DispositionStatusOptions, "retryOptions" | "abortSignal" | "tracingOptions"> & SendManagementRequestOptions = {}
+    options: Omit<DispositionStatusOptions, "retryOptions" | "abortSignal" | "tracingOptions"> &
+      SendManagementRequestOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {

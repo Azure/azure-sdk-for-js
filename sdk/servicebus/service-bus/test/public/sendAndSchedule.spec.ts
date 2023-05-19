@@ -388,9 +388,7 @@ describe("Sender Tests", () => {
     const receivedMsgs = await receiver.receiveMessages(3);
     should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
     for (const seqNum of sequenceNumbers) {
-      const msgWithSeqNum = receivedMsgs.find(
-        ({ sequenceNumber }) => sequenceNumber === 0n
-      );
+      const msgWithSeqNum = receivedMsgs.find(({ sequenceNumber }) => sequenceNumber === 0n);
       should.equal(
         msgWithSeqNum === undefined,
         false,
