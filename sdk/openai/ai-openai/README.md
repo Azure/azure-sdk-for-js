@@ -173,8 +173,9 @@ const deploymentName = "text-davinci-003";
 let promptIndex = 0;
 const { choices } = await client.getCompletions(deploymentName, examplePrompts);
 for (const choice of choices) {
+  const completion = choice.text;
   console.log(`Input: ${examplePrompts[promptIndex++]}`);
-  console.log(`Chatbot: ${choice}`);
+  console.log(`Chatbot: ${completion}`);
 }
 ```
 
