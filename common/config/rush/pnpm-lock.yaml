@@ -37,6 +37,7 @@ specifiers:
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
+  '@rush-temp/arm-baremetalinfrastructure': file:./projects/arm-baremetalinfrastructure.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:./projects/arm-billing.tgz
   '@rush-temp/arm-billingbenefits': file:./projects/arm-billingbenefits.tgz
@@ -378,6 +379,7 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
+  '@rush-temp/arm-baremetalinfrastructure': file:projects/arm-baremetalinfrastructure.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:projects/arm-billing.tgz
   '@rush-temp/arm-billingbenefits': file:projects/arm-billingbenefits.tgz
@@ -3793,7 +3795,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230517
+      typescript: 5.2.0-dev.20230518
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8337,8 +8339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230517:
-    resolution: {integrity: sha512-mTT3ka5HTeudnNirocnOfr/0d2CEvZExrJpP8YXqAvdwlwjwNPJ4TqHHiL1y9lx3RfsUWu6HSX539ZxngUTqeA==}
+  /typescript/5.2.0-dev.20230518:
+    resolution: {integrity: sha512-lHSI4e0QtTokuq/T1UnAFtdh3S2bzTG1TrR0Z3n6ld6J97SlPwW3FKbtKZiSdUVyOBaL0KbEiEyjy9AzukpS4Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10090,6 +10092,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-baremetalinfrastructure.tgz:
+    resolution: {integrity: sha512-lhe2RevjBCe3qVsKmUir5LNWxy2NrGW268ZGsIgS+Is67+Ooxg4CxP2EJvzaErMJtyAt/x0hWAm1/rYcdPUBDA==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    name: '@rush-temp/arm-baremetalinfrastructure'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.46
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-batch.tgz:
     resolution: {integrity: sha512-2fxbZvesjWy2JPLb6VHPHvCwsZ75ahGZ4aAwTBIWrgTzUUuzHuAit+FCkuYC8ohoyoMgspiLhJqygMy12pDQ9A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
@@ -10816,13 +10846,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.5
-      '@types/node': 14.18.43
+      '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -10830,7 +10860,7 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       tslib: 2.5.0
       typescript: 5.0.4
       uglify-js: 3.17.4

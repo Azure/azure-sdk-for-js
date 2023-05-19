@@ -1987,6 +1987,11 @@
       "packageName": "@azure/arm-costmanagement",
       "projectFolder": "sdk/cost-management/arm-costmanagement",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
     }
   ]
 }
