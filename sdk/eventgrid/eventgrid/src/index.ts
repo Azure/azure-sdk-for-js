@@ -257,9 +257,10 @@ export {
   ReleaseResult,
   RejectOptions,
   RejectResult,
+  PublishResultOutput,
 } from "./cadl-generated/api/models";
 
-export { EventGridClient, PublishResult } from "./eventGridClientV2";
+export { EventGridClient } from "./eventGridClientV2";
 
 export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
 

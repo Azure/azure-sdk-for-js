@@ -691,9 +691,9 @@ export class EventGridClient {
     // (undocumented)
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
     // (undocumented)
-    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResult>;
+    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResultOutput>;
     // (undocumented)
-    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResult>;
+    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResultOutput>;
     // (undocumented)
     receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
     // (undocumented)
@@ -1349,7 +1349,7 @@ export interface PublishCloudEventsOptions extends RequestOptions {
 }
 
 // @public
-export interface PublishResult {
+export interface PublishResultOutput {
 }
 
 // @public (undocumented)

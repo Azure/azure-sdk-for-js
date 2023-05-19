@@ -14,15 +14,12 @@ import {
   AcknowledgeCloudEventsOptions,
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
+  PublishResultOutput,
 } from "./cadl-generated/api/index";
 import { CloudEvent, cloudEventReservedPropertyNames } from "./models";
 import { v4 as uuidv4 } from "uuid";
 import { CloudEvent as CloudEventWireModel } from "./cadl-generated/rest/index";
-
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
-
-/** The result of the Publish operation. */
-export interface PublishResult {}
 
 export class EventGridClient {
   private _client: EventGridClientGenerated;
@@ -37,7 +34,7 @@ export class EventGridClient {
     event: CloudEvent<T>,
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} }
-  ): Promise<PublishResult> {
+  ): Promise<PublishResultOutput> {
     return this._client.publishCloudEvent(convertCloudEventToModelType(event), topicName, options);
   }
 
@@ -45,7 +42,7 @@ export class EventGridClient {
     events: CloudEvent<T>[],
     topicName: string,
     options: PublishCloudEventsOptions = { requestOptions: {} }
-  ): Promise<PublishResult> {
+  ): Promise<PublishResultOutput> {
     const eventsWireModel: Array<CloudEventWireModel> = [];
     for (const individualevent of events) {
       eventsWireModel.concat(convertCloudEventToModelType(individualevent));

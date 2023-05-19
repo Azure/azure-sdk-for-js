@@ -15,6 +15,7 @@ export {
   ReleaseResult,
   RejectOptions,
   RejectResult,
+  PublishResultOutput,
 } from "./models";
 export {
   publishCloudEvent,
