@@ -47,7 +47,7 @@ export class EventGridClient {
     options: PublishCloudEventsOptions = { requestOptions: {} }
   ): Promise<PublishResult> {
     const eventsWireModel: Array<CloudEventWireModel> = [];
-    for (let individualevent of events) {
+    for (const individualevent of events) {
       eventsWireModel.concat(convertCloudEventToModelType(individualevent));
     }
     return this._client.publishCloudEvents(eventsWireModel, topicName, options);
