@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobResource,
   JobsListOptionalParams,
@@ -103,7 +103,7 @@ export interface Jobs {
     jobResource: JobResource,
     options?: JobsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<JobsCreateResponse>, JobsCreateResponse>
+    SimplePollerLike<OperationState<JobsCreateResponse>, JobsCreateResponse>
   >;
   /**
    * Creates a new job with the specified parameters. Existing job cannot be updated with this API and
@@ -131,7 +131,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     options?: JobsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a job.
    * @param resourceGroupName The Resource Group Name
@@ -158,7 +158,7 @@ export interface Jobs {
     jobResourceUpdateParameter: JobResourceUpdateParameter,
     options?: JobsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<JobsUpdateResponse>, JobsUpdateResponse>
+    SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   >;
   /**
    * Updates the properties of an existing job.

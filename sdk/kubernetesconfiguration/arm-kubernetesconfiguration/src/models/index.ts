@@ -133,6 +133,20 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Plan for the resource. */
+export interface Plan {
+  /** A user defined name of the 3rd Party Artifact that is being procured. */
+  name: string;
+  /** The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic */
+  publisher: string;
+  /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
+  product: string;
+  /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
+  promotionCode?: string;
+  /** The version of the desired product/artifact. */
+  version?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -235,7 +249,7 @@ export interface RepositoryRefDefinition {
   commit?: string;
 }
 
-/** Parameters to reconcile to the GitRepository source kind type. */
+/** Parameters to reconcile to the Bucket source kind type. */
 export interface BucketDefinition {
   /** The URL to sync for the flux configuration S3 bucket. */
   url?: string;
@@ -243,14 +257,58 @@ export interface BucketDefinition {
   bucketName?: string;
   /** Specify whether to use insecure communication when puling data from the S3 bucket. */
   insecure?: boolean;
-  /** The maximum time to attempt to reconcile the cluster git repository source with the remote. */
+  /** The maximum time to attempt to reconcile the cluster bucket source with the remote. */
   timeoutInSeconds?: number;
-  /** The interval at which to re-reconcile the cluster git repository source with the remote. */
+  /** The interval at which to re-reconcile the cluster bucket source with the remote. */
   syncIntervalInSeconds?: number;
   /** Plaintext access key used to securely access the S3 bucket */
   accessKey?: string;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
   localAuthRef?: string;
+}
+
+/** Parameters to reconcile to the AzureBlob source kind type. */
+export interface AzureBlobDefinition {
+  /** The URL to sync for the flux configuration Azure Blob storage account. */
+  url?: string;
+  /** The Azure Blob container name to sync from the url endpoint for the flux configuration. */
+  containerName?: string;
+  /** The maximum time to attempt to reconcile the cluster Azure Blob source with the remote. */
+  timeoutInSeconds?: number;
+  /** The interval at which to re-reconcile the cluster Azure Blob source with the remote. */
+  syncIntervalInSeconds?: number;
+  /** Parameters to authenticate using Service Principal. */
+  servicePrincipal?: ServicePrincipalDefinition;
+  /** The account key (shared key) to access the storage account */
+  accountKey?: string;
+  /** The Shared Access token to access the storage container */
+  sasToken?: string;
+  /** Parameters to authenticate using a Managed Identity. */
+  managedIdentity?: ManagedIdentityDefinition;
+  /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
+  localAuthRef?: string;
+}
+
+/** Parameters to authenticate using Service Principal. */
+export interface ServicePrincipalDefinition {
+  /** The client Id for authenticating a Service Principal. */
+  clientId?: string;
+  /** The tenant Id for authenticating a Service Principal */
+  tenantId?: string;
+  /** The client secret for authenticating a Service Principal */
+  clientSecret?: string;
+  /** Base64-encoded certificate used to authenticate a Service Principal */
+  clientCertificate?: string;
+  /** The password for the certificate used to authenticate a Service Principal */
+  clientCertificatePassword?: string;
+  /** Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate */
+  clientCertificateSendChain?: boolean;
+}
+
+/** Parameters to authenticate using a Managed Identity. */
+export interface ManagedIdentityDefinition {
+  /** The client Id for authenticating a Managed Identity. */
+  clientId?: string;
 }
 
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
@@ -340,6 +398,8 @@ export interface FluxConfigurationPatch {
   gitRepository?: GitRepositoryPatchDefinition;
   /** Parameters to reconcile to the Bucket source kind type. */
   bucket?: BucketPatchDefinition;
+  /** Parameters to reconcile to the AzureBlob source kind type. */
+  azureBlob?: AzureBlobPatchDefinition;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
   kustomizations?: {
     [propertyName: string]: KustomizationPatchDefinition | null;
@@ -368,7 +428,7 @@ export interface GitRepositoryPatchDefinition {
   localAuthRef?: string;
 }
 
-/** Parameters to reconcile to the GitRepository source kind type. */
+/** Parameters to reconcile to the Bucket source kind type. */
 export interface BucketPatchDefinition {
   /** The URL to sync for the flux configuration S3 bucket. */
   url?: string;
@@ -376,14 +436,58 @@ export interface BucketPatchDefinition {
   bucketName?: string;
   /** Specify whether to use insecure communication when puling data from the S3 bucket. */
   insecure?: boolean;
-  /** The maximum time to attempt to reconcile the cluster git repository source with the remote. */
+  /** The maximum time to attempt to reconcile the cluster bucket source with the remote. */
   timeoutInSeconds?: number;
-  /** The interval at which to re-reconcile the cluster git repository source with the remote. */
+  /** The interval at which to re-reconcile the cluster bucket source with the remote. */
   syncIntervalInSeconds?: number;
   /** Plaintext access key used to securely access the S3 bucket */
   accessKey?: string;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
   localAuthRef?: string;
+}
+
+/** Parameters to reconcile to the AzureBlob source kind type. */
+export interface AzureBlobPatchDefinition {
+  /** The URL to sync for the flux configuration Azure Blob storage account. */
+  url?: string;
+  /** The Azure Blob container name to sync from the url endpoint for the flux configuration. */
+  containerName?: string;
+  /** The maximum time to attempt to reconcile the cluster Azure Blob source with the remote. */
+  timeoutInSeconds?: number;
+  /** The interval at which to re-reconcile the cluster Azure Blob source with the remote. */
+  syncIntervalInSeconds?: number;
+  /** Parameters to authenticate using Service Principal. */
+  servicePrincipal?: ServicePrincipalPatchDefinition;
+  /** The account key (shared key) to access the storage account */
+  accountKey?: string;
+  /** The Shared Access token to access the storage container */
+  sasToken?: string;
+  /** Parameters to authenticate using a Managed Identity. */
+  managedIdentity?: ManagedIdentityPatchDefinition;
+  /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
+  localAuthRef?: string;
+}
+
+/** Parameters to authenticate using Service Principal. */
+export interface ServicePrincipalPatchDefinition {
+  /** The client Id for authenticating a Service Principal. */
+  clientId?: string;
+  /** The tenant Id for authenticating a Service Principal */
+  tenantId?: string;
+  /** The client secret for authenticating a Service Principal */
+  clientSecret?: string;
+  /** Base64-encoded certificate used to authenticate a Service Principal */
+  clientCertificate?: string;
+  /** The password for the certificate used to authenticate a Service Principal */
+  clientCertificatePassword?: string;
+  /** Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate */
+  clientCertificateSendChain?: boolean;
+}
+
+/** Parameters to authenticate using a Managed Identity. */
+export interface ManagedIdentityPatchDefinition {
+  /** The client Id for authenticating a Managed Identity. */
+  clientId?: string;
 }
 
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
@@ -522,6 +626,8 @@ export interface Extension extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The plan information. */
+  plan?: Plan;
   /** Type of the Extension, of which this resource is an instance of.  It must be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher. */
   extensionType?: string;
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
@@ -537,10 +643,10 @@ export interface Extension extends ProxyResource {
   /** Configuration settings that are sensitive, as name-value pairs for configuring this extension. */
   configurationProtectedSettings?: { [propertyName: string]: string };
   /**
-   * Installed version of the extension.
+   * Currently installed version of the extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly installedVersion?: string;
+  readonly currentVersion?: string;
   /**
    * Status of installation of this extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -565,6 +671,11 @@ export interface Extension extends ProxyResource {
   readonly packageUri?: string;
   /** Identity of the Extension resource in an AKS cluster */
   aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
+  /**
+   * Flag to note if this extension is a system extension
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSystemExtension?: boolean;
 }
 
 /** The Flux Configuration object returned in Get & Put response. */
@@ -586,6 +697,8 @@ export interface FluxConfiguration extends ProxyResource {
   gitRepository?: GitRepositoryDefinition;
   /** Parameters to reconcile to the Bucket source kind type. */
   bucket?: BucketDefinition;
+  /** Parameters to reconcile to the AzureBlob source kind type. */
+  azureBlob?: AzureBlobDefinition;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
   kustomizations?: { [propertyName: string]: KustomizationDefinition | null };
   /** Key-value pairs of protected configuration settings for the configuration */
@@ -774,7 +887,9 @@ export enum KnownSourceKindType {
   /** GitRepository */
   GitRepository = "GitRepository",
   /** Bucket */
-  Bucket = "Bucket"
+  Bucket = "Bucket",
+  /** AzureBlob */
+  AzureBlob = "AzureBlob"
 }
 
 /**
@@ -783,7 +898,8 @@ export enum KnownSourceKindType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **GitRepository** \
- * **Bucket**
+ * **Bucket** \
+ * **AzureBlob**
  */
 export type SourceKindType = string;
 

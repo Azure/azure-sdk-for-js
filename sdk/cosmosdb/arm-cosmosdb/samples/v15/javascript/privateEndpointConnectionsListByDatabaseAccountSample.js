@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all private endpoint connections on a Cosmos DB account.
  *
  * @summary List all private endpoint connections on a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBPrivateEndpointConnectionListGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBPrivateEndpointConnectionListGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
