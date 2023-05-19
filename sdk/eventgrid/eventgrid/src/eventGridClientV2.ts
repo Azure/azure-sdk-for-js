@@ -128,7 +128,7 @@ export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEven
     }
 
     converted.datacontenttype = event.datacontenttype;
-    converted.dataBase64 = event.data;
+    converted.data_base64 = event.data;
   } else {
     converted.datacontenttype = event.datacontenttype ?? "application/json";
     converted.data = event.data;
