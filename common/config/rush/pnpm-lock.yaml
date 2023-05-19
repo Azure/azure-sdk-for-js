@@ -3795,7 +3795,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230518
+      typescript: 5.2.0-dev.20230519
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8339,8 +8339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230518:
-    resolution: {integrity: sha512-lHSI4e0QtTokuq/T1UnAFtdh3S2bzTG1TrR0Z3n6ld6J97SlPwW3FKbtKZiSdUVyOBaL0KbEiEyjy9AzukpS4Q==}
+  /typescript/5.2.0-dev.20230519:
+    resolution: {integrity: sha512-3ylSjHrr9oN98tNhwSauXs9bWl4kGiZvIbAKihcGy76HjXrzbKFT6R25f+WT52S1GvAyp3Wz7e4n56ZztPhohA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9239,18 +9239,11 @@ packages:
     dev: false
 
   file:projects/ai-openai.tgz:
-    resolution: {integrity: sha512-MuljA/fjvPvmXxmL+v3pu03UWmTQCmkxldYBMlYdkTvXYMV/Ogt6eJdbhc2SYHG30VjQjbdYWFpj2FvuSRVE9Q==, tarball: file:projects/ai-openai.tgz}
+    resolution: {integrity: sha512-bImr7lfaTgLhhtwKIvKeqsmaiD5cGU+7KiSovrv7ix2W+C9ihBvtXyXSdQeo7m92OItzCp63kgVqxRfeO0JpfA==, tarball: file:projects/ai-openai.tgz}
     name: '@rush-temp/ai-openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
-      '@rollup/plugin-typescript': 11.1.0_lnoztkf4lbmsnm3hpr7v4ukvdy
       '@types/mocha': 7.0.2
       '@types/node': 14.18.46
       cross-env: 7.0.3
@@ -9275,9 +9268,6 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
       ts-node: 10.9.1_n2cpzc5zgpasjpvencbdmlkpvi
       tslib: 2.5.0
       typescript: 5.0.4
@@ -11694,7 +11684,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-KJwMcIjFGH+Xv8jgoCGdbFdtpKjR5d6IFrH2vG/UVjQaLp5I8cyD/q8dRYcNBFJgcxh4YjUAXhRgI1hBKn3ZTw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-UfCM6168PcBtj14YLTheMGm1C6zO5y3y3ykUGWbqGQKN4B18LZo2p04agZQkvc3V5GpX9FHKsU/XzVW2htGFzA==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11709,7 +11699,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -19576,7 +19566,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-7FkAIYRwLO/bh2jLFj8gHvLmQTBFUqTOSOsUuBs+ktkNQUZYCOxgCxrGOyjvN7LkbbwZDvc6DGSYGA81MhvirQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-0wlhMPscSTP4/QUL2sOJAh1/82gAobmvkvQ0u/aJC18aYACv8wK91n2/NCQ5BIimrstfr65QkZ0ZT52iKwD8dw==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -19585,7 +19575,6 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.46
-      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3

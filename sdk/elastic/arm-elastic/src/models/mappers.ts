@@ -231,13 +231,6 @@ export const ElasticMonitorResource: coreClient.CompositeMapper = {
           className: "IdentityProperties"
         }
       },
-      generateApiKey: {
-        serializedName: "generateApiKey",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
       tags: {
         serializedName: "tags",
         type: {
@@ -328,6 +321,12 @@ export const MonitorProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      },
+      generateApiKey: {
+        serializedName: "generateApiKey",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -621,6 +620,64 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionsListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionsListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ElasticVersionListFormat"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionListFormat: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionListFormat",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ElasticVersionListProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionListProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionListProperties",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1271,6 +1328,22 @@ export const UserApiKeyResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UserApiKeyResponse",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "UserApiKeyResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const UserApiKeyResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserApiKeyResponseProperties",
     modelProperties: {
       apiKey: {
         serializedName: "apiKey",
