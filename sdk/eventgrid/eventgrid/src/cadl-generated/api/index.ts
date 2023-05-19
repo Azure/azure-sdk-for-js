@@ -6,7 +6,6 @@ export {
   PublishCloudEventRequest,
   CloudEvent,
   ReceiveResult,
-  PublishResult,
   ReceiveDetails,
   BrokerProperties,
   AcknowledgeOptions,

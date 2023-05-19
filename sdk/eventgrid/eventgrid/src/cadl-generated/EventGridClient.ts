@@ -7,7 +7,6 @@ import {
   createEventGrid,
   EventGridContext,
   ReceiveResult,
-  PublishResult,
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
@@ -24,30 +23,29 @@ import {
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
 } from "./api/index";
-import { CloudEvent } from "../models";
+import { CloudEvent } from "./rest/models";
 
 export class EventGridClient {
   private _client: EventGridContext;
 
   /** Azure Messaging EventGrid Client */
   constructor(endpoint: string, credential: AzureKeyCredential, options: ClientOptions = {}) {
-    credential.update(`SharedAccessKey ${credential.key}`);
     this._client = createEventGrid(endpoint, credential, options);
   }
 
-  publishCloudEvent<T>(
-    event: CloudEvent<T>,
+  publishCloudEvent(
+    event: CloudEvent,
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} }
-  ): Promise<PublishResult> {
+  ): Promise<Record<string, any>> {
     return publishCloudEvent(this._client, event, topicName, options);
   }
 
-  publishCloudEvents<T>(
-    events: CloudEvent<T>[],
+  publishCloudEvents(
+    events: CloudEvent[],
     topicName: string,
     options: PublishCloudEventsOptions = { requestOptions: {} }
-  ): Promise<PublishResult> {
+  ): Promise<Record<string, any>> {
     return publishCloudEvents(this._client, events, topicName, options);
   }
 

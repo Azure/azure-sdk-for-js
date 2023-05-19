@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { RequestOptions } from "../common/interfaces";
-import { EventGridContext as Client, isUnexpected } from "../rest/index";
+import { CloudEvent, EventGridContext as Client, isUnexpected } from "../rest/index";
 import { ReceiveResult, AcknowledgeResult, ReleaseResult, RejectResult } from "./models";
-import { CloudEvent } from "../../models";
 
 export interface PublishCloudEventOptions extends RequestOptions {
   /** content type */
@@ -12,9 +11,9 @@ export interface PublishCloudEventOptions extends RequestOptions {
 }
 
 /** Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
-export async function publishCloudEvent<T>(
+export async function publishCloudEvent(
   context: Client,
-  event: CloudEvent<T>,
+  event: CloudEvent,
   topicName: string,
   options: PublishCloudEventOptions = { requestOptions: {} }
 ): Promise<Record<string, any>> {
@@ -43,9 +42,9 @@ export interface PublishCloudEventsOptions extends RequestOptions {
 }
 
 /** Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
-export async function publishCloudEvents<T>(
+export async function publishCloudEvents(
   context: Client,
-  events: CloudEvent<T>[],
+  events: CloudEvent[],
   topicName: string,
   options: PublishCloudEventsOptions = { requestOptions: {} }
 ): Promise<Record<string, any>> {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /** Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. */
-export interface CloudEventOutput {
+export interface CloudEventOutput extends Record<string, unknown> {
   /** An identifier for the event. The combination of id and source must be unique for each distinct event. */
   id: string;
   /** Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. */

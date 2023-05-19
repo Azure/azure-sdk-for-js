@@ -470,13 +470,12 @@ export interface ClientOptions extends ClientOptions_2 {
 // @public
 export interface CloudEvent<T> {
     data?: T;
-    dataBase64?: string;
     datacontenttype?: string;
     dataschema?: string;
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
-    specversion: string | "1.0";
+    specversion?: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;

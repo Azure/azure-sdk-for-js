@@ -38,9 +38,6 @@ export interface ReceiveResult<T> {
   value: ReceiveDetails<T>[];
 }
 
-/** The result of the Publish operation. */
-export interface PublishResult {}
-
 /** Receive operation details per Cloud Event. */
 export interface ReceiveDetails<T> {
   /** The Event Broker details. */

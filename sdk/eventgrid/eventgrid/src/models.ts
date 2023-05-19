@@ -156,11 +156,7 @@ export interface CloudEvent<T> {
   /**
    * The version of the CloudEvents specification which the event uses.
    */
-  specversion: string | "1.0";
-  /**
-   * Event data specific to the event type, encoded as a base64 string.
-   */
-  dataBase64?: string;
+  specversion?: string | "1.0";
 }
 
 /**
