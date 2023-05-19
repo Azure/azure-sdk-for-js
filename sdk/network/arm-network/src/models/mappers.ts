@@ -3317,8 +3317,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworks: {
-        serializedName: "properties.virtualNetworks",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -3330,8 +3330,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           }
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      virtualNetworks: {
+        serializedName: "properties.virtualNetworks",
         readOnly: true,
         type: {
           name: "Sequence",

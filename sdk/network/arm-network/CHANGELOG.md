@@ -1,6 +1,6 @@
 # Release History
     
-## 31.0.0 (2023-05-15)
+## 31.0.0 (2023-05-19)
     
 **Features**
 
@@ -51,6 +51,7 @@
   - Added Type Alias WebApplicationFirewallScrubbingState
   - Interface ApplicationRule has a new optional parameter httpHeadersToInsert
   - Interface BastionHost has a new optional parameter enableKerberos
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
   - Interface NetworkInterface has a new optional parameter auxiliarySku
   - Interface NetworkVirtualAppliance has a new optional parameter additionalNics
   - Interface NetworkVirtualAppliance has a new optional parameter virtualApplianceConnections
@@ -78,6 +79,7 @@
 
 **Breaking Changes**
 
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
   - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
   - Type of parameter prefix of interface EffectiveRouteMapRoute is changed from string[] to string
   - Enum KnownLoadBalancerBackendAddressAdminState no longer has value Drain
