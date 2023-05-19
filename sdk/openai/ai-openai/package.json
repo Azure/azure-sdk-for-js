@@ -38,6 +38,7 @@
     "build:samples": "echo Obsolete",
     "build:output": "node scripts/renameOutput.mjs",
     "build": "tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:output",
+    "build:test": "npm run build",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
