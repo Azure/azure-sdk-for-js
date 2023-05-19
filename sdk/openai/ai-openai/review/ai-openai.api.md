@@ -244,7 +244,7 @@ export interface GetEmbeddingsOptions extends RequestOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: ClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: ClientOptions);
