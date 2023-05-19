@@ -82,7 +82,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {

@@ -130,7 +130,7 @@ for (const choice of choices) {
 
 ## Examples
 
-You can familiarize yourself with different APIs using [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta).
+You can familiarize yourself with different APIs using [Samples](https://github.com/Azure/azure-sdk-for-js/tree/openai/v1/sdk/openai/ai-openai/samples/v1-beta).
 
 ### Generate Chatbot Response
 
