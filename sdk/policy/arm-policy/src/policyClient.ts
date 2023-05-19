@@ -54,12 +54,9 @@ export class PolicyClient extends coreClient.ServiceClient {
     }
     let subscriptionId: string | undefined;
 
-    if (!subscriptionIdOrOptions) {
+    if (!subscriptionIdOrOptions !== undefined) {
       if (typeof subscriptionIdOrOptions === "string") {
         subscriptionId = subscriptionIdOrOptions;
-        if (subscriptionId === undefined) {
-          throw new Error("'subscriptionId' cannot be null");
-        }
       } else if (typeof subscriptionIdOrOptions === "object") {
         options = subscriptionIdOrOptions;
       }
