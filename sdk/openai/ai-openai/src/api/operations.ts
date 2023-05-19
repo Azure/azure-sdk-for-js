@@ -1,11 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationRawReturnType, RequestOptions } from "../common/interfaces.js";
+import { StreamableMethod } from "@azure-rest/core-client";
+import { RequestOptions } from "../common/interfaces.js";
 import {
   ChatChoiceOutput,
   ChoiceOutput,
   OpenAIContext as Client,
+  GetChatCompletions200Response,
+  GetChatCompletionsDefaultResponse,
+  GetCompletions200Response,
+  GetCompletionsDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
   isUnexpected,
 } from "../rest/index.js";
 import { ChatCompletions, ChatMessage, Completions, Embeddings } from "./models.js";
@@ -180,7 +187,7 @@ export function _getEmbeddingsSend(
   input: string | string[],
   deploymentId: string,
   options: GetEmbeddingsOptions = { requestOptions: {} }
-) {
+): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
@@ -190,7 +197,7 @@ export function _getEmbeddingsSend(
 }
 
 export async function _getEmbeddingsDeserialize(
-  result: OperationRawReturnType<typeof _getEmbeddingsSend>
+  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -224,7 +231,7 @@ export function _getCompletionsSend(
   prompt: string[],
   deploymentId: string,
   options: GetCompletionsOptions = { requestOptions: {} }
-) {
+): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
@@ -250,7 +257,7 @@ export function _getCompletionsSend(
 }
 
 export async function _getCompletionsDeserialize(
-  result: OperationRawReturnType<typeof _getCompletionsSend>
+  result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -301,7 +308,7 @@ export function _getChatCompletionsSend(
   messages: ChatMessage[],
   deploymentId: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
-) {
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
@@ -324,7 +331,7 @@ export function _getChatCompletionsSend(
 }
 
 export async function _getChatCompletionsDeserialize(
-  result: OperationRawReturnType<typeof _getChatCompletionsSend>
+  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
     throw result.body;

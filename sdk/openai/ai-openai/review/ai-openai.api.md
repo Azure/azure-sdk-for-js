@@ -4,8 +4,7 @@
 
 ```ts
 
-import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -35,38 +34,6 @@ export interface ChatCompletions {
 }
 
 // @public
-export interface ChatCompletionsOptions {
-    frequencyPenalty?: number;
-    logitBias?: Record<string, number>;
-    maxTokens?: number;
-    messages: ChatMessage[];
-    model?: string;
-    n?: number;
-    presencePenalty?: number;
-    stop?: string[];
-    stream?: boolean;
-    temperature?: number;
-    topP?: number;
-    user?: string;
-}
-
-// @public (undocumented)
-export interface ChatCompletionsOptions {
-    frequencyPenalty?: number;
-    logitBias?: Record<string, number>;
-    maxTokens?: number;
-    messages: ChatMessage[];
-    model?: string;
-    n?: number;
-    presencePenalty?: number;
-    stop?: string[];
-    stream?: boolean;
-    temperature?: number;
-    topP?: number;
-    user?: string;
-}
-
-// @public
 export interface ChatMessage {
     content?: string;
     role: ChatRole;
@@ -81,10 +48,6 @@ export interface Choice {
     index: number;
     logprobs: CompletionsLogProbabilityModel | null;
     text: string;
-}
-
-// @public (undocumented)
-export interface ClientOptions extends ClientOptions_2 {
 }
 
 // @public
@@ -123,44 +86,6 @@ export interface CompletionsLogProbabilityModel {
 }
 
 // @public
-export interface CompletionsOptions {
-    bestOf?: number;
-    echo?: boolean;
-    frequencyPenalty?: number;
-    logitBias?: Record<string, number>;
-    logprobs?: number;
-    maxTokens?: number;
-    model?: string;
-    n?: number;
-    presencePenalty?: number;
-    prompt: string[];
-    stop?: string[];
-    stream?: boolean;
-    temperature?: number;
-    topP?: number;
-    user?: string;
-}
-
-// @public (undocumented)
-export interface CompletionsOptions {
-    bestOf?: number;
-    echo?: boolean;
-    frequencyPenalty?: number;
-    logitBias?: Record<string, number>;
-    logprobs?: number;
-    maxTokens?: number;
-    model?: string;
-    n?: number;
-    presencePenalty?: number;
-    prompt: string[];
-    stop?: string[];
-    stream?: boolean;
-    temperature?: number;
-    topP?: number;
-    user?: string;
-}
-
-// @public
 export interface CompletionsUsage {
     completionTokens: number;
     promptTokens: number;
@@ -183,20 +108,6 @@ export interface Embeddings {
 export interface Embeddings {
     data: EmbeddingItem[];
     usage: EmbeddingsUsage;
-}
-
-// @public
-export interface EmbeddingsOptions {
-    input: string | string[];
-    model?: string;
-    user?: string;
-}
-
-// @public (undocumented)
-export interface EmbeddingsOptions {
-    input: string | string[];
-    model?: string;
-    user?: string;
 }
 
 // @public
@@ -256,6 +167,10 @@ export class OpenAIClient {
     listCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<AsyncIterable<Omit<Completions, "usage">>>;
 }
 
+// @public (undocumented)
+export interface OpenAIClientOptions extends ClientOptions {
+}
+
 // @public
 export class OpenAIKeyCredential implements KeyCredential {
     constructor(key: string);
@@ -270,7 +185,6 @@ export interface RequestOptions {
         headers?: RawHttpHeadersInput;
         allowInsecureConnection?: boolean;
         skipUrlEncoding?: boolean;
-        onResponse?: (response: HttpResponse) => void;
     };
 }
 

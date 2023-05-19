@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   ChatCompletions,
@@ -23,7 +24,8 @@ import {
   getCompletionsResult,
 } from "./api/operations.js";
 import { getSSEs } from "./api/sse.js";
-import { ClientOptions } from "./common/interfaces.js";
+
+export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
 /**
  * A client for interacting with Azure OpenAI.
@@ -158,6 +160,13 @@ export class OpenAIClient {
     return getCompletions(this._client, prompt, deploymentOrModelName, options);
   }
 
+  /**
+   * Lists the completions tokens as they become available for a given prompt.
+   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param prompt - The prompt to use for this request.
+   * @param options - The completions options for this completions request.
+   * @returns An asynchronous iterable of completions tokens.
+   */
   /**
    * Lists the completions tokens as they become available for a given prompt.
    * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
