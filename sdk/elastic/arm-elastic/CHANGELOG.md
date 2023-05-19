@@ -15,11 +15,11 @@
   - Added Type Alias ElasticVersionsListOperationResponse
   - Interface MonitorProperties has a new optional parameter generateApiKey
   - Interface UserApiKeyResponse has a new optional parameter properties
-  - Property generateApiKey of Interface ElasticMonitorResource is not read only
 
 **Breaking Changes**
 
   - Operation Organizations.getApiKey has a new signature
+  - Interface ElasticMonitorResource no longer has parameter generateApiKey
   - Interface UserApiKeyResponse no longer has parameter apiKey
     
     
