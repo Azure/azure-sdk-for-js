@@ -12,9 +12,14 @@
     "directory": "sdk/openai/ai-openai"
   },
   "keywords": [
+    "node",
     "azure",
     "cloud",
-    "typescript"
+    "typescript",
+    "browser",
+    "isomorphic",
+    "openai",
+    "ai"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

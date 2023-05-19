@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
-  - openai
+  - azure-openai
 urlFragment: ai-openai-javascript-beta
 ---
 
@@ -59,13 +59,14 @@ npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node chatCom
 
 ## Next Steps
 
-Take a look at our API Documentation for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/javascript/chatCompletions.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/javascript/completions.js
 [listchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/javascript/listChatCompletions.js
 [listcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/javascript/listCompletions.js
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/ai-openai/samples/v1-beta/javascript/openAi.js
+[apiref]: https://learn.microsoft.com/azure/cognitive-services/openai/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/ai-openai/README.md
