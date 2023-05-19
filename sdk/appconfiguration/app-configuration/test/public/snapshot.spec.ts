@@ -37,7 +37,7 @@ describe("AppConfigurationClient snapshot", () => {
     };
     snapshot1 = {
       name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
-      retentionPeriod: 0,
+      retentionPeriod: 2592000,
       filters: [filter1],
     };
 
@@ -69,11 +69,7 @@ describe("AppConfigurationClient snapshot", () => {
     it("service will throw error when try to create a snapshot of the same name", async () => {
       // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
-      assert.equal(
-        newSnapshot.name,
-        snapshot1.name,
-        "Unexpected name in result from createSnapshot()."
-      );
+      assertEqualSnapshot(newSnapshot, snapshot1);
 
       const errorExpected = {
         type: "https://azconfig.io/errors/already-exists",
@@ -142,9 +138,6 @@ describe("AppConfigurationClient snapshot", () => {
 
     it.skip("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
-
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
-
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot, {
           requestOptions: {
@@ -152,8 +145,6 @@ describe("AppConfigurationClient snapshot", () => {
           },
         });
       });
-
-      await client.archiveSnapshot(newSnapshot);
     });
   });
 
@@ -185,57 +176,43 @@ describe("AppConfigurationClient snapshot", () => {
   });
 
   // Error with the list functions currently
-  describe.skip("listSnapshots", () => {
-    it("list all snapshots with filter", async () => {
-      let list = await client.listSnapshots({ statusFilter: ["ready"] });
+  describe("listSnapshots", () => {
+    it("list all snapshot with ready filter", async function () {
+      const list = await client.listSnapshots();
+      for await (const snapshot of list) {
+        await client.archiveSnapshot(snapshot);
+      }
+      const readyList = await client.listSnapshots( {statusFilter: ["ready"] });
       let num = 0;
-      console.log("BEFORE");
-      for await (const item of list) {
-        console.log(item.name, item.status);
+      for await (const snapshot of readyList) {
+        assert.equal(snapshot, undefined, "There should be no snapshot in ready status");
         num++;
       }
+      assert.equal(num, 0, "There should be no snapshot in ready status")
+
       // creating a new snapshot 1
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      await client.beginCreateSnapshotAndWait(snapshot1);
 
       // create a new snapshot 2
       const snapshot2 = {
         name: recorder.variable("snapshot2", `snapshot-${new Date().getTime()}`),
         filters: [filter1, filter2],
-        retentionPeriod: 0,
       };
-      const newSnapshot2 = await client.beginCreateSnapshotAndWait(snapshot2);
-      
-      console.log("========>")
-      console.log(newSnapshot.name, newSnapshot.status);
-      console.log(newSnapshot2.name, newSnapshot2.status);
+      await client.beginCreateSnapshotAndWait(snapshot2);
+
       // new snapshot lists
-      const afterList = await client.listSnapshots({ statusFilter: ["ready"] });
-      console.log("AFTER");
-      let count = 0;
-    
-      for await (const item of afterList) {
-        console.log(item.name, item.status);
-        count++;
+      const listAfter = await client.listSnapshots({ statusFilter: ["ready"] });
+      let total = 0;
+      for await (const snapshot of listAfter) {
+        await client.archiveSnapshot(snapshot);
+        total++;
       }
-
-      console.log(num, "vs", count);
-
       assert.equal(
-        count,
-        num + 2,
+        total,
+        2,
         "Unexpected number of snapshots in result from listSnapshots()."
       );
-
-      await client.archiveSnapshot(newSnapshot);
-      await client.archiveSnapshot(newSnapshot2);
     });
-
-    it("archive all", async function () {
-      const list = await client.listSnapshots();
-      for await (const snapshot of list) {
-        console.log(snapshot.name, "have been archived", snapshot.status);
-        await client.archiveSnapshot(snapshot);
-      }
-    });
+    
   });
 });

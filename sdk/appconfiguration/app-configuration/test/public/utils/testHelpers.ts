@@ -240,10 +240,8 @@ export async function assertThrowsAbortError(
 
 /**
  * Assert 2 snapshots with name, retentionPeriod and filters are equal
- * @param snapshot1
- * @param snapshot2
  */
-export function assertEqualSnapshot(snapshot1: Snapshot, snapshot2: Snapshot) {
+export function assertEqualSnapshot(snapshot1: Snapshot, snapshot2: Snapshot): void {
   assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
   assert.equal(
     snapshot1.retentionPeriod,

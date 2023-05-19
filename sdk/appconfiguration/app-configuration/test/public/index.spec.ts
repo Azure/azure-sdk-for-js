@@ -16,7 +16,7 @@ import {
 import { Context } from "mocha";
 import { assert } from "chai";
 
-describe.only("AppConfigurationClient", () => {
+describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
@@ -35,7 +35,7 @@ describe.only("AppConfigurationClient", () => {
     }
   });
 
-  describe.only("simple usages", () => {
+  describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
       const key = recorder.variable(
         "noLabelTests",
