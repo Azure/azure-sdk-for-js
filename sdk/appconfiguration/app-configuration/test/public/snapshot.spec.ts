@@ -111,7 +111,9 @@ describe("AppConfigurationClient snapshot", () => {
       await client.setConfigurationSetting({ ...filter1, value: "value2" });
 
       // getting the configuration settting of the snapshot
-      const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(newSnapshot.name);
+      const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(
+        newSnapshot.name
+      );
 
       for await (const setting of snapshotConfigurationSettings) {
         assert.equal(setting.key, key1);
@@ -182,13 +184,13 @@ describe("AppConfigurationClient snapshot", () => {
       for await (const snapshot of list) {
         await client.archiveSnapshot(snapshot);
       }
-      const readyList = await client.listSnapshots( {statusFilter: ["ready"] });
+      const readyList = await client.listSnapshots({ statusFilter: ["ready"] });
       let num = 0;
       for await (const snapshot of readyList) {
         assert.equal(snapshot, undefined, "There should be no snapshot in ready status");
         num++;
       }
-      assert.equal(num, 0, "There should be no snapshot in ready status")
+      assert.equal(num, 0, "There should be no snapshot in ready status");
 
       // creating a new snapshot 1
       await client.beginCreateSnapshotAndWait(snapshot1);
@@ -207,12 +209,7 @@ describe("AppConfigurationClient snapshot", () => {
         await client.archiveSnapshot(snapshot);
         total++;
       }
-      assert.equal(
-        total,
-        2,
-        "Unexpected number of snapshots in result from listSnapshots()."
-      );
+      assert.equal(total, 2, "Unexpected number of snapshots in result from listSnapshots().");
     });
-    
   });
 });

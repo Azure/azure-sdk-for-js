@@ -50,7 +50,9 @@ export async function main() {
   console.log(`New snapshot object added ${newSnapshot}`);
 
   // getting the configuration settting of the snapshot
-  const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(newSnapshot.name);
+  const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(
+    newSnapshot.name
+  );
 
   for await (const setting of snapshotConfigurationSettings) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
