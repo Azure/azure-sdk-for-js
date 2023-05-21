@@ -376,6 +376,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(!exporter["_longIntervalStatsbeatMetrics"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
       });
-    })
+    });
   });
 });

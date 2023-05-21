@@ -9,7 +9,11 @@ import { HttpSender, FileSystemPersist } from "../platform";
 import { AzureMonitorExporterOptions } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
-import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING, ENV_DISABLE_STATSBEAT } from "../Declarations/Constants";
+import {
+  DEFAULT_BREEZE_ENDPOINT,
+  ENV_CONNECTION_STRING,
+  ENV_DISABLE_STATSBEAT,
+} from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { NetworkStatsbeatMetrics } from "./statsbeat/networkStatsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
@@ -92,9 +96,9 @@ export abstract class AzureMonitorBaseExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
