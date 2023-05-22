@@ -230,6 +230,14 @@ function testNarrowedClient() {
   };
 
   async () => {
+    type VectorFields = NonNullable<
+      NonNullable<NonNullable<Parameters<(typeof client)["search"]>[1]>["vector"]>["fields"]
+    >;
+    const a: Equals<VectorFields, ModelFields[] | Readonly<ModelFields[]>> = "pass";
+    return a;
+  };
+
+  async () => {
     const select1 = await client.search("New", {
       select,
     });
@@ -350,6 +358,14 @@ function testWideClient() {
       const a: Equals<(typeof result)["document"], object> = "pass";
       return a;
     }
+  };
+
+  async () => {
+    type VectorFields = NonNullable<
+      NonNullable<NonNullable<Parameters<(typeof client)["search"]>[1]>["vector"]>["fields"]
+    >;
+    const a: Equals<VectorFields, string[] | Readonly<string[]>> = "pass";
+    return a;
   };
 
   async () => {

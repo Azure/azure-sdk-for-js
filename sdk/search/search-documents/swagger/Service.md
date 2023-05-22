@@ -74,58 +74,6 @@ directive:
       $.parameters = newParameters;
 ```
 
-### Add support for collection types
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SearchFieldDataType
-    transform: >
-      if ($["x-ms-enum"].values.length === 8) {
-        const newValues = $["x-ms-enum"].values.slice(0);
-        newValues.push({
-          "value": "Collection(Edm.String)",
-          "name": "Collection(Edm.String)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Int32)",
-          "name": "Collection(Edm.Int32)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Int64)",
-          "name": "Collection(Edm.Int64)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Double)",
-          "name": "Collection(Edm.Double)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Boolean)",
-          "name": "Collection(Edm.Boolean)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.DateTimeOffset)",
-          "name": "Collection(Edm.DateTimeOffset)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.GeographyPoint)",
-          "name": "Collection(Edm.GeographyPoint)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.ComplexType)",
-          "name": "Collection(Edm.ComplexType)"
-        });
-        $["x-ms-enum"].values = newValues;
-      }
-      if ($.enum.length === 8) {
-        const newValues = $.enum.slice(0);
-        for (let value of $.enum) {
-          newValues.push('Collection('+value+')');
-        }
-        $.enum = newValues;
-      }
-```
-
 ### Make AnalyzerName a string
 
 ```yaml
@@ -348,19 +296,19 @@ directive:
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.EntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated EntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.SentimentSkill")]
-  transform: $.description += "\n\n@deprecated SentimentSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated NamedEntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```

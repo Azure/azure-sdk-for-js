@@ -14,7 +14,13 @@ import {
   AutocompleteRequest,
   AutocompleteResult,
   IndexDocumentsResult,
+  KnownSemanticPartialResponseReason,
+  KnownSemanticPartialResponseType,
   SuggestRequest,
+  SearchRequest as GeneratedSearchRequest,
+  Answers,
+  QueryAnswerType,
+  Vector as GeneratedVector,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
@@ -38,6 +44,11 @@ import {
   SuggestOptions,
   UploadDocumentsOptions,
   NarrowedModel,
+  SelectArray,
+  SearchFieldArray,
+  AnswersType,
+  SearchRequestOptions,
+  Vector,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -247,7 +258,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
    * type TModel = {
@@ -261,7 +272,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *   new AzureKeyCredential("key")
    * );
    *
-   * const searchFields: SelectFields<TModel>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const autocompleteResult = await client.autocomplete(
    *   "searchText",
@@ -311,17 +322,29 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private async searchDocuments<Fields extends SelectFields<TModel>>(
     searchText?: string,
     options: SearchOptions<TModel, Fields> = {},
-    nextPageParameters: SearchRequest = {}
+    nextPageParameters: SearchRequest<TModel> = {}
   ): Promise<SearchDocumentsPageResult<TModel, Fields>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
-    const fullOptions: SearchRequest = {
+    const {
+      select,
+      searchFields,
+      orderBy,
+      semanticFields,
+      vector,
+      includeTotalCount,
+      answers,
+      ...nonFieldOptions
+    } = restOptions as SearchRequestOptions<TModel, Fields>;
+    const fullOptions: GeneratedSearchRequest = {
+      ...nonFieldOptions,
+      ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
       semanticFields: this.convertSemanticFields(semanticFields),
       select: this.convertSelect<Fields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions,
-      ...nextPageParameters,
+      includeTotalResultCount: includeTotalCount,
+      vector: this.convertVector(vector),
+      answers: this.convertAnswers(answers),
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
@@ -330,13 +353,21 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const result = await this.client.documents.searchPost(
         {
           ...fullOptions,
-          includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText,
         },
         updatedOptions
       );
 
-      const { results, count, coverage, facets, answers, nextLink } = result;
+      const {
+        results,
+        count,
+        coverage,
+        facets,
+        answers,
+        semanticPartialResponseReason,
+        semanticPartialResponseType,
+        nextLink,
+      } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel, Fields>(
         results
@@ -348,7 +379,16 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         coverage,
         facets,
         answers,
-        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
+        semanticPartialResponseReason:
+          semanticPartialResponseReason as `${KnownSemanticPartialResponseReason}`,
+        semanticPartialResponseType:
+          semanticPartialResponseType as `${KnownSemanticPartialResponseType}`,
+        continuationToken: this.encodeContinuationToken(
+          nextLink,
+          result.nextPageParameters
+            ? utils.generatedSearchRequestToPublicSearchRequest(result.nextPageParameters)
+            : result.nextPageParameters
+        ),
       };
 
       return deserialize<SearchDocumentsPageResult<TModel, Fields>>(converted);
@@ -450,7 +490,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * );
    *
    * const select = ["azure/sdk"] as const;
-   * const searchFields: SelectFields<TModel>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const searchResult = await client.search("searchText", {
    *   select,
@@ -513,7 +553,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * );
    *
    * const select = ["azure/sdk"] as const;
-   * const searchFields: SelectFields<TModel>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const suggestResult = await client.suggest("searchText", "suggesterName", {
    *   select,
@@ -773,7 +813,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private encodeContinuationToken(
     nextLink: string | undefined,
-    nextPageParameters: SearchRequest | undefined
+    nextPageParameters: SearchRequest<TModel> | undefined
   ): string | undefined {
     if (!nextLink || !nextPageParameters) {
       return undefined;
@@ -788,7 +828,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private decodeContinuationToken(
     token?: string
-  ): { nextPageParameters: SearchRequest; nextLink: string } | undefined {
+  ): { nextPageParameters: SearchRequest<TModel>; nextLink: string } | undefined {
     if (!token) {
       return undefined;
     }
@@ -799,7 +839,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const result: {
         apiVersion: string;
         nextLink: string;
-        nextPageParameters: SearchRequest;
+        nextPageParameters: SearchRequest<TModel>;
       } = JSON.parse(decodedToken);
 
       if (result.apiVersion !== this.apiVersion) {
@@ -835,7 +875,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   }
 
   private convertSelect<Fields extends SelectFields<TModel>>(
-    select?: Fields[]
+    select?: SelectArray<Fields>
   ): string | undefined {
     if (select) {
       return select.join(",");
@@ -843,7 +883,14 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return select;
   }
 
-  private convertSearchFields(searchFields?: SelectFields<TModel>[]): string | undefined {
+  private convertVectorFields(fields?: SearchFieldArray<TModel>): string | undefined {
+    if (fields) {
+      return fields.join(",");
+    }
+    return fields;
+  }
+
+  private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
@@ -862,5 +909,38 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       return orderBy.join(",");
     }
     return orderBy;
+  }
+
+  private convertAnswers(answers?: Answers | AnswersType): QueryAnswerType | undefined {
+    if (!answers || typeof answers === "string") {
+      return answers;
+    }
+    if (answers.answers === "none") {
+      return answers.answers;
+    }
+
+    const config = [];
+    const { answers: output, count, threshold } = answers;
+
+    if (count) {
+      config.push(`count-${count}`);
+    }
+
+    if (threshold) {
+      config.push(`threshold-${threshold}`);
+    }
+
+    if (config.length) {
+      return output + `|${config.join(",")}`;
+    }
+
+    return output;
+  }
+
+  private convertVector(vector?: Vector<TModel>): GeneratedVector | undefined {
+    if (!vector) {
+      return vector;
+    }
+    return { ...vector, fields: this.convertVectorFields(vector?.fields) };
   }
 }

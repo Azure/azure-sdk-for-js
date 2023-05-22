@@ -56,6 +56,15 @@ export interface AnswerResult {
 export type Answers = string;
 
 // @public
+export type AnswersType = {
+    answers: "extractive";
+    count?: number;
+    threshold?: number;
+} | {
+    answers: "none";
+};
+
+// @public
 export type AsciiFoldingTokenFilter = BaseTokenFilter & {
     odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
     preserveOriginal?: boolean;
@@ -463,6 +472,11 @@ export interface DistanceScoringParameters {
 }
 
 // @public
+export interface DocumentDebugInfo {
+    readonly semantic?: SemanticDebugInfo;
+}
+
+// @public
 export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
     parsingMode?: string;
@@ -617,6 +631,15 @@ export type GetSynonymMapsOptions = OperationOptions;
 export type HighWaterMarkChangeDetectionPolicy = BaseDataChangeDetectionPolicy & {
     odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
     highWaterMarkColumnName: string;
+};
+
+// @public
+export type HnswAlgorithmConfiguration = {
+    kind: "hnsw";
+    m?: number;
+    efConstruction?: number;
+    efSearch?: number;
+    metric?: VectorSearchAlgorithmMetric;
 };
 
 // @public
@@ -1984,7 +2007,26 @@ export type QueryAnswerType = string;
 export type QueryCaptionType = string;
 
 // @public
+export type QueryDebugMode = "disabled" | "semantic";
+
+// @public
 export type QueryLanguage = string;
+
+// @public
+export interface QueryResultDocumentRerankerInput {
+    readonly content?: string;
+    readonly keywords?: string;
+    readonly title?: string;
+}
+
+// @public
+export interface QueryResultDocumentSemanticField {
+    readonly name?: string;
+    readonly state?: QueryResultDocumentSemanticFieldState;
+}
+
+// @public
+export type QueryResultDocumentSemanticFieldState = "used" | "unused" | "partial";
 
 // @public
 export type QuerySpellerType = string;
@@ -2094,6 +2136,8 @@ export interface SearchDocumentsResultBase {
     readonly facets?: {
         [propertyName: string]: FacetResult[];
     };
+    readonly semanticPartialResponseReason?: SemanticPartialResponseReason;
+    readonly semanticPartialResponseType?: SemanticPartialResponseType;
 }
 
 // @public
@@ -2103,7 +2147,7 @@ export type SearchField = SimpleField | ComplexField;
 export type SearchFieldArray<Model extends object = object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? string[] | Readonly<string[]> : SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
 
 // @public
-export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
+export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)";
 
 // @public
 export interface SearchIndex {
@@ -2122,6 +2166,7 @@ export interface SearchIndex {
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilter[];
     tokenizers?: LexicalTokenizer[];
+    vectorSearch?: VectorSearch;
 }
 
 // @public
@@ -2185,8 +2230,7 @@ export interface SearchIndexer {
 // @public (undocumented)
 export interface SearchIndexerCache {
     enableReprocessing?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexerDataIdentityUnion" needs to be exported by the entry point index.d.ts
-    identity?: SearchIndexerDataIdentityUnion;
+    identity?: SearchIndexerDataIdentity;
     storageConnectionString?: string;
 }
 
@@ -2279,7 +2323,7 @@ export interface SearchIndexerError {
 
 // @public
 export interface SearchIndexerKnowledgeStore {
-    identity?: SearchIndexerDataIdentityUnion;
+    identity?: SearchIndexerDataIdentity;
     projections: SearchIndexerKnowledgeStoreProjection[];
     storageConnectionString: string;
 }
@@ -2428,9 +2472,10 @@ UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? Fiel
 } : never : never : Paths extends keyof Model ? Pick<Model, Paths> | Extract<Model, null> : never> & {};
 
 // @public
-export interface SearchRequest {
+export interface SearchRequest<TModel extends object = never> {
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
+    debug?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2449,17 +2494,21 @@ export interface SearchRequest {
     searchText?: string;
     select?: string;
     semanticConfiguration?: string;
+    semanticErrorHandling?: SemanticErrorHandling;
     semanticFields?: string;
+    semanticMaxWaitInMilliseconds?: number;
     sessionId?: string;
     skip?: number;
     speller?: QuerySpellerType;
     top?: number;
+    vector?: Vector<TModel>;
 }
 
 // @public
 export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
-    answers?: Answers;
+    answers?: Answers | AnswersType;
     captions?: Captions;
+    debug?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2476,11 +2525,15 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
     searchFields?: SearchFieldArray<Model>;
     searchMode?: SearchMode;
     select?: SelectArray<Fields>;
+    semanticConfiguration?: string;
+    semanticErrorHandling?: SemanticErrorHandling;
     semanticFields?: string[];
+    semanticMaxWaitInMilliseconds?: number;
     sessionId?: string;
     skip?: number;
     speller?: Speller;
     top?: number;
+    vector?: Vector<Model>;
 }
 
 // @public
@@ -2502,6 +2555,7 @@ export type SearchResult<Model extends object, Fields extends SelectFields<Model
     };
     readonly captions?: CaptionResult[];
     document: NarrowedModel<Model, Fields>;
+    readonly documentDebugInfo?: DocumentDebugInfo[];
 };
 
 // @public
@@ -2532,10 +2586,27 @@ export interface SemanticConfiguration {
 }
 
 // @public
+export interface SemanticDebugInfo {
+    readonly contentFields?: QueryResultDocumentSemanticField[];
+    readonly keywordFields?: QueryResultDocumentSemanticField[];
+    readonly rerankerInput?: QueryResultDocumentRerankerInput;
+    readonly titleField?: QueryResultDocumentSemanticField;
+}
+
+// @public
+export type SemanticErrorHandling = "partial" | "fail";
+
+// @public
 export interface SemanticField {
     // (undocumented)
     name?: string;
 }
+
+// @public
+export type SemanticPartialResponseReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
+
+// @public
+export type SemanticPartialResponseType = "baseResults" | "rerankedResults";
 
 // @public
 export interface SemanticSettings {
@@ -2607,6 +2678,7 @@ export type SimilarityAlgorithm = ClassicSimilarity | BM25Similarity;
 // @public
 export interface SimpleField {
     analyzerName?: LexicalAnalyzerName;
+    dimensions?: number;
     facetable?: boolean;
     filterable?: boolean;
     hidden?: boolean;
@@ -2619,6 +2691,7 @@ export interface SimpleField {
     sortable?: boolean;
     synonymMapNames?: string[];
     type: SearchFieldDataType;
+    vectorSearchConfiguration?: string;
 }
 
 // @public
@@ -2802,22 +2875,49 @@ export type UniqueTokenFilter = BaseTokenFilter & {
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
 // @public
+export interface Vector<T extends object> {
+    fields?: SearchFieldArray<T>;
+    k?: number;
+    value?: number[];
+}
+
+// @public
+export interface VectorSearch {
+    algorithmConfigurations?: VectorSearchAlgorithmConfiguration[];
+}
+
+// @public
+export type VectorSearchAlgorithmConfiguration = {
+    name: string;
+    kind: VectorSearchConfigurationKind;
+} & VectorSearchAlgorithms;
+
+// @public (undocumented)
+export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
+
+// @public
+export type VectorSearchAlgorithms = HnswAlgorithmConfiguration;
+
+// @public (undocumented)
+export type VectorSearchConfigurationKind = "hnsw";
+
+// @public
 export type VisualFeature = string;
 
 // @public
-export type WebApiSkill = BaseSearchIndexerSkill & {
-    odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
-    uri: string;
+export interface WebApiSkill extends BaseSearchIndexerSkill {
+    authIdentity?: SearchIndexerDataIdentity;
+    authResourceId?: string;
+    batchSize?: number;
+    degreeOfParallelism?: number;
     httpHeaders?: {
         [propertyName: string]: string;
     };
     httpMethod?: string;
+    odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
     timeout?: string;
-    batchSize?: number;
-    degreeOfParallelism?: number;
-    authResourceId?: string;
-    authIdentity?: SearchIndexerDataIdentityUnion;
-};
+    uri: string;
+}
 
 // @public
 export type WordDelimiterTokenFilter = BaseTokenFilter & {
