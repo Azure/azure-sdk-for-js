@@ -131,6 +131,7 @@ export * from "./vpnServerConfigurationsAssociatedWithVirtualWan";
 export * from "./virtualHubRouteTableV2S";
 export * from "./expressRouteGateways";
 export * from "./expressRouteConnections";
+export * from "./networkVirtualApplianceConnections";
 export * from "./virtualHubBgpConnection";
 export * from "./virtualHubBgpConnections";
 export * from "./virtualHubIpConfiguration";

@@ -704,7 +704,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -791,7 +791,7 @@ const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -823,7 +823,7 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
