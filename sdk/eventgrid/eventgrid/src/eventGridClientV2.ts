@@ -21,6 +21,9 @@ import { v4 as uuidv4 } from "uuid";
 import { CloudEvent as CloudEventWireModel } from "./cadl-generated/rest/index";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 
+/**
+ * Event Grid Client
+ */
 export class EventGridClient {
   private _client: EventGridClientGenerated;
 
@@ -30,6 +33,18 @@ export class EventGridClient {
     this._client = new EventGridClientGenerated(endpoint, credential, options);
   }
 
+  /**
+   * Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200
+   * status code with an empty JSON object in response. Otherwise, the server can return various error codes.
+   * For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message
+   * is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for
+   * internal server error.
+   *
+   * @param event - Event to publish
+   * @param topicName - Topic to publish the event
+   * @param options - Options to publish
+   *
+   */
   publishCloudEvent<T>(
     event: CloudEvent<T>,
     topicName: string,
@@ -38,6 +53,18 @@ export class EventGridClient {
     return this._client.publishCloudEvent(convertCloudEventToModelType(event), topicName, options);
   }
 
+  /**
+   * Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200
+   * status code with an empty JSON object in response. Otherwise, the server can return various error codes.
+   * For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message
+   * is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for
+   * internal server error.
+   *
+   * @param events - Events to publish
+   * @param topicName - Topic to publish the event
+   * @param options - Options to publish
+   *
+   */
   publishCloudEvents<T>(
     events: CloudEvent<T>[],
     topicName: string,
@@ -50,6 +77,14 @@ export class EventGridClient {
     return this._client.publishCloudEvents(eventsWireModel, topicName, options);
   }
 
+  /**
+   * Receive Batch of Cloud Events from the Event Subscription.
+   *
+   * @param topicName - Topic to receive
+   * @param eventSubscriptionName - Name of the Event Subscription
+   * @param options - Options to receive
+   *
+   */
   receiveCloudEvents<T>(
     topicName: string,
     eventSubscriptionName: string,
@@ -58,6 +93,18 @@ export class EventGridClient {
     return this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
   }
 
+  /**
+   * Acknowledge batch of Cloud Events. The server responds with an HTTP 200 status code if at least one
+   * event is successfully acknowledged. The response body will include the set of successfully acknowledged
+   * lockTokens, along with other failed lockTokens with their corresponding error information. Successfully
+   * acknowledged events will no longer be available to any consumer.
+   *
+   * @param lockTokens - Lock Tokens
+   * @param topicName - Topic Name
+   * @param eventSubscriptionName - Name of the Event Subscription
+   * @param options - Options to Acknowledge
+   *
+   */
   acknowledgeCloudEvents(
     lockTokens: string[],
     topicName: string,
@@ -72,6 +119,17 @@ export class EventGridClient {
     );
   }
 
+  /**
+   * Release batch of Cloud Events. The server responds with an HTTP 200 status code if at least one event is
+   * successfully released. The response body will include the set of successfully released lockTokens, along
+   * with other failed lockTokens with their corresponding error information.
+   *
+   * @param lockTokens - Lock Tokens
+   * @param topicName - Topic Name
+   * @param eventSubscriptionName - Name of the Event Subscription
+   * @param options - Options to release
+   *
+   */
   releaseCloudEvents(
     lockTokens: string[],
     topicName: string,
@@ -81,6 +139,15 @@ export class EventGridClient {
     return this._client.releaseCloudEvents(lockTokens, topicName, eventSubscriptionName, options);
   }
 
+  /**
+   * Reject batch of Cloud Events.
+   *
+   * @param lockTokens - Lock Tokens
+   * @param topicName - Topic Name
+   * @param eventSubscriptionName - Name of the Event Subscription
+   * @param options - Options to reject
+   *
+   */
   rejectCloudEvents(
     lockTokens: string[],
     topicName: string,

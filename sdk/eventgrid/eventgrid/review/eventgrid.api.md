@@ -685,20 +685,14 @@ export interface DeviceTwinMetadata {
     lastUpdated: string;
 }
 
-// @public (undocumented)
+// @public
 export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
-    // (undocumented)
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
-    // (undocumented)
     publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResultOutput>;
-    // (undocumented)
     publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResultOutput>;
-    // (undocumented)
     receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
-    // (undocumented)
     rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
-    // (undocumented)
     releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
 }
 
@@ -1355,7 +1349,7 @@ export interface PublishResultOutput {
 // @public (undocumented)
 export interface ReceiveCloudEventsOptions extends RequestOptions {
     maxEvents?: number;
-    maxWaitTime?: number;
+    maxWaitTime?: string;
 }
 
 // @public
