@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NewRelicObservability } from "@azure/arm-newrelicobservability";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all the existing accounts
@@ -21,8 +19,7 @@ dotenv.config();
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Accounts_List_MaximumSet_Gen.json
  */
 async function accountsListMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
   const location = "egh";
   const credential = new DefaultAzureCredential();
@@ -41,8 +38,7 @@ async function accountsListMaximumSetGen() {
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Accounts_List_MinimumSet_Gen.json
  */
 async function accountsListMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
   const location = "egh";
   const credential = new DefaultAzureCredential();

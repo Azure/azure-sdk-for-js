@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  TagRule,
-  NewRelicObservability
-} from "@azure/arm-newrelicobservability";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a TagRule
@@ -24,36 +19,34 @@ dotenv.config();
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function tagRulesCreateOrUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
   const ruleSetName = "bxcantgzggsepbhqmedjqyrqeezmfb";
-  const resource: TagRule = {
+  const resource = {
     logRules: {
       filteringTags: [
         {
           name: "saokgpjvdlorciqbjmjxazpee",
           action: "Include",
-          value: "sarxrqsxouhdjwsrqqicbeirdb"
-        }
+          value: "sarxrqsxouhdjwsrqqicbeirdb",
+        },
       ],
       sendAadLogs: "Enabled",
       sendActivityLogs: "Enabled",
-      sendSubscriptionLogs: "Enabled"
+      sendSubscriptionLogs: "Enabled",
     },
     metricRules: {
       filteringTags: [
         {
           name: "saokgpjvdlorciqbjmjxazpee",
           action: "Include",
-          value: "sarxrqsxouhdjwsrqqicbeirdb"
-        }
+          value: "sarxrqsxouhdjwsrqqicbeirdb",
+        },
       ],
-      userEmail: "test@testing.com"
+      userEmail: "test@testing.com",
     },
-    provisioningState: "Accepted"
+    provisioningState: "Accepted",
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
@@ -73,13 +66,11 @@ async function tagRulesCreateOrUpdateMaximumSetGen() {
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function tagRulesCreateOrUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
   const ruleSetName = "bxcantgzggsepbhqmedjqyrqeezmfb";
-  const resource: TagRule = {};
+  const resource = {};
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const result = await client.tagRules.beginCreateOrUpdateAndWait(
