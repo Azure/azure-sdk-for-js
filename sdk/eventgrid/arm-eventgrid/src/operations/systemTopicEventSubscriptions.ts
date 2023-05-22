@@ -13,13 +13,19 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   EventSubscription,
   SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams,
   SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   SystemTopicEventSubscriptionsListBySystemTopicResponse,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsGetOptionalParams,
   SystemTopicEventSubscriptionsGetResponse,
   SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -30,8 +36,6 @@ import {
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   SystemTopicEventSubscriptionsGetFullUrlResponse,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsListBySystemTopicNextResponse
 } from "../models";
 
@@ -134,6 +138,26 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
+   * Get all delivery attributes for an event subscription.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param systemTopicName Name of the system topic.
+   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
+   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    systemTopicName: string,
+    eventSubscriptionName: string,
+    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, systemTopicName, eventSubscriptionName, options },
+      getDeliveryAttributesOperationSpec
+    );
+  }
+
+  /**
    * Get an event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
@@ -171,8 +195,8 @@ export class SystemTopicEventSubscriptionsImpl
     eventSubscriptionInfo: EventSubscription,
     options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>,
       SystemTopicEventSubscriptionsCreateOrUpdateResponse
     >
   > {
@@ -182,7 +206,7 @@ export class SystemTopicEventSubscriptionsImpl
     ): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,19 +239,22 @@ export class SystemTopicEventSubscriptionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         systemTopicName,
         eventSubscriptionName,
         eventSubscriptionInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SystemTopicEventSubscriptionsCreateOrUpdateResponse,
+      OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -275,14 +302,14 @@ export class SystemTopicEventSubscriptionsImpl
     systemTopicName: string,
     eventSubscriptionName: string,
     options?: SystemTopicEventSubscriptionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,13 +342,18 @@ export class SystemTopicEventSubscriptionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, systemTopicName, eventSubscriptionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        systemTopicName,
+        eventSubscriptionName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -367,8 +399,8 @@ export class SystemTopicEventSubscriptionsImpl
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
     options?: SystemTopicEventSubscriptionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicEventSubscriptionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicEventSubscriptionsUpdateResponse>,
       SystemTopicEventSubscriptionsUpdateResponse
     >
   > {
@@ -378,7 +410,7 @@ export class SystemTopicEventSubscriptionsImpl
     ): Promise<SystemTopicEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -411,19 +443,22 @@ export class SystemTopicEventSubscriptionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         systemTopicName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SystemTopicEventSubscriptionsUpdateResponse,
+      OperationState<SystemTopicEventSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -494,26 +529,6 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Get all delivery attributes for an event subscription.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    systemTopicName: string,
-    eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
-  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, systemTopicName, eventSubscriptionName, options },
-      getDeliveryAttributesOperationSpec
-    );
-  }
-
-  /**
    * ListBySystemTopicNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
@@ -535,6 +550,27 @@ export class SystemTopicEventSubscriptionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.eventSubscriptionName,
+    Parameters.systemTopicName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
@@ -671,27 +707,6 @@ const listBySystemTopicOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.systemTopicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
     Parameters.systemTopicName
   ],
   headerParameters: [Parameters.accept],

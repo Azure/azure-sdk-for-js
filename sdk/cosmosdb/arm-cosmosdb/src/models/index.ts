@@ -798,6 +798,16 @@ export interface ThroughputSettingsResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerReplacePending?: string;
+  /**
+   * The offer throughput value to instantly scale up without triggering splits
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instantMaximumThroughput?: string;
+  /**
+   * The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly softAllowedMaximumThroughput?: string;
 }
 
 /** Cosmos DB provisioned throughput settings object */
@@ -1772,6 +1782,8 @@ export interface RestorableDatabaseAccountGetResult {
   creationTime?: Date;
   /** The time at which the restorable database account has been deleted (ISO-8601 format). */
   deletionTime?: Date;
+  /** The least recent time at which the database account can be restored to (ISO-8601 format). */
+  oldestRestorableTime?: Date;
   /**
    * The API type of the restorable database account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2425,6 +2437,12 @@ export interface PeriodicModeProperties {
   backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
+/** Configuration values for periodic mode backup */
+export interface ContinuousModeProperties {
+  /** Enum to indicate type of Continuous backup mode */
+  tier?: ContinuousTier;
+}
+
 /** Describes the service response property. */
 export interface DataTransferServiceResource {
   /** Properties for DataTransferServiceResource. */
@@ -2483,6 +2501,8 @@ export interface PeriodicModeBackupPolicy extends BackupPolicy {
 export interface ContinuousModeBackupPolicy extends BackupPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Continuous";
+  /** Configuration values for continuous mode backup */
+  continuousModeProperties?: ContinuousModeProperties;
 }
 
 /** An Azure Cosmos DB database account. */
@@ -3781,7 +3801,9 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -3790,7 +3812,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
 
@@ -4621,6 +4644,24 @@ export enum KnownServiceStatus {
  * **Stopped**
  */
 export type ServiceStatus = string;
+
+/** Known values of {@link ContinuousTier} that the service accepts. */
+export enum KnownContinuousTier {
+  /** Continuous7Days */
+  Continuous7Days = "Continuous7Days",
+  /** Continuous30Days */
+  Continuous30Days = "Continuous30Days"
+}
+
+/**
+ * Defines values for ContinuousTier. \
+ * {@link KnownContinuousTier} can be used interchangeably with ContinuousTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Continuous7Days** \
+ * **Continuous30Days**
+ */
+export type ContinuousTier = string;
 
 /** Known values of {@link NodeStatus} that the service accepts. */
 export enum KnownNodeStatus {

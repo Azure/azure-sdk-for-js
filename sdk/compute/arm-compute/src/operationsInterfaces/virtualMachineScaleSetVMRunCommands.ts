@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineRunCommand,
   VirtualMachineScaleSetVMRunCommandsListOptionalParams,
@@ -54,10 +54,8 @@ export interface VirtualMachineScaleSetVMRunCommands {
     runCommand: VirtualMachineRunCommand,
     options?: VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>,
       VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse
     >
   >;
@@ -95,8 +93,8 @@ export interface VirtualMachineScaleSetVMRunCommands {
     runCommand: VirtualMachineRunCommandUpdate,
     options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetVMRunCommandsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMRunCommandsUpdateResponse>,
       VirtualMachineScaleSetVMRunCommandsUpdateResponse
     >
   >;
@@ -131,7 +129,7 @@ export interface VirtualMachineScaleSetVMRunCommands {
     instanceId: string,
     runCommandName: string,
     options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the VMSS VM run command.
    * @param resourceGroupName The name of the resource group.

@@ -144,7 +144,6 @@ export type ElasticDeploymentStatus = string;
 
 // @public
 export interface ElasticMonitorResource {
-    readonly generateApiKey?: boolean;
     readonly id?: string;
     identity?: IdentityProperties;
     location: string;
@@ -205,6 +204,41 @@ export interface ElasticTrafficFilterRule {
     description?: string;
     id?: string;
     source?: string;
+}
+
+// @public
+export interface ElasticVersionListFormat {
+    properties?: ElasticVersionListProperties;
+}
+
+// @public
+export interface ElasticVersionListProperties {
+    version?: string;
+}
+
+// @public
+export interface ElasticVersions {
+    list(region: string, options?: ElasticVersionsListOptionalParams): PagedAsyncIterableIterator<ElasticVersionListFormat>;
+}
+
+// @public
+export interface ElasticVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
+
+// @public
+export type ElasticVersionsListOperationResponse = ElasticVersionsListResponse;
+
+// @public
+export interface ElasticVersionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ElasticVersionsListResponse {
+    nextLink?: string;
+    value?: ElasticVersionListFormat[];
 }
 
 // @public
@@ -387,6 +421,8 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     // (undocumented)
     detachTrafficFilter: DetachTrafficFilter;
     // (undocumented)
+    elasticVersions: ElasticVersions;
+    // (undocumented)
     externalUser: ExternalUser;
     // (undocumented)
     listAssociatedTrafficFilters: ListAssociatedTrafficFilters;
@@ -488,6 +524,7 @@ export interface MonitoringTagRulesProperties {
 // @public
 export interface MonitorProperties {
     elasticProperties?: ElasticProperties;
+    generateApiKey?: boolean;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
     monitoringStatus?: MonitoringStatus;
@@ -620,7 +657,7 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface Organizations {
-    getApiKey(resourceGroupName: string, options?: OrganizationsGetApiKeyOptionalParams): Promise<OrganizationsGetApiKeyResponse>;
+    getApiKey(options?: OrganizationsGetApiKeyOptionalParams): Promise<OrganizationsGetApiKeyResponse>;
 }
 
 // @public
@@ -737,6 +774,12 @@ export interface UpgradableVersionsList {
 
 // @public
 export interface UserApiKeyResponse {
+    // (undocumented)
+    properties?: UserApiKeyResponseProperties;
+}
+
+// @public (undocumented)
+export interface UserApiKeyResponseProperties {
     apiKey?: string;
 }
 

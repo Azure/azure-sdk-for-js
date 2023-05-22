@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all available managed rule sets.
  *
  * @summary Lists all available managed rule sets.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-11-01/examples/WafListManagedRuleSets.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListManagedRuleSets.json
  */
-async function listPoliciesInAResourceGroup() {
-  const subscriptionId = "subid";
+async function listPoliciesManagedRuleSetsInAResourceGroup() {
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listPoliciesInAResourceGroup() {
   console.log(resArray);
 }
 
-listPoliciesInAResourceGroup().catch(console.error);
+async function main() {
+  listPoliciesManagedRuleSetsInAResourceGroup();
+}
+
+main().catch(console.error);

@@ -147,8 +147,7 @@ export const reclassifyJobRequest: OperationParameter = {
   mapper: {
     serializedName: "reclassifyJobRequest",
     type: {
-      name: "Dictionary",
-      value: { type: { name: "any" } }
+      name: "any"
     }
   }
 };
