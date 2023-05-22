@@ -1972,6 +1972,11 @@
       "packageName": "@azure/arm-paloaltonetworksngfw",
       "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-arm-network",
+      "projectFolder": "sdk/network/perf-tests/arm-network",
+      "versionPolicyName": "test"
     }
   ]
 }
