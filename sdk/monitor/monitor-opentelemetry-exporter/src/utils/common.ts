@@ -9,7 +9,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { Tags } from "../types";
 import { getInstance } from "../platform";
-import { KnownContextTagKeys } from "../generated";
+import { KnownContextTagKeys, TelemetryItem as Envelope } from "../generated";
 import { Resource } from "@opentelemetry/resources";
 import { Attributes } from "@opentelemetry/api";
 
@@ -111,4 +111,44 @@ export function getDependencyTarget(attributes: Attributes): string {
     return String(netPeerIp);
   }
   return "";
+}
+
+export function createResourceMetricEnvelope(
+  attributes: Attributes,
+  instrumentationKey: string
+): Envelope | undefined {
+  if (attributes) {
+    const resourceAttributes: { [propertyName: string]: string } = {};
+    for (const key of Object.keys(attributes)) {
+      // Avoid duplication ignoring fields already mapped.
+      if (
+        !(
+          key.startsWith("_MS.") ||
+          key == SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
+          key == SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
+          key == SemanticResourceAttributes.TELEMETRY_SDK_NAME
+        )
+      ) {
+        resourceAttributes[key] = attributes[key] as string;
+      }
+    }
+
+    let envelope: Envelope = {
+      name: "_APPRESOURCEPREVIEW_",
+      time: new Date(),
+      sampleRate: 100, // Metrics are never sampled
+      instrumentationKey: instrumentationKey,
+      version: 1,
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          properties: resourceAttributes,
+        },
+      },
+      tags: {},
+    };
+    return envelope;
+  }
+  return;
 }
