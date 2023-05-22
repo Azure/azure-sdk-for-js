@@ -273,10 +273,10 @@
   - Enum KnownIngressTransportMethod has a new value Tcp
   - Enum KnownStorageType has a new value Secret
   - Added function getContinuationToken
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
 
 **Breaking Changes**
 
-  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
   - Interface VnetConfiguration no longer has parameter runtimeSubnetId
   - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Type of parameter value of interface DaprSecretsCollection is changed from Secret[] to DaprSecret[]
