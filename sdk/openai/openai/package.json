@@ -53,8 +53,7 @@
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:browser:debug": "dev-tool run test:browser -- karma.conf.cjs",
+    "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
     "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
