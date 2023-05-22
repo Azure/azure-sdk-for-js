@@ -36,6 +36,7 @@ declare global {
         [k: string]: string[];
       };
     };
+    type?: string;
     module?: string;
     bin?: Record<string, string>;
     files: string[];
