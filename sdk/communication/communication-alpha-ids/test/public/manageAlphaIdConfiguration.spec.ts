@@ -22,8 +22,9 @@ describe(`AlphaIdsClient - manage configuration`, function () {
   });
 
   it("can manage configuration", async function () {
-    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration());
-    await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(false));
-    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration());
+    await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(true), true);
+    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration(), true);
+    await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(false), false);
+    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration(), false);
   }).timeout(15000);
 });

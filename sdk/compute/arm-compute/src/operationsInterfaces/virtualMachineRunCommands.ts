@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RunCommandDocumentBase,
   VirtualMachineRunCommandsListOptionalParams,
@@ -74,8 +74,8 @@ export interface VirtualMachineRunCommands {
     runCommand: VirtualMachineRunCommand,
     options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>,
       VirtualMachineRunCommandsCreateOrUpdateResponse
     >
   >;
@@ -109,8 +109,8 @@ export interface VirtualMachineRunCommands {
     runCommand: VirtualMachineRunCommandUpdate,
     options?: VirtualMachineRunCommandsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineRunCommandsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineRunCommandsUpdateResponse>,
       VirtualMachineRunCommandsUpdateResponse
     >
   >;
@@ -141,7 +141,7 @@ export interface VirtualMachineRunCommands {
     vmName: string,
     runCommandName: string,
     options?: VirtualMachineRunCommandsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the run command.
    * @param resourceGroupName The name of the resource group.

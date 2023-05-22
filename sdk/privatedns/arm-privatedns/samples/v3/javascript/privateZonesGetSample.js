@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PrivateDnsManagementClient } = require("@azure/arm-privatedns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZoneGet.json
  */
 async function getPrivateDnsZone() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function getPrivateDnsZone() {
   console.log(result);
 }
 
-getPrivateDnsZone().catch(console.error);
+async function main() {
+  getPrivateDnsZone();
+}
+
+main().catch(console.error);
