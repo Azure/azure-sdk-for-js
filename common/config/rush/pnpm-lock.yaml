@@ -3795,7 +3795,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230521
+      typescript: 5.2.0-dev.20230522
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8339,8 +8339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230521:
-    resolution: {integrity: sha512-FY/YyQs1rvpUaX5PaZ4HZQnzBqlgjNYeQIOCF9208PLZvMsPwiJsZS5wbf5fvdepXkzpQK6ZpjGSJTXa7Gsp3Q==}
+  /typescript/5.2.0-dev.20230522:
+    resolution: {integrity: sha512-t1ScfqYSrFOFNyHU0goJKPTE5z9FIx1WvjXMAl8JxBXUvAzPCqanT4XEMZq7e3GlgLSBrFpZtuvixbQSxVeaow==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14496,7 +14496,7 @@ packages:
     dev: false
 
   file:projects/arm-servicenetworking.tgz:
-    resolution: {integrity: sha512-TpIkWq0FFSM2VecLqUZkQ+/bMmfj7WOikwgbbR7QNhHe3rsP8tI+kr5s6iyrtmOCoMvaY0lp/gP5J18VrFboXA==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-Y2bY/yTKJfUPBXWcYuFIGGAsnDAXL3eUU8ZYUpRtVvkCKdCEzBXiP7/DVIYr6uXUjeaJlB9xkUnep+aU2DNcoA==, tarball: file:projects/arm-servicenetworking.tgz}
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
@@ -14511,7 +14511,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
