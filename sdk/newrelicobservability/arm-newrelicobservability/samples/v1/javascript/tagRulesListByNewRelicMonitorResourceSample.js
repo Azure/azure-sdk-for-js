@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NewRelicObservability } from "@azure/arm-newrelicobservability";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List TagRule resources by NewRelicMonitorResource
@@ -21,10 +19,8 @@ dotenv.config();
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_ListByNewRelicMonitorResource_MaximumSet_Gen.json
  */
 async function tagRulesListByNewRelicMonitorResourceMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
@@ -45,10 +41,8 @@ async function tagRulesListByNewRelicMonitorResourceMaximumSetGen() {
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_ListByNewRelicMonitorResource_MinimumSet_Gen.json
  */
 async function tagRulesListByNewRelicMonitorResourceMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);

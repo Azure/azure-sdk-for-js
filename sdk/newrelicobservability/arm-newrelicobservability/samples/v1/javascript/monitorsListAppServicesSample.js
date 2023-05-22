@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AppServicesGetRequest,
-  NewRelicObservability
-} from "@azure/arm-newrelicobservability";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the app service resources currently being monitored by the NewRelic resource.
@@ -24,23 +19,17 @@ dotenv.config();
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_ListAppServices_MaximumSet_Gen.json
  */
 async function monitorsListAppServicesMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
-  const request: AppServicesGetRequest = {
+  const request = {
     azureResourceIds: ["pvzrksrmzowobuhxpwiotnpcvjbu"],
-    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm"
+    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
-    resourceGroupName,
-    monitorName,
-    request
-  )) {
+  for await (let item of client.monitors.listAppServices(resourceGroupName, monitorName, request)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -53,22 +42,16 @@ async function monitorsListAppServicesMaximumSetGen() {
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_ListAppServices_MinimumSet_Gen.json
  */
 async function monitorsListAppServicesMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
-  const request: AppServicesGetRequest = {
-    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm"
+  const request = {
+    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
-    resourceGroupName,
-    monitorName,
-    request
-  )) {
+  for await (let item of client.monitors.listAppServices(resourceGroupName, monitorName, request)) {
     resArray.push(item);
   }
   console.log(resArray);
