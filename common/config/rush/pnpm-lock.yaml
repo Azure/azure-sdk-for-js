@@ -286,6 +286,7 @@ specifiers:
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
+  '@rush-temp/openai': file:./projects/openai.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:./projects/perf-ai-language-text.tgz
@@ -628,6 +629,7 @@ dependencies:
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
+  '@rush-temp/openai': file:projects/openai.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:projects/perf-ai-language-text.tgz
@@ -17998,6 +18000,49 @@ packages:
       tslib: 2.5.0
       typescript: 5.0.4
       util: 0.12.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/openai.tgz:
+    resolution: {integrity: sha512-pApw1Fk74IA+NjHmuPplbJbaGPMTsXPCUb/lSA0zo8Vq89TylaUHSoCGqLL/ZhCcl5P1kSsz6pClRHTm8JFVLA==, tarball: file:projects/openai.tgz}
+    name: '@rush-temp/openai'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.46
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.40.0
+      esm: 3.2.25
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-json-preprocessor: 0.3.3_karma@6.4.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      puppeteer: 19.11.1_typescript@5.0.4
+      rimraf: 3.0.2
+      ts-node: 10.9.1_n2cpzc5zgpasjpvencbdmlkpvi
+      tslib: 2.5.0
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
