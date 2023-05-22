@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxManagementClient } from "../dataBoxManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   JobResource,
   JobsListNextOptionalParams,
@@ -320,7 +324,7 @@ export class JobsImpl implements Jobs {
     jobResource: JobResource,
     options?: JobsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<JobsCreateResponse>, JobsCreateResponse>
+    SimplePollerLike<OperationState<JobsCreateResponse>, JobsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -328,7 +332,7 @@ export class JobsImpl implements Jobs {
     ): Promise<JobsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -361,13 +365,16 @@ export class JobsImpl implements Jobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, jobName, jobResource, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, jobResource, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsCreateResponse,
+      OperationState<JobsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -409,14 +416,14 @@ export class JobsImpl implements Jobs {
     resourceGroupName: string,
     jobName: string,
     options?: JobsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -449,13 +456,13 @@ export class JobsImpl implements Jobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, jobName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -492,7 +499,7 @@ export class JobsImpl implements Jobs {
     jobResourceUpdateParameter: JobResourceUpdateParameter,
     options?: JobsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<JobsUpdateResponse>, JobsUpdateResponse>
+    SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -500,7 +507,7 @@ export class JobsImpl implements Jobs {
     ): Promise<JobsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -533,13 +540,16 @@ export class JobsImpl implements Jobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, jobName, jobResourceUpdateParameter, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, jobName, jobResourceUpdateParameter, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsUpdateResponse,
+      OperationState<JobsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -915,7 +925,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -935,7 +944,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

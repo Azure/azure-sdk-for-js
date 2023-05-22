@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PrivateDnsManagementClient } = require("@azure/arm-privatedns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZonePut.json
  */
 async function putPrivateDnsZone() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const parameters = {
     location: "Global",
@@ -35,4 +36,8 @@ async function putPrivateDnsZone() {
   console.log(result);
 }
 
-putPrivateDnsZone().catch(console.error);
+async function main() {
+  putPrivateDnsZone();
+}
+
+main().catch(console.error);

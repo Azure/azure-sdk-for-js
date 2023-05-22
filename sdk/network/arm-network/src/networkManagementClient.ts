@@ -143,6 +143,7 @@ import {
   VirtualHubRouteTableV2SImpl,
   ExpressRouteGatewaysImpl,
   ExpressRouteConnectionsImpl,
+  NetworkVirtualApplianceConnectionsImpl,
   VirtualHubBgpConnectionImpl,
   VirtualHubBgpConnectionsImpl,
   VirtualHubIpConfigurationImpl,
@@ -276,6 +277,7 @@ import {
   VirtualHubRouteTableV2S,
   ExpressRouteGateways,
   ExpressRouteConnections,
+  NetworkVirtualApplianceConnections,
   VirtualHubBgpConnection,
   VirtualHubBgpConnections,
   VirtualHubIpConfiguration,
@@ -363,7 +365,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/30.2.1`;
+    const packageDetails = `azsdk-js-arm-network/31.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -617,6 +619,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.virtualHubRouteTableV2S = new VirtualHubRouteTableV2SImpl(this);
     this.expressRouteGateways = new ExpressRouteGatewaysImpl(this);
     this.expressRouteConnections = new ExpressRouteConnectionsImpl(this);
+    this.networkVirtualApplianceConnections = new NetworkVirtualApplianceConnectionsImpl(
+      this
+    );
     this.virtualHubBgpConnection = new VirtualHubBgpConnectionImpl(this);
     this.virtualHubBgpConnections = new VirtualHubBgpConnectionsImpl(this);
     this.virtualHubIpConfiguration = new VirtualHubIpConfigurationImpl(this);
@@ -1702,6 +1707,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   virtualHubRouteTableV2S: VirtualHubRouteTableV2S;
   expressRouteGateways: ExpressRouteGateways;
   expressRouteConnections: ExpressRouteConnections;
+  networkVirtualApplianceConnections: NetworkVirtualApplianceConnections;
   virtualHubBgpConnection: VirtualHubBgpConnection;
   virtualHubBgpConnections: VirtualHubBgpConnections;
   virtualHubIpConfiguration: VirtualHubIpConfiguration;
@@ -1903,7 +1909,7 @@ const listActiveConnectivityConfigurationsOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
@@ -1927,7 +1933,7 @@ const listActiveSecurityAdminRulesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
@@ -1952,7 +1958,7 @@ const listNetworkManagerEffectiveConnectivityConfigurationsOperationSpec: coreCl
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
@@ -1976,7 +1982,7 @@ const listNetworkManagerEffectiveSecurityAdminRulesOperationSpec: coreClient.Ope
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,

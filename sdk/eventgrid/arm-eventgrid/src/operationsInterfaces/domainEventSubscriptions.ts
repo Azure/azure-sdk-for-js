@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EventSubscription,
   DomainEventSubscriptionsListOptionalParams,
@@ -42,7 +42,7 @@ export interface DomainEventSubscriptions {
   /**
    * Get all delivery attributes for an event subscription for domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain topic.
+   * @param domainName Name of the domain.
    * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
@@ -55,7 +55,7 @@ export interface DomainEventSubscriptions {
   /**
    * Get properties of an event subscription of a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the partner topic.
+   * @param domainName Name of the domain.
    * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
    *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
    * @param options The options parameters.
@@ -83,8 +83,8 @@ export interface DomainEventSubscriptions {
     eventSubscriptionInfo: EventSubscription,
     options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainEventSubscriptionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainEventSubscriptionsCreateOrUpdateResponse>,
       DomainEventSubscriptionsCreateOrUpdateResponse
     >
   >;
@@ -118,7 +118,7 @@ export interface DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     options?: DomainEventSubscriptionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing event subscription for a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -148,8 +148,8 @@ export interface DomainEventSubscriptions {
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
     options?: DomainEventSubscriptionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainEventSubscriptionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainEventSubscriptionsUpdateResponse>,
       DomainEventSubscriptionsUpdateResponse
     >
   >;
