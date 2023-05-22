@@ -19,9 +19,9 @@ Key links:
 - [API reference documentation](https://aka.ms/openai-js-api)
 - [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta)
-- [Multiple Completions Example](#Generate-Multiple-completions-With-Subscription-Key)
-- [Chatbot Example](#Generate-Chatbot-Response)
-- [Summarize Text Example](#Summarize-Text-with-Completion)
+- [Multiple Completions Example](#generate-multiple-completions-with-subscription-key)
+- [Chatbot Example](#generate-chatbot-response)
+- [Summarize Text Example](#summarize-text-with-completion)
 
 ## Getting started
 
