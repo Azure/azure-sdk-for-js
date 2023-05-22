@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkLink,
   VirtualNetworkLinksListOptionalParams,
@@ -49,8 +49,8 @@ export interface VirtualNetworkLinks {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
       VirtualNetworkLinksCreateOrUpdateResponse
     >
   >;
@@ -84,8 +84,8 @@ export interface VirtualNetworkLinks {
     parameters: VirtualNetworkLink,
     options?: VirtualNetworkLinksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksUpdateResponse>,
       VirtualNetworkLinksUpdateResponse
     >
   >;
@@ -118,7 +118,7 @@ export interface VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     options?: VirtualNetworkLinksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration
    * virtual network, all auto-registered DNS records in the zone for the virtual network will also be

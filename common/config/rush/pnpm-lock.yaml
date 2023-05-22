@@ -145,6 +145,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkcloud': file:./projects/arm-networkcloud.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-newrelicobservability': file:./projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
@@ -487,6 +488,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkcloud': file:projects/arm-networkcloud.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-newrelicobservability': file:projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
@@ -3795,7 +3797,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230521
+      typescript: 5.2.0-dev.20230522
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8339,8 +8341,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230521:
-    resolution: {integrity: sha512-FY/YyQs1rvpUaX5PaZ4HZQnzBqlgjNYeQIOCF9208PLZvMsPwiJsZS5wbf5fvdepXkzpQK6ZpjGSJTXa7Gsp3Q==}
+  /typescript/5.2.0-dev.20230522:
+    resolution: {integrity: sha512-t1ScfqYSrFOFNyHU0goJKPTE5z9FIx1WvjXMAl8JxBXUvAzPCqanT4XEMZq7e3GlgLSBrFpZtuvixbQSxVeaow==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10716,7 +10718,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-epUopDZF/h2mskn1cp+bG2R4hH4MWvGcLc7rnMbYLB9K3s5FhbJmc7RG+jVGZLUWZQOxMTn/IFwe3itoz3nW5w==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-r6G3gQeS9Z3dNfXiPvvlwBteDYIePYiZOiFrG/bUXIstTveG5sFEe+KpWO1GDF+zRKKugnA5IZ6YJx0rgDE/QQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -12947,7 +12949,7 @@ packages:
     dev: false
 
   file:projects/arm-mysql-flexible.tgz:
-    resolution: {integrity: sha512-sKXMURUwY5daWNemlSMDqfxl92rtL4UIXskpt8BnXnRrV8yOahzp9j9QhGd7qGloMcW+S421v1FSN36GsPMZ6w==, tarball: file:projects/arm-mysql-flexible.tgz}
+    resolution: {integrity: sha512-Cmji0AVbwiRSFWrTzUqpb7UIuEVZBKBHN7SLCZXvk9F/1m7LX0frFiV/yq1t8lXzTwa9nvRNqKda4WL6XVGZDQ==, tarball: file:projects/arm-mysql-flexible.tgz}
     name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
@@ -12962,7 +12964,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13030,7 +13032,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-nXpqdA8VSaeag42S3M95ANDnxw2lbo20X2jflKuY51YrLbk/65nVaARI3OJ6CfEYNdwrR78d8e8W4ng/gmShgw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-gGxn8y+MWnI9ZcjkEEyWvTRuta7sRLQ5ioIzsvxS3ojT8VqnGr2OGHhFiORHSivRZt8kjHNM/Cqab8RuLdVJDw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -13124,6 +13126,34 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-networkcloud.tgz:
+    resolution: {integrity: sha512-cHWm3T/AtDMfqqcJ5pGQE1VwgTNhMekMLzxL4oRhrLwqfAMUHeUKShOxKjnK3ijV29GLU2NzOxWLnHnKKHijZA==, tarball: file:projects/arm-networkcloud.tgz}
+    name: '@rush-temp/arm-networkcloud'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.8_@types+node@14.18.46
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.46
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_m742s5qpci6ulntpyriekwplh4
+      tslib: 2.5.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-networkfunction.tgz:
@@ -13623,7 +13653,7 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-wmjlmkKg2UwlLiPyLpUZOz5kcJnv/jTf2nUC6WLqHAiS8M3x+/5sOrrQ2tp+EeQzzIU9/iUEosWESXvfJCi5gg==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-31VamFXQrfxYc4CUH0wX0Qwr4Lx9Pnb1Ee6ogcN6X8Rr2B2at816fobLbucQlfZi7B1StHcq0WAtgDENJxVREQ==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
@@ -13637,7 +13667,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14467,7 +14498,7 @@ packages:
     dev: false
 
   file:projects/arm-servicenetworking.tgz:
-    resolution: {integrity: sha512-TpIkWq0FFSM2VecLqUZkQ+/bMmfj7WOikwgbbR7QNhHe3rsP8tI+kr5s6iyrtmOCoMvaY0lp/gP5J18VrFboXA==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-Y2bY/yTKJfUPBXWcYuFIGGAsnDAXL3eUU8ZYUpRtVvkCKdCEzBXiP7/DVIYr6uXUjeaJlB9xkUnep+aU2DNcoA==, tarball: file:projects/arm-servicenetworking.tgz}
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
@@ -14482,7 +14513,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
