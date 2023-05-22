@@ -38,6 +38,7 @@ describe("Policy test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PolicyClient;
+  let client1: PolicyClient;
   let location: string;
   let resourceGroup: string;
   let groupId: string;
@@ -60,6 +61,7 @@ describe("Policy test", () => {
     policyName = "jspolicy";
     scope = "providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
     policyAssignmentName = "passigment";
+    client1 = new PolicyClient(credential, recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
@@ -110,8 +112,8 @@ describe("Policy test", () => {
   });
 
   it("policyAssignments create test", async function () {
-    const definition = await client.policyDefinitions.getAtManagementGroup(policyName, groupId);
-    const res = await client.policyAssignments.create(scope, policyAssignmentName, {
+    const definition = await client1.policyDefinitions.getAtManagementGroup(policyName, groupId);
+    const res = await client1.policyAssignments.create(scope, policyAssignmentName, {
       policyDefinitionId: definition.id
     })
     assert.equal(res.name, policyAssignmentName);
@@ -131,8 +133,6 @@ describe("Policy test", () => {
   });
 
   it("policyAssignments list by managementgroup test", async function () {
-    const credential = createTestCredential();
-    const client1 = new PolicyClient(credential, recorder.configureClientOptions({}));
     const filter = "atScope()";
     const resArray = new Array();
     for await (let item of client1.policyAssignments.listForManagementGroup(groupId, {
