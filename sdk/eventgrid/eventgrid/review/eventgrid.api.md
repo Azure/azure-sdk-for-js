@@ -1349,7 +1349,7 @@ export interface PublishResultOutput {
 // @public (undocumented)
 export interface ReceiveCloudEventsOptions extends RequestOptions {
     maxEvents?: number;
-    maxWaitTime?: string;
+    maxWaitTime?: number;
 }
 
 // @public
