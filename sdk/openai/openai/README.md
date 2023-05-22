@@ -12,6 +12,12 @@ Use the client library for Azure OpenAI to:
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
+Checkout the following examples:
+
+- [Multiple Completions](#generate-multiple-completions-with-subscription-key)
+- [Chatbot](#generate-chatbot-response)
+- [Summarize Text](#summarize-text-with-completion)
+
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai)
@@ -19,9 +25,6 @@ Key links:
 - [API reference documentation](https://aka.ms/openai-js-api)
 - [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta)
-- [Multiple Completions Example](#generate-multiple-completions-with-subscription-key)
-- [Chatbot Example](#generate-chatbot-response)
-- [Summarize Text Example](#summarize-text-with-completion)
 
 ## Getting started
 
