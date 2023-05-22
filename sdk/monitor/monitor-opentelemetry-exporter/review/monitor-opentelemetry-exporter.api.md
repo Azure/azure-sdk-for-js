@@ -11,7 +11,9 @@ import * as coreClient from '@azure/core-client';
 import { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
 import { Link } from '@opentelemetry/api';
+import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
+import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import { Sampler } from '@opentelemetry/sdk-trace-base';
@@ -48,6 +50,13 @@ export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOp
     connectionString?: string;
     disableOfflineStorage?: boolean;
     storageDirectory?: string;
+}
+
+// @public
+export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements LogRecordExporter {
+    constructor(options?: AzureMonitorExporterOptions);
+    export(logs: ReadableLogRecord[], resultCallback: (result: ExportResult) => void): Promise<void>;
+    shutdown(): Promise<void>;
 }
 
 // @public

@@ -1,5 +1,19 @@
 # Release History
     
+## 15.5.0 (2023-05-11)
+    
+**Features**
+
+  - Added Interface ContinuousModeProperties
+  - Added Type Alias ContinuousTier
+  - Interface ContinuousModeBackupPolicy has a new optional parameter continuousModeProperties
+  - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
+  - Interface ThroughputSettingsResource has a new optional parameter instantMaximumThroughput
+  - Interface ThroughputSettingsResource has a new optional parameter softAllowedMaximumThroughput
+  - Added Enum KnownContinuousTier
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+    
+    
 ## 15.4.0 (2023-04-23)
     
 **Features**
