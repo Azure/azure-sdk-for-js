@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetADelete.json
  */
 async function deletePrivateDnsZoneARecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "A";
   const relativeRecordSetName = "recordA";
@@ -34,8 +39,6 @@ async function deletePrivateDnsZoneARecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneARecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -43,8 +46,10 @@ deletePrivateDnsZoneARecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAAAADelete.json
  */
 async function deletePrivateDnsZoneAaaaRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "AAAA";
   const relativeRecordSetName = "recordAAAA";
@@ -59,8 +64,6 @@ async function deletePrivateDnsZoneAaaaRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneAaaaRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -68,8 +71,10 @@ deletePrivateDnsZoneAaaaRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetCNAMEDelete.json
  */
 async function deletePrivateDnsZoneCnameRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "CNAME";
   const relativeRecordSetName = "recordCNAME";
@@ -84,8 +89,6 @@ async function deletePrivateDnsZoneCnameRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneCnameRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -93,8 +96,10 @@ deletePrivateDnsZoneCnameRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetMXDelete.json
  */
 async function deletePrivateDnsZoneMxRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "MX";
   const relativeRecordSetName = "recordMX";
@@ -109,8 +114,6 @@ async function deletePrivateDnsZoneMxRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneMxRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -118,8 +121,10 @@ deletePrivateDnsZoneMxRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetPTRDelete.json
  */
 async function deletePrivateDnsZonePtrRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "0.0.127.in-addr.arpa";
   const recordType = "PTR";
   const relativeRecordSetName = "1";
@@ -134,8 +139,6 @@ async function deletePrivateDnsZonePtrRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZonePtrRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -143,8 +146,10 @@ deletePrivateDnsZonePtrRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSRVDelete.json
  */
 async function deletePrivateDnsZoneSrvRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "SRV";
   const relativeRecordSetName = "recordSRV";
@@ -159,8 +164,6 @@ async function deletePrivateDnsZoneSrvRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneSrvRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
@@ -168,8 +171,10 @@ deletePrivateDnsZoneSrvRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetTXTDelete.json
  */
 async function deletePrivateDnsZoneTxtRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "TXT";
   const relativeRecordSetName = "recordTXT";
@@ -184,4 +189,14 @@ async function deletePrivateDnsZoneTxtRecordSet() {
   console.log(result);
 }
 
-deletePrivateDnsZoneTxtRecordSet().catch(console.error);
+async function main() {
+  deletePrivateDnsZoneARecordSet();
+  deletePrivateDnsZoneAaaaRecordSet();
+  deletePrivateDnsZoneCnameRecordSet();
+  deletePrivateDnsZoneMxRecordSet();
+  deletePrivateDnsZonePtrRecordSet();
+  deletePrivateDnsZoneSrvRecordSet();
+  deletePrivateDnsZoneTxtRecordSet();
+}
+
+main().catch(console.error);

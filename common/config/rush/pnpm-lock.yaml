@@ -13621,7 +13621,7 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-wmjlmkKg2UwlLiPyLpUZOz5kcJnv/jTf2nUC6WLqHAiS8M3x+/5sOrrQ2tp+EeQzzIU9/iUEosWESXvfJCi5gg==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-31VamFXQrfxYc4CUH0wX0Qwr4Lx9Pnb1Ee6ogcN6X8Rr2B2at816fobLbucQlfZi7B1StHcq0WAtgDENJxVREQ==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
@@ -13635,7 +13635,8 @@ packages:
       '@types/node': 14.18.46
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
