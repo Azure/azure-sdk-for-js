@@ -6,11 +6,30 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
+import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
 import { CommonClientOptions } from '@azure/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public (undocumented)
+export interface AcknowledgeCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface AcknowledgeOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface AcknowledgeResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
 
 // @public
 export interface AcsChatEventBase {
@@ -439,6 +458,16 @@ export { AzureKeyCredential }
 export { AzureSASCredential }
 
 // @public
+export interface BrokerProperties {
+    deliveryCount: number;
+    lockToken: string;
+}
+
+// @public (undocumented)
+export interface ClientOptions extends ClientOptions_2 {
+}
+
+// @public
 export interface CloudEvent<T> {
     data?: T;
     datacontenttype?: string;
@@ -446,6 +475,7 @@ export interface CloudEvent<T> {
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
+    specversion?: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;
@@ -656,6 +686,17 @@ export interface DeviceTwinMetadata {
 }
 
 // @public
+export class EventGridClient {
+    constructor(endpoint: string, credential: AzureKeyCredential, options?: ClientOptions);
+    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
+    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResultOutput>;
+    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResultOutput>;
+    receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
+    rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
+    releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
+}
+
+// @public
 export class EventGridDeserializer {
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
     deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
@@ -696,6 +737,13 @@ export interface EventHubCaptureFileCreatedEventData {
     lastSequenceNumber: number;
     partitionId: string;
     sizeInBytes: number;
+}
+
+// @public
+export interface FailedLockToken {
+    errorCode: string;
+    errorDescription: string;
+    lockToken: string;
 }
 
 // @public
@@ -1284,6 +1332,37 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
     timestamp: string;
 }
 
+// @public (undocumented)
+export interface PublishCloudEventOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface PublishResultOutput {
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsOptions extends RequestOptions {
+    maxEvents?: number;
+    maxWaitTime?: number;
+}
+
+// @public
+export interface ReceiveDetails<T> {
+    brokerProperties: BrokerProperties;
+    event: CloudEvent<T>;
+}
+
+// @public
+export interface ReceiveResult<T> {
+    value: ReceiveDetails<T>[];
+}
+
 // @public
 export type RecordingChannelType = string;
 
@@ -1292,6 +1371,49 @@ export type RecordingContentType = string;
 
 // @public
 export type RecordingFormatType = string;
+
+// @public (undocumented)
+export interface RejectCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface RejectOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface RejectResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsOptions extends RequestOptions {
+    contentType?: string;
+}
+
+// @public
+export interface ReleaseOptions {
+    lockTokens: string[];
+}
+
+// @public
+export interface ReleaseResult {
+    failedLockTokens: FailedLockToken[];
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface RequestOptions {
+    // (undocumented)
+    requestOptions?: {
+        headers?: RawHttpHeadersInput;
+        allowInsecureConnection?: boolean;
+        skipUrlEncoding?: boolean;
+        onResponse?: (response: HttpResponse) => void;
+    };
+}
 
 // @public
 export interface ResourceActionCancelEventData {

@@ -1,5 +1,11 @@
 # Release History
 
+## 4.13.0-beta.1 (2023-05-22)
+
+### Features Added
+
+- Added a new client `EventGridClient` to the `@azure/eventgrid` with `publishCloudEvent`, `publishCloudEvents`, `receiveCloudEvents`, `acknowledgeCloudEvents`, `releaseCloudEvents` and `rejectCloudEvents` apis.
+
 ## 4.12.0 (2023-05-17)
 
 - No new changes for this release. This is to update the minor version of the release to indicate the new system events that were added in the `4.11.1` version.
