@@ -1293,8 +1293,7 @@ export type MergeSkill = SearchIndexerSkill & {
 /**
  * This skill is deprecated. Use the V3.EntityRecognitionSkill instead.
  *
- * @deprecated EntityRecognitionSkill has been deprecated. See
- * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ * @deprecated
  */
 export type EntityRecognitionSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1312,8 +1311,7 @@ export type EntityRecognitionSkill = SearchIndexerSkill & {
 /**
  * This skill is deprecated. Use the V3.SentimentSkill instead.
  *
- * @deprecated SentimentSkill has been deprecated. See
- * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ * @deprecated
  */
 export type SentimentSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */

@@ -42,6 +42,7 @@ import {
   SearchIndexerDataIdentityUnion,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
   SearchIndexerSkillUnion,
   SentimentSkill,
   SentimentSkillV3,
@@ -53,7 +54,9 @@ import {
   StopAnalyzer,
   TextTranslationSkill,
   TokenFilterUnion,
-  WebApiSkill,
+  SearchIndexerCache as GeneratedSearchIndexerCache,
+  VectorSearch as GeneratedVectorSearch,
+  VectorSearchAlgorithmConfiguration as GeneratedVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 import {
   CharFilter,
@@ -68,8 +71,10 @@ import {
   SearchField,
   SearchIndex,
   SearchIndexer,
+  SearchIndexerCache,
   SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
+  SearchIndexerKnowledgeStore,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -77,12 +82,27 @@ import {
   SimpleField,
   SynonymMap,
   TokenFilter,
+  VectorSearch,
+  VectorSearchAlgorithmConfiguration,
+  WebApiSkill,
   isComplexField,
 } from "./serviceModels";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
+import {
+  SearchFieldArray,
+  SearchRequest,
+  SearchResult,
+  SelectFields,
+  SuggestDocumentsResult,
+  SuggestResult,
+  Vector,
+} from "./indexModels";
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
+  SearchRequest as GeneratedSearchRequest,
+  KnownSemanticErrorHandling,
+  KnownQueryDebugMode,
+  Vector as BaseVector,
 } from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -272,6 +292,8 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         name: field.name,
         type: field.type,
         fields: convertFieldsToPublic(field.fields!),
+        vectorSearchConfiguration: field.vectorSearchConfiguration,
+        dimensions: field.dimensions,
       };
     } else {
       const analyzerName: LexicalAnalyzerName | undefined = field.analyzer;
@@ -457,6 +479,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
     semanticSettings: generatedIndex.semanticSettings,
+    vectorSearch: convertVectorSearchToPublic(generatedIndex.vectorSearch),
   };
 }
 
@@ -466,7 +489,8 @@ export function generatedSearchResultToPublicSearchResult<
 >(results: GeneratedSearchResult[]): SearchResult<Model, Fields>[] {
   const returnValues: SearchResult<Model, Fields>[] = results.map<SearchResult<Model, Fields>>(
     (result) => {
-      const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
+      const { _score, _highlights, rerankerScore, captions, documentDebugInfo, ...restProps } =
+        result;
       const doc: { [key: string]: any } = {
         ...restProps,
       };
@@ -476,6 +500,7 @@ export function generatedSearchResultToPublicSearchResult<
         rerankerScore,
         captions,
         document: doc,
+        documentDebugInfo,
       };
       return obj as SearchResult<Model, Fields>;
     }
@@ -511,22 +536,18 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
+  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity, vectorSearch } =
+    index;
+
   return {
-    name: index.name,
-    defaultScoringProfile: index.defaultScoringProfile,
-    corsOptions: index.corsOptions,
-    suggesters: index.suggesters,
-    encryptionKey: convertEncryptionKeyToGenerated(index.encryptionKey),
-    etag: index.etag,
-    tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
-    charFilters: index.charFilters,
-    normalizers: index.normalizers,
-    scoringProfiles: index.scoringProfiles,
-    analyzers: convertAnalyzersToGenerated(index.analyzers),
-    tokenizers: convertTokenizersToGenerated(index.tokenizers),
-    fields: convertFieldsToGenerated(index.fields),
-    similarity: convertSimilarityToGenerated(index.similarity),
-    semanticSettings: index.semanticSettings,
+    ...index,
+    encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+    tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
+    analyzers: convertAnalyzersToGenerated(analyzers),
+    tokenizers: convertTokenizersToGenerated(tokenizers),
+    fields: convertFieldsToGenerated(fields),
+    similarity: convertSimilarityToGenerated(similarity),
+    vectorSearch: convertVectorSearchToGenerated(vectorSearch),
   };
 }
 
@@ -540,7 +561,7 @@ export function generatedSkillsetToPublicSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
-    knowledgeStore: generatedSkillset.knowledgeStore,
+    knowledgeStore: convertKnowledgeStoreToPublic(generatedSkillset.knowledgeStore),
     etag: generatedSkillset.etag,
     encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey),
   };
@@ -606,6 +627,19 @@ export function generatedSearchIndexerToPublicSearchIndexer(
   return {
     ...indexer,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
+    cache: convertSearchIndexerCacheToPublic(indexer.cache),
+  };
+}
+
+export function generatedSearchRequestToPublicSearchRequest<Model extends object>(
+  request: GeneratedSearchRequest
+): SearchRequest<Model> {
+  const { semanticErrorHandling, debug, vector, ...props } = request;
+  return {
+    semanticErrorHandling: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
+    debug: debug as `${KnownQueryDebugMode}` | undefined,
+    vector: convertVectorToPublic<Model>(vector),
+    ...props,
   };
 }
 
@@ -690,6 +724,20 @@ export function convertDataDeletionDetectionPolicyToPublic(
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
 }
 
+function convertVectorToPublic<Model extends object>(
+  vector: BaseVector | undefined
+): Vector<Model> | undefined {
+  if (!vector) {
+    return vector;
+  }
+
+  const fields: SearchFieldArray<Model> | undefined = vector.fields?.split(",") as
+    | SearchFieldArray<Model>
+    | undefined;
+
+  return { ...vector, fields };
+}
+
 export function getRandomIntegerInclusive(min: number, max: number): number {
   // Make sure inputs are integers.
   min = Math.ceil(min);
@@ -710,6 +758,82 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
-export const serviceVersions = ["2020-06-30", "2021-04-30-Preview"];
+export const serviceVersions = ["2020-06-30", "2023-07-01-Preview"];
 
-export const defaultServiceVersion = "2021-04-30-Preview";
+export const defaultServiceVersion = "2023-07-01-Preview";
+
+function convertKnowledgeStoreToPublic(
+  knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined
+): SearchIndexerKnowledgeStore | undefined {
+  if (!knowledgeStore) {
+    return knowledgeStore;
+  }
+
+  return {
+    ...knowledgeStore,
+    identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
+  };
+}
+
+function convertSearchIndexerCacheToPublic(
+  cache?: GeneratedSearchIndexerCache
+): SearchIndexerCache | undefined {
+  if (!cache) {
+    return cache;
+  }
+
+  return {
+    ...cache,
+    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
+  };
+}
+
+function convertVectorSearchToPublic(
+  vectorSearch?: GeneratedVectorSearch
+): VectorSearch | undefined {
+  if (!vectorSearch) {
+    return vectorSearch;
+  }
+
+  const algorithmConfigurations = vectorSearch.algorithmConfigurations?.map(
+    (config): VectorSearchAlgorithmConfiguration => {
+      switch (config.kind) {
+        case "hnsw": {
+          const { name, kind, hnswParameters } = config;
+          return { name, kind, ...hnswParameters } as VectorSearchAlgorithmConfiguration;
+        }
+        default:
+          throw Error("Switch statement is not exhaustive");
+      }
+    }
+  );
+
+  return {
+    algorithmConfigurations,
+  };
+}
+
+function convertVectorSearchToGenerated(
+  vectorSearch?: VectorSearch
+): GeneratedVectorSearch | undefined {
+  if (!vectorSearch) {
+    return vectorSearch;
+  }
+
+  const algorithmConfigurations = vectorSearch.algorithmConfigurations?.map(
+    (config): GeneratedVectorSearchAlgorithmConfiguration => {
+      switch (config.kind) {
+        case "hnsw": {
+          const { name, kind, ...hnswParameters } = config;
+          return { name, kind, hnswParameters };
+        }
+        default:
+          throw Error("Switch statement is not exhaustive");
+      }
+    }
+  );
+
+  return {
+    algorithmConfigurations,
+  };
+}

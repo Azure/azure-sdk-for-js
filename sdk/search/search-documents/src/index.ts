@@ -41,11 +41,21 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
   SearchPick,
-  SearchFieldArray,
-  SelectArray,
   SelectFields,
   SuggestNarrowedModel,
   UnionToIntersection,
+  SearchFieldArray,
+  SelectArray,
+  SemanticPartialResponseReason,
+  SemanticPartialResponseType,
+  QueryDebugMode,
+  SemanticErrorHandling,
+  QueryResultDocumentSemanticFieldState,
+  Vector,
+  AnswersType,
+  DocumentDebugInfo,
+  SemanticDebugInfo,
+  QueryResultDocumentSemanticField,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -131,6 +141,15 @@ export {
   GetAliasOptions,
   ListAliasesOptions,
   AliasIterator,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchAlgorithmMetric,
+  VectorSearch,
+  SearchIndexerCache,
+  SearchIndexerKnowledgeStore,
+  WebApiSkill,
+  VectorSearchAlgorithms,
+  VectorSearchConfigurationKind,
+  HnswAlgorithmConfiguration,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -161,6 +180,7 @@ export {
   KnownQuerySpellerType,
   KnownQueryAnswerType,
   KnownQueryCaptionType,
+  QueryResultDocumentRerankerInput,
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -243,7 +263,6 @@ export {
   EntityLinkingSkill,
   SentimentSkillV3,
   TextTranslationSkill,
-  WebApiSkill,
   AzureMachineLearningSkill,
   SentimentSkillLanguage,
   KnownSentimentSkillLanguage,
@@ -325,7 +344,6 @@ export {
   CharFilterName,
   KnownCharFilterName,
   LexicalNormalizer as BaseLexicalNormalizer,
-  SearchIndexerKnowledgeStore,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexerKnowledgeStoreFileProjectionSelector,
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
@@ -337,7 +355,6 @@ export {
   LineEnding,
   KnownLineEnding,
   SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
-  SearchIndexerCache,
   IndexerState,
   IndexerExecutionStatusDetail,
   KnownIndexerExecutionStatusDetail,
