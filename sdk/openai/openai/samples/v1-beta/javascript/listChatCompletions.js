@@ -27,8 +27,8 @@ async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-3.5-turbo";
-  const events = await client.listChatCompletions(deploymentId, messages);
+  const deploymentId = "gpt-35-turbo";
+  const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
 
   for await (const event of events) {
     for (const choice of event.choices) {
