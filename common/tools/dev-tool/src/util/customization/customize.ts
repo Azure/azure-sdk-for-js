@@ -14,12 +14,23 @@ import { augmentClasses } from "./classes";
 import { augmentInterfaces } from "./interfaces";
 import { sortSourceFileContents } from "./helpers/preformat";
 import { resolveProject } from "../resolveProject";
+import { augmentTypeAliases } from "./aliases";
+import { setCustomizationState, resetCustomizationState } from "./state";
+import { getNewCustomFiles } from "./helpers/files";
+import { augmentImports } from "./imports";
 
 let outputProject = new Project();
 let _originalFolderName = "generated";
+
 export async function customize(originalDir: string, customDir: string, outDir: string) {
+  // Initialize the state
+  setCustomizationState({ customDir, originalDir, outDir });
   // Bring everything from original into the output
   await fs.copy(originalDir, outDir);
+
+  if (!fs.existsSync(customDir)) {
+    return;
+  }
 
   _originalFolderName = customDir.split("/").pop() ?? _originalFolderName;
 
@@ -34,16 +45,13 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   });
   // Merge the module declarations for all files in the custom directory and its subdirectories
   await processDirectory(customDir, outDir);
+
+  // reset the state at the end.
+  resetCustomizationState();
 }
 
 async function copyFilesInCustom(originalDir: string, customDir: string, outDir: string) {
-  const filesInCustom = await getFiles(customDir);
-  const filesInOriginal = await getFiles(originalDir);
-
-  const filesToCopy = filesInCustom.filter(
-    (file) =>
-      !filesInOriginal.some((f) => f.replace(originalDir, "").includes(file.replace(customDir, "")))
-  );
+  const filesToCopy = await getNewCustomFiles(originalDir, customDir);
 
   for (const file of filesToCopy) {
     const sourcePath = file;
@@ -52,22 +60,12 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   }
 }
 
-async function getFiles(dir: string): Promise<string[]> {
-  const dirents = await fs.readdir(dir, { withFileTypes: true });
-  const files = await Promise.all(
-    dirents.map((dirent) => {
-      const res = path.resolve(dir, dirent.name);
-      return dirent.isDirectory() ? getFiles(res) : res;
-    })
-  );
-  return files.flat() as string[];
-}
-
 type CustomDeclarationsMap = {
   functions: Map<string, FunctionDeclaration>;
   classes: Map<string, ClassDeclaration>;
   interfaces: Map<string, InterfaceDeclaration>;
   typeAliases: Map<string, TypeAliasDeclaration>;
+  imports: Map<string, ImportDeclaration>;
 };
 
 export async function readFileContent(filepath: string): Promise<string> {
@@ -84,6 +82,7 @@ export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclar
     classes: new Map<string, ClassDeclaration>(),
     interfaces: new Map<string, InterfaceDeclaration>(),
     typeAliases: new Map<string, TypeAliasDeclaration>(),
+    imports: new Map<string, ImportDeclaration>(),
   };
 
   // Collect custom declarations
@@ -95,6 +94,7 @@ export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclar
     }
     originalDeclarationsMap.functions.set(functionName, originalFunction);
   }
+
   for (const originalClass of sourceFile.getClasses()) {
     const className = originalClass.getName();
     if (!className) {
@@ -103,11 +103,17 @@ export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclar
     }
     originalDeclarationsMap.classes.set(className, originalClass);
   }
+
   for (const originalInterface of sourceFile.getInterfaces()) {
     originalDeclarationsMap.interfaces.set(originalInterface.getName(), originalInterface);
   }
+
   for (const originalTypeAlias of sourceFile.getTypeAliases()) {
     originalDeclarationsMap.typeAliases.set(originalTypeAlias.getName(), originalTypeAlias);
+  }
+
+  for (const originalImport of sourceFile.getImportDeclarations()) {
+    originalDeclarationsMap.imports.set(originalImport.getModuleSpecifierValue(), originalImport);
   }
 
   return originalDeclarationsMap;
@@ -155,10 +161,13 @@ export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
   originalContent: { path: string; content: string }
 ): string {
-  const project = new Project();
+  const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
-  const customVirtualSourceFile = project.createSourceFile("custom.ts", customContent.content);
+  const customVirtualSourceFile = project.createSourceFile(
+    customContent.path,
+    customContent.content
+  );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
@@ -184,6 +193,18 @@ export function mergeModuleDeclarations(
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
+    originalVirtualSourceFile
+  );
+
+  augmentTypeAliases(
+    originalDeclarationsMap.typeAliases,
+    customVirtualSourceFile.getTypeAliases(),
+    originalVirtualSourceFile
+  );
+
+  augmentImports(
+    originalDeclarationsMap.imports,
+    customVirtualSourceFile.getImportDeclarations(),
     originalVirtualSourceFile
   );
 

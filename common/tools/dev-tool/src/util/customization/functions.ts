@@ -53,7 +53,6 @@ export function convertToPrivateFunction(
   originalFile: SourceFile
 ) {
   const functionStructure = originalFunction.getStructure();
-  const functionOverloads = originalFunction.getOverloads();
 
   if (isOverload(functionStructure)) {
     return;
@@ -61,16 +60,10 @@ export function convertToPrivateFunction(
 
   functionStructure.isExported = false;
   functionStructure.name = `_${functionStructure.name}`;
+  functionStructure.isDefaultExport = false;
 
-  const newFunction = originalFile.addFunction(functionStructure);
+  originalFile.addFunction(functionStructure);
 
-  for (const overload of functionOverloads) {
-    const overloadStructure = overload.getStructure();
-    if (isOverload(overloadStructure)) {
-      overloadStructure.isExported = false;
-      newFunction.addOverload(overloadStructure);
-    }
-  }
   originalFunction.remove();
 }
 
@@ -79,13 +72,6 @@ export function addFunctionToFile(fn: FunctionDeclaration, file: SourceFile) {
 
   // custom is adding a new function this is a new method on the class, we'll add it to original
   if (!isOverload(functionStructure)) {
-    const addedFunction = file.addFunction(functionStructure);
-    const overloads = fn.getOverloads();
-    for (const overload of overloads) {
-      const overloadStructure = overload.getStructure();
-      if (isOverload(overloadStructure)) {
-        addedFunction.addOverload(overloadStructure);
-      }
-    }
+    file.addFunction(functionStructure);
   }
 }

@@ -16,6 +16,34 @@ import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthentication
 
 let cachedHttpClient: HttpClient | undefined;
 
+export function addCredentialPipelinePolicy(
+  pipeline: Pipeline,
+  baseUrl: string,
+  credential?: TokenCredential | KeyCredential,
+  options: ClientOptions = {}
+) {
+  if (!credential) {
+    return;
+  }
+
+  if (isTokenCredential(credential)) {
+    const tokenPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: options.credentials?.scopes ?? `${baseUrl}/.default`,
+    });
+    pipeline.addPolicy(tokenPolicy);
+  } else if (isKeyCredential(credential)) {
+    if (!options.credentials?.apiKeyHeaderName) {
+      throw new Error(`Missing API Key Header Name`);
+    }
+    const keyPolicy = keyCredentialAuthenticationPolicy(
+      credential,
+      options.credentials?.apiKeyHeaderName
+    );
+    pipeline.addPolicy(keyPolicy);
+  }
+}
+
 /**
  * Creates a default rest pipeline to re-use accross Rest Level Clients
  */
@@ -28,25 +56,7 @@ export function createDefaultPipeline(
 
   pipeline.addPolicy(apiVersionPolicy(options));
 
-  if (credential) {
-    if (isTokenCredential(credential)) {
-      const tokenPolicy = bearerTokenAuthenticationPolicy({
-        credential,
-        scopes: options.credentials?.scopes ?? `${baseUrl}/.default`,
-      });
-      pipeline.addPolicy(tokenPolicy);
-    } else if (isKeyCredential(credential)) {
-      if (!options.credentials?.apiKeyHeaderName) {
-        throw new Error(`Missing API Key Header Name`);
-      }
-      const keyPolicy = keyCredentialAuthenticationPolicy(
-        credential,
-        options.credentials?.apiKeyHeaderName
-      );
-      pipeline.addPolicy(keyPolicy);
-    }
-  }
-
+  addCredentialPipelinePolicy(pipeline, baseUrl, credential, options);
   return pipeline;
 }
 

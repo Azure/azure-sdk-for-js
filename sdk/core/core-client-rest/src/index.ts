@@ -7,5 +7,6 @@
  */
 
 export { createRestError } from "./restError";
+export { addCredentialPipelinePolicy } from "./clientHelpers";
 export * from "./getClient";
 export * from "./common";

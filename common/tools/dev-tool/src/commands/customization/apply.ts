@@ -29,7 +29,7 @@ export const commandInfo = makeCommandInfo("apply", "applies customizations to t
   targetDirectory: {
     shortName: "t",
     kind: "string",
-    default: "src",
+    default: ".",
     description:
       "directory to which the customized output will be written. Relative to project root",
   },

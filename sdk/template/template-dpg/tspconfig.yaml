@@ -1,0 +1,14 @@
+emit:
+  - "@azure-tools/typespec-ts"
+options:
+  "@azure-tools/typespec-ts":
+    generateMetadata: false
+    generateTest: false
+    multiClient: false
+    azureSdkForJs: false
+    isModularLibrary: true
+    "emitter-output-dir": "{project-root}/sources/generated"
+    packageDetails:
+      name: "@azure/widget"
+      description: "Widget Service"
+      version: "1.0.0-beta.1"
