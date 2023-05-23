@@ -1,39 +1,8 @@
 import { expect } from "chai";
 import { Context } from "mocha";
 import { WidgetServiceClient } from "../../src/index.js";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
-
-// When the recorder observes the values of these environment variables in any
-// recorded HTTP request or response, it will replace them with the values they
-// are mapped to below.
-const replaceableVariables: Record<string, string> = {
-  WIDGET_SERVICE_ENDPOINT: "https://myapp.azconfig.io",
-  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-};
-
-function createWidgetServiceClient(recorder: Recorder): WidgetServiceClient {
-  // Retrieve the endpoint from the environment variable
-  // we saved to the .env file earlier
-  const endpoint = assertEnvironmentVariable("WIDGET_SERVICE_ENDPOINT");
-
-  // We use the createTestCredential helper from the test-credential tools package.
-  // This function returns the special NoOpCredential in playback mode, which
-  // is a special TokenCredential implementation that does not make any requests
-  // to AAD.
-  const client = new WidgetServiceClient(
-    endpoint,
-    createTestCredential(),
-    // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
-    // redirect the requests to reach the proxy tool in record/playback modes instead of
-    // hitting the live service.
-    recorder.configureClientOptions({})
-  );
-
-  return client;
-}
+import { Recorder } from "@azure-tools/test-recorder";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 
 describe("WidgetServiceClient", () => {
   // Declare the client and recorder instances.  We will set them using the
@@ -49,12 +18,11 @@ describe("WidgetServiceClient", () => {
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
     recorder = new Recorder(this.currentTest);
-
-    await recorder.start({ envSetupForPlayback: replaceableVariables });
+    recorder = await startRecorder(this.currentTest);
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createWidgetServiceClient(recorder);
+    client = createClient({ recorder });
   });
 
   // After each test, we need to stop the recording.
