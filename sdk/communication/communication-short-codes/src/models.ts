@@ -11,32 +11,32 @@ import {
 /**
  * Additional options for the delete US Program Brief request.
  */
-export interface DeleteUSProgramBriefOptions extends OperationOptions { }
+export interface DeleteUSProgramBriefOptions extends OperationOptions {}
 
 /**
  * Additional options for the Get US Program Brief request.
  */
-export interface GetUSProgramBriefOptions extends OperationOptions { }
+export interface GetUSProgramBriefOptions extends OperationOptions {}
 
 /**
  * Additional options for the Submit US Program Brief request.
  */
-export interface SubmitUSProgramBriefOptions extends OperationOptions { }
+export interface SubmitUSProgramBriefOptions extends OperationOptions {}
 
 /**
  * Additional options for the List Short Codes request.
  */
-export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams { }
+export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {}
 
 /**
  * Additional options for the List Short Code Costs request.
  */
-export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams { }
+export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams {}
 
 /**
  * Additional options for the List US Program Brief request.
  */
-export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams { }
+export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {}
 
 export {
   ShortCode,

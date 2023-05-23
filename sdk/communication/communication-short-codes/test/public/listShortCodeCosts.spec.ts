@@ -31,10 +31,9 @@ describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
   }).timeout(20000);
 
   it("can list all short code costs, by Page", async function () {
-    const pages = client.listShortCodeCosts({ top : 1 }).byPage();
+    const pages = client.listShortCodeCosts({ top: 1 }).byPage();
     for await (const page of pages) {
-
-      if(page.length === 0) {
+      if (page.length === 0) {
         break;
       }
 
