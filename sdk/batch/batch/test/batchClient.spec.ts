@@ -912,18 +912,13 @@ describe("Batch Service", function () {
 
     it("should reactivate a task successfully", async function () {
       const result = await client.task.reactivate(JOB_NAME, TASK1_NAME);
-
       assert.equal(result._response.status, 204);
     });
 
     it("should update a task successfully", async function () {
       const options = { constraints: { maxTaskRetryCount: 3 } };
-      try {
-        const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
-        assert.equal(result._response.status, 200);
-      } catch (e) {
-        console.log(e);
-      }
+      const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
+      assert.equal(result._response.status, 200);
     });
 
     it("should list all tasks successfully", async function () {
