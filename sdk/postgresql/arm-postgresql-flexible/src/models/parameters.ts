@@ -21,7 +21,12 @@ import {
   Server as ServerMapper,
   ServerForUpdate as ServerForUpdateMapper,
   RestartParameter as RestartParameterMapper,
-  VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper
+  MigrationResource as MigrationResourceMapper,
+  MigrationResourceForPatch as MigrationResourceForPatchMapper,
+  MigrationNameAvailabilityResource as MigrationNameAvailabilityResourceMapper,
+  VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
+  LtrPreBackupRequest as LtrPreBackupRequestMapper,
+  LtrBackupRequest as LtrBackupRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -124,7 +129,7 @@ export const objectId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -262,5 +267,112 @@ export const parameters7: OperationParameter = {
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
+  mapper: MigrationResourceMapper
+};
+
+export const subscriptionId1: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "([a-z0-9]){8,8}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){12,12}"
+      )
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-a-z0-9A-Z._()]+[^.]$")
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const targetDbServerName: OperationURLParameter = {
+  parameterPath: "targetDbServerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("([-a-z0-9]){3,63}")
+    },
+    serializedName: "targetDbServerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const migrationName: OperationURLParameter = {
+  parameterPath: "migrationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
+    serializedName: "migrationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MigrationResourceForPatchMapper
+};
+
+export const migrationListFilter: OperationQueryParameter = {
+  parameterPath: ["options", "migrationListFilter"],
+  mapper: {
+    serializedName: "migrationListFilter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MigrationNameAvailabilityResourceMapper
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
   mapper: VirtualNetworkSubnetUsageParameterMapper
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LtrPreBackupRequestMapper
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LtrBackupRequestMapper
+};
+
+export const backupName1: OperationURLParameter = {
+  parameterPath: "backupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*")
+    },
+    serializedName: "backupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

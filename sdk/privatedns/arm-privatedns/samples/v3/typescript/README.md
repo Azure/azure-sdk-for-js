@@ -65,7 +65,7 @@ node dist/privateZonesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/privateZonesCreateOrUpdateSample.js
+npx cross-env PRIVATEDNS_SUBSCRIPTION_ID="<privatedns subscription id>" PRIVATEDNS_RESOURCE_GROUP="<privatedns resource group>" node dist/privateZonesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
