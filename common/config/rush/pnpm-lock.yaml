@@ -13491,7 +13491,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-bujYRtPnaCJrOaM96o1BN+dxqTmJGCCm/ZlHwohsY2oPVk0AqYiw68MefDKBYLD6mw7VZARX9AUqHoAHaFMz6w==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-+wk1hJhnsWwnOXefGyaH8WkAGjGwe4fwturWRn35Gn45Qy8N4SC3ZviOrOmcWu+PDZTl9HajkJ3/p7AcAicH1w==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -13506,7 +13506,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 2.1.6
+      mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
