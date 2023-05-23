@@ -12,8 +12,6 @@ import {
   DtmfOptions,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
-  SendDtmfRequest,
-  Tone,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -26,7 +24,7 @@ import {
 
 import { FileSource } from "./models/models";
 
-import { PlayOptions, CallMediaRecognizeDtmfOptions, SendDtmfOptions } from "./models/options";
+import { PlayOptions, CallMediaRecognizeDtmfOptions } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
@@ -174,24 +172,5 @@ export class CallMedia {
    */
   public async cancelAllOperations(): Promise<void> {
     return this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
-  }
-
-  /**
-   * Send Dtmf tones.
-   * @param tones - List of tones to be sent to target participant.
-   * @param targetParticipant - Target participant.
-   * @param sendDtmfOptions - Additional attributes for send Dtmf tones.
-   * */
-  public async sendDtmf(
-    tones: Tone[],
-    targetParticipant: CommunicationIdentifier,
-    sendDtmfOptions: SendDtmfOptions = {}
-  ): Promise<void> {
-    const sendDtmfRequest: SendDtmfRequest = {
-      tones: tones,
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: sendDtmfOptions.operationContext,
-    };
-    return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }
 }

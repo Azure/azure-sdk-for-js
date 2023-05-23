@@ -6,12 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CallConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CallAutomationApiClient } from "../callAutomationApiClient";
 import {
+  CallParticipantInternal,
+  CallConnectionGetParticipantsNextOptionalParams,
+  CallConnectionGetParticipantsOptionalParams,
+  CallConnectionGetParticipantsResponse,
   CallConnectionGetCallOptionalParams,
   CallConnectionGetCallResponse,
   CallConnectionHangupCallOptionalParams,
@@ -19,24 +25,18 @@ import {
   TransferToParticipantRequest,
   CallConnectionTransferToParticipantOptionalParams,
   CallConnectionTransferToParticipantResponse,
-  CallConnectionGetParticipantsOptionalParams,
-  CallConnectionGetParticipantsResponse,
   AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
   RemoveParticipantRequest,
   CallConnectionRemoveParticipantOptionalParams,
   CallConnectionRemoveParticipantResponse,
-  MuteParticipantsRequest,
-  CallConnectionMuteOptionalParams,
-  CallConnectionMuteResponse,
-  UnmuteParticipantsRequest,
-  CallConnectionUnmuteOptionalParams,
-  CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
-  CallConnectionGetParticipantResponse
+  CallConnectionGetParticipantResponse,
+  CallConnectionGetParticipantsNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing CallConnection operations. */
 export class CallConnectionImpl implements CallConnection {
   private readonly client: CallAutomationApiClient;
@@ -50,7 +50,76 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Get call connection.
+   * Get participants from a call.
+   * @param callConnectionId The call connection Id
+   * @param options The options parameters.
+   */
+  public listParticipants(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): PagedAsyncIterableIterator<CallParticipantInternal> {
+    const iter = this.getParticipantsPagingAll(callConnectionId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getParticipantsPagingPage(
+          callConnectionId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getParticipantsPagingPage(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CallParticipantInternal[]> {
+    let result: CallConnectionGetParticipantsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getParticipants(callConnectionId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getParticipantsNext(
+        callConnectionId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getParticipantsPagingAll(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): AsyncIterableIterator<CallParticipantInternal> {
+    for await (const page of this.getParticipantsPagingPage(
+      callConnectionId,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get the detail properties of an ongoing call.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -65,7 +134,8 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Hangup the call.
+   * Hang up call automation service from the call. This will make call automation service leave the
+   * call, but does not terminate if there are more than 1 caller in the call.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -116,7 +186,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */
-  getParticipants(
+  private _getParticipants(
     callConnectionId: string,
     options?: CallConnectionGetParticipantsOptionalParams
   ): Promise<CallConnectionGetParticipantsResponse> {
@@ -127,7 +197,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Add participants to the call.
+   * Add a participant to the call.
    * @param callConnectionId The call connection Id
    * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
@@ -144,7 +214,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Remove participant from the call using identifier.
+   * Remove a participant from the call using identifier.
    * @param callConnectionId The call connection id.
    * @param removeParticipantRequest The participant to be removed from the call.
    * @param options The options parameters.
@@ -157,40 +227,6 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, removeParticipantRequest, options },
       removeParticipantOperationSpec
-    );
-  }
-
-  /**
-   * Mute participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param muteParticipantsRequest The participants to be muted from the call.
-   * @param options The options parameters.
-   */
-  mute(
-    callConnectionId: string,
-    muteParticipantsRequest: MuteParticipantsRequest,
-    options?: CallConnectionMuteOptionalParams
-  ): Promise<CallConnectionMuteResponse> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, muteParticipantsRequest, options },
-      muteOperationSpec
-    );
-  }
-
-  /**
-   * Unmute participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
-   * @param options The options parameters.
-   */
-  unmute(
-    callConnectionId: string,
-    unmuteParticipantsRequest: UnmuteParticipantsRequest,
-    options?: CallConnectionUnmuteOptionalParams
-  ): Promise<CallConnectionUnmuteResponse> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, unmuteParticipantsRequest, options },
-      unmuteOperationSpec
     );
   }
 
@@ -208,6 +244,23 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, participantRawId, options },
       getParticipantOperationSpec
+    );
+  }
+
+  /**
+   * GetParticipantsNext
+   * @param callConnectionId The call connection Id
+   * @param nextLink The nextLink from the previous successful call to the GetParticipants method.
+   * @param options The options parameters.
+   */
+  private _getParticipantsNext(
+    callConnectionId: string,
+    nextLink: string,
+    options?: CallConnectionGetParticipantsNextOptionalParams
+  ): Promise<CallConnectionGetParticipantsNextResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, nextLink, options },
+      getParticipantsNextOperationSpec
     );
   }
 }
@@ -347,52 +400,6 @@ const removeParticipantOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const muteOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}/participants:mute",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      bodyMapper: Mappers.MuteParticipantsResponse
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.muteParticipantsRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
-  ],
-  mediaType: "json",
-  serializer
-};
-const unmuteOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}/participants:unmute",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      bodyMapper: Mappers.UnmuteParticipantsResponse
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.unmuteParticipantsRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
-  ],
-  mediaType: "json",
-  serializer
-};
 const getParticipantOperationSpec: coreClient.OperationSpec = {
   path:
     "/calling/callConnections/{callConnectionId}/participants/{participantRawId}",
@@ -410,6 +417,25 @@ const getParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.endpoint,
     Parameters.callConnectionId,
     Parameters.participantRawId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getParticipantsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

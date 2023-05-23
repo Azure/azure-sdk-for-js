@@ -5,11 +5,7 @@ import { Context } from "mocha";
 
 // Internal module imports
 import { Recorder } from "@azure-tools/test-recorder";
-import {
-  CommunicationIdentifier,
-  CommunicationUserIdentifier,
-  serializeCommunicationIdentifier,
-} from "@azure/communication-common";
+import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
@@ -19,7 +15,6 @@ import {
   CallAutomationClient,
   CallConnection,
   CallInvite,
-  SendDtmfOptions,
 } from "../src";
 
 // Current directory imports
@@ -135,27 +130,6 @@ describe("CallMedia Unit Tests", async function () {
 
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful SendDtmf request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfOptions = {
-      operationContext: "test_operation_context",
-    };
-    const tones = ["one", "two", "three", "pound"];
-
-    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
-    assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });

@@ -84,12 +84,12 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
-      answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+      sourceIdentity: source ? communicationIdentifierConverter(source) : undefined,
+      answeredByIdentifier: communicationUserIdentifierConverter(answeredBy),
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -145,13 +145,16 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.getParticipants(this.callConnectionId, options);
-    const listParticipantResponse: ListParticipantsResult = {
-      ...result,
-      values: result?.values?.map((acsCallParticipant) =>
-        callParticipantConverter(acsCallParticipant)
-      ),
-    };
+    const result = await this.callConnection.listParticipants(this.callConnectionId, options);
+    var participant = await result.next();
+
+    let listParticipantResponse: ListParticipantsResult = {};
+
+    while (!participant.done) {
+      listParticipantResponse.values?.push(callParticipantConverter(participant.value));
+      participant = await result.next();
+    }
+
     return listParticipantResponse;
   }
 
@@ -172,10 +175,6 @@ export class CallConnection {
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
-      customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
-      },
     };
     const optionsInternal = {
       ...options,

@@ -22,9 +22,7 @@ import {
   RecognizeCanceled,
   RecognizeFailed,
   RemoveParticipantSucceeded,
-  RemoveParticipantFailed,
-  SendDtmfCompleted,
-  SendDtmfFailed,
+  RemoveParticipantFailed
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -101,12 +99,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.RecognizeFailed":
       callbackEvent = { kind: "RecognizeFailed" } as RecognizeFailed;
-      break;
-    case "Microsoft.Communication.SendDtmfCompleted":
-      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
-      break;
-    case "Microsoft.Communication.SendDtmfFailed":
-      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
