@@ -8,6 +8,7 @@ import {
   FileType,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
+  ListShortCodeCostsOptions,
   ListUSProgramBriefsOptions,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
@@ -20,6 +21,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import {
   ProgramBriefAttachment,
   ShortCode,
+  ShortCodeCost,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
 } from "./generated/src/models/";
@@ -34,7 +36,7 @@ import { createShortCodesPagingPolicy } from "./utils/customPipelinePolicies";
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends CommonClientOptions {}
+export interface ShortCodesClientOptions extends CommonClientOptions { }
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -95,6 +97,26 @@ export class ShortCodesClient {
     );
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public listShortCodeCosts(
+    options: ListShortCodeCostsOptions = {}
+  ): PagedAsyncIterableIterator<ShortCodeCost> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listShortCodeCosts",
+      options
+    );
+    try {
+      return this.client.shortCodesOperations.listCosts(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
