@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for the provided prompt using OpenAI API.
+ * Demonstrates how to get completions for the provided prompt using OpenAI hosted service.
  *
  * @summary get completions using the OpenAI API.
  */
@@ -24,7 +24,7 @@ async function main() {
 
   const client = new OpenAIClient(new OpenAIKeyCredential(openApiKey));
   const model = "text-davinci-003";
-  const result = await client.getCompletions(model, prompt);
+  const result = await client.getCompletions(model, prompt, { maxTokens: 128 });
 
   for (const choice of result.choices) {
     console.log(choice.text);

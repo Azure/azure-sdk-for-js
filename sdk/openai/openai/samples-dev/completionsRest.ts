@@ -8,7 +8,8 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { AzureKeyCredential } from "@azure/core-auth";
+import OpenAIClient, { isUnexpected } from "@azure/openai/rest";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -23,11 +24,17 @@ const prompt = ["What is Azure OpenAI?"];
 export async function main() {
   console.log("== Get completions Sample ==");
 
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const client = OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
-  const result = await client.getCompletions(deploymentId, prompt, { maxTokens: 128 });
+  const result = await client.path("/deployments/{deploymentId}/completions", deploymentId).post({
+    body: { prompt, max_tokens: 128 },
+  });
 
-  for (const choice of result.choices) {
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  for (const choice of result.body.choices) {
     console.log(choice.text);
   }
 }
