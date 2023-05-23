@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -44,8 +44,8 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "nyc mocha --timeout 600000 \"test/internal/**/*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "integration-test:browser": "npm run unit-test:browser",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
@@ -53,8 +53,7 @@
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:browser:debug": "karma start karma.conf.cjs --single-run",
+    "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
     "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
