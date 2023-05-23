@@ -118,7 +118,6 @@ export class QueryIterator<T> {
 
   public async fetchAll(): Promise<FeedResponse<T>> {
     this.reset();
-    this.fetchAllTempResources = [];
     let response: FeedResponse<T>;
     try {
       response = await this.toArrayImplementation();
@@ -156,6 +155,7 @@ export class QueryIterator<T> {
         throw error;
       }
     }
+
     return new FeedResponse<T>(
       response.result,
       response.headers,
@@ -168,6 +168,8 @@ export class QueryIterator<T> {
    */
   public reset(): void {
     this.queryPlanPromise = undefined;
+    this.fetchAllLastResHeaders = getInitialHeader();
+    this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions
