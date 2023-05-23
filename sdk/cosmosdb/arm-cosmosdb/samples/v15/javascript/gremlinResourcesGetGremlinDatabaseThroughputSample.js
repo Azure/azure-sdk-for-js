@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBGremlinDatabaseThroughputGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinDatabaseThroughputGet.json
  */
 async function cosmosDbGremlinDatabaseThroughputGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

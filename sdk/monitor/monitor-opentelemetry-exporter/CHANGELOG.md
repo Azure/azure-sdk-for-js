@@ -35,7 +35,6 @@
 
 - Azure Monitor OpenTelemetry Metrics Exporter Configuration updated.
 
-
 ### Bugs Fixed
 
 - Suppress tracing while exporting metrics.

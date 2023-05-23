@@ -1,5 +1,10 @@
 # Release History
 
+## 3.2.2 (2023-05-15)
+
+### Bug Fixes
+ - Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
+
 ## 3.2.1 (2023-05-10)
 
 ### Bug Fixes

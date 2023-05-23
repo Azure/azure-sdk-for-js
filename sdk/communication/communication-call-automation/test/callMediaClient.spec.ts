@@ -194,7 +194,7 @@ describe("CallMedia Unit Tests", async function () {
     };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(targetParticipant, tones, sendDtmfOptions);
+    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 

@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SharingUpdate,
   GallerySharingProfileUpdateOptionalParams,
@@ -44,8 +48,8 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
     sharingUpdate: SharingUpdate,
     options?: GallerySharingProfileUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GallerySharingProfileUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GallerySharingProfileUpdateResponse>,
       GallerySharingProfileUpdateResponse
     >
   > {
@@ -55,7 +59,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
     ): Promise<GallerySharingProfileUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -88,13 +92,16 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, galleryName, sharingUpdate, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, galleryName, sharingUpdate, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GallerySharingProfileUpdateResponse,
+      OperationState<GallerySharingProfileUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

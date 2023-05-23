@@ -566,8 +566,6 @@ export interface ContainerServiceNetworkProfile {
   serviceCidr?: string;
   /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
   dnsServiceIP?: string;
-  /** A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range. */
-  dockerBridgeCidr?: string;
   /** This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
   outboundType?: OutboundType;
   /** The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
@@ -1774,13 +1772,15 @@ export type OSType = string;
 
 /** Known values of {@link Ossku} that the service accepts. */
 export enum KnownOssku {
-  /** Ubuntu */
+  /** Use Ubuntu as the OS for node images. */
   Ubuntu = "Ubuntu",
-  /** CBLMariner */
+  /** Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. */
+  AzureLinux = "AzureLinux",
+  /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
   CBLMariner = "CBLMariner",
-  /** Windows2019 */
+  /** Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. */
   Windows2019 = "Windows2019",
-  /** Windows2022 */
+  /** Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. */
   Windows2022 = "Windows2022"
 }
 
@@ -1789,10 +1789,11 @@ export enum KnownOssku {
  * {@link KnownOssku} can be used interchangeably with Ossku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ubuntu** \
- * **CBLMariner** \
- * **Windows2019** \
- * **Windows2022**
+ * **Ubuntu**: Use Ubuntu as the OS for node images. \
+ * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. \
+ * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
+ * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
+ * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa.
  */
 export type Ossku = string;
 

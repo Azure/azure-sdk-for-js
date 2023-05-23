@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Frontend,
   FrontendsInterfaceListByTrafficControllerNextOptionalParams,
@@ -146,7 +150,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Get a Traffic Controller Frontend
+   * Get a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
@@ -165,7 +169,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Create a Traffic Controller Frontend
+   * Create a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
@@ -179,8 +183,8 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
     resource: Frontend,
     options?: FrontendsInterfaceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FrontendsInterfaceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FrontendsInterfaceCreateOrUpdateResponse>,
       FrontendsInterfaceCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
     ): Promise<FrontendsInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,28 +227,31 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         trafficControllerName,
         frontendName,
         resource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FrontendsInterfaceCreateOrUpdateResponse,
+      OperationState<FrontendsInterfaceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a Traffic Controller Frontend
+   * Create a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
@@ -269,7 +276,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Update a Traffic Controller Frontend
+   * Update a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
@@ -296,7 +303,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Delete a Traffic Controller Frontend
+   * Delete a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
@@ -307,14 +314,14 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
     trafficControllerName: string,
     frontendName: string,
     options?: FrontendsInterfaceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,22 +354,22 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, trafficControllerName, frontendName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, trafficControllerName, frontendName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a Traffic Controller Frontend
+   * Delete a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param frontendName Frontends
