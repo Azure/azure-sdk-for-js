@@ -60,7 +60,9 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       }
     }
     try {
-      const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(fs.readFileSync(tempDir, "utf8"));
+      const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(
+        fs.readFileSync(tempDir, "utf8")
+      );
       this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;

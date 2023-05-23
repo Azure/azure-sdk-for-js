@@ -75,9 +75,12 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
     // Check for explicitly passed options when instantiating client
     // This will take precedence over other settings
     if (options) {
-      this.azureMonitorExporterConfig = options.azureMonitorExporterConfig || this.azureMonitorExporterConfig;
-      this.enableAutoCollectPerformance = options.enableAutoCollectPerformance || this.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics = options.enableAutoCollectStandardMetrics || this.enableAutoCollectStandardMetrics;
+      this.azureMonitorExporterConfig =
+        options.azureMonitorExporterConfig || this.azureMonitorExporterConfig;
+      this.enableAutoCollectPerformance =
+        options.enableAutoCollectPerformance || this.enableAutoCollectPerformance;
+      this.enableAutoCollectStandardMetrics =
+        options.enableAutoCollectStandardMetrics || this.enableAutoCollectStandardMetrics;
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
       this.instrumentationConfig = options.instrumentationConfig || this.instrumentationConfig;
       this.resource = options.resource || this.resource;
@@ -106,7 +109,8 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
           jsonConfig.instrumentationConfig.azureSdk &&
           jsonConfig.instrumentationConfig.azureSdk.enabled !== undefined
         ) {
-          this.instrumentationConfig.azureSdk.enabled = jsonConfig.instrumentationConfig.azureSdk.enabled;
+          this.instrumentationConfig.azureSdk.enabled =
+            jsonConfig.instrumentationConfig.azureSdk.enabled;
         }
         if (
           jsonConfig.instrumentationConfig.http &&
@@ -118,7 +122,8 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
           jsonConfig.instrumentationConfig.mongoDb &&
           jsonConfig.instrumentationConfig.mongoDb.enabled !== undefined
         ) {
-          this.instrumentationConfig.mongoDb.enabled = jsonConfig.instrumentationConfig.mongoDb.enabled;
+          this.instrumentationConfig.mongoDb.enabled =
+            jsonConfig.instrumentationConfig.mongoDb.enabled;
         }
         if (
           jsonConfig.instrumentationConfig.mySql &&
@@ -130,13 +135,15 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
           jsonConfig.instrumentationConfig.postgreSql &&
           jsonConfig.instrumentationConfig.postgreSql.enabled !== undefined
         ) {
-          this.instrumentationConfig.postgreSql.enabled = jsonConfig.instrumentationConfig.postgreSql.enabled;
+          this.instrumentationConfig.postgreSql.enabled =
+            jsonConfig.instrumentationConfig.postgreSql.enabled;
         }
         if (
           jsonConfig.instrumentationConfig.redis4 &&
           jsonConfig.instrumentationConfig.redis4.enabled !== undefined
         ) {
-          this.instrumentationConfig.redis4.enabled = jsonConfig.instrumentationConfig.redis4.enabled;
+          this.instrumentationConfig.redis4.enabled =
+            jsonConfig.instrumentationConfig.redis4.enabled;
         }
         if (
           jsonConfig.instrumentationConfig.redis &&

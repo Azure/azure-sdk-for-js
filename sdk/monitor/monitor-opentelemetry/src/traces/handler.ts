@@ -174,7 +174,9 @@ export class TraceHandler {
       this.addInstrumentation(this._mongoDbInstrumentation);
     }
     if (!this._mySqlInstrumentation) {
-      this._mySqlInstrumentation = new MySQLInstrumentation(this._config.instrumentationConfig.mySql);
+      this._mySqlInstrumentation = new MySQLInstrumentation(
+        this._config.instrumentationConfig.mySql
+      );
       this.addInstrumentation(this._mySqlInstrumentation);
     }
     if (!this._postgressInstrumentation) {
@@ -184,11 +186,15 @@ export class TraceHandler {
       this.addInstrumentation(this._postgressInstrumentation);
     }
     if (!this._redisInstrumentation) {
-      this._redisInstrumentation = new RedisInstrumentation(this._config.instrumentationConfig.redis);
+      this._redisInstrumentation = new RedisInstrumentation(
+        this._config.instrumentationConfig.redis
+      );
       this.addInstrumentation(this._redisInstrumentation);
     }
     if (!this._redis4Instrumentation) {
-      this._redis4Instrumentation = new Redis4Instrumentation(this._config.instrumentationConfig.redis4);
+      this._redis4Instrumentation = new Redis4Instrumentation(
+        this._config.instrumentationConfig.redis4
+      );
       this.addInstrumentation(this._redis4Instrumentation);
     }
     this._instrumentations.forEach((instrumentation) => {

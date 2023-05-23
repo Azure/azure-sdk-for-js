@@ -16,8 +16,8 @@ dotenv.config();
 
 const config: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterConfig: {
-    connectionString: "<YOUR_CONNECTION_STRING>"
-  }
+    connectionString: "<YOUR_CONNECTION_STRING>",
+  },
 };
 const client = new AzureMonitorOpenTelemetryClient(config);
 

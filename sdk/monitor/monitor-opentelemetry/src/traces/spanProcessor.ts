@@ -9,7 +9,7 @@ import { MetricHandler } from "../metrics";
  * @internal
  */
 export class AzureMonitorSpanProcessor implements SpanProcessor {
-  constructor(private readonly _metricHandler: MetricHandler) { }
+  constructor(private readonly _metricHandler: MetricHandler) {}
 
   forceFlush(): Promise<void> {
     return Promise.resolve();
