@@ -141,7 +141,7 @@ export class TraceHandler {
    */
   private _initializeInstrumentations() {
     if (!this._httpInstrumentation) {
-      const httpInstrumentationConfig = this._config.instrumentations
+      const httpInstrumentationConfig = this._config.instrumentationConfig
         .http as HttpInstrumentationConfig;
       const providedIgnoreOutgoingRequestHook = httpInstrumentationConfig.ignoreOutgoingRequestHook;
       const mergedIgnoreOutgoingRequestHook: IgnoreOutgoingRequestFunction = (
@@ -158,37 +158,37 @@ export class TraceHandler {
         return result;
       };
       httpInstrumentationConfig.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
-      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentations.http);
+      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentationConfig.http);
       this.addInstrumentation(this._httpInstrumentation);
     }
     if (!this._azureSdkInstrumentation) {
       this._azureSdkInstrumentation = createAzureSdkInstrumentation(
-        this._config.instrumentations.azureSdk
+        this._config.instrumentationConfig.azureSdk
       ) as any;
       this.addInstrumentation(this._azureSdkInstrumentation);
     }
     if (!this._mongoDbInstrumentation) {
       this._mongoDbInstrumentation = new MongoDBInstrumentation(
-        this._config.instrumentations.mongoDb
+        this._config.instrumentationConfig.mongoDb
       );
       this.addInstrumentation(this._mongoDbInstrumentation);
     }
     if (!this._mySqlInstrumentation) {
-      this._mySqlInstrumentation = new MySQLInstrumentation(this._config.instrumentations.mySql);
+      this._mySqlInstrumentation = new MySQLInstrumentation(this._config.instrumentationConfig.mySql);
       this.addInstrumentation(this._mySqlInstrumentation);
     }
     if (!this._postgressInstrumentation) {
       this._postgressInstrumentation = new PgInstrumentation(
-        this._config.instrumentations.postgreSql
+        this._config.instrumentationConfig.postgreSql
       );
       this.addInstrumentation(this._postgressInstrumentation);
     }
     if (!this._redisInstrumentation) {
-      this._redisInstrumentation = new RedisInstrumentation(this._config.instrumentations.redis);
+      this._redisInstrumentation = new RedisInstrumentation(this._config.instrumentationConfig.redis);
       this.addInstrumentation(this._redisInstrumentation);
     }
     if (!this._redis4Instrumentation) {
-      this._redis4Instrumentation = new Redis4Instrumentation(this._config.instrumentations.redis4);
+      this._redis4Instrumentation = new Redis4Instrumentation(this._config.instrumentationConfig.redis4);
       this.addInstrumentation(this._redis4Instrumentation);
     }
     this._instrumentations.forEach((instrumentation) => {

@@ -12,7 +12,6 @@ import {
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { _PerformanceCounterMetrics } from "./performanceCounters";
 import { _StandardMetrics } from "./standardMetrics";
-import { _NativeMetrics } from "./nativeMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -25,7 +24,6 @@ export class MetricHandler {
   private _meter: Meter;
   private _perfCounterMetrics?: _PerformanceCounterMetrics;
   private _standardMetrics?: _StandardMetrics;
-  private _nativeMetrics?: _NativeMetrics;
 
   /**
    * Initializes a new instance of the MetricHandler class.
@@ -37,9 +35,6 @@ export class MetricHandler {
     }
     if (this._config.enableAutoCollectPerformance) {
       this._perfCounterMetrics = new _PerformanceCounterMetrics(this._config);
-    }
-    if (this._config.enableAutoCollectNativeMetrics) {
-      this._nativeMetrics = new _NativeMetrics(this._config);
     }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
@@ -71,17 +66,15 @@ export class MetricHandler {
 
   /**
    *Get StandardMetric handler
-   * @internal
    */
-  public _getStandardMetrics(): _StandardMetrics | undefined {
+  public getStandardMetrics(): _StandardMetrics | undefined {
     return this._standardMetrics;
   }
 
   /**
    *Get PerformanceCounter handler
-   * @internal
    */
-  public _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
+  public getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
     return this._perfCounterMetrics;
   }
 
@@ -92,7 +85,6 @@ export class MetricHandler {
     this._meterProvider.shutdown();
     this._perfCounterMetrics?.shutdown();
     this._standardMetrics?.shutdown();
-    this._nativeMetrics?.shutdown();
   }
 
   /**
@@ -102,6 +94,5 @@ export class MetricHandler {
     await this._meterProvider.forceFlush();
     await this._perfCounterMetrics?.flush();
     await this._standardMetrics?.flush();
-    await this._nativeMetrics?.flush();
   }
 }

@@ -9,20 +9,20 @@ import { MetricHandler } from "../metrics";
  * @internal
  */
 export class AzureMonitorSpanProcessor implements SpanProcessor {
-  constructor(private readonly _metricHandler: MetricHandler) {}
+  constructor(private readonly _metricHandler: MetricHandler) { }
 
   forceFlush(): Promise<void> {
     return Promise.resolve();
   }
 
   onStart(span: Span, _context: Context): void {
-    this._metricHandler._getStandardMetrics()?._markSpanAsProcessed(span);
+    this._metricHandler.getStandardMetrics()?.markSpanAsProcessed(span);
   }
 
   onEnd(span: ReadableSpan): void {
     // Record duration metrics
-    this._metricHandler._getStandardMetrics()?._recordSpan(span);
-    this._metricHandler._getPerformanceCounterMetrics()?._recordSpan(span);
+    this._metricHandler.getStandardMetrics()?.recordSpan(span);
+    this._metricHandler.getPerformanceCounterMetrics()?.recordSpan(span);
   }
 
   shutdown(): Promise<void> {

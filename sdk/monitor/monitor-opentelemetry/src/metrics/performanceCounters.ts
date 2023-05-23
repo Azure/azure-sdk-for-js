@@ -105,9 +105,8 @@ export class _PerformanceCounterMetrics {
 
   /**
    * Record Span metrics
-   * @internal
    */
-  public _recordSpan(span: ReadableSpan): void {
+  public recordSpan(span: ReadableSpan): void {
     if (span.kind !== SpanKind.SERVER) {
       return;
     }

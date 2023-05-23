@@ -37,6 +37,7 @@ export class _StandardMetrics {
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param _config - Configuration.
+   * @param options - Extra options.
    */
   constructor(
     private _config: AzureMonitorOpenTelemetryConfig,
@@ -80,7 +81,7 @@ export class _StandardMetrics {
    * Add extra attributes to Span so Ingestion doesn't aggregate the data again
    * @internal
    */
-  public _markSpanAsProcessed(span: Span): void {
+  public markSpanAsProcessed(span: Span): void {
     if (this._config.enableAutoCollectStandardMetrics) {
       if (span.kind === SpanKind.CLIENT) {
         span.setAttributes({
@@ -98,7 +99,7 @@ export class _StandardMetrics {
    * Record Span metrics
    * @internal
    */
-  public _recordSpan(span: ReadableSpan): void {
+  public recordSpan(span: ReadableSpan): void {
     const durationMs = span.duration[0];
     if (span.kind === SpanKind.SERVER) {
       this._incomingRequestDurationHistogram.record(durationMs, this._getRequestDimensions(span));

@@ -5,6 +5,10 @@ import { AzureMonitorOpenTelemetryConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
 import { Logger } from "./shared/logging";
+import { AzureMonitorOpenTelemetryOptions } from "./shared/types";
+import { Meter, TracerProvider } from "@opentelemetry/api";
+import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { Tracer } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor OpenTelemetry Client
@@ -16,10 +20,10 @@ export class AzureMonitorOpenTelemetryClient {
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryClient class.
-   * @param config Configuration
+   * @param options Azure Monitor OpenTelemetry Options
    */
-  constructor(config?: AzureMonitorOpenTelemetryConfig) {
-    this._config = config || new AzureMonitorOpenTelemetryConfig();
+  constructor(options?: AzureMonitorOpenTelemetryOptions) {
+    this._config = new AzureMonitorOpenTelemetryConfig(options);
     if (
       !this._config?.azureMonitorExporterConfig?.connectionString ||
       this._config?.azureMonitorExporterConfig?.connectionString === ""
@@ -33,24 +37,31 @@ export class AzureMonitorOpenTelemetryClient {
   }
 
   /**
-   *Get TraceHandler
+   *Get OpenTelemetry TracerProvider
    */
-  public getTraceHandler(): TraceHandler {
-    return this._traceHandler;
+  public getTraceProvider(): TracerProvider {
+    return this._traceHandler.getTracerProvider();
   }
 
   /**
-   *Get MetricHandler
-   */
-  public getMetricHandler(): MetricHandler {
-    return this._metricHandler;
+ *Get OpenTelemetry TracerProvider
+ */
+  public getTracer(): Tracer {
+    return this._traceHandler.getTracer();
   }
 
   /**
-   *Get Configuration
+   *Get OpenTelemetry MeterProvider
    */
-  public getConfig(): AzureMonitorOpenTelemetryConfig {
-    return this._config;
+  public getMeterProvider(): MeterProvider {
+    return this._metricHandler.getMeterProvider();
+  }
+
+  /**
+   *Get OpenTelemetry Meter
+   */
+  public getMeter(): Meter {
+    return this._metricHandler.getMeter();
   }
 
   /**
