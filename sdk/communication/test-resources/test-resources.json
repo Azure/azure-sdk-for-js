@@ -49,7 +49,7 @@
   "resources": [
     {
       "type": "Microsoft.Communication/CommunicationServices",
-      "apiVersion": "2023-03-31",
+      "apiVersion": "2021-10-01-preview",
       "name": "[variables('uniqueSubDomainName')]",
       "location": "global",
       "properties": {
