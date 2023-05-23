@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { PolicyClient } = require("@azure/arm-policy");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
@@ -19,8 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithIdentity.json
  */
 async function updateAPolicyAssignmentWithASystemAssignedIdentity() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters = {
@@ -33,6 +31,8 @@ async function updateAPolicyAssignmentWithASystemAssignedIdentity() {
   console.log(result);
 }
 
+updateAPolicyAssignmentWithASystemAssignedIdentity().catch(console.error);
+
 /**
  * This sample demonstrates how to  This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
@@ -40,8 +40,7 @@ async function updateAPolicyAssignmentWithASystemAssignedIdentity() {
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/updatePolicyAssignmentWithUserAssignedIdentity.json
  */
 async function updateAPolicyAssignmentWithAUserAssignedIdentity() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters = {
@@ -60,9 +59,4 @@ async function updateAPolicyAssignmentWithAUserAssignedIdentity() {
   console.log(result);
 }
 
-async function main() {
-  updateAPolicyAssignmentWithASystemAssignedIdentity();
-  updateAPolicyAssignmentWithAUserAssignedIdentity();
-}
-
-main().catch(console.error);
+updateAPolicyAssignmentWithAUserAssignedIdentity().catch(console.error);

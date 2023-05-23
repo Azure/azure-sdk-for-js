@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to This operation retrieves the policy set definition in the given management group with the given name.
@@ -21,9 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicySetDefinitionAtManagementGroup.json
  */
 async function retrieveAPolicySetDefinitionAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
   const credential = new DefaultAzureCredential();
@@ -35,8 +30,4 @@ async function retrieveAPolicySetDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
-async function main() {
-  retrieveAPolicySetDefinitionAtManagementGroupLevel();
-}
-
-main().catch(console.error);
+retrieveAPolicySetDefinitionAtManagementGroupLevel().catch(console.error);

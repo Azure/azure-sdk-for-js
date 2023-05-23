@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to This operation deletes a policy exemption, given its name and the scope it was created in. The scope of a policy exemption is the part of its ID preceding '/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}'.
@@ -21,9 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/deletePolicyExemption.json
  */
 async function deleteAPolicyExemption() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster";
   const policyExemptionName = "DemoExpensiveVM";
@@ -36,8 +31,4 @@ async function deleteAPolicyExemption() {
   console.log(result);
 }
 
-async function main() {
-  deleteAPolicyExemption();
-}
-
-main().catch(console.error);
+deleteAPolicyExemption().catch(console.error);

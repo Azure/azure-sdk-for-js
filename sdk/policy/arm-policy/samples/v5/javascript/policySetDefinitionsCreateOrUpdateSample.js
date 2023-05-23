@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { PolicyClient } = require("@azure/arm-policy");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
@@ -19,8 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinition.json
  */
 async function createOrUpdateAPolicySetDefinition() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policySetDefinitionName = "CostManagement";
   const parameters = {
     description: "Policies to enforce low cost storage SKUs",
@@ -62,6 +60,8 @@ async function createOrUpdateAPolicySetDefinition() {
   console.log(result);
 }
 
+createOrUpdateAPolicySetDefinition().catch(console.error);
+
 /**
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
  *
@@ -69,8 +69,7 @@ async function createOrUpdateAPolicySetDefinition() {
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroups.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroups() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policySetDefinitionName = "CostManagement";
   const parameters = {
     description: "Policies to enforce low cost storage SKUs",
@@ -117,9 +116,4 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateAPolicySetDefinition();
-  createOrUpdateAPolicySetDefinitionWithGroups();
-}
-
-main().catch(console.error);
+createOrUpdateAPolicySetDefinitionWithGroups().catch(console.error);

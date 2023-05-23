@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { PolicySetDefinition, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
@@ -21,9 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
   const parameters: PolicySetDefinition = {
@@ -57,6 +52,8 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
+createOrUpdateAPolicySetDefinitionAtManagementGroupLevel().catch(console.error);
+
 /**
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
  *
@@ -64,9 +61,7 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
   const parameters: PolicySetDefinition = {
@@ -116,9 +111,6 @@ async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLeve
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateAPolicySetDefinitionAtManagementGroupLevel();
-  createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel();
-}
-
-main().catch(console.error);
+createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel().catch(
+  console.error
+);

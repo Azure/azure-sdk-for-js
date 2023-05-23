@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { PolicyExemption, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to  This operation creates or updates a policy exemption with the given scope and name. Policy exemptions apply to all resources contained within their scope. For example, when you create a policy exemption at resource group scope for a policy assignment at the same or above level, the exemption exempts to all applicable resources in the resource group.
@@ -21,9 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/createOrUpdatePolicyExemption.json
  */
 async function createOrUpdateAPolicyExemption() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/demoCluster";
   const policyExemptionName = "DemoExpensiveVM";
@@ -46,8 +41,4 @@ async function createOrUpdateAPolicyExemption() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateAPolicyExemption();
-}
-
-main().catch(console.error);
+createOrUpdateAPolicyExemption().catch(console.error);

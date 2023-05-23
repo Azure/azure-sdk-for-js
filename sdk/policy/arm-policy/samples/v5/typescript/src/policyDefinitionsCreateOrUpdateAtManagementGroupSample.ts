@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { PolicyDefinition, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to This operation creates or updates a policy definition in the given management group with the given name.
@@ -21,9 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAtManagementGroup.json
  */
 async function createOrUpdateAPolicyDefinitionAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyDefinitionName = "ResourceNaming";
   const managementGroupId = "MyManagementGroup";
   const parameters: PolicyDefinition = {
@@ -62,8 +57,4 @@ async function createOrUpdateAPolicyDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateAPolicyDefinitionAtManagementGroupLevel();
-}
-
-main().catch(console.error);
+createOrUpdateAPolicyDefinitionAtManagementGroupLevel().catch(console.error);
