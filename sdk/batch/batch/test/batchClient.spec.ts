@@ -2,7 +2,12 @@
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
-import { AccountListPoolNodeCountsResponse, JobAddParameter, PoolGetResponse, TaskGetResponse } from "../src/models";
+import {
+  AccountListPoolNodeCountsResponse,
+  JobAddParameter,
+  PoolGetResponse,
+  TaskGetResponse,
+} from "../src/models";
 import { assert, expect } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
@@ -32,9 +37,9 @@ const VMSIZE_D1 = "Standard_D1_v2";
 const VMSIZE_D2s = "Standard_D2s_v3";
 const VMSIZE_SMALL = "Small";
 const JOB_NAME = `JSSDKTestJob-${_SUFFIX}`;
-const TASK1_NAME = `${JOB_NAME}-task11`;
-const TASK2_NAME = `${JOB_NAME}-task22`;
-const TASK3_NAME = `${JOB_NAME}-task33`;
+const TASK1_NAME = `${JOB_NAME}-task1`;
+const TASK2_NAME = `${JOB_NAME}-task2`;
+const TASK3_NAME = `${JOB_NAME}-task3`;
 
 const POLLING_INTERVAL = 5000;
 const LONG_TEST_TIMEOUT = 1000000;
@@ -740,14 +745,6 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 202);
     });
 
-    // it("should get pool lifetime statistics", async function () {
-    //   const result = await client.pool.getAllLifetimeStatistics();
-
-    //   assert.isDefined(result.usageStats);
-    //   assert.isDefined(result.resourceStats);
-    //   assert.equal(result._response.status, 200);
-    // });
-
     it("should list pools usage metrics", async function () {
       const result = await client.pool.listUsageMetrics();
 
@@ -919,16 +916,15 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 204);
     });
 
-    // it("should update a task successfully", async function () {
-    //   const options = { constraints: { maxTaskRetryCount: 3 } };
-    //   try {
-    //     const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
-    //     assert.equal(result._response.status, 200);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-
-    // });
+    it("should update a task successfully", async function () {
+      const options = { constraints: { maxTaskRetryCount: 3 } };
+      try {
+        const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
+        assert.equal(result._response.status, 200);
+      } catch (e) {
+        console.log(e);
+      }
+    });
 
     it("should list all tasks successfully", async function () {
       const result = await client.task.list(JOB_NAME);
@@ -1217,14 +1213,6 @@ describe("Batch Service", function () {
 
       assert.equal(result._response.status, 202);
     });
-
-    // it("should get all job statistics successfully", async function () {
-    //   const result = await client.job.getAllLifetimeStatistics();
-
-    //   assert.isDefined(result.userCPUTime);
-    //   assert.isDefined(result.kernelCPUTime);
-    //   assert.equal(result._response.status, 200);
-    // });
 
     it("should create a job with node communication mode in pool specification", async function () {
       const options: JobAddParameter = {
