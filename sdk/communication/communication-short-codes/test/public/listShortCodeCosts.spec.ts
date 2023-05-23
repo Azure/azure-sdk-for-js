@@ -34,7 +34,7 @@ describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
     const pages = client.listShortCodeCosts({ top : 1 }).byPage();
     for await (const page of pages) {
 
-      if(page.length == 0) {
+      if(page.length === 0) {
         break;
       }
 
