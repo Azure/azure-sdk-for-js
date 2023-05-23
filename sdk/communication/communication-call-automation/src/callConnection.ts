@@ -211,10 +211,6 @@ export class CallConnection {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
-      customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
-      },
     };
     const optionsInternal = {
       ...options,

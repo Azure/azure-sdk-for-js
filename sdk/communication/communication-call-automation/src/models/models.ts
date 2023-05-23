@@ -12,13 +12,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -42,8 +35,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -115,8 +106,6 @@ export enum DtmfTone {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -143,9 +132,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {

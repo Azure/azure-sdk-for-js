@@ -4,7 +4,6 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingConfiguration,
   CallRejectReason,
   FileSource,
   DtmfTone,
@@ -45,24 +44,12 @@ export interface CreateCallOptions extends OperationOptions {
   sourceDisplayName?: string;
   /** The operation context. */
   operationContext?: string;
-  /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-  /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The operation context. */
   operationContext?: string;
 }
@@ -91,10 +78,6 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Custom context for PSTN. */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voip. */
-  voipHeaders?: { [propertyName: string]: string };
 }
 
 /** Options to add participants. */
@@ -201,14 +184,6 @@ export interface DownloadRecordingOptions extends OperationOptions {
   offset?: number;
   /** Max content length in bytes. */
   length?: number;
-}
-
-/**
- * Options to continuous Dtmf recognition.
- */
-export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
 }
 
 /**

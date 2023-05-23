@@ -19,7 +19,6 @@ import {
   CallAutomationClient,
   CallConnection,
   CallInvite,
-  ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
 } from "../src";
 
@@ -136,50 +135,6 @@ describe("CallMedia Unit Tests", async function () {
 
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful StartContinuousDtmfRecognition request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.startContinuousDtmfRecognition(
-      targetParticipant,
-      continuousDtmfRecognitionOptions
-    );
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
-    assert.equal(data.operationContext, continuousDtmfRecognitionOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful StopContinuousDtmfRecognition request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.stopContinuousDtmfRecognition(
-      targetParticipant,
-      continuousDtmfRecognitionOptions
-    );
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
-    assert.equal(data.operationContext, continuousDtmfRecognitionOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 
