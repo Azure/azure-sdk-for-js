@@ -81,7 +81,7 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should create a scheduled job", async function () {
-      var currentTime: Date = new Date();
+      const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
       const scheduledJob: RouterJob = {...jobRequest, scheduledTimeUtc: new Date(scheduledTime), unavailableForMatching: true};
@@ -150,7 +150,7 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should list scheduled jobs", async function () {
-      var currentTime: Date = new Date();
+      const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
       const scheduledJob: RouterJob = {...jobRequest, scheduledTimeUtc: new Date(scheduledTime), unavailableForMatching: true};
