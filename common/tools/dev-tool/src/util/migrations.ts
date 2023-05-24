@@ -603,7 +603,7 @@ export async function updateMigrationDate(
     packageJson[METADATA_KEY] = {};
   }
   if (
-    packageJson[METADATA_KEY]?.migrationDate &&
+    packageJson[METADATA_KEY].migrationDate &&
     new Date(packageJson[METADATA_KEY].migrationDate) >= migration.date
   ) {
     panic(`${project.name} is being migrated to an older version than the current version.`);

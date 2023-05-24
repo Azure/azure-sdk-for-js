@@ -55,7 +55,7 @@ declare global {
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
 
-    [METADATA_KEY]: AzureSdkMetadata;
+    [METADATA_KEY]?: AzureSdkMetadata;
   }
 }
 
