@@ -109,8 +109,8 @@ const getDetectorOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.detectorName
+    Parameters.detectorName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
