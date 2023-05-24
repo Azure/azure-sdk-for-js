@@ -599,6 +599,9 @@ export async function updateMigrationDate(
   const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
 
   // Defensively check that the current date in package.json is undefined or older than the new date.
+  if (!packageJson[METADATA_KEY]) {
+    packageJson[METADATA_KEY] = {};
+  }
   if (
     packageJson[METADATA_KEY]?.migrationDate &&
     new Date(packageJson[METADATA_KEY].migrationDate) >= migration.date

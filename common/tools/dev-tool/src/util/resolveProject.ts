@@ -78,7 +78,7 @@ export interface AzureSdkMetadata {
   /**
    * Paths that contain instances of the package's version number that should be updated automatically.
    */
-  constantPaths: Array<{
+  constantPaths?: Array<{
     /** The path to the containing file. */
     path: string;
     /** A line prefix to match */

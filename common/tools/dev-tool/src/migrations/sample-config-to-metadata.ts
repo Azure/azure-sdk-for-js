@@ -16,7 +16,7 @@ export default createMigration(
   {
     async isApplicable(ctx) {
       // This migration is only applicable to client packages.
-      return ctx.project.packageJson["sdk-type"] === "client";
+      return ctx.project.packageJson["sdk-type"] === "client" && ctx.project.packageJson["//sampleConfiguration"] !== undefined;
     },
 
     async validate(ctx) {
@@ -36,6 +36,9 @@ export default createMigration(
         [METADATA_KEY]: AzureSdkMetadata;
       };
 
+      if (packageJson[METADATA_KEY]) {
+        packageJson[METADATA_KEY] = {};
+      }
       if (packageJson["//sampleConfiguration"]) {
         packageJson[METADATA_KEY].sampleConfiguration = packageJson["//sampleConfiguration"];
 
