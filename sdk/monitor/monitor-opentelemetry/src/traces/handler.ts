@@ -74,6 +74,7 @@ export class TraceHandler {
     };
     this._spanProcessor = new BatchSpanProcessor(this._exporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
+
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
     if (this._metricHandler) {

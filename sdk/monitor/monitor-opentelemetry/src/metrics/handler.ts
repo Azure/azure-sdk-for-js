@@ -29,7 +29,10 @@ export class MetricHandler {
    * Initializes a new instance of the MetricHandler class.
    * @param _config - Configuration.
    */
-  constructor(private _config: AzureMonitorOpenTelemetryConfig) {
+  constructor(
+    private _config: AzureMonitorOpenTelemetryConfig,
+    options?: { collectionInterval: number }
+  ) {
     if (this._config.enableAutoCollectStandardMetrics) {
       this._standardMetrics = new _StandardMetrics(this._config);
     }
@@ -43,7 +46,7 @@ export class MetricHandler {
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: this._collectionInterval,
+      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);

@@ -57,6 +57,7 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
    */
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     // Default values
+    this.azureMonitorExporterConfig = {};
     this.enableAutoCollectPerformance = true;
     this.enableAutoCollectStandardMetrics = true;
     this.samplingRatio = 1;

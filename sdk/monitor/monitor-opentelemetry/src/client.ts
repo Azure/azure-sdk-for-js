@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import { Meter, TracerProvider } from "@opentelemetry/api";
+import { LoggerProvider, Logger } from "@opentelemetry/sdk-logs";
+import { Tracer } from "@opentelemetry/sdk-trace-base";
+import { MeterProvider } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorOpenTelemetryConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
-import { Logger } from "./shared/logging";
+import { Logger as InternalLogger } from "./shared/logging";
 import { AzureMonitorOpenTelemetryOptions } from "./shared/types";
-import { Meter, TracerProvider } from "@opentelemetry/api";
-import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { Tracer } from "@opentelemetry/sdk-trace-base";
+import { LogHandler } from "./logs";
 
 /**
  * Azure Monitor OpenTelemetry Client
@@ -17,6 +18,7 @@ export class AzureMonitorOpenTelemetryClient {
   private _config: AzureMonitorOpenTelemetryConfig;
   private _traceHandler: TraceHandler;
   private _metricHandler: MetricHandler;
+  private _logHandler: LogHandler;
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryClient class.
@@ -33,7 +35,8 @@ export class AzureMonitorOpenTelemetryClient {
       );
     }
     this._metricHandler = new MetricHandler(this._config);
-    this._traceHandler = new TraceHandler(this._config);
+    this._traceHandler = new TraceHandler(this._config, this._metricHandler);
+    this._logHandler = new LogHandler(this._config, this._metricHandler);
   }
 
   /**
@@ -65,6 +68,20 @@ export class AzureMonitorOpenTelemetryClient {
   }
 
   /**
+   *Get OpenTelemetry LoggerProvider
+   */
+  public getLoggerProvider(): LoggerProvider {
+    return this._logHandler.getLoggerProvider();
+  }
+
+  /**
+   *Get OpenTelemetry Logger
+   */
+  public getLogger(): Logger {
+    return this._logHandler.getLogger();
+  }
+
+  /**
    *Try to send all queued telemetry if present.
    */
   public async flush(): Promise<void> {
@@ -72,7 +89,7 @@ export class AzureMonitorOpenTelemetryClient {
       await this._traceHandler.flush();
       await this._metricHandler.flush();
     } catch (err) {
-      Logger.getInstance().error("Failed to flush telemetry", err);
+      InternalLogger.getInstance().error("Failed to flush telemetry", err);
     }
   }
 
