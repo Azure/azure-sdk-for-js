@@ -1,9 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {
-  AzureMonitorOpenTelemetryOptions,
-  InstrumentationOptions,
-} from "./types";
+import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
