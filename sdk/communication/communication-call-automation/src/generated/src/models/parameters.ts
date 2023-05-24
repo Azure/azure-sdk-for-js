@@ -78,7 +78,7 @@ export const apiVersion: OperationQueryParameter = {
 };
 
 export const repeatabilityRequestID: OperationParameter = {
-  parameterPath: "repeatabilityRequestID",
+  parameterPath: ["options", "repeatabilityRequestID"],
   mapper: {
     serializedName: "Repeatability-Request-ID",
     type: {
@@ -88,7 +88,7 @@ export const repeatabilityRequestID: OperationParameter = {
 };
 
 export const repeatabilityFirstSent: OperationParameter = {
-  parameterPath: "repeatabilityFirstSent",
+  parameterPath: ["options", "repeatabilityFirstSent"],
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {

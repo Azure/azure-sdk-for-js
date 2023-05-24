@@ -41,8 +41,6 @@ import {
 export class CallAutomationApiClient extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;
-  repeatabilityRequestID?: string;
-  repeatabilityFirstSent?: Date;
 
   /**
    * Initializes a new instance of the CallAutomationApiClient class.

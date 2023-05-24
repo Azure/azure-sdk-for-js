@@ -53,9 +53,9 @@ export class CallMedia {
         uri: playSource.url,
       };
       return {
-        sourceType: KnownPlaySourceType.File,
-        fileSource: fileSource,
-        playSourceId: playSource.playSourceId,
+        kind: KnownPlaySourceType.File,
+        file: fileSource,
+        playSourceCacheId: playSource.playSourceId,
       };
     }
     throw new Error("Invalid play source");
@@ -74,7 +74,7 @@ export class CallMedia {
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
-      playSourceInfo: this.createPlaySourceInternal(playSource),
+      playSources: [this.createPlaySourceInternal(playSource)],
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
@@ -99,7 +99,7 @@ export class CallMedia {
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
-      playSourceInfo: this.createPlaySourceInternal(playSource),
+      playSources: [this.createPlaySourceInternal(playSource)],
       playTo: [],
       playOptions: {
         loop: false,

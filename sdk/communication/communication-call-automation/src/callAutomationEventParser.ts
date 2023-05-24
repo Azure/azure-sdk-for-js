@@ -22,7 +22,7 @@ import {
   RecognizeCanceled,
   RecognizeFailed,
   RemoveParticipantSucceeded,
-  RemoveParticipantFailed
+  RemoveParticipantFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";

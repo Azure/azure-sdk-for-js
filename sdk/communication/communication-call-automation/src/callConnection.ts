@@ -107,7 +107,7 @@ export class CallConnection {
     if (isForEveryone) {
       const optionsInternal = {
         ...options,
-        repeatabilityFirstSent: new Date().toUTCString(),
+        repeatabilityFirstSent: new Date(),
         repeatabilityRequestID: uuidv4(),
       };
       await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
@@ -178,7 +178,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.addParticipant(
@@ -213,7 +213,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.transferToParticipant(
@@ -240,7 +240,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.removeParticipant(

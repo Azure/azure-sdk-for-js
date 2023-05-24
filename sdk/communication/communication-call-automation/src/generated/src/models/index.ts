@@ -163,7 +163,7 @@ export interface TransferCallResponse {
 
 export interface PlayRequest {
   /** The source of the audio to be played. */
-  playSourceInfo: PlaySourceInternal;
+  playSources: PlaySourceInternal[];
   /**
    * The list of call participants play provided audio to.
    * Plays to everyone in the call when not provided.
@@ -177,11 +177,11 @@ export interface PlayRequest {
 
 export interface PlaySourceInternal {
   /** Defines the type of the play source */
-  sourceType: PlaySourceType;
+  kind: PlaySourceType;
   /** Defines the identifier to be used for caching related media */
-  playSourceId?: string;
+  playSourceCacheId?: string;
   /** Defines the file source info to be used for play */
-  fileSource?: FileSourceInternal;
+  file?: FileSourceInternal;
 }
 
 export interface FileSourceInternal {
@@ -886,23 +886,43 @@ export enum KnownRecognitionType {
 export type RecognitionType = string;
 
 /** Optional parameters. */
-export interface CreateCallOptionalParams extends coreClient.OperationOptions {}
+export interface CreateCallOptionalParams extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the createCall operation. */
 export type CreateCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
-export interface AnswerCallOptionalParams extends coreClient.OperationOptions {}
+export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the answerCall operation. */
 export type AnswerCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface RedirectCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Optional parameters. */
-export interface RejectCallOptionalParams extends coreClient.OperationOptions {}
+export interface RejectCallOptionalParams extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
@@ -917,11 +937,21 @@ export interface CallConnectionHangupCallOptionalParams
 
 /** Optional parameters. */
 export interface CallConnectionTerminateCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Optional parameters. */
 export interface CallConnectionTransferToParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the transferToParticipant operation. */
 export type CallConnectionTransferToParticipantResponse = TransferCallResponse;
@@ -935,14 +965,24 @@ export type CallConnectionGetParticipantsResponse = GetParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionAddParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the addParticipant operation. */
 export type CallConnectionAddParticipantResponse = AddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionRemoveParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the removeParticipant operation. */
 export type CallConnectionRemoveParticipantResponse = RemoveParticipantResponse;
@@ -975,7 +1015,12 @@ export interface CallMediaRecognizeOptionalParams
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Contains response data for the startRecording operation. */
 export type CallRecordingStartRecordingResponse = RecordingStateResponse;
@@ -1004,10 +1049,6 @@ export interface CallAutomationApiClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
-  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
-  repeatabilityRequestID?: string;
-  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: Date;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

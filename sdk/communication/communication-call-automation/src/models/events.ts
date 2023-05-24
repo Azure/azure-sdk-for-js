@@ -42,7 +42,7 @@ export type CallAutomationEvent =
   | PlayCanceled
   | RecognizeCompleted
   | RecognizeCanceled
-  | RecognizeFailed
+  | RecognizeFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -61,7 +61,7 @@ export {
   RestRecognizeCompleted,
   RestRecognizeFailed,
   RestRecognizeCanceled,
-  RestResultInformation
+  RestResultInformation,
 };
 
 export interface ResultInformation

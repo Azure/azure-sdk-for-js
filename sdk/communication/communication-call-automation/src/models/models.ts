@@ -115,10 +115,6 @@ export interface CallInvite {
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Custom context for PSTN. */
-  readonly sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voipr. */
-  readonly voipHeaders?: { [propertyName: string]: string };
 }
 
 /** The locator type of a call. */

@@ -74,8 +74,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource.url);
     assert.equal(request.method, "POST");
   });
 
@@ -96,8 +96,8 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource.url);
     assert.equal(request.method, "POST");
   });
 

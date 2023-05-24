@@ -161,7 +161,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, ...result } =
@@ -263,7 +263,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...operationOptions,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
@@ -313,7 +313,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
@@ -336,7 +336,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
