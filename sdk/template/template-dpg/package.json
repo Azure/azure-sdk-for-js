@@ -40,7 +40,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "tsp compile --config \"./typespec\" ./typespec/main.tsp",
-    "integration-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
+    "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
@@ -49,7 +49,7 @@
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
+    "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
