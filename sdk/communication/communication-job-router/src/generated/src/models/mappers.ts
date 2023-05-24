@@ -551,7 +551,11 @@ export const RouterJob: coreClient.CompositeMapper = {
             "closed",
             "cancelled",
             "classificationFailed",
-            "created"
+            "created",
+            "pendingSchedule",
+            "scheduled",
+            "scheduleFailed",
+            "waitingForActivation"
           ]
         }
       },
@@ -645,6 +649,18 @@ export const RouterJob: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      unavailableForMatching: {
+        serializedName: "unavailableForMatching",
+        type: {
+          name: "Boolean"
+        }
+      },
+      scheduledTimeUtc: {
+        serializedName: "scheduledTimeUtc",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -723,6 +739,9 @@ export const JobAssignment: coreClient.CompositeMapper = {
     className: "JobAssignment",
     modelProperties: {
       id: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "id",
         required: true,
         type: {
@@ -913,6 +932,9 @@ export const JobPositionDetails: coreClient.CompositeMapper = {
     className: "JobPositionDetails",
     modelProperties: {
       jobId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "jobId",
         required: true,
         type: {
@@ -927,6 +949,9 @@ export const JobPositionDetails: coreClient.CompositeMapper = {
         }
       },
       queueId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "queueId",
         required: true,
         type: {
@@ -957,6 +982,9 @@ export const UnassignJobResult: coreClient.CompositeMapper = {
     className: "UnassignJobResult",
     modelProperties: {
       jobId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "jobId",
         required: true,
         type: {
@@ -980,6 +1008,9 @@ export const AcceptJobOfferResult: coreClient.CompositeMapper = {
     className: "AcceptJobOfferResult",
     modelProperties: {
       assignmentId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "assignmentId",
         required: true,
         type: {
@@ -987,6 +1018,9 @@ export const AcceptJobOfferResult: coreClient.CompositeMapper = {
         }
       },
       jobId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "jobId",
         required: true,
         type: {
@@ -994,6 +1028,9 @@ export const AcceptJobOfferResult: coreClient.CompositeMapper = {
         }
       },
       workerId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "workerId",
         required: true,
         type: {
@@ -1102,6 +1139,9 @@ export const QueueStatistics: coreClient.CompositeMapper = {
     className: "QueueStatistics",
     modelProperties: {
       queueId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "queueId",
         required: true,
         type: {
@@ -1258,6 +1298,9 @@ export const JobOffer: coreClient.CompositeMapper = {
     className: "JobOffer",
     modelProperties: {
       id: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "id",
         required: true,
         type: {
@@ -1265,6 +1308,9 @@ export const JobOffer: coreClient.CompositeMapper = {
         }
       },
       jobId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "jobId",
         required: true,
         type: {
@@ -1300,6 +1346,9 @@ export const WorkerAssignment: coreClient.CompositeMapper = {
     className: "WorkerAssignment",
     modelProperties: {
       id: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "id",
         required: true,
         type: {
@@ -1307,6 +1356,9 @@ export const WorkerAssignment: coreClient.CompositeMapper = {
         }
       },
       jobId: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "jobId",
         required: true,
         type: {

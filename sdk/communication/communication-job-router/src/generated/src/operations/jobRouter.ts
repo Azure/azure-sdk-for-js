@@ -225,7 +225,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Deletes a job and all of its traces.
-   * @param id
+   * @param id Id of the job
    * @param options The options parameters.
    */
   async deleteJob(
@@ -753,7 +753,9 @@ const listJobsOperationSpec: coreClient.OperationSpec = {
     Parameters.status,
     Parameters.queueId,
     Parameters.channelId,
-    Parameters.classificationPolicyId
+    Parameters.classificationPolicyId,
+    Parameters.scheduledBefore,
+    Parameters.scheduledAfter
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
