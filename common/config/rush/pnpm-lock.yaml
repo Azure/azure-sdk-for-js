@@ -14018,7 +14018,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-6DL3J4bKJxnV+LjbGaFmOjhmXHuGfTTKEv3SAH8yVrp1ujaGxgJAyyYST5nqzw7ACCLYnR5KTzQhGvwrs4awZw==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-4cOfrbCPt3mcbBhMXKc46otMpTadYKZkV9XpP+X3s95j/oJuW7glLTmhtq5OqqQRVpz7wHCl3Yc5bTUEbP9k3A==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -14032,8 +14032,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
