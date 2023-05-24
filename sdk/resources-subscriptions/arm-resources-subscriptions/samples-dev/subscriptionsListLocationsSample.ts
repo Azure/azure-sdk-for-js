@@ -24,13 +24,11 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetLocations.json
  */
 async function getLocationsWithASubscriptionId() {
-  const subscriptionId =
-    process.env["RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID"] ||
-    "a1ffc958-d2c7-493e-9f1e-125a0477f536";
+  const subscriptionId = "a1ffc958-d2c7-493e-9f1e-125a0477f536";
   const credential = new DefaultAzureCredential();
-  const client = new SubscriptionClient(credential, subscriptionId);
+  const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations()) {
+  for await (let item of client.subscriptions.listLocations(subscriptionId)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,17 +41,18 @@ async function getLocationsWithASubscriptionId() {
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetLocationsWithExtendedLocations.json
  */
 async function getLocationsWithExtendedLocations() {
-  const subscriptionId =
-    process.env["RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID"] ||
-    "a1ffc958-d2c7-493e-9f1e-125a0477f536";
+  const subscriptionId = "a1ffc958-d2c7-493e-9f1e-125a0477f536";
   const includeExtendedLocations = true;
   const options: SubscriptionsListLocationsOptionalParams = {
     includeExtendedLocations
   };
   const credential = new DefaultAzureCredential();
-  const client = new SubscriptionClient(credential, subscriptionId);
+  const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations(options)) {
+  for await (let item of client.subscriptions.listLocations(
+    subscriptionId,
+    options
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

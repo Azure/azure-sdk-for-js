@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0 (2023-05-08)
+## 2.1.0 (2023-05-24)
     
 **Features**
 
@@ -31,12 +31,6 @@
   - Interface Operation has a new optional parameter origin
   - Added Enum KnownActionType
   - Added Enum KnownOrigin
-
-**Breaking Changes**
-
-  - Operation Subscriptions.get has a new signature
-  - Operation Subscriptions.listLocations has a new signature
-  - Class SubscriptionClient has a new signature
     
 ## 2.0.2 (2022-11-22)
 

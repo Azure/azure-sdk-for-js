@@ -276,14 +276,12 @@ export interface Subscription {
 export class SubscriptionClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SubscriptionClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     checkResourceName(options?: CheckResourceNameOptionalParams): Promise<CheckResourceNameResponse>;
     // (undocumented)
     operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
     // (undocumented)
     subscriptions: Subscriptions;
     // (undocumented)
@@ -312,10 +310,10 @@ export interface SubscriptionPolicies {
 
 // @public
 export interface Subscriptions {
-    checkZonePeers(parameters: CheckZonePeersRequest, options?: SubscriptionsCheckZonePeersOptionalParams): Promise<SubscriptionsCheckZonePeersResponse>;
-    get(options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
+    checkZonePeers(subscriptionId: string, parameters: CheckZonePeersRequest, options?: SubscriptionsCheckZonePeersOptionalParams): Promise<SubscriptionsCheckZonePeersResponse>;
+    get(subscriptionId: string, options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
     list(options?: SubscriptionsListOptionalParams): PagedAsyncIterableIterator<Subscription>;
-    listLocations(options?: SubscriptionsListLocationsOptionalParams): PagedAsyncIterableIterator<Location_2>;
+    listLocations(subscriptionId: string, options?: SubscriptionsListLocationsOptionalParams): PagedAsyncIterableIterator<Location_2>;
 }
 
 // @public

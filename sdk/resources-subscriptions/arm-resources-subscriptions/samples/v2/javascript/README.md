@@ -42,19 +42,19 @@ node checkResourceNameSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID="<resources-subscriptions subscription id>" node checkResourceNameSample.js
+npx cross-env  node checkResourceNameSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[checkresourcenamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/checkResourceNameSample.js
-[subscriptionscheckzonepeerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/subscriptionsCheckZonePeersSample.js
-[subscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/subscriptionsGetSample.js
-[subscriptionslistlocationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/subscriptionsListLocationsSample.js
-[subscriptionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/subscriptionsListSample.js
-[tenantslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/javascript/tenantsListSample.js
+[checkresourcenamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/checkResourceNameSample.js
+[subscriptionscheckzonepeerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/subscriptionsCheckZonePeersSample.js
+[subscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/subscriptionsGetSample.js
+[subscriptionslistlocationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/subscriptionsListLocationsSample.js
+[subscriptionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/subscriptionsListSample.js
+[tenantslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/javascript/tenantsListSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resources-subscriptions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources-subscriptions/arm-resources-subscriptions/README.md

@@ -47,7 +47,7 @@ describe("Subscription test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new SubscriptionClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new SubscriptionClient(credential, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
@@ -59,7 +59,7 @@ describe("Subscription test", () => {
   });
 
   it("subscriptions get test", async function () {
-    const result = await client.subscriptions.get();
+    const result = await client.subscriptions.get(subscriptionId);
   });
 
   it("subscriptions list test", async function () {

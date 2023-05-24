@@ -21,11 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetTenants.json
  */
 async function getAllTenants() {
-  const subscriptionId =
-    process.env["RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new SubscriptionClient(credential, subscriptionId);
+  const client = new SubscriptionClient(credential);
   const resArray = new Array();
   for await (let item of client.tenants.list()) {
     resArray.push(item);

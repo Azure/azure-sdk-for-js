@@ -45,12 +45,14 @@ export class SubscriptionsImpl implements Subscriptions {
   /**
    * This operation provides all the locations that are available for resource providers; however, each
    * resource provider may support a subset of this list.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   public listLocations(
+    subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams
   ): PagedAsyncIterableIterator<Location> {
-    const iter = this.listLocationsPagingAll(options);
+    const iter = this.listLocationsPagingAll(subscriptionId, options);
     return {
       next() {
         return iter.next();
@@ -62,24 +64,29 @@ export class SubscriptionsImpl implements Subscriptions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listLocationsPagingPage(options, settings);
+        return this.listLocationsPagingPage(subscriptionId, options, settings);
       }
     };
   }
 
   private async *listLocationsPagingPage(
+    subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams,
     _settings?: PageSettings
   ): AsyncIterableIterator<Location[]> {
     let result: SubscriptionsListLocationsResponse;
-    result = await this._listLocations(options);
+    result = await this._listLocations(subscriptionId, options);
     yield result.value || [];
   }
 
   private async *listLocationsPagingAll(
+    subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams
   ): AsyncIterableIterator<Location> {
-    for await (const page of this.listLocationsPagingPage(options)) {
+    for await (const page of this.listLocationsPagingPage(
+      subscriptionId,
+      options
+    )) {
       yield* page;
     }
   }
@@ -141,25 +148,32 @@ export class SubscriptionsImpl implements Subscriptions {
   /**
    * This operation provides all the locations that are available for resource providers; however, each
    * resource provider may support a subset of this list.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   private _listLocations(
+    subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams
   ): Promise<SubscriptionsListLocationsResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { subscriptionId, options },
       listLocationsOperationSpec
     );
   }
 
   /**
    * Gets details about a specified subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     options?: SubscriptionsGetOptionalParams
   ): Promise<SubscriptionsGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -174,15 +188,17 @@ export class SubscriptionsImpl implements Subscriptions {
 
   /**
    * Compares a subscriptions logical zone mapping
+   * @param subscriptionId The ID of the target subscription.
    * @param parameters Parameters for checking zone peers.
    * @param options The options parameters.
    */
   checkZonePeers(
+    subscriptionId: string,
     parameters: CheckZonePeersRequest,
     options?: SubscriptionsCheckZonePeersOptionalParams
   ): Promise<SubscriptionsCheckZonePeersResponse> {
     return this.client.sendOperationRequest(
-      { parameters, options },
+      { subscriptionId, parameters, options },
       checkZonePeersOperationSpec
     );
   }

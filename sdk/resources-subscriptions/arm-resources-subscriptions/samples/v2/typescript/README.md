@@ -54,19 +54,19 @@ node dist/checkResourceNameSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RESOURCES-SUBSCRIPTIONS_SUBSCRIPTION_ID="<resources-subscriptions subscription id>" node dist/checkResourceNameSample.js
+npx cross-env  node dist/checkResourceNameSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[checkresourcenamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/checkResourceNameSample.ts
-[subscriptionscheckzonepeerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/subscriptionsCheckZonePeersSample.ts
-[subscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/subscriptionsGetSample.ts
-[subscriptionslistlocationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/subscriptionsListLocationsSample.ts
-[subscriptionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/subscriptionsListSample.ts
-[tenantslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v3/typescript/src/tenantsListSample.ts
+[checkresourcenamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/checkResourceNameSample.ts
+[subscriptionscheckzonepeerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/subscriptionsCheckZonePeersSample.ts
+[subscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/subscriptionsGetSample.ts
+[subscriptionslistlocationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/subscriptionsListLocationsSample.ts
+[subscriptionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/subscriptionsListSample.ts
+[tenantslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples/v2/typescript/src/tenantsListSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resources-subscriptions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources-subscriptions/arm-resources-subscriptions/README.md

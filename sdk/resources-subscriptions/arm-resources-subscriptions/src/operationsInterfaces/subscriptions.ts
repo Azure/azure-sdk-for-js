@@ -25,9 +25,11 @@ export interface Subscriptions {
   /**
    * This operation provides all the locations that are available for resource providers; however, each
    * resource provider may support a subset of this list.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   listLocations(
+    subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams
   ): PagedAsyncIterableIterator<Location>;
   /**
@@ -39,17 +41,21 @@ export interface Subscriptions {
   ): PagedAsyncIterableIterator<Subscription>;
   /**
    * Gets details about a specified subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     options?: SubscriptionsGetOptionalParams
   ): Promise<SubscriptionsGetResponse>;
   /**
    * Compares a subscriptions logical zone mapping
+   * @param subscriptionId The ID of the target subscription.
    * @param parameters Parameters for checking zone peers.
    * @param options The options parameters.
    */
   checkZonePeers(
+    subscriptionId: string,
     parameters: CheckZonePeersRequest,
     options?: SubscriptionsCheckZonePeersOptionalParams
   ): Promise<SubscriptionsCheckZonePeersResponse>;
