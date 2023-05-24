@@ -1,0 +1,17 @@
+{
+  "name": "@msinternal/typespec-template-dpg",
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "@typespec/compiler": "0.44.0",
+    "@azure-tools/typespec-ts": "https://bit.ly/3IMT45N",
+    "@azure-tools/rlc-common": "https://bit.ly/3MBxKSM",
+    "@typespec/openapi": "0.44.0",
+    "@typespec/rest": "0.44.0",
+    "@azure-tools/typespec-azure-core": "0.30.0",
+    "@azure-tools/typespec-client-generator-core": "0.30.0",
+    "@typespec/versioning": "0.44.0",
+    "@typespec/http": "0.44.0"
+  },
+  "private": true
+}

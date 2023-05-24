@@ -7,7 +7,7 @@ options:
     multiClient: false
     azureSdkForJs: false
     isModularLibrary: true
-    "emitter-output-dir": "{project-root}/sources/generated"
+    "emitter-output-dir": "{cwd}/sources/generated"
     packageDetails:
       name: "@azure/widget"
       description: "Widget Service"

@@ -39,6 +39,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "tsp compile --config \"./typespec\" ./typespec/main.tsp",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -124,15 +125,6 @@
     "ts-node": "^10.8.1",
     "typescript": "~5.0.0",
     "util": "^0.12.4",
-    "@typespec/compiler": "~0.44.0",
-    "@azure-tools/typespec-ts": "https://bit.ly/3IMT45N",
-    "@azure-tools/rlc-common": "https://bit.ly/3MBxKSM",
-    "@typespec/openapi": "0.44.0",
-    "@typespec/rest": "~0.44.0",
-    "@azure-tools/typespec-azure-core": "0.30.0",
-    "@azure-tools/typespec-client-generator-core": "0.30.0",
-    "@typespec/versioning": "0.44.0",
-    "@typespec/http": "~0.44.0",
     "@azure-tools/test-credential": "~1.0.0"
   },
   "dependencies": {
