@@ -134,9 +134,11 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -392,7 +394,7 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "active";
+export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
 export enum KnownRouterWorkerState {
@@ -426,6 +428,8 @@ export interface ListJobsOptions extends OperationOptions {
     jobStateSelector?: JobStateSelector;
     maxPageSize?: number;
     queueId?: string;
+    scheduledAfter?: Date;
+    scheduledBefore?: Date;
 }
 
 // @public
@@ -628,9 +632,11 @@ export interface RouterJob {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -646,7 +652,7 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created";
+export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
 
 // @public
 export interface RouterRule {
@@ -780,9 +786,11 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public

@@ -300,6 +300,13 @@ export interface RouterJob {
   tags?: { [propertyName: string]: any };
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /** Describes a condition that must be met against a set of labels for worker selection */
@@ -917,7 +924,11 @@ export type RouterJobStatus =
   | "closed"
   | "cancelled"
   | "classificationFailed"
-  | "created";
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation";
 /** Defines values for LabelOperator. */
 export type LabelOperator =
   | "equal"
@@ -938,6 +949,11 @@ export type JobStateSelector =
   | "closed"
   | "cancelled"
   | "classificationFailed"
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation"
   | "active";
 /** Defines values for WorkerStateSelector. */
 export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
@@ -1179,6 +1195,10 @@ export interface JobRouterListJobsOptionalParams
   channelId?: string;
   /** (Optional) If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /** Contains response data for the listJobs operation. */
