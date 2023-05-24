@@ -1,11 +1,10 @@
-import { ImportDeclaration, SourceFile } from "ts-morph";
+import { ImportDeclaration } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
 
 export async function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
-  customImports: ImportDeclaration[],
-  originalFile: SourceFile
+  customImports: ImportDeclaration[]
 ) {
   const { customDir, originalDir } = getCustomizationState();
   // const newFilesInCustom = await getNewCustomFiles(originalDir, customDir);

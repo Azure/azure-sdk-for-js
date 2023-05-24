@@ -202,11 +202,7 @@ export function mergeModuleDeclarations(
     originalVirtualSourceFile
   );
 
-  augmentImports(
-    originalDeclarationsMap.imports,
-    customVirtualSourceFile.getImportDeclarations(),
-    originalVirtualSourceFile
-  );
+  augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
 
   originalVirtualSourceFile.fixMissingImports();
   sortSourceFileContents(originalVirtualSourceFile);

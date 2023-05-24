@@ -1,8 +1,25 @@
 import { expect } from "chai";
 import { Context } from "mocha";
 import { WidgetServiceClient } from "../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
-import { createClient, startRecorder } from "./utils/recordedClient.js";
+import {
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
+
+const envSetupForPlayback: { [k: string]: string } = {
+  WIDGET_SERVICE_ENDPOINT: "https://myapp.azconfig.io",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+};
+
+// When the recorder observes the values of these environment variables in any
+// recorded HTTP request or response, it will replace them with the values they
+// are mapped to below.
+const recorderStartOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+};
 
 describe("WidgetServiceClient", () => {
   // Declare the client and recorder instances.  We will set them using the
@@ -14,15 +31,19 @@ describe("WidgetServiceClient", () => {
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
   beforeEach(async function (this: Context) {
+    const endpoint = assertEnvironmentVariable("WIDGET_SERVICE_ENDPOINT");
+
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
     recorder = new Recorder(this.currentTest);
-    recorder = await startRecorder(this.currentTest);
+
+    // Start the recorder before each test.
+    await recorder.start({ envSetupForPlayback });
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createClient({ recorder });
+    client = new WidgetServiceClient(endpoint, recorder.configureClientOptions({}));
   });
 
   // After each test, we need to stop the recording.
