@@ -35,18 +35,18 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListWidgets {
   /**
-   *      * List all widgets in the system. This operation is not paginated, and returns a simple array of widgets.
-   *      *
-   *      * It does not accept any options or parameters.
+   * List all widgets in the system. This operation is not paginated, and returns a simple array of widgets.
+   *
+   * It does not accept any options or parameters.
    */
   get(
     options?: ListWidgetsParameters
   ): StreamableMethod<ListWidgets200Response | ListWidgetsDefaultResponse>;
   /**
-   *      * Create a new widget.
-   *      *
-   *      * The widget ID is not required during creation, as it is automatically set by the server. Providing an ID will
-   *      * result in an error.
+   * Create a new widget.
+   *
+   * The widget ID is not required during creation, as it is automatically set by the server. Providing an ID will
+   * result in an error.
    */
   post(
     options?: CreateWidgetParameters
@@ -59,8 +59,8 @@ export interface GetWidget {
     options?: GetWidgetParameters
   ): StreamableMethod<GetWidget200Response | GetWidgetDefaultResponse>;
   /**
-   *      * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
-   *      * are optional and will be updated within the widget if provided.
+   * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
+   * are optional and will be updated within the widget if provided.
    */
   patch(
     options?: UpdateWidgetParameters

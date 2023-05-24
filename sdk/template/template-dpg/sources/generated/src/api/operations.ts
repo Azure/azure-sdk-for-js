@@ -51,9 +51,9 @@ export async function _listWidgetsDeserialize(
 }
 
 /**
- *      * List all widgets in the system. This operation is not paginated, and returns a simple array of widgets.
- *      *
- *      * It does not accept any options or parameters.
+ * List all widgets in the system. This operation is not paginated, and returns a simple array of widgets.
+ *
+ * It does not accept any options or parameters.
  */
 export async function listWidgets(
   context: Client,
@@ -136,10 +136,10 @@ export async function _createWidgetDeserialize(
 }
 
 /**
- *      * Create a new widget.
- *      *
- *      * The widget ID is not required during creation, as it is automatically set by the server. Providing an ID will
- *      * result in an error.
+ * Create a new widget.
+ *
+ * The widget ID is not required during creation, as it is automatically set by the server. Providing an ID will
+ * result in an error.
  */
 export async function createWidget(
   context: Client,
@@ -188,8 +188,8 @@ export async function _updateWidgetDeserialize(
 }
 
 /**
- *      * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
- *      * are optional and will be updated within the widget if provided.
+ * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
+ * are optional and will be updated within the widget if provided.
  */
 export async function updateWidget(
   context: Client,
