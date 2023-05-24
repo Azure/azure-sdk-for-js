@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import { SourceFile, TypeAliasDeclaration } from "ts-morph";
 
 export function augmentTypeAliases(

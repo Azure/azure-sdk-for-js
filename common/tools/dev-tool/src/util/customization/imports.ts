@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import { ImportDeclaration } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
@@ -10,7 +13,7 @@ export async function augmentImports(
   // const newFilesInCustom = await getNewCustomFiles(originalDir, customDir);
   const importMap: Map<string, ImportDeclaration> = new Map();
 
-  for (const [_key, value] of originalImports) {
+  for (const [, value] of originalImports) {
     const module = value.getModuleSpecifier().getText();
     importMap.set(module, value);
   }

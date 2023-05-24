@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import * as fs from "fs-extra";
 import * as path from "path";
 import {
@@ -13,11 +16,13 @@ import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
 import { augmentInterfaces } from "./interfaces";
 import { sortSourceFileContents } from "./helpers/preformat";
-import { resolveProject } from "../resolveProject";
+import { resolveProject, resolveRoot } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
 import { setCustomizationState, resetCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
+
+import * as prettier from "prettier";
 
 let outputProject = new Project();
 let _originalFolderName = "generated";
@@ -73,7 +78,13 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  return fs.writeFile(filepath, content);
+  const root = await resolveRoot();
+  const prettierOptions = await import(path.join(root, ".prettierrc.json"));
+  const formattedContent = prettier.format(content, {
+    ...(prettierOptions.default as prettier.Options),
+    parser: "typescript",
+  });
+  return fs.writeFile(filepath, formattedContent);
 }
 
 export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclarationsMap {
@@ -211,13 +222,13 @@ export function mergeModuleDeclarations(
 }
 
 function isGeneratedImport(importDeclaration: ImportDeclaration) {
-  const regex = new RegExp(`^\.\.\/(?:\.\.\/)*${_originalFolderName}(?:\/.*)?$`);
+  const regex = new RegExp(`^../(?:../)*${_originalFolderName}(?:/.*)?$`);
 
   return regex.test(importDeclaration.getModuleSpecifierValue());
 }
 
 function transformGeneratedImport(moduleSpecifier: string) {
-  const regex = new RegExp(`^(\.\.\/)+(?:\.\.\/)*${_originalFolderName}(?:\/(.*))?$`);
+  const regex = new RegExp(`^(../)+(?:../)*${_originalFolderName}(?:/(.*))?$`);
   return moduleSpecifier.replace(regex, "./$2");
 }
 

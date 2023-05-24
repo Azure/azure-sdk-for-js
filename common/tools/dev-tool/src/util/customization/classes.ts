@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import {
   ClassDeclaration,
   SourceFile,
@@ -238,7 +241,9 @@ function addConstructorsToClass(
     );
   } else {
     originalConstructor?.remove();
-    originalClass.addConstructor(customConstructor.getStructure()  as ConstructorDeclarationStructure);
+    originalClass.addConstructor(
+      customConstructor.getStructure() as ConstructorDeclarationStructure
+    );
   }
 }
 
@@ -247,13 +252,10 @@ export function addMethodToClass(
   classDeclaration: ClassDeclaration,
   { comments, jsdoc }: Comments = {}
 ) {
-
   // We need to replace the augmentation call with the private method call
   if (isAugmentingMethod(customMethod) && !isOverload(customMethod.getStructure())) {
     const regex = new RegExp(`this\\.${AUGMENT_CLASS_TOKEN}\\.`, "g");
-    const modifiedMethodContent = customMethod
-      .getBodyText()
-      ?.replace(regex, `this._`);
+    const modifiedMethodContent = customMethod.getBodyText()?.replace(regex, `this._`);
     modifiedMethodContent && customMethod.setBodyText(modifiedMethodContent);
   }
 

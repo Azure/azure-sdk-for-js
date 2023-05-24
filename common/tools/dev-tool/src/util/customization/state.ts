@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 let customizationState: CustomizationState = {
   originalDir: "",
   customDir: "",

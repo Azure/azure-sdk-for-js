@@ -1,19 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WidgetServiceContext as Client, isUnexpected } from "../rest/index.js";
 import {
-  OperationRawReturnType,
-  RequestOptions,
-} from "../common/interfaces.js";
+  WidgetServiceContext as Client,
+  isUnexpected,
+  AnalyzeWidget200Response,
+  AnalyzeWidgetDefaultResponse,
+  CreateWidget201Response,
+  CreateWidgetDefaultResponse,
+  DeleteWidget204Response,
+  DeleteWidgetDefaultResponse,
+  GetWidget200Response,
+  GetWidgetDefaultResponse,
+  ListWidgets200Response,
+  ListWidgetsDefaultResponse,
+  UpdateWidget200Response,
+  UpdateWidgetDefaultResponse,
+} from "../rest/index.js";
+import { StreamableMethod } from "@azure-rest/core-client";
 import { Widget, ColorType, AnalyzeResult } from "./models.js";
+import { RequestOptions } from "../common/interfaces.js";
 
 export interface ListWidgetsOptions extends RequestOptions {}
 
 export function _listWidgetsSend(
   context: Client,
   options: ListWidgetsOptions = { requestOptions: {} }
-) {
+): StreamableMethod<ListWidgets200Response | ListWidgetsDefaultResponse> {
   return context
     .path("/widgets")
     .get({
@@ -24,7 +37,7 @@ export function _listWidgetsSend(
 }
 
 export async function _listWidgetsDeserialize(
-  result: OperationRawReturnType<typeof _listWidgetsSend>
+  result: ListWidgets200Response | ListWidgetsDefaultResponse
 ): Promise<Widget[]> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -56,7 +69,7 @@ export function _getWidgetSend(
   context: Client,
   id: string,
   options: GetWidgetOptions = { requestOptions: {} }
-) {
+): StreamableMethod<GetWidget200Response | GetWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
     .get({
@@ -67,7 +80,7 @@ export function _getWidgetSend(
 }
 
 export async function _getWidgetDeserialize(
-  result: OperationRawReturnType<typeof _getWidgetSend>
+  result: GetWidget200Response | GetWidgetDefaultResponse
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -97,7 +110,7 @@ export function _createWidgetSend(
   weight: number,
   color: ColorType,
   options: CreateWidgetOptions = { requestOptions: {} }
-) {
+): StreamableMethod<CreateWidget201Response | CreateWidgetDefaultResponse> {
   return context
     .path("/widgets")
     .post({
@@ -109,7 +122,7 @@ export function _createWidgetSend(
 }
 
 export async function _createWidgetDeserialize(
-  result: OperationRawReturnType<typeof _createWidgetSend>
+  result: CreateWidget201Response | CreateWidgetDefaultResponse
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -149,7 +162,7 @@ export function _updateWidgetSend(
   context: Client,
   id: string,
   options: UpdateWidgetOptions = { requestOptions: {} }
-) {
+): StreamableMethod<UpdateWidget200Response | UpdateWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
     .patch({
@@ -161,7 +174,7 @@ export function _updateWidgetSend(
 }
 
 export async function _updateWidgetDeserialize(
-  result: OperationRawReturnType<typeof _updateWidgetSend>
+  result: UpdateWidget200Response | UpdateWidgetDefaultResponse
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -193,7 +206,7 @@ export function _deleteWidgetSend(
   context: Client,
   id: string,
   options: DeleteWidgetOptions = { requestOptions: {} }
-) {
+): StreamableMethod<DeleteWidget204Response | DeleteWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}", id)
     .delete({
@@ -204,7 +217,7 @@ export function _deleteWidgetSend(
 }
 
 export async function _deleteWidgetDeserialize(
-  result: OperationRawReturnType<typeof _deleteWidgetSend>
+  result: DeleteWidget204Response | DeleteWidgetDefaultResponse
 ): Promise<void> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -229,7 +242,7 @@ export function _analyzeWidgetSend(
   context: Client,
   id: string,
   options: AnalyzeWidgetOptions = { requestOptions: {} }
-) {
+): StreamableMethod<AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse> {
   return context
     .path("/widgets/{id}/analyze", id)
     .post({
@@ -240,7 +253,7 @@ export function _analyzeWidgetSend(
 }
 
 export async function _analyzeWidgetDeserialize(
-  result: OperationRawReturnType<typeof _analyzeWidgetSend>
+  result: AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse
 ): Promise<AnalyzeResult> {
   if (isUnexpected(result)) {
     throw result.body;

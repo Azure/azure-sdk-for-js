@@ -25,13 +25,14 @@ export default function createClient(
   credentialOrOptions?: TokenCredential | ClientOptions,
   options: ClientOptions = {}
 ): WidgetServiceContext {
-  const client = _createClient(endpoint, options);
   let credential: TokenCredential | undefined;
   if (isTokenCredential(credentialOrOptions)) {
     credential = credentialOrOptions;
   } else {
     options = credentialOrOptions ?? {};
   }
+
+  const client = _createClient(endpoint, options);
 
   addCredentialPipelinePolicy(client.pipeline, endpoint, credential, options);
   return client;

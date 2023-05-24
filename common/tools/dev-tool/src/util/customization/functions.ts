@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import { FunctionDeclaration, SourceFile } from "ts-morph";
 import { isOverload } from "./helpers/overloads";
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * The customizations in this file will be applied on top of the generated file with the same
  * name and the merged result will be written to the src directory.

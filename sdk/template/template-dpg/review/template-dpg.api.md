@@ -4,8 +4,7 @@
 
 ```ts
 
-import { ClientOptions as ClientOptions_2 } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -20,23 +19,7 @@ export interface AnalyzeWidgetOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface ClientOptions extends ClientOptions_2 {
-}
-
-// @public (undocumented)
 export type ColorType = "red" | "blue";
-
-// @public (undocumented)
-export interface CreateWidget {
-    color: ColorType;
-    weight: number;
-}
-
-// @public (undocumented)
-export interface CreateWidget {
-    color: ColorType;
-    weight: number;
-}
 
 // @public (undocumented)
 export interface CreateWidgetOptions extends RequestOptions {
@@ -61,21 +44,7 @@ export interface RequestOptions {
         headers?: RawHttpHeadersInput;
         allowInsecureConnection?: boolean;
         skipUrlEncoding?: boolean;
-        onResponse?: (response: HttpResponse) => void;
     };
-}
-
-// @public (undocumented)
-export interface UpdateWidget {
-    color?: ColorType;
-    id: string;
-    weight?: number;
-}
-
-// @public (undocumented)
-export interface UpdateWidget {
-    color?: ColorType;
-    weight?: number;
 }
 
 // @public (undocumented)
@@ -92,27 +61,19 @@ export interface Widget {
 }
 
 // @public (undocumented)
-export interface WidgetError {
-    code: number;
-    message: string;
+export class WidgetServiceClient {
+    constructor(endpoint: string, options?: WidgetServiceClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: WidgetServiceClientOptions);
+    analyzeWidget(id: string, options?: AnalyzeWidgetOptions): Promise<AnalyzeResult>;
+    createWidget(weight: number, color: ColorType, options?: CreateWidgetOptions): Promise<Widget>;
+    deleteWidget(id: string, options?: DeleteWidgetOptions): Promise<void>;
+    getWidget(id: string, options?: GetWidgetOptions): Promise<Widget>;
+    listWidgets(options?: ListWidgetsOptions): Promise<Widget[]>;
+    updateWidget(id: string, options?: UpdateWidgetOptions): Promise<Widget>;
 }
 
 // @public (undocumented)
-export class WidgetServiceClient {
-    constructor(endpoint: string, options?: ClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: ClientOptions);
-    // (undocumented)
-    analyzeWidget(id: string, options?: AnalyzeWidgetOptions): Promise<AnalyzeResult>;
-    // (undocumented)
-    createWidget(weight: number, color: ColorType, options?: CreateWidgetOptions): Promise<Widget>;
-    // (undocumented)
-    deleteWidget(id: string, options?: DeleteWidgetOptions): Promise<void>;
-    // (undocumented)
-    getWidget(id: string, options?: GetWidgetOptions): Promise<Widget>;
-    // (undocumented)
-    listWidgets(options?: ListWidgetsOptions): Promise<Widget[]>;
-    // (undocumented)
-    updateWidget(id: string, options?: UpdateWidgetOptions): Promise<Widget>;
+export interface WidgetServiceClientOptions extends ClientOptions {
 }
 
 // (No @packageDocumentation comment for this package)

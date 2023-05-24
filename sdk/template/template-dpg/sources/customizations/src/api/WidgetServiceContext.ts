@@ -26,7 +26,7 @@ export function createWidgetService(
   const baseUrl = endpoint;
   if (isTokenCredential(credentialOrOptions)) {
     return getClient(baseUrl, credentialOrOptions, options);
+  } else {
+    return getClient(baseUrl, credentialOrOptions);
   }
-
-  return getClient(baseUrl, credentialOrOptions);
 }

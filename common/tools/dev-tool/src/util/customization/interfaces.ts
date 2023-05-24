@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import { InterfaceDeclaration, SourceFile } from "ts-morph";
 import { getAnnotation } from "./helpers/annotations";
 
