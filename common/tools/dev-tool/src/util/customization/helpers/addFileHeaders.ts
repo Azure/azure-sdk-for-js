@@ -11,7 +11,7 @@ const generatedCodeNotice = `
  * 
  * Any changes you make here may be lost.
  * 
- * If you need to make changes, please do so in the original source file, {project-root}/sources/custom
+ * If you need to make changes, please do so in the original source file, \\{project-root\\}/sources/custom
  */`;
 
 // This function will add the headers if they are not present

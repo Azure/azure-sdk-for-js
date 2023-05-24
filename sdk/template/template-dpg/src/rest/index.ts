@@ -6,7 +6,7 @@
  *
  * Any changes you make here may be lost.
  *
- * If you need to make changes, please do so in the original source file, {project-root}/sources/custom
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
 import WidgetServiceClient from "./widgetServiceClient.js";
