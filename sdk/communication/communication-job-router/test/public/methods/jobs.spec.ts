@@ -84,14 +84,18 @@ describe("RouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {...jobRequest, scheduledTimeUtc: new Date(scheduledTime), unavailableForMatching: true};
+      const scheduledJob: RouterJob = {
+        ...jobRequest,
+        scheduledTimeUtc: new Date(scheduledTime),
+        unavailableForMatching: true,
+      };
       const result = await client.createJob(jobId, scheduledJob);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
       assert.equal(result.id, jobId);
       assert.isDefined(result.scheduledTimeUtc);
-      assert.equal(result.scheduledTimeUtc?.toISOString(), scheduledTime );
+      assert.equal(result.scheduledTimeUtc?.toISOString(), scheduledTime);
     }).timeout(timeoutMs);
 
     it("should get a job", async function () {
@@ -153,11 +157,18 @@ describe("RouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {...jobRequest, scheduledTimeUtc: new Date(scheduledTime), unavailableForMatching: true};
+      const scheduledJob: RouterJob = {
+        ...jobRequest,
+        scheduledTimeUtc: new Date(scheduledTime),
+        unavailableForMatching: true,
+      };
       await client.createJob(jobId, scheduledJob);
 
       const result: RouterJob[] = [];
-      for await (const job of client.listJobs({ maxPageSize: 20, scheduledBefore: new Date(scheduledTime) })) {
+      for await (const job of client.listJobs({
+        maxPageSize: 20,
+        scheduledBefore: new Date(scheduledTime),
+      })) {
         result.push(job.routerJob!);
       }
 
