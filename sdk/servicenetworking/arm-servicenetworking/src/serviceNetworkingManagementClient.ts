@@ -113,7 +113,7 @@ export class ServiceNetworkingManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01-preview";
     this.operations = new OperationsImpl(this);
     this.trafficControllerInterface = new TrafficControllerInterfaceImpl(this);
     this.associationsInterface = new AssociationsInterfaceImpl(this);

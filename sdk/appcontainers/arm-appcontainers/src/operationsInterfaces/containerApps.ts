@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ContainerApp,
   ContainerAppsListBySubscriptionOptionalParams,
@@ -18,6 +18,7 @@ import {
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
   ContainerAppsUpdateOptionalParams,
+  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
@@ -69,8 +70,8 @@ export interface ContainerApps {
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerAppsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainerAppsCreateOrUpdateResponse>,
       ContainerAppsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +98,7 @@ export interface ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +122,12 @@ export interface ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsUpdateResponse>,
+      ContainerAppsUpdateResponse
+    >
+  >;
   /**
    * Patches a Container App using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,7 +140,7 @@ export interface ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<void>;
+  ): Promise<ContainerAppsUpdateResponse>;
   /**
    * Analyzes a custom hostname for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
