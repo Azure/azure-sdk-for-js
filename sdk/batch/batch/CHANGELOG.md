@@ -4,16 +4,17 @@
 
 ### Breaking Changes
 
-- Job/Pool lifetime statistics removal
+- Job/Pool lifetime statistics removal.
   - `client.pool.getAllLifetimeStatistics()` and `client.job.getAllLifetimeStatistics()` methods are removed.
 
 ### Features
 
-- Added new boolean property `enableAcceleratedNetworking` to type `NetworkConfiguration`
+- Added new boolean property `enableAcceleratedNetworking` to type `NetworkConfiguration`.
   - This property determines whether to create a pool with VMSS [accelerated networking enabled](https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview).
   - Default to be `false`.
-- Added new boolean property `enableAutomaticUpgrade` to type `VMExtension`
+- Added new boolean property `enableAutomaticUpgrade` to type `VMExtension`.
   - Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.
+- Add a new enum `CriCompatible` to type `ContainerType`.
 
 ## 10.2.0 (2022-10-01)
 
