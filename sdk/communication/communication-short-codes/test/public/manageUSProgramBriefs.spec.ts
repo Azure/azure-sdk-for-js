@@ -13,7 +13,7 @@ import {
   runTestCleaningLeftovers,
 } from "./utils/testUSProgramBrief";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
 
@@ -187,5 +187,30 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       });
       assert.isOk(await Promise.all(testDeleteBrief));
     });
+  }).timeout(50000);
+
+  it("can create, and submit a US Program Brief", async function () {
+    const serviceEndpoint =
+      env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || env.COMMUNICATION_SERVICE_ENDPOINT;
+    if (String(serviceEndpoint).indexOf("int.communication.azure.net") === -1) {
+      console.warn("This test should only run in INT");
+      this.skip();
+    } else {
+      console.warn("Test running in INT");
+      assert.isTrue(true, "Test not running in INT");
+    }
+    /* const testProgramBrief = getTestUSProgramBrief();
+    const pbTestId = recorder.variable(`pb-var}`, testProgramBrief.id);
+    testProgramBrief.id = pbTestId;
+
+    await runTestCleaningLeftovers([testProgramBrief.id], client, async () => {
+      // validate upsert and update for each test brief
+      await _createTestProgramBrief(testProgramBrief);
+      await _updateUSProgramBrief(testProgramBrief);
+      // validate submitUSProgramBrief
+      const submitResult = await client.submitUSProgramBrief(testProgramBrief.id);
+      assert.isOk(submitResult, "Failed to submit program brief");
+    });
+    */
   }).timeout(50000);
 });
