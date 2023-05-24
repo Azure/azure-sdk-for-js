@@ -34,6 +34,6 @@ export default function createClient(
 
   const client = _createClient(endpoint, options);
 
-  addCredentialPipelinePolicy(client.pipeline, endpoint, credential, options);
+  addCredentialPipelinePolicy(client.pipeline, endpoint, { credential, clientOptions: options });
   return client;
 }

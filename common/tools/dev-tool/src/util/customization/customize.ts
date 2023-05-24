@@ -16,6 +16,7 @@ import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
 import { augmentInterfaces } from "./interfaces";
 import { sortSourceFileContents } from "./helpers/preformat";
+import { addHeaderToFiles } from "./helpers/addFileHeaders";
 import { resolveProject, resolveRoot } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
 import { setCustomizationState, resetCustomizationState } from "./state";
@@ -50,6 +51,9 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   });
   // Merge the module declarations for all files in the custom directory and its subdirectories
   await processDirectory(customDir, outDir);
+
+  // Add file headers
+  await addHeaderToFiles(path.join(outDir, "src"));
 
   // reset the state at the end.
   resetCustomizationState();

@@ -18,8 +18,14 @@ import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): void;
+// @public
+export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+
+// @public
+export interface AddCredentialPipelinePolicyOptions {
+    clientOptions?: ClientOptions;
+    credential?: TokenCredential | KeyCredential;
+}
 
 // @public
 export interface AdditionalPolicyConfig {
