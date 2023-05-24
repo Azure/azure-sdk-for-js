@@ -8,9 +8,14 @@ export function augmentTypeAliases(
   customAliases: TypeAliasDeclaration[],
   originalFile: SourceFile
 ) {
-  for (const customInterface of customAliases) {
-    const originalAlias = originalAliases.get(customInterface.getName() ?? "");
-    augmentTypeAlias(customInterface, originalAlias, originalFile);
+  for (const customAlias of customAliases) {
+    const aliasName = customAlias.getName();
+    if (!aliasName) {
+      const aliasStructure = customAlias.getStructure();
+      throw new Error(`Alias doesn't have a name\n${JSON.stringify(aliasStructure)}`);
+    }
+    const originalAlias = originalAliases.get(customAlias.getName() ?? "");
+    augmentTypeAlias(customAlias, originalAlias, originalFile);
   }
 }
 

@@ -108,18 +108,12 @@ export function isAugmentingConstructor(
   customConstructor: ConstructorDeclaration,
   originalConstructor?: ConstructorDeclaration
 ): boolean {
-  const customConstructorContent = customConstructor.getBody()?.getFullText();
-
   if (!originalConstructor) {
     // If there is no original constructor, we'll just copy the custom one
     return false;
   }
 
-  if (customConstructorContent?.includes(`@azsdk-constructor`)) {
-    return true;
-  }
-
-  return false;
+  return Boolean(customConstructor.getBody()?.getFullText().includes(`@azsdk-constructor`));
 }
 
 export function getConstructorAugmentationParameters(
@@ -149,13 +143,7 @@ export function getConstructorAugmentationParameters(
 }
 
 export function isAugmentingMethod(customMethod: MethodDeclaration): boolean {
-  const customMethodContent = customMethod.getBody()?.getFullText();
-
-  if (customMethodContent?.includes(`this.${AUGMENT_CLASS_TOKEN}`)) {
-    return true;
-  }
-
-  return false;
+  return Boolean(customMethod.getBody()?.getFullText()?.includes(`this.${AUGMENT_CLASS_TOKEN}`));
 }
 
 export function convertToPrivateMethod(
