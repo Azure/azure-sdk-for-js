@@ -15,7 +15,7 @@ import {
 } from "ts-morph";
 import { isOverload } from "./helpers/overloads";
 
-const AUGMENT_CLASS_TOKEN = "___";
+export const AUGMENT_CLASS_TOKEN = "___";
 
 export function augmentClass(
   originalClassDeclaration: ClassDeclaration | undefined,
@@ -70,13 +70,12 @@ export function augmentClass(
   }
 }
 
-function augmentConstructor(
+export function augmentConstructor(
   customConstructor: ConstructorDeclaration,
   originalConstructor: ConstructorDeclaration | undefined,
   originalClassDeclaration: ClassDeclaration
 ) {
   const constructorComments = getComments(customConstructor, originalConstructor);
-  // Original class didn't have an overload, adding the custom one.
   addConstructorsToClass(customConstructor, originalClassDeclaration, constructorComments);
 }
 
@@ -105,7 +104,7 @@ export function augmentMethod(
   }
 }
 
-function isAugmentingConstructor(
+export function isAugmentingConstructor(
   customConstructor: ConstructorDeclaration,
   originalConstructor?: ConstructorDeclaration
 ): boolean {
@@ -123,15 +122,7 @@ function isAugmentingConstructor(
   return false;
 }
 
-// function checkConstructorAugmentation(originalConstructor: ConstructorDeclaration, customConstructor: ConstructorDeclaration) {
-//   const parameters = originalConstructor.getParameters();
-//   if (!parameters.length) {
-//     return true;
-//   }
-
-// }
-
-function getConstructorAugmentationParameters(
+export function getConstructorAugmentationParameters(
   customConstructor: ConstructorDeclaration,
   originalParameters?: ParameterDeclaration[]
 ): Map<string, string> {
@@ -157,7 +148,7 @@ function getConstructorAugmentationParameters(
   return expectedAugmentationParams;
 }
 
-function isAugmentingMethod(customMethod: MethodDeclaration): boolean {
+export function isAugmentingMethod(customMethod: MethodDeclaration): boolean {
   const customMethodContent = customMethod.getBody()?.getFullText();
 
   if (customMethodContent?.includes(`this.${AUGMENT_CLASS_TOKEN}`)) {
@@ -192,7 +183,7 @@ export function convertToPrivateMethod(
   originalMethod.remove();
 }
 
-function addConstructorsToClass(
+export function addConstructorsToClass(
   customConstructor: ConstructorDeclaration,
   originalClass: ClassDeclaration,
   _comments: Comments = {}
@@ -297,7 +288,7 @@ interface WithCommentGetter {
   getJsDocs(): JSDoc[];
 }
 
-function getComments(
+export function getComments(
   customClass: WithCommentGetter,
   originalClass?: WithCommentGetter | undefined
 ): Comments {
@@ -323,7 +314,7 @@ function getComments(
   };
 }
 
-function addPropertyToClass(
+export function addPropertyToClass(
   property: PropertyDeclaration,
   classDeclaration: ClassDeclaration,
   { comments, jsdoc }: Comments = {}
@@ -340,7 +331,7 @@ function addPropertyToClass(
   });
 }
 
-function addClass(
+export function addClass(
   classDeclaration: ClassDeclaration,
   targetFile: SourceFile,
   { comments, jsdoc }: Comments = {}
