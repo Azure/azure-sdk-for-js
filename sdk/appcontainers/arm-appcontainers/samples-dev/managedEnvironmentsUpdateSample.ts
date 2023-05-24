@@ -13,16 +13,22 @@ import {
   ContainerAppsAPIClient
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Patches a Managed Environment using JSON Merge Patch
  *
  * @summary Patches a Managed Environment using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ManagedEnvironments_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ManagedEnvironments_Patch.json
  */
 async function patchManagedEnvironment() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const environmentName = "testcontainerenv";
   const environmentEnvelope: ManagedEnvironment = {
     location: "East US",
@@ -38,4 +44,8 @@ async function patchManagedEnvironment() {
   console.log(result);
 }
 
-patchManagedEnvironment().catch(console.error);
+async function main() {
+  patchManagedEnvironment();
+}
+
+main().catch(console.error);
