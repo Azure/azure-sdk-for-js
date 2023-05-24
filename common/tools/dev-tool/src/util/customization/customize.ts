@@ -83,9 +83,10 @@ export async function readFileContent(filepath: string): Promise<string> {
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
   const root = await resolveRoot();
-  const prettierOptions = await import(path.join(root, ".prettierrc.json"));
+  const prettierOptions: prettier.Options = (await import(path.join(root, ".prettierrc.json")))
+    .default;
   const formattedContent = prettier.format(content, {
-    ...(prettierOptions.default as prettier.Options),
+    ...prettierOptions,
     parser: "typescript",
   });
   return fs.writeFile(filepath, formattedContent);
