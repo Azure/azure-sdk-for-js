@@ -25,16 +25,29 @@ describe("README samples", () => {
   });
 
   it("Generate Chatbot Response", async function () {
-    const deploymentName = "text-davinci-003";
-    const prompt = ["What is Azure OpenAI?"];
-    console.log(`Input: ${prompt}`);
+    const deploymentId = "gpt-35-turbo";
 
-    const { choices } = await client.getCompletions(deploymentName, prompt);
-    const completion = choices[0].text;
-    console.log(`Chatbot: ${completion}`);
+    const messages = [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ];
+
+    console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
+
+    const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+    for await (const event of events) {
+      for (const choice of event.choices) {
+        const delta = choice.delta?.content;
+        if (delta !== undefined) {
+          console.log(`Chatbot: ${delta}`);
+        }
+      }
+    }
   });
 
-  it("Generate Multiple Chatbot Responses", async function () {
+  it("Generate Multiple Completions", async function () {
     const examplePrompts = [
       "How are you today?",
       "What is Azure OpenAI?",
@@ -46,7 +59,9 @@ describe("README samples", () => {
     const deploymentName = "text-davinci-003";
 
     let promptIndex = 0;
-    const { choices } = await client.getCompletions(deploymentName, examplePrompts);
+    const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
+      maxTokens: 64,
+    });
     for (const choice of choices) {
       const completion = choice.text;
       console.log(`Input: ${examplePrompts[promptIndex++]}`);

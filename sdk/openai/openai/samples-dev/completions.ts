@@ -25,7 +25,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
-  const result = await client.getCompletions(deploymentId, prompt);
+  const result = await client.getCompletions(deploymentId, prompt, { maxTokens: 128 });
 
   for (const choice of result.choices) {
     console.log(choice.text);

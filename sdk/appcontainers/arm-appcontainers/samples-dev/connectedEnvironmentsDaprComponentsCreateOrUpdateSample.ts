@@ -13,16 +13,22 @@ import {
   ContainerAppsAPIClient
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a Dapr Component in a connected environment.
  *
  * @summary Creates or updates a Dapr Component in a connected environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
  */
 async function createOrUpdateDaprComponent() {
-  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const connectedEnvironmentName = "myenvironment";
   const componentName = "reddog";
   const daprComponentEnvelope: DaprComponent = {
@@ -50,4 +56,8 @@ async function createOrUpdateDaprComponent() {
   console.log(result);
 }
 
-createOrUpdateDaprComponent().catch(console.error);
+async function main() {
+  createOrUpdateDaprComponent();
+}
+
+main().catch(console.error);

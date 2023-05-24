@@ -25,7 +25,7 @@ export async function main() {
 
   const client = new OpenAIClient(new OpenAIKeyCredential(openApiKey));
   const model = "text-davinci-003";
-  const result = await client.getCompletions(model, prompt);
+  const result = await client.getCompletions(model, prompt, { maxTokens: 128 });
 
   for (const choice of result.choices) {
     console.log(choice.text);
