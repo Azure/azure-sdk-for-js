@@ -11,10 +11,10 @@ param testApplicationId string
 param dnsLabelPrefix string = baseName
 
 @description('Address Prefix')
-param vnetAddressPrefix string = '10.0.0.0/12'
+param vnetAddressPrefix string = '10.0.0.0/16'
 
 @description('Subnet prefix')
-param subnetPrefix string = '10.0.0.0/36'
+param subnetPrefix string = '10.0.0.0/24'
 
 @description('Type of public IP address')
 @allowed([

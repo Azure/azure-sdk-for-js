@@ -10,5 +10,5 @@ matrix:
       image: Dockerfile
   scenarios:
     test:
-      testTarget: test
+      testTarget: networkListTest
       memory: "1.5Gi"
