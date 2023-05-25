@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added more values to enum class: `KnownHealthcareEntityCategory` and `KnownRelationType`.
+
 ### Breaking Changes
 
 > These changes do not impact the API of stable versions such as 1.0.0
