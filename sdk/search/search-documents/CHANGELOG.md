@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
+
 ### Other Changes
 
 ## 12.0.0-beta.1 (2023-05-09)
