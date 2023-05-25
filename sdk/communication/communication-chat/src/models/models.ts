@@ -71,7 +71,7 @@ export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
   /** The type of attachment. */
-  attachmentType: "teamsInlineImage";
+  attachmentType: AttachmentType;
   /** The type of content of the attachment, if available */
   contentType?: string;
   /** The name of the attachment content. */
@@ -123,3 +123,6 @@ export interface ListPageSettings {
    */
   continuationToken?: string;
 }
+
+/** Type of Supported Attachments. */
+export type AttachmentType = "teamsInlineImage" | "teamsImage" | "file";

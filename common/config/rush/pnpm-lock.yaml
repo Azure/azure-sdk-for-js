@@ -854,8 +854,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.17:
-    resolution: {integrity: sha512-vJejWxpVEbBoA+TpDDJyUQUx2PE7N9fZ9pZpbz9rE5396sEj9RPhbjP1NB1uM2mgECMzkcWs4Qwl+dRca7r29g==}
+  /@azure/communication-signaling/1.0.0-beta.18:
+    resolution: {integrity: sha512-hxW6w8pgVNpRZkAx0LMQYgpbV3Qk6UdCQtXNqJjEkOjxc1OR6F1/6zTJJfyldild6+aiNhpOkXUNJii9Ya75BQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.1
@@ -3999,7 +3999,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230410
+      typescript: 5.2.0-dev.20230524
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8862,9 +8862,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230410:
-    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
-    engines: {node: '>=12.20'}
+  /typescript/5.2.0-dev.20230524:
+    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -15736,12 +15736,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-7zOMxoCkIYd16gk/T/lxwnfWt8+DGZuI9vsdlacNFGYCR5BORnk/qo+9LgsIEFGKQ1O6fLJuZh7KrNQn3whEnQ==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-NOLTekFEKEsQsrhJjVUVrOZ4hfQc5psGALxDtNM+YpGqmCq9kQ3SI6QrRa5lRdAZ4Yy9HAQOxGvqcj9lwlOvPQ==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-common': 2.2.0
-      '@azure/communication-signaling': 1.0.0-beta.17
+      '@azure/communication-signaling': 1.0.0-beta.18
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2

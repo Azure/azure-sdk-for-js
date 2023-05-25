@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A1_rDv-O7sJh7jqmHnbLjvQIO4YKaEK_2DIQ1R5J_oNw1%40thread.v2/messages/1679101647816?api-version=2023-04-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3A2T-EEdoaQ_8M-udgYRhZSk71bdZZLdoVqRGktIR6Elg1%40thread.v2/messages/1684196190163?api-version=2023-07-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -13,45 +13,44 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "54b6a3f6-34a7-466a-95f3-2651f4142c5d",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.3 OS"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "eac62a12-9df5-49a1-ad6e-563cbf4dedec",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
-        "Connection": "keep-alive",
-        "Content-Length": "432",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
+        "Content-Length": "449",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 18 Mar 2023 01:07:29 GMT",
-        "MS-CV": "8ak2g3GVjkGfB/Q8K94nqg.0",
+        "Date": "Tue, 16 May 2023 00:16:29 GMT",
+        "MS-CV": "dH\u002BuAo83ikaHEGd2YkTqGQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230318T010729Z-97wqt9gd4p3k1at2n17xqsnatw000000023g00000000y9fa",
+        "X-Azure-Ref": "0XstiZAAAAACEba\u002BeMPxrTZanc\u002Bw23qATWVZSMzExMDAwMTE1MDM3AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "99ms"
+        "X-Processing-Time": "106ms"
       },
       "ResponseBody": {
-        "id": "1679101647816",
+        "id": "1684196190163",
         "type": "text",
         "sequenceId": "4",
-        "version": "1679101647816",
+        "version": "1684196190163",
         "content": {
-          "message": "content"
+          "message": "content",
+          "attachments": []
         },
         "senderDisplayName": "",
-        "createdOn": "2023-03-18T01:07:27Z",
+        "createdOn": "2023-05-16T00:16:30Z",
         "senderCommunicationIdentifier": {
-          "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-6771-92fd-8b3a0d006f05",
+          "rawId": "8:acs:356ba684-a8dc-4806-b39c-0fbf447c9b2e_00000018-c1cc-0601-1985-0948220023ce",
           "communicationUser": {
-            "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-6771-92fd-8b3a0d006f05"
+            "id": "8:acs:356ba684-a8dc-4806-b39c-0fbf447c9b2e_00000018-c1cc-0601-1985-0948220023ce"
           }
         },
         "metadata": {
