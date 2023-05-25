@@ -20,7 +20,7 @@ export interface CreateCallRequest {
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
-  sourceIdentity?: CommunicationIdentifierModel;
+  sourceIdentity?: CommunicationUserIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -102,6 +102,10 @@ export interface CallConnectionPropertiesInternal {
   sourceDisplayName?: string;
   /** Source identity. */
   sourceIdentity?: CommunicationIdentifierModel;
+  /** The correlation ID. */
+  correlationId?: string;
+  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The Communication Services error response */
@@ -123,12 +127,14 @@ export interface AnswerCallRequest {
   incomingCallContext: string;
   /** The callback uri. */
   callbackUri: string;
+  /** A customer set value used to track the answering of a call. */
+  operationContext?: string;
   /** Media Streaming Configuration. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
   azureCognitiveServicesEndpointUrl?: string;
-  /** The identifier of the contoso app which answers the call */
-  answeredByIdentifier?: CommunicationIdentifierModel;
+  /** The identifier of the call automation entity which answers the call */
+  answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -601,7 +607,7 @@ export interface RecordingStateChanged {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /**
    * The call recording id
@@ -621,11 +627,11 @@ export interface PlayCompleted {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -634,11 +640,11 @@ export interface PlayFailed {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -647,7 +653,7 @@ export interface PlayCanceled {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
@@ -658,11 +664,11 @@ export interface RecognizeCompleted {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /**
    * Determines the sub-type of the recognize operation.
@@ -716,11 +722,11 @@ export interface RecognizeFailed {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -729,7 +735,7 @@ export interface RecognizeCanceled {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
@@ -740,10 +746,12 @@ export interface ContinuousDtmfRecognitionToneFailed {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
 }
 
 export interface ContinuousDtmfRecognitionToneReceived {
@@ -755,8 +763,10 @@ export interface ContinuousDtmfRecognitionToneReceived {
   serverCallId?: string;
   /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
   correlationId?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
 }
 
 /** The information about the tone. */
@@ -764,8 +774,6 @@ export interface ToneInfo {
   /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
   sequenceId: number;
   tone: Tone;
-  /** The id of participant. */
-  participantId?: string;
 }
 
 export interface ContinuousDtmfRecognitionStopped {
@@ -773,11 +781,11 @@ export interface ContinuousDtmfRecognitionStopped {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -786,11 +794,11 @@ export interface SendDtmfCompleted {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -799,11 +807,11 @@ export interface SendDtmfFailed {
   callConnectionId?: string;
   /** Server call ID. */
   serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 

@@ -300,6 +300,13 @@ export interface RouterJob {
   tags?: { [propertyName: string]: any };
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /** Describes a condition that must be met against a set of labels for worker selection */
@@ -309,7 +316,7 @@ export interface WorkerSelector {
   /** Describes how the value of the label is compared to the value defined on the label selector */
   labelOperator: LabelOperator;
   /** The value to compare against the actual label value with the given operator */
-  value?: Record<string, unknown>;
+  value?: any;
   /** Describes how long this label selector is valid in seconds. */
   ttlSeconds?: number;
   /** Pushes the job to the front of the queue as long as this selector is active. */
@@ -475,7 +482,7 @@ export interface RouterWorker {
    */
   readonly state?: RouterWorkerState;
   /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
+  queueAssignments?: { [propertyName: string]: any };
   /** The total capacity score this worker has to manage multiple concurrent jobs. */
   totalCapacity?: number;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
@@ -584,7 +591,7 @@ export interface QueueSelector {
   /** Describes how the value of the label is compared to the value defined on the label selector */
   labelOperator: LabelOperator;
   /** The value to compare against the actual label value with the given operator */
-  value?: Record<string, unknown>;
+  value?: any;
 }
 
 /** Credentials used to access Azure function rule */
@@ -725,7 +732,7 @@ export interface StaticRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "static-rule";
   /** The static value this rule always returns. */
-  value?: Record<string, unknown>;
+  value?: any;
 }
 
 /** A rule providing a binding to an external web server. */
@@ -917,7 +924,11 @@ export type RouterJobStatus =
   | "closed"
   | "cancelled"
   | "classificationFailed"
-  | "created";
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation";
 /** Defines values for LabelOperator. */
 export type LabelOperator =
   | "equal"
@@ -938,6 +949,11 @@ export type JobStateSelector =
   | "closed"
   | "cancelled"
   | "classificationFailed"
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation"
   | "active";
 /** Defines values for WorkerStateSelector. */
 export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
@@ -1106,11 +1122,14 @@ export interface JobRouterDeleteJobOptionalParams
 export interface JobRouterReclassifyJobActionOptionalParams
   extends coreClient.OperationOptions {
   /** Request object for reclassifying a job. */
-  reclassifyJobRequest?: Record<string, unknown>;
+  reclassifyJobRequest?: any;
 }
 
 /** Contains response data for the reclassifyJobAction operation. */
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
+export type JobRouterReclassifyJobActionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface JobRouterCancelJobActionOptionalParams
@@ -1125,7 +1144,10 @@ export interface JobRouterCancelJobActionOptionalParams
 }
 
 /** Contains response data for the cancelJobAction operation. */
-export type JobRouterCancelJobActionResponse = Record<string, unknown>;
+export type JobRouterCancelJobActionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface JobRouterCompleteJobActionOptionalParams
@@ -1135,7 +1157,10 @@ export interface JobRouterCompleteJobActionOptionalParams
 }
 
 /** Contains response data for the completeJobAction operation. */
-export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
+export type JobRouterCompleteJobActionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface JobRouterCloseJobActionOptionalParams
@@ -1152,7 +1177,10 @@ export interface JobRouterCloseJobActionOptionalParams
 }
 
 /** Contains response data for the closeJobAction operation. */
-export type JobRouterCloseJobActionResponse = Record<string, unknown>;
+export type JobRouterCloseJobActionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface JobRouterListJobsOptionalParams
@@ -1167,6 +1195,10 @@ export interface JobRouterListJobsOptionalParams
   channelId?: string;
   /** (Optional) If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /** Contains response data for the listJobs operation. */
@@ -1198,7 +1230,10 @@ export interface JobRouterDeclineJobActionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the declineJobAction operation. */
-export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
+export type JobRouterDeclineJobActionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface JobRouterGetQueueStatisticsOptionalParams

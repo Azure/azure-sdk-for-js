@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TrafficController,
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface TrafficControllerInterface {
     resource: TrafficController,
     options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
       TrafficControllerInterfaceCreateOrUpdateResponse
     >
   >;
@@ -106,7 +106,7 @@ export interface TrafficControllerInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a TrafficController
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

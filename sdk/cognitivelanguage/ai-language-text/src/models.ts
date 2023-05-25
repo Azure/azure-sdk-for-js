@@ -30,7 +30,7 @@ import {
   SentimentAnalysisAction,
   SentimentConfidenceScores,
   StringIndexType,
-  ExtractiveSummarySentence,
+  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -584,7 +584,7 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
   /**
    * A list of sentences composing a summary of the input document.
    */
-  readonly sentences: ExtractiveSummarySentence[];
+  readonly sentences: SummarySentence[];
 }
 
 /**

@@ -13,16 +13,22 @@ import {
   ContainerAppsAPIClient
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
  */
 async function createOrUpdateDaprComponentWithSecretStoreComponent() {
-  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const environmentName = "myenvironment";
   const componentName = "reddog";
   const daprComponentEnvelope: DaprComponent = {
@@ -50,17 +56,18 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent() {
   console.log(result);
 }
 
-createOrUpdateDaprComponentWithSecretStoreComponent().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/DaprComponents_CreateOrUpdate_Secrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/DaprComponents_CreateOrUpdate_Secrets.json
  */
 async function createOrUpdateDaprComponentWithSecrets() {
-  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const environmentName = "myenvironment";
   const componentName = "reddog";
   const daprComponentEnvelope: DaprComponent = {
@@ -88,4 +95,9 @@ async function createOrUpdateDaprComponentWithSecrets() {
   console.log(result);
 }
 
-createOrUpdateDaprComponentWithSecrets().catch(console.error);
+async function main() {
+  createOrUpdateDaprComponentWithSecretStoreComponent();
+  createOrUpdateDaprComponentWithSecrets();
+}
+
+main().catch(console.error);

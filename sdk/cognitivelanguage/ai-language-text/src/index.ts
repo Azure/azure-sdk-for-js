@@ -55,10 +55,10 @@ export {
   EntityAssociation,
   EntityCertainty,
   EntityConditionality,
-  AbstractiveSummaryContext,
+  SummaryContext,
   AbstractiveSummary,
   ExtractiveSummarizationAction,
-  ExtractiveSummarySentence,
+  SummarySentence,
   ExtractiveSummarizationOrderingCriteria,
   /** orphan exports */
   KnownPiiEntityDomain,

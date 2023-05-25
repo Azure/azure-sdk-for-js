@@ -156,6 +156,55 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 };
 
 // @public
+export interface AcsEmailDeliveryReportReceivedEventData {
+    deliveryAttemptTimestamp: string;
+    deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
+    messageId: string;
+    recipient: string;
+    sender: string;
+    status: AcsEmailDeliveryReportStatus;
+}
+
+// @public
+export type AcsEmailDeliveryReportStatus = string;
+
+// @public
+export interface AcsEmailDeliveryReportStatusDetails {
+    statusMessage: string;
+}
+
+// @public
+export interface AcsEmailEngagementTrackingReportReceivedEventData {
+    engagement: AcsUserEngagement;
+    engagementContext: string;
+    messageId: string;
+    sender: string;
+    userActionTimestamp: string;
+    userAgent: string;
+}
+
+// @public
+export interface AcsIncomingCallCustomContext {
+    sipHeaders: {
+        [propertyName: string]: string;
+    };
+    voipHeaders: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface AcsIncomingCallEventData {
+    callerDisplayName: string;
+    correlationId: string;
+    customContext: AcsIncomingCallCustomContext;
+    fromCommunicationIdentifier: CommunicationIdentifierModel;
+    incomingCallContext: string;
+    serverCallId: string;
+    toCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+// @public
 export interface AcsRecordingChunkInfo {
     contentLocation: string;
     deleteLocation: string;
@@ -216,6 +265,9 @@ export interface AcsUserDisconnectedEventData {
 }
 
 // @public
+export type AcsUserEngagement = string;
+
+// @public
 export interface ApiManagementApiCreatedEventData {
     resourceUri: string;
 }
@@ -242,6 +294,61 @@ export interface ApiManagementApiReleaseUpdatedEventData {
 
 // @public
 export interface ApiManagementApiUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayApiAddedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayApiRemovedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayUpdatedEventData {
     resourceUri: string;
 }
 
@@ -456,6 +563,30 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
 }
 
 // @public
+export interface DataBoxCopyCompletedEventData {
+    serialNumber: string;
+    stageName: DataBoxStageName;
+    stageTime: string;
+}
+
+// @public
+export interface DataBoxCopyStartedEventData {
+    serialNumber: string;
+    stageName: DataBoxStageName;
+    stageTime: string;
+}
+
+// @public
+export interface DataBoxOrderCompletedEventData {
+    serialNumber: string;
+    stageName: DataBoxStageName;
+    stageTime: string;
+}
+
+// @public
+export type DataBoxStageName = string;
+
+// @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
     deviceId: string;
@@ -580,6 +711,7 @@ export interface HealthcareDicomImageCreatedEventData {
     imageSeriesInstanceUid: string;
     imageSopInstanceUid: string;
     imageStudyInstanceUid: string;
+    partitionName: string;
     sequenceNumber: number;
     serviceHostName: string;
 }
@@ -589,6 +721,17 @@ export interface HealthcareDicomImageDeletedEventData {
     imageSeriesInstanceUid: string;
     imageSopInstanceUid: string;
     imageStudyInstanceUid: string;
+    partitionName: string;
+    sequenceNumber: number;
+    serviceHostName: string;
+}
+
+// @public
+export interface HealthcareDicomImageUpdatedEventData {
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    partitionName: string;
     sequenceNumber: number;
     serviceHostName: string;
 }
@@ -1502,6 +1645,24 @@ export interface StorageLifecyclePolicyCompletedEventData {
 }
 
 // @public
+export interface StorageTaskCompletedEventData {
+    completedDateTime: string;
+    status: StorageTaskCompletedStatus;
+    summaryReportBlobUrl: string;
+    taskExecutionId: string;
+    taskName: string;
+}
+
+// @public
+export type StorageTaskCompletedStatus = string;
+
+// @public
+export interface StorageTaskQueuedEventData {
+    queuedDateTime: string;
+    taskExecutionId: string;
+}
+
+// @public
 export interface SubscriptionDeletedEventData {
     readonly eventSubscriptionId: string;
 }
@@ -1520,6 +1681,17 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
     "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
+    "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted": ApiManagementGatewayCertificateAuthorityDeletedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated": ApiManagementGatewayCertificateAuthorityUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayCreated": ApiManagementGatewayCreatedEventData;
+    "Microsoft.ApiManagement.GatewayDeleted": ApiManagementGatewayDeletedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
     "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
     "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
     "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
@@ -1544,6 +1716,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
+    "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
+    "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
     "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
@@ -1553,6 +1728,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
     "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
+    "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
+    "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
+    "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
     "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
     "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
@@ -1563,6 +1741,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
     "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
     "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
+    "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
     "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
     "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
     "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
@@ -1633,6 +1812,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
     "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
+    "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
+    "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
     "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
     "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
     "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;

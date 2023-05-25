@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.0.0-beta.1",
+  "version": "12.0.0-beta.2",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -46,12 +46,20 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/data/searchClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Service.md",
+        "prefix": "package-version"
       },
       {
-        "path": "src/generated/service/searchServiceClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Data.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/generated/data/searchClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/service/searchServiceClient.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",
