@@ -16,7 +16,10 @@ export default createMigration(
   {
     async isApplicable(ctx) {
       // This migration is only applicable to client packages.
-      return ctx.project.packageJson["sdk-type"] === "client" && ctx.project.packageJson["//sampleConfiguration"] !== undefined;
+      return (
+        ctx.project.packageJson["sdk-type"] === "client" &&
+        ctx.project.packageJson["//sampleConfiguration"] !== undefined
+      );
     },
 
     async validate(ctx) {
