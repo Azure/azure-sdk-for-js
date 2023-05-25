@@ -11,10 +11,10 @@ param testApplicationId string
 param dnsLabelPrefix string = baseName
 
 @description('Address Prefix')
-param vnetAddressPrefix string = '10.0.0.0/16'
+param vnetAddressPrefix string = '10.0.0.0/12'
 
 @description('Subnet prefix')
-param subnetPrefix string = '10.0.0.0/24'
+param subnetPrefix string = '10.0.0.0/36'
 
 @description('Type of public IP address')
 @allowed([
@@ -26,10 +26,10 @@ param publicIPAddressType string = 'Dynamic'
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
-var virtualNetworkName = 'virtualNetwork1'
-var publicIPAddressName = 'publicIp1'
-var subnetName = 'subnet1'
-var nicName = 'networkInterface1'
+var virtualNetworkName = '${baseName}virtualNetwork1'
+var publicIPAddressName = '${baseName}publicIp1'
+var subnetName = '${baseName}subnet1'
+var nicName = '${baseName}networkInterface1'
 var subnetRef = resourceId('Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, subnetName)
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2020-05-01' = {
@@ -63,7 +63,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-05-01' = {
   }
 }
 
-resource nic 'Microsoft.Network/networkInterfaces@2020-05-01' = [for i in range(0, 700): {
+resource nic 'Microsoft.Network/networkInterfaces@2020-05-01' = [for i in range(0, 10): {
   name:  '${nicName}--${i}'
   location: location
   properties: {

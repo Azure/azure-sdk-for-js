@@ -1,7 +1,6 @@
 scenarios:
-- image: Dockerfile
+- testTarget: test
+  image: Dockerfile
   Scenario: node18-test
-  testTarget: test
   memory: 1.5Gi
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-network-test/jstest/dockerfile:harshanalluru
 
