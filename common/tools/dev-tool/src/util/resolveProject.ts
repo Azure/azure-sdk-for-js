@@ -55,7 +55,7 @@ declare global {
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
 
-    [METADATA_KEY]: AzureSdkMetadata;
+    [METADATA_KEY]?: AzureSdkMetadata;
   }
 }
 
@@ -78,7 +78,7 @@ export interface AzureSdkMetadata {
   /**
    * Paths that contain instances of the package's version number that should be updated automatically.
    */
-  constantPaths: Array<{
+  constantPaths?: Array<{
     /** The path to the containing file. */
     path: string;
     /** A line prefix to match */
