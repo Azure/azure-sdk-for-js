@@ -53,7 +53,7 @@ const target: CommunicationUserIdentifier = {
 }
 
 // make invitation
-const callInvite = new CallInvite(target);
+const callInvite:CallInvite = {target};
 
 // callback url to recieve callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
