@@ -16,8 +16,9 @@
 
     ```
     "dependencies": {
-      "@azure/identity": "^2.0.5",
-      "ioredis": "^5.0.4",
+      "@azure/identity": "^3.2.1",
+      "ioredis": "^5.3.2"
+    }
     ```
 - Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
@@ -52,7 +53,7 @@ async function main() {
   const credential = new DefaultAzureCredential();
 
   // The scope will be changed for Azure AD Public Preview
-  const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+  const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
   
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken(
@@ -112,7 +113,7 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
     // The scope will be changed for Azure AD Public Preview
-    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     return credential.getToken(redisScope);
@@ -182,7 +183,7 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
     // The scope will be changed for Azure AD Public Preview
-    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     let accessToken = await credential.getToken(redisScope);
