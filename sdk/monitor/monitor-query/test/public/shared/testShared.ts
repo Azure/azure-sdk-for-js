@@ -27,7 +27,7 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -65,16 +65,19 @@ export async function createRecorderAndLogsClient(
   retryOptions?: ExponentialRetryPolicyOptions
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
-  await recorder.addSanitizers({
-    bodySanitizers: [
-      {
-        regex: true,
-        target: "(.*)range x from 1 to (?<step_limit>[0-9]+) step 1(.*)",
-        value: "10000000000000",
-        groupForReplace: "step_limit",
-      },
-    ],
-  }, ["playback", "record"]);
+  await recorder.addSanitizers(
+    {
+      bodySanitizers: [
+        {
+          regex: true,
+          target: "(.*)range x from 1 to (?<step_limit>[0-9]+) step 1(.*)",
+          value: "10000000000000",
+          groupForReplace: "step_limit",
+        },
+      ],
+    },
+    ["playback", "record"]
+  );
 
   const client = new LogsQueryClient(
     createTestCredential(),
