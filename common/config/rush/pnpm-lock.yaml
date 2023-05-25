@@ -37,6 +37,7 @@ specifiers:
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
+  '@rush-temp/arm-baremetalinfrastructure': file:./projects/arm-baremetalinfrastructure.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:./projects/arm-billing.tgz
   '@rush-temp/arm-billingbenefits': file:./projects/arm-billingbenefits.tgz
@@ -380,6 +381,7 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
+  '@rush-temp/arm-baremetalinfrastructure': file:projects/arm-baremetalinfrastructure.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:projects/arm-billing.tgz
   '@rush-temp/arm-billingbenefits': file:projects/arm-billingbenefits.tgz
@@ -10115,6 +10117,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
+      tslib: 2.5.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-baremetalinfrastructure.tgz:
+    resolution: {integrity: sha512-p26E+Kk/8NcMCgcqFRQwq6lHw30GJroePEITUPoeaqNn4Yjh7FyKmZUXgg5LF+NzoJzGmnEI73acrnTxeDRy7g==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    name: '@rush-temp/arm-baremetalinfrastructure'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.47
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
