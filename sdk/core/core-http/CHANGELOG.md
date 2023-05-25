@@ -10,7 +10,8 @@
 
 ### Other Changes
 
-- remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
+- Export `isNode` from `@azure/core-util`.
+- Remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
 
 ## 3.0.1 (2023-04-11)
 

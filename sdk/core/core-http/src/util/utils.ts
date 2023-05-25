@@ -12,15 +12,6 @@ const validUuidRegex =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
 
 /**
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode =
-  typeof process !== "undefined" &&
-  !!process.version &&
-  !!process.versions &&
-  !!process.versions.node;
-
-/**
  * Checks if a parsed URL is HTTPS
  *
  * @param urlToCheck - The url to check
