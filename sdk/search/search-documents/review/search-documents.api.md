@@ -619,9 +619,6 @@ export type HighWaterMarkChangeDetectionPolicy = BaseDataChangeDetectionPolicy &
     highWaterMarkColumnName: string;
 };
 
-// @public (undocumented)
-export type IfEquals<X, Y, A, B> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
-
 // @public
 export type ImageAnalysisSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
@@ -1859,8 +1856,8 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 // @public
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
-// @public (undocumented)
-export type NarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = IfEquals<Model, never, Model, IfEquals<Model, object, Model, IfEquals<Model, any, Model, IfEquals<Model, unknown, Model, IfEquals<Fields, never, never, IfEquals<Fields, SelectFields<Model>, Model, SearchPick<Model, Fields>>>>>>>;
+// @public
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = (<T>() => T extends Model ? true : false) extends <T>() => T extends never ? true : false ? Model : (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? Model : (<T>() => T extends Model ? true : false) extends <T>() => T extends any ? true : false ? Model : (<T>() => T extends Model ? true : false) extends <T>() => T extends unknown ? true : false ? Model : (<T>() => T extends Fields ? true : false) extends <T>() => T extends never ? true : false ? never : (<T>() => T extends Fields ? true : false) extends <T>() => T extends SelectFields<Model> ? true : false ? Model : SearchPick<Model, Fields>;
 
 // @public
 export interface NGramTokenFilter {
@@ -2103,7 +2100,7 @@ export interface SearchDocumentsResultBase {
 export type SearchField = SimpleField | ComplexField;
 
 // @public
-export type SearchFieldArray<Model extends object = object> = IfEquals<Model, object, string[] | Readonly<string[]>, SelectFields<Model>[] | Readonly<SelectFields<Model>[]>>;
+export type SearchFieldArray<Model extends object = object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? string[] | Readonly<string[]> : SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
 
 // @public
 export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
@@ -2420,12 +2417,12 @@ export type SearchMode = "any" | "all";
 export type SearchOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
 // @public
-export type SearchPick<T extends object, Paths extends SelectFields<T>> = IfEquals<T, object, T, IfEquals<Paths, any, T, IfEquals<Paths, never, T, // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof T & string ? NonNullable<T[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
-    [Key in keyof T as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
-} : never : never : NonNullable<T[FieldName]> extends object ? {
-    [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<T[Key] & {}> ? SearchPick<T[Key] & {}, RestPaths> | Extract<T[Key], null> : never;
-} : never : never : Paths extends keyof T ? Pick<T, Paths> | Extract<T, null> : never>>>> & {};
+export type SearchPick<Model extends object, Paths extends SelectFields<Model>> = (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? Model : (<T>() => T extends Paths ? true : false) extends <T>() => T extends any ? true : false ? Model : (<T>() => T extends Paths ? true : false) extends <T>() => T extends never ? true : false ? Model : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof Model & string ? NonNullable<Model[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
+    [Key in keyof Model as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
+} : never : never : NonNullable<Model[FieldName]> extends object ? {
+    [Key in keyof Model as Key & FieldName]: RestPaths extends SelectFields<Model[Key] & {}> ? SearchPick<Model[Key] & {}, RestPaths> | Extract<Model[Key], null> : never;
+} : never : never : Paths extends keyof Model ? Pick<Model, Paths> | Extract<Model, null> : never> & {};
 
 // @public
 export interface SearchRequest {
@@ -2518,12 +2515,12 @@ export interface SearchSuggester {
 }
 
 // @public
-export type SelectArray<Fields = never> = [string] extends [Fields] ? Fields[] | Readonly<Fields[]> : IfEquals<Fields, never, string[] | Readonly<string[]>, Fields[] | Readonly<Fields[]>>;
+export type SelectArray<Fields = never> = [string] extends [Fields] ? Fields[] | Readonly<Fields[]> : (<T>() => T extends Fields ? true : false) extends <T>() => T extends never ? true : false ? string[] | Readonly<string[]> : Fields[] | Readonly<Fields[]>;
 
 // @public
-export type SelectFields<T extends object> = IfEquals<T, never, string, IfEquals<T, any, string, IfEquals<T, object, string, T extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
-    [Key in keyof T]: Key extends string ? NonNullable<T[Key]> extends object ? NonNullable<T[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<T[Key]>> extends infer NextPaths ? IfEquals<NextPaths, never, Key, NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key> : never : Key : never;
-}[keyof T & string] & string>>>;
+export type SelectFields<Model extends object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends never ? true : false ? string : (<T>() => T extends Model ? true : false) extends <T>() => T extends any ? true : false ? string : (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? string : Model extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
+    [Key in keyof Model]: Key extends string ? NonNullable<Model[Key]> extends object ? NonNullable<Model[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<Model[Key]>> extends infer NextPaths ? (<T>() => T extends NextPaths ? true : false) extends <T>() => T extends never ? true : false ? Key : NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key : never : Key : never;
+}[keyof Model & string] & string;
 
 // @public
 export interface SemanticConfiguration {
@@ -2695,9 +2692,7 @@ export interface SuggestDocumentsResult<Model extends object, Fields extends Sel
 }
 
 // @public (undocumented)
-export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = IfEquals<Model, never, Model, IfEquals<Model, object, Model, IfEquals<Fields, never, // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the service by default
-keyof ExtractDocumentKey<Model> extends never ? Model : ExtractDocumentKey<Model>, // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
-Fields extends SelectFields<Model> ? NarrowedModel<Model, Fields> : never>>>;
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = (<T>() => T extends Model ? true : false) extends <T>() => T extends never ? true : false ? Model : (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? Model : (<T>() => T extends Fields ? true : false) extends <T>() => T extends never ? true : false ? keyof ExtractDocumentKey<Model> extends never ? Model : ExtractDocumentKey<Model> : Fields extends SelectFields<Model> ? NarrowedModel<Model, Fields> : never;
 
 // @public
 export type SuggestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
@@ -2791,7 +2786,7 @@ export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
 };
 
 // @public (undocumented)
-export type UnionToIntersection<U> = (U extends unknown ? (_: U) => unknown : never) extends (_: infer I) => unknown ? I : never;
+export type UnionToIntersection<Union> = (Union extends unknown ? (_: Union) => unknown : never) extends (_: infer I) => unknown ? I : never;
 
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {

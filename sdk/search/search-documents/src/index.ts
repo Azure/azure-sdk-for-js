@@ -18,7 +18,6 @@ export {
   IndexDocumentsAction,
   ListSearchResultsPageSettings,
   IndexDocumentsOptions,
-  IfEquals,
   SearchDocumentsResultBase,
   SearchDocumentsResult,
   SearchDocumentsPageResult,
