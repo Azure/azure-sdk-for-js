@@ -111,7 +111,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The scope will be changed for Azure AD Public Preview
+    // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -183,7 +183,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The scope will be changed for Azure AD Public Preview
+    // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -254,12 +254,12 @@ main().catch((err) => {
 
 In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-* In **RBAC Rules**, you've assigned the required role to your user/service principal identity.
+* In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
 * In **Advanced settings**, the **Azure AD access authorization** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 
 In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-* In **RBAC Rules**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
+* In **Data Access Configuration**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
 * In the event you are using a custom role, ensure the permissions granted under your custom role include the one required for your target action.
