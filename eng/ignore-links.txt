@@ -15,3 +15,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-selfhelp?view=azure-node-pr
 https://docs.microsoft.com/javascript/api/@azure/arm-costmanagement?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-costmanagement
 https://docs.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure
+https://docs.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure?view=azure-node-preview
