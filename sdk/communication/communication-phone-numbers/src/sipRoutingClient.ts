@@ -11,7 +11,7 @@ import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/s
 import {
   SipConfigurationUpdate,
   SipRoutingError,
-  SipRoutingGetOptionalParams,
+  SipRoutingGetOptionalParams, SipRoutingTestRoutesWithNumberOptionalParams,
 } from "./generated/src/siprouting/models";
 import {
   GetSipTrunkOptions,
@@ -404,6 +404,14 @@ export class SipRoutingClient {
         await this.client.sipRouting.update(payload);
       }
     );
+  }
+
+  public async matchNumberToRoutes(number: string, options: SipRoutingTestRoutesWithNumberOptionalParams = {}): Promise<SipTrunkRoute[]> {
+
+    const config = await this.client.sipRouting.get(options);
+    const apiResult = await this.client.sipRouting.testRoutesWithNumber(number, config);
+
+    return apiResult.matchingRoutes ?? [];
   }
 
   private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
