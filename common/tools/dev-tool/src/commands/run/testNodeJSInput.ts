@@ -12,10 +12,9 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
-  const defaultMochaArgs =
-    `${
-      projectInfo.packageJson.type === "module" ? "" : "-r esm "
-    } --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+  const defaultMochaArgs = `${
+    projectInfo.packageJson.type === "module" ? "" : "-r esm "
+  } --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
   );
