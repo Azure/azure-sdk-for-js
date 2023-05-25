@@ -9,6 +9,9 @@ matrix:
     node18:
       image: Dockerfile
   scenarios:
-    test:
-      testTarget: networkListTest
+    # networkListTest:
+    #   testTarget: networkListTest
+    #   memory: "1.5Gi"
+    storageBlobListTest:
+      testTarget: storageBlobListTest
       memory: "1.5Gi"

@@ -1,6 +1,6 @@
 scenarios:
-- testTarget: test
+- testTarget: storageBlobListTest
   image: Dockerfile
-  Scenario: node18-test
+  Scenario: node18-storageBlobListTest
   memory: 1.5Gi
 

@@ -1,6 +1,9 @@
 @description('The base resource name.')
 param baseName string
 
+@description('The client OID to grant access to test resources.')
+param testApplicationOid string
+
 @description('The tenant ID to which the application and resources belong.')
 param tenantId string = '72f988bf-86f1-41af-91ab-2d7cd011db47'
 
@@ -84,7 +87,22 @@ resource nic 'Microsoft.Network/networkInterfaces@2020-05-01' = [for i in range(
   ]
 }]
 
+resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
+  name: '${baseName}blob'
+  location: location
+  kind: 'BlockBlobStorage'
+  sku: {
+    name: 'Premium_LRS'
+  }
+}
+
+var name = storageAccount.name
+var key = storageAccount.listKeys().keys[0].value
+var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${name};AccountKey=${key};EndpointSuffix=core.windows.net'
+
+output AZURE_STORAGE_CONNECTION_STRING string = connectionString
 output AZURE_RESOURCE_GROUP string = resourceGroup().name
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
 output AZURE_TENANT_ID string = tenantId
 output AZURE_CLIENT_ID string = testApplicationId
+output testApplicationOid string = testApplicationOid

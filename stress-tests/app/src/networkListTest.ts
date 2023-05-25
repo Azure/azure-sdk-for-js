@@ -7,7 +7,8 @@ import * as appInsights from "applicationinsights";
 import util from "util";
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
-dotenv.config();
+
+dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
 appInsights.setup().setAutoCollectConsole(true).setUseDiskRetryCaching(true).start();
 
