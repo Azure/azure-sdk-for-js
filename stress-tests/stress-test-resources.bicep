@@ -7,9 +7,6 @@ param tenantId string = '72f988bf-86f1-41af-91ab-2d7cd011db47'
 @description('The application client ID used to run tests.')
 param testApplicationId string
 
-@description('The application client secret used to run tests.')
-param testApplicationSecret string
-
 @description('DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error.')
 param dnsLabelPrefix string = baseName
 
@@ -66,7 +63,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-05-01' = {
   }
 }
 
-resource nic 'Microsoft.Network/networkInterfaces@2020-05-01' = [for i in range(0, 10000): {
+resource nic 'Microsoft.Network/networkInterfaces@2020-05-01' = [for i in range(0, 700): {
   name:  '${nicName}--${i}'
   location: location
   properties: {
@@ -91,4 +88,3 @@ output AZURE_RESOURCE_GROUP string = resourceGroup().name
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
 output AZURE_TENANT_ID string = tenantId
 output AZURE_CLIENT_ID string = testApplicationId
-output AZURE_CLIENT_SECRET string = testApplicationSecret
