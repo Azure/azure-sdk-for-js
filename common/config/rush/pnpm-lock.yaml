@@ -1663,6 +1663,21 @@ packages:
       - supports-color
     dev: false
 
+  /@opentelemetry/instrumentation-http/0.39.1_@opentelemetry+api@1.4.1:
+    resolution: {integrity: sha512-JX1HTvNOqqel2fuMSRiSzFREyk2iMQ2B4/1Y46AGa0u6i4XQRCbCuy64FZ1YYMrQ2e5P917iiGrEUFkB+33Tlw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+    dependencies:
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/core': 1.13.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation': 0.39.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/semantic-conventions': 1.13.0
+      semver: 7.5.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@opentelemetry/instrumentation-mongodb/0.34.3_@opentelemetry+api@1.4.1:
     resolution: {integrity: sha512-QCsX5vGjmmUnqLOlT+eThfBQ35JbQ3bdZSOCFvYu24+vqDEzMf+sWmgQVZuSlEGooXJ9lhlyFszPyUrTk2jS3g==}
     engines: {node: '>=14'}
@@ -3825,7 +3840,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230523
+      typescript: 5.2.0-dev.20230524
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8374,8 +8389,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230523:
-    resolution: {integrity: sha512-LrDMumdesS4xcmqzEwLqbg33EtWQeSSXqrydFklXphBiv5+aETXiyUnUStkje8syf4+6j0MQTW0KzijiLS+rew==}
+  /typescript/5.2.0-dev.20230524:
+    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17895,7 +17910,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-lHrM4KowOjPalPQqnZ31X8Yx6g+/kzIDDYerwCnFMCHahCcbvwkQOo8KhWI2OaY8VlAUYju1iXhNrp7rODl6mw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-Or79JCyLP5iVOi/4pe2mIaiC7jYp1ez6GPpnns9/vulZtCO1WgpmLvixBi1MPH9tIjFdj0RXklgtgXTC00WZ6g==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -17903,8 +17918,8 @@ packages:
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/api-logs': 0.39.1
       '@opentelemetry/core': 1.13.0_@opentelemetry+api@1.4.1
-      '@opentelemetry/instrumentation': 0.38.0_@opentelemetry+api@1.4.1
-      '@opentelemetry/instrumentation-http': 0.38.0_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation': 0.39.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-http': 0.39.1_@opentelemetry+api@1.4.1
       '@opentelemetry/resources': 1.13.0_@opentelemetry+api@1.4.1
       '@opentelemetry/sdk-logs': 0.39.1_mcbg7hm3nijtxggv62vosf4qd4
       '@opentelemetry/sdk-metrics': 1.13.0_@opentelemetry+api@1.4.1
