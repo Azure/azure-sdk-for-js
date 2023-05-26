@@ -64,7 +64,7 @@ describe("workloads test", () => {
   });
 
   //create monitors
-  it("Workloads create test", async function () {
+  it.only("Workloads create test", async function () {
     monitorParameter = {
       appLocation: "eastus2",
       location: "eastus2",
@@ -72,7 +72,7 @@ describe("workloads test", () => {
         "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
       managedResourceGroupConfiguration: { name: "myManagedRg" },
       monitorSubnet:
-        "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
+        "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet2",
       routingPreference: "RouteAll",
       tags: { key: "value" }
     };
@@ -86,15 +86,13 @@ describe("workloads test", () => {
       monitorName,
       providerInstanceName,
       {
-        providerSettings: {
-          sslPreference: "Disabled",
-          providerType: "Db2",
-          hostname: "10.1.21.4",
-          sapSid: "OPA",
-          dbPort: "25000",
-          dbUsername: "db2admin",
-          dbPassword: "<REDACTED>",
-          dbName: "Sample"
+        "providerSettings": {
+          "sslPreference": "Disabled",
+          "providerType": "PrometheusHaCluster",
+          "prometheusUrl": "http://10.0.92.5:964/metrics",
+          "sid": "X00",
+          "hostname": "h20dbvm0",
+          "clusterName": "hacluster"
         }
       },
       testPollingOptions
