@@ -5,12 +5,15 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
-  ServerCallLocator,
-  GroupCallLocator,
   CallRejectReason,
   RecognizeInputType,
   FileSource,
   DtmfTone,
+  RecordingContent,
+  RecordingChannel,
+  RecordingFormat,
+  RecordingStorage,
+  CallLocator,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -50,6 +53,10 @@ export interface CreateCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** Headers for SIP calls */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders?: { [propertyName: string]: string };
 }
 
 /**
@@ -65,7 +72,12 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+  /** Headers for SIP calls */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders?: { [propertyName: string]: string };
+}
 
 /**
  * Options to reject call.
@@ -130,15 +142,15 @@ export type GetParticipantOptions = OperationOptions;
  */
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. */
-  callLocator: ServerCallLocator | GroupCallLocator;
+  callLocator: CallLocator;
   /** The uri to send notifications to. */
   recordingStateCallbackEndpoint?: string;
   /** The content type of call recording. */
-  recordingContent?: string;
+  recordingContent?: RecordingContent;
   /** The channel type of call recording. */
-  recordingChannel?: string;
+  recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
-  recordingFormat?: string;
+  recordingFormat?: RecordingFormat;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
@@ -147,7 +159,9 @@ export interface StartRecordingOptions extends OperationOptions {
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
   /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: string;
+  recordingStorageType?: RecordingStorage;
+  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
+  externalStorageLocation?: string;
 }
 
 /**

@@ -33,6 +33,7 @@ import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helper
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 import crypto from "crypto";
+import { RetriableReadableStream } from "../utils/retriableReadableStream";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -411,15 +412,48 @@ export class ContainerRegistryContentClient {
       "ContainerRegistryContentClient.downloadBlob",
       options,
       async (updatedOptions) => {
-        const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
+        const initialResponse = await this.client.containerRegistryBlob.getBlob(
           this.repositoryName,
           digest,
           updatedOptions
         );
 
+        assertHasProperty(initialResponse, "readableStreamBody");
+        assertHasProperty(initialResponse, "contentLength");
+
+        const hash = crypto.createHash("sha256");
+
         return {
           digest,
-          content: readableStreamBody ?? Readable.from([]),
+          content: new RetriableReadableStream(
+            initialResponse.readableStreamBody,
+            async (pos) => {
+              const retryResponse = await this.client.containerRegistryBlob.getChunk(
+                this.repositoryName,
+                digest,
+                `${pos}-`,
+                updatedOptions
+              );
+
+              assertHasProperty(retryResponse, "readableStreamBody");
+              return retryResponse.readableStreamBody;
+            },
+            0,
+            initialResponse.contentLength,
+            {
+              onData: (data) => hash.write(data),
+              onEnd: () => {
+                hash.end();
+                const calculatedDigest = `sha256:${hash.digest("hex")}`;
+
+                if (digest !== calculatedDigest) {
+                  throw new DigestMismatchError(
+                    "Digest calculated from downloaded blob content does not match digest requested."
+                  );
+                }
+              },
+            }
+          ),
         };
       }
     );

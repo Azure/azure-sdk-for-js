@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -341,6 +341,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -368,6 +373,11 @@
     {
       "packageName": "@azure/ai-language-text",
       "projectFolder": "sdk/cognitivelanguage/ai-language-text",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
       "versionPolicyName": "client"
     },
     {
@@ -1961,6 +1971,11 @@
     {
       "packageName": "@azure/arm-newrelicobservability",
       "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-paloaltonetworksngfw",
+      "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
       "versionPolicyName": "management"
     }
   ]

@@ -20,7 +20,7 @@ override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
-package-version: 1.1.0-beta.3
+package-version: 1.1.0-beta.4
 ```
 
 ## Customizations for Track 2 Generator
@@ -245,4 +245,16 @@ directive:
       $.responses["404"] = {
         "description": "The blob to be deleted does not exist"
       };
+```
+
+# Remove stream response from `deleteBlob`
+
+We don't care about the stream that is returned and we don't want to clean it up
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      delete $.responses["202"].schema;
 ```

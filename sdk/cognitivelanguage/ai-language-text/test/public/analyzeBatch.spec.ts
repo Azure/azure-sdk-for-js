@@ -14,11 +14,10 @@ import {
 } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
-  expectation1,
   expectation10,
   expectation11,
   expectation12,
@@ -29,7 +28,6 @@ import {
   expectation17,
   expectation18,
   expectation19,
-  expectation2,
   expectation20,
   expectation21,
   expectation22,
@@ -41,7 +39,6 @@ import {
   expectation28,
   expectation29,
   expectation3,
-  expectation4,
   expectation5,
   expectation6,
   expectation7,
@@ -623,7 +620,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("big document causes a warning", async function () {
+          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
+          it.skip("big document causes a warning", async function () {
             let text = "";
             for (let i = 0; i < 5121; ++i) {
               text = text + "x";
@@ -887,7 +885,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        it("whole batch input with auto language detection", async function () {
+        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
+        it.skip("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
             "Este es un document escrito en Español.",
@@ -1139,98 +1138,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation23);
-          });
-        });
-      });
-    });
-  });
-});
-
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
-    let recorder: Recorder;
-    let client: TextAnalysisClient;
-
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
-      client = createClient(authMethod, {
-        resource: "CustomText",
-        recorder,
-      });
-    });
-
-    afterEach(async function () {
-      await recorder.stop();
-    });
-
-    describe("analyzeBatch", function () {
-      const pollingInterval = isPlaybackMode() ? 0 : 2000;
-
-      describe("actions", function () {
-        describe("custom", function () {
-          it("entity recognition", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
-                  deploymentName: assertEnvironmentVariable("CUSTOM_ENTITIES_DEPLOYMENT_NAME"),
-                  projectName: assertEnvironmentVariable("CUSTOM_ENTITIES_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation1);
-          });
-
-          it("single label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable("SINGLE_LABEL_CLASSIFY_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation2);
-          });
-
-          it("multi label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
-                  deploymentName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"),
-                  projectName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_PROJECT_NAME"),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });

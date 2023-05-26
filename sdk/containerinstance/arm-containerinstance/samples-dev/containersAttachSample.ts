@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Attach to the output stream of a specific container instance in a specified resource group and container group.
  *
  * @summary Attach to the output stream of a specific container instance in a specified resource group and container group.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerAttach.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2023-02-01-preview/examples/ContainerAttach.json
  */
 async function containerAttach() {
   const subscriptionId =

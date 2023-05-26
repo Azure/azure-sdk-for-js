@@ -39,7 +39,7 @@ async function main() {
 
   console.log("Model ID:", model.modelId);
   console.log("Description:", model.description);
-  console.log("Created:", model.createdDateTime);
+  console.log("Created:", model.createdOn);
 }
 
 main().catch((error) => {

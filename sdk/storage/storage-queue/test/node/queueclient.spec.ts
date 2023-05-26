@@ -45,7 +45,7 @@ describe("QueueClient Node.js only", () => {
           permissions: "raup",
           startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
       },
     ];
 
@@ -60,7 +60,7 @@ describe("QueueClient Node.js only", () => {
         accessPolicy: {
           permissions: "raup",
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
       },
     ];
     await queueClient.setAccessPolicy(queueAcl);
@@ -70,7 +70,7 @@ describe("QueueClient Node.js only", () => {
     const queueAclEmpty = [
       {
         accessPolicy: {},
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
       },
     ];
     await queueClient.setAccessPolicy(queueAclEmpty);

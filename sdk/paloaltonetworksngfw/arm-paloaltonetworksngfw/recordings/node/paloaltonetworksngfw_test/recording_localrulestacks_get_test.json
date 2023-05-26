@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest?api-version=2022-08-29-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1 core-rest-pipeline/1.10.4 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "aa875583-59a0-4ba7-95dc-5e3a5310a1aa"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "898",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Apr 2023 09:05:25 GMT",
+        "ETag": "\u002233009bcd-0000-0100-0000-643faece0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "665262c0-7585-4848-b429-68d19a80aed9",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "7a175ec0-3aaa-4a58-8e0f-e75047d3062d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230419T090525Z:665262c0-7585-4848-b429-68d19a80aed9"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/resourcetest",
+        "name": "resourcetest",
+        "type": "paloaltonetworks.cloudngfw/localrulestacks",
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-04-19T09:04:59.5546569Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-04-19T09:04:59.5546569Z"
+        },
+        "properties": {
+          "scope": "LOCAL",
+          "description": "local rulestacks",
+          "provisioningState": "Succeeded",
+          "defaultMode": "NONE",
+          "panEtag": "4b24929e-de91-11ed-abf0-1a1784ec2d74",
+          "minAppIdVersion": "8595-7473",
+          "securityServices": {
+            "vulnerabilityProfile": "BestPractice",
+            "antiSpywareProfile": "BestPractice",
+            "antiVirusProfile": "BestPractice",
+            "urlFilteringProfile": "BestPractice",
+            "fileBlockingProfile": "BestPractice",
+            "dnsSubscription": "BestPractice"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
