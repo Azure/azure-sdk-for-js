@@ -36,6 +36,7 @@ declare global {
 /**
  * A constant that indicates whether the environment the code is running is a Web Browser.
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-no-window
 export const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
 
 /**
