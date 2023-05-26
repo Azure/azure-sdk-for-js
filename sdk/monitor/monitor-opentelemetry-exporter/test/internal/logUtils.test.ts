@@ -209,8 +209,8 @@ describe("logUtils.ts", () => {
           {
             message: "detailMessage",
             hasFullStack: false,
-            typeName: "testType"
-          }
+            typeName: "testType",
+          },
         ],
         version: 2,
       };
@@ -236,8 +236,8 @@ describe("logUtils.ts", () => {
           {
             message: "detailMessage",
             hasFullStack: false,
-            typeName: "testType"
-          }
+            typeName: "testType",
+          },
         ],
         version: 2,
         properties: expectedProperties,
