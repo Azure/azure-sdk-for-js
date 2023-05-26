@@ -15,14 +15,8 @@ export {
   JobRouterCloseJobActionResponse,
   JobRouterCompleteJobActionResponse,
   JobRouterDeclineJobActionResponse,
+  UnassignJobResult,
 } from "../generated/src/models";
-
-export interface UnAssignJobResponse {
-  /** The Id of the job unassigned. */
-  jobId: string;
-  /** The number of times a job is unassigned. At a maximum 3. */
-  unAssignmentCount: number;
-}
 
 export interface RouterJobResponse extends RouterJob {
   readonly id: string;

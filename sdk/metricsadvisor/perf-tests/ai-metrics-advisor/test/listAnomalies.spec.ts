@@ -15,7 +15,7 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async run(): Promise<void> {
-    const listIterator = this.client.listAnomalies({
+    const listIterator = this.client.listAnomaliesForAlert({
       alertConfigId: this.alertConfigId,
       id: this.alertId,
     });

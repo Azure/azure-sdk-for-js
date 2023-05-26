@@ -4,8 +4,13 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallConnectionProperties } from "../src/models/models";
-import { CreateCallResult } from "../src/models/responses";
-import { CALL_CALLBACK_URL, CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
+import { AnswerCallResult, CreateCallResult } from "../src/models/responses";
+import {
+  CALL_CALLBACK_URL,
+  CALL_INCOMING_CALL_CONTEXT,
+  CALL_TARGET_ID,
+  CALL_TARGET_ID_2,
+} from "./utils/connectionUtils";
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -28,6 +33,7 @@ import { v4 as uuidv4 } from "uuid";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
+  let target: CallInvite;
   let client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
 
   beforeEach(() => {
@@ -40,6 +46,9 @@ describe("Call Automation Client Unit Tests", () => {
         communicationUserId: CALL_TARGET_ID_2,
       },
     ];
+    target = {
+      targetParticipant: { communicationUserId: CALL_TARGET_ID },
+    };
     // stub CallAutomationClient
     client = Sinon.createStubInstance(
       CallAutomationClient
@@ -56,6 +65,31 @@ describe("Call Automation Client Unit Tests", () => {
     assert.isNotNull(repeatabilityRequestID);
     assert.typeOf(repeatabilityFirstSent, "string");
     assert.typeOf(repeatabilityRequestID, "string");
+  });
+
+  it("CreateCall", async () => {
+    // mocks
+    const createCallResultMock: CreateCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+    };
+    client.createCall.returns(
+      new Promise((resolve) => {
+        resolve(createCallResultMock);
+      })
+    );
+
+    const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: CreateCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(client.createCall.calledWith(target, CALL_CALLBACK_URL));
+        assert.equal(result, createCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
   });
 
   it("CreateGroupCall", async () => {
@@ -82,11 +116,75 @@ describe("Call Automation Client Unit Tests", () => {
       })
       .catch((error) => console.error(error));
   });
+
+  it("AnswerCall", async () => {
+    // mocks
+    const answerCallResultMock: AnswerCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+    };
+    client.answerCall.returns(
+      new Promise((resolve) => {
+        resolve(answerCallResultMock);
+      })
+    );
+
+    const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: AnswerCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(client.answerCall.calledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL));
+        assert.equal(result, answerCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("RedirectCall", async () => {
+    // mocks
+    client.redirectCall.returns(
+      new Promise((resolve) => {
+        resolve(undefined);
+      })
+    );
+
+    const promiseResult = client.redirectCall(CALL_INCOMING_CALL_CONTEXT, target);
+
+    // asserts
+    promiseResult
+      .then(() => {
+        assert.isTrue(client.redirectCall.calledWith(CALL_INCOMING_CALL_CONTEXT, target));
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("RejectCall", async () => {
+    // mocks
+    client.rejectCall.returns(
+      new Promise((resolve) => {
+        resolve(undefined);
+      })
+    );
+
+    const promiseResult = client.rejectCall(CALL_INCOMING_CALL_CONTEXT);
+
+    // asserts
+    promiseResult
+      .then(() => {
+        assert.isTrue(client.rejectCall.calledWith(CALL_INCOMING_CALL_CONTEXT));
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
 });
 
 describe("Call Automation Main Client Live Tests", function () {
   let recorder: Recorder;
-  let callAutomationClient: CallAutomationClient;
+  let callerCallAutomationClient: CallAutomationClient;
+  let receiverCallAutomationClient: CallAutomationClient;
   let callConnection: CallConnection;
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
@@ -96,7 +194,8 @@ describe("Call Automation Main Client Live Tests", function () {
     recorder = await createRecorder(this.currentTest);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
-    callAutomationClient = createCallAutomationClient(recorder, testUser);
+    callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
+    receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
   afterEach(async function (this: Context) {
@@ -126,11 +225,11 @@ describe("Call Automation Main Client Live Tests", function () {
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -138,7 +237,7 @@ describe("Call Automation Main Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -153,11 +252,11 @@ describe("Call Automation Main Client Live Tests", function () {
     testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "reject_call";
     await loadPersistedEvents(testName);
 
-    const callInvite = new CallInvite(testUser2);
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -165,7 +264,7 @@ describe("Call Automation Main Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await callAutomationClient.rejectCall(incomingCallContext);
+      await receiverCallAutomationClient.rejectCall(incomingCallContext);
     }
 
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);

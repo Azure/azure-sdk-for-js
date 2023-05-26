@@ -24,9 +24,18 @@ export const SupportedWorkloadEnvironmentVariables = [
 ];
 const logger = credentialLogger(credentialName);
 /**
- * WorkloadIdentityCredential supports Azure workload identity authentication on Kubernetes.
- * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Azure Active Directory Workload Identity</a>
- * for more information.
+ * Workload Identity authentication is a feature in Azure that allows applications running on virtual machines (VMs)
+ * to access other Azure resources without the need for a service principal or managed identity. With Workload Identity
+ * authentication, applications authenticate themselves using their own identity, rather than using a shared service
+ * principal or managed identity. Under the hood, Workload Identity authentication uses the concept of Service Account
+ * Credentials (SACs), which are automatically created by Azure and stored securely in the VM. By using Workload
+ * Identity authentication, you can avoid the need to manage and rotate service principals or managed identities for
+ * each application on each VM. Additionally, because SACs are created automatically and managed by Azure, you don't
+ * need to worry about storing and securing sensitive credentials themselves.
+ * The WorkloadIdentityCredential supports Azure workload identity authentication on Azure Kubernetes and acquires
+ * a token using the SACs available in the Azure Kubernetes environment.
+ * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Azure Active Directory
+ * Workload Identity</a> for more information.
  */
 export class WorkloadIdentityCredential implements TokenCredential {
   private client: ClientAssertionCredential | undefined;
@@ -39,17 +48,16 @@ export class WorkloadIdentityCredential implements TokenCredential {
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(options: WorkloadIdentityCredentialOptions) {
+  constructor(options?: WorkloadIdentityCredentialOptions) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
     logger.info(`Found the following environment variables: ${assignedEnv}`);
 
-    const workloadIdentityCredentialOptions = options as WorkloadIdentityCredentialOptions;
+    const workloadIdentityCredentialOptions = options ?? {};
     const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
     this.federatedTokenFilePath =
-      workloadIdentityCredentialOptions.federatedTokenFilePath ||
-      process.env.AZURE_FEDERATED_TOKEN_FILE;
+      workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
@@ -83,7 +91,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_FEDERATED_TOKEN_FILE"`;
+      "AZURE_FEDERATED_TOKEN_FILE". See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }

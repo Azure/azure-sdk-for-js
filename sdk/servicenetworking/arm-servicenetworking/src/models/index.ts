@@ -130,7 +130,7 @@ export interface TrafficControllerListResult {
 }
 
 /** Resource ID definition used by parent to reference child resources. */
-export interface ResourceID {
+export interface ResourceId {
   /** Resource ID of child resource. */
   id: string;
 }
@@ -179,11 +179,9 @@ export interface SystemData {
 export interface TrafficControllerUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the TrafficController. */
-  properties?: Record<string, unknown>;
 }
 
-/** The response of a Traffic Controller Association list operation. */
+/** The response of a Association list operation. */
 export interface AssociationListResult {
   /** The Association items on this page */
   value: Association[];
@@ -201,19 +199,19 @@ export interface AssociationSubnet {
 export interface AssociationUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the Association. */
-  properties?: AssociationUpdateProperties;
-}
-
-/** The updatable properties of the Association. */
-export interface AssociationUpdateProperties {
   /** Association Type */
-  associationType?: "subnets";
+  associationType?: AssociationType;
   /** Association Subnet */
-  subnet?: AssociationSubnet;
+  subnet?: AssociationSubnetUpdate;
 }
 
-/** The response of a Traffic Controller Frontend list operation. */
+/** Association Subnet. */
+export interface AssociationSubnetUpdate {
+  /** Association ID. */
+  id?: string;
+}
+
+/** The response of a Frontend list operation. */
 export interface FrontendListResult {
   /** The Frontend items on this page */
   value: Frontend[];
@@ -221,28 +219,10 @@ export interface FrontendListResult {
   nextLink?: string;
 }
 
-/** Frontend IP Address. */
-export interface FrontendPropertiesIPAddress {
-  /** IP Address. */
-  id: string;
-}
-
 /** The type used for update operations of the Frontend. */
 export interface FrontendUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the Frontend. */
-  properties?: FrontendUpdateProperties;
-}
-
-/** The updatable properties of the Frontend. */
-export interface FrontendUpdateProperties {
-  /** Frontend Mode (Optional). */
-  mode?: "public";
-  /** Frontend IP Address Type (Optional). */
-  ipAddressVersion?: FrontendIPAddressVersion;
-  /** Frontend Public IP Address (Optional). */
-  publicIPAddress?: FrontendPropertiesIPAddress;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -264,12 +244,12 @@ export interface TrafficController extends TrackedResource {
    * Frontends References List
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly frontends?: ResourceID[];
+  readonly frontends?: ResourceId[];
   /**
    * Associations References List
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly associations?: ResourceID[];
+  readonly associations?: ResourceId[];
   /**
    * The status of the last operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -280,11 +260,11 @@ export interface TrafficController extends TrackedResource {
 /** Association Subresource of Traffic Controller */
 export interface Association extends TrackedResource {
   /** Association Type */
-  associationType?: "subnets";
+  associationType?: AssociationType;
   /** Association Subnet */
   subnet?: AssociationSubnet;
   /**
-   * Provisioning State
+   * Provisioning State of Traffic Controller Association Resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -292,14 +272,13 @@ export interface Association extends TrackedResource {
 
 /** Frontend Subresource of Traffic Controller. */
 export interface Frontend extends TrackedResource {
-  /** Frontend Mode (Optional). */
-  mode?: "public";
-  /** Frontend IP Address Version (Optional). */
-  ipAddressVersion?: FrontendIPAddressVersion;
-  /** Frontend Public IP Address (Optional). */
-  publicIPAddress?: FrontendPropertiesIPAddress;
   /**
-   * test doc
+   * The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * Provisioning State of Traffic Controller Frontend Resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -313,6 +292,7 @@ export interface TrafficControllerInterfaceCreateOrUpdateHeaders {
 
 /** Defines headers for TrafficControllerInterface_delete operation. */
 export interface TrafficControllerInterfaceDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
@@ -326,9 +306,10 @@ export interface AssociationsInterfaceCreateOrUpdateHeaders {
 
 /** Defines headers for AssociationsInterface_delete operation. */
 export interface AssociationsInterfaceDeleteHeaders {
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FrontendsInterface_createOrUpdate operation. */
@@ -339,9 +320,10 @@ export interface FrontendsInterfaceCreateOrUpdateHeaders {
 
 /** Defines headers for FrontendsInterface_delete operation. */
 export interface FrontendsInterfaceDeleteHeaders {
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -382,12 +364,6 @@ export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Updating */
@@ -395,7 +371,13 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -403,13 +385,13 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
  * **Provisioning** \
  * **Updating** \
  * **Deleting** \
- * **Accepted**
+ * **Accepted** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
  */
 export type ProvisioningState = string;
 
@@ -436,8 +418,21 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-/** Defines values for FrontendIPAddressVersion. */
-export type FrontendIPAddressVersion = "IPv4" | "IPv6";
+
+/** Known values of {@link AssociationType} that the service accepts. */
+export enum KnownAssociationType {
+  /** Subnets */
+  Subnets = "subnets"
+}
+
+/**
+ * Defines values for AssociationType. \
+ * {@link KnownAssociationType} can be used interchangeably with AssociationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **subnets**
+ */
+export type AssociationType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

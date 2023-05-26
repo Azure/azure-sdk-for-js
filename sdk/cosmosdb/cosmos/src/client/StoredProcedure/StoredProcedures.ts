@@ -116,6 +116,12 @@ export class StoredProcedures {
       options,
     });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return new StoredProcedureResponse(response.result, response.headers, response.code, ref);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      ref,
+      response.diagnostics
+    );
   }
 }

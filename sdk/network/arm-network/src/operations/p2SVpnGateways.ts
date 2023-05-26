@@ -1218,7 +1218,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters86,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

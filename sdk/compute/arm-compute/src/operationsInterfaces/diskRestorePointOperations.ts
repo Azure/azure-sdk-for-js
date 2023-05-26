@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiskRestorePoint,
   DiskRestorePointListByRestorePointOptionalParams,
@@ -70,8 +70,8 @@ export interface DiskRestorePointOperations {
     grantAccessData: GrantAccessData,
     options?: DiskRestorePointGrantAccessOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskRestorePointGrantAccessResponse>,
+    SimplePollerLike<
+      OperationState<DiskRestorePointGrantAccessResponse>,
       DiskRestorePointGrantAccessResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface DiskRestorePointOperations {
     vmRestorePointName: string,
     diskRestorePointName: string,
     options?: DiskRestorePointRevokeAccessOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.

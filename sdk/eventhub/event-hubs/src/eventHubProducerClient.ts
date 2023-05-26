@@ -415,7 +415,8 @@ export class EventHubProducerClient {
           batch[i],
           options,
           this._context.config.entityPath,
-          this._context.config.host
+          this._context.config.host,
+          "publish"
         ).event;
         eventDataTracingProperties[i] = batch[i].properties;
       }
@@ -455,7 +456,7 @@ export class EventHubProducerClient {
         spanLinks: spanContextsToLink.map<TracingSpanLink>((tracingContext) => {
           return { tracingContext };
         }),
-        ...toSpanOptions(this._context.config, "client"),
+        ...toSpanOptions(this._context.config, "publish", "client"),
       }
     );
   }

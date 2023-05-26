@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.26.0",
+  "pnpmVersion": "7.32.2",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -381,6 +381,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -533,6 +538,11 @@
     {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry",
       "versionPolicyName": "client"
     },
     {
@@ -1971,6 +1981,26 @@
     {
       "packageName": "@azure/arm-paloaltonetworksngfw",
       "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-selfhelp",
+      "projectFolder": "sdk/selfhelp/arm-selfhelp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
       "versionPolicyName": "management"
     }
   ]
