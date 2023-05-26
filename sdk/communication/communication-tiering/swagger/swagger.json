@@ -94,8 +94,8 @@
           }
         },
         "x-ms-examples": {
-          "Get acquired numbers and limits for a resource": {
-            "$ref": "./examples/GetAcquiredNumberLimits.json"
+          "Get tier info for a resource": {
+            "$ref": "./examples/GetTierInfo.json"
           }
         }
       }
