@@ -737,7 +737,7 @@ export type SelectArray<Fields = never> = [string] extends [Fields]
 
 /**
  * If `Model` is an untyped object, an untyped string array
- * Otherwise, the slash-delimited fields of the object.
+ * Otherwise, the slash-delimited fields of `Model`.
  */
 export type SearchFieldArray<Model extends object = object> = (<T>() => T extends Model
   ? true
