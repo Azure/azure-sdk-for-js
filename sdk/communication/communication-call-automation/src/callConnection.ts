@@ -146,9 +146,9 @@ export class CallConnection {
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
     const result = await this.callConnection.listParticipants(this.callConnectionId, options);
-    var participant = await result.next();
+    let participant = await result.next();
 
-    let listParticipantResponse: ListParticipantsResult = { values: [] };
+    const listParticipantResponse: ListParticipantsResult = { values: [] };
 
     while (!participant.done) {
       listParticipantResponse.values?.push(callParticipantConverter(participant.value));

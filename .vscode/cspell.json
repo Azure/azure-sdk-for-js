@@ -50,6 +50,7 @@
     "adfs",
     "agrifood",
     "AMQP",
+    "answeredby",
     "azsdk",
     "Brcpf",
     "BRCPF",
@@ -100,6 +101,7 @@
     "Personalizer",
     "Petabit",
     "Picometer",
+    "playsourcacheid",
     "Plregon",
     "PLREGON",
     "pnpm",
@@ -244,7 +246,9 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": ["iddocument"]
+      "words": [
+        "iddocument"
+      ]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
