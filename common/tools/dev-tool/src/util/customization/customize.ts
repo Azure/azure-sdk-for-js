@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
-import { ensureDir } from "fs-extra";
+import { ensureDir, copy } from "fs-extra";
 import * as path from "path";
 import {
   Project,
@@ -33,7 +33,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Initialize the state
   setCustomizationState({ customDir, originalDir, outDir });
   // Bring everything from original into the output
-  await copyFile(originalDir, outDir);
+  await copy(originalDir, outDir);
 
   if (!directoryExists(customDir)) {
     return;
