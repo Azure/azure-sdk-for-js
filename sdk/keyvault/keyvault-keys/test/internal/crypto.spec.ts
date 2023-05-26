@@ -20,11 +20,7 @@ import { stringToUint8Array } from "../public/utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import {
-  RestError,
-  SendRequest,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
+import { RestError, SendRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
