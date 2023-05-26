@@ -103,15 +103,15 @@ export class CallConnection {
 
 // @public
 export interface CallConnectionProperties {
-    answeredByIdentifier?: CommunicationUserIdentifier;
+    answeredby?: CommunicationUserIdentifier;
     callbackUrl?: string;
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
     serverCallId?: string;
+    source?: CommunicationIdentifier;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    sourceIdentity?: CommunicationIdentifier;
     targetParticipants?: CommunicationIdentifier[];
 }
 
@@ -149,8 +149,8 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    play(playSources: FileSource[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSources: FileSource[], playOptions?: PlayOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
 }
 
@@ -355,7 +355,7 @@ export interface PlayOptions extends OperationOptions {
 // @public
 export interface PlaySource {
     // (undocumented)
-    playSourceId?: string;
+    playsourcacheid?: string;
 }
 
 // @public
@@ -417,14 +417,7 @@ export interface RecordingStateResult {
 }
 
 // @public
-export interface RedirectCallOptions extends OperationOptions {
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
-}
+export type RedirectCallOptions = OperationOptions;
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
@@ -629,11 +622,6 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 
 // @public
 export type ResumeRecordingOptions = OperationOptions;
-
-// @public
-export interface SendDtmfOptions extends OperationOptions {
-    operationContext?: string;
-}
 
 // @public
 export interface StartRecordingOptions extends OperationOptions {
