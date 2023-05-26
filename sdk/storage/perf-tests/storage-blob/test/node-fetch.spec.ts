@@ -14,6 +14,6 @@ export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest
 
   async run(): Promise<void> {
     const response = await node_fetch(this.sasUrl, { agent: this.agent });
-    await drainStream(response.body);
+    await drainStream(response.body!);
   }
 }
