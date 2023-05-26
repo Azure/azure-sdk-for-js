@@ -26,6 +26,7 @@ declare global {
     version: string;
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-no-window
   const window: Window;
   const self: DedicatedWorkerGlobalScope;
   const Deno: DenoGlobal;
