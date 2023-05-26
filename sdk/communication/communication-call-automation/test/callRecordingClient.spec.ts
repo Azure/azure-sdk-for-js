@@ -249,10 +249,12 @@ describe("CallRecording Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     // Call recording can fail when no audio is in call, we will play audio to avoid that.
     await callConnection.getCallMedia().playToAll(playSource);

@@ -53,7 +53,7 @@ const target: CommunicationUserIdentifier = {
 }
 
 // make invitation
-const callInvite = new CallInvite(target);
+const callInvite:CallInvite = {target};
 
 // callback url to recieve callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
@@ -65,7 +65,7 @@ const response = callAutomationClient.createCall(callInvite, callbackUrl);
 ### Play Media
 ```JavaScript
 // from callconnection of response above, play media of media file
-const myFile: FileSource = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" }
+const myFile: FileSource[] = [{ uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" }]
 const response = callConnection.getCallMedia().playToAll(myFile);
 ```
 

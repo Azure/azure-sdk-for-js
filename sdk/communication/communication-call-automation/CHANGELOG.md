@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 1.0.0 (2023-05-29)
 Call Automation enables developers to build call workflows. Personalise customer interactions by listening to call events and take actions based on your business logic.
 
 ### Features Added
@@ -15,5 +15,3 @@ Call Automation enables developers to build call workflows. Personalise customer
 - Record mixed and unmixed audio recordings.
 - Download recordings.
 - Parse various events happening in the call, such as CallConnected and PlayCompleted event.
-- Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
-- Send DTMF tones to a participant in the call.

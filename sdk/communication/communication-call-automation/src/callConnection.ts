@@ -84,12 +84,12 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
-      answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+      source: source ? communicationIdentifierConverter(source) : undefined,
+      answeredby: communicationUserIdentifierConverter(answeredBy),
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -107,7 +107,7 @@ export class CallConnection {
     if (isForEveryone) {
       const optionsInternal = {
         ...options,
-        repeatabilityFirstSent: new Date().toUTCString(),
+        repeatabilityFirstSent: new Date(),
         repeatabilityRequestID: uuidv4(),
       };
       await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
@@ -145,13 +145,16 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.getParticipants(this.callConnectionId, options);
-    const listParticipantResponse: ListParticipantsResult = {
-      ...result,
-      values: result?.values?.map((acsCallParticipant) =>
-        callParticipantConverter(acsCallParticipant)
-      ),
-    };
+    const result = await this.callConnection.listParticipants(this.callConnectionId, options);
+    let participant = await result.next();
+
+    const listParticipantResponse: ListParticipantsResult = { values: [] };
+
+    while (!participant.done) {
+      listParticipantResponse.values?.push(callParticipantConverter(participant.value));
+      participant = await result.next();
+    }
+
     return listParticipantResponse;
   }
 
@@ -172,14 +175,10 @@ export class CallConnection {
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
-      customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
-      },
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.addParticipant(
@@ -211,14 +210,10 @@ export class CallConnection {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
-      customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
-      },
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.transferToParticipant(
@@ -245,7 +240,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.removeParticipant(

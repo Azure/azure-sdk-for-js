@@ -12,13 +12,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -35,19 +28,17 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifier;
+  source?: CommunicationIdentifier;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifier;
+  answeredby?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -66,7 +57,7 @@ export interface CallLocator {
 
 /** The PlaySource model. */
 export interface PlaySource {
-  playSourceId?: string;
+  playsourcacheid?: string;
 }
 
 /** The FileSource model. */
@@ -115,8 +106,6 @@ export enum DtmfTone {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -126,10 +115,6 @@ export interface CallInvite {
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Custom context for PSTN. */
-  readonly sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voipr. */
-  readonly voipHeaders?: { [propertyName: string]: string };
 }
 
 /** The locator type of a call. */
@@ -143,9 +128,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {

@@ -19,12 +19,8 @@ import {
   TransferToParticipantRequest as TransferToParticipantRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
-  MuteParticipantsRequest as MuteParticipantsRequestMapper,
-  UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
-  ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
-  SendDtmfRequest as SendDtmfRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
 
@@ -72,7 +68,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-15-preview",
+    defaultValue: "2023-03-06",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -96,7 +92,7 @@ export const repeatabilityFirstSent: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {
-      name: "String"
+      name: "DateTimeRfc1123"
     }
   }
 };
@@ -142,16 +138,6 @@ export const removeParticipantRequest: OperationParameter = {
   mapper: RemoveParticipantRequestMapper
 };
 
-export const muteParticipantsRequest: OperationParameter = {
-  parameterPath: "muteParticipantsRequest",
-  mapper: MuteParticipantsRequestMapper
-};
-
-export const unmuteParticipantsRequest: OperationParameter = {
-  parameterPath: "unmuteParticipantsRequest",
-  mapper: UnmuteParticipantsRequestMapper
-};
-
 export const participantRawId: OperationURLParameter = {
   parameterPath: "participantRawId",
   mapper: {
@@ -163,6 +149,18 @@ export const participantRawId: OperationURLParameter = {
   }
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const playRequest: OperationParameter = {
   parameterPath: "playRequest",
   mapper: PlayRequestMapper
@@ -171,16 +169,6 @@ export const playRequest: OperationParameter = {
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper
-};
-
-export const continuousDtmfRecognitionRequest: OperationParameter = {
-  parameterPath: "continuousDtmfRecognitionRequest",
-  mapper: ContinuousDtmfRecognitionRequestMapper
-};
-
-export const sendDtmfRequest: OperationParameter = {
-  parameterPath: "sendDtmfRequest",
-  mapper: SendDtmfRequestMapper
 };
 
 export const startCallRecording: OperationParameter = {

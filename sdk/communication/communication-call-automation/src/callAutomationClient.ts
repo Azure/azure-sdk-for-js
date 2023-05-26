@@ -161,26 +161,18 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const {
-      callConnectionId,
-      answeredByIdentifier,
-      targets,
-      sourceCallerIdNumber,
-      sourceIdentity,
-      ...result
-    } = await this.callAutomationApiClient.createCall(request, optionsInternal);
+    const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, ...result } =
+      await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        sourceIdentity: sourceIdentity
-          ? communicationIdentifierConverter(sourceIdentity)
-          : undefined,
-        answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredBy),
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
         ),
@@ -215,16 +207,10 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
+      source: this.sourceIdentity,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
-      },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
       ),
@@ -246,16 +232,10 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      sourceIdentity: this.sourceIdentity,
+      source: this.sourceIdentity,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
-      },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -274,42 +254,27 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
-    const {
-      mediaStreamingConfiguration,
-      azureCognitiveServicesEndpointUrl,
-      operationContext,
-      ...operationOptions
-    } = options;
+    const { operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
       incomingCallContext,
-      mediaStreamingConfiguration,
-      azureCognitiveServicesEndpointUrl,
       operationContext,
       callbackUri: callbackUrl,
-      answeredByIdentifier: this.sourceIdentity,
+      answeredBy: this.sourceIdentity,
     };
     const optionsInternal = {
       ...operationOptions,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const {
-      callConnectionId,
-      targets,
-      sourceCallerIdNumber,
-      answeredByIdentifier,
-      sourceIdentity,
-      ...result
-    } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
+    const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
+      await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        sourceIdentity: sourceIdentity
-          ? communicationIdentifierConverter(sourceIdentity)
-          : undefined,
-        answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredBy),
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -345,14 +310,10 @@ export class CallAutomationClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
-      customContext: {
-        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
-      },
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
@@ -375,7 +336,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
