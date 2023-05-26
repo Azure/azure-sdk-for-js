@@ -10,8 +10,12 @@ import {
 import { Tags, Properties, Measurements } from "../../src/types";
 import { getInstance } from "../../src/platform";
 import {
+  AvailabilityData,
   KnownContextTagKeys,
   MessageData,
+  MonitorDomain,
+  PageViewData,
+  TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../../src/generated";
@@ -35,13 +39,13 @@ const loggerProvider = new LoggerProvider(providerConfig);
 const logger = loggerProvider.getLogger("default") as Logger;
 
 function assertEnvelope(
-  envelope: Envelope,
-  name: string,
-  sampleRate: number,
-  baseType: string,
-  expectedProperties: Properties,
-  expectedMeasurements: Measurements | undefined,
-  expectedBaseData: Partial<MessageData | TelemetryExceptionData>,
+  envelope?: Envelope,
+  name?: string,
+  sampleRate?: number,
+  baseType?: string,
+  expectedProperties?: Properties,
+  expectedMeasurements?: Measurements | undefined,
+  expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date
 ): void {
   assert.ok(envelope);
@@ -146,6 +150,244 @@ describe("logUtils.ts", () => {
         "Microsoft.ApplicationInsights.Exception",
         100,
         "TelemetryExceptionData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime
+      );
+    });
+  });
+
+  describe("#legacyApplicationInsights logs", () => {
+    it("should create a Message Envelope", () => {
+      let data: MessageData = {
+        message: "testMessage",
+        severityLevel: "Verbose",
+        version: 2,
+      };
+      const log = new LogRecord(logger, {
+        body: JSON.stringify(data),
+        attributes: {
+          "_MS.baseType": "MessageData",
+        },
+      });
+      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+      log.setAttributes({
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      });
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: `testMessage`,
+        severityLevel: `Verbose`,
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(log, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime
+      );
+    });
+
+    it("should create a Exception Envelope", () => {
+      let data: TelemetryExceptionData = {
+        message: "testMessage",
+        severityLevel: "Error",
+        exceptions: [
+          {
+            message: "detailMessage",
+            hasFullStack: false,
+            typeName: "testType"
+          }
+        ],
+        version: 2,
+      };
+      const log = new LogRecord(logger, {
+        body: JSON.stringify(data),
+        attributes: {
+          "_MS.baseType": "TelemetryExceptionData",
+        },
+      });
+      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+      log.setAttributes({
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      });
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
+        message: `testMessage`,
+        severityLevel: `Error`,
+        exceptions: [
+          {
+            message: "detailMessage",
+            hasFullStack: false,
+            typeName: "testType"
+          }
+        ],
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(log, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Exception",
+        100,
+        "TelemetryExceptionData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime
+      );
+    });
+
+    it("should create a Availability Envelope", () => {
+      let data: AvailabilityData = {
+        id: "testId",
+        name: "testName",
+        duration: "123",
+        success: true,
+        runLocation: "testLocation",
+        message: "testMessage",
+        version: 2,
+      };
+      const log = new LogRecord(logger, {
+        body: JSON.stringify(data),
+        attributes: {
+          "_MS.baseType": "AvailabilityData",
+        },
+      });
+      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+      log.setAttributes({
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      });
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "testId",
+        name: "testName",
+        duration: "123",
+        success: true,
+        runLocation: "testLocation",
+        message: "testMessage",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(log, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime
+      );
+    });
+
+    it("should create a PageView Envelope", () => {
+      let data: PageViewData = {
+        id: "testId",
+        name: "testName",
+        duration: "123",
+        url: "testUrl",
+        referredUri: "testreferredUri",
+        version: 2,
+      };
+      const log = new LogRecord(logger, {
+        body: JSON.stringify(data),
+        attributes: {
+          "_MS.baseType": "PageViewData",
+        },
+      });
+      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+      log.setAttributes({
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      });
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedBaseData: PageViewData = {
+        id: "testId",
+        name: "testName",
+        duration: "123",
+        url: "testUrl",
+        referredUri: "testreferredUri",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(log, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.PageView",
+        100,
+        "PageViewData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime
+      );
+    });
+
+    it("should create a Event Envelope", () => {
+      let data: TelemetryEventData = {
+        name: "testName",
+        version: 2,
+      };
+      const log = new LogRecord(logger, {
+        body: JSON.stringify(data),
+        attributes: {
+          "_MS.baseType": "TelemetryEventData",
+        },
+      });
+      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+      log.setAttributes({
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      });
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedBaseData: TelemetryEventData = {
+        name: "testName",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(log, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Event",
+        100,
+        "TelemetryEventData",
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
