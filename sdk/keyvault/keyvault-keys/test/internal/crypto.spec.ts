@@ -316,7 +316,7 @@ describe("internal crypto tests", () => {
       });
 
       describe("when creating the client with an identifier", function () {
-        it.only("falls back to the remote provider when the key cannot be fetched due to permissions", async function () {
+        it("falls back to the remote provider when the key cannot be fetched due to permissions", async function () {
           const sendSignRequest: SendRequest = (request) =>
             Promise.resolve({
               status: 200,
