@@ -74,19 +74,4 @@ describe("Interfaces", () => {
       originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText()
     ).to.equal("boolean");
   });
-
-  // it("should convert existing functions to private functions", () => {
-  //   originalInterface = originalFile.addFunction({
-  //     name: "myFunction",
-  //     parameters: [{ name: "param", type: "boolean" }],
-  //   });
-
-  //   customInterface.addStatements(["_myFunction(Boolean(param));", "console.log('custom');"]);
-
-  //   augmentFunction(customInterface, originalInterface, originalFile);
-
-  //   expect(originalFile.getFunction("myFunction")).to.not.be.undefined;
-  //   expect(originalFile.getFunction("_myFunction")).to.not.be.undefined;
-  //   expect(originalFile.getFunction("myFunction")?.getText()).to.include("_myFunction");
-  // });
 });

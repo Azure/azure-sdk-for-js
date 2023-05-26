@@ -10,6 +10,7 @@ import {
   ConstructorDeclarationOverloadStructure,
   ConstructorDeclarationStructure,
 } from "ts-morph";
+
 export function isOverload(
   method: ConstructorDeclarationStructure | ConstructorDeclarationOverloadStructure
 ): method is ConstructorDeclarationOverloadStructure;

@@ -206,8 +206,7 @@ export function addConstructorsToClass(
     }
 
     if (customConstructorParts.length === 2) {
-      const head = customConstructorParts[0];
-      const tail = customConstructorParts[1];
+      const [head, tail] = customConstructorParts;
       augmentedConstructorBody = `${head}\n${originalBody}\n${tail}`;
     } else {
       augmentedConstructorBody = `${customConstructorBody}\n${originalBody}`;
@@ -278,7 +277,7 @@ interface WithCommentGetter {
 
 export function getComments(
   customClass: WithCommentGetter,
-  originalClass?: WithCommentGetter | undefined
+  originalClass?: WithCommentGetter
 ): Comments {
   const customClassComments = customClass.getLeadingCommentRanges();
   const customClassJSDocs = customClass.getJsDocs();

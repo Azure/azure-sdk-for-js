@@ -10,7 +10,6 @@ export async function augmentImports(
   customImports: ImportDeclaration[]
 ) {
   const { customDir, originalDir } = getCustomizationState();
-  // const newFilesInCustom = await getNewCustomFiles(originalDir, customDir);
   const importMap: Map<string, ImportDeclaration> = new Map();
 
   for (const [, value] of originalImports) {

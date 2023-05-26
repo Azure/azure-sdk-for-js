@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import * as fs from "fs-extra";
+import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
+import { ensureDir } from "fs-extra";
 import * as path from "path";
 import {
   Project,
@@ -32,9 +33,9 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Initialize the state
   setCustomizationState({ customDir, originalDir, outDir });
   // Bring everything from original into the output
-  await fs.copy(originalDir, outDir);
+  await copyFile(originalDir, outDir);
 
-  if (!fs.existsSync(customDir)) {
+  if (!directoryExists(customDir)) {
     return;
   }
 
@@ -59,13 +60,26 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   resetCustomizationState();
 }
 
+async function directoryExists(path: string) {
+  try {
+    const stats = await stat(path);
+    return stats.isDirectory();
+  } catch (error: any) {
+    if (error.code === "ENOENT") {
+      return false; // Directory does not exist
+    } else {
+      throw error; // Other error occurred, propagate it
+    }
+  }
+}
+
 async function copyFilesInCustom(originalDir: string, customDir: string, outDir: string) {
   const filesToCopy = await getNewCustomFiles(originalDir, customDir);
 
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
-    await fs.copyFile(sourcePath, destPath);
+    await copyFile(sourcePath, destPath);
   }
 }
 
@@ -78,7 +92,7 @@ type CustomDeclarationsMap = {
 };
 
 export async function readFileContent(filepath: string): Promise<string> {
-  return fs.readFile(filepath, "utf8");
+  return await readFile(filepath, "utf8");
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
@@ -89,7 +103,7 @@ export async function writeFileContent(filepath: string, content: string): Promi
     ...prettierOptions,
     parser: "typescript",
   });
-  return fs.writeFile(filepath, formattedContent);
+  return await writeFile(filepath, formattedContent);
 }
 
 export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclarationsMap {
@@ -156,7 +170,7 @@ export async function processDirectory(customDir: string, originalDir: string): 
   // Note: the originalDir is in reality the output directory but for readability we call it originalDir
   // since we copied over eveything from the original directory to the output directory avoid
   // overwriting the original files.
-  const entries = await fs.readdir(customDir, { withFileTypes: true });
+  const entries = await readdir(customDir, { withFileTypes: true });
 
   for (const entry of entries) {
     const customPath = path.join(customDir, entry.name);
@@ -167,7 +181,7 @@ export async function processDirectory(customDir: string, originalDir: string): 
     } else if (entry.isDirectory()) {
       const subCustomDir = path.join(customDir, entry.name);
       const subOutDir = path.join(originalDir, entry.name);
-      await fs.ensureDir(subOutDir);
+      await ensureDir(subOutDir);
       await processDirectory(subCustomDir, subOutDir);
     }
   }
