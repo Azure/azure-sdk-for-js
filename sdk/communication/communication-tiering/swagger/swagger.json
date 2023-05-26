@@ -52,6 +52,53 @@
           }
         }
       }
+    },
+    "/administration/tiers/resources/{resourceId}": {
+      "get": {
+        "tags": [
+          "ACS Tiering"
+        ],
+        "summary": " Get the tiering data for a given resource",
+        "operationId": "Tiering_GetByResourceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "description": "Resource Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AcsTier"
+              }
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get acquired numbers and limits for a resource": {
+            "$ref": "./examples/GetAcquiredNumberLimits.json"
+          }
+        }
+      }
     }
     },
   "definitions": {
@@ -102,6 +149,319 @@
             "description": "The standing of a customer to determine if they able to purchase more phone numbers.",
             "type": "string"
           }
+          }
+        }
+      }
+    },
+    "AcsTier": {
+      "description": "Represents an ACS Tier resource.",
+      "type": "object",
+      "properties": {
+        "TierId": {
+          "description": "Tier Id.",
+          "type": "string"
+        },
+        "CorrelationId": {
+          "description": "Correlation Id",
+          "type": "string"
+        },
+        "TierType": {
+          "description": "Tier Type",
+          "type": "string"
+        },
+        "Capabilities": {
+          "description": "Capabilities for the resource",
+          "type": "object",
+          "properties": {
+            "PhoneNumberPurchase": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                 "$ref": "#/definitions/PhoneNumberPurchase"
+              }
+            },
+            "SMS": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "object",
+              "properties": {
+                "Outbound": {
+                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SMSOutbound"
+                  }
+                },
+                "Inbound": {
+                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SMSInbound"
+                  }
+                }
+              }
+            },
+            "Calling": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "object",
+              "properties": {
+                "Outbound": {
+                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/CallingOutbound"
+                  }
+                },
+                "Inbound": {
+                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/CallingInbound"
+                  }
+                }
+              }
+            },
+            "TrialPhoneNumberPurchase": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberPurchase"
+              }
+            },
+            "TrialPhoneNumberUsage": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberUsage"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PhoneNumberPurchase":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "NumberType": {
+          "description": "Array defining the number type of the phone number.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+        "Scope": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "TotalNumbers": {
+          "description": "Total Numbers",
+          "type": "integer"
+        }
+      }
+    },
+    "SMSOutbound":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "SmsPerMin": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "GeographicLimitations": {
+          "description": "Total Numbers",
+          "type": "string"
+        }
+      }
+    },
+    "SMSInbound":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "SmsPerMin": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "GeographicLimitations": {
+          "description": "Total Numbers",
+          "type": "string"
+        }
+      }
+    },
+    "CallingOutbound":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "SmsPerMin": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "GeographicLimitations": {
+          "description": "Total Numbers",
+          "type": "string"
+        }
+      }
+    },
+    "CallingInbound":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "SmsPerMin": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "GeographicLimitations": {
+          "description": "Total Numbers",
+          "type": "string"
+        }
+      }
+    },
+    "TrialPhoneNumberUsageCallingBounds":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "TotalMinutes": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "MaximumCallDurationMinutes": {
+          "description": "Total Numbers",
+          "type": "integer"
+        }
+      }
+    },
+    "TrialPhoneNumberUsageSmsBounds":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "Type": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "Scope": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "Total": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "SmsPerMin": {
+          "description": "Total Numbers",
+          "type": "integer"
+        }
+      }
+    },
+    "TrialPhoneNumberPurchase":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "NumberType": {
+          "description": "Array defining the number type of the phone number.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+        "Scope": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "string"
+        },
+        "TotalNumbers": {
+          "description": "Total Numbers",
+          "type": "integer"
+        },
+        "TrialPeriodDays": {
+          "description": "Total Numbers",
+          "type": "integer"
+        }
+      }
+    },
+    "TrialPhoneNumberUsage":{
+      "description": "Model response for acquired number and limits.",
+      "type":"object",
+      "properties": {
+        "NumberType": {
+          "description": "Total Numbers",
+          "type": "string"
+        },
+        "Calling": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "object",
+          "properties": {
+            "Outbound": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberUsageCallingBounds"
+              }
+            },
+            "Inbound": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberUsageCallingBounds"
+              }
+            }
+          }
+        },
+        "Sms": {
+          "description": "The level at which the tiering properties in the TierInfo are for",
+          "type": "object",
+          "properties": {
+            "Outbound": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberUsageSmsBounds"
+              }
+            },
+            "Inbound": {
+              "description": "The level at which the tiering properties in the TierInfo are for",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TrialPhoneNumberUsageSmsBounds"
+              }
+            }
           }
         }
       }

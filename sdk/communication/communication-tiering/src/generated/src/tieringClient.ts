@@ -13,8 +13,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { NumberAllotmentImpl } from "./operations";
-import { NumberAllotment } from "./operationsInterfaces";
+import { NumberAllotmentImpl, TieringImpl } from "./operations";
+import { NumberAllotment, Tiering } from "./operationsInterfaces";
 import { TieringClientOptionalParams } from "./models";
 
 export class TieringClient extends coreClient.ServiceClient {
@@ -83,6 +83,7 @@ export class TieringClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2022-11-15";
     this.numberAllotment = new NumberAllotmentImpl(this);
+    this.tiering = new TieringImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -115,4 +116,5 @@ export class TieringClient extends coreClient.ServiceClient {
   }
 
   numberAllotment: NumberAllotment;
+  tiering: Tiering;
 }

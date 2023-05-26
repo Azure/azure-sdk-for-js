@@ -157,3 +157,525 @@ export const CommunicationError: coreClient.CompositeMapper = {
     }
   }
 };
+
+export const AcsTier: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsTier",
+    modelProperties: {
+      tierId: {
+        serializedName: "TierId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "CorrelationId",
+        type: {
+          name: "String"
+        }
+      },
+      tierType: {
+        serializedName: "TierType",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        serializedName: "Capabilities",
+        type: {
+          name: "Composite",
+          className: "AcsTierCapabilities"
+        }
+      }
+    }
+  }
+};
+
+export const AcsTierCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsTierCapabilities",
+    modelProperties: {
+      phoneNumberPurchase: {
+        serializedName: "PhoneNumberPurchase",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhoneNumberPurchase"
+            }
+          }
+        }
+      },
+      sms: {
+        serializedName: "SMS",
+        type: {
+          name: "Composite",
+          className: "AcsTierCapabilitiesSMS"
+        }
+      },
+      calling: {
+        serializedName: "Calling",
+        type: {
+          name: "Composite",
+          className: "AcsTierCapabilitiesCalling"
+        }
+      },
+      trialPhoneNumberPurchase: {
+        serializedName: "TrialPhoneNumberPurchase",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberPurchase"
+            }
+          }
+        }
+      },
+      trialPhoneNumberUsage: {
+        serializedName: "TrialPhoneNumberUsage",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberUsage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberPurchase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberPurchase",
+    modelProperties: {
+      numberType: {
+        serializedName: "NumberType",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      totalNumbers: {
+        serializedName: "TotalNumbers",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsTierCapabilitiesSMS: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsTierCapabilitiesSMS",
+    modelProperties: {
+      outbound: {
+        serializedName: "Outbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SMSOutbound"
+            }
+          }
+        }
+      },
+      inbound: {
+        serializedName: "Inbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SMSInbound"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SMSOutbound: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SMSOutbound",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      smsPerMin: {
+        serializedName: "SmsPerMin",
+        type: {
+          name: "Number"
+        }
+      },
+      geographicLimitations: {
+        serializedName: "GeographicLimitations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SMSInbound: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SMSInbound",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      smsPerMin: {
+        serializedName: "SmsPerMin",
+        type: {
+          name: "Number"
+        }
+      },
+      geographicLimitations: {
+        serializedName: "GeographicLimitations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsTierCapabilitiesCalling: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsTierCapabilitiesCalling",
+    modelProperties: {
+      outbound: {
+        serializedName: "Outbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CallingOutbound"
+            }
+          }
+        }
+      },
+      inbound: {
+        serializedName: "Inbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CallingInbound"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CallingOutbound: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CallingOutbound",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      smsPerMin: {
+        serializedName: "SmsPerMin",
+        type: {
+          name: "Number"
+        }
+      },
+      geographicLimitations: {
+        serializedName: "GeographicLimitations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CallingInbound: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CallingInbound",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      smsPerMin: {
+        serializedName: "SmsPerMin",
+        type: {
+          name: "Number"
+        }
+      },
+      geographicLimitations: {
+        serializedName: "GeographicLimitations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberPurchase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberPurchase",
+    modelProperties: {
+      numberType: {
+        serializedName: "NumberType",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      totalNumbers: {
+        serializedName: "TotalNumbers",
+        type: {
+          name: "Number"
+        }
+      },
+      trialPeriodDays: {
+        serializedName: "TrialPeriodDays",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberUsage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberUsage",
+    modelProperties: {
+      numberType: {
+        serializedName: "NumberType",
+        type: {
+          name: "String"
+        }
+      },
+      calling: {
+        serializedName: "Calling",
+        type: {
+          name: "Composite",
+          className: "TrialPhoneNumberUsageCalling"
+        }
+      },
+      sms: {
+        serializedName: "Sms",
+        type: {
+          name: "Composite",
+          className: "TrialPhoneNumberUsageSms"
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberUsageCalling: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberUsageCalling",
+    modelProperties: {
+      outbound: {
+        serializedName: "Outbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberUsageCallingBounds"
+            }
+          }
+        }
+      },
+      inbound: {
+        serializedName: "Inbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberUsageCallingBounds"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberUsageCallingBounds: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberUsageCallingBounds",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      totalMinutes: {
+        serializedName: "TotalMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      maximumCallDurationMinutes: {
+        serializedName: "MaximumCallDurationMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberUsageSms: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberUsageSms",
+    modelProperties: {
+      outbound: {
+        serializedName: "Outbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberUsageSmsBounds"
+            }
+          }
+        }
+      },
+      inbound: {
+        serializedName: "Inbound",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrialPhoneNumberUsageSmsBounds"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrialPhoneNumberUsageSmsBounds: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrialPhoneNumberUsageSmsBounds",
+    modelProperties: {
+      type: {
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "Scope",
+        type: {
+          name: "String"
+        }
+      },
+      total: {
+        serializedName: "Total",
+        type: {
+          name: "Number"
+        }
+      },
+      smsPerMin: {
+        serializedName: "SmsPerMin",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};

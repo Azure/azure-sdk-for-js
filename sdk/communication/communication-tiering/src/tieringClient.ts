@@ -5,6 +5,8 @@
 import {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   NumberAllotmentGetAcquiredNumberLimitsResponse,
+  TieringGetByResourceIdResponse,
+  TieringGetByResourceIdOptionalParams,
 } from "./models";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -97,5 +99,19 @@ export class TieringClient {
         return this.client.numberAllotment.getAcquiredNumberLimits(resourceId, updatedOptions);
       }
     );
+  }
+
+  /**
+   * Get tiering info for a resource.
+   *
+   * @param options - Additional request options.
+   */
+  public getByResourceId(
+    resourceId: string,
+    options: TieringGetByResourceIdOptionalParams = {}
+  ): Promise<TieringGetByResourceIdResponse> {
+    return tracingClient.withSpan("tiering.getByResourceId", options, (updatedOptions) => {
+      return this.client.tiering.getByResourceId(resourceId, updatedOptions);
+    });
   }
 }

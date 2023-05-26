@@ -12,6 +12,47 @@ import { KeyCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AcsTier {
+    capabilities?: AcsTierCapabilities;
+    correlationId?: string;
+    tierId?: string;
+    tierType?: string;
+}
+
+// @public
+export interface AcsTierCapabilities {
+    calling?: AcsTierCapabilitiesCalling;
+    phoneNumberPurchase?: PhoneNumberPurchase[];
+    sms?: AcsTierCapabilitiesSMS;
+    trialPhoneNumberPurchase?: TrialPhoneNumberPurchase[];
+    trialPhoneNumberUsage?: TrialPhoneNumberUsage[];
+}
+
+// @public
+export interface AcsTierCapabilitiesCalling {
+    inbound?: CallingInbound[];
+    outbound?: CallingOutbound[];
+}
+
+// @public (undocumented)
+export const AcsTierCapabilitiesCallingMapper: coreClient.CompositeMapper;
+
+// @public (undocumented)
+export const AcsTierCapabilitiesMappers: coreClient.CompositeMapper;
+
+// @public
+export interface AcsTierCapabilitiesSMS {
+    inbound?: SMSInbound[];
+    outbound?: SMSOutbound[];
+}
+
+// @public (undocumented)
+export const AcsTierCapabilitiesSMSMapper: coreClient.CompositeMapper;
+
+// @public (undocumented)
+export const AcsTierMapper: coreClient.CompositeMapper;
+
+// @public
 export interface AssetDetails {
     aadTenantAcquiredCount?: number;
     numberType?: string[];
@@ -36,6 +77,22 @@ export interface AssetDetailsTierInfo {
 export const AssetDetailsTierInfoMapper: coreClient.CompositeMapper;
 
 // @public
+export interface CallingInbound {
+    geographicLimitations?: string;
+    scope?: string;
+    smsPerMin?: number;
+    type?: string;
+}
+
+// @public
+export interface CallingOutbound {
+    geographicLimitations?: string;
+    scope?: string;
+    smsPerMin?: number;
+    type?: string;
+}
+
+// @public
 export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -43,11 +100,35 @@ export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams extends co
 export type NumberAllotmentGetAcquiredNumberLimitsResponse = AssetDetails[];
 
 // @public
+export interface PhoneNumberPurchase {
+    numberType?: string[];
+    scope?: string;
+    totalNumbers?: number;
+}
+
+// @public
+export interface SMSInbound {
+    geographicLimitations?: string;
+    scope?: string;
+    smsPerMin?: number;
+    type?: string;
+}
+
+// @public
+export interface SMSOutbound {
+    geographicLimitations?: string;
+    scope?: string;
+    smsPerMin?: number;
+    type?: string;
+}
+
+// @public
 export class TieringClient {
     constructor(connectionString: string, options?: TieringClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TieringClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TieringClientOptions);
     getAcquiredNumberLimits(resourceId: string, options?: NumberAllotmentGetAcquiredNumberLimitsOptionalParams): Promise<NumberAllotmentGetAcquiredNumberLimitsResponse>;
+    getByResourceId(resourceId: string, options?: TieringGetByResourceIdOptionalParams): Promise<TieringGetByResourceIdResponse>;
 }
 
 // @public
@@ -58,6 +139,56 @@ export interface TieringClientOptionalParams extends coreClient.ServiceClientOpt
 
 // @public
 export interface TieringClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface TieringGetByResourceIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TieringGetByResourceIdResponse = AcsTier[];
+
+// @public
+export interface TrialPhoneNumberPurchase {
+    numberType?: string[];
+    scope?: string;
+    totalNumbers?: number;
+    trialPeriodDays?: number;
+}
+
+// @public
+export interface TrialPhoneNumberUsage {
+    calling?: TrialPhoneNumberUsageCalling;
+    numberType?: string;
+    sms?: TrialPhoneNumberUsageSms;
+}
+
+// @public
+export interface TrialPhoneNumberUsageCalling {
+    inbound?: TrialPhoneNumberUsageCallingBounds[];
+    outbound?: TrialPhoneNumberUsageCallingBounds[];
+}
+
+// @public
+export interface TrialPhoneNumberUsageCallingBounds {
+    maximumCallDurationMinutes?: number;
+    scope?: string;
+    totalMinutes?: number;
+    type?: string;
+}
+
+// @public
+export interface TrialPhoneNumberUsageSms {
+    inbound?: TrialPhoneNumberUsageSmsBounds[];
+    outbound?: TrialPhoneNumberUsageSmsBounds[];
+}
+
+// @public
+export interface TrialPhoneNumberUsageSmsBounds {
+    scope?: string;
+    smsPerMin?: number;
+    total?: number;
+    type?: string;
 }
 
 // (No @packageDocumentation comment for this package)

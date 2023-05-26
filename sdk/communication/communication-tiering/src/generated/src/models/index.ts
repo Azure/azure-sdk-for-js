@@ -65,12 +65,181 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+/** Represents an ACS Tier resource. */
+export interface AcsTier {
+  /** Tier Id. */
+  tierId?: string;
+  /** Correlation Id */
+  correlationId?: string;
+  /** Tier Type */
+  tierType?: string;
+  /** Capabilities for the resource */
+  capabilities?: AcsTierCapabilities;
+}
+
+/** Capabilities for the resource */
+export interface AcsTierCapabilities {
+  /** The level at which the tiering properties in the TierInfo are for */
+  phoneNumberPurchase?: PhoneNumberPurchase[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  sms?: AcsTierCapabilitiesSMS;
+  /** The level at which the tiering properties in the TierInfo are for */
+  calling?: AcsTierCapabilitiesCalling;
+  /** The level at which the tiering properties in the TierInfo are for */
+  trialPhoneNumberPurchase?: TrialPhoneNumberPurchase[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  trialPhoneNumberUsage?: TrialPhoneNumberUsage[];
+}
+
+/** Model response for acquired number and limits. */
+export interface PhoneNumberPurchase {
+  /** Array defining the number type of the phone number. */
+  numberType?: string[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  scope?: string;
+  /** Total Numbers */
+  totalNumbers?: number;
+}
+
+/** The level at which the tiering properties in the TierInfo are for */
+export interface AcsTierCapabilitiesSMS {
+  /** The level at which the tiering properties in the TierInfo are for */
+  outbound?: SMSOutbound[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  inbound?: SMSInbound[];
+}
+
+/** Model response for acquired number and limits. */
+export interface SMSOutbound {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  smsPerMin?: number;
+  /** Total Numbers */
+  geographicLimitations?: string;
+}
+
+/** Model response for acquired number and limits. */
+export interface SMSInbound {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  smsPerMin?: number;
+  /** Total Numbers */
+  geographicLimitations?: string;
+}
+
+/** The level at which the tiering properties in the TierInfo are for */
+export interface AcsTierCapabilitiesCalling {
+  /** The level at which the tiering properties in the TierInfo are for */
+  outbound?: CallingOutbound[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  inbound?: CallingInbound[];
+}
+
+/** Model response for acquired number and limits. */
+export interface CallingOutbound {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  smsPerMin?: number;
+  /** Total Numbers */
+  geographicLimitations?: string;
+}
+
+/** Model response for acquired number and limits. */
+export interface CallingInbound {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  smsPerMin?: number;
+  /** Total Numbers */
+  geographicLimitations?: string;
+}
+
+/** Model response for acquired number and limits. */
+export interface TrialPhoneNumberPurchase {
+  /** Array defining the number type of the phone number. */
+  numberType?: string[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  scope?: string;
+  /** Total Numbers */
+  totalNumbers?: number;
+  /** Total Numbers */
+  trialPeriodDays?: number;
+}
+
+/** Model response for acquired number and limits. */
+export interface TrialPhoneNumberUsage {
+  /** Total Numbers */
+  numberType?: string;
+  /** The level at which the tiering properties in the TierInfo are for */
+  calling?: TrialPhoneNumberUsageCalling;
+  /** The level at which the tiering properties in the TierInfo are for */
+  sms?: TrialPhoneNumberUsageSms;
+}
+
+/** The level at which the tiering properties in the TierInfo are for */
+export interface TrialPhoneNumberUsageCalling {
+  /** The level at which the tiering properties in the TierInfo are for */
+  outbound?: TrialPhoneNumberUsageCallingBounds[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  inbound?: TrialPhoneNumberUsageCallingBounds[];
+}
+
+/** Model response for acquired number and limits. */
+export interface TrialPhoneNumberUsageCallingBounds {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  totalMinutes?: number;
+  /** Total Numbers */
+  maximumCallDurationMinutes?: number;
+}
+
+/** The level at which the tiering properties in the TierInfo are for */
+export interface TrialPhoneNumberUsageSms {
+  /** The level at which the tiering properties in the TierInfo are for */
+  outbound?: TrialPhoneNumberUsageSmsBounds[];
+  /** The level at which the tiering properties in the TierInfo are for */
+  inbound?: TrialPhoneNumberUsageSmsBounds[];
+}
+
+/** Model response for acquired number and limits. */
+export interface TrialPhoneNumberUsageSmsBounds {
+  /** The level at which the tiering properties in the TierInfo are for */
+  type?: string;
+  /** Total Numbers */
+  scope?: string;
+  /** Total Numbers */
+  total?: number;
+  /** Total Numbers */
+  smsPerMin?: number;
+}
+
 /** Optional parameters. */
 export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAcquiredNumberLimits operation. */
 export type NumberAllotmentGetAcquiredNumberLimitsResponse = AssetDetails[];
+
+/** Optional parameters. */
+export interface TieringGetByResourceIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByResourceId operation. */
+export type TieringGetByResourceIdResponse = AcsTier[];
 
 /** Optional parameters. */
 export interface TieringClientOptionalParams

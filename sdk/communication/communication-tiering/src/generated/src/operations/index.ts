@@ -7,3 +7,4 @@
  */
 
 export * from "./numberAllotment";
+export * from "./tiering";
