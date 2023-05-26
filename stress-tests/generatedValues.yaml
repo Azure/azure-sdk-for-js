@@ -3,4 +3,5 @@ scenarios:
   image: Dockerfile
   Scenario: node18-storageBlobListTest
   memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-storage-test/jstest/dockerfile:harshanalluru
 

@@ -92,7 +92,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   location: location
   kind: 'BlockBlobStorage'
   sku: {
-    name: 'Premium_LRS'
+    name: 'Standard_LRS'
   }
 }
 
