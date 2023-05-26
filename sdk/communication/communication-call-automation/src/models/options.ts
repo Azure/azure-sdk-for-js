@@ -57,12 +57,7 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
-}
+export type RedirectCallOptions = OperationOptions;
 
 /**
  * Options to reject call.
@@ -184,12 +179,4 @@ export interface DownloadRecordingOptions extends OperationOptions {
   offset?: number;
   /** Max content length in bytes. */
   length?: number;
-}
-
-/**
- * Options to send Dtmf tone.
- */
-export interface SendDtmfOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
 }

@@ -88,8 +88,8 @@ export class CallConnection {
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: source ? communicationIdentifierConverter(source) : undefined,
-      answeredByIdentifier: communicationUserIdentifierConverter(answeredBy),
+      source: source ? communicationIdentifierConverter(source) : undefined,
+      answeredby: communicationUserIdentifierConverter(answeredBy),
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)

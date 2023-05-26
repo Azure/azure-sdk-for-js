@@ -62,10 +62,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_UR_MP3,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_UR_MP3,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -75,7 +77,7 @@ describe("CallMedia Unit Tests", async function () {
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
     assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource.url);
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -85,10 +87,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_URL_WAV,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [];
 
@@ -97,7 +101,7 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource.url);
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -196,10 +200,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
@@ -233,10 +239,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
 
@@ -272,10 +280,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();

@@ -171,8 +171,8 @@ export class CallAutomationClient {
       const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        sourceIdentity: source ? communicationIdentifierConverter(source) : undefined,
-        answeredByIdentifier: communicationUserIdentifierConverter(answeredBy),
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredBy),
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
         ),
@@ -273,8 +273,8 @@ export class CallAutomationClient {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        sourceIdentity: source ? communicationIdentifierConverter(source) : undefined,
-        answeredByIdentifier: communicationUserIdentifierConverter(answeredBy),
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredBy),
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
