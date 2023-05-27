@@ -181,6 +181,12 @@ import { AccessToken, DefaultAzureCredential, TokenCredential } from "@azure/ide
 import * as dotenv from "dotenv";
 dotenv.config();
 
+function randomNumber(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 async function returnPassword(credential: TokenCredential) {
     // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
@@ -198,7 +204,11 @@ async function main() {
 
   async function updateToken() {
     accessTokenCache = await returnPassword(credential);
-    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- 120*1000)) - Date.now());
+    let randomTimestamp = randomNumber(120000,300000);
+    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
+    if(redis){
+      await redis.auth(accessTokenCache.token);
+    }
   }
 
   await updateToken();
