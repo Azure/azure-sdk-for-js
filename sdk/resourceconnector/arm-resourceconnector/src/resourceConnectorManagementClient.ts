@@ -103,7 +103,7 @@ export class ResourceConnectorManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-15-preview";
+    this.apiVersion = options.apiVersion || "2022-10-27";
     this.appliances = new AppliancesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

@@ -1,6 +1,22 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.3 (2023-05-04)
+
+### Features Added
+
+- Add loggingOptions in ClientOptions for logger support.
+
+## 1.1.2 (2023-04-06)
 
 ### Bugs Fixed
 

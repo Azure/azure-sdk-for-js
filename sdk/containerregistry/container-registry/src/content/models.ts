@@ -51,21 +51,11 @@ export interface GetManifestResult {
    * The raw content of the manifest that was downloaded.
    */
   content: Buffer;
-}
-
-/**
- * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciImageManifest}) from the registry.
- */
-export interface GetOciImageManifestResult extends GetManifestResult {
-  /**
-   * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
-   */
-  mediaType: KnownManifestMediaType.OciImageManifest;
 
   /**
-   * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
+   * The deserialized manifest
    */
-  manifest: OciImageManifest;
+  manifest: Record<string, unknown>;
 }
 
 /**
@@ -98,7 +88,7 @@ export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  sizeInBytes: number;
+  size: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -107,44 +97,53 @@ export interface OciDescriptor {
   annotations?: OciAnnotations;
 }
 
-/** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
-export interface OciImageManifest {
+/**
+ * Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json").
+ * See the specification at https://github.com/opencontainers/image-spec/blob/main/manifest.md for more information.
+ */
+export type OciImageManifest = {
   /** Schema version */
-  schemaVersion: number;
+  schemaVersion: 2;
+  /** The media type, when used, must be application/vnd.oci.image.manifest.v1+json. */
+  mediaType?: `${KnownManifestMediaType.OciImageManifest}`;
+  /** When the manifest is used for an artifact, the type of said artifact. */
+  artifactType?: string;
   /** V2 image config descriptor */
-  configuration: OciDescriptor;
+  config: OciDescriptor;
   /** List of V2 image layer information */
   layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
-}
+};
 
-/** Additional information provided through arbitrary metadata */
+/** Additional information provided through arbitrary metadata.
+ * See the specification at https://github.com/opencontainers/image-spec/blob/main/annotations.md for more information.
+ */
 export interface OciAnnotations extends Record<string, unknown> {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdOn?: Date;
+  "org.opencontainers.image.created"?: string;
   /** Contact details of the people or organization responsible for the image. */
-  authors?: string;
+  "org.opencontainers.image.authors"?: string;
   /** URL to find more information on the image. */
-  url?: string;
+  "org.opencontainers.image.url"?: string;
   /** URL to get documentation on the image. */
-  documentation?: string;
+  "org.opencontainers.image.documentation"?: string;
   /** URL to get source code for building the image. */
-  source?: string;
+  "org.opencontainers.image.source"?: string;
   /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
-  version?: string;
+  "org.opencontainers.image.version"?: string;
   /** Source control revision identifier for the packaged software. */
-  revision?: string;
+  "org.opencontainers.image.revision"?: string;
   /** Name of the distributing entity, organization or individual. */
-  vendor?: string;
+  "org.opencontainers.image.vendor"?: string;
   /** License(s) under which contained software is distributed as an SPDX License Expression. */
-  licenses?: string;
+  "org.opencontainers.image.licenses"?: string;
   /** Name of the reference for a target. */
-  name?: string;
+  "org.opencontainers.image.ref.name"?: string;
   /** Human-readable title of the image */
-  title?: string;
+  "org.opencontainers.image.title"?: string;
   /** Human-readable description of the software packaged in the image */
-  description?: string;
+  "org.opencontainers.image.description"?: string;
 }
 
 /**

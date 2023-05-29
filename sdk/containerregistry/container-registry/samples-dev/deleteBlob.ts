@@ -8,7 +8,8 @@
 
 import {
   ContainerRegistryContentClient,
-  isGetOciImageManifestResult,
+  KnownManifestMediaType,
+  OciImageManifest,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,11 +28,11 @@ async function main() {
 
   const downloadResult = await client.getManifest("latest");
 
-  if (!isGetOciImageManifestResult(downloadResult)) {
+  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
     throw new Error("Expected an OCI image manifest");
   }
 
-  for (const layer of downloadResult.manifest.layers) {
+  for (const layer of (downloadResult.manifest as OciImageManifest).layers) {
     await client.deleteBlob(layer.digest);
   }
 }

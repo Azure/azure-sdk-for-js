@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../CosmosDiagnostics";
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
@@ -9,6 +10,7 @@ export class ResourceResponse<TResource> {
     public readonly resource: TResource | undefined,
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
+    public readonly diagnostics?: CosmosDiagnostics,
     public readonly substatus?: SubStatusCode
   ) {}
   public get requestCharge(): number {

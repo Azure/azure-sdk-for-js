@@ -2,9 +2,9 @@
 
 For more samples, check out the [`samples-dev` folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples-dev)
 
-### Entity Resolutions
+### Entity Recognition
 
-Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. Resolutions provide predictable formats for common quantifiable types and can normalize values to a single, well-known format.
+Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
 
 The `languageCode` parameter is optional. If it is not specified, the default English model will be used.
 
@@ -23,7 +23,6 @@ async function main() {
   const actions = [
     {
       kind: "EntityRecognition",
-      modelVersion: "2022-10-01-preview",
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -46,15 +45,6 @@ async function main() {
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
         console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
-
-        if (entity.resolutions) {
-          console.log("\tRecognized Resolution:");
-          for (const resolution of entity.resolutions) {
-            const { resolutionKind, ...resolutionInfo } = resolution;
-            console.log(`\t- Resolution of type ${resolutionKind}`);
-            console.log(`\t- Resolution information ${JSON.stringify(resolutionInfo)}`);
-          }
-        }
       }
     }
   }
@@ -284,8 +274,6 @@ main();
 
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
-FHIR, or Fast Healthcare Interoperability Resource, is a standard that defines how healthcare information can be exchanged by different computer systems. To receive a FHIR bundle for a particular text document, input `4.0.1` for the `fhirVersion`. You can also pass the `document_type` if the type of document in the source text is known. Supported document types include "ClinicalTrial", "DischargeSumamry", "ProgressNote", and more, which can be found in this [reference docs](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-textanalytics/5.3.0b1/azure.ai.textanalytics.html#azure.ai.textanalytics.HealthcareDocumentType)
-
 ```javascript
 const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
@@ -300,8 +288,6 @@ async function main() {
   const actions = [
     {
       kind: "Healthcare",
-      fhirVersion: "4.0.1",
-      documentType: KnownHealthcareDocumentType.DischargeSummary,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -332,9 +318,6 @@ async function main() {
           }
         }
       }
-
-      console.log("\tFHIR Bundle:")
-      console.log(JSON.stringify(result.fhirBundle, undefined, 4));
     }
   }
 }
@@ -668,71 +651,5 @@ async function main() {
   }
 }
 
-main();
-```
-
-### Automatic Language Detection
-
-Automatically detect the language of a piece of text. This is a complementary feature to the existing action. It can be enabled by setting `languageCode` to `auto`, a parameter to `beginAnalyzeBatch` method. 
-
-The sample below enables automatic language detection feature for an abstractive summarization task.
-
-```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
-
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
-
-const documents = [
-  "Microsoft was founded by Bill Gates and Paul Allen.",
-  "Mon amie vit à Seattle",
-  "Ich besuchte Deutsch während Weihnachten",
-];
-
-async function main() {
-  const actions: AnalyzeBatchAction[] = [
-    {
-      kind: "EntityRecognition",
-    },
-  ];
-
-  const poller = await client.beginAnalyzeBatch(actions, documents, "auto");
-  const results = await poller.pollUntilDone();
-
-  for await (const actionResult of results) {
-    if (actionResult.kind !== "Entity Recognition") {
-      throw new Error(`Expected entity recognition results but got: ${actionResult.kind}`);
-    }
-    if (actionResult.error) {
-      const { code, message } = actionResult.error;
-      throw new Error(`Unexpected error (${code}): ${message}`);
-    }
-
-    for (const result of actionResult.results) {
-      console.log(`- Document ${result.id}`);
-      if (result.error) {
-        const { code, message } = result.error;
-        throw new Error(`Unexpected error (${code}): ${message}`);
-      }
-
-      if (result.detectedLanguage) {
-        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;
-        console.log(
-          "Document language identified as",
-          name,
-          "( ISO6391:",
-          iso6391Name,
-          ", Score:",
-          confidenceScore,
-          ")"
-        );
-      }
-
-      console.log("\tRecognized Entities:");
-      for (const entity of result.entities) {
-        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
-      }
-    }
-  }
-}
 main();
 ```

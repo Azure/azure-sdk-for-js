@@ -1,14 +1,31 @@
 # Release History
 
-## 4.11.1 (Unreleased)
+## 4.11.1 (2023-05-15)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.ApiManagement.GatewayAPIAdded`
+  - `Microsoft.ApiManagement.GatewayAPIRemoved`
+  - `Microsoft.ApiManagement.GatewayCertificateAuthorityCreated`
+  - `Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted`
+  - `Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated`
+  - `Microsoft.ApiManagement.GatewayCreated`
+  - `Microsoft.ApiManagement.GatewayDeleted`
+  - `Microsoft.ApiManagement.GatewayHostnameConfigurationCreated`
+  - `Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted`
+  - `Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated`
+  - `Microsoft.ApiManagement.GatewayUpdated`
+  - `Microsoft.Communication.EmailDeliveryReportReceived`
+  - `Microsoft.Communication.EmailEngagementTrackingReportReceived`
+  - `Microsoft.Communication.IncomingCall`
+  - `Microsoft.DataBox.CopyCompleted`
+  - `Microsoft.DataBox.CopyStarted`
+  - `Microsoft.DataBox.OrderCompleted`
+  - `Microsoft.HealthcareApis.DicomImageUpdated`
+  - `Microsoft.Storage.StorageTaskCompleted`
+  - `Microsoft.Storage.StorageTaskQueued`
 
 ## 4.11.0 (2022-11-08)
 
@@ -23,7 +40,7 @@
 
 ### Bugs Fixed
 
-- Fixed an issue where `generateSharedAccessSignature` would generate an invalid signature if the experation time was between 12:00pm and 1:00pm.  Thank you to @donut87 for discovering the issue and providing the fix.
+- Fixed an issue where `generateSharedAccessSignature` would generate an invalid signature if the experation time was between 12:00pm and 1:00pm. Thank you to @donut87 for discovering the issue and providing the fix.
 
 ### Other Changes
 

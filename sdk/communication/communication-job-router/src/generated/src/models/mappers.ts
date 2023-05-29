@@ -139,17 +139,17 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "JobRouterError"
         }
       }
     }
   }
 };
 
-export const CommunicationError: coreClient.CompositeMapper = {
+export const JobRouterError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationError",
+    className: "JobRouterError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -180,7 +180,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommunicationError"
+              className: "JobRouterError"
             }
           }
         }
@@ -189,7 +189,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "JobRouterError"
         }
       }
     }
@@ -265,7 +265,7 @@ export const DistributionPolicy: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      offerTtlInSeconds: {
+      offerTtlSeconds: {
         serializedName: "offerTtlSeconds",
         type: {
           name: "Number"
@@ -420,7 +420,7 @@ export const ExceptionRule: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "Composite", className: "ExceptionAction" } }
         }
       }
     }
@@ -432,6 +432,27 @@ export const JobExceptionTrigger: coreClient.CompositeMapper = {
     name: "Composite",
     className: "JobExceptionTrigger",
     uberParent: "JobExceptionTrigger",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExceptionAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExceptionAction",
+    uberParent: "ExceptionAction",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -534,7 +555,7 @@ export const RouterJob: coreClient.CompositeMapper = {
           ]
         }
       },
-      enqueuedOn: {
+      enqueueTimeUtc: {
         serializedName: "enqueueTimeUtc",
         readOnly: true,
         type: {
@@ -662,8 +683,7 @@ export const WorkerSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       },
       ttlSeconds: {
@@ -715,20 +735,20 @@ export const JobAssignment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      assignedOn: {
+      assignTime: {
         serializedName: "assignTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      completedOn: {
+      completeTime: {
         serializedName: "completeTime",
         type: {
           name: "DateTime"
         }
       },
-      closedOn: {
+      closeTime: {
         serializedName: "closeTime",
         type: {
           name: "DateTime"
@@ -920,7 +940,7 @@ export const JobPositionDetails: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      estimatedWaitTimeInMinutes: {
+      estimatedWaitTimeMinutes: {
         serializedName: "estimatedWaitTimeMinutes",
         required: true,
         type: {
@@ -1135,9 +1155,7 @@ export const RouterWorker: coreClient.CompositeMapper = {
         serializedName: "queueAssignments",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       },
       totalCapacity: {
@@ -1220,6 +1238,12 @@ export const ChannelConfiguration: coreClient.CompositeMapper = {
       capacityCostPerJob: {
         serializedName: "capacityCostPerJob",
         required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxNumberOfJobs: {
+        serializedName: "maxNumberOfJobs",
         type: {
           name: "Number"
         }
@@ -1397,27 +1421,6 @@ export const ScoringRuleOptions: coreClient.CompositeMapper = {
   }
 };
 
-export const ExceptionAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExceptionAction",
-    uberParent: "ExceptionAction",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const QueueSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1451,8 +1454,7 @@ export const QueueSelector: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
         }
       }
     }
@@ -1495,12 +1497,39 @@ export const FunctionRuleCredential: coreClient.CompositeMapper = {
   }
 };
 
+export const Oauth2ClientCredential: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Oauth2ClientCredential",
+    modelProperties: {
+      clientId: {
+        constraints: {
+          MaxLength: 500
+        },
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        constraints: {
+          MaxLength: 500
+        },
+        serializedName: "clientSecret",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const QueueWeightedAllocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueWeightedAllocation",
     modelProperties: {
-      weightTotalAsOne: {
+      weight: {
         serializedName: "weight",
         required: true,
         type: {
@@ -1778,8 +1807,39 @@ export const StaticRule: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const WebhookRule: coreClient.CompositeMapper = {
+  serializedName: "webhook-rule",
+  type: {
+    name: "Composite",
+    className: "WebhookRule",
+    uberParent: "RouterRule",
+    polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...RouterRule.type.modelProperties,
+      authorizationServerUri: {
+        serializedName: "authorizationServerUri",
+        type: {
+          name: "String"
+        }
+      },
+      clientCredential: {
+        serializedName: "clientCredential",
+        type: {
+          name: "Composite",
+          className: "Oauth2ClientCredential"
+        }
+      },
+      webhookUri: {
+        serializedName: "webhookUri",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1996,7 +2056,7 @@ export const QueueLengthExceptionTrigger: coreClient.CompositeMapper = {
     polymorphicDiscriminator: JobExceptionTrigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobExceptionTrigger.type.modelProperties,
-      maxJobCount: {
+      threshold: {
         serializedName: "threshold",
         required: true,
         type: {
@@ -2143,6 +2203,7 @@ export let discriminators = {
   "RouterRule.expression-rule": ExpressionRule,
   "RouterRule.azure-function-rule": FunctionRule,
   "RouterRule.static-rule": StaticRule,
+  "RouterRule.webhook-rule": WebhookRule,
   "WorkerSelectorAttachment.conditional": ConditionalWorkerSelectorAttachment,
   "WorkerSelectorAttachment.pass-through": PassThroughWorkerSelectorAttachment,
   "WorkerSelectorAttachment.rule-engine": RuleEngineWorkerSelectorAttachment,

@@ -82,6 +82,17 @@ export { ChangeFeedIterator } from "./ChangeFeedIterator";
 export { ChangeFeedOptions } from "./ChangeFeedOptions";
 export { ChangeFeedResponse } from "./ChangeFeedResponse";
 export { ClientContext } from "./ClientContext";
+
+export {
+  CosmosDiagnostics,
+  MetadataLookUpDiagnostics,
+  RetryDiagnostics,
+  MetadataLookUpDiagnostic,
+  FailedRequestAttemptDiagnostic,
+  MetadataLookUpType,
+  ClientSideRequestStatistics,
+} from "./CosmosDiagnostics";
+
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";

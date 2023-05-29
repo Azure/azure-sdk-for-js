@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.26.0",
+  "pnpmVersion": "7.32.2",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -341,6 +341,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -368,6 +373,11 @@
     {
       "packageName": "@azure/ai-language-text",
       "projectFolder": "sdk/cognitivelanguage/ai-language-text",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
       "versionPolicyName": "client"
     },
     {
@@ -528,6 +538,11 @@
     {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry",
       "versionPolicyName": "client"
     },
     {
@@ -1961,6 +1976,16 @@
     {
       "packageName": "@azure/arm-newrelicobservability",
       "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-paloaltonetworksngfw",
+      "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-selfhelp",
+      "projectFolder": "sdk/selfhelp/arm-selfhelp",
       "versionPolicyName": "management"
     }
   ]

@@ -180,6 +180,87 @@ export class LogsQueryClient {
       return result;
     });
   }
+
+  /**
+   * Executes a Kusto query on an Azure resource
+   *
+   * @param resourceId - The identifier of the resource. The expected format is
+         '/subscriptions/<sid>/resourceGroups/<rg>/providers/<providerName>/<resourceType>/<resourceName>'.
+   * @param query - A Kusto query. Learn more about the `Kusto query syntax <https://docs.microsoft.com/azure/data-explorer/kusto/query/>`.
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
+   *  Some common durations can be found in the {@link Durations} object.
+   * @param options - Options to adjust various aspects of the request.
+   * @returns Returns all the Azure Monitor logs matching the given Kusto query for an Azure resource.
+   */
+  async queryResource(
+    resourceId: string,
+    query: string,
+    timespan: QueryTimeInterval,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: LogsQueryOptions = {}
+  ): Promise<LogsQueryResult> {
+    let timeInterval: string = "";
+    return tracingClient.withSpan(
+      "LogsQueryClient.queryResource",
+      options,
+      async (updatedOptions) => {
+        timeInterval = convertTimespanToInterval(timespan);
+        if (resourceId.startsWith("/")) {
+          resourceId = resourceId.substring(1);
+        }
+
+        const { flatResponse, rawResponse } = await getRawResponse(
+          (paramOptions) =>
+            this._logAnalytics.query.resourceExecute(
+              resourceId,
+              {
+                query,
+                timespan: timeInterval,
+                workspaces: options?.additionalWorkspaces,
+              },
+              paramOptions
+            ),
+          {
+            ...updatedOptions,
+            requestOptions: {
+              customHeaders: {
+                ...formatPreferHeader(options),
+              },
+            },
+          }
+        );
+
+        const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+        flatResponse.tables = parsedBody.tables;
+
+        const res = {
+          tables: flatResponse.tables.map(convertGeneratedTable),
+          statistics: flatResponse.statistics,
+          visualization: flatResponse.render,
+        };
+
+        if (!flatResponse.error) {
+          // if there is no error field, it is success
+          const result: LogsQuerySuccessfulResult = {
+            tables: res.tables,
+            statistics: res.statistics,
+            visualization: res.visualization,
+            status: LogsQueryResultStatus.Success,
+          };
+          return result;
+        } else {
+          const result: LogsQueryPartialResult = {
+            partialTables: res.tables,
+            status: LogsQueryResultStatus.PartialFailure,
+            partialError: mapError(flatResponse.error),
+            statistics: res.statistics,
+            visualization: res.visualization,
+          };
+          return result;
+        }
+      }
+    );
+  }
 }
 
 interface ReturnType<T> {

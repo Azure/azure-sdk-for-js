@@ -1,6 +1,6 @@
 # Release History
 
-## 17.4.1 (Unreleased)
+## 18.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,41 @@
 
 ### Other Changes
 
+## 18.0.0 (2023-04-23)
+    
+**Features**
+
+  - Added operation ManagedClusters.listKubernetesVersions
+  - Added Interface KubernetesPatchVersion
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionCapabilities
+  - Added Interface KubernetesVersionListResult
+  - Added Interface ManagedClusterSecurityProfileImageCleaner
+  - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Interface ManagedClustersListKubernetesVersionsOptionalParams
+  - Added Type Alias KubernetesSupportPlan
+  - Added Type Alias ManagedClustersListKubernetesVersionsResponse
+  - Added Type Alias NetworkDataplane
+  - Added Type Alias NetworkPluginMode
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkDataplane
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedCluster has a new optional parameter supportPlan
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
+  - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Added Enum KnownKubernetesSupportPlan
+  - Added Enum KnownNetworkDataplane
+  - Added Enum KnownNetworkPluginMode
+  - Enum KnownManagedClusterSKUTier has a new value Premium
+  - Enum KnownNetworkPolicy has a new value Cilium
+
+**Breaking Changes**
+
+  - Removed Enum KnownContainerServiceStorageProfileTypes
+  - Removed Enum KnownContainerServiceVMSizeTypes
+  - Enum KnownManagedClusterSKUName no longer has value Basic
+  - Enum KnownManagedClusterSKUTier no longer has value Paid
+    
+    
 ## 17.4.0 (2023-03-09)
     
 **Features**

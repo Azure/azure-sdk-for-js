@@ -30,15 +30,15 @@ async function main() {
 
   const manifest: OciImageManifest = {
     schemaVersion: 2,
-    configuration: {
+    config: {
       digest: configDigest,
-      sizeInBytes: configSize,
+      size: configSize,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
         digest: layerDigest,
-        sizeInBytes: layerSize,
+        size: layerSize,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],

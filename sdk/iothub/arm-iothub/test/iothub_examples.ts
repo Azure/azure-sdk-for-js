@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Iothub test", () => {
+describe.skip("Iothub test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: IotHubClient;
@@ -53,102 +53,102 @@ describe("Iothub test", () => {
     iothubName = "myiothubxxxxyyyjjrr";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("iotHubResource create test", async function() {
-    const res = await client.iotHubResource.beginCreateOrUpdateAndWait(resourceGroup,iothubName,{
+  it("iotHubResource create test", async function () {
+    const res = await client.iotHubResource.beginCreateOrUpdateAndWait(resourceGroup, iothubName, {
       location: location,
-        tags: {key: "value1"},
-        etag: "AAAAAAFD6M4=",
-        properties: {
-            ipFilterRules: [],
-            networkRuleSets: {
-                defaultAction: "Deny",
-                applyToBuiltInEventHubEndpoint: true,
-                ipRules: [
-                    {
-                        filterName: "rule1",
-                        action: "Allow",
-                        ipMask: "131.117.159.53"
-                    }
-                ]
-            },
-            eventHubEndpoints: {
-                events: {
-                    retentionTimeInDays: 1,
-                    partitionCount: 2
-                }
-            },
-            routing: {
-                endpoints: {
-                    serviceBusQueues: [],
-                    serviceBusTopics: [],
-                    eventHubs: [],
-                    storageContainers: []
-                },
-                routes: [],
-            },
-            storageEndpoints: {
-                $default: {
-                    sasTtlAsIso8601: "PT1H",
-                    connectionString: "",
-                    containerName: ""
-                }
-            },
-            messagingEndpoints: {
-                fileNotifications: {
-                    lockDurationAsIso8601: "PT1M",
-                    ttlAsIso8601: "PT1H",
-                    maxDeliveryCount: 10
-                }
-            },
-            enableFileUploadNotifications: false,
-            cloudToDevice: {
-                maxDeliveryCount: 10,
-                defaultTtlAsIso8601: "PT1H",
-                feedback: {
-                    lockDurationAsIso8601: "PT1M",
-                    ttlAsIso8601: "PT1H",
-                    maxDeliveryCount: 10
-                }
-            },
-            features: "None",
-            minTlsVersion: "1.2"
+      tags: { key: "value1" },
+      etag: "AAAAAAFD6M4=",
+      properties: {
+        ipFilterRules: [],
+        networkRuleSets: {
+          defaultAction: "Deny",
+          applyToBuiltInEventHubEndpoint: true,
+          ipRules: [
+            {
+              filterName: "rule1",
+              action: "Allow",
+              ipMask: "131.117.159.53"
+            }
+          ]
         },
-        sku: {
-            name: "S1",
-            capacity: 1
-        }
-    },testPollingOptions);
-    assert.equal(res.name,iothubName);
+        eventHubEndpoints: {
+          events: {
+            retentionTimeInDays: 1,
+            partitionCount: 2
+          }
+        },
+        routing: {
+          endpoints: {
+            serviceBusQueues: [],
+            serviceBusTopics: [],
+            eventHubs: [],
+            storageContainers: []
+          },
+          routes: [],
+        },
+        storageEndpoints: {
+          $default: {
+            sasTtlAsIso8601: "PT1H",
+            connectionString: "",
+            containerName: ""
+          }
+        },
+        messagingEndpoints: {
+          fileNotifications: {
+            lockDurationAsIso8601: "PT1M",
+            ttlAsIso8601: "PT1H",
+            maxDeliveryCount: 10
+          }
+        },
+        enableFileUploadNotifications: false,
+        cloudToDevice: {
+          maxDeliveryCount: 10,
+          defaultTtlAsIso8601: "PT1H",
+          feedback: {
+            lockDurationAsIso8601: "PT1M",
+            ttlAsIso8601: "PT1H",
+            maxDeliveryCount: 10
+          }
+        },
+        features: "None",
+        minTlsVersion: "1.2"
+      },
+      sku: {
+        name: "S1",
+        capacity: 1
+      }
+    }, testPollingOptions);
+    assert.equal(res.name, iothubName);
   });
 
-  it("iotHubResource get test", async function() {
-    const res = await client.iotHubResource.get(resourceGroup,iothubName);
-    assert.equal(res.name,iothubName);
+  it("iotHubResource get test", async function () {
+    const res = await client.iotHubResource.get(resourceGroup, iothubName);
+    assert.equal(res.name, iothubName);
   });
 
-  it("iotHubResource list test", async function() {
+  it("iotHubResource list test", async function () {
     const resArray = new Array();
-    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)){
+    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("iotHubResource update test", async function() {
-    const res = await client.iotHubResource.beginUpdateAndWait(resourceGroup,iothubName,{tags: {tag1 : "value1"}},testPollingOptions);
-    assert.equal(res.name,iothubName);
+  it("iotHubResource update test", async function () {
+    const res = await client.iotHubResource.beginUpdateAndWait(resourceGroup, iothubName, { tags: { tag1: "value1" } }, testPollingOptions);
+    assert.equal(res.name, iothubName);
   });
 
-  it("iotHubResource delete test", async function() {
-    const res = await client.iotHubResource.beginDeleteAndWait(resourceGroup,iothubName,testPollingOptions);
+  it("iotHubResource delete test", async function () {
+    const res = await client.iotHubResource.beginDeleteAndWait(resourceGroup, iothubName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)){
+    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

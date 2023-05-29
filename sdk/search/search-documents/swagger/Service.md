@@ -15,7 +15,7 @@ add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
 core-http-compat-mode: true
-package-version: 11.3.0-beta.8
+package-version: 12.0.0-beta.2
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -340,4 +340,27 @@ directive:
   where: $.definitions.SemanticField.properties.fieldName
   transform: >
     $["x-ms-client-name"] = "name";
+```
+
+### Deprecations
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.EntityRecognitionSkill")]
+  transform: $.description += "\n\n@deprecated EntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.SentimentSkill")]
+  transform: $.description += "\n\n@deprecated SentimentSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
+  transform: $.description += "\n\n@deprecated NamedEntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
 ```
