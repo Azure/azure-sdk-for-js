@@ -95,7 +95,7 @@ export class CosmosDiagnosticContext {
     this.locationEndpointsContacted.set(location.databaseAccountEndpoint, location);
   }
 
-  public reset() {
+  public reset(): void {
     this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
     this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
     this.retryStartTimeUTCinMs = 0;
