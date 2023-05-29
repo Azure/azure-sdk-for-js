@@ -37,11 +37,13 @@ async function createSipConfiguration(
   ]);
 }
 
-matrix([[false]], async function(useAad) {
+const testDomainName = process.env.AZURE_COMMUNICATION_TEST_DOMAIN_NAME;
+
+matrix([[true, false]], async function(useAad) {
   describe(`SipRoutingClient - match number to routes ${useAad ? " [AAD]" : ""}`, function() {
     let client: SipRoutingClient;
     let recorder: Recorder;
-    let domain: string = "tw54f5.net";
+    let domain: string;
     let trunkUs: string;
     let trunkNz: string;
 
@@ -50,7 +52,7 @@ matrix([[false]], async function(useAad) {
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
 
-      domain = getUniqueDomain(recorder);
+      domain = testDomainName || getUniqueDomain(recorder);
       trunkUs = getUniqueFqdn(recorder, domain)
       trunkNz = getUniqueFqdn(recorder, domain);
 
