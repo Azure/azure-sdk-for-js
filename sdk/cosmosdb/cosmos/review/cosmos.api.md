@@ -814,13 +814,15 @@ export interface FeedOptions extends SharedOptions {
 
 // @public (undocumented)
 export class FeedResponse<TResource> {
-    constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean);
+    constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean, diagnostics: CosmosDiagnostics);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
     get continuation(): string;
     // (undocumented)
     get continuationToken(): string;
+    // (undocumented)
+    readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -1339,8 +1341,6 @@ export class QueryIterator<T> {
     fetchAll(): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
-    // (undocumented)
-    getDiagnostics(): CosmosDiagnostics;
     hasMoreResults(): boolean;
     reset(): void;
 }

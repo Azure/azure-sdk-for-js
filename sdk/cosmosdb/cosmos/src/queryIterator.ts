@@ -4,7 +4,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { ClientContext } from "./ClientContext";
-import { CosmosDiagnostics } from "./CosmosDiagnostics";
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
@@ -98,7 +97,8 @@ export class QueryIterator<T> {
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
-        this.queryExecutionContext.hasMoreResults()
+        this.queryExecutionContext.hasMoreResults(),
+        this.diagnosticContext.resetAndGetDiagnostics()
       );
       if (response.result !== undefined) {
         yield feedResponse;
@@ -162,7 +162,8 @@ export class QueryIterator<T> {
     return new FeedResponse<T>(
       response.result,
       response.headers,
-      this.queryExecutionContext.hasMoreResults()
+      this.queryExecutionContext.hasMoreResults(),
+      this.diagnosticContext.resetAndGetDiagnostics()
     );
   }
 
@@ -206,7 +207,8 @@ export class QueryIterator<T> {
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
-      this.queryExecutionContext.hasMoreResults()
+      this.queryExecutionContext.hasMoreResults(),
+      this.diagnosticContext.resetAndGetDiagnostics()
     );
   }
 
@@ -231,10 +233,6 @@ export class QueryIterator<T> {
       queryPlan,
       this.diagnosticContext
     );
-  }
-
-  public getDiagnostics(): CosmosDiagnostics {
-    return this.diagnosticContext.getDiagnostics();
   }
 
   private async fetchQueryPlan(): Promise<any> {
