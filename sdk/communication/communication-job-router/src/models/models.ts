@@ -25,7 +25,6 @@ export {
   WorkerAssignment,
   JobOffer,
   RouterWorkerState,
-  KnownRouterWorkerState,
   WorkerSelector,
   JobPositionDetails,
   WorkerStateSelector,

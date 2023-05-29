@@ -20,6 +20,7 @@ import {
   CancelJobRequest as CancelJobRequestMapper,
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
+  DeclineJobOfferRequest as DeclineJobOfferRequestMapper,
   RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
@@ -300,6 +301,11 @@ export const offerId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const declineJobOfferRequest: OperationParameter = {
+  parameterPath: ["options", "declineJobOfferRequest"],
+  mapper: DeclineJobOfferRequestMapper
 };
 
 export const patch5: OperationParameter = {

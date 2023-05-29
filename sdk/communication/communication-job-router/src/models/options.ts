@@ -12,6 +12,7 @@ import {
   JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
   JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
@@ -254,6 +255,18 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
   closeTime?: Date;
   /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
   note?: string;
+}
+
+/**
+ * Options to close a job.
+ */
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+  /**
+   * If the reoffer time is not provided, then this job will not be re-offered to the worker who declined this job unless
+   * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
+   * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
+   */
+  reofferTimeUtc?: Date;
 }
 
 /**

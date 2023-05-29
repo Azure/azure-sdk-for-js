@@ -820,9 +820,11 @@ const declineJobActionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  requestBody: Parameters.declineJobOfferRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.workerId, Parameters.offerId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const getQueueStatisticsOperationSpec: coreClient.OperationSpec = {
