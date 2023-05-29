@@ -23,6 +23,8 @@ import {
   RoleEligibilityScheduleRequestsGetOptionalParams,
   RoleEligibilityScheduleRequestsGetResponse,
   RoleEligibilityScheduleRequestsCancelOptionalParams,
+  RoleEligibilityScheduleRequestsValidateOptionalParams,
+  RoleEligibilityScheduleRequestsValidateResponse,
   RoleEligibilityScheduleRequestsListForScopeNextResponse
 } from "../models";
 
@@ -101,11 +103,9 @@ export class RoleEligibilityScheduleRequestsImpl
   /**
    * Creates a role eligibility schedule request.
    * @param scope The scope of the role eligibility schedule request to create. The scope can be any REST
-   *              resource instance. For example, use
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/' for a subscription,
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'
-   *              for a resource group, and
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
    * @param roleEligibilityScheduleRequestName The name of the role eligibility to create. It can be any
    *                                           valid GUID.
@@ -175,6 +175,25 @@ export class RoleEligibilityScheduleRequestsImpl
   }
 
   /**
+   * Validates a new role eligibility schedule request.
+   * @param scope The scope of the role eligibility request to validate.
+   * @param roleEligibilityScheduleRequestName The name of the role eligibility request to validate.
+   * @param parameters Parameters for the role eligibility schedule request.
+   * @param options The options parameters.
+   */
+  validate(
+    scope: string,
+    roleEligibilityScheduleRequestName: string,
+    parameters: RoleEligibilityScheduleRequest,
+    options?: RoleEligibilityScheduleRequestsValidateOptionalParams
+  ): Promise<RoleEligibilityScheduleRequestsValidateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, roleEligibilityScheduleRequestName, parameters, options },
+      validateOperationSpec
+    );
+  }
+
+  /**
    * ListForScopeNext
    * @param scope The scope of the role eligibility schedule requests.
    * @param nextLink The nextLink from the previous successful call to the ListForScope method.
@@ -206,8 +225,8 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -229,7 +248,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -250,7 +269,7 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -265,13 +284,36 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.roleEligibilityScheduleRequestName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleEligibilityScheduleRequest
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.roleEligibilityScheduleRequestName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
@@ -285,7 +327,7 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };

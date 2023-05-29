@@ -7,10 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Configuration,
   ConfigurationsListByServerOptionalParams,
+  ConfigurationsCreateOrUpdateOptionalParams,
+  ConfigurationsCreateOrUpdateResponse,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsGetOptionalParams,
@@ -42,6 +44,41 @@ export interface Configurations {
    * @param parameters The required parameters for updating a server configuration.
    * @param options The options parameters.
    */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Configuration,
+    options?: ConfigurationsCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
+      ConfigurationsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Configuration,
+    options?: ConfigurationsCreateOrUpdateOptionalParams
+  ): Promise<ConfigurationsCreateOrUpdateResponse>;
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param options The options parameters.
+   */
   beginUpdate(
     resourceGroupName: string,
     serverName: string,
@@ -49,8 +86,8 @@ export interface Configurations {
     parameters: Configuration,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsUpdateResponse>,
       ConfigurationsUpdateResponse
     >
   >;
@@ -95,8 +132,8 @@ export interface Configurations {
     parameters: ConfigurationListForBatchUpdate,
     options?: ConfigurationsBatchUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsBatchUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsBatchUpdateResponse>,
       ConfigurationsBatchUpdateResponse
     >
   >;

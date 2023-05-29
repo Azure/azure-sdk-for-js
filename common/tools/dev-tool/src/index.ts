@@ -8,5 +8,5 @@ import { baseCommand } from "./commands";
 // The main command is implemented using the same `subCommand` method.
 baseCommand(...process.argv.slice(2)).catch((err) => {
   console.trace(chalk.red("[Internal Error]", err.stack));
-  process.exit(1);
+  process.exit(255);
 });

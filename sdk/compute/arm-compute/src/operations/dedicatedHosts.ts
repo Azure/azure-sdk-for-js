@@ -13,13 +13,19 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DedicatedHost,
   DedicatedHostsListByHostGroupNextOptionalParams,
   DedicatedHostsListByHostGroupOptionalParams,
   DedicatedHostsListByHostGroupResponse,
+  DedicatedHostsListAvailableSizesOptionalParams,
+  DedicatedHostsListAvailableSizesResponse,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
@@ -131,6 +137,81 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
+   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
+   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  public listAvailableSizes(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams
+  ): PagedAsyncIterableIterator<string> {
+    const iter = this.listAvailableSizesPagingAll(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAvailableSizesPagingPage(
+          resourceGroupName,
+          hostGroupName,
+          hostName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listAvailableSizesPagingPage(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<string[]> {
+    let result: DedicatedHostsListAvailableSizesResponse;
+    result = await this._listAvailableSizes(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listAvailableSizesPagingAll(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams
+  ): AsyncIterableIterator<string> {
+    for await (const page of this.listAvailableSizesPagingPage(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Create or update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
@@ -145,8 +226,8 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     parameters: DedicatedHost,
     options?: DedicatedHostsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHostsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHostsCreateOrUpdateResponse>,
       DedicatedHostsCreateOrUpdateResponse
     >
   > {
@@ -156,7 +237,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     ): Promise<DedicatedHostsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -189,13 +270,16 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostGroupName, hostName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DedicatedHostsCreateOrUpdateResponse,
+      OperationState<DedicatedHostsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -228,7 +312,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
-   * Update an dedicated host .
+   * Update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host .
@@ -242,8 +326,8 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     parameters: DedicatedHostUpdate,
     options?: DedicatedHostsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHostsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHostsUpdateResponse>,
       DedicatedHostsUpdateResponse
     >
   > {
@@ -253,7 +337,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     ): Promise<DedicatedHostsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -286,13 +370,16 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostGroupName, hostName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DedicatedHostsUpdateResponse,
+      OperationState<DedicatedHostsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -300,7 +387,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
-   * Update an dedicated host .
+   * Update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host .
@@ -336,14 +423,14 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -376,13 +463,13 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostGroupName, hostName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -463,14 +550,14 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -503,13 +590,13 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostGroupName, hostName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -539,6 +626,26 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
+   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  private _listAvailableSizes(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams
+  ): Promise<DedicatedHostsListAvailableSizesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, hostGroupName, hostName, options },
+      listAvailableSizesOperationSpec
+    );
   }
 
   /**
@@ -720,6 +827,29 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/hostSizes",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedHostSizeListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName1,
+    Parameters.hostName1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RunCommandDocumentBase,
   VirtualMachineRunCommandsListNextOptionalParams,
@@ -241,8 +245,8 @@ export class VirtualMachineRunCommandsImpl
     runCommand: VirtualMachineRunCommand,
     options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>,
       VirtualMachineRunCommandsCreateOrUpdateResponse
     >
   > {
@@ -252,7 +256,7 @@ export class VirtualMachineRunCommandsImpl
     ): Promise<VirtualMachineRunCommandsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -285,13 +289,16 @@ export class VirtualMachineRunCommandsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmName, runCommandName, runCommand, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, runCommandName, runCommand, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineRunCommandsCreateOrUpdateResponse,
+      OperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -338,8 +345,8 @@ export class VirtualMachineRunCommandsImpl
     runCommand: VirtualMachineRunCommandUpdate,
     options?: VirtualMachineRunCommandsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineRunCommandsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineRunCommandsUpdateResponse>,
       VirtualMachineRunCommandsUpdateResponse
     >
   > {
@@ -349,7 +356,7 @@ export class VirtualMachineRunCommandsImpl
     ): Promise<VirtualMachineRunCommandsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -382,13 +389,16 @@ export class VirtualMachineRunCommandsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmName, runCommandName, runCommand, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, runCommandName, runCommand, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineRunCommandsUpdateResponse,
+      OperationState<VirtualMachineRunCommandsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -432,14 +442,14 @@ export class VirtualMachineRunCommandsImpl
     vmName: string,
     runCommandName: string,
     options?: VirtualMachineRunCommandsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -472,13 +482,13 @@ export class VirtualMachineRunCommandsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmName, runCommandName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, runCommandName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

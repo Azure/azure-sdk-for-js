@@ -87,11 +87,11 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const maxpagesize: OperationQueryParameter = {
-  parameterPath: ["options", "maxpagesize"],
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
   mapper: {
-    defaultValue: 20,
-    serializedName: "maxpagesize",
+    defaultValue: -1,
+    serializedName: "maxPageSize",
     type: {
       name: "Number"
     }
@@ -147,8 +147,7 @@ export const reclassifyJobRequest: OperationParameter = {
   mapper: {
     serializedName: "reclassifyJobRequest",
     type: {
-      name: "Dictionary",
-      value: { type: { name: "any" } }
+      name: "any"
     }
   }
 };
@@ -209,6 +208,11 @@ export const status: OperationQueryParameter = {
         "closed",
         "cancelled",
         "classificationFailed",
+        "created",
+        "pendingSchedule",
+        "scheduled",
+        "scheduleFailed",
+        "waitingForActivation",
         "active"
       ]
     }
@@ -241,6 +245,26 @@ export const classificationPolicyId: OperationQueryParameter = {
     serializedName: "classificationPolicyId",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const scheduledBefore: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledBefore"],
+  mapper: {
+    serializedName: "scheduledBefore",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const scheduledAfter: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledAfter"],
+  mapper: {
+    serializedName: "scheduledAfter",
+    type: {
+      name: "DateTime"
     }
   }
 };

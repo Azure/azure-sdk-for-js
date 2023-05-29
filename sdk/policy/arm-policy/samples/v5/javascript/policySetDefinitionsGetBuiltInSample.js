@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyClient } = require("@azure/arm-policy");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This operation retrieves the built-in policy set definition with the given name.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getBuiltInPolicySetDefinition.json
  */
 async function retrieveABuiltInPolicySetDefinition() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policySetDefinitionName = "1f3afdf9-d0c9-4c3d-847f-89da613e70a8";
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function retrieveABuiltInPolicySetDefinition() {
   console.log(result);
 }
 
-retrieveABuiltInPolicySetDefinition().catch(console.error);
+async function main() {
+  retrieveABuiltInPolicySetDefinition();
+}
+
+main().catch(console.error);

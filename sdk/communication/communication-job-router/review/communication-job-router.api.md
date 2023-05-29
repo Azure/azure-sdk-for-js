@@ -29,6 +29,13 @@ export interface BestWorkerMode extends DistributionMode {
 }
 
 // @public
+export interface CancelExceptionAction extends ExceptionAction {
+    dispositionCode?: string;
+    kind: "cancel";
+    note?: string;
+}
+
+// @public
 export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
     dispositionCode?: string;
     note?: string;
@@ -37,6 +44,7 @@ export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams
 // @public
 export interface ChannelConfiguration {
     capacityCostPerJob: number;
+    maxNumberOfJobs?: number;
 }
 
 // @public
@@ -91,14 +99,16 @@ export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttac
 export interface CreateClassificationPolicyOptions extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
     fallbackQueueId?: string;
     name?: string;
+    prioritizationRule?: RouterRuleUnion;
     queueSelectors?: QueueSelectorAttachmentUnion[];
+    workerSelectors?: WorkerSelectorAttachmentUnion[];
 }
 
 // @public
 export interface CreateDistributionPolicyOptions extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
     mode?: DistributionModeUnion;
     name?: string;
-    offerTtlInSeconds?: number;
+    offerTtlSeconds?: number;
 }
 
 // @public
@@ -124,9 +134,11 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -178,7 +190,7 @@ export interface DistributionPolicy {
     readonly id?: string;
     mode?: DistributionModeUnion;
     name?: string;
-    offerTtlInSeconds?: number;
+    offerTtlSeconds?: number;
 }
 
 // @public
@@ -192,6 +204,14 @@ export interface DistributionPolicyResponse extends DistributionPolicy {
     // (undocumented)
     readonly id: string;
 }
+
+// @public
+export interface ExceptionAction {
+    kind: "cancel" | "manual-reclassify" | "reclassify";
+}
+
+// @public (undocumented)
+export type ExceptionActionUnion = ExceptionAction | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
 export interface ExceptionPolicy {
@@ -217,7 +237,7 @@ export interface ExceptionPolicyResponse extends ExceptionPolicy {
 // @public
 export interface ExceptionRule {
     actions: {
-        [propertyName: string]: any;
+        [propertyName: string]: ExceptionActionUnion;
     };
     trigger: JobExceptionTriggerUnion;
 }
@@ -245,9 +265,9 @@ export interface FunctionRuleCredential {
 
 // @public
 export interface JobAssignment {
-    assignedOn: Date;
-    closedOn?: Date;
-    completedOn?: Date;
+    assignTime: Date;
+    closeTime?: Date;
+    completeTime?: Date;
     id: string;
     workerId?: string;
 }
@@ -271,7 +291,7 @@ export interface JobOffer {
 
 // @public
 export interface JobPositionDetails {
-    estimatedWaitTimeInMinutes: number;
+    estimatedWaitTimeMinutes: number;
     jobId: string;
     position: number;
     queueId: string;
@@ -324,7 +344,9 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type JobRouterCancelJobActionResponse = Record<string, unknown>;
+export type JobRouterCancelJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCloseJobActionOptionalParams extends coreClient.OperationOptions {
@@ -334,7 +356,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type JobRouterCloseJobActionResponse = Record<string, unknown>;
+export type JobRouterCloseJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
@@ -342,18 +366,24 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
+export type JobRouterCompleteJobActionResponse = {
+    body: any;
+};
 
 // @public
-export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
+export type JobRouterDeclineJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
-    reclassifyJobRequest?: Record<string, unknown>;
+    reclassifyJobRequest?: any;
 }
 
 // @public
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
+export type JobRouterReclassifyJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOptions {
@@ -364,7 +394,7 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "active";
+export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
 export enum KnownRouterWorkerState {
@@ -398,6 +428,8 @@ export interface ListJobsOptions extends OperationOptions {
     jobStateSelector?: JobStateSelector;
     maxPageSize?: number;
     queueId?: string;
+    scheduledAfter?: Date;
+    scheduledBefore?: Date;
 }
 
 // @public
@@ -425,6 +457,20 @@ export interface LongestIdleMode extends DistributionMode {
 }
 
 // @public
+export interface ManualReclassifyExceptionAction extends ExceptionAction {
+    kind: "manual-reclassify";
+    priority?: number;
+    queueId?: string;
+    workerSelectors?: WorkerSelector[];
+}
+
+// @public
+export interface Oauth2ClientCredential {
+    clientId?: string;
+    clientSecret?: string;
+}
+
+// @public
 export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachment {
     key: string;
     kind: "pass-through";
@@ -442,14 +488,14 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
 // @public
 export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
     kind: "queue-length";
-    maxJobCount: number;
+    threshold: number;
 }
 
 // @public
 export interface QueueSelector {
     key: string;
     labelOperator: LabelOperator;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -473,7 +519,16 @@ export interface QueueStatistics {
 // @public
 export interface QueueWeightedAllocation {
     labelSelectors: QueueSelector[];
-    weightTotalAsOne: number;
+    weight: number;
+}
+
+// @public
+export interface ReclassifyExceptionAction extends ExceptionAction {
+    classificationPolicyId?: string;
+    kind: "reclassify";
+    labelsToUpsert?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -543,7 +598,7 @@ export class RouterClient {
     listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse>;
     registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnAssignJobResponse>;
+    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
     updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
 }
@@ -565,7 +620,7 @@ export interface RouterJob {
     channelReference?: string;
     classificationPolicyId?: string;
     dispositionCode?: string;
-    readonly enqueuedOn?: Date;
+    readonly enqueueTimeUtc?: Date;
     readonly id?: string;
     readonly jobStatus?: RouterJobStatus;
     labels?: {
@@ -577,9 +632,11 @@ export interface RouterJob {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -595,15 +652,15 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created";
+export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
 
 // @public
 export interface RouterRule {
-    kind: "direct-map-rule" | "expression-rule" | "azure-function-rule" | "static-rule";
+    kind: "direct-map-rule" | "expression-rule" | "azure-function-rule" | "static-rule" | "webhook-rule";
 }
 
 // @public (undocumented)
-export type RouterRuleUnion = RouterRule | DirectMapRule | ExpressionRule | FunctionRule | StaticRule;
+export type RouterRuleUnion = RouterRule | DirectMapRule | ExpressionRule | FunctionRule | StaticRule | WebhookRule;
 
 // @public
 export interface RouterWorker {
@@ -619,7 +676,7 @@ export interface RouterWorker {
     readonly loadRatio?: number;
     readonly offers?: JobOffer[];
     queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly state?: RouterWorkerState;
     tags?: {
@@ -675,7 +732,7 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
 // @public
 export interface StaticRule extends RouterRule {
     kind: "static-rule";
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -684,24 +741,26 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
     labelSelector: WorkerSelector;
 }
 
-// @public (undocumented)
-export interface UnAssignJobResponse {
+// @public
+export interface UnassignJobResult {
     jobId: string;
-    unAssignmentCount: number;
+    unassignmentCount: number;
 }
 
 // @public
 export interface UpdateClassificationPolicyOptions extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
     fallbackQueueId?: string;
     name?: string;
+    prioritizationRule?: RouterRuleUnion;
     queueSelectors?: QueueSelectorAttachmentUnion[];
+    workerSelectors?: WorkerSelectorAttachmentUnion[];
 }
 
 // @public
 export interface UpdateDistributionPolicyOptions extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
     mode?: DistributionModeUnion;
     name?: string;
-    offerTtlInSeconds?: number;
+    offerTtlSeconds?: number;
 }
 
 // @public
@@ -710,18 +769,6 @@ export interface UpdateExceptionPolicyOptions extends JobRouterAdministrationUps
         [propertyName: string]: ExceptionRule;
     };
     name?: string;
-}
-
-// @public
-export interface UpdateJobClassificationOptions extends OperationOptions {
-    forceClassification?: boolean;
-    patch?: RouterJob;
-}
-
-// @public
-export interface UpdateJobLabelsOptions extends OperationOptions {
-    forceClassification?: boolean;
-    patch?: RouterJob;
 }
 
 // @public
@@ -739,9 +786,11 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -779,6 +828,14 @@ export interface WaitTimeExceptionTrigger extends JobExceptionTrigger {
 }
 
 // @public
+export interface WebhookRule extends RouterRule {
+    authorizationServerUri?: string;
+    clientCredential?: Oauth2ClientCredential;
+    kind: "webhook-rule";
+    webhookUri?: string;
+}
+
+// @public
 export interface WeightedAllocationQueueSelectorAttachment extends QueueSelectorAttachment {
     allocations: QueueWeightedAllocation[];
     kind: "weighted-allocation-queue-selector";
@@ -806,7 +863,7 @@ export interface WorkerSelector {
     labelOperator: LabelOperator;
     readonly state?: WorkerSelectorState;
     ttlSeconds?: number;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public

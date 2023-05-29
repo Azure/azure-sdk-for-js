@@ -32,6 +32,6 @@
     "@azure/communication-rooms": "next",
     "dotenv": "latest",
     "@azure/communication-identity": "^1.1.0-beta.2",
-    "@azure/communication-common": "^2.1.0"
+    "@azure/core-paging": "^1.5.0"
   }
 }

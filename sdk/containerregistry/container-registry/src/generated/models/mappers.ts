@@ -964,7 +964,7 @@ export const Descriptor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      sizeInBytes: {
+      size: {
         serializedName: "size",
         type: {
           name: "Number"
@@ -1004,7 +1004,7 @@ export const Annotations: coreClient.CompositeMapper = {
     className: "Annotations",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
-      createdOn: {
+      created: {
         serializedName: "org\\.opencontainers\\.image\\.created",
         type: {
           name: "DateTime"
@@ -1226,7 +1226,7 @@ export const OCIManifest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OCIManifest",
     modelProperties: {
-      configuration: {
+      config: {
         serializedName: "config",
         type: {
           name: "Composite",

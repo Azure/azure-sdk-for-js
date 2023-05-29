@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -77,9 +77,9 @@ export interface FileSystemResourceUpdateProperties {
 
 // @public
 export interface FileSystems {
-    beginCreateOrUpdate(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FileSystemsCreateOrUpdateResponse>, FileSystemsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FileSystemsCreateOrUpdateResponse>, FileSystemsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<FileSystemsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams): Promise<FileSystemsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: FileSystemsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FileSystemResource>;

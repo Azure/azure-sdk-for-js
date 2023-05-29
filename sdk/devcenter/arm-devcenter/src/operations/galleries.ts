@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Gallery,
   GalleriesListByDevCenterNextOptionalParams,
@@ -176,8 +180,8 @@ export class GalleriesImpl implements Galleries {
     body: Gallery,
     options?: GalleriesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GalleriesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GalleriesCreateOrUpdateResponse>,
       GalleriesCreateOrUpdateResponse
     >
   > {
@@ -187,7 +191,7 @@ export class GalleriesImpl implements Galleries {
     ): Promise<GalleriesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -220,15 +224,18 @@ export class GalleriesImpl implements Galleries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, galleryName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, galleryName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GalleriesCreateOrUpdateResponse,
+      OperationState<GalleriesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -271,14 +278,14 @@ export class GalleriesImpl implements Galleries {
     devCenterName: string,
     galleryName: string,
     options?: GalleriesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,15 +318,15 @@ export class GalleriesImpl implements Galleries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, galleryName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, galleryName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -483,7 +490,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

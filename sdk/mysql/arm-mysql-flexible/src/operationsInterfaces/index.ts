@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./azureADAdministrators";
+export * from "./backups";
+export * from "./backupAndExport";
+export * from "./configurations";
+export * from "./databases";
+export * from "./firewallRules";
 export * from "./servers";
 export * from "./replicas";
-export * from "./backups";
-export * from "./firewallRules";
-export * from "./databases";
-export * from "./configurations";
+export * from "./logFiles";
 export * from "./locationBasedCapabilities";
 export * from "./checkVirtualNetworkSubnetUsage";
 export * from "./checkNameAvailability";
+export * from "./checkNameAvailabilityWithoutLocation";
 export * from "./getPrivateDnsZoneSuffix";
 export * from "./operations";

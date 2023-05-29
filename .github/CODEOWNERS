@@ -56,13 +56,13 @@
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru
+/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
+/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
 /sdk/communication/
@@ -863,8 +863,10 @@
 /sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-query/ @KarishmaGhiya
+/sdk/monitor/monitor-ingestion/ @KarishmaGhiya @sarangan12 
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12 
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

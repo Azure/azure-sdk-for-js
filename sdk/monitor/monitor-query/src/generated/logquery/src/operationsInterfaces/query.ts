@@ -12,9 +12,17 @@ import {
   QueryBody,
   QueryExecuteOptionalParams,
   QueryExecuteResponse,
+  QueryResourceGetOptionalParams,
+  QueryResourceGetResponse,
+  QueryResourceExecuteOptionalParams,
+  QueryResourceExecuteResponse,
   BatchRequest,
   QueryBatchOptionalParams,
-  QueryBatchResponse
+  QueryBatchResponse,
+  QueryResourceGetXmsOptionalParams,
+  QueryResourceGetXmsResponse,
+  QueryResourceExecuteXmsOptionalParams,
+  QueryResourceExecuteXmsResponse
 } from "../models";
 
 /** Interface representing a Query. */
@@ -48,6 +56,34 @@ export interface Query {
     options?: QueryExecuteOptionalParams
   ): Promise<QueryExecuteResponse>;
   /**
+   * Executes an Analytics query for data in the context of a resource.
+   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
+   * for using POST with an Analytics query.
+   * @param resourceId The identifier of the resource.
+   * @param query The Analytics query. Learn more about the [Analytics query
+   *              syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * @param options The options parameters.
+   */
+  resourceGet(
+    resourceId: string,
+    query: string,
+    options?: QueryResourceGetOptionalParams
+  ): Promise<QueryResourceGetResponse>;
+  /**
+   * Executes an Analytics query for data in the context of a resource.
+   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
+   * for using POST with an Analytics query.
+   * @param resourceId The identifier of the resource.
+   * @param body The Analytics query. Learn more about the [Analytics query
+   *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * @param options The options parameters.
+   */
+  resourceExecute(
+    resourceId: string,
+    body: QueryBody,
+    options?: QueryResourceExecuteOptionalParams
+  ): Promise<QueryResourceExecuteResponse>;
+  /**
    * Executes a batch of Analytics queries for data.
    * [Here](https://dev.loganalytics.io/documentation/Using-the-API) is an example for using POST with an
    * Analytics query.
@@ -58,4 +94,32 @@ export interface Query {
     body: BatchRequest,
     options?: QueryBatchOptionalParams
   ): Promise<QueryBatchResponse>;
+  /**
+   * Executes an Analytics query for data in the context of a resource.
+   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
+   * for using POST with an Analytics query.
+   * @param resourceId The identifier of the resource.
+   * @param query The Analytics query. Learn more about the [Analytics query
+   *              syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * @param options The options parameters.
+   */
+  resourceGetXms(
+    resourceId: string,
+    query: string,
+    options?: QueryResourceGetXmsOptionalParams
+  ): Promise<QueryResourceGetXmsResponse>;
+  /**
+   * Executes an Analytics query for data in the context of a resource.
+   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
+   * for using POST with an Analytics query.
+   * @param resourceId The identifier of the resource.
+   * @param body The Analytics query. Learn more about the [Analytics query
+   *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * @param options The options parameters.
+   */
+  resourceExecuteXms(
+    resourceId: string,
+    body: QueryBody,
+    options?: QueryResourceExecuteXmsOptionalParams
+  ): Promise<QueryResourceExecuteXmsResponse>;
 }

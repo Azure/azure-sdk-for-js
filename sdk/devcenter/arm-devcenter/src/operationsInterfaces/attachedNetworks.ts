@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedNetworkConnection,
   AttachedNetworksListByProjectOptionalParams,
@@ -87,8 +87,8 @@ export interface AttachedNetworks {
     body: AttachedNetworkConnection,
     options?: AttachedNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedNetworksCreateOrUpdateResponse>,
       AttachedNetworksCreateOrUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Un-attach a NetworkConnection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
