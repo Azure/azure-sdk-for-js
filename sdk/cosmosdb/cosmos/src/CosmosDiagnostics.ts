@@ -112,11 +112,11 @@ export type ClientSideRequestStatistics = {
   /**
    * This is the payload length, in bytes made to server for the client operation requested. (This doesn't include payloads for meta data requests)
    */
-  requestPayloadLength: number;
+  requestPayloadLengthInBytes: number;
   /**
-   * This is the payload length, in bytes made to recieved from server for the client operation requested. (This doesn't include payloads for meta data responses)
+   * This is the payload length, in bytes recieved from server for the client operation requested. (This doesn't include payloads for meta data responses)
    */
-  responsePayloadLength: number;
+  responsePayloadLengthInBytes: number;
 };
 
 /**
@@ -138,8 +138,8 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
       metadataDiagnostics: {
         metadataLookups: [],
       },
-      requestPayloadLength: 0,
-      responsePayloadLength: 0,
+      requestPayloadLengthInBytes: 0,
+      responsePayloadLengthInBytes: 0,
     },
     new CosmosDiagnosticContext()
   );

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Database,
   DatabasesListByServerOptionalParams,
@@ -47,8 +47,8 @@ export interface Databases {
     parameters: Database,
     options?: DatabasesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesCreateOrUpdateResponse>,
       DatabasesCreateOrUpdateResponse
     >
   >;
@@ -79,7 +79,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     options?: DatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

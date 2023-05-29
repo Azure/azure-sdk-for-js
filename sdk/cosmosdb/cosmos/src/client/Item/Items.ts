@@ -297,7 +297,8 @@ export class Items {
       response.headers,
       response.code,
       response.substatus,
-      ref
+      ref,
+      response.diagnostics
     );
   }
 
@@ -369,7 +370,8 @@ export class Items {
       response.headers,
       response.code,
       response.substatus,
-      ref
+      ref,
+      response.diagnostics
     );
   }
 

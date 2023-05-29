@@ -37,13 +37,17 @@ export interface CallConnectionProperties {
   /** Source identity. */
   sourceIdentity?: CommunicationIdentifier;
   /** The targets of the call. */
-  targets?: CommunicationIdentifier[];
+  targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
   callConnectionState?: CallConnectionStateModel;
-  /** The callback URI. */
-  callbackUri?: string;
+  /** The callback URL. */
+  callbackUrl?: string;
   /** SubscriptionId for media streaming */
   mediaSubscriptionId?: string;
+  /** The correlation ID. */
+  correlationId?: string;
+  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  answeredByIdentifier?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -67,8 +71,8 @@ export interface PlaySource {
 
 /** The FileSource model. */
 export interface FileSource extends PlaySource {
-  uri: string;
-  readonly kind?: "fileSource";
+  url: string;
+  readonly kind: "fileSource";
 }
 
 /** A Dtmf Tone. */
@@ -115,73 +119,17 @@ export enum RecognizeInputType {
   Choices = "choices",
 }
 
-function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
-  return "phoneNumber" in object;
-}
-
 /** Call invitee details. */
-export class CallInvite {
-  public readonly target: CommunicationIdentifier;
-  public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
-  public sourceDisplayName?: string;
-  public readonly sipHeaders?: { [propertyName: string]: string };
-  public readonly voipHeaders?: { [propertyName: string]: string };
-
-  /**
-   * Create a CallInvite object with PhoneNumberIdentifierr
-   * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
-   * @param callerIdNumber - Caller's phone number identifier
-   */
-  constructor(
-    targetPhoneNumberIdentity: PhoneNumberIdentifier,
-    callerIdNumber: PhoneNumberIdentifier
-  );
-
-  /**
-   * Create a CallInvite object with PhoneNumberIdentifier
-   * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
-   * @param callerIdNumber - Caller's phone number identifier
-   * @param sipHeaders - Custom context for PSTN
-   */
-  constructor(
-    targetPhoneNumberIdentity: PhoneNumberIdentifier,
-    callerIdNumber: PhoneNumberIdentifier,
-    sipHeader: { [propertyName: string]: string }
-  );
-
-  /**
-   * Create a CallInvite object with CommunicationUserIdentifier
-   * @param targetIdentity - Target's CommunicationUserIdentifier
-   */
-  constructor(targetIdentity: CommunicationUserIdentifier);
-
-  /**
-   * Create a CallInvite object with CommunicationUserIdentifier
-   * @param targetIdentity - Target's CommunicationUserIdentifier
-   * @param voipHeaders - Custom context for voip
-   */
-  constructor(
-    targetIdentity: CommunicationUserIdentifier,
-    voipHeaders: { [propertyName: string]: string }
-  );
-
-  constructor(
-    targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
-    callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
-    maybeHeaders?: { [propertyName: string]: string }
-  ) {
-    this.target = targetIdentity;
-    if (callerIdNumberOrHeaders) {
-      if (instanceOfPhoneNumberIdentity(callerIdNumberOrHeaders)) {
-        this.sourceCallIdNumber = callerIdNumberOrHeaders;
-        if (maybeHeaders) {
-          this.sipHeaders = maybeHeaders;
-        }
-      } else {
-        this.voipHeaders = callerIdNumberOrHeaders;
-      }
-    }
-  }
+export interface CallInvite {
+  /** The Target's PhoneNumberIdentifier or CommunicationUserIdentifier. */
+  readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
+  /** Caller's phone number identifier. */
+  readonly sourceCallIdNumber?: PhoneNumberIdentifier;
+  sourceDisplayName?: string;
+  /** Custom context for PSTN. */
+  readonly sipHeaders?: { [propertyName: string]: string };
+  /** Custom context for voipr. */
+  readonly voipHeaders?: { [propertyName: string]: string };
 }
 
 /** The locator type of a call. */
@@ -198,3 +146,14 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 /** The storage type of a call recording. */
 export type RecordingStorage = "acs" | "blobStorage";
+
+/** Channel affinity for a participant */
+export interface ChannelAffinity {
+  /** Channel number to which bitstream from a particular participant will be written. */
+  channel?: number;
+  /**
+   * The identifier for the participant whose bitstream will be written to the channel
+   * represented by the channel number.
+   */
+  targetParticipant: CommunicationIdentifier;
+}

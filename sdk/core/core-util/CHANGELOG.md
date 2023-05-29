@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.2 (2023-05-05)
+
+### Bugs Fixed
+
+- Fix an issue where `randomUUID()` is not exported for react-native [issue #25754](https://github.com/Azure/azure-sdk-for-js/issues/25754)
 
 ## 1.3.1 (2023-04-13)
 

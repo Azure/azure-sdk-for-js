@@ -15,9 +15,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a Traffic Controller Association
+ * This sample demonstrates how to Get a Association
  *
- * @summary Get a Traffic Controller Association
+ * @summary Get a Association
  * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/cadl/examples/AssociationGet.json
  */
 async function getAssociation() {
@@ -25,8 +25,8 @@ async function getAssociation() {
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
-  const associationName = "associatedvnet-2";
+  const trafficControllerName = "tc1";
+  const associationName = "as1";
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,

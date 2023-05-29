@@ -1,4 +1,4 @@
-# Azure Communication Rooms Service client library for Java
+# Azure Communication Rooms Service client library for JavaScript
 
 > see https://aka.ms/autorest
 
@@ -6,51 +6,36 @@
 
 ```yaml
 package-name: "@azure/communication-rooms"
-title: RoomsApiClient
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e30976f6ccb058a36cd2f9d5160e1fd51f6c5d95/specification/communication/data-plane/Rooms/readme.md
-description: Communication Rooms Client
-generate-metadata: false
+override-client-name: RoomsRestClient
+description: Communication Rooms client
+package-version: 1.0.0-beta.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-rooms-2022-02-01-preview
+tag: package-rooms-2023-03-31-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/49ef4666b13e2e5675dfb92dab3b3d13aa8b3596/specification/communication/data-plane/Rooms/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
-use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
-azure-arm: false
+payload-flattening-threshold: 10
 add-credentials: false
-package-version: 1.0.0-beta.2
 v3: true
+
+use-extension:
+  "@autorest/typescript": "latest"
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Azure.Communication"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
-### Disable extensible enums
-
-### Set RoomJoinPolicy Model as string false
+### Set Role Model as string false
 
 ```yaml
 directive:
   from: swagger-document
-  where: "$.definitions.RoomJoinPolicy"
+  where: "$.definitions.Role"
   transform: >
     $["x-ms-enum"].modelAsString = false;
-```
-
-### Set RoleType Model as string false
-
-```yaml
-directive:
-  from: swagger-document
-  where: "$.definitions.RoleType"
-  transform: >
-    $["x-ms-enum"].modelAsString = false;
-```
-
-### Set Properties of Room as Required
-
-```yaml
-directive:
-  from: swagger-document
-  where: "$.definitions.RoomModel"
-  transform: >
-    $.required = ['id','createdDateTime','validFrom','validUntil','roomJoinPolicy','participants'];
 ```

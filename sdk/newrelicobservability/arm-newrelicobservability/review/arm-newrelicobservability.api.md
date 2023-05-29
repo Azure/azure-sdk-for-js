@@ -362,7 +362,7 @@ export interface Monitors {
     listBySubscription(options?: MonitorsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NewRelicMonitorResource>;
     listHosts(resourceGroupName: string, monitorName: string, request: HostsGetRequest, options?: MonitorsListHostsOptionalParams): PagedAsyncIterableIterator<VMInfo>;
     listMonitoredResources(resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
-    switchBilling(resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams): Promise<void>;
+    switchBilling(resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams): Promise<MonitorsSwitchBillingResponse>;
     update(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     vmHostPayload(resourceGroupName: string, monitorName: string, options?: MonitorsVmHostPayloadOptionalParams): Promise<MonitorsVmHostPayloadResponse>;
 }
@@ -484,8 +484,16 @@ export interface MonitorsListMonitoredResourcesOptionalParams extends coreClient
 export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
 
 // @public
+export interface MonitorsSwitchBillingHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitorsSwitchBillingOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type MonitorsSwitchBillingResponse = NewRelicMonitorResource;
 
 // @public
 export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {

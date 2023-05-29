@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { FileInfo } from "../findMatchingFiles";
+import { METADATA_KEY } from "../resolveProject";
 
 /**
  * The oldest Node version that we guarantee sample programs will support.
@@ -89,8 +90,8 @@ export interface SampleConfiguration {
    * @example
    *
    * ```javascript
-   * {
-   *   "//sampleConfiguration": {
+   * "//metadata": {
+   *   "sampleConfiguration": {
    *     ...,
    *     "extraFiles": {
    *       "./assets": ["typescript/assets", "javascript/assets"]
@@ -109,21 +110,29 @@ export interface SampleConfiguration {
   overridePublicationLinkFragment?: string;
 }
 
-export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
-
 declare global {
   interface PackageJson {
     /**
      * The sample configuration for the package.
      *
      * Will be undefined for internal and non-client packages.
+     *
+     * @deprecated use `<package.json>["//metadata"].sampleConfiguration` instead
      */
-    [SAMPLE_CONFIGURATION_KEY]?: SampleConfiguration;
+    "//sampleConfiguration"?: SampleConfiguration;
   }
 }
 
+/**
+ * Gets the sample configuration for a package.
+ *
+ * @param packageJson - the package.json of the package to get the sample configuration for
+ * @returns the sample configuration for the package
+ */
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
-  return packageJson[SAMPLE_CONFIGURATION_KEY] ?? {};
+  return (
+    packageJson[METADATA_KEY]?.sampleConfiguration ?? packageJson["//sampleConfiguration"] ?? {}
+  );
 }
 
 /**

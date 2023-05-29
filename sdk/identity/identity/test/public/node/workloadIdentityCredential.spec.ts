@@ -49,7 +49,7 @@ describe.skip("WorkloadIdentityCredential", function () {
       recorder.configureClientOptions({
         tenantId,
         clientId,
-        federatedTokenFilePath: fileDir.tempFile,
+        tokenFilePath: fileDir.tempFile,
       } as WorkloadIdentityCredentialOptions)
     );
     try {

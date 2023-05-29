@@ -48,17 +48,16 @@ export class WorkloadIdentityCredential implements TokenCredential {
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(options: WorkloadIdentityCredentialOptions) {
+  constructor(options?: WorkloadIdentityCredentialOptions) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
     logger.info(`Found the following environment variables: ${assignedEnv}`);
 
-    const workloadIdentityCredentialOptions = options as WorkloadIdentityCredentialOptions;
+    const workloadIdentityCredentialOptions = options ?? {};
     const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
     this.federatedTokenFilePath =
-      workloadIdentityCredentialOptions.federatedTokenFilePath ||
-      process.env.AZURE_FEDERATED_TOKEN_FILE;
+      workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }

@@ -133,19 +133,6 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
           }
         }
       },
-      provisioningTimeoutInSeconds: {
-        serializedName: "properties.provisioningTimeoutInSeconds",
-        type: {
-          name: "Number"
-        }
-      },
-      isCustomProvisioningTimeout: {
-        serializedName: "properties.isCustomProvisioningTimeout",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       restartPolicy: {
         serializedName: "properties.restartPolicy",
         type: {
@@ -246,6 +233,19 @@ export const ContainerGroupProperties: coreClient.CompositeMapper = {
               className: "DeploymentExtensionSpec"
             }
           }
+        }
+      },
+      confidentialComputeProperties: {
+        serializedName: "properties.confidentialComputeProperties",
+        type: {
+          name: "Composite",
+          className: "ConfidentialComputeProperties"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        type: {
+          name: "String"
         }
       }
     }
@@ -411,6 +411,13 @@ export const Container: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerProbe"
+        }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
         }
       }
     }
@@ -866,6 +873,83 @@ export const HttpHeader: coreClient.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityContextDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextDefinition",
+    modelProperties: {
+      privileged: {
+        serializedName: "privileged",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowPrivilegeEscalation: {
+        serializedName: "allowPrivilegeEscalation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "SecurityContextCapabilitiesDefinition"
+        }
+      },
+      runAsGroup: {
+        serializedName: "runAsGroup",
+        type: {
+          name: "Number"
+        }
+      },
+      runAsUser: {
+        serializedName: "runAsUser",
+        type: {
+          name: "Number"
+        }
+      },
+      seccompProfile: {
+        serializedName: "seccompProfile",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityContextCapabilitiesDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityContextCapabilitiesDefinition",
+    modelProperties: {
+      add: {
+        serializedName: "add",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      drop: {
+        serializedName: "drop",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1333,6 +1417,13 @@ export const InitContainerDefinition: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      securityContext: {
+        serializedName: "properties.securityContext",
+        type: {
+          name: "Composite",
+          className: "SecurityContextDefinition"
+        }
       }
     }
   }
@@ -1417,6 +1508,21 @@ export const DeploymentExtensionSpec: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialComputeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialComputeProperties",
+    modelProperties: {
+      ccePolicy: {
+        serializedName: "ccePolicy",
+        type: {
+          name: "String"
         }
       }
     }

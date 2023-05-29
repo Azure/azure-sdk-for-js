@@ -8,46 +8,40 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const LocationListResult: coreClient.CompositeMapper = {
+export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LocationListResult",
+    className: "OperationListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Location"
+              className: "Operation"
             }
           }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const Location: coreClient.CompositeMapper = {
+export const Operation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Location",
+    className: "Operation",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      subscriptionId: {
-        serializedName: "subscriptionId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
         readOnly: true,
@@ -55,100 +49,29 @@ export const Location: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
+      isDataAction: {
+        serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: ["Region", "EdgeZone"]
+          name: "Boolean"
         }
       },
-      displayName: {
-        serializedName: "displayName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      regionalDisplayName: {
-        serializedName: "regionalDisplayName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
+      display: {
+        serializedName: "display",
         type: {
           name: "Composite",
-          className: "LocationMetadata"
+          className: "OperationDisplay"
         }
-      }
-    }
-  }
-};
-
-export const LocationMetadata: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocationMetadata",
-    modelProperties: {
-      regionType: {
-        serializedName: "regionType",
+      },
+      origin: {
+        serializedName: "origin",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      regionCategory: {
-        serializedName: "regionCategory",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      geographyGroup: {
-        serializedName: "geographyGroup",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      longitude: {
-        serializedName: "longitude",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      latitude: {
-        serializedName: "latitude",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      physicalLocation: {
-        serializedName: "physicalLocation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      pairedRegion: {
-        serializedName: "pairedRegion",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PairedRegion"
-            }
-          }
-        }
-      },
-      homeLocation: {
-        serializedName: "homeLocation",
+      actionType: {
+        serializedName: "actionType",
         readOnly: true,
         type: {
           name: "String"
@@ -158,27 +81,34 @@ export const LocationMetadata: coreClient.CompositeMapper = {
   }
 };
 
-export const PairedRegion: coreClient.CompositeMapper = {
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PairedRegion",
+    className: "OperationDisplay",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      provider: {
+        serializedName: "provider",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      id: {
-        serializedName: "id",
+      resource: {
+        serializedName: "resource",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      subscriptionId: {
-        serializedName: "subscriptionId",
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
         readOnly: true,
         type: {
           name: "String"
@@ -278,6 +208,228 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const LocationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Location"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Location: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Location",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Region", "EdgeZone"]
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      regionalDisplayName: {
+        serializedName: "regionalDisplayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "LocationMetadata"
+        }
+      },
+      availabilityZoneMappings: {
+        serializedName: "availabilityZoneMappings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AvailabilityZoneMappings"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LocationMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocationMetadata",
+    modelProperties: {
+      regionType: {
+        serializedName: "regionType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      regionCategory: {
+        serializedName: "regionCategory",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      geography: {
+        serializedName: "geography",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      geographyGroup: {
+        serializedName: "geographyGroup",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      longitude: {
+        serializedName: "longitude",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      latitude: {
+        serializedName: "latitude",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      physicalLocation: {
+        serializedName: "physicalLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      pairedRegion: {
+        serializedName: "pairedRegion",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PairedRegion"
+            }
+          }
+        }
+      },
+      homeLocation: {
+        serializedName: "homeLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PairedRegion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PairedRegion",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailabilityZoneMappings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailabilityZoneMappings",
+    modelProperties: {
+      logicalZone: {
+        serializedName: "logicalZone",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      physicalZone: {
+        serializedName: "physicalZone",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -549,6 +701,189 @@ export const TenantIdDescription: coreClient.CompositeMapper = {
   }
 };
 
+export const CheckZonePeersRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckZonePeersRequest",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionIds: {
+        serializedName: "subscriptionIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CheckZonePeersResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckZonePeersResult",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      availabilityZonePeers: {
+        serializedName: "availabilityZonePeers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AvailabilityZonePeers"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AvailabilityZonePeers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailabilityZonePeers",
+    modelProperties: {
+      availabilityZone: {
+        serializedName: "availabilityZone",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      peers: {
+        serializedName: "peers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Peers"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Peers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Peers",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      availabilityZone: {
+        serializedName: "availabilityZone",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponseAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponseAutoGenerated",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ResourceName: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -599,10 +934,10 @@ export const CheckResourceNameResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Operation: coreClient.CompositeMapper = {
+export const OperationAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Operation",
+    className: "OperationAutoGenerated",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -610,21 +945,42 @@ export const Operation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
+          className: "OperationDisplayAutoGenerated"
+        }
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const OperationDisplay: coreClient.CompositeMapper = {
+export const OperationDisplayAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationDisplay",
+    className: "OperationDisplayAutoGenerated",
     modelProperties: {
       provider: {
         serializedName: "provider",
@@ -654,10 +1010,10 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationListResult: coreClient.CompositeMapper = {
+export const OperationListResultAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationListResult",
+    className: "OperationListResultAutoGenerated",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -666,7 +1022,7 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
+              className: "OperationAutoGenerated"
             }
           }
         }

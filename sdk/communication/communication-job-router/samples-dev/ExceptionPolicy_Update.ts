@@ -21,7 +21,7 @@ async function updateExceptionPolicy(): Promise<void> {
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
     kind: "queue-length",
-    maxJobCount: 100
+    threshold: 100
   }
 
   const exceptionPolicyRequest: ExceptionPolicyResponse = {

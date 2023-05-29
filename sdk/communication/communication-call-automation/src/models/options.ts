@@ -6,34 +6,30 @@ import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
   CallRejectReason,
-  RecognizeInputType,
   FileSource,
   DtmfTone,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
-  RecordingStorage,
   CallLocator,
+  ChannelAffinity,
 } from "./models";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  recognizeInputType: RecognizeInputType;
   playPrompt?: FileSource;
   interruptCallMediaOperation?: boolean;
   stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
-  targetParticipant: CommunicationIdentifier;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
   interToneTimeoutInSeconds?: number;
-  maxTonesToCollect: number;
   stopDtmfTones?: DtmfTone[];
-  readonly kind?: "callMediaRecognizeDtmfOptions";
+  readonly kind: "callMediaRecognizeDtmfOptions";
 }
 
 /**
@@ -67,6 +63,8 @@ export interface AnswerCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /**
@@ -93,6 +91,10 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Custom context for PSTN. */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Custom context for voip. */
+  voipHeaders?: { [propertyName: string]: string };
 }
 
 /** Options to add participants. */
@@ -109,7 +111,7 @@ export interface AddParticipantOptions extends OperationOptions {
 /**
  * Options to remove participants.
  */
-export interface RemoveParticipantsOptions extends OperationOptions {
+export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -143,8 +145,8 @@ export type GetParticipantOptions = OperationOptions;
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. */
   callLocator: CallLocator;
-  /** The uri to send notifications to. */
-  recordingStateCallbackEndpoint?: string;
+  /** The url to send notifications to. */
+  recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
   recordingContent?: RecordingContent;
   /** The channel type of call recording. */
@@ -158,10 +160,12 @@ export interface StartRecordingOptions extends OperationOptions {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
-  /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: RecordingStorage;
-  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
-  externalStorageLocation?: string;
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   */
+  channelAffinity?: ChannelAffinity[];
 }
 
 /**
@@ -197,4 +201,20 @@ export interface DownloadRecordingOptions extends OperationOptions {
   offset?: number;
   /** Max content length in bytes. */
   length?: number;
+}
+
+/**
+ * Options to continuous Dtmf recognition.
+ */
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to send Dtmf tone.
+ */
+export interface SendDtmfOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
