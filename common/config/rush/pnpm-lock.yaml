@@ -3840,7 +3840,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230524
+      typescript: 5.2.0-dev.20230529
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8389,8 +8389,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230524:
-    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
+  /typescript/5.2.0-dev.20230529:
+    resolution: {integrity: sha512-iug+FguVJuW5ngiaXR/3eruFIMuQiZfKkIoA2zbORdx0EgqVfaUXy8WjUyI7fhfctkRCZeCalNPlunhhL27dvQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11332,7 +11332,7 @@ packages:
     dev: false
 
   file:projects/arm-devhub.tgz:
-    resolution: {integrity: sha512-61JhakZLnFdHeDnDGBvjsGN8HJ780ga2PmVS/8jzWFionMAKPAN7xC+ACE4fTimdG/Pve1l20yM2yyW3T+95cg==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-DCPVZXZq8jQx1wYseiRJMEOGRqXl/xpZP+/e+QUobUErLM/5t2MAGynuSPPN6l17WpmiCHKNkiGUoFweOSDVXQ==, tarball: file:projects/arm-devhub.tgz}
     name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
@@ -11347,7 +11347,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
