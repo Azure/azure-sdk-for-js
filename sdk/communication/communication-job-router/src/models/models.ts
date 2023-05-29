@@ -65,6 +65,8 @@ export {
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
+  DeclineJobOfferRequest,
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,

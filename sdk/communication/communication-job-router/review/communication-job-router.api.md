@@ -169,10 +169,13 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
     totalCapacity?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "JobRouterDeclineJobActionOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+    reofferTimeUtc?: Date;
+}
+
+// @public
+export interface DeclineJobOfferRequest {
     reofferTimeUtc?: Date;
 }
 
@@ -376,6 +379,11 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 export type JobRouterCompleteJobActionResponse = {
     body: any;
 };
+
+// @public
+export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
+    declineJobOfferRequest?: DeclineJobOfferRequest;
+}
 
 // @public
 export type JobRouterDeclineJobActionResponse = {
