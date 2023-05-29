@@ -118,7 +118,6 @@ specifiers:
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
-  '@rush-temp/arm-liftrqumulo': file:./projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:./projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
@@ -167,6 +166,7 @@ specifiers:
   '@rush-temp/arm-powerbiembedded': file:./projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:./projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
+  '@rush-temp/arm-qumulo': file:./projects/arm-qumulo.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
   '@rush-temp/arm-recoveryservices-siterecovery': file:./projects/arm-recoveryservices-siterecovery.tgz
@@ -462,7 +462,6 @@ dependencies:
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
-  '@rush-temp/arm-liftrqumulo': file:projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -511,6 +510,7 @@ dependencies:
   '@rush-temp/arm-powerbiembedded': file:projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
+  '@rush-temp/arm-qumulo': file:projects/arm-qumulo.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
   '@rush-temp/arm-recoveryservices-siterecovery': file:projects/arm-recoveryservices-siterecovery.tgz
@@ -3840,7 +3840,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230524
+      typescript: 5.2.0-dev.20230528
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8389,8 +8389,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230524:
-    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
+  /typescript/5.2.0-dev.20230528:
+    resolution: {integrity: sha512-1qpt6XKPtZOooC69qWRXa/buOk+Qhdzro0nRCVHDeFYuTDC7KdB8Eo5dpfViQoaZCsdPcLICoRwkqvNoRz1Sbg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12414,34 +12414,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-liftrqumulo.tgz:
-    resolution: {integrity: sha512-4bI57b8j/XKrd+mdt5gfrhA1XuI3AFH8+Shio/MlgMhh+UZZ5BTDcNt2NpSlQkOF1zkrqP8mWFm5q5eTrS9SfQ==, tarball: file:projects/arm-liftrqumulo.tgz}
-    name: '@rush-temp/arm-liftrqumulo'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.5
-      '@types/node': 14.18.47
-      chai: 4.3.7
-      cross-env: 7.0.3
-      dotenv: 16.0.3
-      mkdirp: 2.1.6
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
-      tslib: 2.5.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   file:projects/arm-links.tgz:
     resolution: {integrity: sha512-SasnkMqF1QsK07NqeeYAlrYHhhGwkJlpG+YUd783pBa4pCs5dDTZ88EVvqbfAE5XwFeeowhNBnC55A1h1LR2hQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
@@ -13774,6 +13746,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
+      tslib: 2.5.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-qumulo.tgz:
+    resolution: {integrity: sha512-BWffS9qDK+bWLNmBpZuskd8xwttwXYx0Dhxm54hRlBiOaoRUdzMWZ4Gs5Vw/rd+IazkX5EUSBoNgO0kmyB/+7g==, tarball: file:projects/arm-qumulo.tgz}
+    name: '@rush-temp/arm-qumulo'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.47
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
