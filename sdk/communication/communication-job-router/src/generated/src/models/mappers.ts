@@ -1041,6 +1041,21 @@ export const AcceptJobOfferResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DeclineJobOfferRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeclineJobOfferRequest",
+    modelProperties: {
+      reofferTimeUtc: {
+        serializedName: "reofferTimeUtc",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const JobQueue: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1188,7 +1203,8 @@ export const RouterWorker: coreClient.CompositeMapper = {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["active", "draining", "inactive"]
         }
       },
       queueAssignments: {

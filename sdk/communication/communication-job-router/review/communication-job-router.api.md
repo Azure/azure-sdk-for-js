@@ -169,6 +169,13 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
     totalCapacity?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JobRouterDeclineJobActionOptionalParams" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+    reofferTimeUtc?: Date;
+}
+
 // @public
 export interface DirectMapRule extends RouterRule {
     kind: "direct-map-rule";
@@ -397,13 +404,6 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
-
-// @public
 export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanEqual" | "greaterThan" | "greaterThanEqual";
 
 // @public
@@ -586,7 +586,7 @@ export class RouterClient {
     completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
     createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
     createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    declineJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<JobRouterDeclineJobActionResponse>;
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse>;
     deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
     deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
     deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
@@ -698,7 +698,7 @@ export interface RouterWorkerResponse extends RouterWorker {
 }
 
 // @public
-export type RouterWorkerState = string;
+export type RouterWorkerState = "active" | "draining" | "inactive";
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
