@@ -312,8 +312,8 @@ export class RouterClient {
   ): Promise<JobRouterDeclineJobActionResponse> {
     if (options.reofferTimeUtc) {
       options.declineJobOfferRequest = {
-        reofferTimeUtc: options.reofferTimeUtc
-      }
+        reofferTimeUtc: options.reofferTimeUtc,
+      };
     }
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
   }
