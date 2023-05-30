@@ -2,10 +2,10 @@ import { RetryPolicy } from "./RetryPolicy";
 import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ConnectionPolicy } from "../documents";
-import { HTTPMethod, isReadRequest, OperationType, ResourceType } from "../common";
+import { HTTPMethod, isReadRequest } from "../common";
 import { ErrorResponse, RequestContext } from "../request";
-import { RetryContext } from "./RetryContext";
 import { Constants } from "../common/constants";
+import { RetryContext } from "./RetryContext";
 
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   private maxRetryAttemptCount = 120;
@@ -26,18 +26,28 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   private needsRetry(): boolean {
     if (this.requestContext) {
       const isQuery = Constants.HttpHeaders.IsQuery in this.requestContext.headers;
-      if (this.requestContext.method === HTTPMethod.get || isQuery) {
+      const isQueryPlan = Constants.HttpHeaders.IsQueryPlan in this.requestContext.headers;
+      if (this.requestContext.method === HTTPMethod.get || isQuery || isQueryPlan) {
         return true;
       }
     }
     return false;
   }
 
-  public async shouldRetry(err: ErrorResponse): Promise<boolean> {
-    if (!this.needsRetry()) {
+  public async shouldRetry(
+    err: ErrorResponse,
+    retryContext?: RetryContext,
+    locationEndpoint?: string
+  ): Promise<boolean> {
+    if (!err) {
       return false;
     }
-    if (!err) {
+
+    if (!retryContext || !locationEndpoint) {
+      return false;
+    }
+
+    if (!this.needsRetry()) {
       return false;
     }
 
@@ -51,30 +61,29 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     ) {
       return false;
     }
-    //check on these numbers
+
     if (this.failoverRetryCount >= this.maxRetryAttemptCount) {
       return false;
     }
-
-    this.failoverRetryCount++;
-
-    if (this.requestContext.endpoint) {
-      if (isReadRequest(this.requestContext.operationType)) {
-        this.globalEndpointManager.markCurrentLocationUnavailableForRead(
-          this.requestContext.endpoint
-        );
-      } else {
-        this.globalEndpointManager.markCurrentLocationUnavailableForWrite(
-          this.requestContext.endpoint
-        );
-      }
-    }
-    this.requestContext.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
+    const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
       this.requestContext.resourceType,
-      this.requestContext.operationType,
-      this.requestContext
+      this.requestContext.operationType
     );
+    const readRequest = isReadRequest(this.requestContext.operationType);
 
+    if (!canUseMultipleWriteLocations && !readRequest) {
+      return false;
+    }
+    this.failoverRetryCount++;
+    retryContext.retryCount++;
+
+    if (readRequest) {
+      this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
+    } else {
+      this.globalEndpointManager.markCurrentLocationUnavailableForWrite(
+        this.requestContext.endpoint
+      );
+    }
     return true;
   }
 }

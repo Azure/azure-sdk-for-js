@@ -11,6 +11,7 @@ import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
 import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
+import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy";
 
 /**
  * @hidden
@@ -30,6 +31,7 @@ interface RetryPolicies {
   resourceThrottleRetryPolicy: ResourceThrottleRetryPolicy;
   sessionReadRetryPolicy: SessionRetryPolicy;
   defaultRetryPolicy: DefaultRetryPolicy;
+  timeoutFailoverRetryPolicy: TimeoutFailoverRetryPolicy;
 }
 
 /**
@@ -60,6 +62,7 @@ export async function execute({
         requestContext.connectionPolicy
       ),
       defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
+      timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(),
     };
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
@@ -96,6 +99,10 @@ export async function execute({
       err.substatus === SubStatusCodes.ReadSessionNotAvailable
     ) {
       retryPolicy = retryPolicies.sessionReadRetryPolicy;
+    } else if(
+      err.code === StatusCodes.ServiceUnavailable || err.code === StatusCodes.RequestTimeout
+    ){
+      retryPolicy = retryPolicies.timeoutFailoverRetryPolicy
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
