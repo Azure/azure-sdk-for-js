@@ -50,7 +50,7 @@
   "resources": [
     {
       "type": "Microsoft.Communication/CommunicationServices",
-      "apiVersion": "2021-10-01-preview",
+      "apiVersion": "2023-03-31",
       "name": "[variables('uniqueSubDomainName')]",
       "location": "global",
       "properties": {
@@ -73,7 +73,7 @@
     },
     {
       "type": "Microsoft.Communication/EmailServices",
-      "apiVersion": "2021-10-01-preview",
+      "apiVersion": "2023-03-31",
       "name": "[variables('emailServiceName')]",
       "location": "global",
       "properties": {
@@ -82,7 +82,7 @@
       "resources": [
         {
           "type": "Domains",
-          "apiVersion": "2021-10-01-preview",
+          "apiVersion": "2023-03-31",
           "name": "AzureManagedDomain",
           "location": "global",
           "dependsOn": ["[variables('emailServiceName')]"],
@@ -112,11 +112,11 @@
     },
     "COMMUNICATION_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2021-10-01-preview').primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2023-03-31').primaryConnectionString]"
     },
     "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2021-10-01-preview').primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2023-03-31').primaryConnectionString]"
     },
     "RESOURCE_GROUP_NAME": {
       "type": "string",
@@ -124,7 +124,7 @@
     },
     "COMMUNICATION_CONNECTION_STRING_EMAIL": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2021-10-01-preview').primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2023-03-31').primaryConnectionString]"
     },
     "SENDER_ADDRESS": {
       "type": "string",
