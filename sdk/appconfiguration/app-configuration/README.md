@@ -95,7 +95,7 @@ More information about `@azure/identity` can be found [here](https://github.com/
 To get the Primary **connection string** for an App Configuration resource you can use this Azure CLI command:
 
 ```
-az appconfig credential list -g <resource-group-name> -n <app-configuration-resource-name> --query "([?name=='Primary'].connectionString)[0]"
+az appconfig credential list -g <resource-group-name> -n <app-configuration-resource-name> --query "[?name=='Primary'].connectionString"   
 ```
 
 And in code you can now create your App Configuration client with the **connection string** you got from the Azure CLI:
