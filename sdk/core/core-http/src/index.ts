@@ -108,9 +108,9 @@ export {
   promiseToServiceCallback,
   isValidUuid,
   applyMixins,
-  isNode,
   isDuration,
 } from "./util/utils";
+export { isNode } from "@azure/core-util";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
 export { delay } from "@azure/core-util";

@@ -12,6 +12,7 @@ import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { delay } from '@azure/core-util';
 import { GetTokenOptions } from '@azure/core-auth';
+import { isNode } from '@azure/core-util';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Span } from '@azure/core-tracing';
@@ -354,8 +355,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 // @public
 export function isDuration(value: string): boolean;
 
-// @public
-export const isNode: boolean;
+export { isNode }
 
 export { isTokenCredential }
 
