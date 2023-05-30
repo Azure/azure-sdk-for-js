@@ -62,7 +62,14 @@ export async function execute({
         requestContext.connectionPolicy
       ),
       defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
-      timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(),
+      timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(
+        requestContext.globalEndpointManager,
+        requestContext.headers,
+        requestContext.method,
+        requestContext.resourceType,
+        requestContext.operationType,
+        requestContext.connectionPolicy.enableEndpointDiscovery
+      ),
     };
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
@@ -99,10 +106,11 @@ export async function execute({
       err.substatus === SubStatusCodes.ReadSessionNotAvailable
     ) {
       retryPolicy = retryPolicies.sessionReadRetryPolicy;
-    } else if(
-      err.code === StatusCodes.ServiceUnavailable || err.code === StatusCodes.RequestTimeout
-    ){
-      retryPolicy = retryPolicies.timeoutFailoverRetryPolicy
+    } else if (
+      err.code === StatusCodes.ServiceUnavailable ||
+      err.code === StatusCodes.RequestTimeout
+    ) {
+      retryPolicy = retryPolicies.timeoutFailoverRetryPolicy;
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }

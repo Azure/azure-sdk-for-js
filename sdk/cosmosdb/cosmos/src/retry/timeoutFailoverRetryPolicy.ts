@@ -1,11 +1,12 @@
 import { RetryPolicy } from "./RetryPolicy";
 import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ConnectionPolicy } from "../documents";
 import { HTTPMethod, isReadRequest } from "../common";
-import { ErrorResponse, RequestContext } from "../request";
-import { Constants } from "../common/constants";
+import { ErrorResponse } from "../request";
+import { Constants, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
+import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+import { OperationType } from "@azure/cosmos";
 
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   private maxRetryAttemptCount = 120;
@@ -16,20 +17,19 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   public locationEndpoint: any;
 
   constructor(
-    private connectionPolicy: ConnectionPolicy,
     private globalEndpointManager: GlobalEndpointManager,
-    private requestContext: RequestContext
-  ) {
-    this.maxRetryAttemptCount = this.connectionPolicy.retryOptions.maxRetryAttemptCount;
-  }
+    private headers: CosmosHeaders,
+    private methodType: HTTPMethod,
+    private resourceType: ResourceType,
+    private operationType: OperationType,
+    private enableEndPointDiscovery: boolean
+  ) {}
 
   private needsRetry(): boolean {
-    if (this.requestContext) {
-      const isQuery = Constants.HttpHeaders.IsQuery in this.requestContext.headers;
-      const isQueryPlan = Constants.HttpHeaders.IsQueryPlan in this.requestContext.headers;
-      if (this.requestContext.method === HTTPMethod.get || isQuery || isQueryPlan) {
-        return true;
-      }
+    const isQuery = Constants.HttpHeaders.IsQuery in this.headers;
+    const isQueryPlan = Constants.HttpHeaders.IsQueryPlan in this.headers;
+    if (this.methodType === HTTPMethod.get || isQuery || isQueryPlan) {
+      return true;
     }
     return false;
   }
@@ -51,7 +51,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (!this.connectionPolicy.enableEndpointDiscovery) {
+    if (!this.enableEndPointDiscovery) {
       return false;
     }
 
@@ -66,10 +66,10 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
     const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
-      this.requestContext.resourceType,
-      this.requestContext.operationType
+      this.resourceType,
+      this.operationType
     );
-    const readRequest = isReadRequest(this.requestContext.operationType);
+    const readRequest = isReadRequest(this.operationType);
 
     if (!canUseMultipleWriteLocations && !readRequest) {
       return false;
@@ -80,9 +80,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (readRequest) {
       this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
     } else {
-      this.globalEndpointManager.markCurrentLocationUnavailableForWrite(
-        this.requestContext.endpoint
-      );
+      this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);
     }
     return true;
   }
