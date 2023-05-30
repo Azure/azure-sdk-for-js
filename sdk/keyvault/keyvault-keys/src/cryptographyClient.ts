@@ -559,7 +559,7 @@ export class CryptographyClient {
       case "KeyVaultKey":
         return key.value.key!;
       default:
-        return;
+        return undefined;
     }
   }
 
