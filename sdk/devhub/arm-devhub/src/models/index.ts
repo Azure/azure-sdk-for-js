@@ -240,6 +240,38 @@ export interface WorkflowRun {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastRunAt?: Date;
+  /** Describes the status of the workflow run */
+  workflowRunStatus?: WorkflowRunStatus;
+}
+
+/** Properties used for generating artifacts such as Dockerfiles and manifests. */
+export interface ArtifactGenerationProperties {
+  /** The programming language used. */
+  generationLanguage?: GenerationLanguage;
+  /** The version of the language image used for execution in the generated dockerfile. */
+  languageVersion?: string;
+  /** The version of the language image used for building the code in the generated dockerfile. */
+  builderVersion?: string;
+  /** The port the application is exposed on. */
+  port?: string;
+  /** The name of the app. */
+  appName?: string;
+  /** The directory to output the generated Dockerfile to. */
+  dockerfileOutputDirectory?: string;
+  /** The directory to output the generated manifests to. */
+  manifestOutputDirectory?: string;
+  /** The mode of generation to be used for generating Dockerfiles. */
+  dockerfileGenerationMode?: DockerfileGenerationMode;
+  /** The mode of generation to be used for generating Manifest. */
+  manifestGenerationMode?: ManifestGenerationMode;
+  /** Determines the type of manifests to be generated. */
+  manifestType?: GenerationManifestType;
+  /** The name of the image to be generated. */
+  imageName?: string;
+  /** The namespace to deploy the application to. */
+  namespace?: string;
+  /** The tag to apply to the generated image. */
+  imageTag?: string;
 }
 
 /** delete response if content must be provided on delete operation */
@@ -273,6 +305,32 @@ export interface GitHubOAuthResponse extends ProxyResource {
 
 /** Resource representation of a workflow */
 export interface Workflow extends TrackedResource {
+  /** The programming language used. */
+  generationLanguage?: GenerationLanguage;
+  /** The version of the language image used for execution in the generated dockerfile. */
+  languageVersion?: string;
+  /** The version of the language image used for building the code in the generated dockerfile. */
+  builderVersion?: string;
+  /** The port the application is exposed on. */
+  port?: string;
+  /** The name of the app. */
+  appName?: string;
+  /** The directory to output the generated Dockerfile to. */
+  dockerfileOutputDirectory?: string;
+  /** The directory to output the generated manifests to. */
+  manifestOutputDirectory?: string;
+  /** The mode of generation to be used for generating Dockerfiles. */
+  dockerfileGenerationMode?: DockerfileGenerationMode;
+  /** The mode of generation to be used for generating Manifest. */
+  manifestGenerationMode?: ManifestGenerationMode;
+  /** Determines the type of manifests to be generated. */
+  manifestType?: GenerationManifestType;
+  /** The name of the image to be generated. */
+  imageName?: string;
+  /** The namespace to deploy the application to. */
+  namespacePropertiesArtifactGenerationPropertiesNamespace?: string;
+  /** The tag to apply to the generated image. */
+  imageTag?: string;
   /** Repository Owner */
   repositoryOwner?: string;
   /** Repository Name */
@@ -285,7 +343,7 @@ export interface Workflow extends TrackedResource {
   dockerBuildContext?: string;
   deploymentProperties?: DeploymentProperties;
   /** Kubernetes namespace the application is deployed to. */
-  namespace?: string;
+  namespacePropertiesGithubWorkflowProfileNamespace?: string;
   /** Information on the azure container registry */
   acr?: Acr;
   /** The fields needed for OIDC with GitHub. */
@@ -308,8 +366,11 @@ export interface Workflow extends TrackedResource {
    */
   readonly prStatus?: PullRequestStatus;
   lastWorkflowRun?: WorkflowRun;
-  /** Determines the type of manifests within the repository. */
-  authStatus?: ManifestType;
+  /**
+   * Determines the authorization status of requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authStatus?: AuthorizationStatus;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -414,6 +475,153 @@ export enum KnownPullRequestStatus {
  */
 export type PullRequestStatus = string;
 
+/** Known values of {@link WorkflowRunStatus} that the service accepts. */
+export enum KnownWorkflowRunStatus {
+  /** Workflow run is queued */
+  Queued = "queued",
+  /** Workflow run is inprogress */
+  Inprogress = "inprogress",
+  /** Workflow run is completed */
+  Completed = "completed"
+}
+
+/**
+ * Defines values for WorkflowRunStatus. \
+ * {@link KnownWorkflowRunStatus} can be used interchangeably with WorkflowRunStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **queued**: Workflow run is queued \
+ * **inprogress**: Workflow run is inprogress \
+ * **completed**: Workflow run is completed
+ */
+export type WorkflowRunStatus = string;
+
+/** Known values of {@link AuthorizationStatus} that the service accepts. */
+export enum KnownAuthorizationStatus {
+  /** Requests authorized successfully */
+  Authorized = "Authorized",
+  /** Requests returned NotFound response */
+  NotFound = "NotFound",
+  /** Requests returned other error response */
+  Error = "Error"
+}
+
+/**
+ * Defines values for AuthorizationStatus. \
+ * {@link KnownAuthorizationStatus} can be used interchangeably with AuthorizationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Authorized**: Requests authorized successfully \
+ * **NotFound**: Requests returned NotFound response \
+ * **Error**: Requests returned other error response
+ */
+export type AuthorizationStatus = string;
+
+/** Known values of {@link GenerationLanguage} that the service accepts. */
+export enum KnownGenerationLanguage {
+  /** clojure language */
+  Clojure = "clojure",
+  /** csharp language */
+  Csharp = "csharp",
+  /** erlang language */
+  Erlang = "erlang",
+  /** go language */
+  Go = "go",
+  /** gomodule language */
+  Gomodule = "gomodule",
+  /** gradle language */
+  Gradle = "gradle",
+  /** java language */
+  Java = "java",
+  /** javascript language */
+  Javascript = "javascript",
+  /** php language */
+  Php = "php",
+  /** python language */
+  Python = "python",
+  /** ruby language */
+  Ruby = "ruby",
+  /** rust language */
+  Rust = "rust",
+  /** swift language */
+  Swift = "swift"
+}
+
+/**
+ * Defines values for GenerationLanguage. \
+ * {@link KnownGenerationLanguage} can be used interchangeably with GenerationLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **clojure**: clojure language \
+ * **csharp**: csharp language \
+ * **erlang**: erlang language \
+ * **go**: go language \
+ * **gomodule**: gomodule language \
+ * **gradle**: gradle language \
+ * **java**: java language \
+ * **javascript**: javascript language \
+ * **php**: php language \
+ * **python**: python language \
+ * **ruby**: ruby language \
+ * **rust**: rust language \
+ * **swift**: swift language
+ */
+export type GenerationLanguage = string;
+
+/** Known values of {@link DockerfileGenerationMode} that the service accepts. */
+export enum KnownDockerfileGenerationMode {
+  /** Dockerfiles will be generated */
+  Enabled = "enabled",
+  /** Dockerfiles will not be generated */
+  Disabled = "disabled"
+}
+
+/**
+ * Defines values for DockerfileGenerationMode. \
+ * {@link KnownDockerfileGenerationMode} can be used interchangeably with DockerfileGenerationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Dockerfiles will be generated \
+ * **disabled**: Dockerfiles will not be generated
+ */
+export type DockerfileGenerationMode = string;
+
+/** Known values of {@link ManifestGenerationMode} that the service accepts. */
+export enum KnownManifestGenerationMode {
+  /** Manifests will be generated */
+  Enabled = "enabled",
+  /** Manifests will not be generated */
+  Disabled = "disabled"
+}
+
+/**
+ * Defines values for ManifestGenerationMode. \
+ * {@link KnownManifestGenerationMode} can be used interchangeably with ManifestGenerationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Manifests will be generated \
+ * **disabled**: Manifests will not be generated
+ */
+export type ManifestGenerationMode = string;
+
+/** Known values of {@link GenerationManifestType} that the service accepts. */
+export enum KnownGenerationManifestType {
+  /** Helm manifests */
+  Helm = "helm",
+  /** Kubernetes manifests */
+  Kube = "kube"
+}
+
+/**
+ * Defines values for GenerationManifestType. \
+ * {@link KnownGenerationManifestType} can be used interchangeably with GenerationManifestType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **helm**: Helm manifests \
+ * **kube**: Kubernetes manifests
+ */
+export type GenerationManifestType = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -443,6 +651,15 @@ export interface ListGitHubOAuthOptionalParams
 
 /** Contains response data for the listGitHubOAuth operation. */
 export type ListGitHubOAuthResponse = GitHubOAuthListResponse;
+
+/** Optional parameters. */
+export interface GeneratePreviewArtifactsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generatePreviewArtifacts operation. */
+export type GeneratePreviewArtifactsResponse = {
+  [propertyName: string]: string;
+};
 
 /** Optional parameters. */
 export interface WorkflowListOptionalParams

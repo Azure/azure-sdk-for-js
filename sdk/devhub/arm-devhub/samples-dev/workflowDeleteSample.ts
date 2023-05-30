@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a workflow
  *
  * @summary Deletes a workflow
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Delete.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Delete.json
  */
 async function deleteWorkflow() {
   const subscriptionId =

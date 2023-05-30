@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
  *
  * @summary Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/GitHubOAuthCallback.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuthCallback.json
  */
 async function gitHubOAuthCallback() {
   const subscriptionId =
