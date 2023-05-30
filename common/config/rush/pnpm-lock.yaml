@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230529
+      typescript: 5.2.0-dev.20230530
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8422,8 +8422,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230529:
-    resolution: {integrity: sha512-iug+FguVJuW5ngiaXR/3eruFIMuQiZfKkIoA2zbORdx0EgqVfaUXy8WjUyI7fhfctkRCZeCalNPlunhhL27dvQ==}
+  /typescript/5.2.0-dev.20230530:
+    resolution: {integrity: sha512-bIoMajCZWzLB+pWwncaba/hZc6dRnw7x8T/fenOnP9gYQB/gc4xdm48AXp5SH5I/PvvSeZ/dXkUMtc8s8BiDZw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -8805,8 +8805,8 @@ packages:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
     dev: false
 
-  /yaml/2.2.2:
-    resolution: {integrity: sha512-CBKFWExMn46Foo4cldiChEzn7S7SRV+wqiluAb6xmueD/fGyRHIhX8m14vVGgeFWjN540nKCNVj6P21eQjgTuA==}
+  /yaml/2.3.1:
+    resolution: {integrity: sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==}
     engines: {node: '>= 14'}
     dev: false
 
@@ -16682,7 +16682,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-51HhGl0kp1ihDZeJEAWutC7TAsjRn4BXlRmZe+K/ozop+YCkoriPGSng5kxfLbfznEBPINWZLr/U3wjNwdhfxQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-C2x+fPK8AaV2/GRbIfnNfzsXBeNa5KDKEHLq7tP6+P/rrXVCZ/sLk8a5f++pZ1lOcrkuvWVNOC/3jCPkSfR9Eg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16732,7 +16732,7 @@ packages:
       ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
       tslib: 2.5.2
       typescript: 5.0.4
-      yaml: 2.2.2
+      yaml: 2.3.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
