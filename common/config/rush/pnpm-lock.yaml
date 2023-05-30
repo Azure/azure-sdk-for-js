@@ -335,6 +335,7 @@ specifiers:
   '@rush-temp/synapse-monitoring': file:./projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:./projects/synapse-spark.tgz
   '@rush-temp/template': file:./projects/template.tgz
+  '@rush-temp/template-dpg': file:./projects/template-dpg.tgz
   '@rush-temp/test-credential': file:./projects/test-credential.tgz
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
@@ -679,6 +680,7 @@ dependencies:
   '@rush-temp/synapse-monitoring': file:projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
   '@rush-temp/template': file:projects/template.tgz
+  '@rush-temp/template-dpg': file:projects/template-dpg.tgz
   '@rush-temp/test-credential': file:projects/test-credential.tgz
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
@@ -2229,6 +2231,15 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
+  /@ts-morph/common/0.19.0:
+    resolution: {integrity: sha512-Unz/WHmd4pGax91rdIKWi51wnVUW11QttMEPpBiBgIewnc9UQIX7UDLxr5vRlqeByXCwhkF6VabSsI0raWcyAQ==}
+    dependencies:
+      fast-glob: 3.2.12
+      minimatch: 7.4.6
+      mkdirp: 2.1.6
+      path-browserify: 1.0.1
+    dev: false
+
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
     dev: false
@@ -3366,6 +3377,10 @@ packages:
   /clone/1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+    dev: false
+
+  /code-block-writer/12.0.0:
+    resolution: {integrity: sha512-q4dMFMlXtKR3XNBHyMHt/3pwYNA69EDk00lloMOaaUMKPUXBw6lpXtbu3MMVG6/uOihGnRDOlkyqsONEUj60+w==}
     dev: false
 
   /color-convert/1.9.3:
@@ -6239,6 +6254,13 @@ packages:
       brace-expansion: 2.0.1
     dev: false
 
+  /minimatch/7.4.6:
+    resolution: {integrity: sha512-sBz8G/YjVniEz6lKPNpKxXwazJe4c19fEfV2GDMX6AjFz+MX9uDWIZW8XreVhkFW3fkIdTv/gxWr/Kks5FFAVw==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
+
   /minimatch/8.0.4:
     resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -6842,6 +6864,10 @@ packages:
   /parseurl/1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: false
 
   /path-exists/3.0.0:
@@ -8188,6 +8214,13 @@ packages:
   /tree-kill/1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
+    dev: false
+
+  /ts-morph/18.0.0:
+    resolution: {integrity: sha512-Kg5u0mk19PIIe4islUI/HWRvm9bC1lHejK4S0oh1zaZ77TMZAEmQC0sHQYiu2RgCQFZKXz1fMVi/7nOOeirznA==}
+    dependencies:
+      '@ts-morph/common': 0.19.0
+      code-block-writer: 12.0.0
     dev: false
 
   /ts-node/10.9.1_vccnyv33b3wfhlrlfg263mzlgy:
@@ -16649,7 +16682,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-lXaYwrgeWF5Z3Ee9aiOWU9OkoiiO45VckW07grgqKbRyPSNInAWUY6QrGIAinc1Vw2d0+LnN+E/XxkB9KCv4rg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-51HhGl0kp1ihDZeJEAWutC7TAsjRn4BXlRmZe+K/ozop+YCkoriPGSng5kxfLbfznEBPINWZLr/U3wjNwdhfxQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16695,6 +16728,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
       rollup-plugin-visualizer: 5.9.0_rollup@2.79.1
       semver: 7.5.1
+      ts-morph: 18.0.0
       ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
       tslib: 2.5.2
       typescript: 5.0.4
@@ -19671,6 +19705,50 @@ packages:
       - '@types/node'
       - bufferutil
       - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/template-dpg.tgz:
+    resolution: {integrity: sha512-gTMguqzV+EltzV0iJQAsdQUFwyJJwmXXDJtcgFbdM8LvM024EzBHTGu+jvHgunQH3nDZqvDH5EB39s2Po3Sebw==, tarball: file:projects/template-dpg.tgz}
+    name: '@rush-temp/template-dpg'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.47
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.41.0
+      esm: 3.2.25
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      puppeteer: 19.11.1_typescript@5.0.4
+      rimraf: 3.0.2
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
+      typescript: 5.0.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
