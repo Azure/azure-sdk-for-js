@@ -343,7 +343,7 @@ describe("internal crypto tests", () => {
             }
           );
 
-          await idCryptoClient.signData("RS256", new Uint8Array([1, 2, 3]));
+          await idCryptoClient.sign("RS256", new Uint8Array([1, 2, 3]));
         });
       });
 
