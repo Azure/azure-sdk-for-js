@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where cryptographic operations would fail if the client did not have the get permission on the key, even if it had permission for the underlying operation. Issue [#26001](https://github.com/Azure/azure-sdk-for-js/issues/26001); PR [#26016](https://github.com/Azure/azure-sdk-for-js/issues/26016)
+
 ### Other Changes
 
 ## 4.7.0 (2023-03-09)
