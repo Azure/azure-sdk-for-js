@@ -82,12 +82,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
 
     it("search narrows the result type", async function () {
+      // eslint-disable-next-line no-constant-condition
       if (false) {
         const response = await searchClient.search("asdf", {
           select: ["address/city"],
         });
         for await (const result of response.results) {
-          //@ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           result.document.category = "";
         }
       }
