@@ -42,7 +42,10 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
 
     let envelopes: Envelope[] = [];
     logs.forEach((log) => {
-      envelopes.push(logToEnvelope(log, this._instrumentationKey));
+      let envelope = logToEnvelope(log, this._instrumentationKey);
+      if (envelope) {
+        envelopes.push(envelope);
+      }
     });
     resultCallback(await this._exportEnvelopes(envelopes));
   }

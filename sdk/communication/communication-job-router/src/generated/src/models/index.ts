@@ -428,6 +428,16 @@ export interface AcceptJobOfferResult {
   workerId: string;
 }
 
+/** Request payload for declining offers */
+export interface DeclineJobOfferRequest {
+  /**
+   * If the reoffer time is not provided, then this job will not be re-offered to the worker who declined this job unless
+   * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
+   * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
+   */
+  reofferTimeUtc?: Date;
+}
+
 /** A queue that can contain jobs to be routed. */
 export interface JobQueue {
   /**
@@ -895,26 +905,6 @@ export interface ReclassifyExceptionAction extends ExceptionAction {
   labelsToUpsert?: { [propertyName: string]: any };
 }
 
-/** Known values of {@link RouterWorkerState} that the service accepts. */
-export enum KnownRouterWorkerState {
-  /** Active */
-  Active = "active",
-  /** Draining */
-  Draining = "draining",
-  /** Inactive */
-  Inactive = "inactive"
-}
-
-/**
- * Defines values for RouterWorkerState. \
- * {@link KnownRouterWorkerState} can be used interchangeably with RouterWorkerState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **active** \
- * **draining** \
- * **inactive**
- */
-export type RouterWorkerState = string;
 /** Defines values for RouterJobStatus. */
 export type RouterJobStatus =
   | "pendingClassification"
@@ -955,6 +945,8 @@ export type JobStateSelector =
   | "scheduleFailed"
   | "waitingForActivation"
   | "active";
+/** Defines values for RouterWorkerState. */
+export type RouterWorkerState = "active" | "draining" | "inactive";
 /** Defines values for WorkerStateSelector. */
 export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
 /** Defines values for ScoringRuleParameterSelector. */
@@ -1227,7 +1219,10 @@ export type JobRouterAcceptJobActionResponse = AcceptJobOfferResult;
 
 /** Optional parameters. */
 export interface JobRouterDeclineJobActionOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Request model for declining offer */
+  declineJobOfferRequest?: DeclineJobOfferRequest;
+}
 
 /** Contains response data for the declineJobAction operation. */
 export type JobRouterDeclineJobActionResponse = {

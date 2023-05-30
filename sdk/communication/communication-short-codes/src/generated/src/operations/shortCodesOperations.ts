@@ -17,6 +17,9 @@ import {
   ShortCode,
   ShortCodesGetShortCodesNextOptionalParams,
   ShortCodesGetShortCodesOptionalParams,
+  ShortCodeCost,
+  ShortCodesGetCostsNextOptionalParams,
+  ShortCodesGetCostsOptionalParams,
   USProgramBrief,
   ShortCodesGetUSProgramBriefsNextOptionalParams,
   ShortCodesGetUSProgramBriefsOptionalParams,
@@ -24,6 +27,7 @@ import {
   ShortCodesGetUSProgramBriefAttachmentsNextOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   ShortCodesGetShortCodesResponse,
+  ShortCodesGetCostsResponse,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   ShortCodesUpsertUSProgramBriefResponse,
   ShortCodesDeleteUSProgramBriefOptionalParams,
@@ -41,6 +45,7 @@ import {
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentsResponse,
   ShortCodesGetShortCodesNextResponse,
+  ShortCodesGetCostsNextResponse,
   ShortCodesGetUSProgramBriefsNextResponse,
   ShortCodesGetUSProgramBriefAttachmentsNextResponse
 } from "../models";
@@ -96,6 +101,48 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
     options?: ShortCodesGetShortCodesOptionalParams
   ): AsyncIterableIterator<ShortCode> {
     for await (const page of this.getShortCodesPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * This method supports pagination via the "skip" and "top" query parameters.
+   * @param options The options parameters.
+   */
+  public listCosts(
+    options?: ShortCodesGetCostsOptionalParams
+  ): PagedAsyncIterableIterator<ShortCodeCost> {
+    const iter = this.getCostsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.getCostsPagingPage(options);
+      }
+    };
+  }
+
+  private async *getCostsPagingPage(
+    options?: ShortCodesGetCostsOptionalParams
+  ): AsyncIterableIterator<ShortCodeCost[]> {
+    let result = await this._getCosts(options);
+    yield result.shortCodeCosts || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._getCostsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.shortCodeCosts || [];
+    }
+  }
+
+  private async *getCostsPagingAll(
+    options?: ShortCodesGetCostsOptionalParams
+  ): AsyncIterableIterator<ShortCodeCost> {
+    for await (const page of this.getCostsPagingPage(options)) {
       yield* page;
     }
   }
@@ -219,6 +266,25 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
           { options },
           getShortCodesOperationSpec
         ) as Promise<ShortCodesGetShortCodesResponse>;
+      }
+    );
+  }
+
+  /**
+   * This method supports pagination via the "skip" and "top" query parameters.
+   * @param options The options parameters.
+   */
+  private async _getCosts(
+    options?: ShortCodesGetCostsOptionalParams
+  ): Promise<ShortCodesGetCostsResponse> {
+    return tracingClient.withSpan(
+      "ShortCodesClient._getCosts",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getCostsOperationSpec
+        ) as Promise<ShortCodesGetCostsResponse>;
       }
     );
   }
@@ -460,6 +526,27 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
   }
 
   /**
+   * GetCostsNext
+   * @param nextLink The nextLink from the previous successful call to the GetCosts method.
+   * @param options The options parameters.
+   */
+  private async _getCostsNext(
+    nextLink: string,
+    options?: ShortCodesGetCostsNextOptionalParams
+  ): Promise<ShortCodesGetCostsNextResponse> {
+    return tracingClient.withSpan(
+      "ShortCodesClient._getCostsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getCostsNextOperationSpec
+        ) as Promise<ShortCodesGetCostsNextResponse>;
+      }
+    );
+  }
+
+  /**
    * GetUSProgramBriefsNext
    * @param nextLink The nextLink from the previous successful call to the GetUSProgramBriefs method.
    * @param options The options parameters.
@@ -513,6 +600,22 @@ const getShortCodesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ShortCodes
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.top, Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCostsOperationSpec: coreClient.OperationSpec = {
+  path: "/shortCodes/costs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ShortCodeCosts
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -704,6 +807,22 @@ const getShortCodesNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ShortCodes
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.top, Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCostsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ShortCodeCosts
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

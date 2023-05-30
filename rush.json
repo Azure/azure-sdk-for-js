@@ -764,6 +764,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
