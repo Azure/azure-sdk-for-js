@@ -16,8 +16,8 @@
 
     ```
     "dependencies": {
-       "@azure/identity": "^3.2.1",
-       "redis": "^4.6.6",
+      "@azure/identity": "^3.2.1",
+      "redis": "^4.6.6",
       }
     ```
 - Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
@@ -212,7 +212,7 @@ async function main() {
             password: accessToken.token})
     }
   }
-  
+
   await updateToken();
   let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
@@ -225,8 +225,7 @@ async function main() {
       keepAlive:0
     },
   });
-  await redisClient.connect();
-  
+  await redisClient.connect(); 
 
   for (let i = 0; i < 3; i++) {
     try {
@@ -261,6 +260,7 @@ main().catch((err) => {
   console.log("error stack: ", err.stack);
 });
 ```
+
 #### Troubleshooting
 ##### Invalid Username Password Pair Error
 
