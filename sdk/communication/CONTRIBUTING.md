@@ -6,6 +6,25 @@ The Azure Communication Services SDK for JS currently consists of six different 
 
 Let's get started with how to set up the repo itself.
 
+## Configure your environment
+
+1. Set up the scope for the `@microsoft` and `@rushstack` packages.
+   - Find your `.npmrc` file by running the command `npm config ls -l | find '"npmrc"'`.
+   - Append the following lines to your `.npmrc` file:
+    ```
+    @microsoft:registry=https://registry.npmjs.org
+    @rushstack:registry=https://registry.npmjs.org
+    ```
+2. Run the command `npm i -g @microsoft/rush`.
+3. Run `rush -v` to check if it works.
+4. Add long-name support to Git (optional):
+    ```
+    git config --system core.longpaths true
+    ```
+6. Then, clone the repository by running the command `git clone git@github.com:Azure/azure-sdk-for-js.git`.
+7. If the previous steps worked correctly, move on to the next steps. If there were any errors, please write to me at dmitriirykov@microsoft.com.
+8. Next, move to the `azure-sdk-for-js` folder by running `cd azure-sdk-for-js`.
+
 ## Building
 
 Install and link all dependencies `rush update`, and to build a single project `rush build -t <packagename>`.
