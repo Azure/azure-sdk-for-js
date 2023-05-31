@@ -1168,6 +1168,8 @@ export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSi
 
 // @public
 export interface HandleItem {
+    // (undocumented)
+    accessRightList?: ShareFileHandleAccessRights[];
     clientIp: string;
     fileId: string;
     handleId: string;
@@ -1734,6 +1736,9 @@ export class ShareFileClient extends StorageClient {
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
     withShareSnapshot(shareSnapshot: string): ShareFileClient;
 }
+
+// @public
+export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
 
 // @public
 export interface ShareFileRangeList {

@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7dcd41cd28d46eb256bac034760a7e2f0a036238/specification/storage/data-plane/Microsoft.FileStorage/preview/2022-11-02/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/02ec353ce82c87447bc78e6f662adee089fff504/specification/storage/data-plane/Microsoft.FileStorage/preview/2023-01-03/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true

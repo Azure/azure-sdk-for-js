@@ -1047,6 +1047,21 @@ export const HandleItem: coreHttp.CompositeMapper = {
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      accessRightList: {
+        serializedName: "AccessRightList",
+        xmlName: "AccessRightList",
+        xmlIsWrapped: true,
+        xmlElementName: "AccessRight",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: ["Read", "Write", "Delete"]
+            }
+          }
+        }
       }
     }
   }
