@@ -7,6 +7,7 @@ import * as appInsights from "applicationinsights";
 import util from "util";
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
+import { delay } from "@azure/core-util";
 
 dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
@@ -51,13 +52,20 @@ async function main() {
     },
   });
   while ((new Date().valueOf() - startedAt.valueOf()) < testDurationInSeconds * 1000) {
-    let iterable = client.getContainerClient("test").listBlobsFlat().byPage({ maxPageSize: 3 });
-    let count = 0
-    for await (const element of iterable) {
-      count += element.segment.blobItems.length;
+    try {
+      let iterable = client.getContainerClient("test").listBlobsFlat().byPage({ maxPageSize: 3 });
+      let count = 0
+      for await (const element of iterable) {
+        count += element.segment.blobItems.length;
+      }
+      loops++;
+      globalCount = count
+    } catch (error) {
+      defaultClientAppInsights.trackException({
+        exception: { message: (error as Error)!.message, name: (error as Error)!.name }, time: new Date()
+      });
+      await delay(10000);
     }
-    loops++;
-    globalCount = count
   }
 }
 
