@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add vector search. [#26069](https://github.com/Azure/azure-sdk-for-js/pull/26069)
+
 ### Breaking Changes
 
 ### Bugs Fixed
