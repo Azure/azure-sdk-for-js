@@ -128,7 +128,7 @@ export interface EventHubConsumerOptions {
   /**
    * The count of events requested eagerly and queued without regard to whether a read was requested.
    */
-  PrefetchCount?: number;
+  prefetchCount?: number;
 }
 
 /**

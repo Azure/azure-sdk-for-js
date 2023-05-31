@@ -221,7 +221,7 @@ export function createReceiver(
                 .connect({
                   abortSignal,
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
-                  prefetchCount: options.PrefetchCount ?? maxMessageCount * 3,
+                  prefetchCount: options.prefetchCount ?? maxMessageCount * 3,
                 })
                 .then(() => {
                   logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
