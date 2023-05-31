@@ -18,7 +18,7 @@ import {
   initializeLockRenewalOperationInfo,
   initializeOperationInfo,
   OperationInfo,
-  SnapshotOptions
+  SnapshotOptions,
 } from "./utils";
 import Long from "long";
 import * as appInsights from "applicationinsights";
@@ -435,8 +435,7 @@ export class ServiceBusStressTester {
 
     const { rss, heapUsed } = process.memoryUsage();
     eventProperties["memoryUsage.rssMB"] = Math.round((rss / 1024 / 1024) * 100) / 100;
-    eventProperties["memoryUsage.heapUsedMB"] =
-      Math.round((heapUsed / 1024 / 1024) * 100) / 100;
+    eventProperties["memoryUsage.heapUsedMB"] = Math.round((heapUsed / 1024 / 1024) * 100) / 100;
 
     eventProperties["errorCount"] = this._numErrors;
     this._numErrors = 0;

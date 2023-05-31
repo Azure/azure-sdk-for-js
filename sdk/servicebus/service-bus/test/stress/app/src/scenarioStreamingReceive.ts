@@ -115,7 +115,7 @@ export async function scenarioStreamingReceive() {
   };
 
   return stressBase.runStressTest(operation, {
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 
