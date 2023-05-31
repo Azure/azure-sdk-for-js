@@ -11,7 +11,7 @@ import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/s
 import {
   SipConfigurationUpdate,
   SipRoutingError,
-  SipRoutingGetOptionalParams, SipRoutingTestRoutesWithNumberOptionalParams,
+  SipRoutingGetOptionalParams,
 } from "./generated/src/siprouting/models";
 import {
   GetSipTrunkOptions,
@@ -21,6 +21,7 @@ import {
   SipDomain,
   SipTrunk,
   SipTrunkRoute,
+  SipRoutingTestRoutesWithNumberOptionalParams
 } from "./models";
 import {
   transformFromRestModel,

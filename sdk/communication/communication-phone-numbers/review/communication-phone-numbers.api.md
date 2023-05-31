@@ -245,6 +245,8 @@ export class SipRoutingClient {
     listDomains(options?: ListSipDomainsOptions): PagedAsyncIterableIterator<SipDomain>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
+    // (undocumented)
+    matchNumberToRoutes(number: string, options?: SipRoutingTestRoutesWithNumberOptionalParams): Promise<SipTrunkRoute[]>;
     setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;
     setDomains(domains: SipDomain[], options?: OperationOptions): Promise<SipDomain[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
@@ -263,6 +265,17 @@ export interface SipRoutingError {
     readonly innerError?: SipRoutingError;
     message: string;
     readonly target?: string;
+}
+
+// @public (undocumented)
+export interface SipRoutingTestRoutesWithNumberOptionalParams extends OperationOptions {
+    domains?: {
+        [propertyName: string]: SipDomain;
+    };
+    routes?: SipTrunkRoute[];
+    trunks?: {
+        [propertyName: string]: SipTrunk;
+    };
 }
 
 // @public
@@ -293,7 +306,7 @@ export interface SipTrunkPing {
 
 // @public
 export interface SipTrunkRoute {
-    description?: string;
+    description?: string | null;
     name: string;
     numberPattern: string;
     trunks?: string[];

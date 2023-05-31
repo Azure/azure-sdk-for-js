@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { SipRoutingClient } from "../../../src";
+import { SipRoutingClient, SipRoutingTestRoutesWithNumberOptionalParams } from "../../../src";
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -15,7 +15,6 @@ import {
   getUniqueFqdn
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
-import { SipRoutingTestRoutesWithNumberOptionalParams } from "../../../src/generated/src/siprouting";
 
 interface IMatchNumberToRoutesTestContext {
   domain: string;
@@ -40,7 +39,7 @@ async function createSipConfiguration(
 const testDomainName = process.env.AZURE_COMMUNICATION_TEST_DOMAIN_NAME;
 
 matrix([[true, false]], async function(useAad) {
-  describe(`SipRoutingClient - match number to routes ${useAad ? " [AAD]" : ""}`, function() {
+  describe(`SipRoutingClient - match number to routes${useAad ? " [AAD]" : ""}`, function() {
     let client: SipRoutingClient;
     let recorder: Recorder;
     let domain: string;
