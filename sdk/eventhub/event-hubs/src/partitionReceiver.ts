@@ -93,6 +93,7 @@ export interface PartitionReceiver {
 interface ConnectOptions {
   abortSignal: AbortSignalLike | undefined;
   timeoutInMs: number;
+  prefetchCount: number;
 }
 
 interface ReceiverState {
@@ -153,7 +154,7 @@ export function createReceiver(
       logger.verbose(`is open? -> ${isOpen}`);
       return isOpen;
     },
-    async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
+    async connect({ abortSignal, timeoutInMs, prefetchCount }: ConnectOptions): Promise<void> {
       if (state.isConnecting || obj.isOpen()) {
         return;
       }
@@ -170,6 +171,7 @@ export function createReceiver(
               obj,
               state,
               queue,
+              prefetchCount,
               eventPosition,
               logger,
               options,
@@ -221,13 +223,12 @@ export function createReceiver(
                 .connect({
                   abortSignal,
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
+                  prefetchCount: options.PrefetchCount ?? maxMessageCount * 3,
                 })
                 .then(() => {
-                  if (addCredits(state.link, eventsToRetrieveCount) > 0) {
-                    return logger.verbose(
-                      `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
-                    );
-                  } else return;
+                  return logger.verbose(
+                    `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
+                  );
                 })
                 .then(() =>
                   waitForEvents(
@@ -415,14 +416,6 @@ function setEventProps(eventProps: LastEnqueuedEventProperties, data: EventDataI
   eventProps.retrievedOn = data.retrievalTime;
 }
 
-function addCredits(receiver: Link | undefined, eventsToRetrieveCount: number): number {
-  const creditsToAdd = eventsToRetrieveCount - (receiver?.credit ?? 0);
-  if (creditsToAdd > 0) {
-    receiver?.addCredit(creditsToAdd);
-  }
-  return creditsToAdd;
-}
-
 function clearHandlers(obj: WritableReceiver): void {
   obj._onError = undefined;
 }
@@ -513,6 +506,7 @@ function createRheaOptions(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: EventHubConsumerOptions
@@ -523,7 +517,7 @@ function createRheaOptions(
     source: {
       address,
     },
-    credit_window: 0,
+    credit_window: prefetchCount,
     onClose: (context) => onClose(context, state, logger),
     onSessionClose: (context) => onSessionClose(context, state, logger),
     onError: (context) => onError(context, obj, state.link, logger),
@@ -555,6 +549,7 @@ async function setupLink(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: EventHubConsumerOptions,
@@ -566,6 +561,7 @@ async function setupLink(
     obj,
     state,
     queue,
+    prefetchCount,
     eventPosition,
     logger,
     options
