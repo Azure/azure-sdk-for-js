@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Use Rhea's prefetch window to prefetch events from the service. This improves the performance of the receiver by reducing the number of round trips to the service. The default prefetch window is 3 * `maxBatchSize` events. This can be configured by setting the `prefetchCount` option on the `EventHubConsumerClient` constructor.
+
 ## 5.10.0 (2023-05-01)
 
 ### Bugs Fixed
