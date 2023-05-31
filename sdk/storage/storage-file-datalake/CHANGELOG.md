@@ -1,17 +1,11 @@
 # Release History
 
-## 12.13.1 (Unreleased)
+## 12.14.0-beta.1 (2023-05-31)
 
 ### Features Added
 
 - Added support for service version 2023-01-03.
 - Added owner, group and permissions properties for response of DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeFileClient,read(), and DataLakeDirectoryClient.getProperties().
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.13.0 (2023-04-13)
 
