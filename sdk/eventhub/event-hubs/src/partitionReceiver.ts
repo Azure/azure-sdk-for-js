@@ -213,9 +213,7 @@ export function createReceiver(
           cleanupBeforeAbort();
           return Promise.reject(new AbortError(StandardAbortMessage));
         }
-        return obj.isClosed || ctx.wasConnectionCloseCalled
-          ? Promise.resolve(queue.splice(0))
-          : eventsToRetrieveCount === 0
+        return obj.isClosed || ctx.wasConnectionCloseCalled || eventsToRetrieveCount === 0
           ? Promise.resolve(queue.splice(0, maxMessageCount))
           : new Promise<void>((resolve, reject) => {
               obj._onError = reject;
@@ -226,12 +224,8 @@ export function createReceiver(
                   prefetchCount: options.PrefetchCount ?? maxMessageCount * 3,
                 })
                 .then(() => {
-                  return logger.verbose(
-                    `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
-                  );
-                })
-                .then(() =>
-                  waitForEvents(
+                  logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
+                  return waitForEvents(
                     maxMessageCount,
                     maxWaitTimeInSeconds * 1000,
                     qReadIntervalInMs,
@@ -253,8 +247,8 @@ export function createReceiver(
                           `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
                         ),
                     }
-                  )
-                )
+                  );
+                })
                 .catch(reject)
                 .then(resolve);
             })
