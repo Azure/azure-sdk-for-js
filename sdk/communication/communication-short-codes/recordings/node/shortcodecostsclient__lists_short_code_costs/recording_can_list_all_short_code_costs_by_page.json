@@ -1,0 +1,152 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=0\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 23 May 2023 23:09:34 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "170",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 23 May 2023 23:09:37 GMT",
+        "MS-CV": "\u002Bx7w7Y8Izky4nzNgx8CrfA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0r0dtZAAAAAC\u002B66HdxVS2R7hUPOaEB7IcTUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1662ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=1\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=1\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 23 May 2023 23:09:36 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "199",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 23 May 2023 23:09:38 GMT",
+        "MS-CV": "ZEhTDbVJ5E6zol1gn/elbA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0sUdtZAAAAACUlhvD2xQlQ4J2KIZpdWLOTUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1044ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=2\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=2\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 23 May 2023 23:09:37 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "200",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 23 May 2023 23:09:39 GMT",
+        "MS-CV": "\u002BY9suSRtaUCHBhroZLkoHw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0skdtZAAAAAAotRjg/y03QItVBosmgJg8TUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1015ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=3\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=3\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 23 May 2023 23:09:38 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "88",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 23 May 2023 23:09:40 GMT",
+        "MS-CV": "ejiaTcHFJkaQWtfRlsFNNg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0s0dtZAAAAAC1zhfF922zTrUHHVjjkPs6TUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "950ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [],
+        "nextLink": "/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06"
+      }
+    }
+  ],
+  "Variables": {}
+}
