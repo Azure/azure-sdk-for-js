@@ -9,6 +9,12 @@ matrix:
     node18:
       image: Dockerfile
   scenarios:
+    noActivity:
+       testTarget: scenarioNoActivity
+       memory: "1.5Gi"
+    checkpointStore:
+       testTarget: scenarioCheckpointStore
+       memory: "1.5Gi"
     # noActivity:
     #   testTarget: scenarioNoActivity
     #   memory: "1.5Gi"
