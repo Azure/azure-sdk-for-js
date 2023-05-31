@@ -16,6 +16,11 @@
   - Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.
 - Add a new enum `CriCompatible` to type `ContainerType`.
 
+### Other Changes
+
+- Deprecating `CertificateOperations` related methods.
+  - This operation is deprecating and will be removed after February 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+
 ## 10.2.0 (2022-10-01)
 
 ### Features
