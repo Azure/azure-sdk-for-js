@@ -44,7 +44,8 @@
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/translation/ai-translation-text-rest/review/*.md"
+    "sdk/translation/ai-translation-text-rest/review/*.md",
+    "sdk/openai/openai/review/*.md"
   ],
   "words": [
     "adfs",
@@ -109,6 +110,7 @@
     "Rollup",
     "rrggbb",
     "Rtsp",
+	"reoffer",
     "rushx",
     "soundex",
     "southcentralus",

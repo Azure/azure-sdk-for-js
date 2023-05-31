@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyAssignment, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignment.json
  */
 async function createOrUpdateAPolicyAssignment() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters: PolicyAssignment = {
@@ -43,8 +48,6 @@ async function createOrUpdateAPolicyAssignment() {
   console.log(result);
 }
 
-createOrUpdateAPolicyAssignment().catch(console.error);
-
 /**
  * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
@@ -52,7 +55,9 @@ createOrUpdateAPolicyAssignment().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentity.json
  */
 async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters: PolicyAssignment = {
@@ -77,10 +82,6 @@ async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
   console.log(result);
 }
 
-createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
@@ -88,7 +89,9 @@ createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity().catch(
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithUserAssignedIdentity.json
  */
 async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters: PolicyAssignment = {
@@ -118,8 +121,6 @@ async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
   console.log(result);
 }
 
-createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity().catch(console.error);
-
 /**
  * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
@@ -127,7 +128,9 @@ createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentNonComplianceMessages.json
  */
 async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "securityInitAssignment";
   const parameters: PolicyAssignment = {
@@ -159,10 +162,6 @@ async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(
   console.log(result);
 }
 
-createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
@@ -170,7 +169,9 @@ createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages().catch(
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithoutEnforcement.json
  */
 async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const parameters: PolicyAssignment = {
@@ -193,6 +194,12 @@ async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuring
   console.log(result);
 }
 
-createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate().catch(
-  console.error
-);
+async function main() {
+  createOrUpdateAPolicyAssignment();
+  createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity();
+  createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity();
+  createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages();
+  createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate();
+}
+
+main().catch(console.error);

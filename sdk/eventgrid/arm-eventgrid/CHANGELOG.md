@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 14.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 14.2.0-beta.1 (2023-05-18)
     
 **Features**
