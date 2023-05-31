@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -381,6 +381,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -756,6 +761,11 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
       "versionPolicyName": "client"
     },
     {
@@ -1944,11 +1954,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-liftrqumulo",
-      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
@@ -1986,6 +1991,21 @@
     {
       "packageName": "@azure/arm-costmanagement",
       "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
       "versionPolicyName": "management"
     }
   ]

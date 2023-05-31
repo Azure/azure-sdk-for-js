@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates tags on a workflow.
  *
  * @summary Updates tags on a workflow.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_UpdateTags.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_UpdateTags.json
  */
 async function updateManagedClusterTags() {
   const subscriptionId =

@@ -41,6 +41,11 @@ export const ENV_CONNECTION_STRING = "APPLICATIONINSIGHTS_CONNECTION_STRING";
  * @internal
  */
 export const ENV_INSTRUMENTATION_KEY = "APPINSIGHTS_INSTRUMENTATIONKEY";
+/**
+ * Disable Statsbeat environment variable name.
+ * @internal
+ */
+export const ENV_DISABLE_STATSBEAT = "APPLICATION_INSIGHTS_NO_STATSBEAT";
 
 /**
  * QuickPulse metric counter names.

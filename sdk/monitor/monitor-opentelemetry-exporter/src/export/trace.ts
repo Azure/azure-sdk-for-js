@@ -8,6 +8,7 @@ import { AzureMonitorBaseExporter } from "./base";
 import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
+import { createResourceMetricEnvelope } from "../utils/common";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -44,15 +45,26 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = [];
-    spans.forEach((span) => {
-      envelopes.push(readableSpanToEnvelope(span, this._instrumentationKey));
-      let spanEventEnvelopes = spanEventsToEnvelopes(span, this._instrumentationKey);
-      if (spanEventEnvelopes.length > 0) {
-        envelopes.push(...spanEventEnvelopes);
+    if (spans.length > 0) {
+      let envelopes: Envelope[] = [];
+      const resourceMetricEnvelope = createResourceMetricEnvelope(
+        spans[0].resource,
+        this._instrumentationKey
+      );
+      if (resourceMetricEnvelope) {
+        envelopes.push(resourceMetricEnvelope);
       }
-    });
-    resultCallback(await this._exportEnvelopes(envelopes));
+      spans.forEach((span) => {
+        envelopes.push(readableSpanToEnvelope(span, this._instrumentationKey));
+        let spanEventEnvelopes = spanEventsToEnvelopes(span, this._instrumentationKey);
+        if (spanEventEnvelopes.length > 0) {
+          envelopes.push(...spanEventEnvelopes);
+        }
+      });
+      resultCallback(await this._exportEnvelopes(envelopes));
+    }
+    // No data to export
+    resultCallback({ code: ExportResultCode.SUCCESS });
   }
 
   /**
