@@ -1,7 +1,0 @@
-scenarios:
-- image: Dockerfile
-  testTarget: scenarioGetRuntimeProps
-  memory: 1.5Gi
-  Scenario: node18-getRuntimeProps
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/core-amqp-test-3-2-0/jseh/dockerfile:harshanalluru
-
