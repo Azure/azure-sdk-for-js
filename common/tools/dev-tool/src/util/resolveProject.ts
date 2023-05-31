@@ -198,3 +198,8 @@ export async function resolveRoot(start: string = process.cwd()): Promise<string
     }
   }
 }
+
+export async function isModuleProject() {
+  const projectInfo = await resolveProject(process.cwd());
+  return projectInfo.packageJson.type === "module";
+}
