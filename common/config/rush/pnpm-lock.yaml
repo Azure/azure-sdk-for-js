@@ -812,6 +812,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-recoveryservices/5.2.0:
+    resolution: {integrity: sha512-/zG91hENQwwFfAnA2K+ccD9F/CvLeXsDx2Nsbw05wTMZi2O9glEhMyfUsh6QhP+J/BEfhpf7ys/NuDot+IQ89g==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.3
+      tslib: 2.5.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -13873,7 +13888,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-JfSr/qZBc5aqlc7j9am2UZiha8ZgsWXDEAZcKRc+Q3Z0KgU+sGjEPlatZK7Np32ObOoNgLe2XOYHDlVkF9gb9Q==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-TY32Dnlu90WTD56EjhnvqB1kU3kzbbTaVJZQ0bwplXmcLtX8ZA+z7gZuvxCfjNN0/w4en4P+jPOfATO6EYy2yw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -13887,8 +13902,8 @@ packages:
       '@types/node': 14.18.48
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.0
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13901,10 +13916,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-QI8BpZ4AD0+9hQVbh8Alwjh1HJATPwkTLbXLbKC3N3zrCY1RVkB3+IFEuohes/LVjmHZBh5Iv3plTqu27Qppug==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-xeTNlM+u1+GVltcw9Yc+HPvtPY5Pox4uZGJAgi4hT0nePiE4BUHnKDIRcIG4P/9WtMWkuMvNOrPv95rsb5bNQQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
+      '@azure/arm-recoveryservices': 5.2.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
