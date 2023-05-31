@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-            
+                
 trigger:
   branches:
     include:
@@ -13,7 +13,7 @@ trigger:
     include:
       - sdk/liftrqumulo/arm-liftrqumulo
       - sdk/liftrqumulo/ci.mgmt.yml
-
+      - sdk/liftrqumulo/arm-qumulo
 pr:
   branches:
     include:
@@ -27,7 +27,7 @@ pr:
     include:
       - sdk/liftrqumulo/arm-liftrqumulo
       - sdk/liftrqumulo/ci.mgmt.yml
-
+      - sdk/liftrqumulo/arm-qumulo
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -35,4 +35,5 @@ extends:
     Artifacts:
       - name: azure-arm-liftrqumulo
         safeName: azurearmliftrqumulo
-        
+      - name: azure-arm-qumulo
+        safeName: azurearmqumulo
