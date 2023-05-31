@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.13.1
+package-version: 12.14.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -347,11 +347,11 @@ directive:
       ];
 ```
 
-### Update service version from "2021-06-08" to "2022-11-02"
+### Update service version from "2021-06-08" to "2023-01-03"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2022-11-02" ];
+    transform: $.enum = [ "2023-01-03" ];
 ```
