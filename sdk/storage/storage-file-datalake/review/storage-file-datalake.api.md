@@ -688,6 +688,8 @@ export interface FileReadHeaders {
     // (undocumented)
     fileContentMD5?: Uint8Array;
     // (undocumented)
+    group?: string;
+    // (undocumented)
     isServerEncrypted?: boolean;
     // (undocumented)
     lastModified?: Date;
@@ -699,6 +701,10 @@ export interface FileReadHeaders {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: Metadata;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
     // (undocumented)
@@ -1559,6 +1565,8 @@ export interface PathGetPropertiesHeaders {
     etag?: string;
     expiresOn?: Date;
     // (undocumented)
+    group?: string;
+    // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)
     isServerEncrypted?: boolean;
@@ -1572,6 +1580,10 @@ export interface PathGetPropertiesHeaders {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: Metadata;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
     // (undocumented)

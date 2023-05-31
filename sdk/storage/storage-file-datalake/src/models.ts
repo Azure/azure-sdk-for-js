@@ -993,6 +993,9 @@ export interface PathGetPropertiesHeaders {
    * Optional. Specifies the encryption context to set on the file.
    */
   encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -1223,6 +1226,9 @@ export interface FileReadHeaders {
    * Specifies the encryption context to set on the file.
    */
   encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
 }
 
 export type FileReadResponse = FileReadHeaders & {

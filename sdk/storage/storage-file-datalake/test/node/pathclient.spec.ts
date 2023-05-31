@@ -62,6 +62,10 @@ describe("DataLakePathClient Node.js only", () => {
     await testFileClient.create({ owner: owner });
     const result = await testFileClient.getAccessControl();
     assert.equal(result.owner, owner);
+
+    const properties = await testFileClient.getProperties();
+    assert.equal(properties.owner, owner);
+    assert.equal(properties.group, "$superuser");
   });
 
   it("DataLakeFileClient create with group", async () => {
@@ -72,6 +76,10 @@ describe("DataLakePathClient Node.js only", () => {
     await testFileClient.create({ group: group });
     const result = await testFileClient.getAccessControl();
     assert.equal(result.group, group);
+
+    const properties = await testFileClient.getProperties();
+    assert.equal(properties.owner, "$superuser");
+    assert.equal(properties.group, group);
   });
 
   it("DataLakeFileClient create with acl", async () => {
@@ -135,6 +143,54 @@ describe("DataLakePathClient Node.js only", () => {
       },
     });
     assert.deepStrictEqual(permissions.acl, acl);
+
+    const properties = await testFileClient.getProperties();
+
+    assert.deepStrictEqual(properties.owner, "$superuser");
+    assert.deepStrictEqual(properties.group, "$superuser");
+    assert.deepStrictEqual(properties.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+
+    const readResult = await testFileClient.read();
+
+    assert.deepStrictEqual(readResult.owner, "$superuser");
+    assert.deepStrictEqual(readResult.group, "$superuser");
+    assert.deepStrictEqual(readResult.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
   });
 
   it("DataLakeFileClient createIfNotExists with owner", async () => {
@@ -228,6 +284,9 @@ describe("DataLakePathClient Node.js only", () => {
     await testDirClient.create({ owner: owner });
     const result = await testDirClient.getAccessControl();
     assert.equal(result.owner, owner);
+
+    const properties = await testDirClient.getProperties();
+    assert.equal(properties.owner, owner);
   });
 
   it("DataLakeDirectoryClient create with group", async () => {
@@ -238,6 +297,9 @@ describe("DataLakePathClient Node.js only", () => {
     await testDirClient.create({ group: group });
     const result = await testDirClient.getAccessControl();
     assert.equal(result.group, group);
+
+    const properties = await testDirClient.getProperties();
+    assert.equal(properties.group, group);
   });
 
   it("DataLakeDirectoryClient create with acl", async () => {
@@ -277,11 +339,7 @@ describe("DataLakePathClient Node.js only", () => {
     ];
     await testDirClient.create({ acl: acl });
 
-    const permissions = await testDirClient.getAccessControl();
-
-    assert.deepStrictEqual(permissions.owner, "$superuser");
-    assert.deepStrictEqual(permissions.group, "$superuser");
-    assert.deepStrictEqual(permissions.permissions, {
+    const permissions = {
       extendedAcls: false,
       stickyBit: false,
       owner: {
@@ -299,8 +357,18 @@ describe("DataLakePathClient Node.js only", () => {
         write: true,
         execute: false,
       },
-    });
-    assert.deepStrictEqual(permissions.acl, acl);
+    };
+
+    const aclResult = await testDirClient.getAccessControl();
+    assert.deepStrictEqual(aclResult.owner, "$superuser");
+    assert.deepStrictEqual(aclResult.group, "$superuser");
+    assert.deepStrictEqual(aclResult.permissions, permissions);
+    assert.deepStrictEqual(aclResult.acl, acl);
+
+    const propertiesResult = await testDirClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.owner, "$superuser");
+    assert.deepStrictEqual(propertiesResult.group, "$superuser");
+    assert.deepStrictEqual(propertiesResult.permissions, permissions);
   });
 
   it("DataLakeDirectoryClient createIfNotExists with owner", async () => {
