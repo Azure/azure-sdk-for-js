@@ -70,4 +70,12 @@ describe("help test", () => {
       });
   });
 
+  it("selfhelp operation test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0)
+  });
+
 })
