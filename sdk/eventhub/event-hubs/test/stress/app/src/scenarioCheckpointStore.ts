@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   EventHubClientOptions,
   EventHubConsumerClient,
@@ -10,7 +13,6 @@ import {
 } from "./utils";
 import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
-import { AbortSignalLike } from "@azure/abort-controller";
 
 dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
@@ -122,19 +124,4 @@ export function createEventHubsProducerClient(options?: EventHubClientOptions): 
   }
 
   return new EventHubProducerClient(connectionString, eventHubName, options);
-}
-
-/**
- * Loops infinitely with a delay between invocations.
- */
-export async function loopForever(
-  fn: () => Promise<void>,
-  delay: number,
-  abortSignal?: AbortSignalLike
-) {
-  const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
-
-  while (abortSignal?.aborted === false && (await timeout())) {
-    await fn();
-  }
 }

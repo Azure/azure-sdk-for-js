@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { delay } from "@azure/core-util";
 import { EventHubsStressTester, createEventHubsConsumerClient, createEventHubsProducerClient, defaultClientAppInsights } from "./eventHubsStressTester";
 import parsedArgs from "minimist";
