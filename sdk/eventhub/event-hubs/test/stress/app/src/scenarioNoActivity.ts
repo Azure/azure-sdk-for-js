@@ -8,13 +8,14 @@ import { Subscription } from "@azure/event-hubs";
 
 interface ScenarioNoActivityOptions {
   testDurationInMs?: number;
+  maxBatchSize?: number;
 }
 
 function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   const options = parsedArgs<ScenarioNoActivityOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || //10 * 60 * 
-      60 * 1000, // Default = 10 hrs
+    testDurationInMs: options.testDurationInMs || 10 * 60 * 60 * 1000, // Default = 10 hrs
+    maxBatchSize: options.maxBatchSize || 100
   };
 }
 
@@ -22,7 +23,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
 export async function scenarioNoActivity() {
   const testOptions = sanitizeOptions(process.argv);
   const {
-    testDurationInMs
+    testDurationInMs,
+    maxBatchSize
   } = testOptions;
 
   const consumerClient = createEventHubsConsumerClient()
@@ -60,7 +62,7 @@ export async function scenarioNoActivity() {
         }
       },
       {
-        maxBatchSize: 20,
+        maxBatchSize,
         maxWaitTimeInSeconds: 0.1,
         startPosition: { enqueuedOn: Date.now(), isInclusive: true }
       }
