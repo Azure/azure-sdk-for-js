@@ -13,8 +13,8 @@ interface ScenarioNoActivityOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   const options = parsedArgs<ScenarioNoActivityOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || //20 * 24 * 60 * 
-      60 * 1000, // Default = 20 days
+    testDurationInMs: options.testDurationInMs || //10 * 60 * 
+      60 * 1000, // Default = 10 hrs
   };
 }
 
