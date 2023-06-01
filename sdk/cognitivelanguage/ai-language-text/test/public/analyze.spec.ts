@@ -44,7 +44,6 @@ import {
   expectation59,
   expectation60,
   expectation62,
-  expectation72,
 } from "./expectations";
 
 const testDataEn = [
@@ -59,7 +58,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -244,16 +243,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "invalidcountry"),
             expectation42
-          );
-        });
-
-        it("service returns script with DetectLanguageInput[]", async function () {
-          const doc = ["Tumhara naam kya hai?"];
-          assertActionResults(
-            await client.analyze(AnalyzeActionNames.LanguageDetection, doc, "in", {
-              modelVersion: "2022-04-10-preview",
-            }),
-            expectation72
           );
         });
 

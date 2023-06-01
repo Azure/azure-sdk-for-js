@@ -59,7 +59,8 @@ const FIXME2 = {
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+
+matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;

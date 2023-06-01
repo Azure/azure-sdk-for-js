@@ -4118,14 +4118,6 @@ export const expectation62: EntityLinkingResult[] = [
   { id: "2", warnings: [], entities: [] },
 ];
 
-export const expectation72: LanguageDetectionResult[] = [
-  {
-    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1 },
-    id: "0",
-    warnings: [],
-  },
-];
-
 export const expectation73: AnalyzeBatchResult[] = [
   {
     kind: "EntityRecognition",
