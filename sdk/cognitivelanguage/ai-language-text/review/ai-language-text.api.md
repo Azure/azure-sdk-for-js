@@ -66,9 +66,6 @@ export interface ActionPrebuilt extends ActionCommon {
 }
 
 // @public
-export type AgeUnit = string;
-
-// @public
 export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
 
 // @public
@@ -148,9 +145,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     SentimentAnalysis: SentimentAnalysisResult[];
     LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
-
-// @public
-export type AreaUnit = string;
 
 // @public
 export interface AssessmentSentiment {
@@ -276,14 +270,10 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 }
 
 // @public
-export type DateTimeSubKind = string;
-
-// @public
 export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
     name: string;
-    script?: ScriptKind;
 }
 
 // @public
@@ -457,9 +447,6 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
-export type InformationUnit = string;
-
-// @public
 export interface KeyPhraseExtractionAction extends ActionPrebuilt {
 }
 
@@ -480,41 +467,6 @@ export type KeyPhraseExtractionResult = KeyPhraseExtractionSuccessResult | KeyPh
 // @public
 export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessResult {
     readonly keyPhrases: string[];
-}
-
-// @public
-export enum KnownAgeUnit {
-    Day = "Day",
-    Month = "Month",
-    Unspecified = "Unspecified",
-    Week = "Week",
-    Year = "Year"
-}
-
-// @public
-export enum KnownAreaUnit {
-    Acre = "Acre",
-    SquareCentimeter = "SquareCentimeter",
-    SquareDecameter = "SquareDecameter",
-    SquareDecimeter = "SquareDecimeter",
-    SquareFoot = "SquareFoot",
-    SquareHectometer = "SquareHectometer",
-    SquareInch = "SquareInch",
-    SquareKilometer = "SquareKilometer",
-    SquareMeter = "SquareMeter",
-    SquareMile = "SquareMile",
-    SquareMillimeter = "SquareMillimeter",
-    SquareYard = "SquareYard",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownDateTimeSubKind {
-    Date = "Date",
-    DateTime = "DateTime",
-    Duration = "Duration",
-    Set = "Set",
-    Time = "Time"
 }
 
 // @public
@@ -549,47 +501,40 @@ export enum KnownExtractiveSummarizationOrderingCriteria {
 export enum KnownHealthcareEntityCategory {
     AdministrativeEvent = "AdministrativeEvent",
     Age = "Age",
+    Allergen = "Allergen",
     BodyStructure = "BodyStructure",
     CareEnvironment = "CareEnvironment",
     ConditionQualifier = "ConditionQualifier",
+    ConditionScale = "ConditionScale",
+    Course = "Course",
     Date = "Date",
     Diagnosis = "Diagnosis",
     Direction = "Direction",
     Dosage = "Dosage",
+    Employment = "Employment",
+    Ethnicity = "Ethnicity",
     ExaminationName = "ExaminationName",
+    Expression = "Expression",
     FamilyRelation = "FamilyRelation",
     Frequency = "Frequency",
     Gender = "Gender",
     GeneOrProtein = "GeneOrProtein",
     HealthcareProfession = "HealthcareProfession",
+    LivingStatus = "LivingStatus",
     MeasurementUnit = "MeasurementUnit",
     MeasurementValue = "MeasurementValue",
     MedicationClass = "MedicationClass",
     MedicationForm = "MedicationForm",
     MedicationName = "MedicationName",
     MedicationRoute = "MedicationRoute",
+    MutationType = "MutationType",
     RelationalOperator = "RelationalOperator",
+    SubstanceUse = "SubstanceUse",
+    SubstanceUseAmount = "SubstanceUseAmount",
     SymptomOrSign = "SymptomOrSign",
     Time = "Time",
     TreatmentName = "TreatmentName",
     Variant = "Variant"
-}
-
-// @public
-export enum KnownInformationUnit {
-    Bit = "Bit",
-    Byte = "Byte",
-    Gigabit = "Gigabit",
-    Gigabyte = "Gigabyte",
-    Kilobit = "Kilobit",
-    Kilobyte = "Kilobyte",
-    Megabit = "Megabit",
-    Megabyte = "Megabyte",
-    Petabit = "Petabit",
-    Petabyte = "Petabyte",
-    Terabit = "Terabit",
-    Terabyte = "Terabyte",
-    Unspecified = "Unspecified"
 }
 
 // @public
@@ -608,37 +553,6 @@ export enum KnownInnerErrorCode {
     MissingInputDocuments = "MissingInputDocuments",
     ModelVersionIncorrect = "ModelVersionIncorrect",
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
-}
-
-// @public
-export enum KnownLengthUnit {
-    Centimeter = "Centimeter",
-    Decameter = "Decameter",
-    Decimeter = "Decimeter",
-    Foot = "Foot",
-    Hectometer = "Hectometer",
-    Inch = "Inch",
-    Kilometer = "Kilometer",
-    LightYear = "LightYear",
-    Meter = "Meter",
-    Micrometer = "Micrometer",
-    Mile = "Mile",
-    Millimeter = "Millimeter",
-    Nanometer = "Nanometer",
-    Picometer = "Picometer",
-    Pt = "Pt",
-    Unspecified = "Unspecified",
-    Yard = "Yard"
-}
-
-// @public
-export enum KnownNumberKind {
-    Decimal = "Decimal",
-    Fraction = "Fraction",
-    Integer = "Integer",
-    Percent = "Percent",
-    Power = "Power",
-    Unspecified = "Unspecified"
 }
 
 // @public
@@ -825,33 +739,32 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
-export enum KnownRangeKind {
-    Age = "Age",
-    Area = "Area",
-    Currency = "Currency",
-    Information = "Information",
-    Length = "Length",
-    Number = "Number",
-    Speed = "Speed",
-    Temperature = "Temperature",
-    Volume = "Volume",
-    Weight = "Weight"
-}
-
-// @public
 export enum KnownRelationType {
     Abbreviation = "Abbreviation",
+    BodySiteOfCondition = "BodySiteOfCondition",
+    BodySiteOfTreatment = "BodySiteOfTreatment",
+    CourseOfCondition = "CourseOfCondition",
+    CourseOfExamination = "CourseOfExamination",
+    CourseOfMedication = "CourseOfMedication",
+    CourseOfTreatment = "CourseOfTreatment",
     DirectionOfBodyStructure = "DirectionOfBodyStructure",
     DirectionOfCondition = "DirectionOfCondition",
     DirectionOfExamination = "DirectionOfExamination",
     DirectionOfTreatment = "DirectionOfTreatment",
     DosageOfMedication = "DosageOfMedication",
+    ExaminationFindsCondition = "ExaminationFindsCondition",
+    ExpressionOfGene = "ExpressionOfGene",
+    ExpressionOfVariant = "ExpressionOfVariant",
     FormOfMedication = "FormOfMedication",
+    FrequencyOfCondition = "FrequencyOfCondition",
     FrequencyOfMedication = "FrequencyOfMedication",
     FrequencyOfTreatment = "FrequencyOfTreatment",
+    MutationTypeOfGene = "MutationTypeOfGene",
+    MutationTypeOfVariant = "MutationTypeOfVariant",
     QualifierOfCondition = "QualifierOfCondition",
     RelationOfExamination = "RelationOfExamination",
     RouteOfMedication = "RouteOfMedication",
+    ScaleOfCondition = "ScaleOfCondition",
     TimeOfCondition = "TimeOfCondition",
     TimeOfEvent = "TimeOfEvent",
     TimeOfExamination = "TimeOfExamination",
@@ -860,37 +773,8 @@ export enum KnownRelationType {
     UnitOfCondition = "UnitOfCondition",
     UnitOfExamination = "UnitOfExamination",
     ValueOfCondition = "ValueOfCondition",
-    ValueOfExamination = "ValueOfExamination"
-}
-
-// @public
-export enum KnownRelativeTo {
-    Current = "Current",
-    End = "End",
-    Start = "Start"
-}
-
-// @public
-export enum KnownScriptKind {
-    Latin = "Latin"
-}
-
-// @public
-export enum KnownSpeedUnit {
-    CentimeterPerMillisecond = "CentimeterPerMillisecond",
-    FootPerMinute = "FootPerMinute",
-    FootPerSecond = "FootPerSecond",
-    KilometerPerHour = "KilometerPerHour",
-    KilometerPerMillisecond = "KilometerPerMillisecond",
-    KilometerPerMinute = "KilometerPerMinute",
-    KilometerPerSecond = "KilometerPerSecond",
-    Knot = "Knot",
-    MeterPerMillisecond = "MeterPerMillisecond",
-    MeterPerSecond = "MeterPerSecond",
-    MilePerHour = "MilePerHour",
-    Unspecified = "Unspecified",
-    YardPerMinute = "YardPerMinute",
-    YardPerSecond = "YardPerSecond"
+    ValueOfExamination = "ValueOfExamination",
+    VariantOfGene = "VariantOfGene"
 }
 
 // @public
@@ -898,37 +782,6 @@ export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
     Utf16CodeUnit = "Utf16CodeUnit"
-}
-
-// @public
-export enum KnownTemperatureUnit {
-    Celsius = "Celsius",
-    Fahrenheit = "Fahrenheit",
-    Kelvin = "Kelvin",
-    Rankine = "Rankine",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownTemporalModifier {
-    After = "After",
-    AfterApprox = "AfterApprox",
-    AfterMid = "AfterMid",
-    AfterStart = "AfterStart",
-    Approx = "Approx",
-    Before = "Before",
-    BeforeApprox = "BeforeApprox",
-    BeforeEnd = "BeforeEnd",
-    BeforeStart = "BeforeStart",
-    End = "End",
-    Less = "Less",
-    Mid = "Mid",
-    More = "More",
-    ReferenceUndefined = "ReferenceUndefined",
-    Since = "Since",
-    SinceEnd = "SinceEnd",
-    Start = "Start",
-    Until = "Until"
 }
 
 // @public
@@ -965,58 +818,6 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
-export enum KnownVolumeUnit {
-    Barrel = "Barrel",
-    Bushel = "Bushel",
-    Centiliter = "Centiliter",
-    Cord = "Cord",
-    CubicCentimeter = "CubicCentimeter",
-    CubicFoot = "CubicFoot",
-    CubicInch = "CubicInch",
-    CubicMeter = "CubicMeter",
-    CubicMile = "CubicMile",
-    CubicMillimeter = "CubicMillimeter",
-    CubicYard = "CubicYard",
-    Cup = "Cup",
-    Decaliter = "Decaliter",
-    FluidDram = "FluidDram",
-    FluidOunce = "FluidOunce",
-    Gill = "Gill",
-    Hectoliter = "Hectoliter",
-    Hogshead = "Hogshead",
-    Liter = "Liter",
-    Milliliter = "Milliliter",
-    Minim = "Minim",
-    Peck = "Peck",
-    Pinch = "Pinch",
-    Pint = "Pint",
-    Quart = "Quart",
-    Tablespoon = "Tablespoon",
-    Teaspoon = "Teaspoon",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownWeightUnit {
-    Dram = "Dram",
-    Gallon = "Gallon",
-    Grain = "Grain",
-    Gram = "Gram",
-    Kilogram = "Kilogram",
-    LongTonBritish = "LongTonBritish",
-    MetricTon = "MetricTon",
-    Milligram = "Milligram",
-    Ounce = "Ounce",
-    PennyWeight = "PennyWeight",
-    Pound = "Pound",
-    ShortHundredWeightUS = "ShortHundredWeightUS",
-    ShortTonUS = "ShortTonUS",
-    Stone = "Stone",
-    Ton = "Ton",
-    Unspecified = "Unspecified"
-}
-
-// @public
 export interface LanguageDetectionAction extends ActionPrebuilt {
 }
 
@@ -1039,9 +840,6 @@ export interface LanguageDetectionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export type LengthUnit = string;
-
-// @public
 export interface LinkedEntity {
     bingEntitySearchApiId?: string;
     dataSource: string;
@@ -1059,9 +857,6 @@ export interface Match {
     offset: number;
     text: string;
 }
-
-// @public
-export type NumberKind = string;
 
 // @public
 export interface Opinion {
@@ -1111,21 +906,12 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
 }
 
 // @public
-export type RangeKind = string;
-
-// @public
 export type RelationType = string;
-
-// @public
-export type RelativeTo = string;
 
 // @public
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ScriptKind = string;
 
 // @public
 export interface SentenceSentiment {
@@ -1175,9 +961,6 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export type SpeedUnit = string;
-
-// @public
 export type StringIndexType = string;
 
 // @public
@@ -1208,12 +991,6 @@ export interface TargetSentiment {
     readonly sentiment: TokenSentimentLabel;
     readonly text: string;
 }
-
-// @public
-export type TemperatureUnit = string;
-
-// @public
-export type TemporalModifier = string;
 
 // @public
 export class TextAnalysisClient {
@@ -1263,7 +1040,6 @@ export interface TextAnalysisSuccessResult {
 
 // @public
 export interface TextDocumentBatchStatistics {
-    [property: string]: any;
     documentCount: number;
     erroneousDocumentCount: number;
     transactionCount: number;
@@ -1287,12 +1063,6 @@ export interface TextDocumentStatistics {
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 
 // @public
-export type VolumeUnit = string;
-
-// @public
 export type WarningCode = string;
-
-// @public
-export type WeightUnit = string;
 
 ```
