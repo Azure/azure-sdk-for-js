@@ -15,7 +15,7 @@
 const crypto = require("crypto");
 const { Buffer } = require("buffer");
 const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
-const rheaPromise = require("rhea-promise").default;
+const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 const WebSocket = require("ws");
 
