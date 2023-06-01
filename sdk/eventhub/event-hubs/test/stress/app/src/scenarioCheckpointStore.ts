@@ -55,16 +55,6 @@ async function scenarioCheckpointStore() {
     processEvents: async (events, context) => {
       // event processing code goes here
       if (events.length === 0) return;
-      // console.log(
-      //   `event: `,
-      //   events[0],
-      //   " enqueued: ",
-      //   events[0].enqueuedTimeUtc.getTime(),
-      //   " partition: ",
-      //   context.partitionId,
-      //   " sequenceNumber: ",
-      //   events[0].sequenceNumber
-      // );
       stressBase.eventsReceivedCount += events.length;
       defaultClientAppInsights.trackMetric({
         name: "eventsReceived",
