@@ -79,151 +79,151 @@ export interface AcsTier {
 
 /** Capabilities for the resource */
 export interface AcsTierCapabilities {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Phone number purchase capabilities of the tier. */
   phoneNumberPurchase?: PhoneNumberPurchase[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** SMS capabilities of the tier. */
   sms?: AcsTierCapabilitiesSMS;
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Calling capabilities of the tier. */
   calling?: AcsTierCapabilitiesCalling;
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Trial phone number purchase capability details. */
   trialPhoneNumberPurchase?: TrialPhoneNumberPurchase[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Trial phone number usage of the tier. */
   trialPhoneNumberUsage?: TrialPhoneNumberUsage[];
 }
 
-/** Model response for acquired number and limits. */
+/** Phone number purchase capability details. */
 export interface PhoneNumberPurchase {
-  /** Array defining the number type of the phone number. */
+  /** Types to apply the limit to. */
   numberType?: string[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
+  /** The limit of numbers allowed for purchase for the number type. */
   totalNumbers?: number;
 }
 
-/** The level at which the tiering properties in the TierInfo are for */
+/** SMS capabilities of the tier. */
 export interface AcsTierCapabilitiesSMS {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** SMS Outbound capabilities of the tier. */
   outbound?: SMSOutbound[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** SMS Inbound capabilities of the tier. */
   inbound?: SMSInbound[];
 }
 
-/** Model response for acquired number and limits. */
+/** Sms Outbound Capabilities for the tier. */
 export interface SMSOutbound {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Type of number. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
+  /** The limit of SMSs a customer can send per minute. */
   smsPerMin?: number;
-  /** Total Numbers */
+  /** The areas where an SMS is allowed to be sent. */
   geographicLimitations?: string;
 }
 
-/** Model response for acquired number and limits. */
+/** Sms Inbound Capabilities for the tier. */
 export interface SMSInbound {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Type of number. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
+  /** The limit of SMSs a customer can send per minute. */
   smsPerMin?: number;
-  /** Total Numbers */
+  /** The areas where an SMS is allowed to be sent. */
   geographicLimitations?: string;
 }
 
-/** The level at which the tiering properties in the TierInfo are for */
+/** Calling capabilities of the tier. */
 export interface AcsTierCapabilitiesCalling {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Calling Outbound capabilities of the tier. */
   outbound?: CallingOutbound[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Calling Inbound capabilities of the tier. */
   inbound?: CallingInbound[];
 }
 
-/** Model response for acquired number and limits. */
+/** Calling Outbound Capabilities for the tier. */
 export interface CallingOutbound {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Type of calling. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
-  smsPerMin?: number;
-  /** Total Numbers */
+  /** The number of concurrent calls allowed. */
+  concurrentCalls?: number;
+  /** The areas where calls are allowed to take place. */
   geographicLimitations?: string;
 }
 
-/** Model response for acquired number and limits. */
+/** Calling Outbound Capabilities for the tier. */
 export interface CallingInbound {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Type of calling. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
-  smsPerMin?: number;
-  /** Total Numbers */
+  /** The number of concurrent calls allowed. */
+  concurrentCalls?: number;
+  /** The areas where calls are allowed to take place. */
   geographicLimitations?: string;
 }
 
-/** Model response for acquired number and limits. */
+/** Trial phone number purchase capability details. */
 export interface TrialPhoneNumberPurchase {
-  /** Array defining the number type of the phone number. */
+  /** Types to apply the limit to. */
   numberType?: string[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The scope to apply the limits. */
   scope?: string;
-  /** Total Numbers */
+  /** The limit of numbers allowed for purchase for the number type. */
   totalNumbers?: number;
-  /** Total Numbers */
+  /** The number of days in the trial period for the number type. */
   trialPeriodDays?: number;
 }
 
-/** Model response for acquired number and limits. */
+/** Trial phone number usage capability details. */
 export interface TrialPhoneNumberUsage {
-  /** Total Numbers */
+  /** The number type. */
   numberType?: string;
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The capabilities for calling. */
   calling?: TrialPhoneNumberUsageCalling;
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The SMS capabilities for the trial phone number. */
   sms?: TrialPhoneNumberUsageSms;
 }
 
-/** The level at which the tiering properties in the TierInfo are for */
+/** The capabilities for calling. */
 export interface TrialPhoneNumberUsageCalling {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The Outbound capabilities for calling. */
   outbound?: TrialPhoneNumberUsageCallingBounds[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The Inbound capabilities for calling. */
   inbound?: TrialPhoneNumberUsageCallingBounds[];
 }
 
-/** Model response for acquired number and limits. */
+/** Trial phone number capability details. */
 export interface TrialPhoneNumberUsageCallingBounds {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /**  Type of calling. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits to. */
   scope?: string;
-  /** Total Numbers */
+  /** The total calling minutes allowed for a tial number. */
   totalMinutes?: number;
-  /** Total Numbers */
+  /** The total call duration in minutes allowed for a trial number. */
   maximumCallDurationMinutes?: number;
 }
 
-/** The level at which the tiering properties in the TierInfo are for */
+/** The SMS capabilities for the trial phone number. */
 export interface TrialPhoneNumberUsageSms {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Outbound trial phone number SMS capabilities. */
   outbound?: TrialPhoneNumberUsageSmsBounds[];
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** Inbound trial phone number SMS capabilities. */
   inbound?: TrialPhoneNumberUsageSmsBounds[];
 }
 
-/** Model response for acquired number and limits. */
+/** Trial phone number SMS capability details. */
 export interface TrialPhoneNumberUsageSmsBounds {
-  /** The level at which the tiering properties in the TierInfo are for */
+  /** The type of SMS. */
   type?: string;
-  /** Total Numbers */
+  /** The scope to apply the limits to. */
   scope?: string;
-  /** Total Numbers */
+  /** Total */
   total?: number;
-  /** Total Numbers */
+  /** The total SMSs allowed to be sent in a minute. */
   smsPerMin?: number;
 }
 

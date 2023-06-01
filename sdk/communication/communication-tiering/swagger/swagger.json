@@ -174,25 +174,25 @@
           "type": "object",
           "properties": {
             "PhoneNumberPurchase": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Phone number purchase capabilities of the tier.",
               "type": "array",
               "items": {
                  "$ref": "#/definitions/PhoneNumberPurchase"
               }
             },
             "SMS": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "SMS capabilities of the tier.",
               "type": "object",
               "properties": {
                 "Outbound": {
-                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "description": "SMS Outbound capabilities of the tier.",
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/SMSOutbound"
                   }
                 },
                 "Inbound": {
-                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "description": "SMS Inbound capabilities of the tier.",
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/SMSInbound"
@@ -201,18 +201,18 @@
               }
             },
             "Calling": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Calling capabilities of the tier.",
               "type": "object",
               "properties": {
                 "Outbound": {
-                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "description": "Calling Outbound capabilities of the tier.",
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/CallingOutbound"
                   }
                 },
                 "Inbound": {
-                  "description": "The level at which the tiering properties in the TierInfo are for",
+                  "description": "Calling Inbound capabilities of the tier.",
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/CallingInbound"
@@ -221,14 +221,14 @@
               }
             },
             "TrialPhoneNumberPurchase": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Trial phone number purchase capability details.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberPurchase"
               }
             },
             "TrialPhoneNumberUsage": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Trial phone number usage of the tier.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberUsage"
@@ -239,204 +239,204 @@
       }
     },
     "PhoneNumberPurchase":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Phone number purchase capability details.",
       "type":"object",
       "properties": {
         "NumberType": {
-          "description": "Array defining the number type of the phone number.",
+          "description": "Types to apply the limit to.",
             "type": "array",
             "items": {
               "type": "string"
             }
           },
         "Scope": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
         "TotalNumbers": {
-          "description": "Total Numbers",
+          "description": "The limit of numbers allowed for purchase for the number type.",
           "type": "integer"
         }
       }
     },
     "SMSOutbound":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Sms Outbound Capabilities for the tier.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "Type of number.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
         "SmsPerMin": {
-          "description": "Total Numbers",
+          "description": "The limit of SMSs a customer can send per minute.",
           "type": "integer"
         },
         "GeographicLimitations": {
-          "description": "Total Numbers",
+          "description": "The areas where an SMS is allowed to be sent.",
           "type": "string"
         }
       }
     },
     "SMSInbound":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Sms Inbound Capabilities for the tier.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "Type of number.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
         "SmsPerMin": {
-          "description": "Total Numbers",
+          "description": "The limit of SMSs a customer can send per minute.",
           "type": "integer"
         },
         "GeographicLimitations": {
-          "description": "Total Numbers",
+          "description": "The areas where an SMS is allowed to be sent.",
           "type": "string"
         }
       }
     },
     "CallingOutbound":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Calling Outbound Capabilities for the tier.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "Type of calling.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
-        "SmsPerMin": {
-          "description": "Total Numbers",
+        "ConcurrentCalls": {
+          "description": "The number of concurrent calls allowed.",
           "type": "integer"
         },
         "GeographicLimitations": {
-          "description": "Total Numbers",
+          "description": "The areas where calls are allowed to take place.",
           "type": "string"
         }
       }
     },
     "CallingInbound":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Calling Outbound Capabilities for the tier.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "Type of calling.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
-        "SmsPerMin": {
-          "description": "Total Numbers",
+        "ConcurrentCalls": {
+          "description": "The number of concurrent calls allowed.",
           "type": "integer"
         },
         "GeographicLimitations": {
-          "description": "Total Numbers",
+          "description": "The areas where calls are allowed to take place.",
           "type": "string"
         }
       }
     },
     "TrialPhoneNumberUsageCallingBounds":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Trial phone number capability details.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": " Type of calling.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits to.",
           "type": "string"
         },
         "TotalMinutes": {
-          "description": "Total Numbers",
+          "description": "The total calling minutes allowed for a tial number.",
           "type": "integer"
         },
         "MaximumCallDurationMinutes": {
-          "description": "Total Numbers",
+          "description": "The total call duration in minutes allowed for a trial number.",
           "type": "integer"
         }
       }
     },
     "TrialPhoneNumberUsageSmsBounds":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Trial phone number SMS capability details.",
       "type":"object",
       "properties": {
         "Type": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "The type of SMS.",
           "type": "string"
         },
         "Scope": {
-          "description": "Total Numbers",
+          "description": "The scope to apply the limits to.",
           "type": "string"
         },
         "Total": {
-          "description": "Total Numbers",
+          "description": "Total",
           "type": "integer"
         },
         "SmsPerMin": {
-          "description": "Total Numbers",
+          "description": "The total SMSs allowed to be sent in a minute.",
           "type": "integer"
         }
       }
     },
     "TrialPhoneNumberPurchase":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Trial phone number purchase capability details.",
       "type":"object",
       "properties": {
         "NumberType": {
-          "description": "Array defining the number type of the phone number.",
+          "description": "Types to apply the limit to.",
             "type": "array",
             "items": {
               "type": "string"
             }
           },
         "Scope": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "The scope to apply the limits.",
           "type": "string"
         },
         "TotalNumbers": {
-          "description": "Total Numbers",
+          "description": "The limit of numbers allowed for purchase for the number type.",
           "type": "integer"
         },
         "TrialPeriodDays": {
-          "description": "Total Numbers",
+          "description": "The number of days in the trial period for the number type.",
           "type": "integer"
         }
       }
     },
     "TrialPhoneNumberUsage":{
-      "description": "Model response for acquired number and limits.",
+      "description": "Trial phone number usage capability details.",
       "type":"object",
       "properties": {
         "NumberType": {
-          "description": "Total Numbers",
+          "description": "The number type.",
           "type": "string"
         },
         "Calling": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "The capabilities for calling.",
           "type": "object",
           "properties": {
             "Outbound": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "The Outbound capabilities for calling.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberUsageCallingBounds"
               }
             },
             "Inbound": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "The Inbound capabilities for calling.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberUsageCallingBounds"
@@ -445,18 +445,18 @@
           }
         },
         "Sms": {
-          "description": "The level at which the tiering properties in the TierInfo are for",
+          "description": "The SMS capabilities for the trial phone number.",
           "type": "object",
           "properties": {
             "Outbound": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Outbound trial phone number SMS capabilities.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberUsageSmsBounds"
               }
             },
             "Inbound": {
-              "description": "The level at which the tiering properties in the TierInfo are for",
+              "description": "Inbound trial phone number SMS capabilities.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/TrialPhoneNumberUsageSmsBounds"

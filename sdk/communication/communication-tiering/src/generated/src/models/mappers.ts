@@ -432,8 +432,8 @@ export const CallingOutbound: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      smsPerMin: {
-        serializedName: "SmsPerMin",
+      concurrentCalls: {
+        serializedName: "ConcurrentCalls",
         type: {
           name: "Number"
         }
@@ -465,8 +465,8 @@ export const CallingInbound: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      smsPerMin: {
-        serializedName: "SmsPerMin",
+      concurrentCalls: {
+        serializedName: "ConcurrentCalls",
         type: {
           name: "Number"
         }

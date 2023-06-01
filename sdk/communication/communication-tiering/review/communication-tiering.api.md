@@ -78,17 +78,17 @@ export const AssetDetailsTierInfoMapper: coreClient.CompositeMapper;
 
 // @public
 export interface CallingInbound {
+    concurrentCalls?: number;
     geographicLimitations?: string;
     scope?: string;
-    smsPerMin?: number;
     type?: string;
 }
 
 // @public
 export interface CallingOutbound {
+    concurrentCalls?: number;
     geographicLimitations?: string;
     scope?: string;
-    smsPerMin?: number;
     type?: string;
 }
 
