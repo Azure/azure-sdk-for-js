@@ -149,7 +149,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     // list program briefs, validate test program brief is in the list
     const totalNumberOfbriefs = await _listUSProgramBriefs(expectedProgramBriefs);
 
-    // test pagination, using 2 pages
+    // test pagination, using itemsPerPage pages
     const itemsPerPage = totalNumberOfbriefs > 1 ? Math.floor(totalNumberOfbriefs / 2) : 1;
     await _listUSProgramBriefs(expectedProgramBriefs, true, itemsPerPage);
     return true;
@@ -166,7 +166,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     await runTestCleaningLeftovers(testProgramBriefIds, client, async () => {
       // validate upsert and update for each test brief
-      const testAndUpdateBrief = Object.values(testProgramBriefs).map(async (pb) => {
+      const testAndUpdateBrief = testProgramBriefs.map(async (pb) => {
         await _createTestProgramBrief(pb);
         await _updateUSProgramBrief(pb);
         return true;
@@ -176,7 +176,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       assert.isOk(await _testListUSProgramBriefs(testProgramBriefs));
 
       // delete program briefs, ensure it was removed
-      const testDeleteBrief = Object.values(testProgramBriefs).map(async (pb) => {
+      const testDeleteBrief = testProgramBriefs.map(async (pb) => {
         const delRes = await client.deleteUSProgramBrief(pb.id);
         assert.isOk(delRes, "Deleting program brief failed");
         assert.isFalse(

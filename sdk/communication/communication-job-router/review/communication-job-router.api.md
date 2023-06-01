@@ -134,9 +134,11 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -165,6 +167,16 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
         [propertyName: string]: any;
     };
     totalCapacity?: number;
+}
+
+// @public
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+    reofferTimeUtc?: Date;
+}
+
+// @public
+export interface DeclineJobOfferRequest {
+    reofferTimeUtc?: Date;
 }
 
 // @public
@@ -369,6 +381,11 @@ export type JobRouterCompleteJobActionResponse = {
 };
 
 // @public
+export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
+    declineJobOfferRequest?: DeclineJobOfferRequest;
+}
+
+// @public
 export type JobRouterDeclineJobActionResponse = {
     body: any;
 };
@@ -392,14 +409,7 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "active";
-
-// @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
 export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanEqual" | "greaterThan" | "greaterThanEqual";
@@ -426,6 +436,8 @@ export interface ListJobsOptions extends OperationOptions {
     jobStateSelector?: JobStateSelector;
     maxPageSize?: number;
     queueId?: string;
+    scheduledAfter?: Date;
+    scheduledBefore?: Date;
 }
 
 // @public
@@ -582,7 +594,7 @@ export class RouterClient {
     completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
     createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
     createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    declineJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<JobRouterDeclineJobActionResponse>;
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse>;
     deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
     deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
     deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
@@ -628,9 +640,11 @@ export interface RouterJob {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -646,7 +660,7 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created";
+export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
 
 // @public
 export interface RouterRule {
@@ -692,7 +706,7 @@ export interface RouterWorkerResponse extends RouterWorker {
 }
 
 // @public
-export type RouterWorkerState = string;
+export type RouterWorkerState = "active" | "draining" | "inactive";
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -780,9 +794,11 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public

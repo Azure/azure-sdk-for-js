@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the list of diagnostics for a given Container App.
  *
  * @summary Get the list of diagnostics for a given Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ContainerAppsDiagnostics_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerAppsDiagnostics_List.json
  */
 async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
-  const subscriptionId = "f07f3711-b45e-40fe-a941-4e6d93f851e6";
-  const resourceGroupName = "mikono-workerapp-test-rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "f07f3711-b45e-40fe-a941-4e6d93f851e6";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "mikono-workerapp-test-rg";
   const containerAppName = "mikono-capp-stage1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
   console.log(resArray);
 }
 
-getTheListOfAvailableDiagnosticsForAGivenContainerApp().catch(console.error);
+async function main() {
+  getTheListOfAvailableDiagnosticsForAGivenContainerApp();
+}
+
+main().catch(console.error);
