@@ -2,6 +2,10 @@
 
 ### Features Added
 
+## 1.0.0-beta.13 (2023-06-01)
+
+### Features Added
+
 - Update opentelemetry/instrumentation packages.
 
 ## 1.0.0-beta.12 (2023-04-04)
