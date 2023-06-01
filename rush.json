@@ -769,6 +769,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@msinternal/multiclient",
+      "projectFolder": "sdk/multiclients/modular-multiclients",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"

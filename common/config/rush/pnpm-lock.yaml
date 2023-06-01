@@ -286,6 +286,7 @@ specifiers:
   '@rush-temp/monitor-opentelemetry': file:./projects/monitor-opentelemetry.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
+  '@rush-temp/multiclient': file:./projects/multiclient.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
   '@rush-temp/openai': file:./projects/openai.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
@@ -631,6 +632,7 @@ dependencies:
   '@rush-temp/monitor-opentelemetry': file:projects/monitor-opentelemetry.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
+  '@rush-temp/multiclient': file:projects/multiclient.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
   '@rush-temp/openai': file:projects/openai.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:projects/opentelemetry-instrumentation-azure-sdk.tgz
@@ -3832,7 +3834,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230530
+      typescript: 5.2.0-dev.20230531
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8388,8 +8390,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230530:
-    resolution: {integrity: sha512-bIoMajCZWzLB+pWwncaba/hZc6dRnw7x8T/fenOnP9gYQB/gc4xdm48AXp5SH5I/PvvSeZ/dXkUMtc8s8BiDZw==}
+  /typescript/5.2.0-dev.20230531:
+    resolution: {integrity: sha512-srFqtcpU2ZMiHj6PXzT4MHXVgASaQmOk0n6gj0T/zt7IW2o4FdKJCnnf/u7tGisG5m/Wk5qjhT++Vij5Cj+GRA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18033,6 +18035,64 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/multiclient.tgz:
+    resolution: {integrity: sha512-H7AAhXz5o6UYfyx2hCJVJU8Cztyfwab0nb2MVva5PNMdl9p/Rsa4phq9MAdyUUwLpMGBZUenTIbJOX1jkcyxUQ==, tarball: file:projects/multiclient.tgz}
+    name: '@rush-temp/multiclient'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-paging': 1.5.0
+      '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
+      '@rollup/plugin-typescript': 11.1.1_nbsu7egdgm7p4jodmjemlcstkq
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.48
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.1.0
+      downlevel-dts: 0.10.1
+      eslint: 8.41.0
+      esm: 3.2.25
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-json-preprocessor: 0.3.3_karma@6.4.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      puppeteer: 19.11.1_typescript@5.0.4
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
+      ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
+      tslib: 2.5.2
+      typescript: 5.0.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/notification-hubs.tgz:
     resolution: {integrity: sha512-S2NbQ2+sFrsKG1wWIPPKxGRpGM2ez5RWAk2x3moh5VM3Ulch7u+/KpGsVkE7zVt8fANiE6hIldepW5jsF8EMog==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
@@ -18198,7 +18258,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-Mh6fHNCBSjPrqwprbqsP/ZpI86dsh5zViRYvXL7tNKAkdY0FDnvB74zlXpHUtn0CC5nIsK1BoKyeq0W89rUipQ==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-kUPHN6zS14EH/ErRIq3bqm8a4tnA9dN16oHOZ7n27rlA3+QINV7iGOcQwl1OsNPZOR3NN7dsVWLnTu/NbJ6+tw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
