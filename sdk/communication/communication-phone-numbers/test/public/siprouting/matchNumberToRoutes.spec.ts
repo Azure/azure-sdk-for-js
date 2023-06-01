@@ -36,7 +36,7 @@ async function createSipConfiguration(
   ]);
 }
 
-const testDomainName = process.env.AZURE_COMMUNICATION_TEST_DOMAIN_NAME;
+const testDomainName = process.env.AZURE_TEST_DOMAIN;
 
 matrix([[true, false]], async function(useAad) {
   describe(`SipRoutingClient - match number to routes${useAad ? " [AAD]" : ""}`, function() {
