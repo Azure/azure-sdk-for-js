@@ -10,6 +10,6 @@ export function generateHeapDump(filename: string) {
     console.log("`Run with --expose-gc flag`");
     process.exit();
   }
-  fs.ensureDirSync("./dumps");
-  heapdump.writeSnapshot(`./dumps/${filename}.heapsnapshot`);
+  fs.ensureDirSync("./heapSnapshots");
+  heapdump.writeSnapshot(`./heapSnapshots/${filename}.heapsnapshot`);
 }
