@@ -363,7 +363,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         count,
         coverage,
         facets,
-        answers,
+        answers: answerResult,
         semanticPartialResponseReason,
         semanticPartialResponseType,
         nextLink,
@@ -378,7 +378,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         count,
         coverage,
         facets,
-        answers,
+        answers: answerResult,
         semanticPartialResponseReason:
           semanticPartialResponseReason as `${KnownSemanticPartialResponseReason}`,
         semanticPartialResponseType:

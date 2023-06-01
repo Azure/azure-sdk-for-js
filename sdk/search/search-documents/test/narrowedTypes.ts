@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-constant-condition */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { SearchClient, SelectFields } from "../src/index";
 import {

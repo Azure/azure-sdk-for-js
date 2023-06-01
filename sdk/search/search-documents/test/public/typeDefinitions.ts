@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-constant-condition */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   KnownSearchFieldDataType,
   KnownVectorSearchAlgorithmMetric,
@@ -37,7 +46,8 @@ type ExpectSemanticErrorHandling = `${KnownSemanticErrorHandling}`;
 type ExpectQueryResultDocumentSemanticFieldState = `${KnownQueryResultDocumentSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 function fun() {
   const a: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
   const b: IsIdentical<ExpectSemanticPartialResponseReason, SemanticPartialResponseReason> = "pass";
@@ -49,6 +59,4 @@ function fun() {
     QueryResultDocumentSemanticFieldState
   > = "pass";
   const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
-
-  return [a, b, c, d, e, f, g];
 }
