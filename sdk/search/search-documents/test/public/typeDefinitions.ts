@@ -59,4 +59,6 @@ function fun() {
     QueryResultDocumentSemanticFieldState
   > = "pass";
   const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
+
+  return [a, b, c, d, e, f, g];
 }
