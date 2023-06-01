@@ -96,7 +96,7 @@ Steps below constitute the workflow of a typical perf test.
 
 ## Generating heapdumps
 Launch the node process with the `--expose-gc` flag, you can then call `global.gc()` to force node to run garbage collection.
-The helper method `generateHeapSnapshot` exported from this package can help you generate the heapsnapshot file by calling `generateHeapSnapshot(<filename>)` in the `"heapSnapshots"` folder.
+The helper method `generateHeapSnapshot` exported from this package can help you generate the heapsnapshot file in the `"heapSnapshots"` folder by calling `generateHeapSnapshot(<filename>)`.
 (Assumes the node command is run with the `--expose-gc` flag)
 
 ## Examples
