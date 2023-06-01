@@ -89,7 +89,6 @@ async function scenarioCheckpointStore() {
     },
   });
 
-
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
     const eventBatch = new Array(Math.floor(Math.random() * 100)).fill({
       body: Buffer.alloc(32, Math.floor(Math.random() * 100)),
@@ -106,9 +105,9 @@ async function scenarioCheckpointStore() {
     }
   }
 
-  await producer.close()
-  await consumerClient.close()
-  await stressBase.endTest()
+  await producer.close();
+  await consumerClient.close();
+  await stressBase.endTest();
 }
 
 scenarioCheckpointStore().catch((err) => {

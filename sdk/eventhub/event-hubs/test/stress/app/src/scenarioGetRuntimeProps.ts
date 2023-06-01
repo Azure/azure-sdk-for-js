@@ -30,7 +30,7 @@ async function scenarioGetRuntimeProperties() {
   const stressBase = new EventHubsStressTester({
     testName: "GetRuntimeProperties-memLeak",
     snapshotIntervalInMs: 1000,
-    writeSnapshotInfoToConsole: true
+    writeSnapshotInfoToConsole: true,
   });
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
   const eventHubName = process.env.EVENTHUB_NAME;
@@ -42,14 +42,14 @@ async function scenarioGetRuntimeProperties() {
   );
   const func = async () => {
     while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
-      await delay(Math.random() * 100)
+      await delay(Math.random() * 100);
       await consumerClient.getEventHubProperties();
     }
-  }
-  await Promise.all([].concat(... new Array(100).fill([func()])));
-  await producer.close()
-  await consumerClient.close()
-  await stressBase.endTest()
+  };
+  await Promise.all([].concat(...new Array(100).fill([func()])));
+  await producer.close();
+  await consumerClient.close();
+  await stressBase.endTest();
 }
 
 scenarioGetRuntimeProperties().catch((err) => {

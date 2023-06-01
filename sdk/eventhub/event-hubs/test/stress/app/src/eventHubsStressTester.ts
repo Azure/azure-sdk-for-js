@@ -8,9 +8,7 @@ import {
   EventHubProducerClient,
 } from "@azure/event-hubs";
 import util from "util";
-import {
-  SnapshotOptions
-} from "./utils";
+import { SnapshotOptions } from "./utils";
 import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
 
@@ -25,7 +23,7 @@ export interface StressTestInitOptions {
    * Additional custom properties to add to the 'start' event reported to Monitor.
    */
   additionalEventProperties?: Record<string, string | number | boolean>;
-  eventHubName: string
+  eventHubName: string;
 }
 
 export function captureConsoleOutputToAppInsights() {
@@ -79,7 +77,7 @@ export class EventHubsStressTester {
     this.eventProperties["events.sent"] = this.eventsSentCount;
     this.eventProperties["events.received"] = this.eventsReceivedCount;
     this.eventProperties["errorCount"] = this._numErrors;
-    const { arrayBuffers, rss, heapUsed } = process.memoryUsage()
+    const { arrayBuffers, rss, heapUsed } = process.memoryUsage();
     this.eventProperties["memory.arrayBuffers"] = arrayBuffers;
     this.eventProperties["memory.rss"] = rss;
     this.eventProperties["memory.heapUsed"] = heapUsed;
@@ -87,7 +85,7 @@ export class EventHubsStressTester {
 
     defaultClientAppInsights.trackEvent({
       name: "summary",
-      properties: this.eventProperties
+      properties: this.eventProperties,
     });
     defaultClientAppInsights.flush();
 
@@ -105,22 +103,30 @@ export class EventHubsStressTester {
   }
 }
 
-export function createEventHubsConsumerClient(options?: EventHubConsumerClientOptions): EventHubConsumerClient {
+export function createEventHubsConsumerClient(
+  options?: EventHubConsumerClientOptions
+): EventHubConsumerClient {
   const consumerGroup = process.env.EVENTHUBS_CONSUMER_GROUP || "$Default";
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
   const hubName = process.env.EVENTHUB_NAME;
   if (!connectionString || !consumerGroup || !hubName) {
-    throw new Error("EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!");
+    throw new Error(
+      "EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!"
+    );
   }
   return new EventHubConsumerClient(consumerGroup, connectionString, hubName, options);
 }
 
-export function createEventHubsProducerClient(options?: EventHubClientOptions): EventHubProducerClient {
+export function createEventHubsProducerClient(
+  options?: EventHubClientOptions
+): EventHubProducerClient {
   const eventHubName = process.env.EVENTHUB_NAME;
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
 
   if (!connectionString || !eventHubName) {
-    throw new Error("EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!");
+    throw new Error(
+      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!"
+    );
   }
 
   return new EventHubProducerClient(connectionString, eventHubName, options);
