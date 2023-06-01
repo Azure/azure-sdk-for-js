@@ -5,7 +5,9 @@ import * as fs from "fs-extra";
 
 export function generateHeapDump(filename: string) {
   try {
-    if (global.gc) { global.gc(); }
+    if (global.gc) {
+      global.gc();
+    }
   } catch (e) {
     console.log("`Run with --expose-gc flag`");
     process.exit();

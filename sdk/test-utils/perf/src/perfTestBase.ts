@@ -19,7 +19,7 @@ import { Snapshot } from "./snapshot";
 export interface PerfTestConstructor<
   TOptions extends Record<string, unknown> = Record<string, unknown>
 > {
-  new(): PerfTestBase<TOptions>;
+  new (): PerfTestBase<TOptions>;
 }
 
 /**
