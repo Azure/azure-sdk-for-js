@@ -2,6 +2,8 @@
 
 ## 1.1.0 (2023-06-06)
 
+### Features Added
+
 - Added more values to enum class: `KnownHealthcareEntityCategory` and `KnownRelationType`.
 
 ### Breaking Changes

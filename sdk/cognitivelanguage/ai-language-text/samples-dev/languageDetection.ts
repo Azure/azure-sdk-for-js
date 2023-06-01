@@ -7,8 +7,6 @@
  * endpoint provides a primary language as well as a score representing the
  * service's confidence in the correctness of its assessment.
  *
- * Script detection feature can be enabled with the "2022-04-10-preview" model version.
- *
  * @summary detects the language of a piece of text
  * @azsdk-weight 100
  */
