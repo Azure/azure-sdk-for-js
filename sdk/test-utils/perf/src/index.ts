@@ -9,4 +9,4 @@ export * from "./policy";
 export * from "./program";
 export * from "./parallel";
 export { getEnvVar, drainStream } from "./utils/utils";
-export { generateHeapDump } from "./utils/heapdump";
+export { generateHeapSnapshot } from "./utils/heapdump";
