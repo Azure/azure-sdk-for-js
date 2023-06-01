@@ -495,7 +495,10 @@ export async function populateIndex(
   await delay(WAIT_TIME);
 }
 
-async function addVectorDescriptions(documents: Hotel[], openAIClient: OpenAIClient) {
+async function addVectorDescriptions(
+  documents: Hotel[],
+  openAIClient: OpenAIClient
+): Promise<void> {
   const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
   const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
