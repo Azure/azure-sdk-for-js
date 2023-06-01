@@ -1,0 +1,17 @@
+displayNames:
+  # this makes it so these don't show up in the scenario names, 
+  # since they're just clutter.
+  1.5Gi": ""
+  4Gi": ""
+  image: ""
+matrix:
+  images:
+    node18:
+      image: Dockerfile
+  scenarios:
+    # networkListTest:
+    #   testTarget: networkListTest
+    #   memory: "1.5Gi"
+    storageBlobListTest:
+      testTarget: storageBlobListTest
+      memory: "1.5Gi"

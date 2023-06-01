@@ -1,0 +1,14 @@
+apiVersion: v2
+name: jstest
+description: Stress tests for the Javascript SDK
+version: 0.1.1
+appVersion: v0.1
+annotations:
+  stressTest: 'true'
+  namespace: 'javascript'
+  service: "any"
+
+dependencies:
+- name: stress-test-addons
+  version: ~0.2.0
+  repository: https://stresstestcharts.blob.core.windows.net/helm/
