@@ -15,6 +15,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                         | **Description**                                |
 | ----------------------------------------------------- | ---------------------------------------------- |
 | [getAcquiredNumberLimits.js][getacquirednumberlimits] | Get acquired numbers and limits for a resource |
+| [getTierInfo.js][gettierinfo]                         | Get tiering info for a resource.               |
 
 ## Prerequisites
 
@@ -57,6 +58,7 @@ npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples co
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getacquirednumberlimits]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getAcquiredNumberLimits.js
+[gettierinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getTierInfo.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-tiering
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

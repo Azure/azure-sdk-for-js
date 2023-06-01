@@ -106,11 +106,11 @@ export class TieringClient {
    *
    * @param options - Additional request options.
    */
-  public getByResourceId(
+  public getTierByResourceId(
     resourceId: string,
     options: TieringGetByResourceIdOptionalParams = {}
   ): Promise<TieringGetByResourceIdResponse> {
-    return tracingClient.withSpan("tiering.getByResourceId", options, (updatedOptions) => {
+    return tracingClient.withSpan("tiering.getTierByResourceId", options, (updatedOptions) => {
       return this.client.tiering.getByResourceId(resourceId, updatedOptions);
     });
   }

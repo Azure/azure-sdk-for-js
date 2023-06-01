@@ -128,7 +128,7 @@ export class TieringClient {
     constructor(endpoint: string, credential: KeyCredential, options?: TieringClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TieringClientOptions);
     getAcquiredNumberLimits(resourceId: string, options?: NumberAllotmentGetAcquiredNumberLimitsOptionalParams): Promise<NumberAllotmentGetAcquiredNumberLimitsResponse>;
-    getByResourceId(resourceId: string, options?: TieringGetByResourceIdOptionalParams): Promise<TieringGetByResourceIdResponse>;
+    getTierByResourceId(resourceId: string, options?: TieringGetByResourceIdOptionalParams): Promise<TieringGetByResourceIdResponse>;
 }
 
 // @public
