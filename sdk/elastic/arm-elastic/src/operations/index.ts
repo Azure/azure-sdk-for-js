@@ -8,6 +8,7 @@
 
 export * from "./operations";
 export * from "./monitors";
+export * from "./elasticVersions";
 export * from "./monitoredResources";
 export * from "./deploymentInfo";
 export * from "./externalUser";

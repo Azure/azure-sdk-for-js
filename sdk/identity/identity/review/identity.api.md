@@ -58,7 +58,7 @@ export interface AuthenticationRequiredErrorOptions {
 
 // @public
 export interface AuthorityValidationOptions {
-    disableAuthorityValidationAndInstanceDiscovery?: boolean;
+    disableInstanceDiscovery?: boolean;
 }
 
 // @public
@@ -201,7 +201,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-    credentialProcessTimeoutInMs?: number;
+    processTimeoutInMs?: number;
     tenantId?: string;
 }
 
@@ -394,7 +394,7 @@ export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCrede
 
 // @public
 export class WorkloadIdentityCredential implements TokenCredential {
-    constructor(options: WorkloadIdentityCredentialOptions);
+    constructor(options?: WorkloadIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 

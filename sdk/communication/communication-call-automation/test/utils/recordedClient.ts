@@ -52,6 +52,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   DISPATCHER_ENDPOINT: "https://redacted.azurewebsites.net",
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
+  FILE_SOURCE_URL: "https://example.com/audio/test.wav",
 };
 
 const fakeToken = generateToken();
@@ -59,6 +60,8 @@ const dispatcherEndpoint: string =
   env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"];
 const serviceBusConnectionString: string =
   env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"];
+export const fileSourceUrl: string =
+  env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<

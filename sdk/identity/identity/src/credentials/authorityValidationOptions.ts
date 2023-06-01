@@ -14,5 +14,5 @@ export interface AuthorityValidationOptions {
    * This functionality is intended for use in scenarios where the metadata endpoint cannot be reached, such as in private clouds or Azure Stack.
    * The process of instance discovery entails retrieving authority metadata from https://login.microsoft.com/ to validate the authority.
    */
-  disableAuthorityValidationAndInstanceDiscovery?: boolean;
+  disableInstanceDiscovery?: boolean;
 }

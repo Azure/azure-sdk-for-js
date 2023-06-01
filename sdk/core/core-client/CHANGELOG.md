@@ -1,14 +1,9 @@
 # Release History
 
-## 1.7.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.7.3 (2023-06-01)
 
 ### Other Changes
+- remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
 
 ## 1.7.2 (2023-02-23)
 

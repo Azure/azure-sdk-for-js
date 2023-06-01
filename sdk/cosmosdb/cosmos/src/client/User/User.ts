@@ -67,7 +67,13 @@ export class User {
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return new UserResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -90,7 +96,13 @@ export class User {
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return new UserResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -106,6 +118,12 @@ export class User {
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return new UserResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 }

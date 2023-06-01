@@ -12,6 +12,9 @@ import {
   DtmfOptions,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
+  ContinuousDtmfRecognitionRequest,
+  SendDtmfRequest,
+  Tone,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -24,7 +27,12 @@ import {
 
 import { FileSource } from "./models/models";
 
-import { PlayOptions, CallMediaRecognizeDtmfOptions } from "./models/options";
+import {
+  PlayOptions,
+  CallMediaRecognizeDtmfOptions,
+  ContinuousDtmfRecognitionOptions,
+  SendDtmfOptions,
+} from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
@@ -76,7 +84,15 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
+      playOptions: {
+        loop: false,
+      },
     };
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
     return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 
@@ -93,7 +109,15 @@ export class CallMedia {
     const playRequest: PlayRequest = {
       playSourceInfo: this.createPlaySourceInternal(playSource),
       playTo: [],
+      playOptions: {
+        loop: false,
+      },
     };
+
+    if (playOptions.loop !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
+      playRequest.playOptions.loop = playOptions.loop;
+    }
     return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
   }
 
@@ -156,5 +180,64 @@ export class CallMedia {
    */
   public async cancelAllOperations(): Promise<void> {
     return this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
+  }
+
+  /**
+   * Start continuous Dtmf recognition by subscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
+   * */
+  public async startContinuousDtmfRecognition(
+    targetParticipant: CommunicationIdentifier,
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
+    };
+    return this.callMedia.startContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   * Stop continuous Dtmf recognition by unsubscribing to tones.
+   * @param targetParticipant - Target participant.
+   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
+   * */
+  public async stopContinuousDtmfRecognition(
+    targetParticipant: CommunicationIdentifier,
+    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+  ): Promise<void> {
+    const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: continuousDtmfRecognitionOptions.operationContext,
+    };
+    return this.callMedia.stopContinuousDtmfRecognition(
+      this.callConnectionId,
+      continuousDtmfRecognitionRequest,
+      {}
+    );
+  }
+
+  /**
+   * Send Dtmf tones.
+   * @param tones - List of tones to be sent to target participant.
+   * @param targetParticipant - Target participant.
+   * @param sendDtmfOptions - Additional attributes for send Dtmf tones.
+   * */
+  public async sendDtmf(
+    tones: Tone[],
+    targetParticipant: CommunicationIdentifier,
+    sendDtmfOptions: SendDtmfOptions = {}
+  ): Promise<void> {
+    const sendDtmfRequest: SendDtmfRequest = {
+      tones: tones,
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: sendDtmfOptions.operationContext,
+    };
+    return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }
 }

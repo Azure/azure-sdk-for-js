@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete an connectedEnvironment.
  *
  * @summary Delete an connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ConnectedEnvironments_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironments_Delete.json
  */
 async function deleteConnectedEnvironmentByConnectedEnvironmentName() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const connectedEnvironmentName = "examplekenv";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function deleteConnectedEnvironmentByConnectedEnvironmentName() {
   console.log(result);
 }
 
-deleteConnectedEnvironmentByConnectedEnvironmentName().catch(console.error);
+async function main() {
+  deleteConnectedEnvironmentByConnectedEnvironmentName();
+}
+
+main().catch(console.error);
