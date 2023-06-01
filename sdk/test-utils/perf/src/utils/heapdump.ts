@@ -3,7 +3,7 @@
 import heapdump from "heapdump";
 import * as fs from "fs-extra";
 
-export function generateHeapDump(filename: string) {
+export function generateHeapSnapshot(filename: string) {
   try {
     if (global.gc) {
       global.gc();
@@ -12,6 +12,6 @@ export function generateHeapDump(filename: string) {
     console.log("`Run with --expose-gc flag`");
     process.exit();
   }
-  fs.ensureDirSync("./dumps");
-  heapdump.writeSnapshot(`./dumps/${filename}.heapsnapshot`);
+  fs.ensureDirSync("./heapSnapshots");
+  heapdump.writeSnapshot(`./heapSnapshots/${filename}.heapsnapshot`);
 }

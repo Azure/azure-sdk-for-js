@@ -3,6 +3,7 @@
 ## 1.0.0 (Unreleased)
 
 ### 2023-05-31
+[#25724](https://github.com/Azure/azure-sdk-for-js/pull/25724)
 - Adds a new helper method to generate heap snapshots.
 - Adds memory metrics to the log output snapshot, `memory.rss` and `memory.heapUsed`.
 
