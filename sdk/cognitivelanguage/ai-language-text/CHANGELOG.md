@@ -1,8 +1,6 @@
 # Release History
 
-## 1.1.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.1.0 (2023-06-06)
 
 - Added more values to enum class: `KnownHealthcareEntityCategory` and `KnownRelationType`.
 
@@ -17,10 +15,6 @@ Remove the following features added in the "2022-10-01-preview" API - version "1
 - Entity resolution in entity recognition 
 - FHIR in `beginAnalyzeBatch`
 - Automatic language detection in `beginAnalyzeBatch`
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.1.0-beta.2 (2023-03-07)
 
