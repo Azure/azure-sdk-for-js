@@ -82,7 +82,6 @@ export interface DefaultPerfOptions {
   "use-worker-threads": boolean;
   profile: boolean;
   "profile-path": string;
-  heapdump: boolean;
 }
 
 /**
@@ -156,10 +155,6 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
     description: "Used as the artifact path",
     defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`,
     // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
-  },
-  "heapdump": {
-    description: "Generates heapdump file",
-    defaultValue: false
   }
 };
 

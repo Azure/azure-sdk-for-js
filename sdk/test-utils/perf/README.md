@@ -94,6 +94,11 @@ Steps below constitute the workflow of a typical perf test.
   - making a request to the proxy server to stop playing back
 - delete the live resources that we have created before
 
+## Generating heapdumps
+Launch the node process with the `--expose-gc` flag, you can then call `global.gc()` to force node to run garbage collection.
+The helper method `generateHeapDump` exported from this package can help you generate the dump file by calling `generateHeapDump(<filename>)` in the dumps folder.
+(Assumes the node command is run with the `--expose-gc` flag)
+
 ## Examples
 
 Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/test/).

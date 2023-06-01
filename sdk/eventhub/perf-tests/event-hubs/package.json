@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/event-hubs": "5.9.0",
+    "@azure/event-hubs": "5.10.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^16.0.0",
@@ -27,7 +27,7 @@
   },
   "private": true,
   "scripts": {
-    "perf-test:node": "npm run build && node --expose-gc dist-esm/index.spec.js",
+    "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",

@@ -3,7 +3,7 @@
 import heapdump from "heapdump";
 import * as fs from "fs-extra";
 
-export function generateHeapDump(lastMillisecondsElapsed: number) {
+export function generateHeapDump(filename: string) {
   try {
     if (global.gc) { global.gc(); }
   } catch (e) {
@@ -11,5 +11,5 @@ export function generateHeapDump(lastMillisecondsElapsed: number) {
     process.exit();
   }
   fs.ensureDirSync("./dumps");
-  heapdump.writeSnapshot(`./dumps/dump-${Math.floor(lastMillisecondsElapsed / 1000)}.heapsnapshot`);
+  heapdump.writeSnapshot(`./dumps/${filename}.heapsnapshot`);
 }
