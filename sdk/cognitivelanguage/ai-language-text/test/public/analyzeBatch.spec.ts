@@ -44,7 +44,7 @@ import {
   expectation30,
   expectation31,
 } from "./expectations";
-import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { isChinaCloud } from "./utils/customTestHelpter";
 
 const FIXME1 = {
@@ -60,7 +60,8 @@ const FIXME2 = {
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
