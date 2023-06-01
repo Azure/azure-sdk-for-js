@@ -5,6 +5,7 @@ import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request";
 import { RequestContext } from "../request/RequestContext";
+import { TimeoutErrorCode } from "../request/TimeoutError";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
@@ -106,10 +107,7 @@ export async function execute({
       err.substatus === SubStatusCodes.ReadSessionNotAvailable
     ) {
       retryPolicy = retryPolicies.sessionReadRetryPolicy;
-    } else if (
-      err.code === StatusCodes.ServiceUnavailable ||
-      err.code === StatusCodes.RequestTimeout
-    ) {
+    } else if (err.code === StatusCodes.ServiceUnavailable || err.code === TimeoutErrorCode) {
       retryPolicy = retryPolicies.timeoutFailoverRetryPolicy;
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;

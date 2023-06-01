@@ -6,7 +6,8 @@ import { ErrorResponse } from "../request";
 import { Constants, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { OperationType } from "@azure/cosmos";
+import { OperationType, TimeoutError } from "@azure/cosmos";
+import { TimeoutErrorCode } from "../request/TimeoutError";
 
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   private maxRetryAttemptCount = 120;
@@ -47,7 +48,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (!this.needsRetry()) {
+    if (err.statusCode === TimeoutErrorCode && !this.needsRetry()) {
       return false;
     }
 
@@ -76,12 +77,6 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     }
     this.failoverRetryCount++;
     retryContext.retryCount++;
-
-    if (readRequest) {
-      this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
-    } else {
-      this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);
-    }
     return true;
   }
 }
