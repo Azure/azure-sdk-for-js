@@ -3,7 +3,7 @@
 import heapdump from "heapdump";
 import * as fs from "fs-extra";
 
-export function generateHeapDump(filename: string) {
+export function generateHeapSnapshot(filename: string) {
   try {
     if (global.gc) { global.gc(); }
   } catch (e) {
