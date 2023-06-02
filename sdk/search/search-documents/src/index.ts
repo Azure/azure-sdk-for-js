@@ -56,6 +56,7 @@ export {
   DocumentDebugInfo,
   SemanticDebugInfo,
   QueryResultDocumentSemanticField,
+  Answers,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -165,7 +166,6 @@ export {
   QueryType,
   SearchMode,
   ScoringStatistics,
-  Answers,
   KnownAnswers,
   QueryLanguage,
   KnownQueryLanguage,
