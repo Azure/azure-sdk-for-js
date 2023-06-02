@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "npm run build && node dist/src/test.js --testDurationInMs=10000"
+    "test": "npm run build && node --inspect dist/src/storageBlobListTest-no-app-insights.js"
   },
   "keywords": [],
   "author": "",
