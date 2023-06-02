@@ -10,6 +10,8 @@ declare global {
     constructor: {
       name: string;
     };
+
+    importScripts: (...paths: string[]) => void;
   }
 
   interface Navigator {
