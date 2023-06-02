@@ -62,6 +62,7 @@ specifiers:
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-containerservice-1': file:./projects/arm-containerservice-1.tgz
+  '@rush-temp/arm-containerservicefleet': file:./projects/arm-containerservicefleet.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-costmanagement': file:./projects/arm-costmanagement.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
@@ -407,6 +408,7 @@ dependencies:
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-containerservice-1': file:projects/arm-containerservice-1.tgz
+  '@rush-temp/arm-containerservicefleet': file:projects/arm-containerservicefleet.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-costmanagement': file:projects/arm-costmanagement.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
@@ -3832,7 +3834,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230530
+      typescript: 5.2.0-dev.20230601
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8388,8 +8390,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230530:
-    resolution: {integrity: sha512-bIoMajCZWzLB+pWwncaba/hZc6dRnw7x8T/fenOnP9gYQB/gc4xdm48AXp5SH5I/PvvSeZ/dXkUMtc8s8BiDZw==}
+  /typescript/5.2.0-dev.20230601:
+    resolution: {integrity: sha512-ZAe/C0wi4nXNds7zaN35oe/ju3WhYdyI+lvRy+xfsG9348PLOZgtYKO3v2RX5fSxhT2uZH5Gb5fk/sjCLaI9uw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10860,6 +10862,34 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-containerservicefleet.tgz:
+    resolution: {integrity: sha512-iQXfuIOmJvD4ZzwbFq6byWC91//vIB8ecVWei80DzVDvzaLYj/N+4apJcF5Ppm5+1ShE6mf98GrUJ3UcSVT+vg==, tarball: file:projects/arm-containerservicefleet.tgz}
+    name: '@rush-temp/arm-containerservicefleet'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.48
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.1.0
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
+      tslib: 2.5.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
@@ -18198,7 +18228,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-Mh6fHNCBSjPrqwprbqsP/ZpI86dsh5zViRYvXL7tNKAkdY0FDnvB74zlXpHUtn0CC5nIsK1BoKyeq0W89rUipQ==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-kUPHN6zS14EH/ErRIq3bqm8a4tnA9dN16oHOZ7n27rlA3+QINV7iGOcQwl1OsNPZOR3NN7dsVWLnTu/NbJ6+tw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
