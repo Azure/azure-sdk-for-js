@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/attached?referenceName=/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname\u0026api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/attached?referenceName=/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname\u0026api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -12,47 +12,47 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "aa22f214-58c3-4132-9ce6-030b957f210f",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "d7da21f1-5985-4c8d-a615-2c21cf55c72b",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "988",
+        "Content-Length": "961",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:10:19 GMT",
+        "Date": "Fri, 02 Jun 2023 15:59:36 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "89f9427b-37df-49a1-8648-c50c8c50b461"
+        "x-ms-correlation-request-id": "3e30f409-b62a-4d3b-a141-02e1c1255581"
       },
       "ResponseBody": {
         "value": [
           {
             "properties": {
-              "createdAt": "2023-02-23T02:07:18.9094162Z",
-              "sharedAt": "2023-02-23T02:07:18.9094162Z",
-              "expirationDate": "2023-03-02T02:06:29.606Z",
+              "createdAt": "2023-06-02T15:32:52.2357736Z",
+              "sharedAt": "2023-06-02T15:32:52.2357736Z",
+              "expirationDate": "2023-12-31T23:59:59Z",
               "displayName": "JS-SDK-Received-Share",
               "state": "Succeeded",
               "shareStatus": "Attached",
-              "sentShareDescription": "Sent share created by and for JS SDK tests.",
-              "receiverName": "ADS-E2E-Tests-ARM-App",
-              "receiverTenantName": "Contoso Marketplace",
-              "senderName": "Sharing-Test-App",
-              "senderTenantName": "Fabrikam Solutions",
-              "assetLocation": "uksouth",
+              "sentShareDescription": "Sent share updated by and for JS SDK tests.",
+              "receiverName": "testDataBricks",
+              "receiverTenantName": "Microsoft",
+              "senderName": "testDataBricks",
+              "senderTenantName": "Microsoft",
+              "assetLocation": "southafricanorth",
               "assetStoreKind": "AdlsGen2Account",
               "sink": {
                 "properties": {
                   "containerName": "targetcontainer",
                   "folder": "receivedData",
                   "mountPath": "",
-                  "location": "uksouth"
+                  "location": "southafricanorth"
                 },
                 "storeKind": "AdlsGen2Account",
                 "storeReference": {
@@ -62,7 +62,7 @@
               }
             },
             "shareKind": "InPlace",
-            "id": "530232e8-0fc5-4138-8e39-f856b42773b7",
+            "id": "206016dd-fd49-420c-9545-9663badda4e3",
             "type": "ReceivedShare"
           }
         ]

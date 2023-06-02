@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/530232e8-0fc5-4138-8e39-f856b42773b7?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/206016dd-fd49-420c-9545-9663badda4e3?api-version=2023-05-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -14,13 +14,13 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "0ed9ddce-8c36-49ec-82e0-5a9551dabcf0",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "64011be8-fa54-4a64-bca1-e7b32a2a603a",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
         "shareKind": "InPlace",
@@ -43,37 +43,37 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Content-Length": "975",
+        "Content-Length": "948",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:08:18 GMT",
-        "Location": "/receivedShares/530232e8-0fc5-4138-8e39-f856b42773b7/530232e8-0fc5-4138-8e39-f856b42773b7",
-        "Operation-Id": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
-        "Operation-Location": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+        "Date": "Fri, 02 Jun 2023 15:53:47 GMT",
+        "Location": "/receivedShares/206016dd-fd49-420c-9545-9663badda4e3/206016dd-fd49-420c-9545-9663badda4e3",
+        "Operation-Id": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
+        "Operation-Location": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "64e66cfb-c2ee-4d71-b784-6e21e20288d3"
+        "x-ms-correlation-request-id": "ea3b7089-cbc5-476c-aeb2-84ba549c0a6c"
       },
       "ResponseBody": {
         "properties": {
-          "createdAt": "2023-02-23T02:07:18.9094162Z",
-          "sharedAt": "2023-02-23T02:07:18.9094162Z",
-          "expirationDate": "2023-03-02T02:06:29.606Z",
+          "createdAt": "2023-06-02T15:32:52.2357736Z",
+          "sharedAt": "2023-06-02T15:32:52.2357736Z",
+          "expirationDate": "2023-12-31T23:59:59Z",
           "displayName": "JS-SDK-Received-Share",
           "state": "Creating",
           "shareStatus": "Attached",
-          "sentShareDescription": "Sent share created by and for JS SDK tests.",
-          "receiverName": "Sharing-Test-App",
-          "receiverTenantName": "Contoso Marketplace",
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions",
-          "assetLocation": "uksouth",
+          "sentShareDescription": "Sent share updated by and for JS SDK tests.",
+          "receiverName": "testDataBricks",
+          "receiverTenantName": "Microsoft",
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft",
+          "assetLocation": "southafricanorth",
           "assetStoreKind": "AdlsGen2Account",
           "sink": {
             "properties": {
               "containerName": "targetcontainer",
               "folder": "receivedData",
               "mountPath": "",
-              "location": "uksouth"
+              "location": "southafricanorth"
             },
             "storeKind": "AdlsGen2Account",
             "storeReference": {
@@ -83,12 +83,12 @@
           }
         },
         "shareKind": "InPlace",
-        "id": "530232e8-0fc5-4138-8e39-f856b42773b7",
+        "id": "206016dd-fd49-420c-9545-9663badda4e3",
         "type": "ReceivedShare"
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -99,34 +99,34 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "0112567d-edad-4cee-85d2-64e27d192f71",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "a9167015-01a2-4e84-9a09-b9c28480489b",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "135",
+        "Content-Length": "134",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:08:18 GMT",
+        "Date": "Fri, 02 Jun 2023 15:53:48 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "25da26d9-8c37-4dc7-90eb-1edf3b62d03d"
+        "x-ms-correlation-request-id": "f9852be2-be26-4c73-960f-ce245c03628e"
       },
       "ResponseBody": {
-        "id": "607546e1-f894-41c0-8091-d6175e069146",
-        "startTime": "2023-02-23T02:08:18.6607736Z",
+        "id": "aa7a5470-7d36-409d-9e38-df4b898d25d0",
+        "startTime": "2023-06-02T15:53:48.180963Z",
         "endTime": null,
         "status": "Running",
         "error": null
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -137,34 +137,34 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "ec3b7366-0b65-44ff-a192-e63c733b9b32",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "20f520f0-5ba1-4c75-8b08-78c0a3c18ac8",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "135",
+        "Content-Length": "134",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:08:48 GMT",
+        "Date": "Fri, 02 Jun 2023 15:54:18 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "b397c302-31db-4622-bbdb-715c32e5ce5a"
+        "x-ms-correlation-request-id": "f9eec333-50a0-4dc4-a0af-a616f55dcef1"
       },
       "ResponseBody": {
-        "id": "607546e1-f894-41c0-8091-d6175e069146",
-        "startTime": "2023-02-23T02:08:18.6607736Z",
+        "id": "aa7a5470-7d36-409d-9e38-df4b898d25d0",
+        "startTime": "2023-06-02T15:53:48.180963Z",
         "endTime": null,
         "status": "Running",
         "error": null
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -175,34 +175,34 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "2a056566-c398-4b72-9223-b4518935998f",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "b28d8100-4ca0-4473-9f6d-6073a73006f8",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "135",
+        "Content-Length": "134",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:09:18 GMT",
+        "Date": "Fri, 02 Jun 2023 15:54:48 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "b7ae792c-df54-4ec5-a338-4728ada20b80"
+        "x-ms-correlation-request-id": "e28e7100-4f82-4106-be42-212e55c29068"
       },
       "ResponseBody": {
-        "id": "607546e1-f894-41c0-8091-d6175e069146",
-        "startTime": "2023-02-23T02:08:18.6607736Z",
+        "id": "aa7a5470-7d36-409d-9e38-df4b898d25d0",
+        "startTime": "2023-06-02T15:53:48.180963Z",
         "endTime": null,
         "status": "Running",
         "error": null
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -213,34 +213,34 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "26a899d4-f629-424d-ada6-b1166b9f3789",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "7c2a2181-08f1-4e02-b9ef-a4d4d466c237",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "135",
+        "Content-Length": "134",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:09:48 GMT",
+        "Date": "Fri, 02 Jun 2023 15:55:19 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "6fd75476-2e83-4057-b280-2e26d41bd462"
+        "x-ms-correlation-request-id": "54f99916-c38a-4bc0-8e14-e9c3a1868b1b"
       },
       "ResponseBody": {
-        "id": "607546e1-f894-41c0-8091-d6175e069146",
-        "startTime": "2023-02-23T02:08:18.6607736Z",
+        "id": "aa7a5470-7d36-409d-9e38-df4b898d25d0",
+        "startTime": "2023-06-02T15:53:48.180963Z",
         "endTime": null,
         "status": "Running",
         "error": null
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/607546e1-f894-41c0-8091-d6175e069146?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/operationResults/aa7a5470-7d36-409d-9e38-df4b898d25d0?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -251,34 +251,34 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "0dcd198f-dc95-4c88-a0aa-a216d19ad7f9",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "b9b1bf15-c524-4463-8105-72b24541df80",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "137",
+        "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:10:18 GMT",
+        "Date": "Fri, 02 Jun 2023 15:55:49 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "01c92ec5-1320-427b-8242-30eb05925299"
+        "x-ms-correlation-request-id": "14443449-c1b8-41e8-916b-84255c3bebe7"
       },
       "ResponseBody": {
-        "id": "607546e1-f894-41c0-8091-d6175e069146",
-        "startTime": "2023-02-23T02:08:18.6607736Z",
+        "id": "aa7a5470-7d36-409d-9e38-df4b898d25d0",
+        "startTime": "2023-06-02T15:53:48.180963Z",
         "endTime": null,
         "status": "Succeeded",
         "error": null
       }
     },
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/530232e8-0fc5-4138-8e39-f856b42773b7?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/206016dd-fd49-420c-9545-9663badda4e3?api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -289,45 +289,45 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "3961d93f-d504-49c0-8e22-1b82acd922a8",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "c6f36571-710e-4b8a-a221-310e230a7e7e",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "976",
+        "Content-Length": "949",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:10:19 GMT",
+        "Date": "Fri, 02 Jun 2023 15:55:49 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "4d308200-d6ac-4e41-b355-b76bd255f81f"
+        "x-ms-correlation-request-id": "d5c389f3-8011-461a-8aff-75c270d4cd11"
       },
       "ResponseBody": {
         "properties": {
-          "createdAt": "2023-02-23T02:07:18.9094162Z",
-          "sharedAt": "2023-02-23T02:07:18.9094162Z",
-          "expirationDate": "2023-03-02T02:06:29.606Z",
+          "createdAt": "2023-06-02T15:32:52.2357736Z",
+          "sharedAt": "2023-06-02T15:32:52.2357736Z",
+          "expirationDate": "2023-12-31T23:59:59Z",
           "displayName": "JS-SDK-Received-Share",
           "state": "Succeeded",
           "shareStatus": "Attached",
-          "sentShareDescription": "Sent share created by and for JS SDK tests.",
-          "receiverName": "Sharing-Test-App",
-          "receiverTenantName": "Contoso Marketplace",
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions",
-          "assetLocation": "uksouth",
+          "sentShareDescription": "Sent share updated by and for JS SDK tests.",
+          "receiverName": "testDataBricks",
+          "receiverTenantName": "Microsoft",
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft",
+          "assetLocation": "southafricanorth",
           "assetStoreKind": "AdlsGen2Account",
           "sink": {
             "properties": {
               "containerName": "targetcontainer",
               "folder": "receivedData",
               "mountPath": "",
-              "location": "uksouth"
+              "location": "southafricanorth"
             },
             "storeKind": "AdlsGen2Account",
             "storeReference": {
@@ -337,7 +337,7 @@
           }
         },
         "shareKind": "InPlace",
-        "id": "530232e8-0fc5-4138-8e39-f856b42773b7",
+        "id": "206016dd-fd49-420c-9545-9663badda4e3",
         "type": "ReceivedShare"
       }
     }

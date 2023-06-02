@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/sentShareInvitations/66b75a2f-9a36-434e-a3e0-0c39dafb39ce?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/sentShareInvitations/3b5fc276-5114-4ee1-a958-16347dce51f0?api-version=2023-05-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,50 +9,50 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "127",
+        "Content-Length": "138",
         "Content-Type": "application/json; charset=UTF-8",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/110.0.5478.0 Safari/537.36",
-        "x-ms-client-request-id": "6375d60a-00e4-4425-b798-93c4b1ca8b66",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 OS"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "066f5e9c-d63e-44ec-a3ea-7ca26f5db7bb",
+        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
         "invitationKind": "User",
         "properties": {
-          "targetEmail": "user@domain.com",
+          "targetEmail": "faisalaltell@microsoft.com",
           "expirationDate": "2023-11-30T23:59:59Z",
           "notify": false
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Content-Length": "381",
+        "Content-Length": "369",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 08:10:02 GMT",
-        "Location": "/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/sentShareInvitations/66b75a2f-9a36-434e-a3e0-0c39dafb39ce/66b75a2f-9a36-434e-a3e0-0c39dafb39ce",
+        "Date": "Fri, 02 Jun 2023 15:19:19 GMT",
+        "Location": "/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/sentShareInvitations/3b5fc276-5114-4ee1-a958-16347dce51f0/3b5fc276-5114-4ee1-a958-16347dce51f0",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "d4cb48ab-72f5-4a06-9454-64c982896034"
+        "x-ms-correlation-request-id": "81570d30-82b7-4b58-9795-aae67027c256"
       },
       "ResponseBody": {
         "properties": {
-          "targetEmail": "user@domain.com",
+          "targetEmail": "faisalaltell@microsoft.com",
           "notify": false,
           "shareStatus": "Detached",
           "expirationDate": "2023-11-30T23:59:59Z",
-          "sentAt": "2023-02-22T08:10:02.8594576Z",
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions",
+          "sentAt": "2023-06-02T15:17:32.4724984Z",
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft",
           "state": "Succeeded"
         },
         "invitationKind": "User",
-        "id": "66b75a2f-9a36-434e-a3e0-0c39dafb39ce",
+        "id": "3b5fc276-5114-4ee1-a958-16347dce51f0",
         "type": "sentShares/sentShareInvitations"
       }
     }
