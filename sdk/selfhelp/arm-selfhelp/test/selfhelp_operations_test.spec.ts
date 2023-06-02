@@ -65,7 +65,8 @@ describe("help test", () => {
       {
         checkNameAvailabilityRequest: {
           name: "sampleName",
-          type: "Microsoft.Help/diagnostics"
+          // type: "Microsoft.Help/diagnostics"
+          type: "diagnostics"
         }
       });
   });
