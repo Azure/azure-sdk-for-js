@@ -24,7 +24,7 @@ import {
   SemanticPartialResponseReason,
   SemanticPartialResponseType,
   QueryDebugMode,
-  SemanticErrorHandling,
+  SemanticErrorHandlingMode,
   QueryResultDocumentSemanticFieldState,
   VectorSearchAlgorithmMetric,
 } from "../../src/index";
@@ -42,7 +42,7 @@ type ExpectSearchFieldDataType = Exclude<
 type ExpectSemanticPartialResponseReason = `${KnownSemanticPartialResponseReason}`;
 type ExpectSemanticPartialResponseType = `${KnownSemanticPartialResponseType}`;
 type ExpectQueryDebugMode = `${KnownQueryDebugMode}`;
-type ExpectSemanticErrorHandling = `${KnownSemanticErrorHandling}`;
+type ExpectSemanticErrorHandlingMode = `${KnownSemanticErrorHandling}`;
 type ExpectQueryResultDocumentSemanticFieldState = `${KnownQueryResultDocumentSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 
@@ -53,7 +53,7 @@ function fun() {
   const b: IsIdentical<ExpectSemanticPartialResponseReason, SemanticPartialResponseReason> = "pass";
   const c: IsIdentical<ExpectSemanticPartialResponseType, SemanticPartialResponseType> = "pass";
   const d: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
-  const e: IsIdentical<ExpectSemanticErrorHandling, SemanticErrorHandling> = "pass";
+  const e: IsIdentical<ExpectSemanticErrorHandlingMode, SemanticErrorHandlingMode> = "pass";
   const f: IsIdentical<
     ExpectQueryResultDocumentSemanticFieldState,
     QueryResultDocumentSemanticFieldState

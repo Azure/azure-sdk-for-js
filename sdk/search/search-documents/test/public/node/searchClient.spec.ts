@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
@@ -440,38 +440,41 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
           semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandling: "fail",
-          debug: "semantic",
+          semanticErrorHandlingMode: "fail",
+          debugMode: "semantic",
         });
         for await (const result of searchResults.results) {
-          assert.deepEqual(result.documentDebugInfo, [
-            {
-              semantic: {
-                contentFields: [
-                  {
-                    name: "description",
+          assert.deepEqual(
+            [
+              {
+                semantic: {
+                  contentFields: [
+                    {
+                      name: "description",
+                      state: "used",
+                    },
+                  ],
+                  keywordFields: [
+                    {
+                      name: "tags",
+                      state: "unused",
+                    },
+                  ],
+                  rerankerInput: {
+                    content:
+                      "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+                    keywords: "",
+                    title: "Fancy Stay",
+                  },
+                  titleField: {
+                    name: "hotelName",
                     state: "used",
                   },
-                ],
-                keywordFields: [
-                  {
-                    name: "tags",
-                    state: "unused",
-                  },
-                ],
-                rerankerInput: {
-                  content:
-                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                  keywords: "",
-                  title: "Fancy Stay",
-                },
-                titleField: {
-                  name: "hotelName",
-                  state: "used",
                 },
               },
-            },
-          ]);
+            ],
+            result.documentDebugInfo
+          );
         }
       });
 
@@ -497,7 +500,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
           semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandling: "partial",
+          semanticErrorHandlingMode: "partial",
           select: ["hotelId"],
         });
 
@@ -509,6 +512,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
 
       it("search with vector", async function () {
+        if (isLiveMode()) {
+          this.skip();
+        }
         const embeddings = await openAIClient.getEmbeddings(
           env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
           ["What are the most luxurious hotels?"]

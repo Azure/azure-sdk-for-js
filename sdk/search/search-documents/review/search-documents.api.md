@@ -2475,7 +2475,7 @@ UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? Fiel
 export interface SearchRequest<TModel extends object = never> {
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
-    debug?: QueryDebugMode;
+    debugMode?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2494,7 +2494,7 @@ export interface SearchRequest<TModel extends object = never> {
     searchText?: string;
     select?: string;
     semanticConfiguration?: string;
-    semanticErrorHandling?: SemanticErrorHandling;
+    semanticErrorHandling?: SemanticErrorHandlingMode;
     semanticFields?: string;
     semanticMaxWaitInMilliseconds?: number;
     sessionId?: string;
@@ -2508,7 +2508,7 @@ export interface SearchRequest<TModel extends object = never> {
 export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     answers?: Answers | AnswersType;
     captions?: Captions;
-    debug?: QueryDebugMode;
+    debugMode?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2526,7 +2526,7 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
     searchMode?: SearchMode;
     select?: SelectArray<Fields>;
     semanticConfiguration?: string;
-    semanticErrorHandling?: SemanticErrorHandling;
+    semanticErrorHandlingMode?: SemanticErrorHandlingMode;
     semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     sessionId?: string;
@@ -2594,7 +2594,7 @@ export interface SemanticDebugInfo {
 }
 
 // @public
-export type SemanticErrorHandling = "partial" | "fail";
+export type SemanticErrorHandlingMode = "partial" | "fail";
 
 // @public
 export interface SemanticField {

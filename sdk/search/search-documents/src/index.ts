@@ -49,7 +49,7 @@ export {
   SemanticPartialResponseReason,
   SemanticPartialResponseType,
   QueryDebugMode,
-  SemanticErrorHandling,
+  SemanticErrorHandlingMode,
   QueryResultDocumentSemanticFieldState,
   Vector,
   AnswersType,
