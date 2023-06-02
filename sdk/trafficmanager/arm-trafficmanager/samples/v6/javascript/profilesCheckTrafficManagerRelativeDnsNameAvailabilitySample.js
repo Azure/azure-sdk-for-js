@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-  TrafficManagerManagementClient
-} from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks the availability of a Traffic Manager Relative DNS name.
@@ -25,17 +20,14 @@ dotenv.config();
  */
 async function nameAvailabilityTestNameAvailablePost21() {
   const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters = {
+    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const parameters = {
     name: "azsmnet5403",
-    type: "microsoft.network/trafficmanagerprofiles"
+    type: "microsoft.network/trafficmanagerprofiles",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(
-    parameters
-  );
+  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(parameters);
   console.log(result);
 }
 
@@ -47,17 +39,14 @@ async function nameAvailabilityTestNameAvailablePost21() {
  */
 async function nameAvailabilityTestNameNotAvailablePost23() {
   const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters = {
+    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const parameters = {
     name: "azsmnet4696",
-    type: "microsoft.network/trafficmanagerprofiles"
+    type: "microsoft.network/trafficmanagerprofiles",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(
-    parameters
-  );
+  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(parameters);
   console.log(result);
 }
 

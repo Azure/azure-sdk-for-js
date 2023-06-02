@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all Traffic Manager profiles within a resource group.
@@ -21,17 +19,13 @@ dotenv.config();
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-ByResourceGroup.json
  */
 async function listProfilesByResourceGroup() {
-  const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] ||
-    "azuresdkfornetautoresttrafficmanager3640";
+    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager3640";
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.profiles.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

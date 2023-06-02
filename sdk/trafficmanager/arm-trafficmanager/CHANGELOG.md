@@ -1,28 +1,23 @@
 # Release History
-
-## 6.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.1.0-beta.1 (2022-11-15)
+    
+## 6.1.0 (2023-06-02)
     
 **Features**
 
+  - Added operation Profiles.checkTrafficManagerNameAvailabilityV2
   - Added Interface Endpoint
   - Added Interface HeatMapModel
   - Added Interface Profile
+  - Added Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
   - Added Interface ProxyResource
   - Added Interface TrackedResource
   - Added Interface TrafficManagerGeographicHierarchy
   - Added Interface UserMetricsModel
   - Added Type Alias AlwaysServe
+  - Added Type Alias ProfilesCheckTrafficManagerNameAvailabilityV2Response
   - Added Enum KnownAlwaysServe
+  - Enum KnownEndpointMonitorStatus has a new value Unmonitored
+  - Added function getContinuationToken
     
 ## 6.0.1 (2022-05-05)
 
