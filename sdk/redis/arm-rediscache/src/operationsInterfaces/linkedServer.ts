@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RedisLinkedServerWithProperties,
   LinkedServerListOptionalParams,
@@ -48,8 +48,8 @@ export interface LinkedServer {
     parameters: RedisLinkedServerCreateParameters,
     options?: LinkedServerCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServerCreateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServerCreateResponse>,
       LinkedServerCreateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface LinkedServer {
     name: string,
     linkedServerName: string,
     options?: LinkedServerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
    * @param resourceGroupName The name of the resource group.
