@@ -12,6 +12,8 @@ import {
   ServiceListSharesSegmentHeaders,
   ListSharesResponseModel,
   SharePropertiesInternal,
+  ServiceSetPropertiesHeaders,
+  ServiceGetPropertiesHeaders,
 } from "./generatedModels";
 import { Service } from "./generated/src/operationsInterfaces";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
@@ -391,7 +393,11 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareServiceClient-getProperties", options);
     try {
-      return await this.serviceContext.getProperties(updatedOptions);
+      return assertResponse<
+        ServiceGetPropertiesHeaders & FileServiceProperties,
+        ServiceGetPropertiesHeaders,
+        FileServiceProperties
+      >(await this.serviceContext.getProperties(updatedOptions));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -418,7 +424,9 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareServiceClient-setProperties", options);
     try {
-      return await this.serviceContext.setProperties(properties, updatedOptions);
+      return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+        await this.serviceContext.setProperties(properties, updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

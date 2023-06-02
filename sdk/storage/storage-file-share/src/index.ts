@@ -31,7 +31,16 @@ export {
   HttpAuthorization,
 } from "./models";
 export * from "./FileSystemAttributes";
-export * from "../../storage-blob/src/Pipeline";
+export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy";
+export {
+  Pipeline,
+  PipelineLike,
+  PipelineOptions,
+  isPipelineLike,
+  newPipeline,
+  StoragePipelineOptions,
+  ServiceClientOptions,
+} from "../../storage-blob/src/Pipeline";
 export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
 export * from "../../storage-blob/src/policies/CredentialPolicy";
 export * from "../../storage-blob/src/StorageRetryPolicyFactory";
@@ -41,5 +50,12 @@ export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
+export {
+  WithResponse,
+  ResponseLike,
+  ResponseWithBody,
+  ResponseWithHeaders,
+  HttpResponse,
+} from "./utils/utils.common";
 export { RestError };
 export { logger } from "./log";

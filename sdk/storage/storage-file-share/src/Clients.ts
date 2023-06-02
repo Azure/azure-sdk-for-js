@@ -59,7 +59,41 @@ import {
   DirectoryRenameResponse,
   FileLastWrittenMode,
   ShareFileRangeList,
+  ShareCreateHeaders,
+  ShareGetPropertiesHeaders,
+  ShareDeleteHeaders,
+  ShareSetMetadataHeaders,
+  ShareSetAccessPolicyHeaders,
+  ShareCreateSnapshotHeaders,
+  ShareSetPropertiesHeaders,
+  ShareGetStatisticsHeaders,
+  ShareStats,
+  ShareCreatePermissionHeaders,
+  ShareGetPermissionHeaders,
+  SharePermission,
+  DirectoryCreateHeaders,
+  DirectorySetPropertiesHeaders,
+  DirectoryGetPropertiesHeaders,
+  DirectoryDeleteHeaders,
+  DirectorySetMetadataHeaders,
+  DirectoryListFilesAndDirectoriesSegmentHeaders,
+  ListFilesAndDirectoriesSegmentResponse,
+  ListHandlesResponse,
+  DirectoryListHandlesHeaders,
+  DirectoryRenameHeaders,
+  FileCreateHeaders,
+  FileDownloadHeaders,
+  FileGetPropertiesHeaders,
+  FileDeleteHeaders,
+  FileSetMetadataHeaders,
+  FileUploadRangeHeaders,
+  FileUploadRangeFromURLHeaders,
+  FileStartCopyHeaders,
+  FileAbortCopyHeaders,
+  FileListHandlesHeaders,
+  RawFileDownloadResponse,
 } from "./generatedModels";
+import { FileRenameHeaders } from "./generated/src/models";
 import { Share, Directory, File } from "./generated/src/operationsInterfaces";
 import {
   newPipeline,
@@ -126,7 +160,7 @@ import {
   readStreamToLocalFile,
   streamToBuffer,
 } from "./utils/utils.node";
-import { StorageClient as StorageClientContext } from "./generated/src/";
+import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
 import { v4 as generateUuid } from "uuid";
 import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
@@ -670,10 +704,12 @@ export class ShareClient extends StorageClient {
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-create", options);
     try {
-      return await this.context.create({
-        ...updatedOptions,
-        enabledProtocols: toShareProtocolsString(options.protocols),
-      });
+      return assertResponse<ShareCreateHeaders, ShareCreateHeaders>(
+        await this.context.create({
+          ...updatedOptions,
+          enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -938,14 +974,13 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-getProperties", options);
     try {
-      const res = await this.context.getProperties({
-        ...updatedOptions,
-      });
-
-      // parse protocols
-      const protocols = toShareProtocols(res.enabledProtocols);
-      (res as any).protocols = protocols;
-      return res;
+      const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(
+        await this.context.getProperties(updatedOptions)
+      );
+      return {
+        ...res,
+        protocols: toShareProtocols(res.enabledProtocols),
+      };
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -968,9 +1003,11 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-delete", options);
     try {
-      return await this.context.delete({
-        ...updatedOptions,
-      });
+      return assertResponse<ShareDeleteHeaders, ShareDeleteHeaders>(
+        await this.context.delete({
+          ...updatedOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1038,10 +1075,12 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetMetadataResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-setMetadata", options);
     try {
-      return await this.context.setMetadata({
-        ...updatedOptions,
-        metadata,
-      });
+      return assertResponse<ShareSetMetadataHeaders, ShareSetMetadataHeaders>(
+        await this.context.setMetadata({
+          ...updatedOptions,
+          metadata,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1163,10 +1202,12 @@ export class ShareClient extends StorageClient {
         });
       }
 
-      return await this.context.setAccessPolicy({
-        ...updatedOptions,
-        shareAcl: acl,
-      });
+      return assertResponse<ShareSetAccessPolicyHeaders, ShareSetAccessPolicyHeaders>(
+        await this.context.setAccessPolicy({
+          ...updatedOptions,
+          shareAcl: acl,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1189,7 +1230,9 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareCreateSnapshotResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-createSnapshot", options);
     try {
-      return await this.context.createSnapshot(updatedOptions);
+      return assertResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>(
+        await this.context.createSnapshot(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1216,10 +1259,12 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetQuotaResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-setQuota", options);
     try {
-      return await this.context.setProperties({
-        ...updatedOptions,
-        quota: quotaInGB,
-      });
+      return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
+        await this.context.setProperties({
+          ...updatedOptions,
+          quota: quotaInGB,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1242,11 +1287,13 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-setProperties", options);
     try {
-      return await this.context.setProperties({
-        ...options,
-        quota: options.quotaInGB,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
+        await this.context.setProperties({
+          ...options,
+          quota: options.quotaInGB,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1269,7 +1316,11 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-getStatistics", options);
     try {
-      const response = await this.context.getStatistics(updatedOptions);
+      const response = assertResponse<
+        ShareGetStatisticsHeaders & ShareStats,
+        ShareGetStatisticsHeaders,
+        ShareStats
+      >(await this.context.getStatistics(updatedOptions));
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
@@ -1298,11 +1349,13 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareCreatePermissionResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-createPermission", options);
     try {
-      return await this.context.createPermission(
-        {
-          permission: filePermission,
-        },
-        updatedOptions
+      return assertResponse<ShareCreatePermissionHeaders, ShareCreatePermissionHeaders>(
+        await this.context.createPermission(
+          {
+            permission: filePermission,
+          },
+          updatedOptions
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -1329,7 +1382,11 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPermissionResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-getPermission", options);
     try {
-      return await this.context.getPermission(filePermissionKey, updatedOptions);
+      return assertResponse<
+        ShareGetPermissionHeaders & SharePermission,
+        ShareGetPermissionHeaders,
+        SharePermission
+      >(await this.context.getPermission(filePermissionKey, updatedOptions));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1751,16 +1808,18 @@ export class ShareDirectoryClient extends StorageClient {
     }
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-create", options);
     try {
-      return await this.context.create(
-        updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : FileAttributesNone,
-        {
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-        }
+      return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(
+        await this.context.create(
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesNone,
+          {
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -1826,16 +1885,18 @@ export class ShareDirectoryClient extends StorageClient {
     properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-setProperties", properties);
     try {
-      return await this.context.setProperties(
-        updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : FileAttributesPreserve,
-        {
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-        }
+      return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>(
+        await this.context.setProperties(
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesPreserve,
+          {
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -2073,7 +2134,9 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-getProperties", options);
     try {
-      return await this.context.getProperties(updatedOptions);
+      return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>(
+        await this.context.getProperties(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2096,7 +2159,9 @@ export class ShareDirectoryClient extends StorageClient {
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-delete", options);
     try {
-      return await this.context.delete(updatedOptions);
+      return assertResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>(
+        await this.context.delete(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2164,10 +2229,12 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectorySetMetadataResponse> {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-setMetadata", options);
     try {
-      return await this.context.setMetadata({
-        ...updatedOptions,
-        metadata,
-      });
+      return assertResponse<DirectorySetMetadataHeaders, DirectorySetMetadataHeaders>(
+        await this.context.setMetadata({
+          ...updatedOptions,
+          metadata,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2403,10 +2470,16 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
     try {
-      return await this.context.listFilesAndDirectoriesSegment({
-        ...updatedOptions,
-        marker,
-      });
+      return assertResponse<
+        DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse,
+        DirectoryListFilesAndDirectoriesSegmentHeaders,
+        ListFilesAndDirectoriesSegmentResponse
+      >(
+        await this.context.listFilesAndDirectoriesSegment({
+          ...updatedOptions,
+          marker,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2584,10 +2657,16 @@ export class ShareDirectoryClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
-      const response = await this.context.listHandles({
-        ...updatedOptions,
-        marker,
-      });
+      const response = assertResponse<
+        DirectoryListHandlesHeaders & ListHandlesResponse,
+        DirectoryListHandlesHeaders,
+        ListHandlesResponse
+      >(
+        await this.context.listHandles({
+          ...updatedOptions,
+          marker,
+        })
+      );
 
       // TODO: Protocol layer issue that when handle list is in returned XML
       // response.handleList is an empty string
@@ -2776,19 +2855,21 @@ export class ShareDirectoryClient extends StorageClient {
     const destDirectory = new ShareDirectoryClient(destinationUrl, this.pipeline);
 
     try {
-      const response = await destDirectory.context.rename(this.url, {
-        ...updatedOptions,
-        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-          ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-          ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-      });
+      const response = assertResponse<DirectoryRenameHeaders, DirectoryRenameHeaders>(
+        await destDirectory.context.rename(this.url, {
+          ...updatedOptions,
+          sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+            ? {
+                sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
+              }
+            : undefined,
+          destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+            ? {
+                destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
+              }
+            : undefined,
+        })
+      );
 
       return {
         destinationDirectoryClient: destDirectory,
@@ -3684,17 +3765,19 @@ export class ShareFileClient extends StorageClient {
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     const { span, updatedOptions } = createSpan("ShareFileClient-create", options);
     try {
-      return await this.context.create(
-        size,
-        updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : FileAttributesNone,
-        {
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-        }
+      return assertResponse<FileCreateHeaders, FileCreateHeaders>(
+        await this.context.create(
+          size,
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesNone,
+          {
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -3780,13 +3863,15 @@ export class ShareFileClient extends StorageClient {
       }
 
       const downloadFullFile = offset === 0 && !count;
-      const res = await this.context.download({
-        ...updatedOptions,
-        requestOptions: {
-          onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-        },
-        range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-      });
+      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>(
+        await this.context.download({
+          ...updatedOptions,
+          requestOptions: {
+            onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          },
+          range: downloadFullFile ? undefined : rangeToString({ offset, count }),
+        })
+      );
 
       // Return browser response immediately
       if (!isNode) {
@@ -3898,7 +3983,9 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-getProperties", options);
     try {
-      return this.context.getProperties(updatedOptions);
+      return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>(
+        await this.context.getProperties(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -3924,16 +4011,18 @@ export class ShareFileClient extends StorageClient {
     properties.fileHttpHeaders = properties.fileHttpHeaders || {};
     const { span, updatedOptions } = createSpan("ShareFileClient-setProperties", properties);
     try {
-      return await this.context.setHttpHeaders(
-        updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : FileAttributesPreserve,
-        {
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-        }
+      return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+        await this.context.setHttpHeaders(
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesPreserve,
+          {
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -3966,7 +4055,9 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-delete", options);
     try {
-      return await this.context.delete(updatedOptions);
+      return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
+        await this.context.delete(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4049,17 +4140,19 @@ export class ShareFileClient extends StorageClient {
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     const { span, updatedOptions } = createSpan("ShareFileClient-setHTTPHeaders", options);
     try {
-      return await this.context.setHttpHeaders(
-        updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : FileAttributesPreserve,
-        {
-          ...updatedOptions,
-          fileHttpHeaders,
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-        }
+      return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+        await this.context.setHttpHeaders(
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesPreserve,
+          {
+            ...updatedOptions,
+            fileHttpHeaders,
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -4094,15 +4187,14 @@ export class ShareFileClient extends StorageClient {
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     const { span, updatedOptions } = createSpan("ShareFileClient-resize", options);
     try {
-      return await this.context.setHttpHeaders(
-        fileAttributesToString(updatedOptions.fileAttributes!),
-        {
+      return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+        await this.context.setHttpHeaders(fileAttributesToString(updatedOptions.fileAttributes!), {
           ...updatedOptions,
           fileContentLength: length,
           fileChangeOn: fileChangeTimeToString(options.changeTime),
           fileCreatedOn: fileCreationTimeToString(options.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
-        }
+        })
       );
     } catch (e: any) {
       span.setStatus({
@@ -4132,10 +4224,12 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileSetMetadataResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-setMetadata", options);
     try {
-      return await this.context.setMetadata({
-        ...updatedOptions,
-        metadata,
-      });
+      return assertResponse<FileSetMetadataHeaders, FileSetMetadataHeaders>(
+        await this.context.setMetadata({
+          ...updatedOptions,
+          metadata,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4194,17 +4288,19 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
       }
 
-      return await this.context.uploadRange(
-        rangeToString({ count: contentLength, offset }),
-        "update",
-        contentLength,
-        {
-          ...updatedOptions,
-          requestOptions: {
-            onUploadProgress: updatedOptions.onProgress,
-          },
-          body,
-        }
+      return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
+        await this.context.uploadRange(
+          rangeToString({ count: contentLength, offset }),
+          "update",
+          contentLength,
+          {
+            ...updatedOptions,
+            requestOptions: {
+              onUploadProgress: updatedOptions.onProgress,
+            },
+            body,
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -4244,16 +4340,18 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
       }
 
-      return await this.context.uploadRangeFromURL(
-        rangeToString({ offset: destOffset, count }),
-        sourceURL,
-        0,
-        {
-          ...updatedOptions,
-          sourceRange: rangeToString({ offset: sourceOffset, count }),
-          sourceModifiedAccessConditions: updatedOptions.sourceConditions,
-          copySourceAuthorization: httpAuthorizationToString(updatedOptions.sourceAuthorization),
-        }
+      return assertResponse<FileUploadRangeFromURLHeaders, FileUploadRangeFromURLHeaders>(
+        await this.context.uploadRangeFromURL(
+          rangeToString({ offset: destOffset, count }),
+          sourceURL,
+          0,
+          {
+            ...updatedOptions,
+            sourceRange: rangeToString({ offset: sourceOffset, count }),
+            sourceModifiedAccessConditions: updatedOptions.sourceConditions,
+            copySourceAuthorization: httpAuthorizationToString(updatedOptions.sourceAuthorization),
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -4284,11 +4382,13 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
       }
 
-      return await this.context.uploadRange(
-        rangeToString({ count: contentLength, offset }),
-        "clear",
-        0,
-        updatedOptions
+      return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
+        await this.context.uploadRange(
+          rangeToString({ count: contentLength, offset }),
+          "clear",
+          0,
+          updatedOptions
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -4312,7 +4412,7 @@ export class ShareFileClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareFileClient-getRangeList", options);
     try {
       const originalResponse = assertResponse<
-        FileGetRangeListDiffResponse,
+        FileGetRangeListHeaders & ShareFileRangeList,
         FileGetRangeListHeaders,
         ShareFileRangeList
       >(
@@ -4354,11 +4454,17 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileGetRangeListDiffResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-getRangeListDiff", options);
     try {
-      return await this.context.getRangeList({
-        ...updatedOptions,
-        prevsharesnapshot: prevShareSnapshot,
-        range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
-      });
+      return assertResponse<
+        FileGetRangeListHeaders & ShareFileRangeList,
+        FileGetRangeListHeaders,
+        ShareFileRangeList
+      >(
+        await this.context.getRangeList({
+          ...updatedOptions,
+          prevsharesnapshot: prevShareSnapshot,
+          range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4388,7 +4494,9 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileStartCopyResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-startCopyFromURL", options);
     try {
-      return await this.context.startCopy(copySource, updatedOptions);
+      return assertResponse<FileStartCopyHeaders, FileStartCopyHeaders>(
+        await this.context.startCopy(copySource, updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4414,7 +4522,9 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileAbortCopyResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-abortCopyFromURL", options);
     try {
-      return await this.context.abortCopy(copyId, updatedOptions);
+      return assertResponse<FileAbortCopyHeaders, FileAbortCopyHeaders>(
+        await this.context.abortCopy(copyId, updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4970,10 +5080,16 @@ export class ShareFileClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareFileClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
-      const response = await this.context.listHandles({
-        ...updatedOptions,
-        marker,
-      });
+      const response = assertResponse<
+        FileListHandlesHeaders & ListHandlesResponse,
+        FileListHandlesHeaders,
+        ListHandlesResponse
+      >(
+        await this.context.listHandles({
+          ...updatedOptions,
+          marker,
+        })
+      );
 
       // TODO: Protocol layer issue that when handle list is in returned XML
       // response.handleList is an empty string
@@ -5277,24 +5393,26 @@ export class ShareFileClient extends StorageClient {
     const destFile = new ShareFileClient(destinationUrl, this.pipeline);
 
     try {
-      const response = await destFile.context.rename(this.url, {
-        ...updatedOptions,
-        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-          ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-          ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-        fileHttpHeaders: options.contentType
-          ? {
-              fileContentType: options.contentType,
-            }
-          : undefined,
-      });
+      const response = assertResponse<FileRenameHeaders, FileRenameHeaders>(
+        await destFile.context.rename(this.url, {
+          ...updatedOptions,
+          sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+            ? {
+                sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
+              }
+            : undefined,
+          destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+            ? {
+                destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
+              }
+            : undefined,
+          fileHttpHeaders: options.contentType
+            ? {
+                fileContentType: options.contentType,
+              }
+            : undefined,
+        })
+      );
 
       return {
         destinationFileClient: destFile,
