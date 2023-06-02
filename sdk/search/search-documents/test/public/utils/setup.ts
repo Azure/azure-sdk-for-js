@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -480,7 +480,7 @@ export async function populateIndex(
     },
   ];
 
-  if (serviceVersion.includes("Preview")) {
+  if (serviceVersion.includes("Preview") && !isLiveMode()) {
     await addVectorDescriptions(testDocuments, openAIClient);
   }
 

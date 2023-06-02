@@ -333,6 +333,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       vector,
       includeTotalCount,
       answers,
+      semanticErrorHandlingMode,
+      debugMode,
       ...nonFieldOptions
     } = restOptions as SearchRequestOptions<TModel, Fields>;
     const fullOptions: GeneratedSearchRequest = {
@@ -345,6 +347,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       includeTotalResultCount: includeTotalCount,
       vector: this.convertVector(vector),
       answers: this.convertAnswers(answers),
+      semanticErrorHandling: semanticErrorHandlingMode,
+      debug: debugMode,
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);

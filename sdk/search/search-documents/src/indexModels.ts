@@ -281,16 +281,16 @@ export interface SearchRequest<TModel extends object = never> {
    * Allows the user to choose whether a semantic call should fail completely (default / current
    * behavior), or to return partial results.
    */
-  semanticErrorHandling?: SemanticErrorHandling;
+  semanticErrorHandling?: SemanticErrorHandlingMode;
   /**
    * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment
    * to finish processing before the request fails.
    */
   semanticMaxWaitInMilliseconds?: number;
   /**
-   *  Enables a debugging tool that can be used to further explore your Semantic search results.
+   * Enables a debugging tool that can be used to further explore your Semantic search results.
    */
-  debug?: QueryDebugMode;
+  debugMode?: QueryDebugMode;
   /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
@@ -428,7 +428,7 @@ export interface SearchRequestOptions<
   /**
    *  Allows the user to choose whether a semantic call should fail completely, or to return partial results.
    */
-  semanticErrorHandling?: SemanticErrorHandling;
+  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
   /**
    * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish
    * processing before the request fails.
@@ -437,7 +437,7 @@ export interface SearchRequestOptions<
   /**
    * Enables a debugging tool that can be used to further explore your search results.
    */
-  debug?: QueryDebugMode;
+  debugMode?: QueryDebugMode;
   /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
@@ -1103,7 +1103,7 @@ export type QueryDebugMode = "disabled" | "semantic";
  * fail: If there is an exception during the semantic processing step, the query will fail and
  * return the appropriate HTTP code depending on the error.
  */
-export type SemanticErrorHandling = "partial" | "fail";
+export type SemanticErrorHandlingMode = "partial" | "fail";
 
 /**
  * used: The field was fully used for semantic enrichment.
