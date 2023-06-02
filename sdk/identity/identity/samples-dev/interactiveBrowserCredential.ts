@@ -5,7 +5,10 @@
  * @summary Authenticates using Interactive Browser Credential
  */
 
-import { InteractiveBrowserCredential } from "@azure/identity";
+import {
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialNodeOptions,
+} from "@azure/identity";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -17,7 +20,7 @@ async function main(): Promise<void> {
   const credential = new InteractiveBrowserCredential({
     clientId,
     tenantId,
-  });
+  } as InteractiveBrowserCredentialNodeOptions);
 
   const token = await credential.getToken("https://storage.azure.com/.default");
   console.log(`Token: ${token}`);

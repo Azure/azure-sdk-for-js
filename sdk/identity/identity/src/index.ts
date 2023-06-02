@@ -28,6 +28,8 @@ export { AuthorityValidationOptions } from "./credentials/authorityValidationOpt
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
 
+export { BrokerAuthOptions } from "./credentials/brokerAuthOptions";
+export { BrokerOptions } from "./msal/nodeFlows/brokerOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";

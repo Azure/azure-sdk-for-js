@@ -32,6 +32,8 @@ extends:
         safeName: azureidentitycachepersistence
         # TODO: Remove when REX validation tool is integrated: https://github.com/Azure/azure-sdk-for-js/issues/26770
         skipPublishDocMs: true
+      - name: azure-identity-broker
+        safeName: azureidentitybroker
       - name: azure-identity-vscode
         safeName: azureidentityvscode
         # TODO: Remove when REX validation tool is integrated: https://github.com/Azure/azure-sdk-for-js/issues/26770

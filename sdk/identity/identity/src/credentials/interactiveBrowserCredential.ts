@@ -44,9 +44,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(
-    options:
-      | InteractiveBrowserCredentialNodeOptions
-      | InteractiveBrowserCredentialInBrowserOptions = {}
+    options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions
   ) {
     const redirectUri =
       typeof options.redirectUri === "function"
@@ -58,14 +56,35 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options?.additionallyAllowedTenants
     );
 
-    this.msalFlow = new MsalOpenBrowser({
-      ...options,
-      tokenCredentialOptions: options,
-      logger,
-      redirectUri,
-      browserCustomizationOptions: (options as InteractiveBrowserCredentialNodeOptions)
-        .browserCustomizationOptions,
-    });
+    const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
+    if (ibcNodeOptions?.brokerOptions?.enabled) {
+      if (!(ibcNodeOptions?.brokerOptions?.parentWindowHandle)) {
+        throw new Error(
+          "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter"
+        );
+      } else {
+        this.msalFlow = new MsalOpenBrowser({
+          ...options,
+          tokenCredentialOptions: options,
+          logger,
+          redirectUri,
+          browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
+          brokerOptions: {
+            enabled: true,
+            parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
+            legacyEnableMSAPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMSAPassthrough,
+          },
+        });
+      }
+    } else {
+      this.msalFlow = new MsalOpenBrowser({
+        ...options,
+        tokenCredentialOptions: options,
+        logger,
+        redirectUri,
+        browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
+      });
+    }
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 

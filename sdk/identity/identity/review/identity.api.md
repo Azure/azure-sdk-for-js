@@ -124,6 +124,15 @@ export interface BrowserCustomizationOptions {
         successMessage: string;
     };
 }
+export interface BrokerAuthOptions {
+    brokerOptions: BrokerOptions;
+}
+
+// Warning: (ae-forgotten-export) The symbol "BrokerEnabledOptions" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BrokerDisabledOptions" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";
@@ -276,7 +285,7 @@ export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(options?: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
+    constructor(options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
@@ -291,7 +300,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 }
 
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions,BrokerAuthOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);
