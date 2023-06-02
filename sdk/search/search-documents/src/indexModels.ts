@@ -4,7 +4,6 @@
 import { OperationOptions } from "@azure/core-client";
 import {
   AnswerResult,
-  Answers,
   AutocompleteMode,
   CaptionResult,
   Captions,
@@ -455,12 +454,7 @@ export interface SearchRequestOptions<
   speller?: Speller;
   /**
    * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
-   * extracted from key passages in the highest ranked documents. The number of answers returned can
-   * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
-   * after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The
-   * confidence threshold can be configured by appending the pipe character '|' followed by the
-   * 'threshold-\<confidence threshold\>' option after the answers parameter value, such as
-   * 'extractive|threshold-0.9'. Default threshold is 0.7.
+   * extracted from key passages in the highest ranked documents.
    */
   answers?: Answers | AnswersType;
   /**
@@ -1037,6 +1031,17 @@ export interface SemanticDebugInfo {
    */
   readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
+
+/**
+ * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
+ * extracted from key passages in the highest ranked documents. The number of answers returned can
+ * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
+ * after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The
+ * confidence threshold can be configured by appending the pipe character '|' followed by the
+ * 'threshold-\<confidence threshold\>' option after the answers parameter value, such as
+ * 'extractive|threshold-0.9'. Default threshold is 0.7.
+ */
+export type Answers = string;
 
 /**
  * A value that specifies whether answers should be returned as part of the search response.
