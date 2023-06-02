@@ -25,7 +25,7 @@ describe("Sent Shares Operations", () => {
   const sentShareId = "172e29c5-ce5d-4c5f-9cfb-6c2748114aa4";
   const sentShareUserInvitationId = "3b5fc276-5114-4ee1-a958-16347dce51f0";
   const sentShareServiceInvitationId = "34e3b512-14e9-482e-b254-d1c5caaef09d";
-  const targetActiveDirectoryId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
+  const targetActiveDirectoryId = "00000000-000-000-00000-000000000000";
   const targetObjectId = "6a9dd6e0-9a06-47bf-a9a2-0647130a7422";
   const targetEmail = "faisalaltell@microsoft.com";
 
@@ -164,7 +164,7 @@ describe("Sent Shares Operations", () => {
     const sentshare = sentsharesListResponse.value[0];
     assert.strictEqual(sentshare.id, sentShareId);
     assert.strictEqual(sentshare.properties.state, "Succeeded");
-    assert.strictEqual(sentshare.properties.displayName, "JS-SDK-Sent-Share-Updated");
+    assert.strictEqual(sentshare.properties.displayName, "JS-SDK-Sent-Share");
     assert.strictEqual(sentshare.properties.artifact.properties.paths.length, 1);
   });
 
