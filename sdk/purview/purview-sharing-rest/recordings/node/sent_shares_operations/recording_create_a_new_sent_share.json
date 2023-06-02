@@ -1,17 +1,17 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4?api-version=2023-05-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "522",
+        "Content-Length": "511",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9c3b0d6f-f7ac-47c3-8db8-348ca71940ce"
+        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "49703f08-0eba-4872-b4e3-9a6032ea7c87"
       },
       "RequestBody": {
         "shareKind": "InPlace",
@@ -19,7 +19,7 @@
           "displayName": "JS-SDK-Sent-Share",
           "description": "Sent share created by and for JS SDK tests.",
           "artifact": {
-            "storeKind": "BlobAccount",
+            "storeKind": "AdlsGen2Account",
             "storeReference": {
               "referenceName": "/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname",
               "type": "ArmResourceReference"
@@ -27,9 +27,9 @@
             "properties": {
               "paths": [
                 {
-                  "containerName": "sharedcontainer",
-                  "senderPath": "Folder/File.txt",
-                  "receiverPath": "ReceiverVisibleFileName.txt"
+                  "containerName": "container1",
+                  "senderPath": "folder1/test (6) (1).csv",
+                  "receiverPath": "test.csv"
                 }
               ]
             }
@@ -38,15 +38,15 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Content-Length": "771",
+        "Content-Length": "743",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 08:07:04 GMT",
-        "Location": "/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/5eb6b8b8-bada-415c-abaa-6a61511570b7",
-        "Operation-Id": "https://accountname.purview.azure.com/share/operationResults/00000000-0000-0000-0000-000000000000?api-version=2023-02-15-preview",
-        "Operation-Location": "https://accountname.purview.azure.com/share/operationResults/00000000-0000-0000-0000-000000000000?api-version=2023-02-15-preview",
+        "Date": "Tue, 30 May 2023 16:15:54 GMT",
+        "Location": "/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4",
+        "Operation-Id": "https://accountname.purview.azure.com/share/operationResults/00000000-0000-0000-0000-000000000000?api-version=2023-05-30-preview",
+        "Operation-Location": "https://accountname.purview.azure.com/share/operationResults/00000000-0000-0000-0000-000000000000?api-version=2023-05-30-preview",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "f44b136f-02e3-4293-9f53-c6f079476a9e"
+        "x-ms-correlation-request-id": "210eaea5-929b-4783-9969-a4996ebdc7a8"
       },
       "ResponseBody": {
         "properties": {
@@ -56,27 +56,27 @@
             "properties": {
               "paths": [
                 {
-                  "containerName": "sharedcontainer",
-                  "senderPath": "Folder/File.txt",
-                  "receiverPath": "ReceiverVisibleFileName.txt"
+                  "containerName": "container1",
+                  "senderPath": "folder1/test (6) (1).csv",
+                  "receiverPath": "test.csv"
                 }
               ],
-              "location": "westeurope"
+              "location": "southafricanorth"
             },
-            "storeKind": "BlobAccount",
+            "storeKind": "AdlsGen2Account",
             "storeReference": {
               "referenceName": "/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname",
               "type": "ArmResourceReference"
             }
           },
           "state": "Succeeded",
-          "createdAt": "2023-02-22T08:07:04.6511096Z",
+          "createdAt": "2023-05-30T16:15:53.8686244Z",
           "dependsOn": [],
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions"
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft"
         },
         "shareKind": "InPlace",
-        "id": "5eb6b8b8-bada-415c-abaa-6a61511570b7",
+        "id": "172e29c5-ce5d-4c5f-9cfb-6c2748114aa4",
         "type": "SentShare"
       }
     }

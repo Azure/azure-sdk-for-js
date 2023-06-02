@@ -1,49 +1,49 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/attached?referenceName=/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname\u0026api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/receivedShares/attached?referenceName=/subscriptions/00000000-000-000-00000-000000000000/resourceGroups/ResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname\u0026api-version=2023-05-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "fafa9309-e045-431e-a97a-53a4d00b98ff"
+        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "df5c794b-6661-4db4-b9f1-b8467338f058"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "986",
+        "Content-Length": "961",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 23 Feb 2023 02:03:17 GMT",
+        "Date": "Wed, 31 May 2023 16:17:47 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "ac40c957-58cd-49d1-bbf4-1d2b40db942e"
+        "x-ms-correlation-request-id": "c76c508d-5715-4764-95b5-13f7b072a601"
       },
       "ResponseBody": {
         "value": [
           {
             "properties": {
-              "createdAt": "2023-02-23T01:57:39.468611Z",
-              "sharedAt": "2023-02-23T01:57:39.468611Z",
-              "expirationDate": "2023-03-01T20:23:45.646Z",
+              "createdAt": "2023-05-31T15:46:05.9090485Z",
+              "sharedAt": "2023-05-31T15:46:05.9090485Z",
+              "expirationDate": "2023-12-31T23:59:59Z",
               "displayName": "JS-SDK-Received-Share",
               "state": "Succeeded",
               "shareStatus": "Attached",
               "sentShareDescription": "Sent share created by and for JS SDK tests.",
-              "receiverName": "Sharing-Test-App",
-              "receiverTenantName": "Contoso Marketplace",
-              "senderName": "Sharing-Test-App",
-              "senderTenantName": "Fabrikam Solutions",
-              "assetLocation": "uksouth",
+              "receiverName": "testDataBricks",
+              "receiverTenantName": "Microsoft",
+              "senderName": "testDataBricks",
+              "senderTenantName": "Microsoft",
+              "assetLocation": "southafricanorth",
               "assetStoreKind": "AdlsGen2Account",
               "sink": {
                 "properties": {
                   "containerName": "targetcontainer",
                   "folder": "receivedData",
                   "mountPath": "",
-                  "location": "uksouth"
+                  "location": "southafricanorth"
                 },
                 "storeKind": "AdlsGen2Account",
                 "storeReference": {
@@ -53,7 +53,7 @@
               }
             },
             "shareKind": "InPlace",
-            "id": "42c00975-81aa-4202-8e1f-b62df20c5070",
+            "id": "206016dd-fd49-420c-9545-9663badda4e3",
             "type": "ReceivedShare"
           }
         ]

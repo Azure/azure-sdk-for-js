@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/sentShareInvitations/66b75a2f-9a36-434e-a3e0-0c39dafb39ce:notify?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/sentShareInvitations/3b5fc276-5114-4ee1-a958-16347dce51f0:notify?api-version=2023-05-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,32 +9,32 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "73145274-30da-4e3c-a6be-1795ce280938"
+        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e1852be5-52b5-4735-869f-3e4646a2b6ff"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "380",
+        "Content-Length": "368",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 08:07:38 GMT",
+        "Date": "Tue, 30 May 2023 16:16:00 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "fbf9358c-51c4-4651-8aa9-60e53ec538c4"
+        "x-ms-correlation-request-id": "4ade9485-09cc-4f79-8bb5-ddc738cc0245"
       },
       "ResponseBody": {
         "properties": {
-          "targetEmail": "user@domain.com",
+          "targetEmail": "faisalaltell@microsoft.com",
           "notify": true,
           "shareStatus": "Detached",
           "expirationDate": "2023-11-30T23:59:59Z",
-          "sentAt": "2023-02-22T08:07:39.1627127Z",
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions",
+          "sentAt": "2023-05-30T16:16:00.9931962Z",
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft",
           "state": "Succeeded"
         },
         "invitationKind": "User",
-        "id": "66b75a2f-9a36-434e-a3e0-0c39dafb39ce",
+        "id": "3b5fc276-5114-4ee1-a958-16347dce51f0",
         "type": "sentShares/sentShareInvitations"
       }
     }

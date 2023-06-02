@@ -25,8 +25,6 @@ export type ReceivedSharesDeleteReceivedShareParameters = RequestParameters;
 export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties {
   /** A name that references a data store. */
   referenceName: string;
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -37,12 +35,10 @@ export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParam {
   queryParameters: ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties;
 }
 
-export type ReceivedSharesGetAllAttachedReceivedSharesParameters =
+export type ReceivedSharesGetAllAttachedReceivedSharesParameters = 
   ReceivedSharesGetAllAttachedReceivedSharesQueryParam & RequestParameters;
 
 export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties {
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -53,7 +49,7 @@ export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParam {
   queryParameters?: ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties;
 }
 
-export type ReceivedSharesGetAllDetachedReceivedSharesParameters =
+export type ReceivedSharesGetAllDetachedReceivedSharesParameters = 
   ReceivedSharesGetAllDetachedReceivedSharesQueryParam & RequestParameters;
 
 export interface ReceivedSharesActivateTenantEmailRegistrationHeaders {
@@ -75,11 +71,11 @@ export interface ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ReceivedSharesActivateTenantEmailRegistrationParameters =
-  ReceivedSharesActivateTenantEmailRegistrationHeaderParam &
-    ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam &
-    ReceivedSharesActivateTenantEmailRegistrationBodyParam &
-    RequestParameters;
+export type ReceivedSharesActivateTenantEmailRegistrationParameters = 
+ReceivedSharesActivateTenantEmailRegistrationHeaderParam &
+  ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam &
+  ReceivedSharesActivateTenantEmailRegistrationBodyParam &
+  RequestParameters;
 
 export interface ReceivedSharesRegisterTenantEmailRegistrationHeaders {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
@@ -90,14 +86,12 @@ export interface ReceivedSharesRegisterTenantEmailRegistrationHeaderParam {
   headers?: RawHttpHeadersInput & ReceivedSharesRegisterTenantEmailRegistrationHeaders;
 }
 
-export type ReceivedSharesRegisterTenantEmailRegistrationParameters =
+export type ReceivedSharesRegisterTenantEmailRegistrationParameters = 
   ReceivedSharesRegisterTenantEmailRegistrationHeaderParam & RequestParameters;
 
 export interface SentSharesGetAllSentSharesQueryParamProperties {
   /** A name that references a data store. */
   referenceName: string;
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -128,8 +122,6 @@ export type SentSharesCreateOrReplaceParameters = SentSharesCreateOrReplaceMedia
 export type SentSharesDeleteSentShareParameters = RequestParameters;
 
 export interface SentSharesGetAllSentShareInvitationsQueryParamProperties {
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -140,7 +132,7 @@ export interface SentSharesGetAllSentShareInvitationsQueryParam {
   queryParameters?: SentSharesGetAllSentShareInvitationsQueryParamProperties;
 }
 
-export type SentSharesGetAllSentShareInvitationsParameters =
+export type SentSharesGetAllSentShareInvitationsParameters = 
   SentSharesGetAllSentShareInvitationsQueryParam & RequestParameters;
 export type SentSharesGetSentShareInvitationParameters = RequestParameters;
 
@@ -154,7 +146,7 @@ export interface SentSharesCreateSentShareInvitationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SentSharesCreateSentShareInvitationParameters =
+export type SentSharesCreateSentShareInvitationParameters = 
   SentSharesCreateSentShareInvitationMediaTypesParam &
     SentSharesCreateSentShareInvitationBodyParam &
     RequestParameters;
@@ -169,5 +161,19 @@ export interface SentSharesNotifyUserSentShareInvitationHeaderParam {
   headers?: RawHttpHeadersInput & SentSharesNotifyUserSentShareInvitationHeaders;
 }
 
-export type SentSharesNotifyUserSentShareInvitationParameters =
+export type SentSharesNotifyUserSentShareInvitationParameters = 
   SentSharesNotifyUserSentShareInvitationHeaderParam & RequestParameters;
+
+export interface ShareResourcesListQueryParamProperties {
+  /** Filters the results using OData syntax */
+  filter?: string;
+  /** Sorts the results using OData syntax */
+  orderby?: string;
+}
+
+export interface ShareResourcesListQueryParam {
+  queryParameters?: ShareResourcesListQueryParamProperties;
+}
+
+export type ShareResourcesListParameters = ShareResourcesListQueryParam &
+  RequestParameters;

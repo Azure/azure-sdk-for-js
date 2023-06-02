@@ -1,49 +1,49 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/sentShareInvitations/b798b80f-b945-424f-834e-7c55a1ec34a8?api-version=2023-02-15-preview",
+      "RequestUri": "https://accountname.purview.azure.com/share/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/sentShareInvitations/34e3b512-14e9-482e-b254-d1c5caaef09d?api-version=2023-05-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "204",
+        "Content-Length": "203",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e91e9a86-a678-4f02-be2c-04e7b28b2ab0"
+        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0c14a9b9-7a0d-4400-acdd-d8abdbd6a90d"
       },
       "RequestBody": {
         "invitationKind": "Service",
         "properties": {
-          "targetActiveDirectoryId": "cf5f72d3-1204-4980-ab81-21d1ed8804ef",
-          "targetObjectId": "2a702475-98ac-43cc-993f-cb6029205292",
+          "targetActiveDirectoryId": "00000000-000-000-00000-000000000000",
+          "targetObjectId": "6a9dd6e0-9a06-47bf-a9a2-0647130a7422",
           "expirationDate": "2023-12-31T23:59:59Z"
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Content-Length": "458",
+        "Content-Length": "433",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 08:07:39 GMT",
-        "Location": "/sentShares/5eb6b8b8-bada-415c-abaa-6a61511570b7/sentShareInvitations/b798b80f-b945-424f-834e-7c55a1ec34a8/b798b80f-b945-424f-834e-7c55a1ec34a8",
+        "Date": "Tue, 30 May 2023 16:16:02 GMT",
+        "Location": "/sentShares/172e29c5-ce5d-4c5f-9cfb-6c2748114aa4/sentShareInvitations/34e3b512-14e9-482e-b254-d1c5caaef09d/34e3b512-14e9-482e-b254-d1c5caaef09d",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "d0d6f8b8-7551-4c72-b2fb-3dd0b26e44e0"
+        "x-ms-correlation-request-id": "d91a2be7-86ae-4daa-b9a9-d0f6f8cd9e24"
       },
       "ResponseBody": {
         "properties": {
-          "targetActiveDirectoryId": "cf5f72d3-1204-4980-ab81-21d1ed8804ef",
-          "targetObjectId": "2a702475-98ac-43cc-993f-cb6029205292",
+          "targetActiveDirectoryId": "00000000-000-000-00000-000000000000",
+          "targetObjectId": "6a9dd6e0-9a06-47bf-a9a2-0647130a7422",
           "shareStatus": "Detached",
           "expirationDate": "2023-12-31T23:59:59Z",
-          "sentAt": "2023-02-22T08:07:39.7455136Z",
-          "senderName": "Sharing-Test-App",
-          "senderTenantName": "Fabrikam Solutions",
+          "sentAt": "2023-05-30T16:16:02.073712Z",
+          "senderName": "testDataBricks",
+          "senderTenantName": "Microsoft",
           "state": "Succeeded"
         },
         "invitationKind": "Service",
-        "id": "b798b80f-b945-424f-834e-7c55a1ec34a8",
+        "id": "34e3b512-14e9-482e-b254-d1c5caaef09d",
         "type": "sentShares/sentShareInvitations"
       }
     }

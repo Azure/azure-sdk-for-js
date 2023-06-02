@@ -36,6 +36,8 @@ import {
   SentSharesDeleteSentShareInvitationDefaultResponse,
   SentSharesNotifyUserSentShareInvitation200Response,
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
+  ShareResourcesList200Response,
+  ShareResourcesListDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -55,6 +57,7 @@ const responseMap: Record<string, string[]> = {
   "PUT /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["201"],
   "DELETE /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["202"],
   "POST /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify": ["200"],
+  "GET /shareResources": ["200"]
 };
 
 export function isUnexpected(
@@ -134,6 +137,9 @@ export function isUnexpected(
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
 ): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 export function isUnexpected(
+  response: ShareResourcesList200Response | ShareResourcesListDefaultResponse
+): response is ShareResourcesListDefaultResponse;
+export function isUnexpected(
   response:
     | ReceivedSharesGetReceivedShare200Response
     | ReceivedSharesGetReceivedShareDefaultResponse
@@ -169,6 +175,8 @@ export function isUnexpected(
     | SentSharesDeleteSentShareInvitationDefaultResponse
     | SentSharesNotifyUserSentShareInvitation200Response
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
+    | ShareResourcesList200Response
+    | ShareResourcesListDefaultResponse
 ): response is
   | ReceivedSharesGetReceivedShareDefaultResponse
   | ReceivedSharesCreateOrReplaceDefaultResponse
@@ -185,7 +193,8 @@ export function isUnexpected(
   | SentSharesGetSentShareInvitationDefaultResponse
   | SentSharesCreateSentShareInvitationDefaultResponse
   | SentSharesDeleteSentShareInvitationDefaultResponse
-  | SentSharesNotifyUserSentShareInvitationDefaultResponse {
+  | SentSharesNotifyUserSentShareInvitationDefaultResponse
+  | ShareResourcesListDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -228,7 +237,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
           pathParts[j] || ""
-        );
+          );
 
         if (!isMatched) {
           found = false;

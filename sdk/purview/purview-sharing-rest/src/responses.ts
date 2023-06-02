@@ -13,6 +13,7 @@ import {
   SentShareOutput,
   SentShareInvitationListOutput,
   SentShareInvitationOutput,
+  ShareResourceListOutput
 } from "./outputModels";
 
 /** Get a received share */
@@ -355,4 +356,22 @@ export interface SentSharesNotifyUserSentShareInvitationDefaultResponse extends 
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesNotifyUserSentShareInvitationDefaultHeaders;
+}
+
+/** List share resources */
+export interface ShareResourcesList200Response extends HttpResponse {
+  status: "200";
+  body: ShareResourceListOutput;
+}
+
+export interface ShareResourcesListDefaultHeaders {
+  /** The error code */
+  "x-ms-error-code"?: string;
+}
+
+/** List share resources */
+export interface ShareResourcesListDefaultResponse extends HttpResponse {
+  status: string;
+  body: PurviewShareErrorOutput;
+  headers: RawHttpHeaders & ShareResourcesListDefaultHeaders;
 }

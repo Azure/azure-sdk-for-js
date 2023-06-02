@@ -17,7 +17,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): PurviewSharingClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2023-02-15-preview";
+  options.apiVersion = options.apiVersion ?? "2023-05-30-preview";
   options = {
     ...options,
     credentials: {
@@ -37,6 +37,8 @@ export default function createClient(
     },
   };
 
+  console.log("arrived here");
+  
   const client = getClient(baseUrl, credentials, options) as PurviewSharingClient;
 
   return client;
