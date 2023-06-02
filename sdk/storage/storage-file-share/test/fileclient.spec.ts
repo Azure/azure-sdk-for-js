@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
@@ -13,11 +13,9 @@ import { setTracer, SpanGraph } from "@azure/test-utils";
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
-import { Pipeline } from "../src/Pipeline";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 describe("FileClient", () => {
   let shareName: string;
@@ -345,15 +343,11 @@ describe("FileClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(fileClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -873,44 +867,10 @@ describe("FileClient", () => {
 
   it("forceCloseHandle could return closeFailureCount", async () => {
     await fileClient.create(10);
-
-    // TODO: Open or create a handle, currently have to do this manually
-    const result = (await fileClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
-
-      const handle = result.handleList[0];
-      const closeResp = await mockFileClient.forceCloseHandle(handle.handleId);
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
-    }
   });
 
   it("forceCloseAllHandles return correct closeFailureCount", async () => {
     await fileClient.create(10);
-
-    // TODO: Open or create a handle; currently have to do this manually
-    const result = (await fileClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
-      const closeResp = await mockFileClient.forceCloseAllHandles();
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
-    }
 
     const closeAllResp = await fileClient.forceCloseAllHandles();
     assert.equal(

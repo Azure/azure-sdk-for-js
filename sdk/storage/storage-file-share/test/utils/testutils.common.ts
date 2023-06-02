@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";

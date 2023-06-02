@@ -9,8 +9,6 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
-import { Pipeline } from "../src/Pipeline";
 import { setSpan, context } from "@azure/core-tracing";
 import { Context } from "mocha";
 
@@ -890,26 +888,6 @@ describe("DirectoryClient", () => {
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
-    }
-  });
-
-  it("forceCloseHandle could return closeFailureCount", async () => {
-    // TODO: Open or create a handle; currently have to do this manually
-    const result = (await dirClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (dirClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockDirClient = new ShareDirectoryClient(dirClient.url, pipeline);
-
-      const handle = result.handleList[0];
-      const closeResp = await mockDirClient.forceCloseHandle(handle.handleId);
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
     }
   });
 

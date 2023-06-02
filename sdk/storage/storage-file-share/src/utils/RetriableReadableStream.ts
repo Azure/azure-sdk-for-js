@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-http";
+import { TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { Readable } from "stream";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 

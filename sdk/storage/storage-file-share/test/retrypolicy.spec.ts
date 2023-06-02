@@ -8,9 +8,9 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { RestError, ShareClient } from "../src";
-import { newPipeline, Pipeline } from "../src/Pipeline";
+import { Pipeline } from "@azure/core-rest-pipeline";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
 
 describe("RetryPolicy", () => {
   let shareName: string;
@@ -27,49 +27,54 @@ describe("RetryPolicy", () => {
   });
 
   afterEach(async function () {
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
+    pipeline.removePolicy({ name: injectorPolicyName });
     await shareClient.delete();
     await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
         injectCounter++;
-        return new RestError("Server Internal Error", "ServerInternalError", 500);
+        return new RestError("Server Internal Error", {
+          code: "ServerInternalError",
+          statusCode: 500,
+        });
       }
       return;
     });
-    const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectShareClient = new ShareClient(shareClient.url, pipeline);
+
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb",
     };
-    await injectShareClient.setMetadata(metadata);
-
+    await shareClient.setMetadata(metadata);
+    assert.equal(injectCounter, 1);
     const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("Retry Policy should abort when abort event trigger during retry interval", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
         injectCounter++;
-        return new RestError("Server Internal Error", "ServerInternalError", 500);
+        return new RestError("Server Internal Error", {
+          code: "ServerInternalError",
+          statusCode: 500,
+        });
       }
       return;
     });
 
-    const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectShareClient = new ShareClient(shareClient.url, pipeline);
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
       key0: "val0",
@@ -81,7 +86,7 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await injectShareClient.setMetadata(metadata, {
+      await shareClient.setMetadata(metadata, {
         abortSignal: AbortController.timeout(2 * 1000),
       });
     } catch (err: any) {
@@ -91,19 +96,15 @@ describe("RetryPolicy", () => {
   });
 
   it("Retry Policy should fail when requests always fail with 500", async () => {
-    const injector = new InjectorPolicyFactory(() => {
-      return new RestError("Server Internal Error", "ServerInternalError", 500);
+    const injector = injectorPolicy(() => {
+      return new RestError("Server Internal Error", {
+        code: "ServerInternalError",
+        statusCode: 500,
+      });
     });
 
-    const credential = (shareClient as any).pipeline.factories[
-      (shareClient as any).pipeline.factories.length - 1
-    ];
-    const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 3 },
-    }).factories;
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectShareClient = new ShareClient(shareClient.url, pipeline);
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let hasError = false;
     try {
@@ -112,7 +113,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb",
       };
-      await injectShareClient.setMetadata(metadata);
+      await shareClient.setMetadata(metadata);
     } catch (err: any) {
       hasError = true;
     }

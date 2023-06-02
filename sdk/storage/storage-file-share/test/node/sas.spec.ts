@@ -7,17 +7,17 @@ import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
-  AnonymousCredential,
   generateAccountSASQueryParameters,
   SASProtocol,
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-  StorageSharedKeyCredential,
 } from "../../src";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
+import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
-import { newPipeline } from "../../src/Pipeline";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { getBSU, recorderEnvSetup } from "../utils";
 import { delay, record, Recorder } from "@azure-tools/test-recorder";
