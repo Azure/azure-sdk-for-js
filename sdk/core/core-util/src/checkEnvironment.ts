@@ -44,7 +44,11 @@ export const isBrowser = typeof window !== "undefined" && typeof window.document
  * A constant that indicates whether the environment the code is running is a Web Worker.
  */
 export const isWebWorker =
-  typeof self === "object" && self.constructor?.name === "DedicatedWorkerGlobalScope";
+  typeof self === "object" &&
+  typeof self?.importScripts === "function" &&
+  (self.constructor?.name === "DedicatedWorkerGlobalScope" ||
+    self.constructor?.name === "ServiceWorkerGlobalScope" ||
+    self.constructor?.name === "SharedWorkerGlobalScope");
 
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
