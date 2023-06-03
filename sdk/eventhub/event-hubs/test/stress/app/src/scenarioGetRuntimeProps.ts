@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubConsumerClient } from "@azure/event-hubs";
 import {
-  EventHubsStressTester,
+  createEventHubsConsumerClient,
   createEventHubsProducerClient,
-  defaultClientAppInsights,
-} from "./eventHubsStressTester";
+} from "./utils";
 import parsedArgs from "minimist";
 import { delay } from "@azure/core-amqp";
+import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
 
 interface scenarioGetRuntimePropertiesOptions {
   testDurationInMs?: number;
@@ -32,14 +31,8 @@ async function scenarioGetRuntimeProperties() {
     snapshotIntervalInMs: 1000,
     writeSnapshotInfoToConsole: true,
   });
-  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
-  const eventHubName = process.env.EVENTHUB_NAME;
 
-  const consumerClient = new EventHubConsumerClient(
-    EventHubConsumerClient.defaultConsumerGroupName,
-    connectionString || "",
-    eventHubName || ""
-  );
+  const consumerClient = createEventHubsConsumerClient();
   const func = async () => {
     while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
       await delay(Math.random() * 100);

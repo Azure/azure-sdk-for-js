@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  EventHubClientOptions,
-  EventHubConsumerClient,
-  EventHubConsumerClientOptions,
-  EventHubProducerClient,
-} from "@azure/event-hubs";
 import util from "util";
 import { SnapshotOptions } from "./utils";
 import * as appInsights from "applicationinsights";
@@ -101,33 +95,4 @@ export class EventHubsStressTester {
     // TODO: Log tracked messages in JSON
     console.log(`[END]: ending test...`);
   }
-}
-
-export function createEventHubsConsumerClient(
-  options?: EventHubConsumerClientOptions
-): EventHubConsumerClient {
-  const consumerGroup = process.env.EVENTHUBS_CONSUMER_GROUP || "$Default";
-  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
-  const hubName = process.env.EVENTHUB_NAME;
-  if (!connectionString || !consumerGroup || !hubName) {
-    throw new Error(
-      "EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!"
-    );
-  }
-  return new EventHubConsumerClient(consumerGroup, connectionString, hubName, options);
-}
-
-export function createEventHubsProducerClient(
-  options?: EventHubClientOptions
-): EventHubProducerClient {
-  const eventHubName = process.env.EVENTHUB_NAME;
-  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
-
-  if (!connectionString || !eventHubName) {
-    throw new Error(
-      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!"
-    );
-  }
-
-  return new EventHubProducerClient(connectionString, eventHubName, options);
 }
