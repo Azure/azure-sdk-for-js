@@ -512,6 +512,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
 
       it("search with vector", async function () {
+        // This live test is disabled due to temporary limitations with the new OpenAI service
         if (isLiveMode()) {
           this.skip();
         }
