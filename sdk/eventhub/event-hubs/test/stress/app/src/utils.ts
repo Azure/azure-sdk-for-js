@@ -28,7 +28,8 @@ export async function loopForever(
   duration: number,
   abortSignal?: AbortSignalLike
 ) {
-  while (abortSignal?.aborted === false && (await delay(duration))) {
+  while (!abortSignal?.aborted) {
+    await delay(duration);
     await fn();
   }
 }
