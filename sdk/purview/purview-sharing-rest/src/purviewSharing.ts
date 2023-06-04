@@ -37,8 +37,6 @@ export default function createClient(
     },
   };
 
-  console.log("arrived here");
-  
   const client = getClient(baseUrl, credentials, options) as PurviewSharingClient;
 
   return client;

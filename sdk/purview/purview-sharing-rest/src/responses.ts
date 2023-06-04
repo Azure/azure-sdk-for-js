@@ -359,19 +359,20 @@ export interface SentSharesNotifyUserSentShareInvitationDefaultResponse extends 
 }
 
 /** List share resources */
-export interface ShareResourcesList200Response extends HttpResponse {
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
   status: "200";
   body: ShareResourceListOutput;
 }
 
-export interface ShareResourcesListDefaultHeaders {
+export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
   /** The error code */
   "x-ms-error-code"?: string;
 }
 
 /** List share resources */
-export interface ShareResourcesListDefaultResponse extends HttpResponse {
+export interface ShareResourcesGetAllShareResourcesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders & ShareResourcesListDefaultHeaders;
+  headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
 }

@@ -36,8 +36,8 @@ import {
   SentSharesDeleteSentShareInvitationDefaultResponse,
   SentSharesNotifyUserSentShareInvitation200Response,
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
-  ShareResourcesList200Response,
-  ShareResourcesListDefaultResponse
+  ShareResourcesGetAllShareResources200Response,
+  ShareResourcesGetAllShareResourcesDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -137,8 +137,8 @@ export function isUnexpected(
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
 ): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 export function isUnexpected(
-  response: ShareResourcesList200Response | ShareResourcesListDefaultResponse
-): response is ShareResourcesListDefaultResponse;
+  response: ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse
+): response is ShareResourcesGetAllShareResourcesDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesGetReceivedShare200Response
@@ -175,8 +175,8 @@ export function isUnexpected(
     | SentSharesDeleteSentShareInvitationDefaultResponse
     | SentSharesNotifyUserSentShareInvitation200Response
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
-    | ShareResourcesList200Response
-    | ShareResourcesListDefaultResponse
+    | ShareResourcesGetAllShareResources200Response
+    | ShareResourcesGetAllShareResourcesDefaultResponse
 ): response is
   | ReceivedSharesGetReceivedShareDefaultResponse
   | ReceivedSharesCreateOrReplaceDefaultResponse
@@ -194,7 +194,7 @@ export function isUnexpected(
   | SentSharesCreateSentShareInvitationDefaultResponse
   | SentSharesDeleteSentShareInvitationDefaultResponse
   | SentSharesNotifyUserSentShareInvitationDefaultResponse
-  | ShareResourcesListDefaultResponse {
+  | ShareResourcesGetAllShareResourcesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

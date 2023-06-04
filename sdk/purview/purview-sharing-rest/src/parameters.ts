@@ -147,9 +147,9 @@ export interface SentSharesCreateSentShareInvitationMediaTypesParam {
 }
 
 export type SentSharesCreateSentShareInvitationParameters = 
-  SentSharesCreateSentShareInvitationMediaTypesParam &
-    SentSharesCreateSentShareInvitationBodyParam &
-    RequestParameters;
+SentSharesCreateSentShareInvitationMediaTypesParam &
+  SentSharesCreateSentShareInvitationBodyParam &
+  RequestParameters;
 export type SentSharesDeleteSentShareInvitationParameters = RequestParameters;
 
 export interface SentSharesNotifyUserSentShareInvitationHeaders {
@@ -164,16 +164,16 @@ export interface SentSharesNotifyUserSentShareInvitationHeaderParam {
 export type SentSharesNotifyUserSentShareInvitationParameters = 
   SentSharesNotifyUserSentShareInvitationHeaderParam & RequestParameters;
 
-export interface ShareResourcesListQueryParamProperties {
+export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
   orderby?: string;
 }
 
-export interface ShareResourcesListQueryParam {
-  queryParameters?: ShareResourcesListQueryParamProperties;
+export interface ShareResourcesGetAllShareResourcesQueryParam {
+  queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
 }
 
-export type ShareResourcesListParameters = ShareResourcesListQueryParam &
+export type ShareResourcesGetAllShareResourcesParameters = ShareResourcesGetAllShareResourcesQueryParam &
   RequestParameters;
