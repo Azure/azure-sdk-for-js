@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import AzureHealthInsights from "./azureHealthInsights";
+import CancerProfilingClient from "./cancerProfilingClient";
 
-export * from "./azureHealthInsights";
+export * from "./cancerProfilingClient";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -12,4 +12,4 @@ export * from "./models";
 export * from "./outputModels";
 export * from "./pollingHelper";
 
-export default AzureHealthInsights;
+export default CancerProfilingClient;

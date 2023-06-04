@@ -1,4 +1,4 @@
-# AzureHealthInsights REST client library for JavaScript
+# CancerProfiling REST client library for JavaScript
 
 Azure Health Insights provides an API that serves insight models, specific for Health & Life Sciences, that perform analysis and provide inferences to be used by a human.
 
@@ -20,13 +20,13 @@ Key links:
 
 ### Install the `AzureHealthInsights` package
 
-Install the AzureHealthInsights REST client REST client library for JavaScript with `npm`:
+Install the CancerProfiling REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install AzureHealthInsights
 ```
 
-### Create and authenticate a `AzureHealthInsightsClient`
+### Create and authenticate a `CancerProfilingClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the

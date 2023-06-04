@@ -25,6 +25,6 @@ export interface Routes {
   (path: "/oncophenotype/jobs"): InferCancerProfile;
 }
 
-export type AzureHealthInsightsClient = Client & {
+export type CancerProfilingClient = Client & {
   path: Routes;
 };
