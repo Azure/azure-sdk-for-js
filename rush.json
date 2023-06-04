@@ -764,6 +764,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -1949,11 +1954,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-liftrqumulo",
-      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
@@ -1996,6 +1996,16 @@
     {
       "packageName": "@azure/arm-networkcloud",
       "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
       "versionPolicyName": "management"
     }
   ]
