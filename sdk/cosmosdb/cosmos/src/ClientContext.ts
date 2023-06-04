@@ -13,7 +13,13 @@ import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/con
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { Agent, CosmosClientOptions } from "./CosmosClientOptions";
-import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
+import {
+  ConnectionPolicy,
+  ConsistencyLevel,
+  DatabaseAccount,
+  PartitionKey,
+  convertToInternalPartitionKey,
+} from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { PluginConfig, PluginOn, executePlugins } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
@@ -641,7 +647,7 @@ export class ClientContext {
   }: {
     body: T;
     path: string;
-    partitionKey: string;
+    partitionKey: PartitionKey;
     resourceId: string;
     options?: RequestOptions;
     diagnosticContext?: CosmosDiagnosticContext;
@@ -803,12 +809,16 @@ export class ClientContext {
       options: requestContext.options,
       partitionKeyRangeId: requestContext.partitionKeyRangeId,
       useMultipleWriteLocations: this.connectionPolicy.useMultipleWriteLocations,
-      partitionKey: requestContext.partitionKey,
+      partitionKey:
+        requestContext.partitionKey !== undefined
+          ? convertToInternalPartitionKey(requestContext.partitionKey)
+          : undefined, // TODO: Move this check from here to PartitionKey
     });
   }
 
   /**
-   * Returns collection of properties which are derived from the context for Request Creation
+   * Returns collection of properties which are derived from the context for Request Creation.
+   * These properties have client wide scope, as opposed to request specific scope.
    * @returns
    */
   private getContextDerivedPropsForRequestCreation(diagnosticContext: CosmosDiagnosticContext): {

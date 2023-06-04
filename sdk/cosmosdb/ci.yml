@@ -35,3 +35,7 @@ extends:
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
+        skipPublishDevFeed: true
+        skipUpdatePackageVersion: true

@@ -190,7 +190,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.17.4",
+  SDKVersion: "3.17.4-beta.1",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,

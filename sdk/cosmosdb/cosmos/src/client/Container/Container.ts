@@ -109,7 +109,7 @@ export class Container {
    * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
    */
   public item(id: string, partitionKeyValue?: PartitionKey): Item {
-    return new Item(this, id, partitionKeyValue, this.clientContext);
+    return new Item(this, id, this.clientContext, partitionKeyValue);
   }
 
   /**

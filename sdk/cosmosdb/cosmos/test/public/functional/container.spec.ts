@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Constants, ContainerResponse, StatusCodes } from "../../../src";
+import {
+  Constants,
+  ContainerResponse,
+  PartitionKeyDefinition,
+  PartitionKeyKind,
+  StatusCodes,
+} from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
@@ -11,6 +17,7 @@ import {
   removeAllDatabases,
   getTestContainer,
   assertThrowsAsync,
+  addEntropy,
 } from "../common/TestHelpers";
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
@@ -22,7 +29,10 @@ describe("Containers", function (this: Suite) {
   });
 
   describe("Container CRUD", function () {
-    const containerCRUDTest = async function (partitionKey?: string): Promise<void> {
+    const containerCRUDTest = async function (
+      partitionKey?: PartitionKeyDefinition,
+      opts?: Partial<ContainerRequest>
+    ): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate Container CRUD");
 
@@ -31,6 +41,7 @@ describe("Containers", function (this: Suite) {
         id: "sample container",
         indexingPolicy: { indexingMode: IndexingMode.consistent },
         throughput: 400,
+        ...opts,
       };
 
       if (partitionKey) {
@@ -46,7 +57,7 @@ describe("Containers", function (this: Suite) {
           typeof containerDefinition.partitionKey === "string"
             ? [containerDefinition.partitionKey]
             : containerDefinition.partitionKey.paths;
-        assert.deepEqual(containerDef.partitionKey.paths, comparePaths);
+        assert.deepStrictEqual(containerDef.partitionKey.paths, comparePaths);
       }
       // read containers after creation
       const { resources: containers } = await database.containers.readAll().fetchAll();
@@ -98,7 +109,7 @@ describe("Containers", function (this: Suite) {
           "response should return error code " + badRequestErrorCode
         );
       } finally {
-        containerDef.partitionKey = { paths: [partitionKey] }; // Resume partition key
+        containerDef.partitionKey = partitionKey; // Resume partition key
       }
       // Replacing id is not allowed.
       try {
@@ -133,7 +144,15 @@ describe("Containers", function (this: Suite) {
     });
 
     it("Custom partition key", async function () {
-      await containerCRUDTest("/id");
+      await containerCRUDTest({ paths: ["/id"] });
+    });
+
+    it("Hierarchical partition key", async function () {
+      await containerCRUDTest({
+        paths: ["/id", "/id2"],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      });
     });
 
     describe("Bad partition key definition", async function () {
@@ -176,6 +195,35 @@ describe("Containers", function (this: Suite) {
           console.log("finish");
         } catch (err: any) {
           assert.equal(err.message, "Partition key must start with '/'");
+        }
+      });
+      it("Is missing leading '/' - hierarchical partitions", async function () {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = ["id", "/id2"];
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: {
+            paths: badPartitionKeyDefinition,
+            version: 2,
+            kind: PartitionKeyKind.MultiHash,
+          },
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          console.log("finish");
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "The partition key component definition path 'id' could not be accepted"
+            )
+          );
         }
       });
     });
@@ -406,6 +454,36 @@ describe("createIfNotExists", function () {
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
+
+  it("should handle container does not exist - hierarchical partitions", async function () {
+    const def: ContainerDefinition = {
+      id: "does not exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("should handle container exists  - hierarchical partitions", async function () {
+    const def: ContainerDefinition = {
+      id: "does exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
+    await database.containers.create(def);
+
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
 });
 
 describe("container.readOffer", function () {
@@ -483,6 +561,53 @@ describe("container.create", function () {
       maxThroughput: 400,
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
+  });
+});
+
+describe("Reading items using container", function () {
+  it("should be able to read item based on partition key value", async function () {
+    const container = await getTestContainer("container", undefined, {
+      partitionKey: { paths: ["/key1", "/key2"], kind: PartitionKeyKind.MultiHash, version: 2 },
+    });
+    const itemWithNoPartitionKeySet = addEntropy("item1");
+    const itemWithOnePartitionKeySet = addEntropy("item2");
+    const itemWithBothPartitionKeySet = addEntropy("item3");
+
+    const itemWithNoPartitionKeySetDef = {
+      id: itemWithNoPartitionKeySet,
+    };
+    const itemWithOnePartitionKeySetDef = {
+      id: itemWithOnePartitionKeySet,
+      key1: "a",
+    };
+    const itemWithBothPartitionKeySetDef = {
+      id: itemWithBothPartitionKeySet,
+      key1: "a",
+      key2: "b",
+    };
+
+    await container.items.create(itemWithNoPartitionKeySetDef);
+    const { resource: itemRead1 } = await container.item(itemWithNoPartitionKeySet).read();
+    assert.strictEqual(itemRead1.id, itemWithNoPartitionKeySet);
+
+    await container.items.create(itemWithOnePartitionKeySetDef);
+    const { resource: itemRead2 } = await container
+      .item(itemWithOnePartitionKeySet, ["a", undefined])
+      .read();
+    assert.strictEqual(itemRead2.id, itemWithOnePartitionKeySet);
+
+    try {
+      await container.item(itemWithOnePartitionKeySet, ["a"]).read();
+      assert(false, "Should have thrown exception due to improper partition key passed.");
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400, "Should fail due to improper partition key given");
+    }
+
+    await container.items.create(itemWithBothPartitionKeySetDef);
+    const { resource: itemRead3 } = await container
+      .item(itemWithBothPartitionKeySet, ["a", "b"])
+      .read();
+    assert.strictEqual(itemRead3.id, itemWithBothPartitionKeySet);
   });
 });
 
