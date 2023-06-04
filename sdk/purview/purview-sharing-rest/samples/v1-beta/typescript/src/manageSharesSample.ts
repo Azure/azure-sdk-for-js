@@ -11,6 +11,7 @@ import createPurviewSharingClient, {
   ReceivedSharesGetAllAttachedReceivedSharesParameters,
   SentShareInvitationOutput,
   SentSharesGetAllSentSharesParameters,
+  ShareResourceOutput,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -107,6 +108,29 @@ async function getAllSentShareInvitations(
   }
 
   console.log(result);
+  return result;
+}
+
+/**
+ * This sample demonstrates how to list share resources
+ *
+ * @summary List share resources
+ */
+async function getAllShareResources(
+  client: PurviewSharingClient
+): Promise<ShareResourceOutput[]> {
+  const initialResponse = await client.path("/shareResources").get();
+  const pageData = paginate(client, initialResponse);
+  const result: ShareResourceOutput[] = [];
+  
+  for await (const item of pageData) {
+    const shareResource = item as ShareResourceOutput;
+    shareResource && result.push(shareResource);
+    result.push(shareResource);
+  }
+
+  console.log(result);
+
   return result;
 }
 
@@ -287,6 +311,7 @@ async function main() {
     return;
   }
 
+  getAllShareResources(client);
   getReceivedShare(client, receivedShareId);
 
   deleteReceivedShare(client, receivedShareId);

@@ -89,6 +89,27 @@ async function getAllSentShareInvitations(client, sentShareId) {
 }
 
 /**
+ * This sample demonstrates how to list share resources
+ *
+ * @summary List share resources
+ */
+async function getAllShareResources(client) {
+  const initialResponse = await client.path("/shareResources").get();
+  const pageData = paginate(client, initialResponse);
+  const result = [];
+
+  for await (const item of pageData) {
+    const shareResource = item;
+    shareResource && result.push(shareResource);
+    result.push(shareResource);
+  }
+
+  console.log(result);
+
+  return result;
+}
+
+/**
  * This sample demonstrates how to list sent shares
  *
  * @summary List sent shares
@@ -255,6 +276,7 @@ async function main() {
     return;
   }
 
+  getAllShareResources(client);
   getReceivedShare(client, receivedShareId);
 
   deleteReceivedShare(client, receivedShareId);
