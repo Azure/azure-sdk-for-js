@@ -23,6 +23,6 @@ export interface Routes {
   (path: "/trialmatcher/jobs"): MatchTrials;
 }
 
-export type AzureHealthInsightsClient = Client & {
+export type ClinicalMatchingClient = Client & {
   path: Routes;
 };

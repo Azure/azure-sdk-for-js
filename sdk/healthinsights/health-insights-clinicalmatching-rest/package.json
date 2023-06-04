@@ -94,7 +94,7 @@
   },
   "//metadata": {
     "constantPaths": [
-      { "path": "src/azureHealthInsights.ts", "prefix": "userAgentInfo" }
+      { "path": "src/clinicalMatchingClient.ts", "prefix": "userAgentInfo" }
     ]
   },
   "browser": {

@@ -4,10 +4,10 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { KeyCredential } from "@azure/core-auth";
-import { AzureHealthInsightsClient } from "./clientDefinitions";
+import { ClinicalMatchingClient } from "./clientDefinitions";
 
 /**
- * Initialize a new instance of `AzureHealthInsightsClient`
+ * Initialize a new instance of `ClinicalMatchingClient`
  * @param endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -16,13 +16,14 @@ export default function createClient(
   endpoint: string,
   credentials: KeyCredential,
   options: ClientOptions = {}
-): AzureHealthInsightsClient {
+): ClinicalMatchingClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/healthinsights`;
   options.apiVersion = options.apiVersion ?? "2023-03-01-preview";
   options = {
     ...options,
     credentials: {
-      apiKeyHeaderName: "Ocp-Apim-Subscription-Key",
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
@@ -45,7 +46,7 @@ export default function createClient(
     baseUrl,
     credentials,
     options
-  ) as AzureHealthInsightsClient;
+  ) as ClinicalMatchingClient;
 
   return client;
 }
