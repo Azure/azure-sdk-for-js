@@ -59,6 +59,10 @@ export interface GetUSProgramBriefOptions extends OperationOptions {
 }
 
 // @public
+export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams {
+}
+
+// @public
 export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {
 }
 
@@ -172,7 +176,9 @@ export interface ShortCode {
 export interface ShortCodeCost {
     amount: number;
     billingFrequency: BillingFrequency;
+    countryCode: string;
     currencyCode: string;
+    isVanityShortCode: boolean;
 }
 
 // @public (undocumented)
@@ -190,6 +196,8 @@ export class ShortCodesClient {
     getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
     getUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams): Promise<ProgramBriefAttachment>;
+    // (undocumented)
+    listShortCodeCosts(options?: ListShortCodeCostsOptions): PagedAsyncIterableIterator<ShortCodeCost>;
     // (undocumented)
     listShortCodes(options?: ListShortCodesOptions): PagedAsyncIterableIterator<ShortCode>;
     // (undocumented)
@@ -213,6 +221,12 @@ export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
 
 // @public
 export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ShortCodesGetCostsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
 }
 
 // @public

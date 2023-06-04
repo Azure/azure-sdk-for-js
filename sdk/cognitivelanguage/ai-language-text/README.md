@@ -2,7 +2,7 @@
 
 [Azure Cognitive Service for Language](https://azure.microsoft.com/services/cognitive-services/language-service/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-10-01-preview.
+**Note:** This SDK targets Azure Cognitive Service for Language API version 2023-04-01.
 
 - Language Detection
 - Sentiment Analysis
