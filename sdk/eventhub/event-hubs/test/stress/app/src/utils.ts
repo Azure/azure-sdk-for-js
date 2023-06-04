@@ -3,7 +3,12 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
-import { EventHubConsumerClientOptions, EventHubConsumerClient, EventHubClientOptions, EventHubProducerClient } from "@azure/event-hubs";
+import {
+  EventHubConsumerClientOptions,
+  EventHubConsumerClient,
+  EventHubClientOptions,
+  EventHubProducerClient,
+} from "@azure/event-hubs";
 
 export interface SnapshotOptions {
   /**

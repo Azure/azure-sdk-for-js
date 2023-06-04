@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createEventHubsConsumerClient,
-  createEventHubsProducerClient,
-} from "./utils";
+import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils";
 import parsedArgs from "minimist";
 import { delay } from "@azure/core-amqp";
 import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
