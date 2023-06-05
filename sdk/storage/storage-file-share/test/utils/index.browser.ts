@@ -4,6 +4,9 @@
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import { setTestOnlySetHttpClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 
@@ -11,6 +14,10 @@ export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): ShareServiceClient {
+  // only needed until we can migrate to test recorder v2
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -27,6 +34,11 @@ export function getGenericBSU(
 
   if (accountSAS) {
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
+  }
+
+  // don't add the test account SAS value.
+  if (accountSAS === "?fakeSasToken") {
+    accountSAS = "";
   }
 
   const credentials = new AnonymousCredential();
