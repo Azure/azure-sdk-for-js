@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DtlEnvironment,
   EnvironmentsListOptionalParams,
@@ -69,8 +69,8 @@ export interface Environments {
     dtlEnvironment: DtlEnvironment,
     options?: EnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EnvironmentsCreateOrUpdateResponse>,
       EnvironmentsCreateOrUpdateResponse
     >
   >;
@@ -105,7 +105,7 @@ export interface Environments {
     userName: string,
     name: string,
     options?: EnvironmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete environment. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

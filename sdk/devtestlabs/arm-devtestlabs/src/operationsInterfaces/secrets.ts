@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Secret,
   SecretsListOptionalParams,
@@ -69,8 +69,8 @@ export interface Secrets {
     secret: Secret,
     options?: SecretsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecretsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SecretsCreateOrUpdateResponse>,
       SecretsCreateOrUpdateResponse
     >
   >;

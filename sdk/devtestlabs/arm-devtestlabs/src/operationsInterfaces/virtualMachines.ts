@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LabVirtualMachine,
   VirtualMachinesListOptionalParams,
@@ -82,8 +82,8 @@ export interface VirtualMachines {
     labVirtualMachine: LabVirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCreateOrUpdateResponse>,
       VirtualMachinesCreateOrUpdateResponse
     >
   >;
@@ -114,7 +114,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -157,7 +157,7 @@ export interface VirtualMachines {
     name: string,
     dataDiskProperties: DataDiskProperties,
     options?: VirtualMachinesAddDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -187,7 +187,7 @@ export interface VirtualMachines {
     name: string,
     applyArtifactsRequest: ApplyArtifactsRequest,
     options?: VirtualMachinesApplyArtifactsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Apply artifacts to virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -215,7 +215,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Take ownership of an existing virtual machine This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -243,7 +243,7 @@ export interface VirtualMachines {
     name: string,
     detachDataDiskProperties: DetachDataDiskProperties,
     options?: VirtualMachinesDetachDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -297,7 +297,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Redeploy a virtual machine This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -325,7 +325,7 @@ export interface VirtualMachines {
     name: string,
     resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties,
     options?: VirtualMachinesResizeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resize Virtual Machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -353,7 +353,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart a virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -379,7 +379,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -405,7 +405,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop a virtual machine This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -432,7 +432,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesTransferDisksOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Transfers all data disks attached to the virtual machine to be owned by the current user. This
    * operation can take a while to complete.
@@ -459,7 +459,7 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesUnClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Release ownership of an existing virtual machine This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

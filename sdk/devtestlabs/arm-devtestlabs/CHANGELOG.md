@@ -1,15 +1,99 @@
 # Release History
+    
+## 5.0.0 (2023-06-05)
+    
+**Breaking Changes**
 
-## 4.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ArmTemplatesListNextOptionalParams no longer has parameter expand
+  - Interface ArmTemplatesListNextOptionalParams no longer has parameter filter
+  - Interface ArmTemplatesListNextOptionalParams no longer has parameter orderby
+  - Interface ArmTemplatesListNextOptionalParams no longer has parameter top
+  - Interface ArtifactsListNextOptionalParams no longer has parameter expand
+  - Interface ArtifactsListNextOptionalParams no longer has parameter filter
+  - Interface ArtifactsListNextOptionalParams no longer has parameter orderby
+  - Interface ArtifactsListNextOptionalParams no longer has parameter top
+  - Interface ArtifactSourcesListNextOptionalParams no longer has parameter expand
+  - Interface ArtifactSourcesListNextOptionalParams no longer has parameter filter
+  - Interface ArtifactSourcesListNextOptionalParams no longer has parameter orderby
+  - Interface ArtifactSourcesListNextOptionalParams no longer has parameter top
+  - Interface CustomImagesListNextOptionalParams no longer has parameter expand
+  - Interface CustomImagesListNextOptionalParams no longer has parameter filter
+  - Interface CustomImagesListNextOptionalParams no longer has parameter orderby
+  - Interface CustomImagesListNextOptionalParams no longer has parameter top
+  - Interface DisksListNextOptionalParams no longer has parameter expand
+  - Interface DisksListNextOptionalParams no longer has parameter filter
+  - Interface DisksListNextOptionalParams no longer has parameter orderby
+  - Interface DisksListNextOptionalParams no longer has parameter top
+  - Interface EnvironmentsListNextOptionalParams no longer has parameter expand
+  - Interface EnvironmentsListNextOptionalParams no longer has parameter filter
+  - Interface EnvironmentsListNextOptionalParams no longer has parameter orderby
+  - Interface EnvironmentsListNextOptionalParams no longer has parameter top
+  - Interface FormulasListNextOptionalParams no longer has parameter expand
+  - Interface FormulasListNextOptionalParams no longer has parameter filter
+  - Interface FormulasListNextOptionalParams no longer has parameter orderby
+  - Interface FormulasListNextOptionalParams no longer has parameter top
+  - Interface GalleryImagesListNextOptionalParams no longer has parameter expand
+  - Interface GalleryImagesListNextOptionalParams no longer has parameter filter
+  - Interface GalleryImagesListNextOptionalParams no longer has parameter orderby
+  - Interface GalleryImagesListNextOptionalParams no longer has parameter top
+  - Interface GlobalSchedulesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface GlobalSchedulesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface GlobalSchedulesListByResourceGroupNextOptionalParams no longer has parameter orderby
+  - Interface GlobalSchedulesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface GlobalSchedulesListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface GlobalSchedulesListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface GlobalSchedulesListBySubscriptionNextOptionalParams no longer has parameter orderby
+  - Interface GlobalSchedulesListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface LabsListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface LabsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface LabsListByResourceGroupNextOptionalParams no longer has parameter orderby
+  - Interface LabsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter orderby
+  - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NotificationChannelsListNextOptionalParams no longer has parameter expand
+  - Interface NotificationChannelsListNextOptionalParams no longer has parameter filter
+  - Interface NotificationChannelsListNextOptionalParams no longer has parameter orderby
+  - Interface NotificationChannelsListNextOptionalParams no longer has parameter top
+  - Interface PoliciesListNextOptionalParams no longer has parameter expand
+  - Interface PoliciesListNextOptionalParams no longer has parameter filter
+  - Interface PoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface PoliciesListNextOptionalParams no longer has parameter top
+  - Interface SchedulesListNextOptionalParams no longer has parameter expand
+  - Interface SchedulesListNextOptionalParams no longer has parameter filter
+  - Interface SchedulesListNextOptionalParams no longer has parameter orderby
+  - Interface SchedulesListNextOptionalParams no longer has parameter top
+  - Interface SecretsListNextOptionalParams no longer has parameter expand
+  - Interface SecretsListNextOptionalParams no longer has parameter filter
+  - Interface SecretsListNextOptionalParams no longer has parameter orderby
+  - Interface SecretsListNextOptionalParams no longer has parameter top
+  - Interface ServiceFabricSchedulesListNextOptionalParams no longer has parameter expand
+  - Interface ServiceFabricSchedulesListNextOptionalParams no longer has parameter filter
+  - Interface ServiceFabricSchedulesListNextOptionalParams no longer has parameter orderby
+  - Interface ServiceFabricSchedulesListNextOptionalParams no longer has parameter top
+  - Interface ServiceFabricsListNextOptionalParams no longer has parameter expand
+  - Interface ServiceFabricsListNextOptionalParams no longer has parameter filter
+  - Interface ServiceFabricsListNextOptionalParams no longer has parameter orderby
+  - Interface ServiceFabricsListNextOptionalParams no longer has parameter top
+  - Interface UsersListNextOptionalParams no longer has parameter expand
+  - Interface UsersListNextOptionalParams no longer has parameter filter
+  - Interface UsersListNextOptionalParams no longer has parameter orderby
+  - Interface UsersListNextOptionalParams no longer has parameter top
+  - Interface VirtualMachineSchedulesListNextOptionalParams no longer has parameter expand
+  - Interface VirtualMachineSchedulesListNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachineSchedulesListNextOptionalParams no longer has parameter orderby
+  - Interface VirtualMachineSchedulesListNextOptionalParams no longer has parameter top
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter expand
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter orderby
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter top
+  - Interface VirtualNetworksListNextOptionalParams no longer has parameter expand
+  - Interface VirtualNetworksListNextOptionalParams no longer has parameter filter
+  - Interface VirtualNetworksListNextOptionalParams no longer has parameter orderby
+  - Interface VirtualNetworksListNextOptionalParams no longer has parameter top
+    
+    
 ## 4.1.0 (2022-11-22)
     
 **Features**

@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230530
+      typescript: 5.2.0-dev.20230604
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8189,6 +8189,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node/10.9.1_b5wb2ksfhxvmazt2irtoc64fxm:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 14.18.48
+      acorn: 8.8.2
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.1.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.9.1_haicren4phfcx6dckkdidh3s3e:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8382,14 +8413,26 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230530:
-    resolution: {integrity: sha512-bIoMajCZWzLB+pWwncaba/hZc6dRnw7x8T/fenOnP9gYQB/gc4xdm48AXp5SH5I/PvvSeZ/dXkUMtc8s8BiDZw==}
+  /typescript/5.1.3:
+    resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript/5.2.0-dev.20230604:
+    resolution: {integrity: sha512-S+m9ocHTc37/7/vpvz9n9ClkqteqN3jcwFYAZb3Gc7uFmvBKcjHSU8y+ccAh+d1sOgzu3WPZW8WrbCsGZWmfCw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11442,7 +11485,7 @@ packages:
     dev: false
 
   file:projects/arm-devtestlabs.tgz:
-    resolution: {integrity: sha512-JDp0nT7wDU6IWic7UyDTcP3/bc7UA/oAo2g/oEbawP7fZL1nvtOh98qHcu8Cxh+W7Us2nTtgErbyClJT5LocUg==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-qOP6J/viTabb1xVyxBiKZqqhR/qljNbLlFnrLdgvCMCauP0LNHyAQDsmUqJsh6ICzb1S1xSjykOHc8QoCzCbMQ==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
@@ -11456,13 +11499,14 @@ packages:
       '@types/node': 14.18.48
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.0
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
       tslib: 2.5.2
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -16652,7 +16696,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.4
+      '@_ts/max': /typescript/5.1.3
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -16695,7 +16739,7 @@ packages:
       rollup-plugin-visualizer: 5.9.0_rollup@2.79.1
       semver: 7.5.1
       ts-morph: 18.0.0
-      ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
+      ts-node: 10.9.1_b5wb2ksfhxvmazt2irtoc64fxm
       tslib: 2.5.2
       typescript: 5.0.4
       yaml: 2.3.1
@@ -18198,7 +18242,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-Mh6fHNCBSjPrqwprbqsP/ZpI86dsh5zViRYvXL7tNKAkdY0FDnvB74zlXpHUtn0CC5nIsK1BoKyeq0W89rUipQ==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-kUPHN6zS14EH/ErRIq3bqm8a4tnA9dN16oHOZ7n27rlA3+QINV7iGOcQwl1OsNPZOR3NN7dsVWLnTu/NbJ6+tw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:

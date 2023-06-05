@@ -569,7 +569,7 @@ export interface ScheduleCreationParameter {
   dailyRecurrence?: DayDetails;
   /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
   hourlyRecurrence?: HourDetails;
-  /** The time zone ID (e.g. Pacific Standard time). */
+  /** The time zone ID (e.g. China Standard Time, Greenland Standard Time, Pacific Standard time, etc.). The possible values for this property can be found in `IReadOnlyCollection<string> TimeZoneConverter.TZConvert.KnownWindowsTimeZoneIds` (https://github.com/mattjohnsonpint/TimeZoneConverter/blob/main/README.md) */
   timeZoneId?: string;
   /** Notification settings. */
   notificationSettings?: NotificationSettings;
@@ -1085,7 +1085,7 @@ export interface Schedule extends Resource {
   dailyRecurrence?: DayDetails;
   /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
   hourlyRecurrence?: HourDetails;
-  /** The time zone ID (e.g. Pacific Standard time). */
+  /** The time zone ID (e.g. China Standard Time, Greenland Standard Time, Pacific Standard time, etc.). The possible values for this property can be found in `IReadOnlyCollection<string> TimeZoneConverter.TZConvert.KnownWindowsTimeZoneIds` (https://github.com/mattjohnsonpint/TimeZoneConverter/blob/main/README.md) */
   timeZoneId?: string;
   /** Notification settings. */
   notificationSettings?: NotificationSettings;
@@ -2487,32 +2487,14 @@ export type LabsListVhdsResponse = LabVhdList;
 
 /** Optional parameters. */
 export interface LabsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LabsListBySubscriptionNextResponse = LabList;
 
 /** Optional parameters. */
 export interface LabsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LabsListByResourceGroupNextResponse = LabList;
@@ -2611,32 +2593,14 @@ export interface GlobalSchedulesRetargetOptionalParams
 
 /** Optional parameters. */
 export interface GlobalSchedulesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type GlobalSchedulesListBySubscriptionNextResponse = ScheduleList;
 
 /** Optional parameters. */
 export interface GlobalSchedulesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type GlobalSchedulesListByResourceGroupNextResponse = ScheduleList;
@@ -2687,16 +2651,7 @@ export type ArtifactSourcesUpdateResponse = ArtifactSource;
 
 /** Optional parameters. */
 export interface ArtifactSourcesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArtifactSourcesListNextResponse = ArtifactSourceList;
@@ -2729,16 +2684,7 @@ export type ArmTemplatesGetResponse = ArmTemplate;
 
 /** Optional parameters. */
 export interface ArmTemplatesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArmTemplatesListNextResponse = ArmTemplateList;
@@ -2778,16 +2724,7 @@ export type ArtifactsGenerateArmTemplateResponse = ArmTemplateInfo;
 
 /** Optional parameters. */
 export interface ArtifactsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=title)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArtifactsListNextResponse = ArtifactList;
@@ -2864,16 +2801,7 @@ export type CustomImagesUpdateResponse = CustomImage;
 
 /** Optional parameters. */
 export interface CustomImagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=vm)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CustomImagesListNextResponse = CustomImageList;
@@ -2928,16 +2856,7 @@ export type FormulasUpdateResponse = Formula;
 
 /** Optional parameters. */
 export interface FormulasListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=description)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FormulasListNextResponse = FormulaList;
@@ -2960,16 +2879,7 @@ export type GalleryImagesListResponse = GalleryImageList;
 
 /** Optional parameters. */
 export interface GalleryImagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=author)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GalleryImagesListNextResponse = GalleryImageList;
@@ -3024,16 +2934,7 @@ export interface NotificationChannelsNotifyOptionalParams
 
 /** Optional parameters. */
 export interface NotificationChannelsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=webHookUrl)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NotificationChannelsListNextResponse = NotificationChannelList;
@@ -3090,16 +2991,7 @@ export type PoliciesUpdateResponse = Policy;
 
 /** Optional parameters. */
 export interface PoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=description)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PoliciesListNextResponse = PolicyList;
@@ -3166,16 +3058,7 @@ export type SchedulesListApplicableResponse = ScheduleList;
 
 /** Optional parameters. */
 export interface SchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SchedulesListNextResponse = ScheduleList;
@@ -3258,16 +3141,7 @@ export type UsersUpdateResponse = User;
 
 /** Optional parameters. */
 export interface UsersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=identity)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsersListNextResponse = UserList;
@@ -3341,16 +3215,7 @@ export interface DisksDetachOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface DisksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=diskType)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DisksListNextResponse = DiskList;
@@ -3411,16 +3276,7 @@ export type EnvironmentsUpdateResponse = DtlEnvironment;
 
 /** Optional parameters. */
 export interface EnvironmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=deploymentProperties)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentsListNextResponse = DtlEnvironmentList;
@@ -3474,16 +3330,7 @@ export type SecretsUpdateResponse = Secret;
 
 /** Optional parameters. */
 export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=value)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretList;
@@ -3569,16 +3416,7 @@ export interface ServiceFabricsStopOptionalParams
 
 /** Optional parameters. */
 export interface ServiceFabricsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=applicableSchedule)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceFabricsListNextResponse = ServiceFabricList;
@@ -3638,16 +3476,7 @@ export interface ServiceFabricSchedulesExecuteOptionalParams
 
 /** Optional parameters. */
 export interface ServiceFabricSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceFabricSchedulesListNextResponse = ScheduleList;
@@ -3821,16 +3650,7 @@ export interface VirtualMachinesUnClaimOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachinesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachinesListNextResponse = LabVirtualMachineList;
@@ -3890,16 +3710,7 @@ export interface VirtualMachineSchedulesExecuteOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachineSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineSchedulesListNextResponse = ScheduleList;
@@ -3960,16 +3771,7 @@ export type VirtualNetworksUpdateResponse = VirtualNetwork;
 
 /** Optional parameters. */
 export interface VirtualNetworksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=externalSubnets)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualNetworksListNextResponse = VirtualNetworkList;

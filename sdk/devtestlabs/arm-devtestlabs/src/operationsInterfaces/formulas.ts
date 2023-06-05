@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Formula,
   FormulasListOptionalParams,
@@ -63,8 +63,8 @@ export interface Formulas {
     formula: Formula,
     options?: FormulasCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FormulasCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FormulasCreateOrUpdateResponse>,
       FormulasCreateOrUpdateResponse
     >
   >;

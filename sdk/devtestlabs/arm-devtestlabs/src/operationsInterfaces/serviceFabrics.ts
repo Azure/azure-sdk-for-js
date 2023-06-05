@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceFabric,
   ServiceFabricsListOptionalParams,
@@ -73,8 +73,8 @@ export interface ServiceFabrics {
     serviceFabric: ServiceFabric,
     options?: ServiceFabricsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceFabricsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceFabricsCreateOrUpdateResponse>,
       ServiceFabricsCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete service fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -171,7 +171,7 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a service fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -201,7 +201,7 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop a service fabric This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

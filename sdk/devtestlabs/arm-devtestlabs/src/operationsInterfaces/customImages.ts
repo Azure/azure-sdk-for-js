@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomImage,
   CustomImagesListOptionalParams,
@@ -63,8 +63,8 @@ export interface CustomImages {
     customImage: CustomImage,
     options?: CustomImagesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomImagesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomImagesCreateOrUpdateResponse>,
       CustomImagesCreateOrUpdateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface CustomImages {
     labName: string,
     name: string,
     options?: CustomImagesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete custom image. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

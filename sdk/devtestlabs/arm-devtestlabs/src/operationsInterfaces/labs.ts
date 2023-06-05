@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Lab,
   LabsListBySubscriptionOptionalParams,
@@ -88,8 +88,8 @@ export interface Labs {
     lab: Lab,
     options?: LabsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabsCreateOrUpdateResponse>,
       LabsCreateOrUpdateResponse
     >
   >;
@@ -116,7 +116,7 @@ export interface Labs {
     resourceGroupName: string,
     name: string,
     options?: LabsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete lab. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -151,7 +151,7 @@ export interface Labs {
     resourceGroupName: string,
     name: string,
     options?: LabsClaimAnyVmOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Claim a random claimable virtual machine in the lab. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -175,7 +175,7 @@ export interface Labs {
     name: string,
     labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter,
     options?: LabsCreateEnvironmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Create virtual machines in a lab. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -201,7 +201,7 @@ export interface Labs {
     name: string,
     exportResourceUsageParameters: ExportResourceUsageParameters,
     options?: LabsExportResourceUsageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Exports the lab resource usage into a storage account This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -241,7 +241,7 @@ export interface Labs {
     name: string,
     importLabVirtualMachineRequest: ImportLabVirtualMachineRequest,
     options?: LabsImportVirtualMachineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Import a virtual machine into a different lab. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.

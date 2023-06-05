@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ApplicableSchedule extends Resource {
@@ -71,10 +71,6 @@ export type ArmTemplatesGetResponse = ArmTemplate;
 
 // @public
 export interface ArmTemplatesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -157,10 +153,6 @@ export type ArtifactsGetResponse = Artifact;
 
 // @public
 export interface ArtifactsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -232,10 +224,6 @@ export type ArtifactSourcesGetResponse = ArtifactSource;
 
 // @public
 export interface ArtifactSourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -403,9 +391,9 @@ export interface CustomImagePropertiesFromVm {
 
 // @public
 export interface CustomImages {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CustomImagesCreateOrUpdateResponse>, CustomImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CustomImagesCreateOrUpdateResponse>, CustomImagesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<CustomImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: CustomImagesGetOptionalParams): Promise<CustomImagesGetResponse>;
     list(resourceGroupName: string, labName: string, options?: CustomImagesListOptionalParams): PagedAsyncIterableIterator<CustomImage>;
@@ -437,10 +425,6 @@ export type CustomImagesGetResponse = CustomImage;
 
 // @public
 export interface CustomImagesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -587,13 +571,13 @@ export interface DiskList {
 
 // @public
 export interface Disks {
-    beginAttach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAttach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAttachAndWait(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<DisksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<void>;
-    beginDetach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachAndWait(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksGetOptionalParams): Promise<DisksGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
@@ -637,10 +621,6 @@ export type DisksGetResponse = Disk;
 
 // @public
 export interface DisksListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -698,9 +678,9 @@ export type EnvironmentPermission = string;
 
 // @public
 export interface Environments {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<EnvironmentsCreateOrUpdateResponse>, EnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EnvironmentsCreateOrUpdateResponse>, EnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<EnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsGetOptionalParams): Promise<EnvironmentsGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: EnvironmentsListOptionalParams): PagedAsyncIterableIterator<DtlEnvironment>;
@@ -732,10 +712,6 @@ export type EnvironmentsGetResponse = DtlEnvironment;
 
 // @public
 export interface EnvironmentsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -827,7 +803,7 @@ export interface FormulaPropertiesFromVm {
 
 // @public
 export interface Formulas {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FormulasCreateOrUpdateResponse>, FormulasCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FormulasCreateOrUpdateResponse>, FormulasCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<FormulasCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, name: string, options?: FormulasDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: FormulasGetOptionalParams): Promise<FormulasGetResponse>;
@@ -858,10 +834,6 @@ export type FormulasGetResponse = Formula;
 
 // @public
 export interface FormulasListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -919,10 +891,6 @@ export interface GalleryImages {
 
 // @public
 export interface GalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -962,9 +930,9 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GlobalSchedules {
-    beginExecute(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<void>;
-    beginRetarget(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRetarget(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRetargetAndWait(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, name: string, schedule: Schedule, options?: GlobalSchedulesCreateOrUpdateOptionalParams): Promise<GlobalSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, name: string, options?: GlobalSchedulesDeleteOptionalParams): Promise<void>;
@@ -1001,10 +969,6 @@ export type GlobalSchedulesGetResponse = Schedule;
 
 // @public
 export interface GlobalSchedulesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1023,10 +987,6 @@ export type GlobalSchedulesListByResourceGroupResponse = ScheduleList;
 
 // @public
 export interface GlobalSchedulesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1378,17 +1338,17 @@ export interface LabResourceCostProperties {
 
 // @public
 export interface Labs {
-    beginClaimAnyVm(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginClaimAnyVm(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginClaimAnyVmAndWait(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<void>;
-    beginCreateEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateEnvironmentAndWait(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<LabsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<void>;
-    beginExportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExportResourceUsageAndWait(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<void>;
-    beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginImportVirtualMachineAndWait(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<void>;
     generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: GenerateUploadUriParameter, options?: LabsGenerateUploadUriOptionalParams): Promise<LabsGenerateUploadUriResponse>;
     get(resourceGroupName: string, name: string, options?: LabsGetOptionalParams): Promise<LabsGetResponse>;
@@ -1454,10 +1414,6 @@ export interface LabsImportVirtualMachineOptionalParams extends coreClient.Opera
 
 // @public
 export interface LabsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1476,10 +1432,6 @@ export type LabsListByResourceGroupResponse = LabList;
 
 // @public
 export interface LabsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1696,10 +1648,6 @@ export type NotificationChannelsGetResponse = NotificationChannel;
 
 // @public
 export interface NotificationChannelsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1828,10 +1776,6 @@ export type PoliciesGetResponse = Policy;
 
 // @public
 export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2019,7 +1963,7 @@ export interface ScheduleList {
 
 // @public
 export interface Schedules {
-    beginExecute(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
@@ -2070,10 +2014,6 @@ export type SchedulesListApplicableResponse = ScheduleList;
 
 // @public
 export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2116,7 +2056,7 @@ export interface SecretList {
 
 // @public
 export interface Secrets {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SecretsCreateOrUpdateResponse>, SecretsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SecretsCreateOrUpdateResponse>, SecretsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<SecretsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, userName: string, name: string, options?: SecretsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: SecretsGetOptionalParams): Promise<SecretsGetResponse>;
@@ -2147,10 +2087,6 @@ export type SecretsGetResponse = Secret;
 
 // @public
 export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2195,13 +2131,13 @@ export interface ServiceFabricList {
 
 // @public
 export interface ServiceFabrics {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServiceFabricsCreateOrUpdateResponse>, ServiceFabricsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServiceFabricsCreateOrUpdateResponse>, ServiceFabricsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<ServiceFabricsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsGetOptionalParams): Promise<ServiceFabricsGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: ServiceFabricsListOptionalParams): PagedAsyncIterableIterator<ServiceFabric>;
@@ -2211,7 +2147,7 @@ export interface ServiceFabrics {
 
 // @public
 export interface ServiceFabricSchedules {
-    beginExecute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Schedule, options?: ServiceFabricSchedulesCreateOrUpdateOptionalParams): Promise<ServiceFabricSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesDeleteOptionalParams): Promise<void>;
@@ -2247,10 +2183,6 @@ export type ServiceFabricSchedulesGetResponse = Schedule;
 
 // @public
 export interface ServiceFabricSchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2306,10 +2238,6 @@ export type ServiceFabricsListApplicableSchedulesResponse = ApplicableSchedule;
 
 // @public
 export interface ServiceFabricsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2487,9 +2415,9 @@ export interface UserList {
 
 // @public
 export interface Users {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: UsersGetOptionalParams): Promise<UsersGetResponse>;
     list(resourceGroupName: string, labName: string, options?: UsersListOptionalParams): PagedAsyncIterableIterator<User>;
@@ -2527,10 +2455,6 @@ export type UsersGetResponse = User;
 
 // @public
 export interface UsersListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2559,31 +2483,31 @@ export type VirtualMachineCreationSource = string;
 
 // @public
 export interface VirtualMachines {
-    beginAddDataDisk(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAddDataDisk(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAddDataDiskAndWait(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<void>;
-    beginApplyArtifacts(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginApplyArtifacts(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginApplyArtifactsAndWait(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<void>;
-    beginClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginClaimAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginDetachDataDisk(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetachDataDisk(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachDataDiskAndWait(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRedeploy(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRedeployAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<void>;
-    beginResize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResizeAndWait(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
-    beginTransferDisks(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTransferDisks(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTransferDisksAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<void>;
-    beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUnClaimAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetRdpFileContentsOptionalParams): Promise<VirtualMachinesGetRdpFileContentsResponse>;
@@ -2606,7 +2530,7 @@ export interface VirtualMachinesApplyArtifactsOptionalParams extends coreClient.
 
 // @public
 export interface VirtualMachineSchedules {
-    beginExecute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Schedule, options?: VirtualMachineSchedulesCreateOrUpdateOptionalParams): Promise<VirtualMachineSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesDeleteOptionalParams): Promise<void>;
@@ -2642,10 +2566,6 @@ export type VirtualMachineSchedulesGetResponse = Schedule;
 
 // @public
 export interface VirtualMachineSchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2720,10 +2640,6 @@ export type VirtualMachinesListApplicableSchedulesResponse = ApplicableSchedule;
 
 // @public
 export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2813,9 +2729,9 @@ export interface VirtualNetworkList {
 
 // @public
 export interface VirtualNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<VirtualNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksGetOptionalParams): Promise<VirtualNetworksGetResponse>;
     list(resourceGroupName: string, labName: string, options?: VirtualNetworksListOptionalParams): PagedAsyncIterableIterator<VirtualNetwork>;
@@ -2847,10 +2763,6 @@ export type VirtualNetworksGetResponse = VirtualNetwork;
 
 // @public
 export interface VirtualNetworksListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public

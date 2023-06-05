@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Disk,
   DisksListOptionalParams,
@@ -73,8 +73,8 @@ export interface Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DisksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DisksCreateOrUpdateResponse>,
       DisksCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface Disks {
     userName: string,
     name: string,
     options?: DisksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete disk. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
@@ -159,7 +159,7 @@ export interface Disks {
     name: string,
     attachDiskProperties: AttachDiskProperties,
     options?: DisksAttachOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Attach and create the lease of the disk to the virtual machine. This operation can take a while to
    * complete.
@@ -195,7 +195,7 @@ export interface Disks {
     name: string,
     detachDiskProperties: DetachDiskProperties,
     options?: DisksDetachOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detach and break the lease of the disk attached to the virtual machine. This operation can take a
    * while to complete.
