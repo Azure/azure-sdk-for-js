@@ -101,7 +101,9 @@ export class Recorder {
           "[Recorder#redirectRequest] Could not redirect request since the recorder was not started",
           request
         );
-        throw new RecorderError("Attempted to redirect a request, but the recorder was not started. Make sure to call Recorder#start before making any requests.");
+        throw new RecorderError(
+          "Attempted to redirect a request, but the recorder was not started. Make sure to call Recorder#start before making any requests."
+        );
       }
 
       logger.info(
@@ -234,9 +236,11 @@ export class Recorder {
         logger.verbose("[Recorder#start] Setting redirect mode");
         try {
           await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
-        } catch(e) {
-          if(isRestError(e) && e.message.includes("ECONNREFUSED")) {
-            throw new RecorderError(`Test proxy appears to not be running at ${Recorder.url}. Make sure that you are running your tests using the dev-tool scripts.`)
+        } catch (e) {
+          if (isRestError(e) && e.message.includes("ECONNREFUSED")) {
+            throw new RecorderError(
+              `Test proxy appears to not be running at ${Recorder.url}. Make sure that you are running your tests using the dev-tool scripts.`
+            );
           } else {
             throw e;
           }
@@ -279,7 +283,7 @@ export class Recorder {
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
           const mismatchHeader = rsp.headers.get("x-request-mismatch-error");
-          if(mismatchHeader) {
+          if (mismatchHeader) {
             throw new RecorderError(decodeBase64(mismatchHeader));
           } else {
             throw new RecorderError("Start request failed.");
