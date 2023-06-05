@@ -24,12 +24,10 @@ async function main() {
   const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
   // Get tier info for a resource
-  var tiers = await client.getTierByResourceId(resourceId);
+  var tierInfo = await client.getTierByResourceId(resourceId);
 
   // print all tier info
-  for await (const tier of tiers) {
-    console.log(tier);
-  }
+  console.log(tierInfo);
 }
 
 main().catch((error) => {

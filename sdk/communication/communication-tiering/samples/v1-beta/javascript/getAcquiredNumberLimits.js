@@ -27,9 +27,7 @@ async function main() {
   var acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
 
   // print all number limits
-  for await (const limit of acquiredNumberLimits) {
-    console.log(limit);
-  }
+  console.log(acquiredNumberLimits);
 }
 
 main().catch((error) => {
