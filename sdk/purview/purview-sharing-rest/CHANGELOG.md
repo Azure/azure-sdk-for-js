@@ -6,12 +6,6 @@
 
 - Release of GET Share Resources API.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.1 (2023-03-10)
 
 ### Features Added
