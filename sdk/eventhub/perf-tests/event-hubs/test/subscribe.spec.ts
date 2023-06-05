@@ -27,6 +27,8 @@ const consumer = new EventHubConsumerClient(consumerGroup, connectionString, eve
 export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   receiver: EventHubConsumerClient;
   subscriber: { close: () => Promise<void> } | undefined;
+  callbackCallsCount = 0;
+  messagesPerBatch: Array<number> = [];
 
   options: PerfOptionDictionary<ReceiverOptions> = {
     "number-of-events": {
@@ -83,6 +85,8 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
           for (const _event of events) {
             this.eventRaised();
           }
+          this.callbackCallsCount++;
+          this.messagesPerBatch.push(events.length);
         },
         processError: async (error: Error | MessagingError, _context: PartitionContext) => {
           this.errorRaised(error);
@@ -102,6 +106,10 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
 
   async globalCleanup(): Promise<void> {
     await consumer.close();
+    console.log(`\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${this.callbackCallsCount / this.parsedOptions.duration.value}`);
+    console.log(`\tmessagesPerBatch: ${this.messagesPerBatch}`);
+    console.log(`\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length}, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`);
+    // console.log(`\tmessagesPerBatch: ${this.messagesPerBatch}`);
   }
 }
 
@@ -137,4 +145,19 @@ async function sendBatch(
   }
 
   await producer.close();
+}
+
+function median(values: number[]) {
+  if (values.length === 0) throw new Error("No inputs");
+
+  values.sort(function (a, b) {
+    return a - b;
+  });
+
+  var half = Math.floor(values.length / 2);
+
+  if (values.length % 2)
+    return values[half];
+
+  return (values[half - 1] + values[half]) / 2.0;
 }

@@ -5,7 +5,7 @@ Project: sdk/eventhub/perf-tests/event-hubs
 PrimaryPackage: '@azure/event-hubs'
 
 PackageVersions:
-- '@azure/event-hubs': 5.8.0
+- '@azure/event-hubs': 5.10.0
   '@azure/core-amqp': 3.2.0
   '@azure/core-auth': 1.4.0
   '@azure/core-http': 2.3.1
@@ -33,4 +33,4 @@ Tests:
 - Test: subscribe
   Class: SubscribeTest
   Arguments:
-  - --event-size 1024 --max-batch-size 100 --events 1000000
+  - --event-size 1024 --max-batch-size 1000 --events 10000000
