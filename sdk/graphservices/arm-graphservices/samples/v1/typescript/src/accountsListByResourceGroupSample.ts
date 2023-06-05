@@ -15,26 +15,30 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns list of operations.
+ * This sample demonstrates how to Returns list of accounts apps.
  *
- * @summary Returns list of operations.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Operations_List.json
+ * @summary Returns list of accounts apps.
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_List.json
  */
-async function getListOfOperations() {
+async function createOrUpdateAccountResource() {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operationOperations.list()) {
+  for await (let item of client.accounts.listByResourceGroup(
+    resourceGroupName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getListOfOperations();
+  createOrUpdateAccountResource();
 }
 
 main().catch(console.error);

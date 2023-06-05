@@ -8,37 +8,40 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { GraphServices } from "@azure/arm-graphservices";
+import { AccountResource, GraphServices } from "@azure/arm-graphservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns list of accounts apps.
+ * This sample demonstrates how to Create or update account resource.
  *
- * @summary Returns list of accounts apps.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_List.json
+ * @summary Create or update account resource.
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Create.json
  */
-async function createOrUpdateAccountResource() {
+async function createAccountResource() {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
+  const resourceName = "11111111-aaaa-1111-bbbb-1111111111111";
+  const accountResource: AccountResource = {
+    properties: { appId: "11111111-aaaa-1111-bbbb-111111111111" }
+  };
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.accounts.listByResourceGroup(
-    resourceGroupName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.accounts.beginCreateAndUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    accountResource
+  );
+  console.log(result);
 }
 
 async function main() {
-  createOrUpdateAccountResource();
+  createAccountResource();
 }
 
 main().catch(console.error);

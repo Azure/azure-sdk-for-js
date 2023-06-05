@@ -15,26 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a account resource.
+ * This sample demonstrates how to Returns list of operations.
  *
- * @summary Deletes a account resource.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_Delete.json
+ * @summary Returns list of operations.
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Operations_List.json
  */
-async function deleteAccountResource() {
+async function getListOfOperations() {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] ||
-    "11111111-aaaa-1111-bbbb-111111111111";
-  const resourceGroupName =
-    process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
-  const resourceName = "11111111-aaaa-1111-bbbb-111111111111";
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
-  const result = await client.account.delete(resourceGroupName, resourceName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.operations.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  deleteAccountResource();
+  getListOfOperations();
 }
 
 main().catch(console.error);

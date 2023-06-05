@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns account resource for a given name.
  *
  * @summary Returns account resource for a given name.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_Get.json
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Get.json
  */
 async function getAccounts() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getAccounts() {
   const resourceName = "11111111-aaaa-1111-bbbb-111111111111";
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
-  const result = await client.account.get(resourceGroupName, resourceName);
+  const result = await client.accounts.get(resourceGroupName, resourceName);
   console.log(result);
 }
 

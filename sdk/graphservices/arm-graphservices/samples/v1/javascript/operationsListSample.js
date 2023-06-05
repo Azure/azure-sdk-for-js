@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns list of operations.
  *
  * @summary Returns list of operations.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Operations_List.json
  */
 async function getListOfOperations() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function getListOfOperations() {
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operationOperations.list()) {
+  for await (let item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
