@@ -2033,11 +2033,7 @@ export const ContainerConfiguration: msRest.CompositeMapper = {
         required: true,
         serializedName: "type",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "dockerCompatible",
-            "criCompatible"
-          ]
+          name: "String"
         }
       },
       containerImageNames: {
