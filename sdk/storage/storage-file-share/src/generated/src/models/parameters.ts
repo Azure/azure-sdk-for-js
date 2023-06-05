@@ -435,6 +435,18 @@ export const comp3: OperationQueryParameter = {
   }
 };
 
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sharePermission: OperationParameter = {
   parameterPath: "sharePermission",
   mapper: SharePermissionMapper
@@ -960,7 +972,7 @@ export const fileContentLength1: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/octet-stream",

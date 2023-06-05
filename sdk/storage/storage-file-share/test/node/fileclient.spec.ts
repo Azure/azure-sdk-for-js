@@ -137,8 +137,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -158,8 +157,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -183,8 +181,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareFileClient(fileClient.url, pipeline);
 
@@ -204,8 +201,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const expiresOn = recorder.newDate("now");
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
@@ -240,8 +236,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const expiresOn = recorder.newDate("now");
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(

@@ -297,16 +297,6 @@ directive:
       delete $.format;
 ```
 
-### Retain XStore swagger behavior - Revert file permissions content-type to "application/xml" from "application/json"(unified swagger)
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=filepermission"]
-    transform: >
-      $.put.consumes = ["application/xml"];
-```
-
 ### Rename optionalbody -> body
 
 ```yaml

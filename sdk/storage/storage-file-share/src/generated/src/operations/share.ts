@@ -563,14 +563,12 @@ const createPermissionOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.version
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.contentType1
   ],
-  isXML: true,
-  contentType: "application/xml; charset=utf-8",
-  mediaType: "xml",
-  serializer: xmlSerializer
+  mediaType: "json",
+  serializer
 };
 const getPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",

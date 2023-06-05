@@ -901,12 +901,7 @@ describe("FileClient", () => {
           children: [
             {
               name: "Azure.Storage.File.ShareFileClient-create",
-              children: [
-                {
-                  name: "HTTP PUT",
-                  children: [],
-                },
-              ],
+              children: [],
             },
           ],
         },

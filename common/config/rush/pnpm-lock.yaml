@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230601
+      typescript: 5.2.0-dev.20230605
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8425,8 +8425,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230601:
-    resolution: {integrity: sha512-ZAe/C0wi4nXNds7zaN35oe/ju3WhYdyI+lvRy+xfsG9348PLOZgtYKO3v2RX5fSxhT2uZH5Gb5fk/sjCLaI9uw==}
+  /typescript/5.2.0-dev.20230605:
+    resolution: {integrity: sha512-xMeI7pFrOfxZTt1m4a2txN1E2Qh9IzLT9LNdc0DlEwJJKXjajj5j/nFLwWOUEnaFZBT6v35jlgLogG5HuSxUyA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19316,7 +19316,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-NF2poQVFGOC0ZMVVC2qyTjIitV+UYtbq2kYIi3AES+HufQR/4S/4MhhqK1oyLSjHWQYA2ygBIZQf4DDw50AHdA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -19326,6 +19326,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.48
+      '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -19353,6 +19354,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
+      sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
       tslib: 2.5.2

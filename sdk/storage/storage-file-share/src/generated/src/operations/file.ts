@@ -642,7 +642,7 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.leaseId,
-    Parameters.contentType1,
+    Parameters.contentType2,
     Parameters.accept3,
     Parameters.range1,
     Parameters.fileRangeWrite,

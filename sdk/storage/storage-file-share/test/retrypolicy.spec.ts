@@ -11,12 +11,14 @@ import { RestError, ShareClient } from "../src";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
+import { useFakeTimers, SinonFakeTimers } from "sinon";
 
 describe("RetryPolicy", () => {
   let shareName: string;
   let shareClient: ShareClient;
 
   let recorder: Recorder;
+  let clock: SinonFakeTimers;
 
   beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
@@ -24,9 +26,11 @@ describe("RetryPolicy", () => {
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
+    clock = useFakeTimers();
   });
 
   afterEach(async function () {
+    clock.restore();
     const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await shareClient.delete();
@@ -54,7 +58,8 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb",
     };
-    await shareClient.setMetadata(metadata);
+    shareClient.setMetadata(metadata);
+    await clock.tickAsync(2000);
     assert.equal(injectCounter, 1);
     const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
@@ -86,9 +91,12 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await shareClient.setMetadata(metadata, {
+      const promise = shareClient.setMetadata(metadata, {
         abortSignal: AbortController.timeout(2 * 1000),
       });
+      await clock.tickAsync(1000);
+      clock.tick(1000);
+      await promise;
     } catch (err: any) {
       hasError = true;
     }
@@ -96,7 +104,9 @@ describe("RetryPolicy", () => {
   });
 
   it("Retry Policy should fail when requests always fail with 500", async () => {
+    let failCount = 0;
     const injector = injectorPolicy(() => {
+      failCount++;
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
         statusCode: 500,
@@ -113,10 +123,17 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb",
       };
-      await shareClient.setMetadata(metadata);
+      const promise = shareClient.setMetadata(metadata);
+      // first retry waits 0 seconds
+      // second retry waits 4 seconds
+      await clock.tickAsync(4000);
+      // last retry waits 12 seconds
+      clock.tick(12000);
+      await promise;
     } catch (err: any) {
       hasError = true;
     }
     assert.ok(hasError);
+    assert.strictEqual(failCount, 4);
   });
 });

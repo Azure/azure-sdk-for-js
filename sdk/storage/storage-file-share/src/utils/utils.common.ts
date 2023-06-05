@@ -437,8 +437,11 @@ export function getAccountNameFromUrl(url: string): string {
   const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.hostname.split(".")[1] === "blob") {
-      // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+    if (parsedUrl.hostname.split(".")[1] === "file") {
+      // `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`;
+      // Slicing off '/' at the end if exists
+      url = url.endsWith("/") ? url.slice(0, -1) : url;
+
       accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/

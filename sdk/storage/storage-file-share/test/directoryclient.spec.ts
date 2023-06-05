@@ -782,12 +782,7 @@ describe("DirectoryClient", () => {
               children: [
                 {
                   name: "Azure.Storage.File.ShareDirectoryClient-create",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
+                  children: [],
                 },
               ],
             },
@@ -796,55 +791,30 @@ describe("DirectoryClient", () => {
               children: [
                 {
                   name: "Azure.Storage.File.ShareFileClient-create",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
+                  children: [],
                 },
               ],
             },
             {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
-              children: [
-                {
-                  name: "HTTP HEAD",
-                  children: [],
-                },
-              ],
+              children: [],
             },
             {
               name: "Azure.Storage.File.ShareDirectoryClient-deleteFile",
               children: [
                 {
                   name: "Azure.Storage.File.ShareFileClient-delete",
-                  children: [
-                    {
-                      name: "HTTP DELETE",
-                      children: [],
-                    },
-                  ],
+                  children: [],
                 },
               ],
             },
             {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
-              children: [
-                {
-                  name: "HTTP HEAD",
-                  children: [],
-                },
-              ],
+              children: [],
             },
             {
               name: "Azure.Storage.File.ShareDirectoryClient-delete",
-              children: [
-                {
-                  name: "HTTP DELETE",
-                  children: [],
-                },
-              ],
+              children: [],
             },
           ],
         },

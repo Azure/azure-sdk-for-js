@@ -15,6 +15,7 @@ export class StorageContextClient extends StorageClient {
     const operationSpecToSend = { ...operationSpec };
 
     if (
+      operationSpecToSend.path === "/{shareName}" ||
       operationSpecToSend.path === "/{shareName}/{directory}" ||
       operationSpecToSend.path === "/{shareName}/{directory}/{fileName}"
     ) {
