@@ -81,7 +81,7 @@ export class TieringClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-11-15";
+    this.apiVersion = options.apiVersion || "2023-06-15";
     this.numberAllotment = new NumberAllotmentImpl(this);
     this.tiering = new TieringImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

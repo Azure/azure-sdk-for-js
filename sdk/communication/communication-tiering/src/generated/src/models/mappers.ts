@@ -8,13 +8,36 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema",
+    modelProperties: {
+      assetDetails: {
+        serializedName: "assetDetails",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AssetDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AssetDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetDetails",
     modelProperties: {
       numberType: {
-        serializedName: "NumberType",
+        serializedName: "numberType",
         type: {
           name: "Sequence",
           element: {
@@ -25,25 +48,25 @@ export const AssetDetails: coreClient.CompositeMapper = {
         }
       },
       resourceAcquiredCount: {
-        serializedName: "ResourceAcquiredCount",
+        serializedName: "resourceAcquiredCount",
         type: {
           name: "Number"
         }
       },
       subscriptionAcquiredCount: {
-        serializedName: "SubscriptionAcquiredCount",
+        serializedName: "subscriptionAcquiredCount",
         type: {
           name: "Number"
         }
       },
       aadTenantAcquiredCount: {
-        serializedName: "AadTenantAcquiredCount",
+        serializedName: "aadTenantAcquiredCount",
         type: {
           name: "Number"
         }
       },
       tierInfo: {
-        serializedName: "TierInfo",
+        serializedName: "tierInfo",
         type: {
           name: "Composite",
           className: "AssetDetailsTierInfo"
@@ -59,31 +82,31 @@ export const AssetDetailsTierInfo: coreClient.CompositeMapper = {
     className: "AssetDetailsTierInfo",
     modelProperties: {
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       allowed: {
-        serializedName: "Allowed",
+        serializedName: "allowed",
         type: {
           name: "Number"
         }
       },
       acquired: {
-        serializedName: "Acquired",
+        serializedName: "acquired",
         type: {
           name: "Number"
         }
       },
       balance: {
-        serializedName: "Balance",
+        serializedName: "balance",
         type: {
           name: "Number"
         }
       },
       limit: {
-        serializedName: "Limit",
+        serializedName: "limit",
         type: {
           name: "String"
         }
@@ -164,25 +187,19 @@ export const AcsTier: coreClient.CompositeMapper = {
     className: "AcsTier",
     modelProperties: {
       tierId: {
-        serializedName: "TierId",
-        type: {
-          name: "String"
-        }
-      },
-      correlationId: {
-        serializedName: "CorrelationId",
+        serializedName: "tierId",
         type: {
           name: "String"
         }
       },
       tierType: {
-        serializedName: "TierType",
+        serializedName: "tierType",
         type: {
           name: "String"
         }
       },
       capabilities: {
-        serializedName: "Capabilities",
+        serializedName: "capabilities",
         type: {
           name: "Composite",
           className: "AcsTierCapabilities"
@@ -198,7 +215,7 @@ export const AcsTierCapabilities: coreClient.CompositeMapper = {
     className: "AcsTierCapabilities",
     modelProperties: {
       phoneNumberPurchase: {
-        serializedName: "PhoneNumberPurchase",
+        serializedName: "phoneNumberPurchase",
         type: {
           name: "Sequence",
           element: {
@@ -210,21 +227,21 @@ export const AcsTierCapabilities: coreClient.CompositeMapper = {
         }
       },
       sms: {
-        serializedName: "SMS",
+        serializedName: "sms",
         type: {
           name: "Composite",
-          className: "AcsTierCapabilitiesSMS"
+          className: "AcsTierCapabilitiesSms"
         }
       },
       calling: {
-        serializedName: "Calling",
+        serializedName: "calling",
         type: {
           name: "Composite",
           className: "AcsTierCapabilitiesCalling"
         }
       },
       trialPhoneNumberPurchase: {
-        serializedName: "TrialPhoneNumberPurchase",
+        serializedName: "trialPhoneNumberPurchase",
         type: {
           name: "Sequence",
           element: {
@@ -236,7 +253,7 @@ export const AcsTierCapabilities: coreClient.CompositeMapper = {
         }
       },
       trialPhoneNumberUsage: {
-        serializedName: "TrialPhoneNumberUsage",
+        serializedName: "trialPhoneNumberUsage",
         type: {
           name: "Sequence",
           element: {
@@ -257,7 +274,7 @@ export const PhoneNumberPurchase: coreClient.CompositeMapper = {
     className: "PhoneNumberPurchase",
     modelProperties: {
       numberType: {
-        serializedName: "NumberType",
+        serializedName: "numberType",
         type: {
           name: "Sequence",
           element: {
@@ -268,13 +285,13 @@ export const PhoneNumberPurchase: coreClient.CompositeMapper = {
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       totalNumbers: {
-        serializedName: "TotalNumbers",
+        serializedName: "totalNumbers",
         type: {
           name: "Number"
         }
@@ -283,31 +300,31 @@ export const PhoneNumberPurchase: coreClient.CompositeMapper = {
   }
 };
 
-export const AcsTierCapabilitiesSMS: coreClient.CompositeMapper = {
+export const AcsTierCapabilitiesSms: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsTierCapabilitiesSMS",
+    className: "AcsTierCapabilitiesSms",
     modelProperties: {
       outbound: {
-        serializedName: "Outbound",
+        serializedName: "outbound",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SMSOutbound"
+              className: "SmsOutbound"
             }
           }
         }
       },
       inbound: {
-        serializedName: "Inbound",
+        serializedName: "inbound",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SMSInbound"
+              className: "SmsInbound"
             }
           }
         }
@@ -316,31 +333,31 @@ export const AcsTierCapabilitiesSMS: coreClient.CompositeMapper = {
   }
 };
 
-export const SMSOutbound: coreClient.CompositeMapper = {
+export const SmsOutbound: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SMSOutbound",
+    className: "SmsOutbound",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       smsPerMin: {
-        serializedName: "SmsPerMin",
+        serializedName: "smsPerMin",
         type: {
           name: "Number"
         }
       },
       geographicLimitations: {
-        serializedName: "GeographicLimitations",
+        serializedName: "geographicLimitations",
         type: {
           name: "String"
         }
@@ -349,31 +366,31 @@ export const SMSOutbound: coreClient.CompositeMapper = {
   }
 };
 
-export const SMSInbound: coreClient.CompositeMapper = {
+export const SmsInbound: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SMSInbound",
+    className: "SmsInbound",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       smsPerMin: {
-        serializedName: "SmsPerMin",
+        serializedName: "smsPerMin",
         type: {
           name: "Number"
         }
       },
       geographicLimitations: {
-        serializedName: "GeographicLimitations",
+        serializedName: "geographicLimitations",
         type: {
           name: "String"
         }
@@ -388,7 +405,7 @@ export const AcsTierCapabilitiesCalling: coreClient.CompositeMapper = {
     className: "AcsTierCapabilitiesCalling",
     modelProperties: {
       outbound: {
-        serializedName: "Outbound",
+        serializedName: "outbound",
         type: {
           name: "Sequence",
           element: {
@@ -400,7 +417,7 @@ export const AcsTierCapabilitiesCalling: coreClient.CompositeMapper = {
         }
       },
       inbound: {
-        serializedName: "Inbound",
+        serializedName: "inbound",
         type: {
           name: "Sequence",
           element: {
@@ -421,25 +438,25 @@ export const CallingOutbound: coreClient.CompositeMapper = {
     className: "CallingOutbound",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       concurrentCalls: {
-        serializedName: "ConcurrentCalls",
+        serializedName: "concurrentCalls",
         type: {
           name: "Number"
         }
       },
       geographicLimitations: {
-        serializedName: "GeographicLimitations",
+        serializedName: "geographicLimitations",
         type: {
           name: "String"
         }
@@ -454,25 +471,25 @@ export const CallingInbound: coreClient.CompositeMapper = {
     className: "CallingInbound",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       concurrentCalls: {
-        serializedName: "ConcurrentCalls",
+        serializedName: "concurrentCalls",
         type: {
           name: "Number"
         }
       },
       geographicLimitations: {
-        serializedName: "GeographicLimitations",
+        serializedName: "geographicLimitations",
         type: {
           name: "String"
         }
@@ -487,7 +504,7 @@ export const TrialPhoneNumberPurchase: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberPurchase",
     modelProperties: {
       numberType: {
-        serializedName: "NumberType",
+        serializedName: "numberType",
         type: {
           name: "Sequence",
           element: {
@@ -498,19 +515,19 @@ export const TrialPhoneNumberPurchase: coreClient.CompositeMapper = {
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       totalNumbers: {
-        serializedName: "TotalNumbers",
+        serializedName: "totalNumbers",
         type: {
           name: "Number"
         }
       },
       trialPeriodDays: {
-        serializedName: "TrialPeriodDays",
+        serializedName: "trialPeriodDays",
         type: {
           name: "Number"
         }
@@ -525,20 +542,20 @@ export const TrialPhoneNumberUsage: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberUsage",
     modelProperties: {
       numberType: {
-        serializedName: "NumberType",
+        serializedName: "numberType",
         type: {
           name: "String"
         }
       },
       calling: {
-        serializedName: "Calling",
+        serializedName: "calling",
         type: {
           name: "Composite",
           className: "TrialPhoneNumberUsageCalling"
         }
       },
       sms: {
-        serializedName: "Sms",
+        serializedName: "sms",
         type: {
           name: "Composite",
           className: "TrialPhoneNumberUsageSms"
@@ -554,7 +571,7 @@ export const TrialPhoneNumberUsageCalling: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberUsageCalling",
     modelProperties: {
       outbound: {
-        serializedName: "Outbound",
+        serializedName: "outbound",
         type: {
           name: "Sequence",
           element: {
@@ -566,7 +583,7 @@ export const TrialPhoneNumberUsageCalling: coreClient.CompositeMapper = {
         }
       },
       inbound: {
-        serializedName: "Inbound",
+        serializedName: "inbound",
         type: {
           name: "Sequence",
           element: {
@@ -587,25 +604,31 @@ export const TrialPhoneNumberUsageCallingBounds: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberUsageCallingBounds",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       totalMinutes: {
-        serializedName: "TotalMinutes",
+        serializedName: "totalMinutes",
         type: {
           name: "Number"
         }
       },
       maximumCallDurationMinutes: {
-        serializedName: "MaximumCallDurationMinutes",
+        serializedName: "maximumCallDurationMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      concurrentCalls: {
+        serializedName: "concurrentCalls",
         type: {
           name: "Number"
         }
@@ -620,7 +643,7 @@ export const TrialPhoneNumberUsageSms: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberUsageSms",
     modelProperties: {
       outbound: {
-        serializedName: "Outbound",
+        serializedName: "outbound",
         type: {
           name: "Sequence",
           element: {
@@ -632,7 +655,7 @@ export const TrialPhoneNumberUsageSms: coreClient.CompositeMapper = {
         }
       },
       inbound: {
-        serializedName: "Inbound",
+        serializedName: "inbound",
         type: {
           name: "Sequence",
           element: {
@@ -653,25 +676,25 @@ export const TrialPhoneNumberUsageSmsBounds: coreClient.CompositeMapper = {
     className: "TrialPhoneNumberUsageSmsBounds",
     modelProperties: {
       type: {
-        serializedName: "Type",
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
       scope: {
-        serializedName: "Scope",
+        serializedName: "scope",
         type: {
           name: "String"
         }
       },
       total: {
-        serializedName: "Total",
+        serializedName: "total",
         type: {
           name: "Number"
         }
       },
       smsPerMin: {
-        serializedName: "SmsPerMin",
+        serializedName: "smsPerMin",
         type: {
           name: "Number"
         }

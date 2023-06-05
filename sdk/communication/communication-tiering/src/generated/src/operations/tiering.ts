@@ -58,12 +58,7 @@ const getByResourceIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "AcsTier" } }
-        }
-      }
+      bodyMapper: Mappers.AcsTier
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

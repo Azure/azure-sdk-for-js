@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export interface Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema {
+  /** AssetDetails Array */
+  assetDetails: AssetDetails[];
+}
+
 /** Model response for acquired number and limits. */
 export interface AssetDetails {
   /** Array defining the number type of the phone number. */
@@ -69,8 +74,6 @@ export interface CommunicationError {
 export interface AcsTier {
   /** Tier Id. */
   tierId?: string;
-  /** Correlation Id */
-  correlationId?: string;
   /** Tier Type */
   tierType?: string;
   /** Capabilities for the resource */
@@ -82,7 +85,7 @@ export interface AcsTierCapabilities {
   /** Phone number purchase capabilities of the tier. */
   phoneNumberPurchase?: PhoneNumberPurchase[];
   /** SMS capabilities of the tier. */
-  sms?: AcsTierCapabilitiesSMS;
+  sms?: AcsTierCapabilitiesSms;
   /** Calling capabilities of the tier. */
   calling?: AcsTierCapabilitiesCalling;
   /** Trial phone number purchase capability details. */
@@ -102,15 +105,15 @@ export interface PhoneNumberPurchase {
 }
 
 /** SMS capabilities of the tier. */
-export interface AcsTierCapabilitiesSMS {
+export interface AcsTierCapabilitiesSms {
   /** SMS Outbound capabilities of the tier. */
-  outbound?: SMSOutbound[];
+  outbound?: SmsOutbound[];
   /** SMS Inbound capabilities of the tier. */
-  inbound?: SMSInbound[];
+  inbound?: SmsInbound[];
 }
 
 /** Sms Outbound Capabilities for the tier. */
-export interface SMSOutbound {
+export interface SmsOutbound {
   /** Type of number. */
   type?: string;
   /** The scope to apply the limits. */
@@ -122,7 +125,7 @@ export interface SMSOutbound {
 }
 
 /** Sms Inbound Capabilities for the tier. */
-export interface SMSInbound {
+export interface SmsInbound {
   /** Type of number. */
   type?: string;
   /** The scope to apply the limits. */
@@ -205,6 +208,8 @@ export interface TrialPhoneNumberUsageCallingBounds {
   totalMinutes?: number;
   /** The total call duration in minutes allowed for a trial number. */
   maximumCallDurationMinutes?: number;
+  /** The number of concurrent calls allowed. */
+  concurrentCalls?: number;
 }
 
 /** The SMS capabilities for the trial phone number. */
@@ -232,14 +237,14 @@ export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAcquiredNumberLimits operation. */
-export type NumberAllotmentGetAcquiredNumberLimitsResponse = AssetDetails[];
+export type NumberAllotmentGetAcquiredNumberLimitsResponse = Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema;
 
 /** Optional parameters. */
 export interface TieringGetByResourceIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByResourceId operation. */
-export type TieringGetByResourceIdResponse = AcsTier[];
+export type TieringGetByResourceIdResponse = AcsTier;
 
 /** Optional parameters. */
 export interface TieringClientOptionalParams

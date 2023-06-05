@@ -6,4 +6,5 @@ export { AssetDetailsTierInfo as AssetDetailsTierInfoMapper } from "./generated/
 export { AcsTier as AcsTierMapper } from "./generated/src/models/mappers";
 export { AcsTierCapabilities as AcsTierCapabilitiesMappers } from "./generated/src/models/mappers";
 export { AcsTierCapabilitiesCalling as AcsTierCapabilitiesCallingMapper } from "./generated/src/models/mappers";
-export { AcsTierCapabilitiesSMS as AcsTierCapabilitiesSMSMapper } from "./generated/src/models/mappers";
+export { AcsTierCapabilitiesSms as AcsTierCapabilitiesSMSMapper } from "./generated/src/models/mappers";
+export { Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema as AssetDetailsResponseMapper } from "./generated/src/models/mappers";

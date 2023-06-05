@@ -58,12 +58,8 @@ const getAcquiredNumberLimitsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "AssetDetails" } }
-        }
-      }
+      bodyMapper:
+        Mappers.Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
