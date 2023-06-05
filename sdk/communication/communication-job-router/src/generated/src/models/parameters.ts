@@ -20,6 +20,7 @@ import {
   CancelJobRequest as CancelJobRequestMapper,
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
+  DeclineJobOfferRequest as DeclineJobOfferRequestMapper,
   RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
@@ -208,6 +209,11 @@ export const status: OperationQueryParameter = {
         "closed",
         "cancelled",
         "classificationFailed",
+        "created",
+        "pendingSchedule",
+        "scheduled",
+        "scheduleFailed",
+        "waitingForActivation",
         "active"
       ]
     }
@@ -244,6 +250,26 @@ export const classificationPolicyId: OperationQueryParameter = {
   }
 };
 
+export const scheduledBefore: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledBefore"],
+  mapper: {
+    serializedName: "scheduledBefore",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const scheduledAfter: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledAfter"],
+  mapper: {
+    serializedName: "scheduledAfter",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
 export const assignmentId2: OperationURLParameter = {
   parameterPath: "assignmentId",
   mapper: {
@@ -275,6 +301,11 @@ export const offerId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const declineJobOfferRequest: OperationParameter = {
+  parameterPath: ["options", "declineJobOfferRequest"],
+  mapper: DeclineJobOfferRequestMapper
 };
 
 export const patch5: OperationParameter = {

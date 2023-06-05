@@ -300,6 +300,13 @@ export interface RouterJob {
   tags?: { [propertyName: string]: any };
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /** Describes a condition that must be met against a set of labels for worker selection */
@@ -419,6 +426,16 @@ export interface AcceptJobOfferResult {
   jobId: string;
   /** The Id of the worker that has been assigned this job. */
   workerId: string;
+}
+
+/** Request payload for declining offers */
+export interface DeclineJobOfferRequest {
+  /**
+   * If the reoffer time is not provided, then this job will not be re-offered to the worker who declined this job unless
+   * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
+   * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
+   */
+  reofferTimeUtc?: Date;
 }
 
 /** A queue that can contain jobs to be routed. */
@@ -888,26 +905,6 @@ export interface ReclassifyExceptionAction extends ExceptionAction {
   labelsToUpsert?: { [propertyName: string]: any };
 }
 
-/** Known values of {@link RouterWorkerState} that the service accepts. */
-export enum KnownRouterWorkerState {
-  /** Active */
-  Active = "active",
-  /** Draining */
-  Draining = "draining",
-  /** Inactive */
-  Inactive = "inactive"
-}
-
-/**
- * Defines values for RouterWorkerState. \
- * {@link KnownRouterWorkerState} can be used interchangeably with RouterWorkerState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **active** \
- * **draining** \
- * **inactive**
- */
-export type RouterWorkerState = string;
 /** Defines values for RouterJobStatus. */
 export type RouterJobStatus =
   | "pendingClassification"
@@ -917,7 +914,11 @@ export type RouterJobStatus =
   | "closed"
   | "cancelled"
   | "classificationFailed"
-  | "created";
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation";
 /** Defines values for LabelOperator. */
 export type LabelOperator =
   | "equal"
@@ -938,7 +939,14 @@ export type JobStateSelector =
   | "closed"
   | "cancelled"
   | "classificationFailed"
+  | "created"
+  | "pendingSchedule"
+  | "scheduled"
+  | "scheduleFailed"
+  | "waitingForActivation"
   | "active";
+/** Defines values for RouterWorkerState. */
+export type RouterWorkerState = "active" | "draining" | "inactive";
 /** Defines values for WorkerStateSelector. */
 export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
 /** Defines values for ScoringRuleParameterSelector. */
@@ -1179,6 +1187,10 @@ export interface JobRouterListJobsOptionalParams
   channelId?: string;
   /** (Optional) If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /** Contains response data for the listJobs operation. */
@@ -1207,7 +1219,10 @@ export type JobRouterAcceptJobActionResponse = AcceptJobOfferResult;
 
 /** Optional parameters. */
 export interface JobRouterDeclineJobActionOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Request model for declining offer */
+  declineJobOfferRequest?: DeclineJobOfferRequest;
+}
 
 /** Contains response data for the declineJobAction operation. */
 export type JobRouterDeclineJobActionResponse = {

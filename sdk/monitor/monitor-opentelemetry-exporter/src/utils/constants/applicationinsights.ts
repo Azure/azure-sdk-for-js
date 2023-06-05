@@ -31,3 +31,16 @@ export enum DependencyTypes {
 }
 
 export const AzureMonitorSampleRate = "_MS.sampleRate";
+export const ApplicationInsightsBaseType = "_MS.baseType";
+
+export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";
+export const ApplicationInsightsExceptionName = "Microsoft.ApplicationInsights.Exception";
+export const ApplicationInsightsPageViewName = "Microsoft.ApplicationInsights.PageView";
+export const ApplicationInsightsAvailabilityName = "Microsoft.ApplicationInsights.Availability";
+export const ApplicationInsightsEventName = "Microsoft.ApplicationInsights.Event";
+
+export const ApplicationInsightsMessageBaseType = "MessageData";
+export const ApplicationInsightsExceptionBaseType = "TelemetryExceptionData";
+export const ApplicationInsightsPageViewBaseType = "PageViewData";
+export const ApplicationInsightsAvailabilityBaseType = "AvailabilityData";
+export const ApplicationInsightsEventBaseType = "TelemetryEventData";

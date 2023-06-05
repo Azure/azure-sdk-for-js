@@ -114,12 +114,13 @@ export function getDependencyTarget(attributes: Attributes): string {
 }
 
 export function createResourceMetricEnvelope(
-  attributes: Attributes,
+  resource: Resource,
   instrumentationKey: string
 ): Envelope | undefined {
-  if (attributes) {
+  if (resource && resource.attributes) {
+    const tags = createTagsFromResource(resource);
     const resourceAttributes: { [propertyName: string]: string } = {};
-    for (const key of Object.keys(attributes)) {
+    for (const key of Object.keys(resource.attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
         !(
@@ -129,26 +130,28 @@ export function createResourceMetricEnvelope(
           key == SemanticResourceAttributes.TELEMETRY_SDK_NAME
         )
       ) {
-        resourceAttributes[key] = attributes[key] as string;
+        resourceAttributes[key] = resource.attributes[key] as string;
       }
     }
-
-    let envelope: Envelope = {
-      name: "_APPRESOURCEPREVIEW_",
-      time: new Date(),
-      sampleRate: 100, // Metrics are never sampled
-      instrumentationKey: instrumentationKey,
-      version: 1,
-      data: {
-        baseType: "MetricData",
-        baseData: {
-          version: 2,
-          properties: resourceAttributes,
+    // Only send event when resource attributes are available
+    if (Object.keys(resourceAttributes).length > 0) {
+      let envelope: Envelope = {
+        name: "_APPRESOURCEPREVIEW_",
+        time: new Date(),
+        sampleRate: 100, // Metrics are never sampled
+        instrumentationKey: instrumentationKey,
+        version: 1,
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            properties: resourceAttributes,
+          },
         },
-      },
-      tags: {},
-    };
-    return envelope;
+        tags: tags,
+      };
+      return envelope;
+    }
   }
   return;
 }

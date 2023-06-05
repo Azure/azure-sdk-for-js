@@ -12,6 +12,7 @@ import {
   JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
   JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
@@ -170,6 +171,13 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: { [propertyName: string]: any };
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is not ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /**
@@ -196,6 +204,13 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: { [propertyName: string]: any };
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /**
@@ -243,6 +258,18 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
 }
 
 /**
+ * Options to close a job.
+ */
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+  /**
+   * If the reoffer time is not provided, then this job will not be re-offered to the worker who declined this job unless
+   * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
+   * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
+   */
+  reofferTimeUtc?: Date;
+}
+
+/**
  * Options to get router jobs.
  */
 export interface ListJobsOptions extends OperationOptions {
@@ -256,6 +283,10 @@ export interface ListJobsOptions extends OperationOptions {
   channelId?: string;
   /** (Optional) If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /**

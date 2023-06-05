@@ -81,7 +81,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   // We'll just default the date to Jan 1, 1970 because it's convenient to work with an always-defined date.
   const migrationDate = new Date(
-    project.packageJson[METADATA_KEY].migrationDate ?? "1970-01-01T00:00:00Z"
+    project.packageJson[METADATA_KEY]?.migrationDate ?? "1970-01-01T00:00:00Z"
   );
 
   // Bare command with no sub-mode arguments.
@@ -230,7 +230,7 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
   }
 
   log.info(`Starting migration pass for '${project.name}'.`);
-  log.info(`Last migration: ${project.packageJson[METADATA_KEY].migrationDate ?? "never"}`);
+  log.info(`Last migration: ${project.packageJson[METADATA_KEY]?.migrationDate ?? "never"}`);
 
   return runMigrations(pending, project);
 }
@@ -263,7 +263,7 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         return false;
       }
       case "skipped": {
-        onMigrationSkipped(project, migration);
+        await onMigrationSkipped(project, migration);
         continue;
       }
       default:
