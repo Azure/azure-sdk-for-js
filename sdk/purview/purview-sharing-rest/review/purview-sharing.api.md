@@ -287,7 +287,7 @@ export function isUnexpected(response: SentSharesDeleteSentShareInvitation202Res
 export function isUnexpected(response: SentSharesNotifyUserSentShareInvitation200Response | SentSharesNotifyUserSentShareInvitationDefaultResponse): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ShareResourcesList200Response | ShareResourcesListDefaultResponse): response is ShareResourcesListDefaultResponse;
+export function isUnexpected(response: ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse): response is ShareResourcesGetAllShareResourcesDefaultResponse;
 
 // @public
 export interface OperationResponseOutput {
@@ -682,7 +682,7 @@ export interface Routes {
     (path: "/sentShares/{sentShareId}/sentShareInvitations", sentShareId: string): SentSharesGetAllSentShareInvitations;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}", sentShareId: string, sentShareInvitationId: string): SentSharesGetSentShareInvitation;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify", sentShareId: string, sentShareInvitationId: string): SentSharesNotifyUserSentShareInvitation;
-    (path: "/shareResources"): ShareResourcesList;
+    (path: "/shareResources"): ShareResourcesGetAllShareResources;
 }
 
 // @public
@@ -1146,12 +1146,12 @@ export interface ShareResourceOutput extends ProxyResourceOutput {
 }
 
 // @public (undocumented)
-export interface ShareResourcesList {
-    get(options?: ShareResourcesListParameters): StreamableMethod<ShareResourcesList200Response | ShareResourcesListDefaultResponse>;
+export interface ShareResourcesGetAllShareResources {
+    get(options?: ShareResourcesGetAllShareResourcesParameters): StreamableMethod<ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse>;
 }
 
 // @public
-export interface ShareResourcesList200Response extends HttpResponse {
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
     // (undocumented)
     body: ShareResourceListOutput;
     // (undocumented)
@@ -1159,31 +1159,31 @@ export interface ShareResourcesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ShareResourcesListDefaultHeaders {
+export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ShareResourcesListDefaultResponse extends HttpResponse {
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: PurviewShareErrorOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ShareResourcesListDefaultHeaders;
+    headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ShareResourcesListParameters = ShareResourcesListQueryParam & RequestParameters;
+export type ShareResourcesGetAllShareResourcesParameters = ShareResourcesGetAllShareResourcesQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface ShareResourcesListQueryParam {
+export interface ShareResourcesGetAllShareResourcesQueryParam {
     // (undocumented)
-    queryParameters?: ShareResourcesListQueryParamProperties;
+    queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ShareResourcesListQueryParamProperties {
+export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
     filter?: string;
     orderby?: string;
 }
