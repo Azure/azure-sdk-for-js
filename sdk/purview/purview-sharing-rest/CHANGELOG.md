@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2023-06-23)
 
 ### Features Added
+
+- Release of GET Share Resources API.
 
 ### Breaking Changes
 
