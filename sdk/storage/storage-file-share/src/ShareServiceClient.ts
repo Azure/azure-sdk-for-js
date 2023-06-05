@@ -268,11 +268,12 @@ export class ShareServiceClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
   constructor(
     url: string,
     credential?: AnonymousCredential | StorageSharedKeyCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
   /**
