@@ -116,13 +116,11 @@ async function getAllSentShareInvitations(
  *
  * @summary List share resources
  */
-async function getAllShareResources(
-  client: PurviewSharingClient
-): Promise<ShareResourceOutput[]> {
+async function getAllShareResources(client: PurviewSharingClient): Promise<ShareResourceOutput[]> {
   const initialResponse = await client.path("/shareResources").get();
   const pageData = paginate(client, initialResponse);
   const result: ShareResourceOutput[] = [];
-  
+
   for await (const item of pageData) {
     const shareResource = item as ShareResourceOutput;
     shareResource && result.push(shareResource);

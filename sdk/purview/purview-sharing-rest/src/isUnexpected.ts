@@ -37,7 +37,7 @@ import {
   SentSharesNotifyUserSentShareInvitation200Response,
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
   ShareResourcesGetAllShareResources200Response,
-  ShareResourcesGetAllShareResourcesDefaultResponse
+  ShareResourcesGetAllShareResourcesDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -57,7 +57,7 @@ const responseMap: Record<string, string[]> = {
   "PUT /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["201"],
   "DELETE /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["202"],
   "POST /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify": ["200"],
-  "GET /shareResources": ["200"]
+  "GET /shareResources": ["200"],
 };
 
 export function isUnexpected(
@@ -137,7 +137,9 @@ export function isUnexpected(
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
 ): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 export function isUnexpected(
-  response: ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse
+  response:
+    | ShareResourcesGetAllShareResources200Response
+    | ShareResourcesGetAllShareResourcesDefaultResponse
 ): response is ShareResourcesGetAllShareResourcesDefaultResponse;
 export function isUnexpected(
   response:
@@ -237,7 +239,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
           pathParts[j] || ""
-          );
+        );
 
         if (!isMatched) {
           found = false;

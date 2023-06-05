@@ -117,7 +117,7 @@ describe("Sent Shares Operations", () => {
                   containerName: "container1",
                   senderPath: "folder1",
                   receiverPath: "folder1",
-                }
+                },
               ],
             },
           },

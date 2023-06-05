@@ -35,7 +35,7 @@ export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParam {
   queryParameters: ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties;
 }
 
-export type ReceivedSharesGetAllAttachedReceivedSharesParameters = 
+export type ReceivedSharesGetAllAttachedReceivedSharesParameters =
   ReceivedSharesGetAllAttachedReceivedSharesQueryParam & RequestParameters;
 
 export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties {
@@ -49,7 +49,7 @@ export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParam {
   queryParameters?: ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties;
 }
 
-export type ReceivedSharesGetAllDetachedReceivedSharesParameters = 
+export type ReceivedSharesGetAllDetachedReceivedSharesParameters =
   ReceivedSharesGetAllDetachedReceivedSharesQueryParam & RequestParameters;
 
 export interface ReceivedSharesActivateTenantEmailRegistrationHeaders {
@@ -71,11 +71,11 @@ export interface ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ReceivedSharesActivateTenantEmailRegistrationParameters = 
-ReceivedSharesActivateTenantEmailRegistrationHeaderParam &
-  ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam &
-  ReceivedSharesActivateTenantEmailRegistrationBodyParam &
-  RequestParameters;
+export type ReceivedSharesActivateTenantEmailRegistrationParameters =
+  ReceivedSharesActivateTenantEmailRegistrationHeaderParam &
+    ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam &
+    ReceivedSharesActivateTenantEmailRegistrationBodyParam &
+    RequestParameters;
 
 export interface ReceivedSharesRegisterTenantEmailRegistrationHeaders {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
@@ -86,7 +86,7 @@ export interface ReceivedSharesRegisterTenantEmailRegistrationHeaderParam {
   headers?: RawHttpHeadersInput & ReceivedSharesRegisterTenantEmailRegistrationHeaders;
 }
 
-export type ReceivedSharesRegisterTenantEmailRegistrationParameters = 
+export type ReceivedSharesRegisterTenantEmailRegistrationParameters =
   ReceivedSharesRegisterTenantEmailRegistrationHeaderParam & RequestParameters;
 
 export interface SentSharesGetAllSentSharesQueryParamProperties {
@@ -132,7 +132,7 @@ export interface SentSharesGetAllSentShareInvitationsQueryParam {
   queryParameters?: SentSharesGetAllSentShareInvitationsQueryParamProperties;
 }
 
-export type SentSharesGetAllSentShareInvitationsParameters = 
+export type SentSharesGetAllSentShareInvitationsParameters =
   SentSharesGetAllSentShareInvitationsQueryParam & RequestParameters;
 export type SentSharesGetSentShareInvitationParameters = RequestParameters;
 
@@ -146,10 +146,10 @@ export interface SentSharesCreateSentShareInvitationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SentSharesCreateSentShareInvitationParameters = 
-SentSharesCreateSentShareInvitationMediaTypesParam &
-  SentSharesCreateSentShareInvitationBodyParam &
-  RequestParameters;
+export type SentSharesCreateSentShareInvitationParameters =
+  SentSharesCreateSentShareInvitationMediaTypesParam &
+    SentSharesCreateSentShareInvitationBodyParam &
+    RequestParameters;
 export type SentSharesDeleteSentShareInvitationParameters = RequestParameters;
 
 export interface SentSharesNotifyUserSentShareInvitationHeaders {
@@ -161,7 +161,7 @@ export interface SentSharesNotifyUserSentShareInvitationHeaderParam {
   headers?: RawHttpHeadersInput & SentSharesNotifyUserSentShareInvitationHeaders;
 }
 
-export type SentSharesNotifyUserSentShareInvitationParameters = 
+export type SentSharesNotifyUserSentShareInvitationParameters =
   SentSharesNotifyUserSentShareInvitationHeaderParam & RequestParameters;
 
 export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
@@ -175,5 +175,5 @@ export interface ShareResourcesGetAllShareResourcesQueryParam {
   queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
 }
 
-export type ShareResourcesGetAllShareResourcesParameters = ShareResourcesGetAllShareResourcesQueryParam &
-  RequestParameters;
+export type ShareResourcesGetAllShareResourcesParameters =
+  ShareResourcesGetAllShareResourcesQueryParam & RequestParameters;

@@ -13,7 +13,7 @@ import {
   SentShareOutput,
   SentShareInvitationListOutput,
   SentShareInvitationOutput,
-  ShareResourceListOutput
+  ShareResourceListOutput,
 } from "./outputModels";
 
 /** Get a received share */
@@ -370,8 +370,7 @@ export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
 }
 
 /** List share resources */
-export interface ShareResourcesGetAllShareResourcesDefaultResponse
-  extends HttpResponse {
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
