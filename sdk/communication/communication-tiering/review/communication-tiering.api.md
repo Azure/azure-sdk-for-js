@@ -14,7 +14,6 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AcsTier {
     capabilities?: AcsTierCapabilities;
-    correlationId?: string;
     tierId?: string;
     tierType?: string;
 }
@@ -23,7 +22,7 @@ export interface AcsTier {
 export interface AcsTierCapabilities {
     calling?: AcsTierCapabilitiesCalling;
     phoneNumberPurchase?: PhoneNumberPurchase[];
-    sms?: AcsTierCapabilitiesSMS;
+    sms?: AcsTierCapabilitiesSms;
     trialPhoneNumberPurchase?: TrialPhoneNumberPurchase[];
     trialPhoneNumberUsage?: TrialPhoneNumberUsage[];
 }
@@ -41,9 +40,9 @@ export const AcsTierCapabilitiesCallingMapper: coreClient.CompositeMapper;
 export const AcsTierCapabilitiesMappers: coreClient.CompositeMapper;
 
 // @public
-export interface AcsTierCapabilitiesSMS {
-    inbound?: SMSInbound[];
-    outbound?: SMSOutbound[];
+export interface AcsTierCapabilitiesSms {
+    inbound?: SmsInbound[];
+    outbound?: SmsOutbound[];
 }
 
 // @public (undocumented)
@@ -63,6 +62,9 @@ export interface AssetDetails {
 
 // @public (undocumented)
 export const AssetDetailsMapper: coreClient.CompositeMapper;
+
+// @public (undocumented)
+export const AssetDetailsResponseMapper: coreClient.CompositeMapper;
 
 // @public
 export interface AssetDetailsTierInfo {
@@ -97,7 +99,12 @@ export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams extends co
 }
 
 // @public
-export type NumberAllotmentGetAcquiredNumberLimitsResponse = AssetDetails[];
+export type NumberAllotmentGetAcquiredNumberLimitsResponse = Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema;
+
+// @public (undocumented)
+export interface Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema {
+    assetDetails: AssetDetails[];
+}
 
 // @public
 export interface PhoneNumberPurchase {
@@ -107,7 +114,7 @@ export interface PhoneNumberPurchase {
 }
 
 // @public
-export interface SMSInbound {
+export interface SmsInbound {
     geographicLimitations?: string;
     scope?: string;
     smsPerMin?: number;
@@ -115,7 +122,7 @@ export interface SMSInbound {
 }
 
 // @public
-export interface SMSOutbound {
+export interface SmsOutbound {
     geographicLimitations?: string;
     scope?: string;
     smsPerMin?: number;
@@ -146,7 +153,7 @@ export interface TieringGetByResourceIdOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type TieringGetByResourceIdResponse = AcsTier[];
+export type TieringGetByResourceIdResponse = AcsTier;
 
 // @public
 export interface TrialPhoneNumberPurchase {
@@ -171,6 +178,7 @@ export interface TrialPhoneNumberUsageCalling {
 
 // @public
 export interface TrialPhoneNumberUsageCallingBounds {
+    concurrentCalls?: number;
     maximumCallDurationMinutes?: number;
     scope?: string;
     totalMinutes?: number;
