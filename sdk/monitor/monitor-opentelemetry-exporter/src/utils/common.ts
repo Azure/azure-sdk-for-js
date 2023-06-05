@@ -17,27 +17,72 @@ export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
   if (resource && resource.attributes) {
-    const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
-    if (serviceName) {
-      if (serviceNamespace) {
-        tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
-      } else {
-        tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
-      }
-    }
-    const serviceInstanceId = resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
-    if (serviceInstanceId) {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = String(serviceInstanceId);
-    } else {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = os && os.hostname();
-    }
+    tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
+    tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
     const endUserId = resource.attributes[SemanticAttributes.ENDUSER_ID];
     if (endUserId) {
       tags[KnownContextTagKeys.AiUserId] = String(endUserId);
     }
   }
   return tags;
+}
+
+function getCloudRole(resource: Resource): string {
+  // Kubernetes attributes should take precedence
+  const kubernetesDeploymentName =
+    resource.attributes[SemanticResourceAttributes.K8S_DEPLOYMENT_NAME];
+  if (kubernetesDeploymentName) {
+    return String(kubernetesDeploymentName);
+  }
+  const kuberneteReplicasetName =
+    resource.attributes[SemanticResourceAttributes.K8S_REPLICASET_NAME];
+  if (kuberneteReplicasetName) {
+    return String(kuberneteReplicasetName);
+  }
+  const kubernetesStatefulSetName =
+    resource.attributes[SemanticResourceAttributes.K8S_STATEFULSET_NAME];
+  if (kubernetesStatefulSetName) {
+    return String(kubernetesStatefulSetName);
+  }
+  const kubernetesJobtName = resource.attributes[SemanticResourceAttributes.K8S_JOB_NAME];
+  if (kubernetesJobtName) {
+    return String(kubernetesJobtName);
+  }
+  const kubernetesCronjobName = resource.attributes[SemanticResourceAttributes.K8S_CRONJOB_NAME];
+  if (kubernetesCronjobName) {
+    return String(kubernetesCronjobName);
+  }
+  const kubernetesDaemonsetName =
+    resource.attributes[SemanticResourceAttributes.K8S_DAEMONSET_NAME];
+  if (kubernetesDaemonsetName) {
+    return String(kubernetesDaemonsetName);
+  }
+  // Service attributes
+  const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
+  const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
+  if (serviceName) {
+    if (serviceNamespace) {
+      return `${serviceNamespace}.${serviceName}`;
+    } else {
+      return String(serviceName);
+    }
+  }
+  return "";
+}
+
+function getCloudRoleInstance(resource: Resource): string {
+  // Kubernetes attributes should take precedence
+  const kubernetesPodName = resource.attributes[SemanticResourceAttributes.K8S_POD_NAME];
+  if (kubernetesPodName) {
+    return String(kubernetesPodName);
+  }
+  // Service attributes
+  const serviceInstanceId = resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
+  if (serviceInstanceId) {
+    return String(serviceInstanceId);
+  }
+  // Default
+  return os && os.hostname();
 }
 
 export function isSqlDB(dbSystem: string) {
