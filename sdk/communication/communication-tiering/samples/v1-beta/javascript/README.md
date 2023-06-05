@@ -55,11 +55,10 @@ npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples co
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+Here are some [samples] <!--TODO: Enable link after release (https://github.com/azure-sdk-for-python/blob/main/samples.json)--> to look at.
 
 [getacquirednumberlimits]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getAcquiredNumberLimits.js
 [gettierinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getTierInfo.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-tiering
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-tiering/README.md
