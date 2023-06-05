@@ -24,15 +24,31 @@ import {
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
 } from "../../utils/batch";
-import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
+import {
+  assertNotUndefined,
+  isPrimitivePartitionKeyValue,
+  isEpkRange,
+} from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { PartitionKeyRangeCache } from "../../routing";
+import {
+  ChangeFeedIteratorV2,
+  ChangeFeedOptionsV2,
+  ChangeFeedEpkRange,
+  ChangeFeedForPartitionKey,
+} from "../../client/V2ChangeFeed";
+import { ErrorResponse } from "../../request";
 
 /**
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
+}
+
+function isPartitionKey(partitionKey: unknown) {
+  return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
 }
 
 /**
@@ -46,10 +62,10 @@ export class Items {
    * @param container - The parent container.
    * @hidden
    */
-  constructor(
-    public readonly container: Container,
-    private readonly clientContext: ClientContext
-  ) {}
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+  }
 
   /**
    * Queries all items.
@@ -107,6 +123,57 @@ export class Items {
       this.container.url,
       ResourceType.item
     );
+  }
+
+  public async changeFeedV2<T>(): Promise<ChangeFeedIteratorV2<T>>;
+
+  public async changeFeedV2<T>(
+    changeFeedOptions?: ChangeFeedOptionsV2
+  ): Promise<ChangeFeedIteratorV2<T>> {
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
+    const { resource } = await this.container.read();
+
+    const changeFeedOptionsV2 = isChangeFeedOptions(changeFeedOptions) ? changeFeedOptions : {};
+
+    if (changeFeedOptionsV2?.epkRange && changeFeedOptionsV2?.partitionKey) {
+      throw new ErrorResponse("PartitionKey and EpkRange cannot be specified at the same time");
+    }
+
+    const isPartitionKeyValue = isPartitionKey(changeFeedOptionsV2?.partitionKey);
+
+    let iterator: ChangeFeedIteratorV2<T>;
+    if (isPartitionKeyValue) {
+      iterator = new ChangeFeedForPartitionKey(
+        this.clientContext,
+        id,
+        path,
+        resource?._rid,
+        changeFeedOptionsV2?.partitionKey,
+        changeFeedOptionsV2
+      );
+    } else {
+      iterator = new ChangeFeedEpkRange(
+        this.clientContext,
+        this.partitionKeyRangeCache,
+        id,
+        path,
+        this.container.url,
+        resource._rid,
+        changeFeedOptionsV2
+      );
+      if (!changeFeedOptionsV2?.continuationToken) {
+        if (changeFeedOptionsV2?.epkRange !== undefined) {
+          if (isEpkRange(changeFeedOptionsV2?.epkRange))
+            await iterator.fetchOverLappingFeedRanges(changeFeedOptionsV2?.epkRange);
+          else throw new ErrorResponse("EpkRange is not valid");
+        } else {
+          await iterator.fetchAllFeedRanges();
+        }
+      }
+    }
+
+    return iterator;
   }
 
   /**

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PartitionKeyRange } from "../client";
 import {
   NonePartitionKeyLiteral,
   NonePartitionKeyType,
@@ -62,4 +63,18 @@ export function isNonePartitionKeyValue(value: unknown): value is NonePartitionK
  */
 export function isNullPartitionKeyValue(value: unknown): value is NullPartitionKeyType {
   return value === NullPartitionKeyLiteral;
+}
+
+export function isEpkRange(obj: any): obj is PartitionKeyRange {
+  return (
+    obj &&
+    typeof obj.id === "string" &&
+    typeof obj.minInclusive === "string" &&
+    typeof obj.maxExclusive === "string" &&
+    typeof obj.ridPrefix === "number" &&
+    typeof obj.throughputFraction === "number" &&
+    typeof obj.id === "string" &&
+    typeof obj.status === "string" &&
+    typeof obj.parents === "object"
+  );
 }
