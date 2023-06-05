@@ -50,6 +50,7 @@
     "src/client/UserDefinedFunction/UserDefinedFunction.ts",
     "src/client/UserDefinedFunction/UserDefinedFunctionResponse.ts",
     "src/client/UserDefinedFunction/UserDefinedFunctions.ts",
+    "src/client/V2ChangeFeed/*.ts",
     "src/queryExecutionContext/Aggregators/AverageAggregator.ts",
     "src/queryExecutionContext/Aggregators/MaxAggregator.ts",
     "src/queryExecutionContext/Aggregators/MinAggregator.ts",
