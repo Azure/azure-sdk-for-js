@@ -14,7 +14,8 @@
   - Default to be `false`.
 - Added new boolean property `enableAutomaticUpgrade` to type `VMExtension`.
   - Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.
-- Add a new enum `CriCompatible` to type `ContainerType`.
+- Added a new property `type` to type `ContainerConfiguration`.
+  - The container technology to be used. Possible values include: `dockerCompatible` and `criCompatible`.
 
 ### Other Changes
 
