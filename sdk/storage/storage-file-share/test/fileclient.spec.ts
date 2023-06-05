@@ -592,7 +592,9 @@ describe("FileClient", () => {
     );
     await fileClient.create(10);
     let progressUpdated = false;
-    await fileClient.uploadRange("HelloWorld", 0, 10, {
+    // fetch http client doesn't fire progress for string bodies, only blob and streams
+    const body = isNode ? "HelloWorld" : new Blob(["HelloWorld"]);
+    await fileClient.uploadRange(body, 0, 10, {
       onProgress: () => {
         progressUpdated = true;
       },
@@ -786,11 +788,16 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 2), "He");
   });
 
-  it("download should update progress and abort successfully", async () => {
+  it("download should update progress and abort successfully", async function () {
     recorder.skip(
       undefined,
       "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
     );
+    if (!isNode) {
+      // because this test is using a blob response, there won't be
+      // anything to abort by the time onProgress gets called.
+      this.skip();
+    }
     await fileClient.create(128 * 1024 * 1024);
 
     let eventTriggered = false;

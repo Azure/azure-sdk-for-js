@@ -3922,7 +3922,6 @@ export class ShareFileClient extends StorageClient {
         offset,
         res.contentLength!,
         {
-          abortSignal: updatedOptions.abortSignal,
           maxRetryRequests: updatedOptions.maxRetryRequests,
           onProgress: updatedOptions.onProgress,
         }
