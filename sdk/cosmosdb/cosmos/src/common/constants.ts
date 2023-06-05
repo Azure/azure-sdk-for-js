@@ -69,6 +69,7 @@ export const Constants = {
     QueryVersion: "x-ms-cosmos-query-version",
 
     // Our custom Azure Cosmos DB headers
+    ContinuationToken: "x-ms-continuation-token",
     Continuation: "x-ms-continuation",
     PageSize: "x-ms-max-item-count",
     ItemCount: "x-ms-item-count",

@@ -93,6 +93,7 @@ export interface SubStatusCodesType {
   // 403: Forbidden Substatus
   WriteForbidden: 3;
   DatabaseAccountNotFound: 1008;
+  CompletingSplit: 1007;
 }
 
 /**
@@ -113,4 +114,5 @@ export const SubStatusCodes: SubStatusCodesType = {
   // 403: Forbidden Substatus
   WriteForbidden: 3,
   DatabaseAccountNotFound: 1008,
+  CompletingSplit: 1007,
 };
