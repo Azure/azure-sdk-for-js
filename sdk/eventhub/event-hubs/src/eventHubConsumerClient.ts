@@ -63,7 +63,7 @@ export class EventHubConsumerClient {
    */
   private _clientOptions: EventHubConsumerClientOptions;
   private _partitionGate = new PartitionGate();
-  private _id = getRandomName();
+  private _id: string;
 
   /**
    * The Subscriptions that were spawned by calling `subscribe()`.
@@ -327,6 +327,7 @@ export class EventHubConsumerClient {
         this._clientOptions
       );
     }
+    this._id = this._clientOptions.identifier ?? getRandomName();
     this._loadBalancingOptions = {
       // default options
       strategy: "balanced",

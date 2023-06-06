@@ -293,7 +293,6 @@ export class EventHubBufferedProducerClient {
       );
       this._clientOptions = { ...options4! };
     }
-
     // setting internal idempotent publishing option on the standard producer.
     (this._producer as any)._enableIdempotentRetries = this._clientOptions.enableIdempotentRetries;
   }

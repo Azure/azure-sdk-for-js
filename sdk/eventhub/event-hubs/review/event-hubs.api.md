@@ -129,6 +129,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
 // @public
 export interface EventHubClientOptions {
     customEndpointAddress?: string;
+    identifier?: string;
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocketOptions?: WebSocketOptions;
