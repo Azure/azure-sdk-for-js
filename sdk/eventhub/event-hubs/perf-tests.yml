@@ -33,4 +33,4 @@ Tests:
 - Test: subscribe
   Class: SubscribeTest
   Arguments:
-  - --event-size 1024 --max-batch-size 1000 --events 10000000
+  - --event-size 1024 --max-batch-size 100 --events 1000000
