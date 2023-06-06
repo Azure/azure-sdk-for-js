@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, isNode, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
@@ -13,6 +13,9 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
     let client: OpenAIClient;
 
     beforeEach(async function (this: Context) {
+      if (!isNode && authMethod == "AAD") {
+        this.skip();
+      }
       recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);
       client = createClient(authMethod, { recorder });
