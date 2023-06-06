@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/rooms/99427856553634562?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/99432875592940888?api-version=2023-06-14",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,21 +18,21 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "b4d31775-ad77-4929-ac64-1f7c48aaa3c0",
+        "x-ms-client-request-id": "bfff1e11-5e67-439b-afda-1eacf46e81b8",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 12 May 2023 21:33:07 GMT",
-        "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 06 Jun 2023 19:06:07 GMT",
+        "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "api-deprecated-versions": "2021-04-07",
-        "api-supported-versions": "2022-02-01, 2023-03-31-preview",
-        "Date": "Fri, 12 May 2023 21:33:08 GMT",
-        "MS-CV": "NeucbIN/vESwnfw0EzutQg.0",
+        "api-supported-versions": "2022-02-01, 2023-03-31-preview, 2023-06-14",
+        "Date": "Tue, 06 Jun 2023 19:06:07 GMT",
+        "MS-CV": "MiI8E5GtkEOz/LnD7vKxJA.0",
         "Request-Context": "appId=",
-        "X-Azure-Ref": "0k7BeZAAAAADNeRcaNEkjTanraRDBq2D5WVZSMzExMDAwMTE1MDQ5AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Azure-Ref": "0n4N/ZAAAAACzNJ\u002B0rutlQLR6N2i58fKcWVZSMzExMDAwMTE1MDM5AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
