@@ -1,0 +1,29 @@
+{
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/identity": "^3.2.2",
+    "@azure/openai": "^1.0.0-beta.1",
+    "child_process": "^1.0.2"
+  },
+  "devDependencies": {
+    "@webpack-cli/generators": "^3.0.4",
+    "babel-loader": "^9.1.2",
+    "html-webpack-plugin": "^5.5.1"
+  },
+  "browser":{
+    "child_process": false
+  } 
+}
