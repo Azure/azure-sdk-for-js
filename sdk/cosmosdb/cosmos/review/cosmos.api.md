@@ -33,6 +33,11 @@ export interface Agent {
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
 // @public (undocumented)
+export type BulkOperationResponse = OperationResponse[] & {
+    diagnostics: CosmosDiagnostics;
+};
+
+// @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
     readonly Upsert: "Upsert";
@@ -960,9 +965,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
-    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[] & {
-        diagnostics: CosmosDiagnosticContext;
-    }>;
+    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;

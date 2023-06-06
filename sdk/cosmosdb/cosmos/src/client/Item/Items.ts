@@ -25,6 +25,7 @@ import {
   BulkOptions,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
+  BulkOperationResponse,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -421,7 +422,7 @@ export class Items {
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
     options?: RequestOptions
-  ): Promise<OperationResponse[] & { diagnostics: CosmosDiagnosticContext }> {
+  ): Promise<BulkOperationResponse> {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
