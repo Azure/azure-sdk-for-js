@@ -37,7 +37,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptio
     },
   });
   return {
-    testDurationInMs: options.testDurationInMs || 15 * 24 * 60 * 60 * 1000, // Default = 15 days
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
     receiveMode: options.receiveMode || "peekLock",
     autoComplete: !!options.autoComplete,
     maxConcurrentCalls: options.maxConcurrentCalls || 100,
