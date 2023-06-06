@@ -129,6 +129,7 @@ export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdd
 export interface ChatParticipant {
     displayName?: string;
     id: CommunicationIdentifier;
+    metadata?: Record<string, string>;
     shareHistoryTime?: Date;
 }
 
@@ -173,6 +174,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
+    metadata?: Record<string, string>;
     topic: string;
 }
 
@@ -181,6 +183,7 @@ export { ChatThreadPropertiesUpdatedEvent }
 // @public
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
+    metadata?: Record<string, string>;
     participants?: ChatParticipant[];
 }
 
