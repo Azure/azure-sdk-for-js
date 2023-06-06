@@ -22,6 +22,9 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
     });
 
     afterEach(async function () {
+      if (!isNode && authMethod == "AAD") {
+        this.skip();
+      }
       await recorder.stop();
     });
 
