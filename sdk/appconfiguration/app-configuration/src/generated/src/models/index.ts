@@ -208,8 +208,8 @@ export enum KnownApiVersion10 {
  */
 export type ApiVersion10 = string;
 
-/** Known values of {@link Get6ItemsItem} that the service accepts. */
-export enum KnownGet6ItemsItem {
+/** Known values of {@link KeyValueFields} that the service accepts. */
+export enum KnownKeyValueFields {
   Key = "key",
   Label = "label",
   ContentType = "content_type",
@@ -221,8 +221,8 @@ export enum KnownGet6ItemsItem {
 }
 
 /**
- * Defines values for Get6ItemsItem. \
- * {@link KnownGet6ItemsItem} can be used interchangeably with Get6ItemsItem,
+ * Defines values for KeyValueFields. \
+ * {@link KnownKeyValueFields} can be used interchangeably with KeyValueFields,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **key** \
@@ -234,147 +234,21 @@ export enum KnownGet6ItemsItem {
  * **locked** \
  * **etag**
  */
-export type Get6ItemsItem = string;
+export type KeyValueFields = string;
 
-/** Known values of {@link Head6ItemsItem} that the service accepts. */
-export enum KnownHead6ItemsItem {
-  Key = "key",
-  Label = "label",
-  ContentType = "content_type",
-  Value = "value",
-  LastModified = "last_modified",
-  Tags = "tags",
-  Locked = "locked",
-  Etag = "etag"
+/** Known values of {@link LabelFields} that the service accepts. */
+export enum KnownLabelFields {
+  Name = "name"
 }
 
 /**
- * Defines values for Head6ItemsItem. \
- * {@link KnownHead6ItemsItem} can be used interchangeably with Head6ItemsItem,
+ * Defines values for LabelFields. \
+ * {@link KnownLabelFields} can be used interchangeably with LabelFields,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **key** \
- * **label** \
- * **content_type** \
- * **value** \
- * **last_modified** \
- * **tags** \
- * **locked** \
- * **etag**
+ * **name**
  */
-export type Head6ItemsItem = string;
-
-/** Known values of {@link Get7ItemsItem} that the service accepts. */
-export enum KnownGet7ItemsItem {
-  Key = "key",
-  Label = "label",
-  ContentType = "content_type",
-  Value = "value",
-  LastModified = "last_modified",
-  Tags = "tags",
-  Locked = "locked",
-  Etag = "etag"
-}
-
-/**
- * Defines values for Get7ItemsItem. \
- * {@link KnownGet7ItemsItem} can be used interchangeably with Get7ItemsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **key** \
- * **label** \
- * **content_type** \
- * **value** \
- * **last_modified** \
- * **tags** \
- * **locked** \
- * **etag**
- */
-export type Get7ItemsItem = string;
-
-/** Known values of {@link Head7ItemsItem} that the service accepts. */
-export enum KnownHead7ItemsItem {
-  Key = "key",
-  Label = "label",
-  ContentType = "content_type",
-  Value = "value",
-  LastModified = "last_modified",
-  Tags = "tags",
-  Locked = "locked",
-  Etag = "etag"
-}
-
-/**
- * Defines values for Head7ItemsItem. \
- * {@link KnownHead7ItemsItem} can be used interchangeably with Head7ItemsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **key** \
- * **label** \
- * **content_type** \
- * **value** \
- * **last_modified** \
- * **tags** \
- * **locked** \
- * **etag**
- */
-export type Head7ItemsItem = string;
-
-/** Known values of {@link Enum5} that the service accepts. */
-export enum KnownEnum5 {
-  Key = "key",
-  Label = "label",
-  ContentType = "content_type",
-  Value = "value",
-  LastModified = "last_modified",
-  Tags = "tags",
-  Locked = "locked",
-  Etag = "etag"
-}
-
-/**
- * Defines values for Enum5. \
- * {@link KnownEnum5} can be used interchangeably with Enum5,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **key** \
- * **label** \
- * **content_type** \
- * **value** \
- * **last_modified** \
- * **tags** \
- * **locked** \
- * **etag**
- */
-export type Enum5 = string;
-
-/** Known values of {@link Enum6} that the service accepts. */
-export enum KnownEnum6 {
-  Key = "key",
-  Label = "label",
-  ContentType = "content_type",
-  Value = "value",
-  LastModified = "last_modified",
-  Tags = "tags",
-  Locked = "locked",
-  Etag = "etag"
-}
-
-/**
- * Defines values for Enum6. \
- * {@link KnownEnum6} can be used interchangeably with Enum6,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **key** \
- * **label** \
- * **content_type** \
- * **value** \
- * **last_modified** \
- * **tags** \
- * **locked** \
- * **etag**
- */
-export type Enum6 = string;
+export type LabelFields = string;
 
 /** Optional parameters. */
 export interface GetKeysOptionalParams extends coreClient.OperationOptions {
@@ -414,7 +288,7 @@ export interface GetKeyValuesOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Get6ItemsItem[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getKeyValues operation. */
@@ -433,7 +307,7 @@ export interface CheckKeyValuesOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Head6ItemsItem[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the checkKeyValues operation. */
@@ -445,12 +319,12 @@ export interface GetKeyValueOptionalParams extends coreClient.OperationOptions {
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
   label?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
   ifNoneMatch?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: Get7ItemsItem[];
 }
 
 /** Contains response data for the getKeyValue operation. */
@@ -491,12 +365,12 @@ export interface CheckKeyValueOptionalParams
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
   label?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
   ifNoneMatch?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: Head7ItemsItem[];
 }
 
 /** Contains response data for the checkKeyValue operation. */
@@ -511,7 +385,7 @@ export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabels operation. */
@@ -527,7 +401,7 @@ export interface CheckLabelsOptionalParams extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the checkLabels operation. */
@@ -571,7 +445,7 @@ export interface GetRevisionsOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Enum5[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisions operation. */
@@ -590,7 +464,7 @@ export interface CheckRevisionsOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Enum6[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the checkRevisions operation. */
@@ -622,7 +496,7 @@ export interface GetKeyValuesNextOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Get6ItemsItem[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getKeyValuesNext operation. */
@@ -639,7 +513,7 @@ export interface GetLabelsNextOptionalParams
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabelsNext operation. */
@@ -658,7 +532,7 @@ export interface GetRevisionsNextOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: Enum5[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisionsNext operation. */

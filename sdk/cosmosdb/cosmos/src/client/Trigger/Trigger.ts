@@ -50,7 +50,13 @@ export class Trigger {
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return new TriggerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -80,7 +86,13 @@ export class Trigger {
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return new TriggerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -96,6 +108,12 @@ export class Trigger {
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return new TriggerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 }

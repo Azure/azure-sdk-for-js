@@ -10,36 +10,17 @@ import * as coreClient from "@azure/core-client";
 
 /** Request payload for creating new room. */
 export interface CreateRoomRequest {
-  /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time. */
   validFrom?: Date;
-  /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
   validUntil?: Date;
-  /** The Policy based on which Participants can join a room. */
-  roomJoinPolicy?: RoomJoinPolicy;
-  /** (Optional) Collection of participants invited to the room. */
-  participants?: RoomParticipant[];
+  /** (Optional) Participants to be invited to the room. */
+  participants?: { [propertyName: string]: ParticipantProperties };
 }
 
-/** A participant of the room. */
-export interface RoomParticipant {
-  /** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
-  communicationIdentifier: CommunicationIdentifierModel;
-  /** The Role of a room participant. */
-  role?: RoleType;
-}
-
-/** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
-export interface CommunicationIdentifierModel {
-  /** Raw id of the identifier. Optional in requests, required in responses. */
-  rawId?: string;
-  /** A user that got created with an Azure Communication Services resource. */
-  communicationUser?: CommunicationUserIdentifierModel;
-}
-
-/** A user that got created with an Azure Communication Services resource. */
-export interface CommunicationUserIdentifierModel {
-  /** The Id of the communication user. */
-  id: string;
+export interface ParticipantProperties {
+  /** The role of a room participant. The default value is Attendee. */
+  role?: Role;
 }
 
 /** The meeting room. */
@@ -47,15 +28,11 @@ export interface RoomModel {
   /** Unique identifier of a room. This id is server generated. */
   id: string;
   /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  createdDateTime: Date;
+  createdAt: Date;
   /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validFrom: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil: Date;
-  /** The Policy based on which Participants can join a room. */
-  roomJoinPolicy: RoomJoinPolicy;
-  /** Collection of room participants. */
-  participants: RoomParticipant[];
 }
 
 /** The Communication Services error. */
@@ -87,150 +64,169 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+/** A collection of rooms. */
+export interface RoomsCollection {
+  /** A collection of rooms */
+  value: RoomModel[];
+  /** If there are more rooms that can be retrieved, the next link will be populated. */
+  nextLink?: string;
+}
+
 /** Request payload for updating a room. */
 export interface UpdateRoomRequest {
   /** (Optional) The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** The Policy based on which Participants can join a room. */
-  roomJoinPolicy?: RoomJoinPolicy;
-  /** Collection of room participants. */
-  participants?: RoomParticipant[];
 }
 
-/** Collection of participants in a room. */
+/** A collection of participants in a room. */
 export interface ParticipantsCollection {
-  /** Room Participants. */
-  participants: RoomParticipant[];
+  /** A collection of participants */
+  value: RoomParticipant[];
+  /** If there are more participants that can be retrieved, the next link will be populated. */
+  nextLink?: string;
 }
 
-/** Participants to be added to the room. */
-export interface AddParticipantsRequest {
-  /** Participants to add to a room. */
-  participants: RoomParticipant[];
+/** A participant of the room. */
+export interface RoomParticipant {
+  /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
+  rawId: string;
+  /** The role of a room participant. The default value is Attendee. */
+  role: Role;
 }
 
-/** Participants to be updated in a room. */
+/** Participants to be updated in the room. */
 export interface UpdateParticipantsRequest {
-  /** Participants to update in a room. */
-  participants: RoomParticipant[];
+  /** Participants to be updated. */
+  participants?: { [propertyName: string]: ParticipantProperties };
 }
 
-/** Participants to be removed from a room. */
-export interface RemoveParticipantsRequest {
-  /** Participants to be removed from a room. */
-  participants: RoomParticipant[];
-}
-
-/** Defines headers for Rooms_createRoom operation. */
-export interface RoomsCreateRoomExceptionHeaders {
+/** Defines headers for Rooms_create operation. */
+export interface RoomsCreateExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_getRoom operation. */
-export interface RoomsGetRoomExceptionHeaders {
+/** Defines headers for Rooms_list operation. */
+export interface RoomsListExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_updateRoom operation. */
-export interface RoomsUpdateRoomExceptionHeaders {
+/** Defines headers for Rooms_get operation. */
+export interface RoomsGetExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_deleteRoom operation. */
-export interface RoomsDeleteRoomExceptionHeaders {
+/** Defines headers for Rooms_update operation. */
+export interface RoomsUpdateExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_getParticipants operation. */
-export interface RoomsGetParticipantsExceptionHeaders {
+/** Defines headers for Rooms_delete operation. */
+export interface RoomsDeleteExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_addParticipants operation. */
-export interface RoomsAddParticipantsExceptionHeaders {
+/** Defines headers for Rooms_listNext operation. */
+export interface RoomsListNextExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_updateParticipants operation. */
-export interface RoomsUpdateParticipantsExceptionHeaders {
+/** Defines headers for Participants_list operation. */
+export interface ParticipantsListExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines headers for Rooms_removeParticipants operation. */
-export interface RoomsRemoveParticipantsExceptionHeaders {
+/** Defines headers for Participants_update operation. */
+export interface ParticipantsUpdateExceptionHeaders {
   errorCode?: string;
 }
 
-/** Defines values for RoomJoinPolicy. */
-export type RoomJoinPolicy = "InviteOnly" | "CommunicationServiceUsers";
-/** Defines values for RoleType. */
-export type RoleType = "Presenter" | "Attendee" | "Consumer";
+/** Defines headers for Participants_listNext operation. */
+export interface ParticipantsListNextExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines values for Role. */
+export type Role = "Presenter" | "Attendee" | "Consumer";
 
 /** Optional parameters. */
-export interface RoomsCreateRoomOptionalParams
-  extends coreClient.OperationOptions {
-  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
+export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
+  /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time. */
+  validFrom?: Date;
+  /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
+  validUntil?: Date;
+  /** (Optional) Participants to be invited to the room. */
+  participants?: { [propertyName: string]: ParticipantProperties };
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   repeatabilityRequestID?: string;
-  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date */
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. */
   repeatabilityFirstSent?: Date;
 }
 
-/** Contains response data for the createRoom operation. */
-export type RoomsCreateRoomResponse = RoomModel;
+/** Contains response data for the create operation. */
+export type RoomsCreateResponse = RoomModel;
 
 /** Optional parameters. */
-export interface RoomsGetRoomOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RoomsListOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the getRoom operation. */
-export type RoomsGetRoomResponse = RoomModel;
+/** Contains response data for the list operation. */
+export type RoomsListResponse = RoomsCollection;
 
 /** Optional parameters. */
-export interface RoomsUpdateRoomOptionalParams
-  extends coreClient.OperationOptions {
-  /** The patch room request */
-  patchRoomRequest?: UpdateRoomRequest;
+export interface RoomsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoomsGetResponse = RoomModel;
+
+/** Optional parameters. */
+export interface RoomsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** (Optional) The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  validFrom?: Date;
+  /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  validUntil?: Date;
 }
 
-/** Contains response data for the updateRoom operation. */
-export type RoomsUpdateRoomResponse = RoomModel;
+/** Contains response data for the update operation. */
+export type RoomsUpdateResponse = RoomModel;
 
 /** Optional parameters. */
-export interface RoomsDeleteRoomOptionalParams
+export interface RoomsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RoomsGetParticipantsOptionalParams
+export interface RoomsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getParticipants operation. */
-export type RoomsGetParticipantsResponse = ParticipantsCollection;
+/** Contains response data for the listNext operation. */
+export type RoomsListNextResponse = RoomsCollection;
 
 /** Optional parameters. */
-export interface RoomsAddParticipantsOptionalParams
+export interface ParticipantsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the addParticipants operation. */
-export type RoomsAddParticipantsResponse = ParticipantsCollection;
+/** Contains response data for the list operation. */
+export type ParticipantsListResponse = ParticipantsCollection;
 
 /** Optional parameters. */
-export interface RoomsUpdateParticipantsOptionalParams
+export interface ParticipantsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Participants to be updated. */
+  participants?: { [propertyName: string]: ParticipantProperties };
+}
+
+/** Contains response data for the update operation. */
+export type ParticipantsUpdateResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface ParticipantsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the updateParticipants operation. */
-export type RoomsUpdateParticipantsResponse = ParticipantsCollection;
+/** Contains response data for the listNext operation. */
+export type ParticipantsListNextResponse = ParticipantsCollection;
 
 /** Optional parameters. */
-export interface RoomsRemoveParticipantsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the removeParticipants operation. */
-export type RoomsRemoveParticipantsResponse = ParticipantsCollection;
-
-/** Optional parameters. */
-export interface RoomsApiClientOptionalParams
+export interface RoomsRestClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;

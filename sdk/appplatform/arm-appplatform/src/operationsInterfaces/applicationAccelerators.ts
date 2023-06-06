@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationAcceleratorResource,
   ApplicationAcceleratorsListOptionalParams,
@@ -63,8 +63,8 @@ export interface ApplicationAccelerators {
     applicationAcceleratorResource: ApplicationAcceleratorResource,
     options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationAcceleratorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationAcceleratorsCreateOrUpdateResponse>,
       ApplicationAcceleratorsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the application accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

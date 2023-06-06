@@ -20,7 +20,7 @@ override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
-package-version: 1.1.0-beta.3
+package-version: 1.1.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -139,24 +139,6 @@ directive:
           "type": "integer",
           "description": "Schema version"
         };
-    $["required"] = ["config", "layers"];
-```
-
-# Rename created to createdOn in OciAnnotations
-
-to make our naming consistent
-
-```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.Annotations
-  transform: >
-    $.properties["org.opencontainers.image.created"] = {
-      "description": "Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6)",
-      "type": "string",
-      "format": "date-time",
-      "x-ms-client-name": "CreatedOn"
-    }
 ```
 
 # Add escaping to second and third periods of property names
@@ -204,13 +186,37 @@ directive:
       }
     };
 ```
-
-# Rename Descriptor.size to sizeInBytes
+# Remove security definitions
 
 ```yaml
 directive:
-  from: swagger-document
-  where: $.definitions.Descriptor
-  transform: >
-    $.properties.size["x-ms-client-name"] = "sizeInBytes";
+  - from: swagger-document
+    where: $.
+    transform: >
+      delete $["securityDefinitions"];
+      delete $["security"];
+```
+
+# Make `deleteBlob` succeed on 404
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      $.responses["404"] = {
+        "description": "The blob to be deleted does not exist"
+      };
+```
+
+# Remove stream response from `deleteBlob`
+
+We don't care about the stream that is returned and we don't want to clean it up
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/v2/{name}/blobs/{digest}"]["delete"]
+    transform: >
+      delete $.responses["202"].schema;
 ```

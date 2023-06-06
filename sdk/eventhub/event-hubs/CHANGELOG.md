@@ -1,12 +1,16 @@
 # Release History
 
-## 5.10.0 (Unreleased)
+## 5.11.0 (2023-06-06)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Use Rhea's prefetch window to prefetch events from the service. This improves the performance of the receiver by reducing the number of round trips to the service. The default prefetch window is 3 * `maxBatchSize` events. This can be configured by setting the `prefetchCount` option on the `subscribe` method on `EventHubConsumerClient`.
+
+## 5.10.0 (2023-05-01)
 
 ### Bugs Fixed
+
+- Fix a memory leak issue of linked child abort signals not being released.
 
 ### Other Changes
 

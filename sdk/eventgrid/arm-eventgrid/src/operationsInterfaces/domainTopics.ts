@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DomainTopic,
   DomainTopicsListByDomainOptionalParams,
@@ -58,8 +58,8 @@ export interface DomainTopics {
     domainTopicName: string,
     options?: DomainTopicsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainTopicsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainTopicsCreateOrUpdateResponse>,
       DomainTopicsCreateOrUpdateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface DomainTopics {
     domainName: string,
     domainTopicName: string,
     options?: DomainTopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.

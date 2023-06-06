@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RequestRateByIntervalInput,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
@@ -30,8 +30,8 @@ export interface LogAnalytics {
     parameters: RequestRateByIntervalInput,
     options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
+    SimplePollerLike<
+      OperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
       LogAnalyticsExportRequestRateByIntervalResponse
     >
   >;
@@ -58,8 +58,8 @@ export interface LogAnalytics {
     parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LogAnalyticsExportThrottledRequestsResponse>,
+    SimplePollerLike<
+      OperationState<LogAnalyticsExportThrottledRequestsResponse>,
       LogAnalyticsExportThrottledRequestsResponse
     >
   >;

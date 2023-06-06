@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns list of operations.
  *
  * @summary Returns list of operations.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Operation_List.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Operation_List.json
  */
 async function listAvailableOperationsForTheContainerServiceResourceProvider() {
   const subscriptionId =

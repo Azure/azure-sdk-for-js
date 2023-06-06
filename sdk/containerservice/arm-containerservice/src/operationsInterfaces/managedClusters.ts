@@ -16,6 +16,8 @@ import {
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
+  ManagedClustersListKubernetesVersionsOptionalParams,
+  ManagedClustersListKubernetesVersionsResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
   ManagedClustersGetUpgradeProfileResponse,
   ManagedClustersGetAccessProfileOptionalParams,
@@ -96,6 +98,16 @@ export interface ManagedClusters {
     location: string,
     options?: ManagedClustersGetOSOptionsOptionalParams
   ): Promise<ManagedClustersGetOSOptionsResponse>;
+  /**
+   * Contains extra metadata on the version, including supported patch versions, capabilities, available
+   * upgrades, and details on preview status of the version
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listKubernetesVersions(
+    location: string,
+    options?: ManagedClustersListKubernetesVersionsOptionalParams
+  ): Promise<ManagedClustersListKubernetesVersionsResponse>;
   /**
    * Gets the upgrade profile of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

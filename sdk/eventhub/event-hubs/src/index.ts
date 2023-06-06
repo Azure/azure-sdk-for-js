@@ -5,7 +5,7 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { LastEnqueuedEventProperties } from "./eventHubReceiver";
+export { LastEnqueuedEventProperties } from "./partitionReceiver";
 export { OperationOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
@@ -46,7 +46,7 @@ export { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 export { CloseReason } from "./models/public";
 export { MessagingError, RetryOptions, RetryMode, WebSocketOptions } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
-export { logger } from "./log";
+export { logger } from "./logger";
 export {
   parseEventHubConnectionString,
   EventHubConnectionStringProperties,

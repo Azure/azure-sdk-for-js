@@ -31,43 +31,22 @@ const recorderStartOptions: RecorderStartOptions = {
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
-type ResourceKind = "Default" | "CustomText";
-
-function getEndpointEnvVarName(resource: ResourceKind): string {
-  switch (resource) {
-    case "CustomText":
-      return "AZURE_LANGUAGE_ENDPOINT";
-    case "Default":
-      return "ENDPOINT";
-  }
-}
-
-function getApiKeyEnvVarName(resource: ResourceKind): string {
-  switch (resource) {
-    case "CustomText":
-      return "AZURE_LANGUAGE_KEY";
-    case "Default":
-      return "LANGUAGE_API_KEY";
-  }
-}
-
 export function createClient(
   authMethod: AuthMethod,
   options: {
-    resource?: ResourceKind;
     recorder?: Recorder;
     clientOptions?: TextAnalysisClientOptions;
   }
 ): TextAnalysisClient {
-  const { resource = "Default", recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable(getEndpointEnvVarName(resource));
+  const { recorder, clientOptions = {} } = options;
+  const endpoint = assertEnvironmentVariable("ENDPOINT");
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
       return new TextAnalysisClient(
         endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable(getApiKeyEnvVarName(resource))),
+        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
         updatedOptions
       );
     }

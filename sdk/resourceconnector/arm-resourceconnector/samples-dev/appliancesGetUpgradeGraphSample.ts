@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
  *
  * @summary Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/UpgradeGraph.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/UpgradeGraph.json
  */
 async function getApplianceUpgradeGraph() {
   const subscriptionId =

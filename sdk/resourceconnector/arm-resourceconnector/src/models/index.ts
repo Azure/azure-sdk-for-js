@@ -140,22 +140,6 @@ export interface AppliancePropertiesInfrastructureConfig {
   provider?: Provider;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -173,48 +157,42 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The Get Telemetry Config Result appliance. */
+export interface ApplianceGetTelemetryConfigResult {
+  /**
+   * Telemetry instrumentation key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly telemetryInstrumentationKey?: string;
 }
 
 /** The Appliances patchable resource definition. */
 export interface PatchableAppliance {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-}
-
-/** The List Cluster Customer User Credential Results appliance. */
-export interface ApplianceListClusterCustomerUserCredentialResults {
-  /**
-   * The list of appliance kubeconfigs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
-  /**
-   * Map of Customer User Public and Private SSH Keys
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sshKeys?: { [propertyName: string]: SSHKey };
-}
-
-/** Cluster User Credential appliance. */
-export interface ApplianceCredentialKubeconfig {
-  /**
-   * Name which contains the role of the kubeconfig.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: AccessProfileType;
-  /**
-   * Contains the kubeconfig value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-}
-
-/** Appliance SSHKey definition. */
-export interface SSHKey {
-  /** User Private Key. */
-  privateKey?: string;
-  /** User Public Key. */
-  publicKey?: string;
 }
 
 /** The List Cluster User Credential appliance. */
@@ -253,6 +231,77 @@ export interface HybridConnectionConfig {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly token?: string;
+}
+
+/** Cluster User Credential appliance. */
+export interface ApplianceCredentialKubeconfig {
+  /**
+   * Name which contains the role of the kubeconfig.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: AccessProfileType;
+  /**
+   * Contains the kubeconfig value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** The List Cluster Keys Results appliance. */
+export interface ApplianceListKeysResults {
+  /**
+   * Map of artifacts that contains a list of ArtifactProfile used to upload artifacts such as logs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifactProfiles?: { [propertyName: string]: ArtifactProfile };
+  /**
+   * The list of appliance kubeconfigs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
+  /**
+   * Map of Customer User Public, Private SSH Keys and Certificate when available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sshKeys?: { [propertyName: string]: SSHKey };
+}
+
+/** Appliance ArtifactProfile definition. */
+export interface ArtifactProfile {
+  /**
+   * Endpoint is the URL to upload artifacts to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+}
+
+/** Appliance SSHKey definition. */
+export interface SSHKey {
+  /**
+   * Certificate associated with the public key if the key is signed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certificate?: string;
+  /**
+   * Certificate creation timestamp (Unix).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTimeStamp?: number;
+  /**
+   * Certificate expiration timestamp (Unix).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationTimeStamp?: number;
+  /**
+   * Private Key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateKey?: string;
+  /**
+   * Public Key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKey?: string;
 }
 
 /** The Upgrade Graph for appliance. */
@@ -363,11 +412,6 @@ export interface TrackedResource extends Resource {
 export interface Appliance extends TrackedResource {
   /** Identity for the resource. */
   identity?: Identity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Represents a supported Fabric/Infra. (AKSEdge etc...). */
   distro?: Distro;
   /** Contains infrastructure information about the Appliance */
@@ -377,7 +421,7 @@ export interface Appliance extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Certificates pair used to download MSI certificate from HIS */
+  /** Certificates pair used to download MSI certificate from HIS. Can only be set once. */
   publicKey?: string;
   /**
    * Appliance’s health and state of connection to on-prem
@@ -466,6 +510,24 @@ export enum KnownStatus {
   UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
   /** PreUpgrade */
   PreUpgrade = "PreUpgrade",
+  /** UpgradingKvaio */
+  UpgradingKvaio = "UpgradingKVAIO",
+  /** WaitingForKvaio */
+  WaitingForKvaio = "WaitingForKVAIO",
+  /** ImagePending */
+  ImagePending = "ImagePending",
+  /** ImageProvisioning */
+  ImageProvisioning = "ImageProvisioning",
+  /** ImageProvisioned */
+  ImageProvisioned = "ImageProvisioned",
+  /** ImageDownloading */
+  ImageDownloading = "ImageDownloading",
+  /** ImageDownloaded */
+  ImageDownloaded = "ImageDownloaded",
+  /** ImageDeprovisioning */
+  ImageDeprovisioning = "ImageDeprovisioning",
+  /** ImageUnknown */
+  ImageUnknown = "ImageUnknown",
   /** UpdatingCloudOperator */
   UpdatingCloudOperator = "UpdatingCloudOperator",
   /** WaitingForCloudOperator */
@@ -501,6 +563,15 @@ export enum KnownStatus {
  * **PreparingForUpgrade** \
  * **UpgradePrerequisitesCompleted** \
  * **PreUpgrade** \
+ * **UpgradingKVAIO** \
+ * **WaitingForKVAIO** \
+ * **ImagePending** \
+ * **ImageProvisioning** \
+ * **ImageProvisioned** \
+ * **ImageDownloading** \
+ * **ImageDownloaded** \
+ * **ImageDeprovisioning** \
+ * **ImageUnknown** \
  * **UpdatingCloudOperator** \
  * **WaitingForCloudOperator** \
  * **UpdatingCAPI** \
@@ -556,10 +627,31 @@ export enum KnownAccessProfileType {
  */
 export type AccessProfileType = string;
 
+/** Known values of {@link ArtifactType} that the service accepts. */
+export enum KnownArtifactType {
+  /** LogsArtifactType */
+  LogsArtifactType = "LogsArtifactType"
+}
+
+/**
+ * Defines values for ArtifactType. \
+ * {@link KnownArtifactType} can be used interchangeably with ArtifactType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogsArtifactType**
+ */
+export type ArtifactType = string;
+
 /** Known values of {@link SSHKeyType} that the service accepts. */
 export enum KnownSSHKeyType {
   /** SSHCustomerUser */
-  SSHCustomerUser = "SSHCustomerUser"
+  SSHCustomerUser = "SSHCustomerUser",
+  /** ManagementCAKey */
+  ManagementCAKey = "ManagementCAKey",
+  /** LogsKey */
+  LogsKey = "LogsKey",
+  /** ScopedAccessKey */
+  ScopedAccessKey = "ScopedAccessKey"
 }
 
 /**
@@ -567,7 +659,10 @@ export enum KnownSSHKeyType {
  * {@link KnownSSHKeyType} can be used interchangeably with SSHKeyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SSHCustomerUser**
+ * **SSHCustomerUser** \
+ * **ManagementCAKey** \
+ * **LogsKey** \
+ * **ScopedAccessKey**
  */
 export type SSHKeyType = string;
 
@@ -584,6 +679,13 @@ export interface AppliancesListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type AppliancesListBySubscriptionResponse = ApplianceListResult;
+
+/** Optional parameters. */
+export interface AppliancesGetTelemetryConfigOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTelemetryConfig operation. */
+export type AppliancesGetTelemetryConfigResponse = ApplianceGetTelemetryConfigResult;
 
 /** Optional parameters. */
 export interface AppliancesListByResourceGroupOptionalParams
@@ -631,18 +733,18 @@ export interface AppliancesUpdateOptionalParams
 export type AppliancesUpdateResponse = Appliance;
 
 /** Optional parameters. */
-export interface AppliancesListClusterCustomerUserCredentialOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listClusterCustomerUserCredential operation. */
-export type AppliancesListClusterCustomerUserCredentialResponse = ApplianceListClusterCustomerUserCredentialResults;
-
-/** Optional parameters. */
 export interface AppliancesListClusterUserCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClusterUserCredential operation. */
 export type AppliancesListClusterUserCredentialResponse = ApplianceListCredentialResults;
+
+/** Optional parameters. */
+export interface AppliancesListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type AppliancesListKeysResponse = ApplianceListKeysResults;
 
 /** Optional parameters. */
 export interface AppliancesGetUpgradeGraphOptionalParams

@@ -9,43 +9,92 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as RestModel from "../../../src/generated/src/models";
 import { RoomsClient } from "../../../src";
-import { CommunicationIdentifierModel } from "../../../src/generated/src";
 
-export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
-  communicationUser: { id: "id" },
-  rawId: "id",
-};
-
-export const mockParticipant: RestModel.RoomParticipant = {
-  communicationIdentifier: mockCommunicationIdentifier,
-  role: "Presenter",
-};
-
-export const mockSdkModelParticipant = {
-  id: {
-    kind: "communicationUser",
-    communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id as string,
-  },
-  role: mockParticipant.role,
-};
-
-export const mockCreateRoomsResult: RestModel.RoomsCreateRoomResponse = {
+export const mockCreateRoomsResult: RestModel.RoomsCreateResponse = {
   id: "id",
-  createdDateTime: new Date("2022-07-12T18:06:06Z"),
+  createdAt: new Date("2022-07-12T18:06:06Z"),
   validFrom: new Date("2022-07-16T18:06:06Z"),
   validUntil: new Date("2022-07-17T18:06:06Z"),
-  roomJoinPolicy: "InviteOnly",
-  participants: [mockParticipant],
 };
 
-export const mockUpdateRoomsResult: RestModel.RoomsCreateRoomResponse = {
+export const mockUpdateRoomsResult: RestModel.RoomsCreateResponse = {
   id: "id",
-  createdDateTime: new Date("2022-07-12T18:06:06Z"),
+  createdAt: new Date("2022-07-12T18:06:06Z"),
   validFrom: new Date("2022-08-16T18:06:06Z"),
   validUntil: new Date("2022-08-17T18:06:06Z"),
-  roomJoinPolicy: "InviteOnly",
-  participants: [mockParticipant],
 };
+
+export const mockListRoomsResultWithNextLink: RestModel.RoomsListResponse = {
+  value: [
+    {
+      id: "1001",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-16T18:06:06Z"),
+      validUntil: new Date("2022-08-17T18:06:06Z"),
+    },
+    {
+      id: "1002",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-18T18:06:06Z"),
+      validUntil: new Date("2022-08-19T18:06:06Z"),
+    },
+    {
+      id: "1003",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-20T18:06:06Z"),
+      validUntil: new Date("2022-08-21T18:06:06Z"),
+    },
+    {
+      id: "1004",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-22T18:06:06Z"),
+      validUntil: new Date("2022-08-23T18:06:06Z"),
+    },
+    {
+      id: "1005",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-24T18:06:06Z"),
+      validUntil: new Date("2022-08-25T18:06:06Z"),
+    },
+  ],
+  nextLink: "http://localhost/rooms?nextLink=abcdefgh&api-version=2023-03-31-preview",
+};
+
+export const mockListRoomsResultWithoutNextLink: RestModel.RoomsListResponse = {
+  value: [
+    {
+      id: "1001",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-16T18:06:06Z"),
+      validUntil: new Date("2022-08-17T18:06:06Z"),
+    },
+    {
+      id: "1002",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-18T18:06:06Z"),
+      validUntil: new Date("2022-08-19T18:06:06Z"),
+    },
+    {
+      id: "1003",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-20T18:06:06Z"),
+      validUntil: new Date("2022-08-21T18:06:06Z"),
+    },
+    {
+      id: "1004",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-22T18:06:06Z"),
+      validUntil: new Date("2022-08-23T18:06:06Z"),
+    },
+    {
+      id: "1005",
+      createdAt: new Date("2022-07-12T18:06:06Z"),
+      validFrom: new Date("2022-08-24T18:06:06Z"),
+      validUntil: new Date("2022-08-25T18:06:06Z"),
+    },
+  ],
+};
+
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {

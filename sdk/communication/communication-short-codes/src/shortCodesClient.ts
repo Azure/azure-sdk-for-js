@@ -8,6 +8,7 @@ import {
   FileType,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
+  ListShortCodeCostsOptions,
   ListUSProgramBriefsOptions,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
@@ -20,6 +21,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import {
   ProgramBriefAttachment,
   ShortCode,
+  ShortCodeCost,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
 } from "./generated/src/models/";
@@ -29,6 +31,8 @@ import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
+import { createShortCodesPagingPolicy } from "./utils/customPipelinePolicies";
+
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
@@ -79,6 +83,9 @@ export class ShortCodesClient {
     this.client = new ShortCodesGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
+    // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
+    const shortCodesPagingPolicy = createShortCodesPagingPolicy(url);
+    this.client.pipeline.addPolicy(shortCodesPagingPolicy);
   }
 
   public listShortCodes(
@@ -90,6 +97,26 @@ export class ShortCodesClient {
     );
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public listShortCodeCosts(
+    options: ListShortCodeCostsOptions = {}
+  ): PagedAsyncIterableIterator<ShortCodeCost> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listShortCodeCosts",
+      options
+    );
+    try {
+      return this.client.shortCodesOperations.listCosts(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",

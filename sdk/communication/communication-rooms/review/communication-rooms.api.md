@@ -6,18 +6,26 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
-import { CommunicationUserIdentifier } from '@azure/communication-common';
+import { CommunicationIdentifierKind } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AddParticipantsOptions = OperationOptions;
+export type AddOrUpdateParticipantsOptions = OperationOptions;
+
+// @public
+export interface CommunicationRoom {
+    createdOn: Date;
+    id: string;
+    validFrom: Date;
+    validUntil: Date;
+}
 
 // @public
 export interface CreateRoomOptions extends OperationOptions {
-    participants?: RoomParticipant[];
-    roomJoinPolicy?: RoomJoinPolicy;
+    participants?: RoomParticipantPatch[];
     validFrom?: Date;
     validUntil?: Date;
 }
@@ -26,49 +34,44 @@ export interface CreateRoomOptions extends OperationOptions {
 export type DeleteRoomOptions = OperationOptions;
 
 // @public
-export type GetParticipantsOptions = OperationOptions;
+export type GetRoomOptions = OperationOptions;
 
 // @public
-export type GetRoomOptions = OperationOptions;
+export type ListParticipantsOptions = OperationOptions;
+
+// @public
+export type ListRoomOptions = OperationOptions;
+
+// @public
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
-export type Role = "Presenter" | "Attendee" | "Consumer";
-
-// @public
-export interface Room {
-    createdOn: Date;
-    id: string;
-    joinPolicy: RoomJoinPolicy;
-    participants: RoomParticipant[];
-    validFrom: Date;
-    validUntil: Date;
+export interface RoomParticipant {
+    id: CommunicationIdentifierKind;
+    role: ParticipantRole;
 }
 
 // @public
-export type RoomJoinPolicy = "InviteOnly" | "CommunicationServiceUsers";
-
-// @public
-export interface RoomParticipant {
+export interface RoomParticipantPatch {
     id: CommunicationIdentifier;
-    role?: Role;
+    role?: ParticipantRole;
 }
 
 // @public
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
-    constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    addParticipants(roomId: string, participants: RoomParticipant[], options?: AddParticipantsOptions): Promise<void>;
-    createRoom(options?: CreateRoomOptions): Promise<Room>;
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
+    addOrUpdateParticipants(roomId: string, participants: RoomParticipantPatch[], options?: AddOrUpdateParticipantsOptions): Promise<void>;
+    createRoom(options?: CreateRoomOptions): Promise<CommunicationRoom>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
-    getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<RoomParticipant[]>;
-    getRoom(roomId: string, options?: GetRoomOptions): Promise<Room>;
-    removeParticipants(roomId: string, participants: CommunicationUserIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
-    updateParticipants(roomId: string, participants: RoomParticipant[], options?: UpdateParticipantsOptions): Promise<void>;
-    updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<Room>;
+    getRoom(roomId: string, options?: GetRoomOptions): Promise<CommunicationRoom>;
+    listParticipants(roomId: string, options?: ListParticipantsOptions): PagedAsyncIterableIterator<RoomParticipant>;
+    listRooms(options?: ListRoomOptions): PagedAsyncIterableIterator<CommunicationRoom>;
+    removeParticipants(roomId: string, participantIdentifiers: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
+    updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<CommunicationRoom>;
 }
 
 // @public
@@ -76,12 +79,7 @@ export interface RoomsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type UpdateParticipantsOptions = OperationOptions;
-
-// @public
 export interface UpdateRoomOptions extends OperationOptions {
-    participants?: RoomParticipant[];
-    roomJoinPolicy?: RoomJoinPolicy;
     validFrom?: Date;
     validUntil?: Date;
 }

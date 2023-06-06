@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Restarts a revision for a Container App
  *
  * @summary Restarts a revision for a Container App
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/Revisions_Restart.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Revisions_Restart.json
  */
 async function restartContainerAppRevision() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
   const containerAppName = "testStaticSite0";
   const revisionName = "testcontainerApp0-pjxhsye";
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function restartContainerAppRevision() {
   console.log(result);
 }
 
-restartContainerAppRevision().catch(console.error);
+async function main() {
+  restartContainerAppRevision();
+}
+
+main().catch(console.error);

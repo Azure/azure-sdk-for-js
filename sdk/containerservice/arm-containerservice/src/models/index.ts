@@ -98,6 +98,35 @@ export interface OSOptionProperty {
   enableFipsImage: boolean;
 }
 
+/** Hold values properties, which is array of KubernetesVersion */
+export interface KubernetesVersionListResult {
+  /** Array of AKS supported Kubernetes versions. */
+  values?: KubernetesVersion[];
+}
+
+/** Kubernetes version profile for given major.minor release. */
+export interface KubernetesVersion {
+  /** major.minor version of Kubernetes release */
+  version?: string;
+  /** Capabilities on this Kubernetes version. */
+  capabilities?: KubernetesVersionCapabilities;
+  /** Whether this version is in preview mode. */
+  isPreview?: boolean;
+  /** Patch versions of Kubernetes release */
+  patchVersions?: { [propertyName: string]: KubernetesPatchVersion };
+}
+
+/** Capabilities on this Kubernetes version. */
+export interface KubernetesVersionCapabilities {
+  supportPlan?: KubernetesSupportPlan[];
+}
+
+/** Kubernetes patch version profile */
+export interface KubernetesPatchVersion {
+  /** Possible upgrade path for given patch version */
+  upgrades?: string[];
+}
+
 /** The response from the List Managed Clusters operation. */
 export interface ManagedClusterListResult {
   /** The list of managed clusters. */
@@ -523,18 +552,20 @@ export interface ManagedClusterOidcIssuerProfile {
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
   networkPlugin?: NetworkPlugin;
+  /** The mode the network plugin should use. */
+  networkPluginMode?: NetworkPluginMode;
   /** Network policy used for building the Kubernetes network. */
   networkPolicy?: NetworkPolicy;
   /** This cannot be specified if networkPlugin is anything other than 'azure'. */
   networkMode?: NetworkMode;
+  /** Network dataplane used in the Kubernetes cluster. */
+  networkDataplane?: NetworkDataplane;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
   podCidr?: string;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
   serviceCidr?: string;
   /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
   dnsServiceIP?: string;
-  /** A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range. */
-  dockerBridgeCidr?: string;
   /** This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
   outboundType?: OutboundType;
   /** The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
@@ -724,6 +755,10 @@ export interface ManagedClusterSecurityProfile {
   defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
+  /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
+  workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
+  /** Image Cleaner settings for the security profile. */
+  imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -750,6 +785,20 @@ export interface AzureKeyVaultKms {
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
   /** Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty. */
   keyVaultResourceId?: string;
+}
+
+/** Workload identity settings for the security profile. */
+export interface ManagedClusterSecurityProfileWorkloadIdentity {
+  /** Whether to enable workload identity. */
+  enabled?: boolean;
+}
+
+/** Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile. */
+export interface ManagedClusterSecurityProfileImageCleaner {
+  /** Whether to enable Image Cleaner on AKS cluster. */
+  enabled?: boolean;
+  /** Image Cleaner scanning interval in hours. */
+  intervalHours?: number;
 }
 
 /** Storage profile for the container service cluster. */
@@ -1207,46 +1256,6 @@ export interface SnapshotListResult {
   readonly nextLink?: string;
 }
 
-/** Profile for the container service master. */
-export interface ContainerServiceMasterProfile {
-  /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
-  count?: Count;
-  /** DNS prefix to be used to create the FQDN for the master pool. */
-  dnsPrefix: string;
-  /** Size of agent VMs. */
-  vmSize: ContainerServiceVMSizeTypes;
-  /** OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
-  /** VNet SubnetID specifies the VNet's subnet identifier. */
-  vnetSubnetID?: string;
-  /** FirstConsecutiveStaticIP used to specify the first static ip of masters. */
-  firstConsecutiveStaticIP?: string;
-  /** Storage profile specifies what kind of storage used. Choose from StorageAccount and ManagedDisks. Leave it empty, we will choose for you based on the orchestrator choice. */
-  storageProfile?: ContainerServiceStorageProfileTypes;
-  /**
-   * FQDN for the master pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-}
-
-/** Profile for diagnostics on the container service cluster. */
-export interface ContainerServiceDiagnosticsProfile {
-  /** Profile for diagnostics on the container service VMs. */
-  vmDiagnostics: ContainerServiceVMDiagnostics;
-}
-
-/** Profile for diagnostics on the container service VMs. */
-export interface ContainerServiceVMDiagnostics {
-  /** Whether the VM diagnostic agent is provisioned on the VM. */
-  enabled: boolean;
-  /**
-   * The URI of the storage account where diagnostics are stored.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageUri?: string;
-}
-
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -1441,6 +1450,8 @@ export interface ManagedCluster extends TrackedResource {
   nodeResourceGroup?: string;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
+  /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
+  supportPlan?: KubernetesSupportPlan;
   /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
   enablePodSecurityPolicy?: boolean;
   /** The network configuration profile. */
@@ -1600,10 +1611,26 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Known values of {@link KubernetesSupportPlan} that the service accepts. */
+export enum KnownKubernetesSupportPlan {
+  /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
+  KubernetesOfficial = "KubernetesOfficial",
+  /** Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support. */
+  AKSLongTermSupport = "AKSLongTermSupport"
+}
+
+/**
+ * Defines values for KubernetesSupportPlan. \
+ * {@link KnownKubernetesSupportPlan} can be used interchangeably with KubernetesSupportPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KubernetesOfficial**: Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. \
+ * **AKSLongTermSupport**: Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support.
+ */
+export type KubernetesSupportPlan = string;
+
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
-  /** Basic will be removed in 07\/01\/2023 API version. Base will replace Basic, please switch to Base. */
-  Basic = "Basic",
   /** Base option for the AKS control plane. */
   Base = "Base"
 }
@@ -1613,15 +1640,14 @@ export enum KnownManagedClusterSKUName {
  * {@link KnownManagedClusterSKUName} can be used interchangeably with ManagedClusterSKUName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Basic**: Basic will be removed in 07\/01\/2023 API version. Base will replace Basic, please switch to Base. \
  * **Base**: Base option for the AKS control plane.
  */
 export type ManagedClusterSKUName = string;
 
 /** Known values of {@link ManagedClusterSKUTier} that the service accepts. */
 export enum KnownManagedClusterSKUTier {
-  /** Paid tier will be removed in 07\/01\/2023 API version. Standard tier will replace Paid tier, please switch to Standard tier. */
-  Paid = "Paid",
+  /** Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. */
+  Premium = "Premium",
   /** Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. */
   Standard = "Standard",
   /** The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases. */
@@ -1633,7 +1659,7 @@ export enum KnownManagedClusterSKUTier {
  * {@link KnownManagedClusterSKUTier} can be used interchangeably with ManagedClusterSKUTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Paid**: Paid tier will be removed in 07\/01\/2023 API version. Standard tier will replace Paid tier, please switch to Standard tier. \
+ * **Premium**: Cluster has premium capabilities in addition to all of the capabilities included in 'Standard'. Premium enables selection of LongTermSupport (aka.ms\/aks\/lts) for certain Kubernetes versions. \
  * **Standard**: Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. \
  * **Free**: The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases.
  */
@@ -1746,13 +1772,15 @@ export type OSType = string;
 
 /** Known values of {@link Ossku} that the service accepts. */
 export enum KnownOssku {
-  /** Ubuntu */
+  /** Use Ubuntu as the OS for node images. */
   Ubuntu = "Ubuntu",
-  /** CBLMariner */
+  /** Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. */
+  AzureLinux = "AzureLinux",
+  /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
   CBLMariner = "CBLMariner",
-  /** Windows2019 */
+  /** Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. */
   Windows2019 = "Windows2019",
-  /** Windows2022 */
+  /** Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. */
   Windows2022 = "Windows2022"
 }
 
@@ -1761,10 +1789,11 @@ export enum KnownOssku {
  * {@link KnownOssku} can be used interchangeably with Ossku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ubuntu** \
- * **CBLMariner** \
- * **Windows2019** \
- * **Windows2022**
+ * **Ubuntu**: Use Ubuntu as the OS for node images. \
+ * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. \
+ * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
+ * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
+ * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa.
  */
 export type Ossku = string;
 
@@ -1954,12 +1983,29 @@ export enum KnownNetworkPlugin {
  */
 export type NetworkPlugin = string;
 
+/** Known values of {@link NetworkPluginMode} that the service accepts. */
+export enum KnownNetworkPluginMode {
+  /** Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\//aka.ms\/aks\/azure-cni-overlay. */
+  Overlay = "overlay"
+}
+
+/**
+ * Defines values for NetworkPluginMode. \
+ * {@link KnownNetworkPluginMode} can be used interchangeably with NetworkPluginMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **overlay**: Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\/\/aka.ms\/aks\/azure-cni-overlay.
+ */
+export type NetworkPluginMode = string;
+
 /** Known values of {@link NetworkPolicy} that the service accepts. */
 export enum KnownNetworkPolicy {
   /** Use Calico network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
   Calico = "calico",
   /** Use Azure network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
-  Azure = "azure"
+  Azure = "azure",
+  /** Use Cilium to enforce network policies. This requires networkDataplane to be 'cilium'. */
+  Cilium = "cilium"
 }
 
 /**
@@ -1968,7 +2014,8 @@ export enum KnownNetworkPolicy {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **calico**: Use Calico network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
- * **azure**: Use Azure network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information.
+ * **azure**: Use Azure network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
+ * **cilium**: Use Cilium to enforce network policies. This requires networkDataplane to be 'cilium'.
  */
 export type NetworkPolicy = string;
 
@@ -1989,6 +2036,24 @@ export enum KnownNetworkMode {
  * **bridge**: This is no longer supported
  */
 export type NetworkMode = string;
+
+/** Known values of {@link NetworkDataplane} that the service accepts. */
+export enum KnownNetworkDataplane {
+  /** Use Azure network dataplane. */
+  Azure = "azure",
+  /** Use Cilium network dataplane. See [Azure CNI Powered by Cilium](https:\//learn.microsoft.com\/azure\/aks\/azure-cni-powered-by-cilium) for more information. */
+  Cilium = "cilium"
+}
+
+/**
+ * Defines values for NetworkDataplane. \
+ * {@link KnownNetworkDataplane} can be used interchangeably with NetworkDataplane,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure**: Use Azure network dataplane. \
+ * **cilium**: Use Cilium network dataplane. See [Azure CNI Powered by Cilium](https:\/\/learn.microsoft.com\/azure\/aks\/azure-cni-powered-by-cilium) for more information.
+ */
+export type NetworkDataplane = string;
 
 /** Known values of {@link OutboundType} that the service accepts. */
 export enum KnownOutboundType {
@@ -2277,562 +2342,8 @@ export enum KnownSnapshotType {
  * **NodePool**: The snapshot is a snapshot of a node pool.
  */
 export type SnapshotType = string;
-
-/** Known values of {@link ContainerServiceVMSizeTypes} that the service accepts. */
-export enum KnownContainerServiceVMSizeTypes {
-  /** StandardA1 */
-  StandardA1 = "Standard_A1",
-  /** StandardA10 */
-  StandardA10 = "Standard_A10",
-  /** StandardA11 */
-  StandardA11 = "Standard_A11",
-  /** StandardA1V2 */
-  StandardA1V2 = "Standard_A1_v2",
-  /** StandardA2 */
-  StandardA2 = "Standard_A2",
-  /** StandardA2V2 */
-  StandardA2V2 = "Standard_A2_v2",
-  /** StandardA2MV2 */
-  StandardA2MV2 = "Standard_A2m_v2",
-  /** StandardA3 */
-  StandardA3 = "Standard_A3",
-  /** StandardA4 */
-  StandardA4 = "Standard_A4",
-  /** StandardA4V2 */
-  StandardA4V2 = "Standard_A4_v2",
-  /** StandardA4MV2 */
-  StandardA4MV2 = "Standard_A4m_v2",
-  /** StandardA5 */
-  StandardA5 = "Standard_A5",
-  /** StandardA6 */
-  StandardA6 = "Standard_A6",
-  /** StandardA7 */
-  StandardA7 = "Standard_A7",
-  /** StandardA8 */
-  StandardA8 = "Standard_A8",
-  /** StandardA8V2 */
-  StandardA8V2 = "Standard_A8_v2",
-  /** StandardA8MV2 */
-  StandardA8MV2 = "Standard_A8m_v2",
-  /** StandardA9 */
-  StandardA9 = "Standard_A9",
-  /** StandardB2Ms */
-  StandardB2Ms = "Standard_B2ms",
-  /** StandardB2S */
-  StandardB2S = "Standard_B2s",
-  /** StandardB4Ms */
-  StandardB4Ms = "Standard_B4ms",
-  /** StandardB8Ms */
-  StandardB8Ms = "Standard_B8ms",
-  /** StandardD1 */
-  StandardD1 = "Standard_D1",
-  /** StandardD11 */
-  StandardD11 = "Standard_D11",
-  /** StandardD11V2 */
-  StandardD11V2 = "Standard_D11_v2",
-  /** StandardD11V2Promo */
-  StandardD11V2Promo = "Standard_D11_v2_Promo",
-  /** StandardD12 */
-  StandardD12 = "Standard_D12",
-  /** StandardD12V2 */
-  StandardD12V2 = "Standard_D12_v2",
-  /** StandardD12V2Promo */
-  StandardD12V2Promo = "Standard_D12_v2_Promo",
-  /** StandardD13 */
-  StandardD13 = "Standard_D13",
-  /** StandardD13V2 */
-  StandardD13V2 = "Standard_D13_v2",
-  /** StandardD13V2Promo */
-  StandardD13V2Promo = "Standard_D13_v2_Promo",
-  /** StandardD14 */
-  StandardD14 = "Standard_D14",
-  /** StandardD14V2 */
-  StandardD14V2 = "Standard_D14_v2",
-  /** StandardD14V2Promo */
-  StandardD14V2Promo = "Standard_D14_v2_Promo",
-  /** StandardD15V2 */
-  StandardD15V2 = "Standard_D15_v2",
-  /** StandardD16V3 */
-  StandardD16V3 = "Standard_D16_v3",
-  /** StandardD16SV3 */
-  StandardD16SV3 = "Standard_D16s_v3",
-  /** StandardD1V2 */
-  StandardD1V2 = "Standard_D1_v2",
-  /** StandardD2 */
-  StandardD2 = "Standard_D2",
-  /** StandardD2V2 */
-  StandardD2V2 = "Standard_D2_v2",
-  /** StandardD2V2Promo */
-  StandardD2V2Promo = "Standard_D2_v2_Promo",
-  /** StandardD2V3 */
-  StandardD2V3 = "Standard_D2_v3",
-  /** StandardD2SV3 */
-  StandardD2SV3 = "Standard_D2s_v3",
-  /** StandardD3 */
-  StandardD3 = "Standard_D3",
-  /** StandardD32V3 */
-  StandardD32V3 = "Standard_D32_v3",
-  /** StandardD32SV3 */
-  StandardD32SV3 = "Standard_D32s_v3",
-  /** StandardD3V2 */
-  StandardD3V2 = "Standard_D3_v2",
-  /** StandardD3V2Promo */
-  StandardD3V2Promo = "Standard_D3_v2_Promo",
-  /** StandardD4 */
-  StandardD4 = "Standard_D4",
-  /** StandardD4V2 */
-  StandardD4V2 = "Standard_D4_v2",
-  /** StandardD4V2Promo */
-  StandardD4V2Promo = "Standard_D4_v2_Promo",
-  /** StandardD4V3 */
-  StandardD4V3 = "Standard_D4_v3",
-  /** StandardD4SV3 */
-  StandardD4SV3 = "Standard_D4s_v3",
-  /** StandardD5V2 */
-  StandardD5V2 = "Standard_D5_v2",
-  /** StandardD5V2Promo */
-  StandardD5V2Promo = "Standard_D5_v2_Promo",
-  /** StandardD64V3 */
-  StandardD64V3 = "Standard_D64_v3",
-  /** StandardD64SV3 */
-  StandardD64SV3 = "Standard_D64s_v3",
-  /** StandardD8V3 */
-  StandardD8V3 = "Standard_D8_v3",
-  /** StandardD8SV3 */
-  StandardD8SV3 = "Standard_D8s_v3",
-  /** StandardDS1 */
-  StandardDS1 = "Standard_DS1",
-  /** StandardDS11 */
-  StandardDS11 = "Standard_DS11",
-  /** StandardDS11V2 */
-  StandardDS11V2 = "Standard_DS11_v2",
-  /** StandardDS11V2Promo */
-  StandardDS11V2Promo = "Standard_DS11_v2_Promo",
-  /** StandardDS12 */
-  StandardDS12 = "Standard_DS12",
-  /** StandardDS12V2 */
-  StandardDS12V2 = "Standard_DS12_v2",
-  /** StandardDS12V2Promo */
-  StandardDS12V2Promo = "Standard_DS12_v2_Promo",
-  /** StandardDS13 */
-  StandardDS13 = "Standard_DS13",
-  /** StandardDS132V2 */
-  StandardDS132V2 = "Standard_DS13-2_v2",
-  /** StandardDS134V2 */
-  StandardDS134V2 = "Standard_DS13-4_v2",
-  /** StandardDS13V2 */
-  StandardDS13V2 = "Standard_DS13_v2",
-  /** StandardDS13V2Promo */
-  StandardDS13V2Promo = "Standard_DS13_v2_Promo",
-  /** StandardDS14 */
-  StandardDS14 = "Standard_DS14",
-  /** StandardDS144V2 */
-  StandardDS144V2 = "Standard_DS14-4_v2",
-  /** StandardDS148V2 */
-  StandardDS148V2 = "Standard_DS14-8_v2",
-  /** StandardDS14V2 */
-  StandardDS14V2 = "Standard_DS14_v2",
-  /** StandardDS14V2Promo */
-  StandardDS14V2Promo = "Standard_DS14_v2_Promo",
-  /** StandardDS15V2 */
-  StandardDS15V2 = "Standard_DS15_v2",
-  /** StandardDS1V2 */
-  StandardDS1V2 = "Standard_DS1_v2",
-  /** StandardDS2 */
-  StandardDS2 = "Standard_DS2",
-  /** StandardDS2V2 */
-  StandardDS2V2 = "Standard_DS2_v2",
-  /** StandardDS2V2Promo */
-  StandardDS2V2Promo = "Standard_DS2_v2_Promo",
-  /** StandardDS3 */
-  StandardDS3 = "Standard_DS3",
-  /** StandardDS3V2 */
-  StandardDS3V2 = "Standard_DS3_v2",
-  /** StandardDS3V2Promo */
-  StandardDS3V2Promo = "Standard_DS3_v2_Promo",
-  /** StandardDS4 */
-  StandardDS4 = "Standard_DS4",
-  /** StandardDS4V2 */
-  StandardDS4V2 = "Standard_DS4_v2",
-  /** StandardDS4V2Promo */
-  StandardDS4V2Promo = "Standard_DS4_v2_Promo",
-  /** StandardDS5V2 */
-  StandardDS5V2 = "Standard_DS5_v2",
-  /** StandardDS5V2Promo */
-  StandardDS5V2Promo = "Standard_DS5_v2_Promo",
-  /** StandardE16V3 */
-  StandardE16V3 = "Standard_E16_v3",
-  /** StandardE16SV3 */
-  StandardE16SV3 = "Standard_E16s_v3",
-  /** StandardE2V3 */
-  StandardE2V3 = "Standard_E2_v3",
-  /** StandardE2SV3 */
-  StandardE2SV3 = "Standard_E2s_v3",
-  /** StandardE3216SV3 */
-  StandardE3216SV3 = "Standard_E32-16s_v3",
-  /** StandardE328SV3 */
-  StandardE328SV3 = "Standard_E32-8s_v3",
-  /** StandardE32V3 */
-  StandardE32V3 = "Standard_E32_v3",
-  /** StandardE32SV3 */
-  StandardE32SV3 = "Standard_E32s_v3",
-  /** StandardE4V3 */
-  StandardE4V3 = "Standard_E4_v3",
-  /** StandardE4SV3 */
-  StandardE4SV3 = "Standard_E4s_v3",
-  /** StandardE6416SV3 */
-  StandardE6416SV3 = "Standard_E64-16s_v3",
-  /** StandardE6432SV3 */
-  StandardE6432SV3 = "Standard_E64-32s_v3",
-  /** StandardE64V3 */
-  StandardE64V3 = "Standard_E64_v3",
-  /** StandardE64SV3 */
-  StandardE64SV3 = "Standard_E64s_v3",
-  /** StandardE8V3 */
-  StandardE8V3 = "Standard_E8_v3",
-  /** StandardE8SV3 */
-  StandardE8SV3 = "Standard_E8s_v3",
-  /** StandardF1 */
-  StandardF1 = "Standard_F1",
-  /** StandardF16 */
-  StandardF16 = "Standard_F16",
-  /** StandardF16S */
-  StandardF16S = "Standard_F16s",
-  /** StandardF16SV2 */
-  StandardF16SV2 = "Standard_F16s_v2",
-  /** StandardF1S */
-  StandardF1S = "Standard_F1s",
-  /** StandardF2 */
-  StandardF2 = "Standard_F2",
-  /** StandardF2S */
-  StandardF2S = "Standard_F2s",
-  /** StandardF2SV2 */
-  StandardF2SV2 = "Standard_F2s_v2",
-  /** StandardF32SV2 */
-  StandardF32SV2 = "Standard_F32s_v2",
-  /** StandardF4 */
-  StandardF4 = "Standard_F4",
-  /** StandardF4S */
-  StandardF4S = "Standard_F4s",
-  /** StandardF4SV2 */
-  StandardF4SV2 = "Standard_F4s_v2",
-  /** StandardF64SV2 */
-  StandardF64SV2 = "Standard_F64s_v2",
-  /** StandardF72SV2 */
-  StandardF72SV2 = "Standard_F72s_v2",
-  /** StandardF8 */
-  StandardF8 = "Standard_F8",
-  /** StandardF8S */
-  StandardF8S = "Standard_F8s",
-  /** StandardF8SV2 */
-  StandardF8SV2 = "Standard_F8s_v2",
-  /** StandardG1 */
-  StandardG1 = "Standard_G1",
-  /** StandardG2 */
-  StandardG2 = "Standard_G2",
-  /** StandardG3 */
-  StandardG3 = "Standard_G3",
-  /** StandardG4 */
-  StandardG4 = "Standard_G4",
-  /** StandardG5 */
-  StandardG5 = "Standard_G5",
-  /** StandardGS1 */
-  StandardGS1 = "Standard_GS1",
-  /** StandardGS2 */
-  StandardGS2 = "Standard_GS2",
-  /** StandardGS3 */
-  StandardGS3 = "Standard_GS3",
-  /** StandardGS4 */
-  StandardGS4 = "Standard_GS4",
-  /** StandardGS44 */
-  StandardGS44 = "Standard_GS4-4",
-  /** StandardGS48 */
-  StandardGS48 = "Standard_GS4-8",
-  /** StandardGS5 */
-  StandardGS5 = "Standard_GS5",
-  /** StandardGS516 */
-  StandardGS516 = "Standard_GS5-16",
-  /** StandardGS58 */
-  StandardGS58 = "Standard_GS5-8",
-  /** StandardH16 */
-  StandardH16 = "Standard_H16",
-  /** StandardH16M */
-  StandardH16M = "Standard_H16m",
-  /** StandardH16Mr */
-  StandardH16Mr = "Standard_H16mr",
-  /** StandardH16R */
-  StandardH16R = "Standard_H16r",
-  /** StandardH8 */
-  StandardH8 = "Standard_H8",
-  /** StandardH8M */
-  StandardH8M = "Standard_H8m",
-  /** StandardL16S */
-  StandardL16S = "Standard_L16s",
-  /** StandardL32S */
-  StandardL32S = "Standard_L32s",
-  /** StandardL4S */
-  StandardL4S = "Standard_L4s",
-  /** StandardL8S */
-  StandardL8S = "Standard_L8s",
-  /** StandardM12832Ms */
-  StandardM12832Ms = "Standard_M128-32ms",
-  /** StandardM12864Ms */
-  StandardM12864Ms = "Standard_M128-64ms",
-  /** StandardM128Ms */
-  StandardM128Ms = "Standard_M128ms",
-  /** StandardM128S */
-  StandardM128S = "Standard_M128s",
-  /** StandardM6416Ms */
-  StandardM6416Ms = "Standard_M64-16ms",
-  /** StandardM6432Ms */
-  StandardM6432Ms = "Standard_M64-32ms",
-  /** StandardM64Ms */
-  StandardM64Ms = "Standard_M64ms",
-  /** StandardM64S */
-  StandardM64S = "Standard_M64s",
-  /** StandardNC12 */
-  StandardNC12 = "Standard_NC12",
-  /** StandardNC12SV2 */
-  StandardNC12SV2 = "Standard_NC12s_v2",
-  /** StandardNC12SV3 */
-  StandardNC12SV3 = "Standard_NC12s_v3",
-  /** StandardNC24 */
-  StandardNC24 = "Standard_NC24",
-  /** StandardNC24R */
-  StandardNC24R = "Standard_NC24r",
-  /** StandardNC24RsV2 */
-  StandardNC24RsV2 = "Standard_NC24rs_v2",
-  /** StandardNC24RsV3 */
-  StandardNC24RsV3 = "Standard_NC24rs_v3",
-  /** StandardNC24SV2 */
-  StandardNC24SV2 = "Standard_NC24s_v2",
-  /** StandardNC24SV3 */
-  StandardNC24SV3 = "Standard_NC24s_v3",
-  /** StandardNC6 */
-  StandardNC6 = "Standard_NC6",
-  /** StandardNC6SV2 */
-  StandardNC6SV2 = "Standard_NC6s_v2",
-  /** StandardNC6SV3 */
-  StandardNC6SV3 = "Standard_NC6s_v3",
-  /** StandardND12S */
-  StandardND12S = "Standard_ND12s",
-  /** StandardND24Rs */
-  StandardND24Rs = "Standard_ND24rs",
-  /** StandardND24S */
-  StandardND24S = "Standard_ND24s",
-  /** StandardND6S */
-  StandardND6S = "Standard_ND6s",
-  /** StandardNV12 */
-  StandardNV12 = "Standard_NV12",
-  /** StandardNV24 */
-  StandardNV24 = "Standard_NV24",
-  /** StandardNV6 */
-  StandardNV6 = "Standard_NV6"
-}
-
-/**
- * Defines values for ContainerServiceVMSizeTypes. \
- * {@link KnownContainerServiceVMSizeTypes} can be used interchangeably with ContainerServiceVMSizeTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_A1** \
- * **Standard_A10** \
- * **Standard_A11** \
- * **Standard_A1_v2** \
- * **Standard_A2** \
- * **Standard_A2_v2** \
- * **Standard_A2m_v2** \
- * **Standard_A3** \
- * **Standard_A4** \
- * **Standard_A4_v2** \
- * **Standard_A4m_v2** \
- * **Standard_A5** \
- * **Standard_A6** \
- * **Standard_A7** \
- * **Standard_A8** \
- * **Standard_A8_v2** \
- * **Standard_A8m_v2** \
- * **Standard_A9** \
- * **Standard_B2ms** \
- * **Standard_B2s** \
- * **Standard_B4ms** \
- * **Standard_B8ms** \
- * **Standard_D1** \
- * **Standard_D11** \
- * **Standard_D11_v2** \
- * **Standard_D11_v2_Promo** \
- * **Standard_D12** \
- * **Standard_D12_v2** \
- * **Standard_D12_v2_Promo** \
- * **Standard_D13** \
- * **Standard_D13_v2** \
- * **Standard_D13_v2_Promo** \
- * **Standard_D14** \
- * **Standard_D14_v2** \
- * **Standard_D14_v2_Promo** \
- * **Standard_D15_v2** \
- * **Standard_D16_v3** \
- * **Standard_D16s_v3** \
- * **Standard_D1_v2** \
- * **Standard_D2** \
- * **Standard_D2_v2** \
- * **Standard_D2_v2_Promo** \
- * **Standard_D2_v3** \
- * **Standard_D2s_v3** \
- * **Standard_D3** \
- * **Standard_D32_v3** \
- * **Standard_D32s_v3** \
- * **Standard_D3_v2** \
- * **Standard_D3_v2_Promo** \
- * **Standard_D4** \
- * **Standard_D4_v2** \
- * **Standard_D4_v2_Promo** \
- * **Standard_D4_v3** \
- * **Standard_D4s_v3** \
- * **Standard_D5_v2** \
- * **Standard_D5_v2_Promo** \
- * **Standard_D64_v3** \
- * **Standard_D64s_v3** \
- * **Standard_D8_v3** \
- * **Standard_D8s_v3** \
- * **Standard_DS1** \
- * **Standard_DS11** \
- * **Standard_DS11_v2** \
- * **Standard_DS11_v2_Promo** \
- * **Standard_DS12** \
- * **Standard_DS12_v2** \
- * **Standard_DS12_v2_Promo** \
- * **Standard_DS13** \
- * **Standard_DS13-2_v2** \
- * **Standard_DS13-4_v2** \
- * **Standard_DS13_v2** \
- * **Standard_DS13_v2_Promo** \
- * **Standard_DS14** \
- * **Standard_DS14-4_v2** \
- * **Standard_DS14-8_v2** \
- * **Standard_DS14_v2** \
- * **Standard_DS14_v2_Promo** \
- * **Standard_DS15_v2** \
- * **Standard_DS1_v2** \
- * **Standard_DS2** \
- * **Standard_DS2_v2** \
- * **Standard_DS2_v2_Promo** \
- * **Standard_DS3** \
- * **Standard_DS3_v2** \
- * **Standard_DS3_v2_Promo** \
- * **Standard_DS4** \
- * **Standard_DS4_v2** \
- * **Standard_DS4_v2_Promo** \
- * **Standard_DS5_v2** \
- * **Standard_DS5_v2_Promo** \
- * **Standard_E16_v3** \
- * **Standard_E16s_v3** \
- * **Standard_E2_v3** \
- * **Standard_E2s_v3** \
- * **Standard_E32-16s_v3** \
- * **Standard_E32-8s_v3** \
- * **Standard_E32_v3** \
- * **Standard_E32s_v3** \
- * **Standard_E4_v3** \
- * **Standard_E4s_v3** \
- * **Standard_E64-16s_v3** \
- * **Standard_E64-32s_v3** \
- * **Standard_E64_v3** \
- * **Standard_E64s_v3** \
- * **Standard_E8_v3** \
- * **Standard_E8s_v3** \
- * **Standard_F1** \
- * **Standard_F16** \
- * **Standard_F16s** \
- * **Standard_F16s_v2** \
- * **Standard_F1s** \
- * **Standard_F2** \
- * **Standard_F2s** \
- * **Standard_F2s_v2** \
- * **Standard_F32s_v2** \
- * **Standard_F4** \
- * **Standard_F4s** \
- * **Standard_F4s_v2** \
- * **Standard_F64s_v2** \
- * **Standard_F72s_v2** \
- * **Standard_F8** \
- * **Standard_F8s** \
- * **Standard_F8s_v2** \
- * **Standard_G1** \
- * **Standard_G2** \
- * **Standard_G3** \
- * **Standard_G4** \
- * **Standard_G5** \
- * **Standard_GS1** \
- * **Standard_GS2** \
- * **Standard_GS3** \
- * **Standard_GS4** \
- * **Standard_GS4-4** \
- * **Standard_GS4-8** \
- * **Standard_GS5** \
- * **Standard_GS5-16** \
- * **Standard_GS5-8** \
- * **Standard_H16** \
- * **Standard_H16m** \
- * **Standard_H16mr** \
- * **Standard_H16r** \
- * **Standard_H8** \
- * **Standard_H8m** \
- * **Standard_L16s** \
- * **Standard_L32s** \
- * **Standard_L4s** \
- * **Standard_L8s** \
- * **Standard_M128-32ms** \
- * **Standard_M128-64ms** \
- * **Standard_M128ms** \
- * **Standard_M128s** \
- * **Standard_M64-16ms** \
- * **Standard_M64-32ms** \
- * **Standard_M64ms** \
- * **Standard_M64s** \
- * **Standard_NC12** \
- * **Standard_NC12s_v2** \
- * **Standard_NC12s_v3** \
- * **Standard_NC24** \
- * **Standard_NC24r** \
- * **Standard_NC24rs_v2** \
- * **Standard_NC24rs_v3** \
- * **Standard_NC24s_v2** \
- * **Standard_NC24s_v3** \
- * **Standard_NC6** \
- * **Standard_NC6s_v2** \
- * **Standard_NC6s_v3** \
- * **Standard_ND12s** \
- * **Standard_ND24rs** \
- * **Standard_ND24s** \
- * **Standard_ND6s** \
- * **Standard_NV12** \
- * **Standard_NV24** \
- * **Standard_NV6**
- */
-export type ContainerServiceVMSizeTypes = string;
-
-/** Known values of {@link ContainerServiceStorageProfileTypes} that the service accepts. */
-export enum KnownContainerServiceStorageProfileTypes {
-  /** StorageAccount */
-  StorageAccount = "StorageAccount",
-  /** ManagedDisks */
-  ManagedDisks = "ManagedDisks"
-}
-
-/**
- * Defines values for ContainerServiceStorageProfileTypes. \
- * {@link KnownContainerServiceStorageProfileTypes} can be used interchangeably with ContainerServiceStorageProfileTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **StorageAccount** \
- * **ManagedDisks**
- */
-export type ContainerServiceStorageProfileTypes = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-/** Defines values for Count. */
-export type Count = 1 | 3 | 5;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2850,6 +2361,13 @@ export interface ManagedClustersGetOSOptionsOptionalParams
 
 /** Contains response data for the getOSOptions operation. */
 export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
+
+/** Optional parameters. */
+export interface ManagedClustersListKubernetesVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKubernetesVersions operation. */
+export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOptionalParams

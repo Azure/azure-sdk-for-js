@@ -5,7 +5,7 @@
 
 import path, { join } from "path";
 import { tmpdir } from "os";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
@@ -49,7 +49,7 @@ describe.skip("WorkloadIdentityCredential", function () {
       recorder.configureClientOptions({
         tenantId,
         clientId,
-        federatedTokenFilePath: fileDir.tempFile,
+        tokenFilePath: fileDir.tempFile,
       } as WorkloadIdentityCredentialOptions)
     );
     try {
@@ -78,6 +78,24 @@ describe.skip("WorkloadIdentityCredential", function () {
   it("authenticates with DefaultAzure Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } catch (e) {
+      console.log(e);
+    } finally {
+      unlinkSync(fileDir.tempFile);
+      rmdirSync(fileDir.tempDir);
+    }
+  });
+  it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
+    const fileDir = await setupFileandEnv("token-exchange-msi");
+    const credential = new DefaultAzureCredential(
+      recorder.configureClientOptions({
+        managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",
+      })
+    );
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
