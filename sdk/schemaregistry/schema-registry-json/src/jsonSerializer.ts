@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  JsonSerializerOptions,
-  MessageAdapter,
-  MessageContent,
-} from "./models";
+import { JsonSerializerOptions, MessageAdapter, MessageContent } from "./models";
 import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
-import { AjvDeserializer, CacheEntry, cache, getCacheByDefinition, getCacheById, getSchemaObject } from "./cache";
+import {
+  AjvValidator,
+  CacheEntry,
+  cache,
+  getCacheByDefinition,
+  getCacheById,
+  getSchemaObject,
+} from "./cache";
 import { SchemaObject } from "ajv";
 import { errorWithCause, wrapError } from "./errors";
-
 
 const jsonMimeType = "application/json";
 const encoder = new TextEncoder();
@@ -52,8 +54,12 @@ export class JsonSerializer<MessageT = MessageContent> {
    */
   async serialize(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaId(schema);
+    wrapError(
+      () => (entry.validator(value)),
+      `Json validation failed. See 'cause' for more details. Schema ID: ${entry.id}`
+    );
     const data = wrapError(
-      () => encoder.encode(entry.serializer(value)),
+      () => encoder.encode(JSON.stringify(value)),
       `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
     );
     const contentType = `${jsonMimeType}+${entry.id}`;
@@ -85,14 +91,19 @@ export class JsonSerializer<MessageT = MessageContent> {
   async deserialize(message: MessageT): Promise<unknown> {
     const { data, contentType } = convertMessage(message, this.messageAdapter);
     const schemaId = getSchemaId(contentType);
-    const deserializer = await this.getSchemaById(schemaId);
-    return wrapError(
-      () => deserializer(decoder.decode(data)),
+    const validator = await this.getSchemaById(schemaId);
+    const returnedMessage = wrapError(
+      () => JSON.parse(decoder.decode(data)),
       `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
     );
+    wrapError(
+      () => validator(returnedMessage),
+      `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`
+    );
+    return returnedMessage;
   }
 
-  private async getSchemaById(schemaId: string): Promise<AjvDeserializer> {
+  private async getSchemaById(schemaId: string): Promise<AjvValidator> {
     const cached = getCacheById(schemaId);
     if (cached) {
       return cached;
@@ -107,7 +118,7 @@ export class JsonSerializer<MessageT = MessageContent> {
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
       );
     }
-    return cache(schemaId, schemaResponse.definition).derserializer;
+    return cache(schemaId, schemaResponse.definition).validator;
   }
 
   private async getSchemaId(definition: string): Promise<CacheEntry> {
