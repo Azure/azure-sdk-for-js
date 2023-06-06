@@ -10,6 +10,8 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
+import { getEmptyCosmosDiagnostics } from "../CosmosDiagnostics";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -44,7 +46,8 @@ export class DocumentProducer {
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
-    options: FeedOptions
+    options: FeedOptions,
+    diagnosticContext: CosmosDiagnosticContext
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -59,7 +62,11 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
+    this.internalExecutionContext = new DefaultQueryExecutionContext(
+      options,
+      this.fetchFunction,
+      diagnosticContext
+    );
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
@@ -159,8 +166,11 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse } =
-        await this.internalExecutionContext.fetchMore();
+      const {
+        result: resources,
+        headers: headerResponse,
+        diagnostics,
+      } = await this.internalExecutionContext.fetchMore();
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -182,7 +192,7 @@ export class DocumentProducer {
           queryMetrics;
       }
 
-      return { result: resources, headers: headerResponse };
+      return { result: resources, headers: headerResponse, diagnostics };
     } catch (err: any) {
       // TODO: any error
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
@@ -191,7 +201,11 @@ export class DocumentProducer {
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
         // Putting a dummy result so that the rest of code flows
-        return { result: [bufferedError], headers: err.headers };
+        return {
+          result: [bufferedError],
+          headers: err.headers,
+          diagnostics: getEmptyCosmosDiagnostics(),
+        };
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -218,7 +232,7 @@ export class DocumentProducer {
     }
 
     try {
-      const { result, headers } = await this.current();
+      const { result, headers, diagnostics } = await this.current();
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -227,12 +241,12 @@ export class DocumentProducer {
       }
       switch (fetchResult.fetchResultType) {
         case FetchResultType.Done:
-          return { result: undefined, headers };
+          return { result: undefined, headers, diagnostics };
         case FetchResultType.Exception:
           fetchResult.error.headers = headers;
           throw fetchResult.error;
         case FetchResultType.Result:
-          return { result: fetchResult.feedResponse, headers };
+          return { result: fetchResult.feedResponse, headers, diagnostics };
       }
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
@@ -253,6 +267,7 @@ export class DocumentProducer {
           return {
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         case FetchResultType.Exception:
           fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
@@ -261,6 +276,7 @@ export class DocumentProducer {
           return {
             result: fetchResult.feedResponse,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
       }
     }
@@ -270,14 +286,15 @@ export class DocumentProducer {
       return {
         result: undefined,
         headers: this._getAndResetActiveResponseHeaders(),
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore();
+    const { result, headers, diagnostics } = await this.bufferMore();
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
-      return { result: undefined, headers: this.respHeaders };
+      return { result: undefined, headers: this.respHeaders, diagnostics };
     }
     return this.current();
   }
