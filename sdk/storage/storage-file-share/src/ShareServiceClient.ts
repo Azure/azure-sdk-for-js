@@ -365,7 +365,7 @@ export class ShareServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const shareClient = this.getShareClient(shareName);
-        return await shareClient.delete(updatedOptions);
+        return shareClient.delete(updatedOptions);
       }
     );
   }

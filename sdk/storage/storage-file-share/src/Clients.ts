@@ -821,7 +821,7 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const directoryClient = this.getDirectoryClient(directoryName);
-        return await directoryClient.delete(updatedOptions);
+        return directoryClient.delete(updatedOptions);
       }
     );
   }
@@ -879,7 +879,7 @@ export class ShareClient extends StorageClient {
     return tracingClient.withSpan("ShareClient-deleteFile", options, async (updatedOptions) => {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      return await fileClient.delete(updatedOptions);
+      return fileClient.delete(updatedOptions);
     });
   }
 
@@ -1816,7 +1816,7 @@ export class ShareDirectoryClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const directoryClient = this.getDirectoryClient(directoryName);
-        return await directoryClient.delete(updatedOptions);
+        return directoryClient.delete(updatedOptions);
       }
     );
   }
@@ -1876,7 +1876,7 @@ export class ShareDirectoryClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const fileClient = this.getFileClient(fileName);
-        return await fileClient.delete(updatedOptions);
+        return fileClient.delete(updatedOptions);
       }
     );
   }
@@ -4265,7 +4265,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadFile", options, async (updatedOptions) => {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadSeekableInternal(
+      return this.uploadSeekableInternal(
         (offset, count) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -4302,7 +4302,7 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-uploadResetableStream",
       options,
       async (updatedOptions) => {
-        return await this.uploadSeekableInternal(
+        return this.uploadSeekableInternal(
           (offset: number, count?: number) => {
             return () => streamFactory(offset, count);
           },
@@ -4377,7 +4377,7 @@ export class ShareFileClient extends StorageClient {
             }
           });
         }
-        return await batch.do();
+        return batch.do();
       }
     );
   }
@@ -4620,7 +4620,7 @@ export class ShareFileClient extends StorageClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxBuffers / 4) * 3)
         );
-        return await scheduler.do();
+        return scheduler.do();
       }
     );
   }
