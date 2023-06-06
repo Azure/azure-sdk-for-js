@@ -13,7 +13,7 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
     let client: OpenAIClient;
 
     beforeEach(async function (this: Context) {
-      if (!isNode && authMethod == "AAD") {
+      if (!isNode && authMethod === "AAD") {
         this.skip();
       }
       recorder = new Recorder(this.currentTest);
@@ -22,7 +22,7 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
     });
 
     afterEach(async function () {
-      if (!isNode && authMethod == "AAD") {
+      if (!isNode && authMethod === "AAD") {
         this.skip();
       }
       await recorder.stop();
