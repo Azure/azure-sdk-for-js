@@ -345,6 +345,7 @@ export const Constants: {
         IsQueryPlan: string;
         SupportedQueryFeatures: string;
         QueryVersion: string;
+        ContinuationToken: string;
         Continuation: string;
         PageSize: string;
         ItemCount: string;
@@ -917,6 +918,10 @@ export class Items {
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedIteratorV2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    changeFeedV2<T>(): Promise<ChangeFeedIteratorV2<T>>;
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
