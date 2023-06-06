@@ -11,9 +11,14 @@ dotenv.config();
 dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
 let loops = 0;
-let testDurationInSeconds = 20 * 24 * 60 * 60;
+let testDurationInSeconds = 2 * 60 * 60;
 let globalCount = 0; // number of storageBlobs listed
 const startedAt = new Date();
+
+if (global.gc) {
+  console.log("forcing GC");
+  global.gc();
+}
 
 async function main() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +30,7 @@ async function main() {
     const blobClient = containerClient.getBlockBlobClient("blob" + i);
     await blobClient.uploadData(Buffer.from("content" + i));
   }
-  console.log(`ElapsedTime\t\tArrayBuffers\t\tRSS\t\tHeapUsed\t\tloops\t\tglobalCount`);
+  console.log(`ElapsedTime\t\tArrayBuffers\t\tRSS\t\tHeapUsed\t\tHeapTotal\t\tloops\t\tglobalCount`);
   while ((new Date().valueOf() - startedAt.valueOf()) < testDurationInSeconds * 1000) {
     let iterable = client.getContainerClient(containerName).listBlobsFlat().byPage({ maxPageSize: 3 });
     let count = 0
@@ -42,17 +47,17 @@ main().catch((err) => {
   throw new Error("Failed to run sample:" + err.message);
 });
 
-function snapshot() {
+export function snapshot() {
   const elapsedTimeInSeconds = (new Date().valueOf() - startedAt.valueOf()) / 1000;
-  const eventProperties: Record<string, number> = {}
-  const { arrayBuffers, rss, heapUsed } = process.memoryUsage()
-  eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
-  eventProperties["memory.arrayBuffers"] = arrayBuffers;
-  eventProperties["memory.rss"] = rss;
-  eventProperties["memory.heapUsed"] = heapUsed;
-  eventProperties["loops"] = loops;
-  eventProperties["globalCount"] = globalCount;
-  console.log(`${elapsedTimeInSeconds}\t\t${arrayBuffers}\t\t${rss}\t\t${heapUsed}\t\t${loops}\t\t${globalCount}`);
+  // const eventProperties: Record<string, number> = {}
+  const { arrayBuffers, rss, heapUsed, heapTotal } = process.memoryUsage()
+  // eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
+  // eventProperties["memory.arrayBuffers"] = arrayBuffers;
+  // eventProperties["memory.rss"] = rss;
+  // eventProperties["memory.heapUsed"] = heapUsed;
+  // eventProperties["loops"] = loops;
+  // eventProperties["globalCount"] = globalCount;
+  console.log(`${elapsedTimeInSeconds}\t\t${arrayBuffers}\t\t${rss}\t\t${heapUsed}\t\t${heapTotal}\t\t${loops}\t\t${globalCount}`);
 }
 
-setInterval(() => { snapshot() }, 5000)
+// setInterval(() => { snapshot() }, 5000)
