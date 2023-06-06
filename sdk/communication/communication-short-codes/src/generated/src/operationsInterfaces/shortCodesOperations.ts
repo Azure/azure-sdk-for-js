@@ -10,6 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ShortCode,
   ShortCodesGetShortCodesOptionalParams,
+  ShortCodeCost,
+  ShortCodesGetCostsOptionalParams,
   USProgramBrief,
   ShortCodesGetUSProgramBriefsOptionalParams,
   ProgramBriefAttachment,
@@ -40,6 +42,13 @@ export interface ShortCodesOperations {
   listShortCodes(
     options?: ShortCodesGetShortCodesOptionalParams
   ): PagedAsyncIterableIterator<ShortCode>;
+  /**
+   * This method supports pagination via the "skip" and "top" query parameters.
+   * @param options The options parameters.
+   */
+  listCosts(
+    options?: ShortCodesGetCostsOptionalParams
+  ): PagedAsyncIterableIterator<ShortCodeCost>;
   /**
    * Gets the list of US Program Briefs for the current resource.
    * @param options The options parameters.
