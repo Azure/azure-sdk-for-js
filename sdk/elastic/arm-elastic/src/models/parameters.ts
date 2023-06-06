@@ -124,6 +124,17 @@ export const body1: OperationParameter = {
   mapper: ElasticMonitorResourceUpdateParametersMapper
 };
 
+export const region: OperationQueryParameter = {
+  parameterPath: "region",
+  mapper: {
+    serializedName: "region",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: ExternalUserInfoMapper

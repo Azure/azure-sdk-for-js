@@ -718,17 +718,7 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 ## Troubleshooting
 
-### Logging
-
-Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```ts
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+To diagnose various failure scenarios, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/TROUBLESHOOTING.md).
 
 ## Next steps
 

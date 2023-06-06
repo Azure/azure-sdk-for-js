@@ -36,6 +36,7 @@ import {
   CompleteJobOptions,
   CreateJobOptions,
   CreateWorkerOptions,
+  DeclineJobOfferOptions,
   ListJobsOptions,
   ListWorkersOptions,
   ReclassifyJobOptions,
@@ -144,7 +145,7 @@ export class RouterClient {
    * Creates a job.
    * Returns the created job.
    * @param jobId - The job to be create
-   * @param options - Operation options.
+   * @param options - Create job options.
    */
   public async createJob(
     jobId: string,
@@ -158,7 +159,7 @@ export class RouterClient {
   /**
    * Update a job by Id.
    * @param jobId - The job to be updated
-   * @param options -  Operation options.
+   * @param options - Update job options.
    */
   public async updateJob(
     jobId: string,
@@ -173,7 +174,7 @@ export class RouterClient {
    * Gets a job.
    * Returns the job.
    * @param jobId - The id of the job to get.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async getJob(jobId: string, options: OperationOptions = {}): Promise<RouterJobResponse> {
     const job = await this.client.jobRouter.getJob(jobId, options);
@@ -195,7 +196,7 @@ export class RouterClient {
    * Gets a job's position details.
    * Returns job position details.
    * @param jobId - The ID of the job to get position details.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async getQueuePosition(
     jobId: string,
@@ -207,7 +208,7 @@ export class RouterClient {
   /**
    * Cancel a job.
    * @param jobId - The ID of the job to cancel.
-   * @param options - Operation options.
+   * @param options - Cancel job options.
    */
   public async cancelJob(
     jobId: string,
@@ -220,7 +221,7 @@ export class RouterClient {
    * Complete a job.
    * @param jobId - The ID of the job to complete.
    * @param assignmentId - The assignment Id to complete.
-   * @param options - Operation options.
+   * @param options - Complete job options.
    */
   public async completeJob(
     jobId: string,
@@ -233,7 +234,7 @@ export class RouterClient {
   /**
    * Updates an existing job by Id and forcing it to be reclassified.
    * @param jobId - The ID of the job to reclassify.
-   * @param options -  Operation options.
+   * @param options - Reclassify job options.
    */
   public async reclassifyJob(
     jobId: string,
@@ -246,7 +247,7 @@ export class RouterClient {
    * Close a job.
    * @param jobId - The ID of the job to close.
    * @param assignmentId - The assignment id corresponding to the job to be closed.
-   * @param options - Operation options.
+   * @param options - Close job options.
    */
   public async closeJob(
     jobId: string,
@@ -277,7 +278,7 @@ export class RouterClient {
   /**
    * Deletes a job.
    * @param jobId - The id of the job to delete.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async deleteJob(jobId: string, options: OperationOptions = {}): Promise<void> {
     return this.client.jobRouter.deleteJob(jobId, options);
@@ -288,7 +289,7 @@ export class RouterClient {
    * Accept a job offer.
    * @param workerId - The ID of the worker that accepts the job.
    * @param offerId - The ID of the offer to accept.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async acceptJobOffer(
     workerId: string,
@@ -302,13 +303,18 @@ export class RouterClient {
    * Decline a job offer.
    * @param workerId - The ID of the worker holding the offer.
    * @param offerId - The ID of the offer to decline.
-   * @param options -  Operation options.
+   * @param options - Decline job options.
    */
   public async declineJobOffer(
     workerId: string,
     offerId: string,
-    options: OperationOptions = {}
+    options: DeclineJobOfferOptions = {}
   ): Promise<JobRouterDeclineJobActionResponse> {
+    if (options.reofferTimeUtc) {
+      options.declineJobOfferRequest = {
+        reofferTimeUtc: options.reofferTimeUtc,
+      };
+    }
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
   }
 
@@ -317,7 +323,7 @@ export class RouterClient {
    * Creates a worker.
    * Returns the registered worker.
    * @param workerId - The ID of the worker to create.
-   * @param options - Operation options.
+   * @param options - Create worker options.
    */
   public async createWorker(
     workerId: string,

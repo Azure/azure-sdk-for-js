@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { ContainerApp, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ContainerApps_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_CreateOrUpdate.json
  */
 async function createOrUpdateContainerApp() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
   const containerAppName = "testcontainerApp0";
   const containerAppEnvelope: ContainerApp = {
     configuration: {
@@ -33,6 +38,15 @@ async function createOrUpdateContainerApp() {
         logLevel: "debug"
       },
       ingress: {
+        clientCertificateMode: "accept",
+        corsPolicy: {
+          allowCredentials: true,
+          allowedHeaders: ["HEADER1", "HEADER2"],
+          allowedMethods: ["GET", "POST"],
+          allowedOrigins: ["https://a.test.com", "https://b.test.com"],
+          exposeHeaders: ["HEADER3", "HEADER4"],
+          maxAge: 1234
+        },
         customDomains: [
           {
             name: "www.my-name.com",
@@ -64,6 +78,7 @@ async function createOrUpdateContainerApp() {
             ipAddressRange: "192.168.1.1/8"
           }
         ],
+        stickySessions: { affinity: "sticky" },
         targetPort: 3000,
         traffic: [
           {
@@ -117,7 +132,7 @@ async function createOrUpdateContainerApp() {
         ]
       }
     },
-    workloadProfileType: "GeneralPurpose"
+    workloadProfileName: "My-GP-01"
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -129,17 +144,83 @@ async function createOrUpdateContainerApp() {
   console.log(result);
 }
 
-createOrUpdateContainerApp().catch(console.error);
+/**
+ * This sample demonstrates how to Create or update a Container App.
+ *
+ * @summary Create or update a Container App.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
+ */
+async function createOrUpdateManagedByApp() {
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
+  const containerAppName = "testcontainerAppManagedBy";
+  const containerAppEnvelope: ContainerApp = {
+    configuration: {
+      ingress: {
+        exposedPort: 4000,
+        external: true,
+        targetPort: 3000,
+        traffic: [
+          { revisionName: "testcontainerAppManagedBy-ab1234", weight: 100 }
+        ],
+        transport: "tcp"
+      }
+    },
+    environmentId:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
+    location: "East US",
+    managedBy:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.AppPlatform/Spring/springapp",
+    template: {
+      containers: [
+        {
+          name: "testcontainerAppManagedBy",
+          image: "repo/testcontainerAppManagedBy:v1",
+          probes: [
+            {
+              type: "Liveness",
+              initialDelaySeconds: 3,
+              periodSeconds: 3,
+              tcpSocket: { port: 8080 }
+            }
+          ]
+        }
+      ],
+      scale: {
+        maxReplicas: 5,
+        minReplicas: 1,
+        rules: [
+          {
+            name: "tcpscalingrule",
+            tcp: { metadata: { concurrentConnections: "50" } }
+          }
+        ]
+      }
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerApps.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerAppName,
+    containerAppEnvelope
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ContainerApps_TcpApp_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_TcpApp_CreateOrUpdate.json
  */
 async function createOrUpdateTcpApp() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
   const containerAppName = "testcontainerAppTcp";
   const containerAppEnvelope: ContainerApp = {
     configuration: {
@@ -191,4 +272,10 @@ async function createOrUpdateTcpApp() {
   console.log(result);
 }
 
-createOrUpdateTcpApp().catch(console.error);
+async function main() {
+  createOrUpdateContainerApp();
+  createOrUpdateManagedByApp();
+  createOrUpdateTcpApp();
+}
+
+main().catch(console.error);

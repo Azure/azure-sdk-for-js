@@ -14,6 +14,8 @@ import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
+import { getEmptyCosmosDiagnostics } from "../CosmosDiagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -55,7 +57,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private diagnosticContext: CosmosDiagnosticContext
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -187,7 +190,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
     const queryRanges = parsedRanges.map((item) => QueryRange.parseFromDict(item));
-    return this.routingProvider.getOverlappingRanges(this.collectionLink, queryRanges);
+    return this.routingProvider.getOverlappingRanges(
+      this.collectionLink,
+      queryRanges,
+      this.diagnosticContext
+    );
   }
 
   /**
@@ -201,7 +208,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     // Get the queryRange that relates to this partitionKeyRange
     const queryRange = QueryRange.parsePartitionKeyRange(partitionKeyRange);
-    return this.routingProvider.getOverlappingRanges(this.collectionLink, [queryRange]);
+    return this.routingProvider.getOverlappingRanges(
+      this.collectionLink,
+      [queryRange],
+      this.diagnosticContext
+    );
   }
 
   // TODO: P0 Code smell - can barely tell what this is doing
@@ -329,6 +340,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics(),
           });
         }
 
@@ -355,10 +367,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           let item: any;
           let headers: CosmosHeaders;
+          let diagnostics;
           try {
             const response = await documentProducer.nextItem();
             item = response.result;
             headers = response.headers;
+            diagnostics = response.diagnostics;
             this._mergeWithActiveResponseHeaders(headers);
             if (item === undefined) {
               // this should never happen
@@ -373,6 +387,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               return resolve({
                 result: undefined,
                 headers: this._getAndResetActiveResponseHeaders(),
+                diagnostics,
               });
             }
           } catch (err: any) {
@@ -427,6 +442,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: item,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics,
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
@@ -479,7 +495,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.collectionLink,
       sqlQuerySpec,
       partitionKeyTargetRange,
-      options
+      options,
+      this.diagnosticContext
     );
   }
 }

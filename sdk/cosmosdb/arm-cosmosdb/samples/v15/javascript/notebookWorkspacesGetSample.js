@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the notebook workspace for a Cosmos DB account.
  *
  * @summary Gets the notebook workspace for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBNotebookWorkspaceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBNotebookWorkspaceGet.json
  */
 async function cosmosDbNotebookWorkspaceGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

@@ -1559,18 +1559,6 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      dockerBridgeCidr: {
-        defaultValue: "172.17.0.1/16",
-        constraints: {
-          Pattern: new RegExp(
-            "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-          )
-        },
-        serializedName: "dockerBridgeCidr",
-        type: {
-          name: "String"
-        }
-      },
       outboundType: {
         defaultValue: "loadBalancer",
         serializedName: "outboundType",
