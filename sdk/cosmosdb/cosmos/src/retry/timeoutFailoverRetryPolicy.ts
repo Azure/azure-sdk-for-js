@@ -26,7 +26,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private enableEndPointDiscovery: boolean
   ) {}
 
-  private needsRetry(): boolean {
+  private isValidRequestForTimeoutError(): boolean {
     const isQuery = Constants.HttpHeaders.IsQuery in this.headers;
     const isQueryPlan = Constants.HttpHeaders.IsQueryPlan in this.headers;
     if (this.methodType === HTTPMethod.get || isQuery || isQueryPlan) {
@@ -48,7 +48,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (err.statusCode === TimeoutErrorCode && !this.needsRetry()) {
+    if (err.statusCode === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
 
@@ -62,7 +62,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     ) {
       return false;
     }
-
+    //add check on retry
     if (this.failoverRetryCount >= this.maxRetryAttemptCount) {
       return false;
     }
@@ -77,6 +77,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     }
     this.failoverRetryCount++;
     retryContext.retryCount++;
+    retryContext.retryLocationIndex = this.failoverRetryCount;
     return true;
   }
 }

@@ -77,10 +77,20 @@ export async function execute({
     requestContext.client.clearSessionToken(requestContext.path);
     delete requestContext.headers["x-ms-session-token"];
   }
-  requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-    requestContext.resourceType,
-    requestContext.operationType
-  );
+  if (retryContext && retryContext.retryLocationIndex) {
+    requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+      requestContext.resourceType,
+      requestContext.operationType,
+      requestContext,
+      retryContext.retryLocationIndex
+    );
+  } else {
+    requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+      requestContext.resourceType,
+      requestContext.operationType
+    );
+  }
+
   try {
     const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] =

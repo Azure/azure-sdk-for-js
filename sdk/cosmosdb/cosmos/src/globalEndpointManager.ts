@@ -110,7 +110,8 @@ export class GlobalEndpointManager {
   public async resolveServiceEndpoint(
     resourceType: ResourceType,
     operationType: OperationType,
-    requestContext?: RequestContext
+    requestContext?: RequestContext,
+    startIndex: number = 0
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -142,8 +143,13 @@ export class GlobalEndpointManager {
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
-    if (this.preferredLocations && this.preferredLocations.length > 0) {
-      for (const preferredLocation of this.preferredLocations) {
+    if (
+      this.preferredLocations &&
+      this.preferredLocations.length > 0 &&
+      startIndex < this.preferredLocations.length
+    ) {
+      for (let i = startIndex; i < this.preferredLocations.length; i++) {
+        const preferredLocation = this.preferredLocations[i];
         location = locations.find(
           (loc) =>
             loc.unavailable !== true &&
@@ -157,10 +163,13 @@ export class GlobalEndpointManager {
 
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
-      location = locations.find((loc) => {
+      const startIndexValid = startIndex >= 0 && startIndex < locations.length;
+      const locationsToSearch = startIndexValid ? locations.slice(startIndex) : locations;
+      location = locationsToSearch.find((loc) => {
         return loc.unavailable !== true;
       });
     }
+
     location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
     if (requestContext !== undefined) {
       requestContext.diagnosticContext.recordEndpointContactEvent(location);
