@@ -13,9 +13,11 @@ function getOpenAIChoices(resultDiv) {
 
   async function showResponseChoices() {
     try {
-    const { id, created, choices, usage } = await client.getCompletions(deploymentId.value, [promptInput.value]);
+      const { id, created, choices, usage } = await client.getCompletions(deploymentId.value, [promptInput.value]);
       resultDiv.innerHTML = choices[0].text;
-    } catch (e) { console.log(e); }
+    } catch (e) { 
+      console.log(e);
+    }
   }
 
   showResponseChoices();
