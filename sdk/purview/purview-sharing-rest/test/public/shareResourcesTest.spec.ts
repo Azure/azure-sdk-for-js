@@ -37,10 +37,7 @@ describe("Share Resources Operations", () => {
     }
 
     assert.strictEqual(result.length, 2);
-    assert.strictEqual(
-      result[0].id,
-      "500009de-3510-4bbd-bf81-dc0b5a165be7"
-    );
+    assert.strictEqual(result[0].id, "500009de-3510-4bbd-bf81-dc0b5a165be7");
     assert.strictEqual(result[0].sentSharesCount, 6);
     assert.strictEqual(result[0].receivedSharesCount, 0);
     assert.strictEqual(result[0].storeKind, "AdlsGen2Account");
