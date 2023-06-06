@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- Adds an option to set the Event Hubs consumer identifier.
+- Adds an option to set an identifier for Event Hubs clients.
+- Adds a property on each Event Hub client that returns the identifier of the client.
 
 ### Other Changes
 

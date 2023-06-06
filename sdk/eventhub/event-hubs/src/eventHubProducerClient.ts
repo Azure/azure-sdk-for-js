@@ -55,8 +55,6 @@ export class EventHubProducerClient {
    * The options passed by the user when creating the EventHubClient instance.
    */
   private _clientOptions: EventHubClientOptions;
-  /** The client identifier */
-  private _id: string;
   /**
    * Map of partitionId to senders
    */
@@ -91,6 +89,12 @@ export class EventHubProducerClient {
   get fullyQualifiedNamespace(): string {
     return this._context.config.host;
   }
+
+  /**
+   * The name used to identify this EventHubProducerClient.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  public readonly identifier: string;
 
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -168,7 +172,7 @@ export class EventHubProducerClient {
     } else {
       this._clientOptions = options4 || {};
     }
-    this._id = this._clientOptions.identifier ?? getRandomName();
+    this.identifier = this._clientOptions.identifier ?? getRandomName();
     this._sendersMap = new Map();
   }
 
@@ -229,7 +233,7 @@ export class EventHubProducerClient {
       const partitionPublishingOptions = isDefined(partitionId)
         ? this._partitionOptions?.[partitionId]
         : undefined;
-      sender = EventHubSender.create(this._context, this._id, {
+      sender = EventHubSender.create(this._context, this.identifier, {
         enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
         partitionId,
         partitionPublishingOptions,
@@ -291,7 +295,7 @@ export class EventHubProducerClient {
 
     let sender = this._sendersMap.get(partitionId);
     if (!sender) {
-      sender = EventHubSender.create(this._context, this._id, {
+      sender = EventHubSender.create(this._context, this.identifier, {
         enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
         partitionId,
         partitionPublishingOptions: this._partitionOptions?.[partitionId],
@@ -440,7 +444,7 @@ export class EventHubProducerClient {
           const partitionPublishingOptions = isDefined(partitionId)
             ? this._partitionOptions?.[partitionId]
             : undefined;
-          sender = EventHubSender.create(this._context, this._id, {
+          sender = EventHubSender.create(this._context, this.identifier, {
             enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
             partitionId,
             partitionPublishingOptions,
