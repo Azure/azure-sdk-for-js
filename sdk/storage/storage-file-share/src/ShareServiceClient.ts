@@ -32,8 +32,7 @@ import { AnonymousCredential } from "../../storage-blob/src/credentials/Anonymou
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-util";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
@@ -336,23 +335,18 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-createShare", options);
-    try {
-      const shareClient = this.getShareClient(shareName);
-      const shareCreateResponse = await shareClient.create(updatedOptions);
-      return {
-        shareCreateResponse,
-        shareClient,
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShareServiceClient-createShare",
+      options,
+      async (updatedOptions) => {
+        const shareClient = this.getShareClient(shareName);
+        const shareCreateResponse = await shareClient.create(updatedOptions);
+        return {
+          shareCreateResponse,
+          shareClient,
+        };
+      }
+    );
   }
 
   /**
@@ -366,19 +360,14 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-deleteShare", options);
-    try {
-      const shareClient = this.getShareClient(shareName);
-      return await shareClient.delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShareServiceClient-deleteShare",
+      options,
+      async (updatedOptions) => {
+        const shareClient = this.getShareClient(shareName);
+        return await shareClient.delete(updatedOptions);
+      }
+    );
   }
 
   /**
@@ -392,22 +381,17 @@ export class ShareServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-getProperties", options);
-    try {
-      return assertResponse<
-        ServiceGetPropertiesHeaders & FileServiceProperties,
-        ServiceGetPropertiesHeaders,
-        FileServiceProperties
-      >(await this.serviceContext.getProperties(updatedOptions));
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShareServiceClient-getProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceGetPropertiesHeaders & FileServiceProperties,
+          ServiceGetPropertiesHeaders,
+          FileServiceProperties
+        >(await this.serviceContext.getProperties(updatedOptions));
+      }
+    );
   }
 
   /**
@@ -423,20 +407,15 @@ export class ShareServiceClient extends StorageClient {
     properties: FileServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-setProperties", options);
-    try {
-      return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-        await this.serviceContext.setProperties(properties, updatedOptions)
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShareServiceClient-setProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+          await this.serviceContext.setProperties(properties, updatedOptions)
+        );
+      }
+    );
   }
 
   /**
@@ -631,38 +610,32 @@ export class ShareServiceClient extends StorageClient {
     if (options.prefix === "") {
       options.prefix = undefined;
     }
-    const { span, updatedOptions } = createSpan("ShareServiceClient-listSharesSegment", options);
+    return tracingClient.withSpan(
+      "ShareServiceClient-listSharesSegment",
+      options,
+      async (updatedOptions) => {
+        const res = assertResponse<
+          ServiceListSharesSegmentHeaders & ListSharesResponseModel,
+          ServiceListSharesSegmentHeaders,
+          ListSharesResponseModel
+        >(
+          await this.serviceContext.listSharesSegment({
+            ...updatedOptions,
+            marker,
+          })
+        );
 
-    try {
-      const res = assertResponse<
-        ServiceListSharesSegmentHeaders & ListSharesResponseModel,
-        ServiceListSharesSegmentHeaders,
-        ListSharesResponseModel
-      >(
-        await this.serviceContext.listSharesSegment({
-          ...updatedOptions,
-          marker,
-        })
-      );
-
-      // parse protocols
-      if (res.shareItems) {
-        for (let i = 0; i < res.shareItems.length; i++) {
-          const protocolsStr = res.shareItems[i].properties.enabledProtocols;
-          (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
+        // parse protocols
+        if (res.shareItems) {
+          for (let i = 0; i < res.shareItems.length; i++) {
+            const protocolsStr = res.shareItems[i].properties.enabledProtocols;
+            (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
+          }
         }
-      }
 
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return res;
+      }
+    );
   }
 
   /**
@@ -680,24 +653,19 @@ export class ShareServiceClient extends StorageClient {
     deletedShareVersion: string,
     options: ServiceUndeleteShareOptions = {}
   ): Promise<ShareClient> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-undeleteShare", options);
-    try {
-      const shareClient = this.getShareClient(deletedShareName);
-      await new ShareClientInternal(shareClient.url, this.pipeline).restore({
-        ...updatedOptions,
-        deletedShareName: deletedShareName,
-        deletedShareVersion: deletedShareVersion,
-      });
-      return shareClient;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ShareServiceClient-undeleteShare",
+      options,
+      async (updatedOptions) => {
+        const shareClient = this.getShareClient(deletedShareName);
+        await new ShareClientInternal(shareClient.url, this.pipeline).restore({
+          ...updatedOptions,
+          deletedShareName: deletedShareName,
+          deletedShareVersion: deletedShareVersion,
+        });
+        return shareClient;
+      }
+    );
   }
 
   /**
