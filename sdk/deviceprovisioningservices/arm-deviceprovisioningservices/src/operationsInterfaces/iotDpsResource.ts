@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProvisioningServiceDescription,
   IotDpsResourceListBySubscriptionOptionalParams,
@@ -115,8 +115,8 @@ export interface IotDpsResource {
     iotDpsDescription: ProvisioningServiceDescription,
     options?: IotDpsResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceCreateOrUpdateResponse>,
       IotDpsResourceCreateOrUpdateResponse
     >
   >;
@@ -149,8 +149,8 @@ export interface IotDpsResource {
     provisioningServiceTags: TagsResource,
     options?: IotDpsResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceUpdateResponse>,
       IotDpsResourceUpdateResponse
     >
   >;
@@ -178,7 +178,7 @@ export interface IotDpsResource {
     provisioningServiceName: string,
     resourceGroupName: string,
     options?: IotDpsResourceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
    * @param provisioningServiceName Name of provisioning service to delete.
@@ -295,8 +295,8 @@ export interface IotDpsResource {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
       >,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
@@ -330,8 +330,8 @@ export interface IotDpsResource {
     privateEndpointConnectionName: string,
     options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
       IotDpsResourceDeletePrivateEndpointConnectionResponse
     >
   >;
