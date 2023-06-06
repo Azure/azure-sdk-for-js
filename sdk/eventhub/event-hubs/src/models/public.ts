@@ -140,7 +140,7 @@ export interface EventHubClientOptions {
    */
   userAgent?: string;
   /**
-   * A unique name used to identify the consumer.  If not provided, a GUID will be used as the identifier
+   * A unique name used to identify the client.  If not provided, a GUID will be used as the identifier
    */
   identifier?: string;
 }
