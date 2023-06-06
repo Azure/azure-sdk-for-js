@@ -18,7 +18,7 @@ interface ScenarioNoActivityOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioNoActivityOptions> {
   const options = parsedArgs<ScenarioNoActivityOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 10 hrs
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
     maxBatchSize: options.maxBatchSize || 100,
   };
 }
