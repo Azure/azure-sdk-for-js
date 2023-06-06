@@ -1,8 +1,14 @@
 # Release History
 
+## 1.0.0-beta.13 (2023-06-06)
+
 ### Features Added
 
 - Update opentelemetry/instrumentation packages.
+- Add support for Application Insights log events.
+- Add AiCloudRole and AiCloudRoleInstance to OTel Resource event.
+- Add OTel resource metric envelope.
+- Add OpenTelemetry Log Exporter
 
 ## 1.0.0-beta.12 (2023-04-04)
 
