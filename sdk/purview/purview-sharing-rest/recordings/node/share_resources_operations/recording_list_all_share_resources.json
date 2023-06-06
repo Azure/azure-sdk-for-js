@@ -5,30 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "bdb8bea2-f18c-4890-a5b8-e4f168402365",
-        "x-ms-useragent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.4 OS"
+        "User-Agent": "azsdk-js-purview-sharing-rest/1.0.0-beta.2 core-rest-pipeline/1.11.1 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2fd331e7-95e2-4c75-bc11-ddf71efac28d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "701",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Jun 2023 16:07:33 GMT",
+        "Date": "Tue, 06 Jun 2023 11:29:21 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "b3c87e67-a398-46f2-86f4-c2b4c57555c6"
+        "x-ms-correlation-request-id": "4342a74b-0b4e-4869-999c-a2083c88d580"
       },
       "ResponseBody": {
         "value": [

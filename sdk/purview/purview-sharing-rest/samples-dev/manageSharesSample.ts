@@ -124,7 +124,6 @@ async function getAllShareResources(client: PurviewSharingClient): Promise<Share
   for await (const item of pageData) {
     const shareResource = item as ShareResourceOutput;
     shareResource && result.push(shareResource);
-    result.push(shareResource);
   }
 
   console.log(result);
