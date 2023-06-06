@@ -22,6 +22,7 @@ describe("Share Resources Operations", () => {
 
   it("List all Share Resources", async function () {
     const response = await client.path("/shareResources").get();
+    //test
     const pageData = paginate(client, response);
 
     assert.strictEqual(response.status, "200");
