@@ -123,8 +123,6 @@ export class Items {
     );
   }
 
-  public async changeFeedV2<T>(): Promise<ChangeFeedIteratorV2<T>>;
-
   public async changeFeedV2<T>(
     changeFeedOptions?: ChangeFeedOptionsV2
   ): Promise<ChangeFeedIteratorV2<T>> {

@@ -18,7 +18,6 @@ import { ChangeFeedIteratorV2 } from "./ChangeFeedIterator";
  * Use `Items.changeFeed()` to get an instance of the iterator.
  */
 export class ChangeFeedEpkRange<T> extends ChangeFeedIteratorV2<T> {
-  // private containerRid : string;
   private continuationTokenMap: ContinuationTokenMap;
   private continuationToken?: CompositeContinuationToken;
   private queue: FeedRangeQueue<ChangeFeedRange>;
@@ -174,14 +173,12 @@ export class ChangeFeedEpkRange<T> extends ChangeFeedIteratorV2<T> {
           newFeedRange.minInclusive,
           newFeedRange.maxExclusive,
         ]);
-        this.continuationTokenMap.updateFeedRange(oldFeedRangeKey, newFeedRange); // THERE MIGHT BE A PROBLEM HERE
-        // this.queue.modifyFirstElement(newFeedRange);
+        this.continuationTokenMap.updateFeedRange(oldFeedRangeKey, newFeedRange);
 
         if (this.partitionAllResultsFetched(result)) {
           this.removeFeedRange();
         }
 
-        // this.newContinuationToken = new CompositeContinuationToken(this.rId, this.continuationTokenMap);  // TODO, still pending
         result.headers[Constants.HttpHeaders.ContinuationToken] = base64Encode(
           JSON.stringify(this.continuationTokenMap.returnContinuationToken())
         );
@@ -249,7 +246,7 @@ export class ChangeFeedEpkRange<T> extends ChangeFeedIteratorV2<T> {
         contToken
       );
 
-      this.continuationTokenMap.updateFeedRange(oldFeedRangeKey, newFeedRange); //THERE MIGHT BE A PROBLEM HERE
+      this.continuationTokenMap.updateFeedRange(oldFeedRangeKey, newFeedRange);
       this.queue.modifyFirstElement(newFeedRange);
       flag = 1;
     }

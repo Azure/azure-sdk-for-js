@@ -30,10 +30,16 @@ export interface ChangeFeedOptionsV2 {
    * Specified the start time to start reading changes from.
    */
   startTime?: Date;
-
+  /**
+  * Specifies the continuation token to start reading changes from.
+  */
   continuationToken?: string;
-
+  /**
+  * EpkRange for which changes need to be read.
+  */
   epkRange?: PartitionKeyRange;
-
+  /**
+  * Partition key for which changes need to be read.
+  */
   partitionKey?: PartitionKey;
 }
