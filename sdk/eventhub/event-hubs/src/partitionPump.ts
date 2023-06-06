@@ -91,6 +91,7 @@ export class PartitionPump {
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,
         skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson,
+        prefetchCount: this._processorOptions.prefetchCount,
       }
     );
 
