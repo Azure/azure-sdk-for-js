@@ -5,6 +5,7 @@
 import path from "node:path";
 import { readFile, rename, writeFile } from "fs-extra";
 import { createMigration } from "../util/migrations";
+import { Project } from "ts-morph";
 import * as git from "../util/git";
 
 type PackageJsonType = {
@@ -121,9 +122,10 @@ export default createMigration(
       // update browser test script to use the cjs config file
       packageJson["scripts"]["unit-test:browser"] = updateKarmaScript(packageJson["scripts"]["unit-test:browser"]);
 
-      // TODO: go through all code files and update relative imports/exports to have ".js" extension
-
       await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+      // go through all code files and update relative imports/exports to have ".js" extension
+      await addJsExtensionToRelativeModules(ctx.project.path);
     },
   }
 );
@@ -138,4 +140,45 @@ function updateMochaScript(script: string): string {
 
 function updateKarmaScript(script: string): string {
   return script.replace("karma start", "karma start karma.conf.cjs");
+}
+
+async function addJsExtensionToRelativeModules(projectPath: string): Promise<void> {
+  const project = new Project({
+    tsConfigFilePath: path.join(projectPath, "tsconfig.json"),
+    libFolderPath: path.join(projectPath, "node_modules", "typescript", "lib"),
+  });
+  const files = project.getSourceFiles();
+  for (const f of files) {
+    const imports = f.getImportDeclarations();
+    for (const i of imports) {
+      console.log("### import")
+      const specifierValue = i.getModuleSpecifierValue();
+      const specifierSource = i.getModuleSpecifierSourceFile();
+      if (specifierValue.startsWith(".")) {
+        const parts = specifierValue.split("/");
+        const lastPart = parts[parts.length - 1];
+        if (specifierSource?.compilerNode?.fileName.endsWith(`${lastPart}.ts`)) {
+          i.getModuleSpecifier()?.replaceWithText(`"${specifierValue}.js"`);
+        } else {
+          i.getModuleSpecifier()?.replaceWithText(`"${specifierValue}/index.js"`);
+        }
+      }
+    }
+    const exports = f.getExportDeclarations();
+    for (const e of exports) {
+      console.log("### export")
+      const specifierValue = e.getModuleSpecifierValue();
+      const specifierSource = e.getModuleSpecifierSourceFile();
+      if (specifierValue?.startsWith(".")) {
+        const parts = specifierValue.split("/");
+        const lastPart = parts[parts.length - 1];
+        if (specifierSource?.compilerNode?.fileName.endsWith(`${lastPart}.ts`)) {
+          e.getModuleSpecifier()?.replaceWithText(`"${specifierValue}.js"`);
+        } else {
+          e.getModuleSpecifier()?.replaceWithText(`"${specifierValue}/index.js"`);
+        }
+      }
+    }
+  }
+  await project.save();
 }
