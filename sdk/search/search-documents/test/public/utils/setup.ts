@@ -249,7 +249,9 @@ export async function createIndex(
         {
           name: vectorSearchConfiguration,
           kind: "hnsw",
-          metric: "dotProduct",
+          parameters: {
+            metric: "dotProduct",
+          },
         },
       ],
     };

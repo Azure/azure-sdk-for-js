@@ -268,10 +268,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const configuration: VectorSearchAlgorithmConfiguration = {
           name: "algorithm-configuration",
           kind: "hnsw",
-          m: 10,
-          efSearch: 1000,
-          efConstruction: 1000,
-          metric: "dotProduct",
+          parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
         };
 
         let index: SearchIndex = {
