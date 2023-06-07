@@ -28,6 +28,27 @@ export function createTagsFromResource(resource: Resource): Tags {
 }
 
 function getCloudRole(resource: Resource): string {
+  let cloudRole = "";
+  // Service attributes
+  const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
+  const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
+  if (serviceName) {
+    // Custom Service name provided by customer is highest precedence
+    if (!String(serviceName).startsWith("unknown_service")) {
+      if (serviceNamespace) {
+        return `${serviceNamespace}.${serviceName}`;
+      } else {
+        return String(serviceName);
+      }
+    } else {
+      // Service attributes will be only used if K8S attributes are not present
+      if (serviceNamespace) {
+        cloudRole = `${serviceNamespace}.${serviceName}`;
+      } else {
+        cloudRole = String(serviceName);
+      }
+    }
+  }
   // Kubernetes attributes should take precedence
   const kubernetesDeploymentName =
     resource.attributes[SemanticResourceAttributes.K8S_DEPLOYMENT_NAME];
@@ -44,9 +65,9 @@ function getCloudRole(resource: Resource): string {
   if (kubernetesStatefulSetName) {
     return String(kubernetesStatefulSetName);
   }
-  const kubernetesJobtName = resource.attributes[SemanticResourceAttributes.K8S_JOB_NAME];
-  if (kubernetesJobtName) {
-    return String(kubernetesJobtName);
+  const kubernetesJobName = resource.attributes[SemanticResourceAttributes.K8S_JOB_NAME];
+  if (kubernetesJobName) {
+    return String(kubernetesJobName);
   }
   const kubernetesCronjobName = resource.attributes[SemanticResourceAttributes.K8S_CRONJOB_NAME];
   if (kubernetesCronjobName) {
@@ -57,17 +78,7 @@ function getCloudRole(resource: Resource): string {
   if (kubernetesDaemonsetName) {
     return String(kubernetesDaemonsetName);
   }
-  // Service attributes
-  const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
-  const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
-  if (serviceName) {
-    if (serviceNamespace) {
-      return `${serviceNamespace}.${serviceName}`;
-    } else {
-      return String(serviceName);
-    }
-  }
-  return "";
+  return cloudRole;
 }
 
 function getCloudRoleInstance(resource: Resource): string {
