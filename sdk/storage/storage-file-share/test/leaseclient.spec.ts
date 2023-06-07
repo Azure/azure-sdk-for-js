@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { Context } from "mocha";
 
@@ -22,17 +22,19 @@ describe("LeaseClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = recorder.getUniqueName("dir");
+    dirName = recorder.variable("dir", getUniqueName("dir"));
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
 
-    fileName = recorder.getUniqueName("file");
+    fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(content.length);
   });
@@ -239,7 +241,9 @@ describe("LeaseClient", () => {
     const leaseClient = fileClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
 
-    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+    );
     await newFileClient.create(content.length);
     try {
       await fileClient.startCopyFromURL(newFileClient.url);

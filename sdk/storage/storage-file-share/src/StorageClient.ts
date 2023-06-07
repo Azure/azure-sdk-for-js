@@ -13,16 +13,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { HttpClient } from "@azure/core-rest-pipeline";
 
-let testOnlyHttpClient: HttpClient | undefined;
-/**
- * @internal
- * Set a custom default http client for testing purposes
- */
-export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
-  testOnlyHttpClient = httpClient;
-}
 /**
  * An interface for options common to every remote operation.
  */
@@ -72,11 +63,7 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
 
     this.pipeline = pipeline;
-    const coreOptions = getCoreClientOptions(pipeline);
-    if (testOnlyHttpClient) {
-      coreOptions.httpClient = testOnlyHttpClient;
-    }
-    this.storageClientContext = new StorageContextClient(this.url, coreOptions);
+    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
     // Remove the default content-type in generated code of StorageClientContext
     const storageClientContext = this.storageClientContext as any;
     if (storageClientContext.requestContentType) {
