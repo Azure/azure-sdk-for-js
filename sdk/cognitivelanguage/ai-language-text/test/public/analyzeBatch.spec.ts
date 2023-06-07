@@ -525,28 +525,6 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               }
             );
           });
-
-          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
-          it.skip("big document causes a warning", async function () {
-            let text = "";
-            for (let i = 0; i < 5121; ++i) {
-              text = text + "x";
-            }
-            const docs = [text];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation21);
-          });
         });
 
         it("unique multiple actions per type are allowed", async function () {

@@ -1872,28 +1872,6 @@ export const expectation20: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation21: AnalyzeBatchResult[] = [
-  {
-    kind: "Healthcare",
-    results: [
-      {
-        entities: [],
-        entityRelations: [],
-        id: "0",
-        warnings: [
-          {
-            code: "DocumentTruncated",
-            message:
-              "Document is greater than 5120 chars; relations across splits of 5120 chars may be skipped by the model",
-          },
-        ],
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-];
-
 export const expectation22: AnalyzeBatchResult[] = [
   {
     kind: "Healthcare",
