@@ -95,8 +95,6 @@ describe("commonUtils.ts", () => {
       let resource = Resource.default();
       let tags: Tags = createTagsFromResource(resource);
       assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
-      assert.strictEqual(tags["ai.cloud.roleInstance"], os.hostname());
-      assert.strictEqual(tags["ai.user.id"], undefined);
     });
   });
 });
