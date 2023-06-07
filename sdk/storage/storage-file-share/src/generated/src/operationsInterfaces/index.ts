@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { StorageClient } from "./storageClient";
-export * from "./operationsInterfaces";
+export * from "./service";
+export * from "./share";
+export * from "./directory";
+export * from "./file";
