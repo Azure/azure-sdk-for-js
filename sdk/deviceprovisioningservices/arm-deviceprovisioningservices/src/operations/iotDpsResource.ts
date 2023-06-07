@@ -381,17 +381,17 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param resourceGroupName Resource group name.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   get(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceGetOptionalParams
   ): Promise<IotDpsResourceGetResponse> {
     return this.client.sendOperationRequest(
-      { provisioningServiceName, resourceGroupName, options },
+      { resourceGroupName, provisioningServiceName, options },
       getOperationSpec
     );
   }
@@ -604,13 +604,13 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   async beginDelete(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -654,7 +654,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { provisioningServiceName, resourceGroupName, options },
+      args: { resourceGroupName, provisioningServiceName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -667,18 +667,18 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
-      provisioningServiceName,
       resourceGroupName,
+      provisioningServiceName,
       options
     );
     return poller.pollUntilDone();

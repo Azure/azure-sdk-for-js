@@ -73,7 +73,7 @@ describe("deviceprovisioningservices test", () => {
   });
 
   it("iotDpsResource get test", async function () {
-    const res = await client.iotDpsResource.get(resourcename, resourceGroup);
+    const res = await client.iotDpsResource.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -87,7 +87,7 @@ describe("deviceprovisioningservices test", () => {
 
   it("iotDpsResource delete test", async function () {
     const resArray = new Array();
-    const res = await client.iotDpsResource.beginDeleteAndWait(resourcename, resourceGroup)
+    const res = await client.iotDpsResource.beginDeleteAndWait(resourceGroup, resourcename)
     for await (let item of client.iotDpsResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

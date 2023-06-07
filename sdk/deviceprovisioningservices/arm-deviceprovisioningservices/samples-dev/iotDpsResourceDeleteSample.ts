@@ -24,15 +24,15 @@ async function dpsDelete() {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const provisioningServiceName = "myFirstProvisioningService";
   const resourceGroupName =
     process.env["DEVICEPROVISIONINGSERVICES_RESOURCE_GROUP"] ||
     "myResourceGroup";
+  const provisioningServiceName = "myFirstProvisioningService";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.iotDpsResource.beginDeleteAndWait(
-    provisioningServiceName,
-    resourceGroupName
+    resourceGroupName,
+    provisioningServiceName
   );
   console.log(result);
 }

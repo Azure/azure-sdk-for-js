@@ -91,13 +91,13 @@ export interface IotDpsResource {
   >;
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param resourceGroupName Resource group name.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   get(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceGetOptionalParams
   ): Promise<IotDpsResourceGetResponse>;
   /**
@@ -170,24 +170,24 @@ export interface IotDpsResource {
   ): Promise<IotDpsResourceUpdateResponse>;
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   beginDelete(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<void>;
   /**
