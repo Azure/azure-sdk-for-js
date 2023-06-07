@@ -51,11 +51,6 @@ const FIXME1 = {
   excludedAdditionalProps: ["message"],
 };
 
-const FIXME2 = {
-  // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
-  excludedAdditionalProps: ["warnings"],
-};
-
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
@@ -382,7 +377,6 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation30, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
@@ -403,7 +397,6 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation31, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
